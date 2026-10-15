@@ -32,7 +32,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_ReleaseSysFrame  0x02190378  thumb  ov021
  *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
@@ -125,7 +125,7 @@ extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, i
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern int FIELD_MSGBG_ReleaseSysFrame(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_InitBgLayer(u32 bgId, const FaceupBgTemplate *bgTemplate, u32 type);
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(void *file, UnpackedCharData **out);
@@ -287,7 +287,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     if (FIELD_MSGBG_ReleaseSysFrame(msgBg) != 0)
         FIELD_MSGBG_RequestSysFrame(msgBg);
     else
-        func_020403F4(2);
+        BG_SYS_FreeLayerBuf(2);
     bgTemplate = gFldFaceupBgTemplate;
     BG_SYS_InitBgLayer(2, &bgTemplate, 0);
     if (work->faceType == 0) {

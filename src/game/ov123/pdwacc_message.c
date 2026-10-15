@@ -66,7 +66,7 @@
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   GF_FONT_AppendTag  0x0201D60C  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
@@ -170,7 +170,7 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern void BMP_WIN_Exit(void);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -228,7 +228,7 @@ PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank)
     work->tmpBuf = STRBUF_Create(400, work->heap);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heap);
     work->msgData = func_02045B38(0, 2, (u16)bank, work->heap);
-    work->wordSet = GF_FONT_Create_EC64(work->heap);
+    work->wordSet = WORDSET_CreateDefault(work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heap);
     work->bg1Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)1, 12, 0, work->heap);
     work->bg5Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heap);

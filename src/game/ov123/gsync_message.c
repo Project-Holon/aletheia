@@ -64,7 +64,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PDWACC_MESSAGE_FormatNumber 0x021D97CC thumb ov123
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   PRINTSYS_CTRL_Init  0x02028470  thumb  arm9
@@ -170,7 +170,7 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 extern void BMP_WIN_Exit(void);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -235,7 +235,7 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     GsyncMessageWork *work;
     work = (GsyncMessageWork *)func_02030734(heap, sizeof(GsyncMessageWork), 1, d_021DAA30, 0x96);
     work->heap = heap;
-    work->wordSet = GF_FONT_Create_EC64(work->heap);
+    work->wordSet = WORDSET_CreateDefault(work->heap);
     BMP_WIN_Init(work->heap);
     GF_FONT_InitTextColor();
     work->tcbl = TCBL_Create(work->heap, work->heap, 2, 0);

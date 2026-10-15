@@ -1,5 +1,5 @@
 /*
- * function: func_021E72FC
+ * function: WIFIBATTLEMATCH_VIEW_CreatePokeActor
  * address: 0x021E72FC
  * packet: pkt_ov177_021E72FC
  * region: ov177
@@ -22,6 +22,8 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
+ *   WIFIBATTLEMATCH_VIEW_GetFrameIndex  0x021E5978  thumb
+ *   WIFIBATTLEMATCH_VIEW_GetEntryValue  0x021E7CF0  thumb
  */
 #include "../include/Obj02224.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
@@ -30,8 +32,8 @@ extern void *CLACT_CreateActor(unsigned, unsigned, unsigned, unsigned, const Req
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
-extern int func_021E5978(int *p, int i);
-extern unsigned func_021E7CF0(void *, unsigned short, unsigned short);
+extern int WIFIBATTLEMATCH_VIEW_GetFrameIndex(int *p, int i);
+extern unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *, unsigned short, unsigned short);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
@@ -43,7 +45,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern const unsigned char d_021E8CBE[];
-void func_021E72FC(unsigned char *p, unsigned idx, unsigned owner, unsigned heap)
+void WIFIBATTLEMATCH_VIEW_CreatePokeActor(unsigned char *p, unsigned idx, unsigned owner, unsigned heap)
 {
     void *handle;
     Request req;

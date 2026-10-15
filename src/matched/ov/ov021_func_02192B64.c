@@ -16,7 +16,7 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void BG_SYS_SetTileEntry(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 void FIELD_MSGBG_ClearSysWindowFrame(u32 a)
 {
@@ -46,5 +46,5 @@ void FIELD_MSGBG_ClearSysWindowFrame(u32 a)
     w = BMP_WIN_GetWidth((struct Descriptor *)a);
     h = BMP_WIN_GetHeight((struct Descriptor *)a);
     BG_SYS_SetTileEntry(bg, 0, (u8)(x - 1), (u8)(y - 1), (u8)(w + 2), (u8)(h + 2), 0);
-    func_020409B4(bg);
+    BG_SYS_PushTile(bg);
 }

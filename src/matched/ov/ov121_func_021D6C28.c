@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C28
+ * function: MYSTERY_DeleteClact
  * address: 0x021D6C28
  * packet: pkt_ov121_021D6C28
  * region: ov121
@@ -24,7 +24,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-void func_021D6C28(u8 *p)
+void MYSTERY_DeleteClact(u8 *p)
 {
     int i;
     void *q;

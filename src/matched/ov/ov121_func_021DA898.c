@@ -1,5 +1,5 @@
 /*
- * function: func_021DA898
+ * function: MYSTERY_UTIL_DispatchTask
  * address:  0x021DA898
  * packet:   pkt_021DA898
  * region:   ov121
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-void func_021DA898(char *p)
+void MYSTERY_UTIL_DispatchTask(char *p)
 {
     if (((struct Obj13955 *)p)->f4 == 0)
         (*(void (**)(char *, char *, u32))p)(p, p + 8, ((struct Obj13955 *)p)->fC);

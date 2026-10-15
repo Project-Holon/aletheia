@@ -1,5 +1,5 @@
 /*
- * function: func_021E5A30
+ * function: WIFIBATTLEMATCH_VIEW_BlendColors
  * address: 0x021E5A30
  * packet: pkt_ov177_021E5A30
  * region: ov177
@@ -53,7 +53,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 extern const short FX_SinCosTable_[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-void func_021E5A30(u32 slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1)
+void WIFIBATTLEMATCH_VIEW_BlendColors(u32 slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1)
 {
     s16 f;
     u8 r0, g0, b0, r1, g1, b1;

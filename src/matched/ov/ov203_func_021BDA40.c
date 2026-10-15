@@ -15,16 +15,16 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BDDD8 0x021BDDD8 thumb ov203
+ *   DEMO3D_GRAPHIC_Create 0x021BDDD8 thumb ov203
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_021BE160 0x021BE160 thumb ov203
+ *   DEMO3D_ENGINE_Create 0x021BE160 thumb ov203
  *   DEMO3D_CreateContext 0x021BDCC0 thumb ov203
- *   func_021BE62C 0x021BE62C thumb ov203
- *   func_021BE948 0x021BE948 thumb ov203
+ *   DEMO3D_ENGINE_GetFrameNum 0x021BE62C thumb ov203
+ *   DEMO3D_DATA_GetTextureSize 0x021BE948 thumb ov203
  *   DEMO3D_StartWipe 0x021BDC20 thumb ov203
  *   ov067_id 0x00000043 data a1
  */
@@ -34,10 +34,10 @@ typedef unsigned short u16;
 typedef struct Work { u16 heap, pad; void *arg; int state; void *view, *str, *msg, *model, *ctx; int tail[3]; } Work;
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, int, unsigned);
-extern void *func_021BDDD8(unsigned, void *, unsigned);
+extern void *DEMO3D_GRAPHIC_Create(unsigned, void *, unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -47,10 +47,10 @@ extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 struct Cfg;
 struct Ctx;
-extern struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap);
+extern struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap);
 extern void *DEMO3D_CreateContext(int, void *, void *, unsigned);
-extern u32 func_021BE62C(char *p);
-extern void func_021BE948(void *, int, u8 *, u8 *);
+extern u32 DEMO3D_ENGINE_GetFrameNum(char *p);
+extern void DEMO3D_DATA_GetTextureSize(void *, int, u8 *, u8 *);
 extern int DEMO3D_StartWipe(u8, unsigned, unsigned);
 extern const char ov067_id[];
 int DEMO3D_Init(void *manager, int unused, u8 *p)
@@ -66,7 +66,7 @@ int DEMO3D_Init(void *manager, int unused, u8 *p)
     MI_CpuFill8(w, 0, sizeof(Work));
     w->heap = heap;
     w->arg = p;
-    w->view = func_021BDDD8(1, ((struct Obj06663 *)p)->f4, w->heap);
+    w->view = DEMO3D_GRAPHIC_Create(1, ((struct Obj06663 *)p)->f4, w->heap);
     w->msg = func_02045B38(0, 2, 0x41, w->heap);
     w->str = (void *)PRINTSYS_QUE_Create((void *)w->heap);
     func_02040588(6, 0);
@@ -76,10 +76,10 @@ int DEMO3D_Init(void *manager, int unused, u8 *p)
     func_02040588(1, 0);
     BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
-    w->model = func_021BE160(w->view, (struct Cfg *)p, w->heap);
+    w->model = DEMO3D_ENGINE_Create(w->view, (struct Cfg *)p, w->heap);
     w->ctx = DEMO3D_CreateContext(*(int *)&((struct Obj06663 *)p)->f4, w->view, w->model, w->heap);
-    delta = func_021BE62C(w->model) - ((struct Obj06663 *)p)->f8;
-    func_021BE948(((struct Obj06663 *)p)->f4, 0, &width, &height);
+    delta = DEMO3D_ENGINE_GetFrameNum(w->model) - ((struct Obj06663 *)p)->f8;
+    DEMO3D_DATA_GetTextureSize(((struct Obj06663 *)p)->f4, 0, &width, &height);
     if (delta > height) DEMO3D_StartWipe(*(unsigned *)&((struct Obj06663 *)p)->f4, one, w->heap);
     return 1;
 }

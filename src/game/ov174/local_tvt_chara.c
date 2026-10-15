@@ -19,7 +19,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02005728 0x02005728 thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02012944 0x02012944 thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -43,7 +43,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_02030734 0x02030734 arm
  *   d_021B74BC 0x021B74BC data
@@ -142,7 +142,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32_021B6A04 index);
 
 extern struct U16Vec *STRBUF_Create(u32_021B6A04 capacity, u32_021B6A04 heapId);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
@@ -379,12 +379,12 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(q+0x18)),0);
     BMP_WIN_TransferChars(*(void **)(q+0x18));
     BMP_WIN_MakeScreen(*(void **)(q+0x18));
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     s=func_02045EC0(*(void **)(p+0x68),q[2]);
     if(q[2]==0 || q[2]==5){
         dst=STRBUF_Create(128,*(u16 *)p);
         save=func_02012944(*(void **)(*(u8 **)(p+0x30)+4));
-        ws=GF_FONT_Create_EC64(*(u16 *)p);
+        ws=WORDSET_CreateDefault(*(u16 *)p);
         WORDSET_SetSlotMyStatus(ws,0,save);
         WORDSET_CopyTaggedText(ws,dst,s);
         STRBUF_Delete(s);

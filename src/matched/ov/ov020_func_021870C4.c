@@ -21,7 +21,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_020127D0  0x020127D0  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
@@ -58,7 +58,7 @@ void *func_020124E8(struct Obj *p);
 int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(void *a, int *st, char *o);
 struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-struct WordSet *GF_FONT_Create_EC64(u32 heap);
+struct WordSet *WORDSET_CreateDefault(u32 heap);
 u8 *func_020127D0(u8 *o, u32 idx);
 u32 FIELDMAP_GetG3dMapper(u8 *p);
 void *FIELD_G3D_MAPPER_GetWfbc(u8 *p);
@@ -104,7 +104,7 @@ void *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(void *a0, void *a1)
     ((struct Obj01343 *)o)->f20 = (int)STRBUF_Create(0x100, n);
     ((struct Obj01343 *)o)->f24 = (int)STRBUF_Create(0x100, n);
     ((struct Obj01343 *)o)->f18 = (int)func_02045B38(0, 3, 0x142, n);
-    ((struct Obj01343 *)o)->f1C = (int)GF_FONT_Create_EC64(n);
+    ((struct Obj01343 *)o)->f1C = (int)WORDSET_CreateDefault(n);
     ((struct Obj01343 *)o)->fC = c54;
     ((struct Obj01343 *)o)->f40 = w;
     ((struct Obj01343 *)o)->f56 = 1;

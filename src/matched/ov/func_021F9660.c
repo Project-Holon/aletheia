@@ -16,7 +16,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *
  * Redraw the text windows of layout `mode` (0..6): clear and refresh the
@@ -47,7 +47,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_SetTileUnit(u32, u32, u32);
 
 void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
@@ -66,7 +66,7 @@ void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->win[14]);
         break;
@@ -79,7 +79,7 @@ void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->win[14]);
         break;
@@ -92,7 +92,7 @@ void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->win[14]);
         break;
@@ -105,7 +105,7 @@ void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->win[14]);
         BMP_WIN_Delete(p->win[15]);

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled Thumb leaf in a .word run at ov088:021BD39C: `bx lr` (2 bytes),
- * an empty function called as a no-op by func_021BE6F8.  ov088 is the only
+ * an empty function called as a no-op by INTRO_CMD_CmdSaveNoOp.  ov088 is the only
  * overlay in the window not overlapping the caller's ov204.
  */
 

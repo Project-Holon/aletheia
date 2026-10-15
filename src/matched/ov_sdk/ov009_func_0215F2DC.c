@@ -12,15 +12,15 @@
  * Tail call on the object at 0x021AA4B4 with the incoming argument.
  *
  * symbols:
- *   g_021AA4B4  0x021AA4B4  data
+ *   SOCLiSocketList  0x021AA4B4  data
  *   func_0215F2F4  0x0215F2F4  arm  ov009
  */
 
-extern char g_021AA4B4[];
+extern char SOCLiSocketList[];
 extern void func_0215F2F4(char *p, int a);
 
 void SOCLi_SocketRegister(int a)
 {
-    func_0215F2F4(g_021AA4B4, a);
+    func_0215F2F4(SOCLiSocketList, a);
 }
 

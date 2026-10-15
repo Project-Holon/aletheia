@@ -12,7 +12,7 @@
  * symbols:
  *   func_02059F54  0x02059F54  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   g_021ACEF4     0x021ACEF4  data
+ *   gDwcSvlWorkarea     0x021ACEF4  data
  *
  * One-time allocation of the 0x1C5C-byte control block through the caller's
  * allocator, zeroed and then stamped with the allocator itself at +0 and the
@@ -24,19 +24,19 @@ typedef void *(*Alloc)(int, int);
 
 extern void func_02059F54(int a, int b);
 extern void MI_CpuFill8(void *p, int c, int n);
-extern char g_021ACEF4[];
+extern char gDwcSvlWorkarea[];
 
 int DWC_Svl_Init(Alloc alloc, int size)
 {
     void *p;
 
-    if (*(void **)g_021ACEF4 != 0) {
+    if (*(void **)gDwcSvlWorkarea != 0) {
         func_02059F54(9, 0xFFFFA1DC);
         return 0;
     }
 
     p = alloc(0, 0x1C5C);
-    *(void **)g_021ACEF4 = p;
+    *(void **)gDwcSvlWorkarea = p;
     if (p == 0) {
         func_02059F54(9, 0xFFFFA1DC);
         return 0;
@@ -44,7 +44,7 @@ int DWC_Svl_Init(Alloc alloc, int size)
 
     MI_CpuFill8(p, 0, 0x1C5C);
 
-    *(Alloc *)(*(char **)g_021ACEF4) = alloc;
-    *(int *)(*(char **)g_021ACEF4 + 4) = size;
+    *(Alloc *)(*(char **)gDwcSvlWorkarea) = alloc;
+    *(int *)(*(char **)gDwcSvlWorkarea + 4) = size;
     return 1;
 }

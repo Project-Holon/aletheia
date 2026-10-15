@@ -15,10 +15,10 @@
  *   send_arprequest  0x02157E54  arm  ov009
  *   OS_Sleep  0x02085A38  arm
  *   func_020870D0  0x020870D0  arm
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
-extern char g_021A826C[];
+extern char gCpsNetVars[];
 extern void send_arprequest(unsigned long ip);
 extern void OS_Sleep(unsigned long msec);
 extern unsigned long long func_020870D0(void);
@@ -27,12 +27,12 @@ int garprequest(void)
 {
     unsigned long start;
 
-    send_arprequest(*(unsigned long *)(g_021A826C + 0x50));
+    send_arprequest(*(unsigned long *)(gCpsNetVars + 0x50));
     OS_Sleep(100);
-    send_arprequest(*(unsigned long *)(g_021A826C + 0x50));
+    send_arprequest(*(unsigned long *)(gCpsNetVars + 0x50));
     start = (unsigned long)(func_020870D0() >> 16);
-    while ((*(int (**)(void))(g_021A826C + 0x18))() != 0 && (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x17) {
-        if (*(unsigned char *)(g_021A826C + 1) != 0)
+    while ((*(int (**)(void))(gCpsNetVars + 0x18))() != 0 && (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x17) {
+        if (*(unsigned char *)(gCpsNetVars + 1) != 0)
             return 0;
         OS_Sleep(100);
     }

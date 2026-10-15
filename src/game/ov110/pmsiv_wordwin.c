@@ -47,8 +47,8 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   STRBUF_Create 0x020457B0 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02040618 0x02040618 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   PMS_INPUT_VIEW_GetUiRes 0x021BAC64 thumb ov110
@@ -121,7 +121,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -155,7 +155,7 @@ extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
 
 extern void func_0207D63C(void *,int,int,int,int);
 
-extern void func_02040618(u32,u32,u32);
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -278,7 +278,7 @@ void PMSIV_WORDWIN_Setup(struct PmsivWordwin *p) {
     BMP_Clear(BMP_WIN_GetBmp(p->listWindow),0);
     BMP_WIN_MakeScreen(p->listWindow);
     BMP_WIN_TransferChars(p->listWindow);
-    func_020409B4(2); PMSIV_WORDWIN_CreateActors(p); func_02040588(2,0);
+    BG_SYS_PushTile(2); PMSIV_WORDWIN_CreateActors(p); func_02040588(2,0);
 }
 
 /* Creates the cursor, the scroll thumb and the ten decoration actors. */
@@ -554,7 +554,7 @@ void PMSIV_WORDWIN_ClearRows(struct PmsivWordwin *p,int amount) {
 }
 
 /* Resets the scroll offset of the list window. */
-void PMSIV_WORDWIN_ResetScroll(struct PmsivWordwin *p) { p->originY=0; p->firstShown=0; func_02040618(2,3,8); }
+void PMSIV_WORDWIN_ResetScroll(struct PmsivWordwin *p) { p->originY=0; p->firstShown=0; BG_SYS_FillScrollArea(2,3,8); }
 
 /* Draws one list cell at a height. */
 void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDA54
+ * function: BEACON_DETAIL_GRA_DrawRecord
  * address: 0x021BDA54
  * packet: pkt_ov216_021BDA54
  * region: ov216
@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_021BDAA0 0x021BDAA0 thumb ov216
+ *   BEACON_DETAIL_GRA_AddPrintWaitTask 0x021BDAA0 thumb ov216
  */
 #include "../include/Obj08427.h"
 #include "../include/Obj14721.h"
@@ -21,12 +21,12 @@ typedef unsigned int u32;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
-extern void func_021BDAA0(u8 *p, int arg, int *counter);
-void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
+extern void BEACON_DETAIL_GRA_AddPrintWaitTask(u8 *p, int arg, int *counter);
+void BEACON_DETAIL_GRA_DrawRecord(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
 {
     void *handle;
     handle = ((struct Obj14721 *)owner)->f12C;
     PRINTSYS_PrintQueColor(handle, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
     ((struct Obj08427 *)record)->fC = 1;
-    func_021BDAA0((u8 *)owner, (int)record, (int *)(owner + 12));
+    BEACON_DETAIL_GRA_AddPrintWaitTask((u8 *)owner, (int)record, (int *)(owner + 12));
 }

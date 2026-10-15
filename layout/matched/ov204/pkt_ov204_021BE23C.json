@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BE23C",
-    "func_021BE308",
-    "func_021BE314"
+    "INTRO_GRAPHIC_CmdLoadPalette",
+    "INTRO_GRAPHIC_CmdSetArg",
+    "INTRO_GRAPHIC_CmdWaitFrame"
+   ],
+   "addresses": [
+    "0x021BE23C",
+    "0x021BE308",
+    "0x021BE314"
    ]
   }
  ]

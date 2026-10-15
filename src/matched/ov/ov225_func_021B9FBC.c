@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FBC
+ * function: MANUAL_COMMON_UpdateTouchbar
  * address: 0x021B9FBC
  * packet: pkt_ov225_021B9FBC
  * region: ov225
@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA240 0x021BA240 thumb ov225
+ *   MANUAL_COMMON_UpdateTouchbarSlots 0x021BA240 thumb ov225
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
- *   func_021BA508 0x021BA508 thumb ov225
- *   d_021BBF2C 0x021BBF2C data a4
+ *   MANUAL_COMMON_UpdateTouchbarActors 0x021BA508 thumb ov225
+ *   gManualCommonTouchbarButtonIds 0x021BBF2C data a4
  */
 #include "../include/Obj00367.h"
 typedef unsigned char u8;
 typedef struct S S;
 struct Entry {unsigned word[7];};
-extern const struct Entry d_021BBF2C[];
-extern void func_021BA240(char *);
+extern const struct Entry gManualCommonTouchbarButtonIds[];
+extern void MANUAL_COMMON_UpdateTouchbarSlots(char *);
 extern void TOUCHBAR_Update(struct S *p);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
-extern void func_021BA508(char *);
-void func_021B9FBC(char *p)
+extern void MANUAL_COMMON_UpdateTouchbarActors(char *);
+void MANUAL_COMMON_UpdateTouchbar(char *p)
 {
-    ((struct Obj00367 *)p)->f24=-1;((struct Obj00367 *)p)->f28=-1;func_021BA240(p);
+    ((struct Obj00367 *)p)->f24=-1;((struct Obj00367 *)p)->f28=-1;MANUAL_COMMON_UpdateTouchbarSlots(p);
     if(((struct Obj00367 *)p)->f20==1) {((struct Obj00367 *)p)->f20=0;return;}
     if(((struct Obj00367 *)p)->f20==0 || ((struct Obj00367 *)p)->f20==2) {
         TOUCHBAR_Update(*(S * *)&((struct Obj00367 *)p)->f4);
@@ -40,11 +40,11 @@ void func_021B9FBC(char *p)
         }
     }
     if(((struct Obj00367 *)p)->f20==0 || ((struct Obj00367 *)p)->f20==3) {
-        func_021BA508(p);
+        MANUAL_COMMON_UpdateTouchbarActors(p);
         if(((struct Obj00367 *)p)->f20==0) {
-            if(((struct Obj00367 *)p)->f44==1) {((struct Obj00367 *)p)->f20=3;*(unsigned *)&((struct Obj00367 *)p)->f24=d_021BBF2C[*(u8 *)(p+0x40)].word[0];}
+            if(((struct Obj00367 *)p)->f44==1) {((struct Obj00367 *)p)->f20=3;*(unsigned *)&((struct Obj00367 *)p)->f24=gManualCommonTouchbarButtonIds[*(u8 *)(p+0x40)].word[0];}
         } else {
-            if(((struct Obj00367 *)p)->f44==3) {((struct Obj00367 *)p)->f20=1;*(unsigned *)&((struct Obj00367 *)p)->f28=d_021BBF2C[*(u8 *)(p+0x40)].word[0];}
+            if(((struct Obj00367 *)p)->f44==3) {((struct Obj00367 *)p)->f20=1;*(unsigned *)&((struct Obj00367 *)p)->f28=gManualCommonTouchbarButtonIds[*(u8 *)(p+0x40)].word[0];}
         }
     }
 }

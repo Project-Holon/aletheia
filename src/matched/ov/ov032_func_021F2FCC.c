@@ -1,5 +1,5 @@
 /*
- * function: func_021F2FCC
+ * function: BEACON_VIEW_DeleteActors
  * address:  0x021F2FCC
  * packet:   pkt_ov032_021F2FCC
  * region:   ov032
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F2FCC 0x021F2FCC thumb
+ *   BEACON_VIEW_DeleteActors 0x021F2FCC thumb
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BEACON_VIEW_DeleteEntry 0x021F34C8 thumb ov032
- *   func_021F32D4 0x021F32D4 thumb ov032
+ *   BEACON_VIEW_DeletePanelActors 0x021F32D4 thumb ov032
  *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   CLACT_DeleteRenderer 0x0204B084 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -22,14 +22,14 @@
 
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void BEACON_VIEW_DeleteEntry(char *, int);
-extern void func_021F32D4(char *);
+extern void BEACON_VIEW_DeletePanelActors(char *);
 struct Bank;
 extern void BMP_OAM_DeleteSys(void *p);
 extern void CLACT_DeleteRenderer(int);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_021F2FCC(char *p)
+void BEACON_VIEW_DeleteActors(char *p)
 {
     int i;
 
@@ -37,7 +37,7 @@ void func_021F2FCC(char *p)
     for (i = 0; i < 5; i++) {
         BEACON_VIEW_DeleteEntry(p, (unsigned char)i);
     }
-    func_021F32D4(p);
+    BEACON_VIEW_DeletePanelActors(p);
     BMP_OAM_DeleteSys((void *)(((struct Obj00812 *)p)->f124));
     CLACT_DeleteRenderer(((struct Obj00812 *)p)->f12C);
     CLACT_DeleteUnit((struct Bank *)(((struct Obj00812 *)p)->f128));

@@ -1,5 +1,5 @@
 /*
- * function: func_021DBC08
+ * function: MYSTERY_ALBUM_RemoveCard
  * address:  0x021DBC08
  * packet:   pkt_ov121_021DBC08
  * region:   ov121
@@ -17,8 +17,8 @@
  *   MYSTERY_DATA_GetCardSlotNum  0x0200A348  thumb
  *   MYSTERY_DATA_IsCardExist  0x0200A0E4  thumb
  *   MYSTERY_DATA_GetCard  0x0200A000  thumb
- *   func_021DBEE4  0x021DBEE4  thumb  ov121
- *   func_021DBDF4  0x021DBDF4  thumb  ov121
+ *   MYSTERY_ALBUM_ClearEntry  0x021DBEE4  thumb  ov121
+ *   MYSTERY_ALBUM_SetupEntry  0x021DBDF4  thumb  ov121
  *   MYSTERY_ALBUM_Delete  0x021DD980  thumb  ov121
  */
 
@@ -47,22 +47,22 @@ extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *list);
 typedef unsigned char  u8;
 extern u32 MYSTERY_DATA_IsCardExist(u8 *p, u32 a);
 extern int MYSTERY_DATA_GetCard(char *p, int idx, void *buf);
-extern void func_021DBEE4(u32 p);
-extern void func_021DBDF4(Item *it, void *data, Obj *o, u16 f);
+extern void MYSTERY_ALBUM_ClearEntry(u32 p);
+extern void MYSTERY_ALBUM_SetupEntry(Item *it, void *data, Obj *o, u16 f);
 extern void MYSTERY_ALBUM_Delete(char *p);
 
-void func_021DBC08(Obj *o, int idx)
+void MYSTERY_ALBUM_RemoveCard(Obj *o, int idx)
 {
     unsigned char buf[0xCC];
     u32 i;
 
     MYSTERY_DATA_DeleteCard(o->list, idx);
     for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->list); i++)
-        func_021DBEE4((u32)(&o->items[i]));
+        MYSTERY_ALBUM_ClearEntry((u32)(&o->items[i]));
     for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->list); i++) {
         if (MYSTERY_DATA_IsCardExist(o->list, i)) {
             MYSTERY_DATA_GetCard(o->list, i, buf);
-            func_021DBDF4(&o->items[i], buf, o, o->f24);
+            MYSTERY_ALBUM_SetupEntry(&o->items[i], buf, o, o->f24);
         }
     }
     if (o->slots[idx] != 0) {

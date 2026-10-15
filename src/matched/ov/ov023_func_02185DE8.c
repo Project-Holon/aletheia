@@ -16,7 +16,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 
 struct e6 {
@@ -42,7 +42,7 @@ typedef unsigned char  u8;
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 
 void OEKAKI_DrawStrokes(char *p, struct e6 *e, struct o4 *o, int flag)
 {
@@ -64,7 +64,7 @@ void OEKAKI_DrawStrokes(char *p, struct e6 *e, struct o4 *o, int flag)
     if (hit && flag) {
         BMP_WIN_TransferChars((struct Descriptor *)p);
         BMP_WIN_MakeScreen((struct Cfg *)p);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     }
     OEKAKI_StoreLastPoints(e, o);
     for (i = 0; i < 5; i++)

@@ -12,7 +12,7 @@
  *   ov208 as in the matched siblings 021BEA04/021BEA90); the region token on their symbols lines is ov206.
  * 2026-10-05 (D5-03): MATCH. Byte-correct except the five calls to the ov093 callees 0x021B9E68,
  *   0x021BA7C8, 0x021BA374 (no witness label; ov093 below 0x021D4000, pengy). Fixes: the colour loop
- *   calls are func_02040618(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
+ *   calls are BG_SYS_FillScrollArea(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
  *   is why ctx left r7), the first 9E68 call passes (2, 0, 1), locals v54 before v50 before w, the
  *   021BDAD0 test written `!= 2` first, and case 4 writes `*state = 5` in both arms.
  * 2026-10-04 (wD2 lane19): also tried ctx as a one-field struct by value and as u32 with casts: no change (frame 0x74/0x78 vs 0x70,
@@ -27,7 +27,7 @@
  *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_021BDAD0 0x021BDAD0 thumb
  *   func_021BC3BC 0x021BC3BC thumb
@@ -95,7 +95,7 @@ extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BG_SYS_FreeSlot(u8 a);
 extern int func_021BDAD0(void *s);
 extern u16 func_021BC3BC(int *ctx);
@@ -154,8 +154,8 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         p->msg2 = func_02045B38(1, 2, 0x10c, h->heap);
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                func_02040618(i, 0, 0);
-                func_02040618(i, 3, 0);
+                BG_SYS_FillScrollArea(i, 0, 0);
+                BG_SYS_FillScrollArea(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }

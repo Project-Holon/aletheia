@@ -1,5 +1,5 @@
 /*
- * function: func_021F0A98
+ * function: BEACON_VIEW_SetupMessageText
  * address: 0x021F0A98
  * packet: pkt_ov032_021F0A98
  * region: ov032
@@ -18,4 +18,4 @@ struct MsgBank;
 struct WordSet;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-void func_021F0A98(char *p,unsigned a) { MSGDATA_ReadString(((struct Obj00007 *)p)->f114,a,((struct Obj00007 *)p)->f118); WORDSET_CopyTaggedText(((struct Obj00007 *)p)->f110,((struct Obj00007 *)p)->f11C,((struct Obj00007 *)p)->f118); }
+void BEACON_VIEW_SetupMessageText(char *p,unsigned a) { MSGDATA_ReadString(((struct Obj00007 *)p)->f114,a,((struct Obj00007 *)p)->f118); WORDSET_CopyTaggedText(((struct Obj00007 *)p)->f110,((struct Obj00007 *)p)->f11C,((struct Obj00007 *)p)->f118); }

@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
- *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_021E8AB8 0x021E8AB8 thumb ov177
- *   func_021E8738 0x021E8738 thumb ov177
- *   func_021E8844 0x021E8844 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetRequest 0x021E8AB4 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_PrintMessage 0x021E8738 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_NET_SetupSprite 0x021D6550 thumb ov175
  *   WIFIBATTLEMATCH_NET_IsSpriteAnimDone 0x021D65DC thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteSprite 0x021D65C8 thumb ov175
@@ -24,11 +24,11 @@
  */
 typedef unsigned int u32;
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
-extern void func_021E8AA0(int *p, int v);
-extern void func_021E8AB4(unsigned, unsigned);
-extern void func_021E8AB8(unsigned);
-extern void func_021E8738(int *, int, int, int);
-extern int func_021E8844(const int *p);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
+extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned, unsigned);
+extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *, int, int, int);
+extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
 extern void WIFIBATTLEMATCH_NET_SetupSprite(u32 *, int);
 extern int WIFIBATTLEMATCH_NET_IsSpriteAnimDone(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteSprite(char *);
@@ -43,14 +43,14 @@ void WIFIBATTLEMATCH_NET_TaskStepH(unsigned sys, int *state, int *p)
     case 0:
         switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)p[12], 0, (void *)1)) {
         case 0: case 1: case 4: *state = 1; break;
-        case 2: func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); break;
+        case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); break;
         case 3: break;
         }
         break;
     case 1:
-        func_021E8738((int *)p[9], p[4], 0x26, 1);
+        WIFIBATTLEMATCH_UTIL_PrintMessage((int *)p[9], p[4], 0x26, 1);
         *state = 4;
-        func_021E8AB4(sys, 2);
+        WIFIBATTLEMATCH_UTIL_SetRequest(sys, 2);
         break;
     case 2:
         WIFIBATTLEMATCH_NET_SetupSprite((u32 *)p, 0);
@@ -61,13 +61,13 @@ void WIFIBATTLEMATCH_NET_TaskStepH(unsigned sys, int *state, int *p)
         if (result != -1) {
             WIFIBATTLEMATCH_NET_DeleteSprite((char *)p);
             switch (result) {
-            case 0: func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepD); break;
-            case 1: func_021E8AA0((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepI); break;
+            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepD); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepI); break;
             }
         }
         break;
     case 4:
-        if (func_021E8844((const int *)p[9])) func_021E8AB8(sys);
+        if (WIFIBATTLEMATCH_UTIL_GetBusy((const int *)p[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys);
         break;
     }
 }

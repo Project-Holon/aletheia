@@ -11,13 +11,13 @@
  * volatile: hardware halfword clear at021BBCC2/021BBCC8 to04000050/04001050.
  * symbols:
  *   PSEL_ClearWin3 0x021BB35C thumb ov223
- *   PSEL_NopAC6C 0x021BAC6C thumb ov223
+ *   PSEL_NopBgDelete 0x021BAC6C thumb ov223
  *   PSEL_IsBgReady 0x021BABFC thumb ov223
  *   PSEL_DeleteListAnime 0x021B98F4 thumb ov223
  */
 #include "../include/Obj05570.h"
 extern void PSEL_ClearWin3(char *p);
 extern void PSEL_DeleteListAnime(char *p);
-extern void PSEL_NopAC6C(unsigned char *);
+extern void PSEL_NopBgDelete(unsigned char *);
 extern int PSEL_IsBgReady(unsigned char *);
-int PSEL_GRAPHIC_StateExit(unsigned char *p){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;PSEL_ClearWin3((char *)p);PSEL_NopAC6C(p);PSEL_IsBgReady(p);PSEL_DeleteListAnime((char *)p);((struct Obj05570 *)p)->f10=0;return 7;}
+int PSEL_GRAPHIC_StateExit(unsigned char *p){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;PSEL_ClearWin3((char *)p);PSEL_NopBgDelete(p);PSEL_IsBgReady(p);PSEL_DeleteListAnime((char *)p);((struct Obj05570 *)p)->f10=0;return 7;}

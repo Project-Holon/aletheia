@@ -1,5 +1,5 @@
 /*
- * function: func_021B9890
+ * function: UN_SELECT_UpdateTouchBar
  * address: 0x021B9890
  * packet: pkt_ov218_021B9890
  * region: ov218
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct S S;
 extern void TOUCHBAR_Update(struct S *p);
-void func_021B9890(S *p)
+void UN_SELECT_UpdateTouchBar(S *p)
 {
     TOUCHBAR_Update(p);
 }

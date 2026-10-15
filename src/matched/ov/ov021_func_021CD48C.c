@@ -12,7 +12,7 @@
  * symbols:
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_02030734  0x02030734  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  *   STRBUF_Create  0x020457B0  arm
@@ -75,7 +75,7 @@ struct U16Vec;
 struct WordSet;
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int a, const char *file, u16 line);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 struct Fx;
 struct Obj2;
@@ -98,7 +98,7 @@ Work *COMM_ENTRY_MENU_Create(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u
 
     t = FIELDMAP_GetMsgBg((u8 *)a1);
     w = func_02030734(heap, 0x580, 1, (const char *)d_021DE5E8, 0x179);
-    w->f4 = (u32)GF_FONT_Create_EC64(heap);
+    w->f4 = (u32)WORDSET_CreateDefault(heap);
     w->f8 = FIELD_MSGBG_CreateMsgData(t, 0x1e);
     w->f14 = (u32)FIELD_MSGBG_CreateBottomSysWin((struct Fx *)t, w->f8);
     w->f18 = (u32)STRBUF_Create(0x64, heap);

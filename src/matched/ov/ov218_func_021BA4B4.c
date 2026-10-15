@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4B4
+ * function: UN_SELECT_DeleteActor
  * address:  0x021BA4B4
  * packet:   pkt_021BA4B4
  * region:   ov218
@@ -16,7 +16,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021BA4B4(char *p)
+void UN_SELECT_DeleteActor(char *p)
 {
     int i;
     for (i = 0; i < 0x24; i++)

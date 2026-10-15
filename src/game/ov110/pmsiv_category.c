@@ -65,9 +65,9 @@
  *   STRBUF_Create 0x020457B0 arm
  *   sPmsivCategoryAllocSite 0x021C3C44 data a1
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   func_0207D658 0x0207D658 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   sPmsivCategoryLabelIds 0x021C38C4 data ov110 a1
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   func_021B999C 0x021B999C thumb ov110
@@ -161,9 +161,9 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern void func_0207D658(u32, int, int);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern u32 func_021B999C(struct PmsInputData *wordData, int category);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
@@ -291,8 +291,8 @@ void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, u32 data)
     q = (u32)PMSIV_CATEGORY_MakeKanaWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeTitleWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeListWindow(p);
-    func_02040618(1, 0, -4);
-    func_02040618(1, 3, 16);
+    BG_SYS_FillScrollArea(1, 0, -4);
+    BG_SYS_FillScrollArea(1, 3, 16);
     PMSIV_CATEGORY_CreateCursor(p);
     func_0207D658(0x04000050, 2, -10);
     setWindowInside(31, 1);
@@ -300,7 +300,7 @@ void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, u32 data)
     REG_WIN0H = 255;
     REG_WIN0V = 168;
     REG_DISPCNT = (REG_DISPCNT & ~0xe000) | 0x2000;
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }
 
 u8 *PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u8 *q)
@@ -383,8 +383,8 @@ void PMSIV_CATEGORY_MakeListWindow(struct PmsivCategory *p)
     struct Descriptor *window;
     window = BMP_WIN_Create(6, 1, 1, 30, 22, 0, 1);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(6);
-    func_02040618(6, 3, -192);
+    BG_SYS_PushTile(6);
+    BG_SYS_FillScrollArea(6, 3, -192);
     p->listWindow = window;
 }
 
@@ -497,7 +497,7 @@ int PMSIV_CATEGORY_StepClose(struct PmsivCategory *p)
 
 void PMSIV_CATEGORY_ResetBgScroll(struct PmsivCategory *p)
 {
-    func_02040618(1, 3, 16);
+    BG_SYS_FillScrollArea(1, 3, 16);
 }
 
 /*

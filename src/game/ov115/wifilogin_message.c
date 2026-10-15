@@ -37,7 +37,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
@@ -169,13 +169,13 @@ extern void func_02034714(const char *,u32,const char *);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -197,7 +197,7 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 
@@ -411,7 +411,7 @@ u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode)
     *(struct U16Vec * *)&((struct WifiloginMsg *)p)->strbuf = STRBUF_Create(400, ((struct WifiloginMsg *)p)->heapId);
     *(struct GfFont * *)&((struct WifiloginMsg *)p)->gfFont = GF_FONT_Create(23, 0, 0, 0, ((struct WifiloginMsg *)p)->heapId);
     *(struct MsgBank * *)&((struct WifiloginMsg *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, (u16)bank, ((struct WifiloginMsg *)p)->heapId);
-    *(struct WordSet * *)&((struct WifiloginMsg *)p)->wordSet = GF_FONT_Create_EC64(((struct WifiloginMsg *)p)->heapId);
+    *(struct WordSet * *)&((struct WifiloginMsg *)p)->wordSet = WORDSET_CreateDefault(((struct WifiloginMsg *)p)->heapId);
     *(struct R * *)&((struct WifiloginMsg *)p)->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct WifiloginMsg *)p)->gfFont, (u32)((struct WifiloginMsg *)p)->printsysQue, ((struct WifiloginMsg *)p)->heapId);
     ((struct WifiloginMsg *)p)->frameGfx0 = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdA(((struct WifiloginMsg *)p)->mode), 12, 0, ((struct WifiloginMsg *)p)->heapId);
     ((struct WifiloginMsg *)p)->frameGfx1 = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode), 12, 0, ((struct WifiloginMsg *)p)->heapId);

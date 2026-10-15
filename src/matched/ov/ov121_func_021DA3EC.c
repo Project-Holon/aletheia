@@ -1,5 +1,5 @@
 /*
- * function: func_021DA3EC
+ * function: MYSTERY_UTIL_DrawBmpList
  * address: 0x021DA3EC
  * packet: pkt_ov121_021DA3EC
  * region: ov121
@@ -14,7 +14,7 @@
  *   STRBUF_Copy 0x02045838 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   func_020307B0 0x020307B0 arm
- *   func_021D9BE8 0x021D9BE8 thumb ov121
+ *   MYSTERY_UTIL_AlignText 0x021D9BE8 thumb ov121
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  */
 #include "../include/Obj03262.h"
@@ -36,9 +36,9 @@ struct MsgBank;
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 func_020307B0(void *p);
-extern void func_021D9BE8(int,Pair *,void *,void *,int,Pair *);
+extern void MYSTERY_UTIL_AlignText(int,Pair *,void *,void *,int,Pair *);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021DA3EC(char *p,char *desc,void *dst)
+void MYSTERY_UTIL_DrawBmpList(char *p,char *desc,void *dst)
 {
     u32 i;
     Pair pos,out;
@@ -49,7 +49,7 @@ void func_021DA3EC(char *p,char *desc,void *dst)
             BMP_Clear(*(void **)(p+i*4+8),(u8)(((struct Obj03262 *)d)->f14&31));
             pos.x=((struct Obj03262 *)d)->f10;
             pos.y=((struct Obj03262 *)d)->f12;
-            func_021D9BE8(((struct Obj03262 *)d)->fC,&pos,*(void **)(p+i*4+8),text,((struct Obj22886 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,&out);
+            MYSTERY_UTIL_AlignText(((struct Obj03262 *)d)->fC,&pos,*(void **)(p+i*4+8),text,((struct Obj22886 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,&out);
             if(((struct Obj03262 *)d)->f8) STRBUF_Copy(text,(struct U16Vec *)(((struct Obj03262 *)d)->f8));
             else MSGDATA_ReadString((struct MsgBank *)(((struct Obj22887 *)(*(char * *)&((struct Obj06449 *)p)->f4))->fC),((struct Obj03262 *)d)->f4,text);
             PRINTSYS_PrintQueColor(dst,(u32)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(u32)text,((struct Obj22888 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,((struct Obj03262 *)d)->f14);

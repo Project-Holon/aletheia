@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E65FC  0x021E65FC  thumb  ov177
+ *   WIFIBATTLEMATCH_VIEW_StepMainWindowIdle  0x021E65FC  thumb  ov177
  *
  * Thunk: hands the +0x18 block to 0x021E65FC and returns its result, the
  *     poll partner of WIFIBATTLEMATCH_NET_IsBoxReady on the same field.
@@ -19,10 +19,10 @@
 
 typedef unsigned long u32;
 
-extern u32 func_021E65FC(u32 p);
+extern u32 WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(u32 p);
 
 u32 WIFIBATTLEMATCH_NET_IsBoxAnimDone(char *obj)
 {
-    return func_021E65FC(((struct Obj24229 *)obj)->f18);
+    return WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(((struct Obj24229 *)obj)->f18);
 }
 

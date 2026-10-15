@@ -1,5 +1,5 @@
 /*
- * function: func_02213808
+ * function: WIFIBATTLEMATCH_SYS_SetStep
  * address: 0x02213808
  * packet: pkt_ov199_02213808
  * region: ov199
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 #include "../include/Obj25301.h"
-void func_02213808(char *p, int value)
+void WIFIBATTLEMATCH_SYS_SetStep(char *p, int value)
 {
     ((struct Obj25301 *)p)->f19 = value;
 }

@@ -21,7 +21,7 @@
  * symbols:
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
- *   g_021A45C8     0x021A45C8  data
+ *   gGpiCallbackErrorOutOfMemory     0x021A45C8  data
  */
 
 typedef struct {
@@ -39,7 +39,7 @@ typedef struct {
 
 extern int *gsimalloc(int size);
 extern void gpiSetErrorString(int *connection, int string);
-extern char g_021A45C8[];
+extern char gGpiCallbackErrorOutOfMemory[];
 
 int gpiAddCallback(int *connection, GPICallback callback, int arg, int *operation, int type)
 {
@@ -48,7 +48,7 @@ int gpiAddCallback(int *connection, GPICallback callback, int arg, int *operatio
 
     data = (GPICallbackData *)gsimalloc(0x18);
     if (data == 0) {
-        gpiSetErrorString(connection, (int)g_021A45C8);
+        gpiSetErrorString(connection, (int)gGpiCallbackErrorOutOfMemory);
         return 1;
     }
     data->callback = callback;

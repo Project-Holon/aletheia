@@ -12,7 +12,7 @@
  * symbols:
  *   d_0220A392  0x0220A392  data  ov094  a2
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
@@ -57,7 +57,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
@@ -97,7 +97,7 @@ void BTLV_INPUT_CreateBackActor(char *p)
     CLACT_SetActorAnimSeq(((struct Obj01384 *)p)->f21C, 0x14);
     str = STRBUF_Create(0x10, ((struct Obj01384 *)p)->f240);
     msg = func_02045EC0(((struct Obj01384 *)p)->f5C, 0);
-    font = (int)GF_FONT_Create_EC64(((struct Obj01384 *)p)->f240);
+    font = (int)WORDSET_CreateDefault(((struct Obj01384 *)p)->f240);
     bmp = BMP_Create(0xe, 4, 0x20, ((struct Obj01384 *)p)->f240);
     BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);

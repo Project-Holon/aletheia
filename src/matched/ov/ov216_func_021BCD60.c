@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD60
+ * function: BEACON_DETAIL_GRA_UpdateButtons
  * address: 0x021BCD60
  * packet: pkt_ov216_021BCD60
  * region: ov216
@@ -12,7 +12,7 @@
  */
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 struct Object { unsigned char bytes[0x124]; void *menu; };
-void func_021BCD60(unsigned char *p)
+void BEACON_DETAIL_GRA_UpdateButtons(unsigned char *p)
 {
     TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,1,1);
     if(p[0x30]) TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,3,1);

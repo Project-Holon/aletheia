@@ -48,7 +48,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021C8138 0x021C8138 data a4
  *   d_021C81B4 0x021C81B4 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4  arm
@@ -164,7 +164,7 @@ extern void BG_SYS_FreeSlot(u8);
 
 extern void func_02040588(u8,u8);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BMP_WIN_Exit(void);
 
@@ -382,7 +382,7 @@ void ZUKAN_DETAIL_GRAPHIC_DeleteWindows(void *p)
 {
     u32 i;
     for (i = 0; i < 8; i++)
-        func_020403F4((u8)d_021C81B4[i].bg);
+        BG_SYS_FreeLayerBuf((u8)d_021C81B4[i].bg);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     MI_CpuFill8(p, 0, 4);

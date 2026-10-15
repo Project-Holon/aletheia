@@ -1,5 +1,5 @@
 /*
- * function: func_021DA8CC
+ * function: MYSTERY_UTIL_CreateTaskEx
  * address: 0x021DA8CC
  * packet: pkt_ov121_021DA8CC
  * region: ov121
@@ -33,7 +33,7 @@ struct Grid;
 struct Param;
 struct Sys;
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
+void *MYSTERY_UTIL_CreateTaskEx(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
 {
     Desc desc;
     char *out=func_02030734(heap,36,0,d_021DFBA0,0x6b1);

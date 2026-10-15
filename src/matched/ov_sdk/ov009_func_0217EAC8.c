@@ -12,13 +12,13 @@
  * Calls the second word of the table at 0x021A3730 on the two arguments.
  *
  * symbols:
- *   g_021A3730  0x021A3730  data
+ *   gGsMemoryFuncs  0x021A3730  data
  */
 
-extern char g_021A3730[];
+extern char gGsMemoryFuncs[];
 
 void gsirealloc(int a, int b)
 {
-    (*(void (**)(int, int))(g_021A3730 + 8))(a, b);
+    (*(void (**)(int, int))(gGsMemoryFuncs + 8))(a, b);
 }
 

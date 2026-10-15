@@ -1,5 +1,5 @@
 /*
- * function: func_021BD73C
+ * function: BEACON_DETAIL_GRA_UpdateTimer
  * address:  0x021BD73C
  * packet:   pkt_021BD73C
  * region:   ov216
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 
-int func_021BD73C(char *p)
+int BEACON_DETAIL_GRA_UpdateTimer(char *p)
 {
     unsigned char c;
     if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 1) != 0)

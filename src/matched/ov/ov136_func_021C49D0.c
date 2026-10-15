@@ -20,7 +20,7 @@
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   APP_TASKMENU_WIN_TransChar 0x02028454 thumb
  *   MAILSYS_PrintMessageText 0x021C47C4 thumb ov136
@@ -46,7 +46,7 @@ extern void APP_TASKMENU_UpdateMenu(void *p);
 extern void BMP_MENUWORK_DrawWindowBorder(void *p, u32 a);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
 extern void MAILSYS_PrintMessageText(u8 *p, int n);
@@ -90,7 +90,7 @@ int MAILSYS_StepQuitConfirm(u8 *p)
         BMP_MENUWORK_DrawWindowBorder(((struct Obj00275 *)p)->f5C, 2);
         w = ((struct Obj00275 *)p)->f5C;
         BMP_WIN_ClearScreen(w);
-        func_020409B4(BMP_WIN_GetBgLayer(w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
         ((struct Obj00275 *)p)->f8 = 0;
         if (r == 0) {
             **(u16 * *)&((struct Obj00275 *)p)->f1C = 0xFFFF;

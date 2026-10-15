@@ -13,18 +13,18 @@
  * byte at +0x35d with a mode other than 2.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
 
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 int DWCi_IsGetAIDValid(void)
 {
     int r = 1;
-    char *p = *(char **)(((char *)&g_021AA878) + 4);
+    char *p = *(char **)(((char *)&gDwcGlobalState) + 4);
 
     if (*(unsigned char *)(p + 0x365) != 2)
         if (*(unsigned char *)(p + 0x35d) == 0) r = 0;

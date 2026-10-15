@@ -76,7 +76,7 @@
  *   d_021B82D0 0x021B82D0 data a4
  *   d_021B8310 0x021B8310 data a4
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -97,7 +97,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   func_02045B38 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -149,7 +149,7 @@
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStreamCallBack 0x0201CD10 thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -279,7 +279,7 @@ extern void BG_SYS_ClearSlot(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_020403F4(unsigned int);
+extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern void BG_SYS_Delete(void);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -299,7 +299,7 @@ extern int APP_KEYCURSOR_Delete(int);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -356,7 +356,7 @@ extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern int GFL_USE_IsAnySeBusy(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
@@ -616,12 +616,12 @@ void POKE_SUMMARY_MAIN_InitDisplay(void)
 void POKE_SUMMARY_MAIN_ExitDisplay(void)
 {
     BG_SYS_SetSubPlaneVisible(29, 0);
-    func_020403F4(5);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(4);
-    func_020403F4(3);
-    func_020403F4(2);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
     *(volatile unsigned short *)0x04000304 |= 0x8000;
     BG_SYS_Delete();
 }
@@ -686,7 +686,7 @@ void POKE_SUMMARY_MAIN_DeleteBmpWindows(char *p) { u32 i; APP_KEYCURSOR_Delete((
 
 
 
-void POKE_SUMMARY_MAIN_CreateText(char *p) { ((struct PokeSummaryWork *)p)->msgBank=func_02045B38(0,2,204,79); ((struct PokeSummaryWork *)p)->wordSet=GF_FONT_Create_EC64(79); ((struct PokeSummaryWork *)p)->strBufA=STRBUF_Create(256,79); ((struct PokeSummaryWork *)p)->strBufB=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,25); ((struct PokeSummaryWork *)p)->strBufC=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,31); }
+void POKE_SUMMARY_MAIN_CreateText(char *p) { ((struct PokeSummaryWork *)p)->msgBank=func_02045B38(0,2,204,79); ((struct PokeSummaryWork *)p)->wordSet=WORDSET_CreateDefault(79); ((struct PokeSummaryWork *)p)->strBufA=STRBUF_Create(256,79); ((struct PokeSummaryWork *)p)->strBufB=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,25); ((struct PokeSummaryWork *)p)->strBufC=func_02045EC0(((struct PokeSummaryWork *)p)->msgBank,31); }
 
 
 
@@ -1359,7 +1359,7 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind)
     q = ((struct PokeSummaryWork *)p)->bmpWindows[7];
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
 }
 
 

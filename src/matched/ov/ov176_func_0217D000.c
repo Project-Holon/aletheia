@@ -1,5 +1,5 @@
 /*
- * function: func_0217D000
+ * function: DIGITALCARDCHECK_GetMenuResult
  * address: 0x0217D000
  * packet: pkt_ov176_0217D000
  * region: ov176
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8844 0x021E8844 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  */
 #include "../include/Obj24422.h"
 typedef unsigned char u8;
-extern int func_021E8844(const int *);
-int func_0217D000(u8 *p){return func_021E8844(*(int * *)&((struct Obj24422 *)p)->f1A4);}
+extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
+int DIGITALCARDCHECK_GetMenuResult(u8 *p){return WIFIBATTLEMATCH_UTIL_GetBusy(*(int * *)&((struct Obj24422 *)p)->f1A4);}

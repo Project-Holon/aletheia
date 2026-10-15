@@ -1,5 +1,5 @@
 /*
- * function: func_021B71FC
+ * function: MONOLITH_TOOL_CloseTaskMenu
  * address:  0x021B71FC
  * packet:   pkt_ov071_021B71FC
  * region:   ov071
@@ -16,7 +16,7 @@
  */
 
 struct TaskMenu;
-void func_021B71FC(void *p)
+void MONOLITH_TOOL_CloseTaskMenu(void *p)
 {
     void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
     APP_TASKMENU_CloseMenu(p);

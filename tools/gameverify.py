@@ -15,6 +15,14 @@ whole-file compare would report DIFF.  Each of their functions is compared at
 its own runtime_arm9.txt row instead (match.runtime_entry_status, the same
 check `match.py manifest --verify` makes for a `runtime` entry).
 
+A file marked `contiguous: no` is a non-contiguous C piece: one original whose
+functions sit in two or more non-adjacent ranges, with another original
+between them, so a whole-file compare would also report DIFF.  Each of its
+functions is compared at its own address, taken from the file's `symbols:`
+block, instead (match.piece_entry_status, the same check `match.py manifest
+--verify` makes for a `pieces: true` game_unit).  The marker is absent from
+every existing file, so no file takes this path until one is merged as a piece.
+
 Data-only files (such as src/game/arm9/crt0.c before its code was merged in)
 compile to an object with data sections and no code, so the text compare has
 nothing to compare (EMPTY).  Their bytes are checked by tools/gamelink.py, which
@@ -68,6 +76,29 @@ def runtime_verify(path, h, addr, region):
     import match
     lang = (h.get('lang') or 'c99').strip()
     st, _covers, note = match.runtime_entry_status(path, h, addr, h.get('flags', '-O4,p'), lang, region)
+    return {lang: st + (': ' + note if note else '')}
+
+
+def piece_kind(path, region):
+    """The match.py header of a file marked non-contiguous (`contiguous: no`), else None.
+
+    A non-contiguous piece is one original whose code sits in two or more
+    non-adjacent ranges, with another original between them, so a whole-file
+    compare would report DIFF.  The marker is absent from every existing file,
+    so this returns None for all of them."""
+    import match
+    h = match.read_header(path)
+    if match.header_is_piece(h):
+        return h
+    return None
+
+
+def piece_verify(path, h, addr, region):
+    """Per-function verdict of a non-contiguous piece, keyed like rs.verify."""
+    import match
+    lang = (h.get('lang') or 'c99').strip()
+    st, _covers, note, _by_name = match.piece_entry_status(
+        path, h, addr, h.get('flags', '-O4,p'), lang, region)
     return {lang: st + (': ' + note if note else '')}
 
 
@@ -144,6 +175,8 @@ def main():
                 v = {'header': 'no address'}
             elif runtime_kind(p, reg) is not None:
                 v = runtime_verify(p, runtime_kind(p, reg), addr, reg)
+            elif piece_kind(p, reg) is not None:
+                v = piece_verify(p, piece_kind(p, reg), addr, reg)
             else:
                 v = rs.verify(p, reg, addr, st)
             ok = rs.lang_ok(v, st) if (addr and not badsym) else False

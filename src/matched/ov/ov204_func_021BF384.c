@@ -48,7 +48,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_02020D10 0x02020D10 thumb
  */
@@ -84,7 +84,7 @@ extern void func_02020CF8(struct Obj *p, int heap);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void func_02020D10(u8 *p, u32 v);
 void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
@@ -112,7 +112,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.f28=INTRO_MSG_InitMenuDesc(p,(int)obj);config.f2c=*(void **)(p+4);config.f30=*(void **)(p+16);
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     func_02020CF8(*(void **)state,(u32)heap);
-    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)BMP_WIN_GetBgLayer(obj));
+    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
     BMP_MENUWORK_DrawWindow(obj,1,7,9);
     if(flag)func_02020D10(*(void **)state,0);
     else func_02020D10(*(void **)state,1);

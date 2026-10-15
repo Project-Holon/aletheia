@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled Thumb leaf (prints as .word data in ov010.s), the sole blocker
- * of ov032 func_021F10D8 +000A: returns the three-bit field at bit 9 of the
+ * of ov032 BEACON_VIEW_PrintEntryRank +000A: returns the three-bit field at bit 9 of the
  * fourth word of its argument.
  *
  * Addresses are Black-image addresses.

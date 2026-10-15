@@ -17,7 +17,7 @@
  *   the 1 with ok's r6 (11 bytes).
  * symbols:
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   func_021DAB50 0x021DAB50 thumb ov121
+ *   MYSTERY_UTIL_BlendPaletteRange 0x021DAB50 thumb ov121
  *   PM_VOICE_Play 0x02006984 thumb
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_GetActorRotation 0x0204B5FC arm
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 typedef struct { s16 x,y; } Point;
 typedef struct { s16 kind,x,y; } Output;
 extern void CLACT_SetActorBgPriority(void *,u8);
-extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+extern void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 struct Actor;
 struct PtS;
@@ -65,7 +65,7 @@ void MYSTERY_ALBUM_StepIntro(char *p)
         *(u16 *)(p+0xdc)=2;
         break;
     case 2:
-        func_021DAB50((void *)layer,(u16 *)(q+0x24),(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
+        MYSTERY_UTIL_BlendPaletteRange((void *)layer,(u16 *)(q+0x24),(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
         tick=*(u16 *)(p+0xde);
         a=tick*14/60;
         b=tick*-12/60;
@@ -97,7 +97,7 @@ void MYSTERY_ALBUM_StepIntro(char *p)
         if(done) *(u16 *)(p+0xdc)=6;
         break;
     case 6:
-        func_021DAB50((void *)layer,(u16 *)(q+0x24),0x7fff-(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
+        MYSTERY_UTIL_BlendPaletteRange((void *)layer,(u16 *)(q+0x24),0x7fff-(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
         tick=*(u16 *)(p+0xde);
         a=tick*-14/60;
         b=tick*12/60;

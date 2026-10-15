@@ -38,7 +38,7 @@
  *   ZKNSEARCH_MAIN_InitBmpWindows 0x021BE368 thumb ov093
  *   ZUKAN_DETAIL_TOUCHBAR_GetRightPalette 0x021BE378 thumb ov093
  *   func_021BE388 0x021BE388 thumb ov093
- *   func_021BE398 0x021BE398 thumb ov093
+ *   INTRO_CMD_CmdBrightnessWait 0x021BE398 thumb ov093
  *   BTL_SERVER_FLOW_DispatchMoveParamEventLocked 0x021BE66C thumb ov093
  *   BTL_SERVER_FLOW_DispatchMoveTypeEvent 0x021BE620 thumb ov093
  *   BTL_SERVER_FLOW_QueryActionMessageEvent 0x021C6458 thumb ov093
@@ -108,7 +108,7 @@ extern u32 func_021BE358(void *);
 extern void ZKNSEARCH_MAIN_InitBmpWindows(void *);
 extern void ZUKAN_DETAIL_TOUCHBAR_GetRightPalette(void *, void *);
 extern void func_021BE388(void *, u32);
-extern void func_021BE398(void *, u16, u32, u32);
+extern void INTRO_CMD_CmdBrightnessWait(void *, u16, u32, u32);
 extern void BTL_SERVER_FLOW_DispatchMoveParamEventLocked(u8 *p, u8 *a, u8 *c, int k);
 extern void BTL_SERVER_FLOW_DispatchMoveTypeEvent(u8 *p, u8 *a, u8 *c);
 extern int BTL_SERVER_FLOW_QueryActionMessageEvent(u8 *, u8 *, u32, u32, u8 *);
@@ -240,7 +240,7 @@ void BTL_SERVER_FLOW_ProcFight(u8 *p, u8 *a, Action *act, u32 key)
     if (BTL_SERVER_FLOW_CheckMoveExecuteFailByEvent(p, a, id2) == 0
         && BTL_SERVER_FLOW_TryMoveExecuteCheckEvent(p, a, id2, sel, (u8 *)&o) == 0
         && BTL_SERVER_FLOW_ProcPledgeCombo(p, a, id2, sel) == 0) {
-        func_021BE398(p + 0x1c, id2, *(u32 *)(p + 0x10), BTL_POKEPARAM_GetPokeId(a));
+        INTRO_CMD_CmdBrightnessWait(p + 0x1c, id2, *(u32 *)(p + 0x10), BTL_POKEPARAM_GetPokeId(a));
         BTL_SERVER_FLOW_DispatchMoveParamEventLocked(p, a, F(0x1ab0), 0x23);
         if (BTL_SERVER_FLOW_CheckMoveInterrupt(p, a, id2, *(int *)(p + 0x854), F(0x4ac)) != 0) {
             BTL_SERVER_FLOW_ProcInterruptMove(p, a, id2, F(0x854));

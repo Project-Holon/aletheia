@@ -1,5 +1,5 @@
 /*
- * function: func_021D8EA4
+ * function: MYSTERY_CardViewAnimReveal
  * address: 0x021D8EA4
  * packet: pkt_ov121_021D8EA4
  * region: ov121
@@ -10,14 +10,14 @@
  * status: EXACT
  * volatile: hardware stores at 021D8F44, 021D8F96, 021D9062, 021D908E, 021D9116.
  * symbols:
- *   func_021D6CF4 0x021D6CF4 thumb ov121
- *   func_021D6D50 0x021D6D50 thumb ov121
- *   func_021D6D6C 0x021D6D6C thumb ov121
+ *   MYSTERY_CreateParticle 0x021D6CF4 thumb ov121
+ *   MYSTERY_LoadParticle 0x021D6D50 thumb ov121
+ *   MYSTERY_StartParticle 0x021D6D6C thumb ov121
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_021D694C 0x021D694C thumb ov121
- *   func_021DAB50 0x021DAB50 thumb ov121
- *   func_021D9254 0x021D9254 thumb ov121
+ *   MYSTERY_SetupBg 0x021D694C thumb ov121
+ *   MYSTERY_UTIL_BlendPaletteRange 0x021DAB50 thumb ov121
+ *   MYSTERY_StartScroll 0x021D9254 thumb ov121
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -29,28 +29,28 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y;} Position;
-extern void func_021D6CF4(int *,int);
-extern void func_021D6D50(int *,int,int,int);
-extern int func_021D6D6C(void **,int);
+extern void MYSTERY_CreateParticle(int *,int);
+extern void MYSTERY_LoadParticle(int *,int,int,int);
+extern int MYSTERY_StartParticle(void **,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void func_021D694C(u16 *,int);
-extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+extern void MYSTERY_SetupBg(u16 *,int);
+extern void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 struct Obj;
-extern void func_021D9254(char *p, int n);
+extern void MYSTERY_StartScroll(char *p, int n);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021D8EA4(u8 *p)
+void MYSTERY_CardViewAnimReveal(u8 *p)
 {
     Position pos;
     switch(((struct Obj00184 *)p)->f20) {
     case 0:
-        func_021D6CF4((int *)(p+0x118),((struct Obj00184 *)p)->f0);
-        func_021D6D50((int *)(p+0x118),0x22,0x26,((struct Obj00184 *)p)->f0);
+        MYSTERY_CreateParticle((int *)(p+0x118),((struct Obj00184 *)p)->f0);
+        MYSTERY_LoadParticle((int *)(p+0x118),0x22,0x26,((struct Obj00184 *)p)->f0);
         func_02040588(2,0);
-        func_021D694C(*(u16 * *)&((struct Obj00184 *)p)->f24,2);
+        MYSTERY_SetupBg(*(u16 * *)&((struct Obj00184 *)p)->f24,2);
         ((struct Obj00184 *)p)->f20=1;
         return;
     case 1:
@@ -63,8 +63,8 @@ void func_021D8EA4(u8 *p)
         u32 n=(((struct Obj00184 *)p)->f18*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
         ((struct Obj00184 *)p)->f30=(((struct Obj00184 *)p)->f18*32767u)/120u;
-        func_021DAB50((void *)15,(u16 *)(p+50),((struct Obj00184 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
-        func_021DAB50((void *)31,(u16 *)(p+82),((struct Obj00184 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange((void *)15,(u16 *)(p+50),((struct Obj00184 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange((void *)31,(u16 *)(p+82),((struct Obj00184 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
         if((((struct Obj00184 *)p)->f18)++>120) {
             *(volatile u16 *)0x04000050=0;
             ((struct Obj00184 *)p)->f18=0;
@@ -78,9 +78,9 @@ void func_021D8EA4(u8 *p)
             ((struct Obj00184 *)p)->f18=0;
             ((struct Obj00184 *)p)->f20=6;
             func_0207D63C((void *)0x04000050,1,31,0,16);
-            func_021D6D6C((void **)(p+0x118),0);
-            func_021D6D6C((void **)(p+0x118),1);
-            func_021D6D6C((void **)(p+0x118),2);
+            MYSTERY_StartParticle((void **)(p+0x118),0);
+            MYSTERY_StartParticle((void **)(p+0x118),1);
+            MYSTERY_StartParticle((void **)(p+0x118),2);
             GFL_USE_PlaySeDefaultVolume(0x794);
             return;
         }
@@ -90,7 +90,7 @@ void func_021D8EA4(u8 *p)
             GFL_USE_PlaySeDefaultVolume(0x795);
             ((struct Obj00184 *)p)->f18=0;
             ((struct Obj00184 *)p)->f20=4;
-            func_021D9254(((struct Obj00184 *)p)->f28,1);
+            MYSTERY_StartScroll(((struct Obj00184 *)p)->f28,1);
             return;
         }
         break;
@@ -130,9 +130,9 @@ void func_021D8EA4(u8 *p)
         break;
     case 9:
         ((struct Obj00184 *)p)->f30=(((struct Obj00184 *)p)->f18*32767u)/120u;
-        func_021DAB50((void *)14,(u16 *)(p+178),((struct Obj00184 *)p)->f30,14,(const u16 *)(p+242),(const u16 *)(p+210));
+        MYSTERY_UTIL_BlendPaletteRange((void *)14,(u16 *)(p+178),((struct Obj00184 *)p)->f30,14,(const u16 *)(p+242),(const u16 *)(p+210));
         if((((struct Obj00184 *)p)->f18)++>120) {
-            func_021D9254(((struct Obj00184 *)p)->f28,0);
+            MYSTERY_StartScroll(((struct Obj00184 *)p)->f28,0);
             ((struct Obj00184 *)p)->f18=0;
             ((struct Obj00184 *)p)->f20=10;
             return;

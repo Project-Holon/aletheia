@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GURU2_MAIN_DeleteNameWindows 0x021E03A0 thumb ov137
  *   MSGDATA_Delete 0x02045C04 arm
@@ -26,7 +26,7 @@ struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void GURU2_MAIN_DeleteNameWindows(u8 *);
 struct Rec;
@@ -45,7 +45,7 @@ void GURU2_MAIN_DeleteWindows(u8 *p)
     s=p+3296;
     obj=((struct Obj05432 *)s)->f10;
     BMP_WIN_ClearScreen(obj);
-    func_020409B4(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
     BMP_WIN_Delete(((struct Obj05432 *)s)->f10);
     GURU2_MAIN_DeleteNameWindows(p);
     MSGDATA_Delete(((struct Obj05432 *)s)->f8);

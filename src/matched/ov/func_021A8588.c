@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_02040588  0x02040588  arm
  * Addresses are Black-image addresses.
  */
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02040588(u32, u32);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 int FIELD_MENU_ShowBgLayers(void)
 {
-func_020409B4(6);
+BG_SYS_PushTile(6);
 func_02040588(4, 1);
 func_02040588(5, 1);
 func_02040588(6, 1);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB258",
+   "name": "MANUAL_COMMON_IndexToY",
    "address": "0x021BB258",
    "kind": "game",
    "region": "ov225",

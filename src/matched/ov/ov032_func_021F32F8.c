@@ -1,5 +1,5 @@
 /*
- * function: func_021F32F8
+ * function: BEACON_VIEW_CreateIcon
  * address:  0x021F32F8
  * packet:   pkt_ov032_021F32F8
  * region:   ov032
@@ -12,9 +12,9 @@
  * Builds the 0x34-byte record at +0x1B8 that BEACON_VIEW_DeleteEntry tears down.
  *
  * symbols:
- *   func_021F32F8  0x021F32F8  thumb
+ *   BEACON_VIEW_CreateIcon  0x021F32F8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021F3214  0x021F3214  thumb  ov032
+ *   BEACON_VIEW_CreateIconActor  0x021F3214  thumb  ov032
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_OAM_Create  0x020255A0  thumb
@@ -62,7 +62,7 @@ typedef struct {
 } Tmpl;
 
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
+extern void *BEACON_VIEW_CreateIconActor(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
 struct Grid;
 struct Obj;
 struct Param;
@@ -80,7 +80,7 @@ extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021F32F8(char *p, u8 idx)
+void BEACON_VIEW_CreateIcon(char *p, u8 idx)
 {
     Rec *r;
     Tmpl t;
@@ -93,13 +93,13 @@ void func_021F32F8(char *p, u8 idx)
     r->f28 = ((struct Obj00007 *)p)->fB4;
     r->x = idx * 13;
     r->y = idx * 0x28;
-    r->f0c = func_021F3214(p, **(u32 * *)&((struct Obj00007 *)p)->f140, **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f148,
+    r->f0c = BEACON_VIEW_CreateIconActor(p, **(u32 * *)&((struct Obj00007 *)p)->f140, **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f148,
                            r->x, r->y, 0, 3, idx + 0x14);
     CLACT_SetActorPaletteOffset(r->f0c, (u8)idx, 0);
-    r->f10 = func_021F3214(p, (*(u32 **)(p + 0x158))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f160,
+    r->f10 = BEACON_VIEW_CreateIconActor(p, (*(u32 **)(p + 0x158))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f160,
                            r->x + 0x20, r->y + 0x18, 0, 3, idx + 10);
     CLACT_SetActorPaletteOffset(r->f10, (u8)(idx + 9), 1);
-    r->f14 = func_021F3214(p, (*(u32 **)(p + 0x170))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f178,
+    r->f14 = BEACON_VIEW_CreateIconActor(p, (*(u32 **)(p + 0x170))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f178,
                            r->x + 0x3c, r->y + 0x18, 0, 3, idx + 5);
     r->f1c = BMP_Create(0xc, 2, 0x20, ((struct Obj00007 *)p)->f98);
     t.bmp = r->f1c;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE770
+ * function: INTRO_CMD_CmdSetAppliedFlag
  * address: 0x021BE770
  * packet: pkt_ov204_021BE770
  * region: ov204
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
 extern void CONFIG_SetAppliedFlag(u16*,u32);
-int func_021BE770(u8*p,u32 unused,u32*q){u16*obj=*(u16* *)&((struct Obj25365 *)(*(u8* *)&((struct Obj25363 *)p)->f4))->f4;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetAppliedFlag(obj,flag);return 1;}
+int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){u16*obj=*(u16* *)&((struct Obj25365 *)(*(u8* *)&((struct Obj25363 *)p)->f4))->f4;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetAppliedFlag(obj,flag);return 1;}

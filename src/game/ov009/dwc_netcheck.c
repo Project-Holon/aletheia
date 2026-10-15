@@ -54,20 +54,20 @@
  *   _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0 0x021a26d4 data
  *   DWCnetcheckhttpparam             0x021ace8c data
  *   OSi_ThreadInfo                   0x02150fec data
- *   g_021A2700                       0x021a2700 data
+ *   gDwcNetcheckLabelHttpResult                       0x021a2700 data
  *   errno                            0x02153fac data
  *   DWCauthhttpparam                 0x021a2358 data
- *   g_021A270C                       0x021a270c data
- *   g_021A272C                       0x021a272c data
- *   g_021A2734                       0x021a2734 data
- *   g_021A273C                       0x021a273c data
+ *   gDwcNetcheckNasUrl                       0x021a270c data
+ *   gDwcNetcheckPostLabelAction                       0x021a272c data
+ *   gDwcNetcheckPostValueMessage                       0x021a2734 data
+ *   gDwcNetcheckPostLabelHotspot                       0x021a273c data
  *   DWCnetcheckauthparam             0x021acea8 data
- *   g_021A274C                       0x021a274c data
- *   g_021A2754                       0x021a2754 data
- *   g_021A275C                       0x021a275c data
- *   g_021A2768                       0x021a2768 data
- *   g_021A276C                       0x021a276c data
- *   g_021A2774                       0x021a2774 data
+ *   gDwcNetcheckPostValueParse                       0x021a274c data
+ *   gDwcNetcheckPostLabelHtml                       0x021a2754 data
+ *   gDwcNetcheckLabelReturnCd                       0x021a275c data
+ *   gDwcNetcheckLabelUrl                       0x021a2768 data
+ *   gDwcNetcheckLabelData                       0x021a276c data
+ *   gDwcNetcheckLabelWait                       0x021a2774 data
  *   MI_CpuFill8                      0x02082BCC arm
  *   OS_InitMutex                     0x02086004 arm
  *   OS_LockMutex                     0x02086028 arm
@@ -200,17 +200,17 @@ extern DWCAuthParam DWCnetcheckauthparam;
 extern DWCHttpParam DWCauthhttpparam;
 extern OSThreadInfo OSi_ThreadInfo;
 extern int errno;
-extern char g_021A2700[];
-extern char g_021A270C[];
-extern char g_021A272C[];
-extern char g_021A2734[];
-extern char g_021A273C[];
-extern char g_021A274C[];
-extern char g_021A2754[];
-extern char g_021A275C[];
-extern char g_021A2768[];
-extern char g_021A276C[];
-extern char g_021A2774[];
+extern char gDwcNetcheckLabelHttpResult[];
+extern char gDwcNetcheckNasUrl[];
+extern char gDwcNetcheckPostLabelAction[];
+extern char gDwcNetcheckPostValueMessage[];
+extern char gDwcNetcheckPostLabelHotspot[];
+extern char gDwcNetcheckPostValueParse[];
+extern char gDwcNetcheckPostLabelHtml[];
+extern char gDwcNetcheckLabelReturnCd[];
+extern char gDwcNetcheckLabelUrl[];
+extern char gDwcNetcheckLabelData[];
+extern char gDwcNetcheckLabelWait[];
 
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern void DWC_Http_Destroy(DWCHttp *http);
@@ -422,7 +422,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
-        httpretcode = DWC_Http_GetResult(DWChttp_, g_021A2700);
+        httpretcode = DWC_Http_GetResult(DWChttp_, gDwcNetcheckLabelHttpResult);
         httpretcodei = atoi(httpretcode);
         if (errno == 34) {
             DWCi_Netcheck_SetError(2);
@@ -443,7 +443,7 @@ static void DWCi_Netcheck_Thread(void *arg)
                 DWChttp.httpparam.alloc = alloc;
                 DWChttp.httpparam.free = free;
                 DWChttp.httpparam.timeout = 20000;
-                if (strcmp(DWChttp.httpparam.url, g_021A270C) != 0)
+                if (strcmp(DWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
                     DWChttp.httpparam.ignoreca = 1;
                 if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
                     DWC_Http_Destroy(DWChttp_);
@@ -455,8 +455,8 @@ static void DWCi_Netcheck_Thread(void *arg)
                     DWCi_Netcheck_SetError(8);
                     goto exit;
                 }
-                if (DWC_Http_Add_PostBase64Item(DWChttp_, g_021A272C, g_021A2734, 7) != 0
-                 || DWC_Http_Add_PostBase64Item(DWChttp_, g_021A273C, DWCnetcheck_->blurl, strlen(DWCnetcheck_->blurl)) != 0) {
+                if (DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelAction, gDwcNetcheckPostValueMessage, 7) != 0
+                 || DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelHotspot, DWCnetcheck_->blurl, strlen(DWCnetcheck_->blurl)) != 0) {
                     DWC_Http_Destroy(DWChttp_);
                     DWCi_Netcheck_SetError(8);
                     goto exit;
@@ -549,7 +549,7 @@ static void DWCi_Netcheck_Thread(void *arg)
         DWChttp.httpparam.alloc = alloc;
         DWChttp.httpparam.free = free;
         DWChttp.httpparam.timeout = 40000;
-        if (strcmp(DWChttp.httpparam.url, g_021A270C) != 0)
+        if (strcmp(DWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
             DWChttp.httpparam.ignoreca = 1;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
             DWC_Http_Destroy(DWChttp_);
@@ -561,8 +561,8 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(8);
             goto exit;
         }
-        if (DWC_Http_Add_PostBase64Item(DWChttp_, g_021A272C, g_021A274C, 5) != 0
-         || DWC_Http_Add_PostBase64Item(DWChttp_, g_021A2754, DWCnetcheck_->url, strlen(DWCnetcheck_->url)) != 0) {
+        if (DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelAction, gDwcNetcheckPostValueParse, 5) != 0
+         || DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelHtml, DWCnetcheck_->url, strlen(DWCnetcheck_->url)) != 0) {
             DWC_Http_Destroy(DWChttp_);
             DWCi_Netcheck_SetError(8);
             goto exit;
@@ -601,7 +601,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
-        httpretcode = DWC_Http_GetResult(DWChttp_, g_021A2700);
+        httpretcode = DWC_Http_GetResult(DWChttp_, gDwcNetcheckLabelHttpResult);
         httpretcodei = atoi(httpretcode);
         if (errno == 34) {
             DWC_Http_Destroy(DWChttp_);
@@ -618,7 +618,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
-        if (DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A275C, retcode, 4) <= 0) {
+        if (DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelReturnCd, retcode, 4) <= 0) {
             DWC_Http_Destroy(DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
@@ -639,19 +639,19 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(6);
             goto exit;
         }
-        url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2768, 0, 0);
+        url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelUrl, 0, 0);
         if (url_len <= 0) {
             DWC_Http_Destroy(DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A276C, 0, 0);
+        data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelData, 0, 0);
         if (data_len <= 0) {
             DWC_Http_Destroy(DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2774, 0, 0);
+        wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelWait, 0, 0);
         url = alloc(0, url_len + 1);
         if (url == 0) {
             DWC_Http_Destroy(DWChttp_);
@@ -672,14 +672,14 @@ static void DWCi_Netcheck_Thread(void *arg)
                 goto exit;
             }
         }
-        url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2768, url, url_len + 1);
+        url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelUrl, url, url_len + 1);
         if (url_len < 0) {
             DWC_Http_Destroy(DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
         url[url_len] = 0;
-        data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A276C, data, data_len + 1);
+        data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelData, data, data_len + 1);
         if (data_len < 0) {
             DWC_Http_Destroy(DWChttp_);
             DWCi_Netcheck_SetError(9);
@@ -688,7 +688,7 @@ static void DWCi_Netcheck_Thread(void *arg)
         data[data_len] = 0;
         wait_sec = 0;
         if (wait_len > 0) {
-            wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, g_021A2774, wait, wait_len + 1);
+            wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelWait, wait, wait_len + 1);
             if (wait_len < 0) {
                 DWC_Http_Destroy(DWChttp_);
                 DWCi_Netcheck_SetError(9);

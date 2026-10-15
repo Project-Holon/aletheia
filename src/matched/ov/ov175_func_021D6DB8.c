@@ -51,11 +51,11 @@
  *   WIFIBATTLEMATCH_NET_SetupHttpRap 0x021DC8B4 thumb
  *   WIFIBATTLEMATCH_NET_HttpRapSend 0x021DC908 thumb
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb
- *   func_021E8738 0x021E8738 thumb ov177
- *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_021E8AB8 0x021E8AB8 thumb ov177
- *   func_021E8844 0x021E8844 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_PrintMessage 0x021E8738 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetRequest 0x021E8AB4 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_NET_CompCleanup 0x021D9064 thumb
  *   WIFIBATTLEMATCH_NET_CompStepE 0x021D7BE4 thumb
  *   WIFIBATTLEMATCH_NET_CompStepK 0x021D8EC8 thumb
@@ -129,11 +129,11 @@ extern unsigned WIFIBATTLEMATCH_NET_GetGsProfileId(char *);
 extern void WIFIBATTLEMATCH_NET_SetupHttpRap(char *,void *,unsigned);
 extern int WIFIBATTLEMATCH_NET_HttpRapSend(char *);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *,void *,void *);
-extern void func_021E8738(int *,int,int,int);
-extern void func_021E8AA0(int *,int);
-extern void func_021E8AB4(unsigned,unsigned);
-extern void func_021E8AB8(unsigned);
-extern int func_021E8844(const int *p);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *,int,int,int);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *,int);
+extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned,unsigned);
+extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned);
+extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
 extern void WIFIBATTLEMATCH_NET_CompCleanup(void *obj, int unused, u8 *p);
 extern void WIFIBATTLEMATCH_NET_CompStepE(u32 sys, int *state, char *p);
 extern void WIFIBATTLEMATCH_NET_CompStepK(u32 sys, int *state, char *p);
@@ -180,8 +180,8 @@ void WIFIBATTLEMATCH_NET_CompStepC(int *sys,int *state,char *p)
     }
     case 2:
         r=WIFIBATTLEMATCH_NET_HttpRapSend(H);
-        if(r==1) *state=11; else if(r==3) func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
-        if(r!=0) switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)) {case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}
+        if(r==1) *state=11; else if(r==3) WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
+        if(r!=0) switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)) {case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}
         break;
     case 3:
         if(((unsigned char *)CTX[12])[5]==REGULATION_Card_GetValue((struct Reg2 *)aux,10)) *state=4;
@@ -191,35 +191,35 @@ void WIFIBATTLEMATCH_NET_CompStepC(int *sys,int *state,char *p)
     case 4:
         b=((unsigned char *)ctx[12])[5];
         if(b==3) *state=5; else if((unsigned char)(b+0xfc)<=1) *state=6; else *state=11; break;
-    case 5:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
-    case 6:func_021E8738((int *)W(0x2c),W(0x14),0x39,1);func_021E8AB4((u32)sys,46);*state=56;break;
+    case 5:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x39,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,46);*state=56;break;
+    case 6:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x39,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,46);*state=56;break;
     case 7: {
         MI_CpuFill8(&request7,0,8); request7.b=REGULATION_Card_GetValue((struct Reg2 *)aux,10); request7.id=WIFIBATTLEMATCH_NET_GetGsProfileId(H);
         ((unsigned char *)CTX[12])[5]=REGULATION_Card_GetValue((struct Reg2 *)aux,10);
         WIFIBATTLEMATCH_NET_SetupHttpRap(H,&request7,87);*state=8;break;
     }
     case 8:
-        r=WIFIBATTLEMATCH_NET_HttpRapSend(H);if(r==1)*state=9;else if(r==3)func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
-        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+        r=WIFIBATTLEMATCH_NET_HttpRapSend(H);if(r==1)*state=9;else if(r==3)WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
+        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
     case 9:*state=6;break;
     case 10:
         r=WIFIBATTLEMATCH_NET_GdbUpdateRecord(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=6;}
-        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
-    case 11:func_021E8738((int *)W(0x2c),W(0x14),0x5b,2);func_021E8AB4((u32)sys,12);*state=56;break;
+        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+    case 11:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x5b,2);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,12);*state=56;break;
     case 12:WIFIBATTLEMATCH_NET_SetupDownload(H,*(u32 *)ctx[12]);*state=13;break;
     case 13:
         r=WIFIBATTLEMATCH_NET_DownloadProcess((u8 *)H);
         if(r==1){WIFIBATTLEMATCH_NET_GetRegCardName(H,p+0x10c);if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x10c)))*state=14;else *state=15;}
         else if(r==2)*state=15;
-        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
     case 15:if(REGULATION_Card_GetValue((struct Reg2 *)aux,2)==0)*state=18;else *state=16;break;
     case 16:
         r=WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0);
-        switch(r){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;case 0:WIFIBATTLEMATCH_NET_SetCompWaitCallback(p,WIFIBATTLEMATCH_NET_CompStepM);*state=17;break;}break;
+        switch(r){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;case 0:WIFIBATTLEMATCH_NET_SetCompWaitCallback(p,WIFIBATTLEMATCH_NET_CompStepM);*state=17;break;}break;
     case 17:
-        r=WIFIBATTLEMATCH_NET_GetCompWaitResult(p);if(r!=0xffff)*state=46;if(r==3)func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
-        switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
-    case 18:func_021E8738((int *)W(0x2c),W(0x14),0x3b,1);func_021E8AB4((u32)sys,55);*state=56;break;
+        r=WIFIBATTLEMATCH_NET_GetCompWaitResult(p);if(r!=0xffff)*state=46;if(r==3)WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
+        switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+    case 18:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3b,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,55);*state=56;break;
     case 14:
         b=((unsigned char *)ctx[12])[5];if(b==0)*state=19;else if(b==1)*state=53;else if(b==2)*state=54;else *state=55;break;
     case 19:if(REGULATION_Card_GetValue((struct Reg2 *)aux,2)==0)*state=42;else *state=20;break;
@@ -229,33 +229,33 @@ void WIFIBATTLEMATCH_NET_CompStepC(int *sys,int *state,char *p)
         *state=21;break;
     case 21:if(WIFIBATTLEMATCH_NET_IsTradeIconReady(p))*state=22;break;
     case 22:if(BATTLE_BOX_IsLocked(BATTLE_BOX_GetFromSave((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))*state=23;else *state=29;break;
-    case 23:func_021E8738((int *)W(0x2c),W(0x14),0x3d,1);func_021E8AB4((u32)sys,24);*state=56;break;
+    case 23:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3d,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,24);*state=56;break;
     case 24:WIFIBATTLEMATCH_NET_SetupRegSprite(p,0);*state=25;break;
     case 25:r=WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(p);if(r!=-1){WIFIBATTLEMATCH_NET_DeleteCompSprite(p);switch(r){case 0:*state=35;break;case 1:*state=26;break;}}break;
-    case 26:func_021E8738((int *)W(0x2c),W(0x14),0x3e,1);func_021E8AB4((u32)sys,27);*state=56;break;
+    case 26:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3e,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,27);*state=56;break;
     case 27:WIFIBATTLEMATCH_NET_SetupRegSprite(p,0);*state=28;break;
     case 28:r=WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(p);if(r!=-1){WIFIBATTLEMATCH_NET_DeleteCompSprite(p);switch(r){case 0:*state=55;break;case 1:*state=23;break;}}break;
-    case 29:func_021E8738((int *)W(0x2c),W(0x14),0x3c,1);func_021E8AB4((u32)sys,30);*state=56;break;
+    case 29:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3c,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,30);*state=56;break;
     case 30:WIFIBATTLEMATCH_NET_SetupRegSprite(p,0);*state=31;break;
     case 31:r=WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(p);if(r!=-1){WIFIBATTLEMATCH_NET_DeleteCompSprite(p);switch(r){case 0:*state=35;break;case 1:*state=32;break;}}break;
-    case 32:func_021E8738((int *)W(0x2c),W(0x14),0x3e,1);func_021E8AB4((u32)sys,33);*state=56;break;
+    case 32:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3e,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,33);*state=56;break;
     case 33:WIFIBATTLEMATCH_NET_SetupRegSprite(p,0);*state=34;break;
     case 34:r=WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(p);if(r!=-1){WIFIBATTLEMATCH_NET_DeleteCompSprite(p);switch(r){case 0:*state=55;break;case 1:*state=29;break;}}break;
     case 35:if(WIFIBATTLEMATCH_NET_IsTradeIconAnimDone(p))*state=36;break;
     case 36:WIFIBATTLEMATCH_NET_DeleteTradeIcon(p);*state=42;break;
-    case 37:func_021E8738((int *)W(0x2c),W(0x14),0x46,2);func_021E8AB4((u32)sys,38);*state=56;break;
+    case 37:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x46,2);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,38);*state=56;break;
     case 38:if(*(u32 *)ctx[8]==0){MI_CpuFill8((void *)(ctx[13]+0x18),0,0x534);WIFIBATTLEMATCH_NET_SetupGdbUpload((u8 *)H,0,(void *)(CTX[13]+0x18));*state=39;}break;
     case 39:
         r=WIFIBATTLEMATCH_NET_GdbUpdateRecord(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=40;}
-        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
     case 40:{
         MI_CpuFill8(&request40,0,8);request40.a=0;request40.b=1;request40.id=WIFIBATTLEMATCH_NET_GetGsProfileId(H);
         ((unsigned char *)CTX[12])[5]=1;WIFIBATTLEMATCH_NET_SetupHttpRap(H,&request40,87);*state=41;break;
     }
     case 41:
-        r=WIFIBATTLEMATCH_NET_HttpRapSend(H);if(r==1)*state=53;else if(r==3)func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
-        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
-    case 42:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,43);*state=56;break;
+        r=WIFIBATTLEMATCH_NET_HttpRapSend(H);if(r==1)*state=53;else if(r==3)WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);
+        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+    case 42:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3a,2);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,43);*state=56;break;
     case 43:
         saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]));box=BATTLE_BOX_GetFromSave((void *)saved);
         item=(u32)REGULATION_GetParty((struct RecBig *)BATTLE_COMPETITION_GetFromSave((void *)saved),0);
@@ -264,19 +264,19 @@ void WIFIBATTLEMATCH_NET_CompStepC(int *sys,int *state,char *p)
         BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
         REGULATION_InitParty((struct Rec1E *)item);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=44;break;
     case 44:r=GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;
-    case 45:func_021E8738((int *)W(0x2c),W(0x14),0x40,1);func_021E8AB4((u32)sys,55);*state=56;break;
-    case 46:func_021E8738((int *)W(0x2c),W(0x14),0x5a,2);func_021E8AB4((u32)sys,47);*state=56;break;
+    case 45:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x40,1);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,55);*state=56;break;
+    case 46:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x5a,2);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,47);*state=56;break;
     case 47:if(*(u32 *)ctx[8]==0){WIFIBATTLEMATCH_NET_GdbRequest(H,-1,1,ctx[13]);*state=48;}break;
     case 48:
         r=WIFIBATTLEMATCH_NET_GdbGetMyRecords(H);if(r==1){*(u32 *)CTX[8]=0x708;*state=49;}
-        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
+        if(r!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H,(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
     case 49:if(((u32 *)CTX[13])[4]!=BSUBWAY_SAVEDATA_GetStat(ctx[4],10,0))*state=50;else *state=55;break;
-    case 50:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,51);*state=56;break;
+    case 50:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)W(0x2c),W(0x14),0x3a,2);WIFIBATTLEMATCH_UTIL_SetRequest((u32)sys,51);*state=56;break;
     case 51:WIFIBATTLEMATCH_NET_GetSetCompStat(p,(void *)ctx[13]);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=52;break;
     case 52:if(GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2])==2)*state=55;break;
-    case 53:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompStepD);break;
-    case 54:func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompStepE);break;
-    case 55:ctx[1]=0;func_021E8AA0(sys,(int)WIFIBATTLEMATCH_NET_CompExit);break;
-    case 56:if(func_021E8844((const int *)W(0x2c)))func_021E8AB8((u32)sys);break;
+    case 53:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompStepD);break;
+    case 54:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompStepE);break;
+    case 55:ctx[1]=0;WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)WIFIBATTLEMATCH_NET_CompExit);break;
+    case 56:if(WIFIBATTLEMATCH_UTIL_GetBusy((const int *)W(0x2c)))WIFIBATTLEMATCH_UTIL_CommitRequest((u32)sys);break;
     }
 }

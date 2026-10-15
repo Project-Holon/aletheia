@@ -35,8 +35,8 @@ extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_UTIL_DeleteHandles(char *);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void func_02034A5C(int);
 extern char ov112_id[];
 int BR_POKESEARCH_DestroyWork(int obj,int b,char *q,char *p)
@@ -53,7 +53,7 @@ int BR_POKESEARCH_DestroyWork(int obj,int b,char *q,char *p)
     for (i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)(p+i*4+56));
     BMP_OAM_DeleteSys((void *)(((struct Obj03337 *)p)->f28));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj03337 *)p)->f2C));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     func_02034A5C((int)ov112_id);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6E8
+ * function: INTRO_CMD_CmdSaveResume
  * address:  0x021BE6E8
  * packet:   pkt_021BE6E8
  * region:   ov204
@@ -20,7 +20,7 @@
 
 extern void SAVE_CONTROL_INTR_Resume(unsigned char *p);
 
-int func_021BE6E8(char *a)
+int INTRO_CMD_CmdSaveResume(char *a)
 {
     SAVE_CONTROL_INTR_Resume((unsigned char *)(((struct Obj25361 *)a)->fA4));
     return 1;

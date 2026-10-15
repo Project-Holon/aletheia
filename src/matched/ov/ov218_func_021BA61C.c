@@ -1,5 +1,5 @@
 /*
- * function: func_021BA61C
+ * function: UN_SELECT_InitActorPositions
  * address: 0x021BA61C
  * packet: pkt_ov218_021BA61C
  * region: ov218
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021BA61C(char *ctx)
+void UN_SELECT_InitActorPositions(char *ctx)
 {
     int i;
     void *item;

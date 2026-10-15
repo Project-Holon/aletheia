@@ -1,5 +1,5 @@
 /*
- * function: func_021D84D4
+ * function: MYSTERY_CreateReceivedMon
  * address: 0x021D84D4
  * packet: pkt_ov121_021D84D4
  * region: ov121
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * note 2026-10-05 (wave D9r lane P7): real extent is 0x744 bytes (1860); the 2004-byte
- *   listing extent includes the filed follower func_021D8C1C. Compiled size now equals
+ *   listing extent includes the filed follower MYSTERY_InitCardView. Compiled size now equals
  *   the original (1860 bytes); 1055 concrete bytes still differ, almost all from two
  *   small layout residues that shift every later branch target by 2 bytes.
  *   Fixed this wave (from the older draft in docs/notes/pkt_ov121_021D84D4.c.txt):
@@ -89,7 +89,7 @@
  *   func_02049F34 0x02049F34 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021D6C58 0x021D6C58 thumb ov121
+ *   MYSTERY_GetClactActor 0x021D6C58 thumb ov121
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   func_020056EC 0x020056EC thumb
  *   func_02012944 0x02012944 thumb
@@ -116,7 +116,7 @@
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
- *   func_021D94C4 0x021D94C4 thumb ov121
+ *   MYSTERY_MeasureGraChar 0x021D94C4 thumb ov121
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020490F4 0x020490F4 arm
  *   FILE_UTIL_Get 0x02020E60 thumb
@@ -149,7 +149,7 @@ struct MsgBank;
 struct Obj;
 struct Sub0200852CObj;
 struct U16Vec;
-extern void *func_021D6C58(u8 *p, int i);
+extern void *MYSTERY_GetClactActor(u8 *p, int i);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 func_020056EC(u32);
 extern u8 *func_02012944(void *p);
@@ -177,7 +177,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
-extern unsigned func_021D94C4(int,int);
+extern unsigned MYSTERY_MeasureGraChar(int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 FILE_UTIL_Get(u32 item, u32 which);
@@ -198,7 +198,7 @@ extern void *gSpeciesNameBank;
 #define H(k) (*(u16 *)(desc+(k)))
 #define O(k) (*(u32 *)(out+(k)))
 #define OH(k) (*(u16 *)(out+(k)))
-void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *a5,void *a6,u16 heap)
+void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,void *list,void *a5,void *a6,u16 heap)
 {
     u32 palette;
     void *buf,*mon,*allocated,*str;
@@ -227,7 +227,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     MI_CpuCopy8(base,out+146,32);
     MI_CpuCopy8(base+palette*32,out+114,32);
     func_020307B0(buf);
-    for(i=0;i<32;i++) CLACT_SetActorPaletteOffset(func_021D6C58(list,i+1),(u8)palette,0);
+    for(i=0;i<32;i++) CLACT_SetActorPaletteOffset(MYSTERY_GetClactActor(list,i+1),(u8)palette,0);
     switch(desc[179]) {
     case 1:
         mon=0;
@@ -312,7 +312,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         clamp=0;
         O(20)=POKEGRA_RegisterCellAnimPP((u32)POKE_TOOL_GetBoxParam(mon),0,2,0,heap);
         O(16)=POKEGRA_RegisterCgrPP((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,heap);
-        OH(296)=func_021D94C4((int)POKE_TOOL_GetBoxParam(mon),heap)-48;
+        OH(296)=MYSTERY_MeasureGraChar((int)POKE_TOOL_GetBoxParam(mon),heap)-48;
         if(*(s16 *)(out+296)>48) clamp=48;
         else if(*(s16 *)(out+296)>=0) clamp=*(s16 *)(out+296);
         OH(296)=clamp;

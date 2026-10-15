@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6FC
+ * function: BEACON_DETAIL_GRA_DeleteInfoWindow
  * address:  0x021BC6FC
  * packet:   pkt_021BC6FC
  * region:   ov216
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-u32 func_021BC6FC(u32 *p)
+u32 BEACON_DETAIL_GRA_DeleteInfoWindow(u32 *p)
 {
     return BMP_WIN_Delete((struct Descriptor *)p[0x52]);
 }

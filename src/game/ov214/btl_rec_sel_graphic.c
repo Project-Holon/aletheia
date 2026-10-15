@@ -38,7 +38,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
  *   records 0x021BB5B8 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -53,7 +53,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021BB0D4 0x021BB0D4 thumb ov214
+ *   BTL_REC_SEL_InitG3dDisplay 0x021BB0D4 thumb ov214
  *   dims 0x020A1EB8 data
  *   vec1 0x021BB524 data a4
  *   vec2 0x021BB518 data ov214
@@ -114,7 +114,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -127,7 +127,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_021BB0D4(void);
+extern void BTL_REC_SEL_InitG3dDisplay(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -270,7 +270,7 @@ void BTL_REC_SEL_GRAPHIC_InitBg(void *p,u32 heap)
 
 
 
-void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p) { u32 i;for(i=0;i<3;i++)func_020403F4((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
+void BTL_REC_SEL_GRAPHIC_DeleteBg(void *p) { u32 i;for(i=0;i<3;i++)BG_SYS_FreeLayerBuf((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
 
 
 
@@ -325,7 +325,7 @@ u32 BTL_REC_SEL_GRAPHIC_GetClactBank(u32 *p) { return *p; }
 
 void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
 {
-    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021BB0D4);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,BTL_REC_SEL_InitG3dDisplay);
     *out=G3D_CAMERA_Create(0,*(s16 *)(dims+12),*(s16 *)(dims+14),0x1555,0,4096,0x400000,0,&vec1,&vec2,&vec3,heap);
 }
 

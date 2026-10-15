@@ -102,8 +102,8 @@ typedef signed int     s32;
 struct Party;
 struct PartyMon;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
@@ -124,7 +124,7 @@ extern const Ten d_021BEA84;
 extern const u16 d_021BEA90[];
 extern const u16 d_021BEA9C[];
 
-int POKELIST_Init(struct Obj0203159C *a0, int *seq, Q *q, P *p)
+int POKELIST_Init(struct Proc *a0, int *seq, Q *q, P *p)
 {
     Ten b;
     Ten d;

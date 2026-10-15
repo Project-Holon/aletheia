@@ -1,5 +1,5 @@
 /*
- * function: func_021E73E4
+ * function: WIFIBATTLEMATCH_VIEW_CreateActorFromTable
  * address: 0x021E73E4
  * packet: pkt_ov177_021E73E4
  * region: ov177
@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021E5978 0x021E5978 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_GetFrameIndex 0x021E5978 thumb ov177
  *   CLACT_CreateActor 0x0204B294 arm
  *   d_021E8CBE 0x021E8CBE data a1
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
@@ -21,6 +21,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
+ *   WIFIBATTLEMATCH_VIEW_GetEntryValue  0x021E7CF0  thumb
  */
 #include "../include/Obj10709.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
@@ -31,8 +32,8 @@ extern void *CLACT_CreateActor(unsigned, unsigned, unsigned, unsigned, const Req
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
-extern int func_021E5978(int *p, int i);
-extern unsigned func_021E7CF0(void *, unsigned short, unsigned short);
+extern int WIFIBATTLEMATCH_VIEW_GetFrameIndex(int *p, int i);
+extern unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *, unsigned short, unsigned short);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
@@ -44,7 +45,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern const unsigned char d_021E8CBE[];
-void func_021E73E4(char *p, unsigned owner, void *table, unsigned heap)
+void WIFIBATTLEMATCH_VIEW_CreateActorFromTable(char *p, unsigned owner, void *table, unsigned heap)
 {
     Request req;
     unsigned v, a, b, c;
@@ -54,8 +55,8 @@ void func_021E73E4(char *p, unsigned owner, void *table, unsigned heap)
     req.id = 7;
     req.flag = 1;
     v = ((struct Obj10709 *)p)->f234;
-    a = func_021E5978(table, v + 2);
-    b = func_021E5978(table, ((struct Obj10709 *)p)->f234);
-    c = func_021E5978(table, v + 4);
+    a = WIFIBATTLEMATCH_VIEW_GetFrameIndex(table, v + 2);
+    b = WIFIBATTLEMATCH_VIEW_GetFrameIndex(table, ((struct Obj10709 *)p)->f234);
+    c = WIFIBATTLEMATCH_VIEW_GetFrameIndex(table, v + 4);
     ((struct Obj10709 *)p)->f18C = CLACT_CreateActor(owner, a, b, c, &req, v, heap);
 }

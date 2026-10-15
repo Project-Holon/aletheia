@@ -1,5 +1,5 @@
 /*
- * function: func_021DBDF4
+ * function: MYSTERY_ALBUM_SetupEntry
  * address: 0x021DBDF4
  * packet: pkt_ov121_021DBDF4
  * region: ov121
@@ -40,7 +40,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021DBDF4(char *out,const Record *src,char *p,u16 heap)
+void MYSTERY_ALBUM_SetupEntry(char *out,const Record *src,char *p,u16 heap)
 {
     int flags;
     void *text,*other;

@@ -15,11 +15,11 @@
  *   SOCL_Resolve  0x0215EDD0  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   STD_CopyLString  0x0208CB10  arm
- *   g_021AA544     0x021AA544  data
- *   g_021AA4BC     0x021AA4BC  data
+ *   gSocHostName     0x021AA544  data
+ *   gSocStatics     0x021AA4BC  data
  *   g_021AA4BC_ip  0x021AA4BC  data
- *   g_021AA4D4     0x021AA4D4  data
- *   g_021AA4DC     0x021AA4DC  data
+ *   gSocHostAddrList     0x021AA4D4  data
+ *   gSocHostEnt     0x021AA4DC  data
  */
 
 #include "../include/G_SOCLAlloc.h"
@@ -38,11 +38,11 @@ extern unsigned long SOCL_Resolve(char *hostname);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 
-extern struct SOCLAlloc g_021AA4BC;
+extern struct SOCLAlloc gSocStatics;
 extern struct SOCLAlloc g_021AA4BC_ip;
-extern unsigned char *g_021AA4D4[2];
-extern HostEnt g_021AA4DC;
-extern char g_021AA544[0x101];
+extern unsigned char *gSocHostAddrList[2];
+extern HostEnt gSocHostEnt;
+extern char gSocHostName[0x101];
 
 HostEnt *SOC_GetHostByName(const char *name)
 {
@@ -52,15 +52,15 @@ HostEnt *SOC_GetHostByName(const char *name)
 	if (h == 0) {
 		return 0;
 	}
-	MI_CpuFill8(g_021AA544, 0, 0x101);
-	STD_CopyLString(g_021AA544, name, 0x101);
-	g_021AA4BC.hostent_name = g_021AA544;
-	g_021AA4BC.hostent_aliases = 0;
-	g_021AA4BC.hostent_addrType = 2;
-	g_021AA4BC.hostent_length = 4;
-	g_021AA4BC.hostent_addrList = g_021AA4D4;
-	g_021AA4BC.addrList[0] = (unsigned char *)&(*(unsigned long *)&g_021AA4BC_ip);
-	g_021AA4BC.addrList[1] = 0;
-	g_021AA4BC.w00 = SWAP32(h);
-	return &g_021AA4DC;
+	MI_CpuFill8(gSocHostName, 0, 0x101);
+	STD_CopyLString(gSocHostName, name, 0x101);
+	gSocStatics.hostent_name = gSocHostName;
+	gSocStatics.hostent_aliases = 0;
+	gSocStatics.hostent_addrType = 2;
+	gSocStatics.hostent_length = 4;
+	gSocStatics.hostent_addrList = gSocHostAddrList;
+	gSocStatics.addrList[0] = (unsigned char *)&(*(unsigned long *)&g_021AA4BC_ip);
+	gSocStatics.addrList[1] = 0;
+	gSocStatics.w00 = SWAP32(h);
+	return &gSocHostEnt;
 }

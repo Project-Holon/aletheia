@@ -15,7 +15,7 @@
  *   C_GEAR_TileToScreen  0x021F0D14  thumb  ov029
  *   C_GEAR_DrawTile  0x021F1290  thumb  ov029
  *   func_020091AC  0x020091AC  thumb
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 #include "../include/Obj00042.h"
 
@@ -28,7 +28,7 @@ extern void C_GEAR_DrawTile(void *, int, int, int);
 struct Sub020090B0Obj;
 extern void func_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind, int marked, int flagged);
 typedef unsigned int   u32;
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 int C_GEAR_FindCellOfKind(char *p, int v, int *o1, int *o2)
 {
@@ -62,7 +62,7 @@ int C_GEAR_FindCellOfKind(char *p, int v, int *o1, int *o2)
         C_GEAR_TileToScreen(a, b, o1, o2);
         func_020091AC((struct Sub020090B0Obj *)(*(int *)&((struct Obj00042 *)p)->f20), a, b, v, 1, 0);
         C_GEAR_DrawTile(p, a, b, v);
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         return 1;
     }
     return 0;

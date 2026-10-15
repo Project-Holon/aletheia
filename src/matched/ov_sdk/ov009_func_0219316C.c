@@ -20,9 +20,9 @@
  *   gpiSetErrorString  0x02193734  arm   ov009
  *   gpiAddCallback  0x02189dfc  arm   ov009
  *   gpiRemoveOperation  0x0218e240  arm   ov009
- *   g_021A5710     0x021a5710  data
- *   g_021A56D0     0x021a56d0  data
- *   g_021A5700     0x021a5700  data
+ *   gGpiUniqueResponseC     0x021a5710  data
+ *   gGpiUniqueErrorUnexpectedData     0x021a56d0  data
+ *   gGpiUniqueErrorOutOfMemory     0x021a5700  data
  */
 
 typedef struct GPICallback {
@@ -52,9 +52,9 @@ extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
-extern char g_021A5710[];
-extern char g_021A56D0[];
-extern char g_021A5700[];
+extern char gGpiUniqueResponseC[];
+extern char gGpiUniqueErrorUnexpectedData[];
+extern char gGpiUniqueErrorOutOfMemory[];
 
 int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *input)
 {
@@ -64,8 +64,8 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
 
     if (gpiCheckForError((int *)connection, input, 1))
         return 4;
-    if (strncmp((const u8 *)input, (const u8 *)g_021A5710, 4) != 0) {
-        gpiSetError((int *)connection, 1, (int)g_021A56D0);
+    if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseC, 4) != 0) {
+        gpiSetError((int *)connection, 1, (int)gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback((int *)connection, __result__, 1);
         return __result__;
@@ -74,7 +74,7 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
     if (callback.callback != 0) {
         arg = (GPRegisterCdKeyResponseArg *)gsimalloc(sizeof(GPRegisterCdKeyResponseArg));
         if (arg == 0) {
-            gpiSetErrorString((int *)connection, (int)g_021A5700);
+            gpiSetErrorString((int *)connection, (int)gGpiUniqueErrorOutOfMemory);
             return 1;
         }
         arg->result = 0;

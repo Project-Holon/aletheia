@@ -1,5 +1,5 @@
 /*
- * function: func_021D92E4
+ * function: WF2DMAP_SCENE_GetGridNumber
  * address: 0x021D92E4
  * packet: pkt_ov129_021D92E4
  * region: ov129
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-int func_021D92E4(u8 *p)
+int WF2DMAP_SCENE_GetGridNumber(u8 *p)
 {
   int n;
   int sum;

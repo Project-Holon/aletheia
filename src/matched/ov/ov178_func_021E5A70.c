@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
- *   func_0217E00C  0x0217E00C  thumb  ov176
+ *   LIVEBATTLEMATCH_IRC_Create  0x0217E00C  thumb  ov176
  *   ov176_id       0x000000B0  data
  */
 typedef unsigned char u8;
@@ -19,11 +19,11 @@ typedef unsigned int u32;
 
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
-extern void *func_0217E00C(int unused, int heap);
+extern void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap);
 extern u8 ov176_id[];
 
 void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v)
 {
     func_02034AC4((u32)ov176_id);
-    *out = (u32)func_0217E00C(*(u32 *)*pp, v);
+    *out = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*pp, v);
 }

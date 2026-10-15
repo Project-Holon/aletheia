@@ -1,5 +1,5 @@
 /*
- * function: func_021B7204
+ * function: MONOLITH_TOOL_UpdateTaskMenu
  * address: 0x021B7204
  * packet: pkt_ov071_021B7204
  * region: ov071
@@ -19,4 +19,4 @@ typedef unsigned int   u32;
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
-int func_021B7204(int a, int b, void *p, int *q) { APP_TASKMENU_UpdateMenu(p); if(APP_TASKMENU_IsFinish(p)==1) { *q=APP_TASKMENU_GetCursorPos(p)==0 ? 1 : 0;return 1;} return 0; }
+int MONOLITH_TOOL_UpdateTaskMenu(int a, int b, void *p, int *q) { APP_TASKMENU_UpdateMenu(p); if(APP_TASKMENU_IsFinish(p)==1) { *q=APP_TASKMENU_GetCursorPos(p)==0 ? 1 : 0;return 1;} return 0; }

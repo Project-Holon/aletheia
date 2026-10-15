@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD78
+ * function: INTRO_GRAPHIC_GetClactOwner
  * address: 0x021BDD78
  * packet: pkt_ov204_021BDD78
  * region: ov204
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BDFA0 0x021BDFA0 thumb ov204
+ *   INTRO_GRAPHIC_GetClactBank 0x021BDFA0 thumb ov204
  */
-extern unsigned func_021BDFA0(char *);
-unsigned func_021BDD78(char *p){return func_021BDFA0(p+4);}
+extern unsigned INTRO_GRAPHIC_GetClactBank(char *);
+unsigned INTRO_GRAPHIC_GetClactOwner(char *p){return INTRO_GRAPHIC_GetClactBank(p+4);}

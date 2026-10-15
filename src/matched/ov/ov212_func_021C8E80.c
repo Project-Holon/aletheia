@@ -31,15 +31,15 @@
 #include "../include/Obj25649.h"
 #include "../include/Obj25650.h"
 typedef unsigned short u16;
-struct Obj0203159C;struct Blk37;
+struct Proc;struct Blk37;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Proc *,unsigned,unsigned);
 extern void MI_CpuFill8(void *,unsigned char,unsigned);
 extern void *PROCSYS_Create(int);
 extern u16 ZUKAN_LoadListAndSelection(struct Blk37 *,u16 **,unsigned);
 extern void ZUKAN_FixLastViewedSpecies(void *p, u16 *ids, unsigned count);
 extern void ZUKAN_InitQuery(struct Blk37 *,unsigned char *);
-int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx)
+int ZUKAN_Create(struct Proc *obj,int unused,char *ctx)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,105,0x8000);

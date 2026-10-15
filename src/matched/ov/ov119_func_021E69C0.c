@@ -13,7 +13,7 @@
  * symbols:
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  */
 #include "../include/Obj05337.h"
 typedef struct { short x,y; } Pt;
@@ -25,7 +25,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 typedef unsigned int   u32;
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 int POKETRADE_2D_StepCursorSlide(char *p)
 {
     Pt a,b,c;
@@ -51,7 +51,7 @@ int POKETRADE_2D_StepCursorSlide(char *p)
             CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x1014),(const struct Vec2 *)(&c),1);
         }
     }
-    func_02040618(5,0,-((struct Obj05337 *)p)->f11DE);
-    func_02040618(4,0,((struct Obj05337 *)p)->f11DE-128);
+    BG_SYS_FillScrollArea(5,0,-((struct Obj05337 *)p)->f11DE);
+    BG_SYS_FillScrollArea(4,0,((struct Obj05337 *)p)->f11DE-128);
     return 0;
 }

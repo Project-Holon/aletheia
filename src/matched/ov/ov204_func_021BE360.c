@@ -1,5 +1,5 @@
 /*
- * function: func_021BE360
+ * function: INTRO_CMD_CmdBrightnessSet
  * address:  0x021BE360
  * packet:   pkt_021BE360
  * region:   ov204
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
 
-u32 func_021BE360(u32 a, u32 b, u32 *c)
+u32 INTRO_CMD_CmdBrightnessSet(u32 a, u32 b, u32 *c)
 {
     BRIGHTNESS_Set((s16)*c, 0x1d, 1);
     return 1;

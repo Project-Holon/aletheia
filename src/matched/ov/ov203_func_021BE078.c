@@ -1,5 +1,5 @@
 /*
- * function: func_021BE078
+ * function: DEMO3D_GRAPHIC_Noop
  * address: 0x021BE078
  * packet: pkt_ov203_021BE078
  * region: ov203
@@ -10,4 +10,4 @@
  * status: EXACT*
  * extent: final two bytes are alignment padding.
  */
-void func_021BE078(void *a0){}
+void DEMO3D_GRAPHIC_Noop(void *a0){}

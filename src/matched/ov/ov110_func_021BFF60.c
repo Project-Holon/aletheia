@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  */
 #include "../include/Obj02166.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_02040618(u32,u32,u32);
-void PMSIV_WORDWIN_ResetScroll(u8 *p) { ((struct Obj02166 *)p)->f94=0; ((struct Obj02166 *)p)->f98=0; func_02040618(2,3,8); }
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
+void PMSIV_WORDWIN_ResetScroll(u8 *p) { ((struct Obj02166 *)p)->f94=0; ((struct Obj02166 *)p)->f98=0; BG_SYS_FillScrollArea(2,3,8); }

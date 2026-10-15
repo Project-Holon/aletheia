@@ -14,7 +14,7 @@
  * symbols:
  *   STD_TSScanf  0x0208CF34  arm
  *   sGhttpHttp4   0x021CF210  data
- *   g_020A61DC   0x020A61DC  data
+ *   gCtypeMap   0x020A61DC  data
  */
 
 typedef struct GHIConnection {
@@ -33,9 +33,9 @@ typedef struct GHIConnection {
 
 extern int STD_TSScanf(char *src, char *fmt, ...);
 extern char sGhttpHttp4[];
-extern const unsigned short g_020A61DC[];
+extern const unsigned short gCtypeMap[];
 
-static inline int isspace(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x100)); }
+static inline int isspace(int c) { return ((c < 0 || c >= 0x80) ? 0 : (gCtypeMap[c] & 0x100)); }
 
 int ghiParseStatus(GHIConnection *connection)
 {

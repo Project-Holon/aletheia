@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E7710   0x021E7710  thumb
- *   func_021E8AA0   0x021E8AA0  thumb
- *   func_021E8A80   0x021E8A80  thumb
- *   func_021E8A90   0x021E8A90  thumb
- *   func_021E64C8   0x021E64C8  thumb
- *   func_021E8AA8   0x021E8AA8  thumb
+ *   WIFIBATTLEMATCH_VIEW_DeleteRecordWindow   0x021E7710  thumb
+ *   WIFIBATTLEMATCH_UTIL_SetCallback   0x021E8AA0  thumb
+ *   WIFIBATTLEMATCH_UTIL_InvokeCallback   0x021E8A80  thumb
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull   0x021E8A90  thumb
+ *   WIFIBATTLEMATCH_VIEW_StepMainWindow   0x021E64C8  thumb
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback   0x021E8AA8  thumb
  *
  * Reads back the +0x38 stream: asks 0x021E8A80 whether more data is
  *     pending and 0x021E8A90 whether the last read produced a byte, and
@@ -25,13 +25,13 @@
 
 typedef unsigned long u32;
 
-extern void func_021E8A80(u32 h);
-extern int func_021E8A90(u32 h);
+extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(u32 h);
+extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(u32 h);
 
 u32 WIFIBATTLEMATCH_NET_GetWaitResult(char *obj)
 {
-    func_021E8A80(((struct Obj01562 *)obj)->f38);
-    if (func_021E8A90(((struct Obj01562 *)obj)->f38) != 0)
+    WIFIBATTLEMATCH_UTIL_InvokeCallback(((struct Obj01562 *)obj)->f38);
+    if (WIFIBATTLEMATCH_UTIL_IsCallbackNull(((struct Obj01562 *)obj)->f38) != 0)
         return ((struct Obj01562 *)obj)->f3C;
     return 0xFFFF;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B82A4
+ * function: MONOLITH_TOOL_MENU_UpdateButtons
  * address:  0x021B82A4
  * packet:   pkt_ov071_021B82A4
  * region:   ov071
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6C7C  0x021B6C7C  thumb  ov071
- *   func_021B6B70  0x021B6B70  thumb  ov071
+ *   MONOLITH_TOOL_UpdateHighlight  0x021B6C7C  thumb  ov071
+ *   MONOLITH_TOOL_IsButtonUploaded  0x021B6B70  thumb  ov071
  *   d_021BA978     0x021BA978  data  a4
  */
 #include "../include/Obj20722.h"
@@ -19,14 +19,14 @@
 extern unsigned d_021BA978[];
 
 typedef unsigned char  u8;
-void func_021B82A4(int *a, char *p)
+void MONOLITH_TOOL_MENU_UpdateButtons(int *a, char *p)
 {
-    void func_021B6C7C(int *p, int idx);
-    int func_021B6B70(void **p, u8 *q);
+    void MONOLITH_TOOL_UpdateHighlight(int *p, int idx);
+    int MONOLITH_TOOL_IsButtonUploaded(void **p, u8 *q);
     unsigned i;
 
-    func_021B6C7C(a, 3);
+    MONOLITH_TOOL_UpdateHighlight(a, 3);
     for (i = 0; i < d_021BA978[((struct Obj20722 *)p)->f32]; i++) {
-        func_021B6B70((void **)a[1], (u8 *)(p + i * 16));
+        MONOLITH_TOOL_IsButtonUploaded((void **)a[1], (u8 *)(p + i * 16));
     }
 }

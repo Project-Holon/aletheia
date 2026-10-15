@@ -22,8 +22,8 @@
 
 typedef unsigned int u32;
 
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *a);
+struct Proc;
+extern void func_020315D4(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char d_021BD66C[];
@@ -36,7 +36,7 @@ int STARTMENU_TitleDemoExit(int a0, int a1, int a2, int *a3)
 {
     int t = a3[1];
 
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     GFL_HEAP_DeleteChecked(0x16);
     if (t == 0) {
         PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD66C, 0);

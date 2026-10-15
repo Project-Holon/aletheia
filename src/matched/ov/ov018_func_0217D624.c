@@ -16,7 +16,7 @@
  *   BMP_OAM_CreateSys  0x02025538  thumb
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -60,7 +60,7 @@ extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -77,7 +77,7 @@ void INTRUDE_SUBDISP_SystemSetup(struct State *o)
     o->unkB0 = BMP_OAM_CreateSys(0x70, o->bank);
     o->tcbl = TCBL_Create(0x70, 0x70, 4, 0x20);
     o->font = GF_FONT_Create(0x17, 0, 0, 0, 0x70);
-    o->words = GF_FONT_Create_EC64(0x70);
+    o->words = WORDSET_CreateDefault(0x70);
     o->unk28 = PRINTSYS_QUE_Create((void *)0x70);
     o->msg2C = func_02045B38(0, 2, 0x2D, 0x70);
     o->msg30 = func_02045B38(0, 2, 0x42, 0x70);

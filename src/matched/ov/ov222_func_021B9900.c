@@ -14,7 +14,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj08456.h"
 typedef unsigned short u16;
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(char*p)
 {
     void *h;
@@ -33,5 +33,5 @@ void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(char*p)
     func_02049658(h,5,1,0,0,0,((struct Obj08456 *)p)->f0);
     func_020498F4(h,7,1,0,0,0,((struct Obj08456 *)p)->f0);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }

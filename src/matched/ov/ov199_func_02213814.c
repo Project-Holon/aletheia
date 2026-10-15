@@ -1,5 +1,5 @@
 /*
- * function: func_02213814
+ * function: WIFIBATTLEMATCH_SYS_CreateSubWork
  * address: 0x02213814
  * packet: pkt_ov199_02213814
  * region: ov199
@@ -17,10 +17,10 @@
  */
 #include "../include/Obj25303.h"
 #include "../include/Obj25304.h"
-struct Obj0203159C;
+struct Proc;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Proc *,unsigned,unsigned);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void *PROCSYS_Create(int);
 extern void GFL_USE_FadeOutBgm(unsigned);
-int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);MI_CpuFill8(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
+int WIFIBATTLEMATCH_SYS_CreateSubWork(struct Proc *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);MI_CpuFill8(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}

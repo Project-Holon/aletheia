@@ -1,5 +1,5 @@
 /*
- * function: func_021D9D4C
+ * function: MYSTERY_UTIL_CreateMenuWindow2
  * address: 0x021D9D4C
  * packet: pkt_ov121_021D9D4C
  * region: ov121
@@ -12,7 +12,7 @@
  *   (func_02030734 first parameter, STRBUF_Create second, TCBL_Create first two) declares it u16.
  *   The stack heap then loads as a word and the entry block keeps the original order. See
  *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
- *   Twin: ov121 func_021D9CA4.
+ *   Twin: ov121 MYSTERY_UTIL_CreateMenuWindow.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -23,7 +23,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   TCBL_Create 0x0203101C arm
  *   PRINTSYS_CTRL_Init 0x02028470 thumb
  *   d_021DFBA0 0x021DFBA0 data a1
@@ -43,10 +43,10 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
-void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
+void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     struct Descriptor *q;
@@ -66,7 +66,7 @@ void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
     q = *(struct Descriptor **)(p + 0x10);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen((struct Cfg *)q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
     *(struct Tcbl **)(p + 0xc) = TCBL_Create(heap, heap, 1, 32);
     return p;
 }

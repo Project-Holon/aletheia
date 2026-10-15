@@ -1,5 +1,5 @@
 /*
- * function: func_02212AF8
+ * function: WIFIBATTLEMATCH_SYS_BuildSetupRecord
  * address: 0x02212AF8
  * packet: pkt_ov199_02212AF8
  * region: ov199
@@ -89,7 +89,7 @@ struct W4 {
     u8 pad1c[0xc1 - 0x1c]; u8 fc1;
 };
 struct Out { void *f0; struct W4 *f4; struct R8 *f8; };
-struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
+struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u32 heap, struct In *p)
 {
     struct Out *out;
     void *v;

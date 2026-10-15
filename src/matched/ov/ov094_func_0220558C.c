@@ -12,7 +12,7 @@
  * Verified EXACT C copied from ov029_func_021F0DB4.c:
  * int PALANM_GetDefaultWork(char *p, int i) { return *(int *)(p + i * 0x14); }
  * symbols:
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef signed short   s16;
 struct PalAnmSlot;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -56,7 +56,7 @@ void BTLV_INPUT_DrawSelectScreenText(char *s, const int *b)
     void *w;
     void *extra;
     u8 c[3];
-    h = (int)GF_FONT_Create_EC64(((struct Obj02440 *)s)->f240);
+    h = (int)WORDSET_CreateDefault(((struct Obj02440 *)s)->f240);
     v = STRBUF_Create(8, ((struct Obj02440 *)s)->f240);
     w = func_02045EC0(((struct Obj02440 *)s)->f5C, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);

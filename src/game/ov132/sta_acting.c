@@ -50,7 +50,7 @@
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02030EAC 0x02030EAC arm
@@ -126,7 +126,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   MIi_CpuCopy16 0x02082A60 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   STA_ACT_LIGHT_AllocElem 0x021F6F24 thumb ov112
  *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
  *   STA_ACT_LIGHT_CreateModel  0x021F6FB0  thumb  ov112
@@ -150,7 +150,7 @@
  *   KEY_GetCont 0x0203630C arm
  *   func_02048AFC 0x02048AFC arm
  *   func_02048B44 0x02048B44 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   d_021FDBEC 0x021FDBEC data a4
  *   STA_ACT_SCRIPT_AddScript 0x021FAC74 thumb ov132
  *   d_021FDBD0 0x021FDBD0 data a1
@@ -399,7 +399,7 @@ extern u32_021F8640 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void func_020403F4(u32_021F8640);
+extern void BG_SYS_FreeLayerBuf(u32_021F8640);
 
 extern void BMP_WIN_Exit(void);
 
@@ -515,7 +515,7 @@ extern void func_02049B68(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 
 
 extern void MIi_CpuCopy16(const void *,void *,u32_021F8BD4);
 
-extern void func_020409B4(u32_021F8BD4);
+extern void BG_SYS_PushTile(u32_021F8BD4);
 
 extern u8 *STA_ACT_LIGHT_AllocElem(u32_021F8BD4 heap, u32_021F8BD4 v);
 
@@ -561,7 +561,7 @@ extern void func_02048AFC(void *, const Vec *);
 
 extern void func_02048B44(void *, const Vec *);
 
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 
 extern void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag);
 
@@ -926,12 +926,12 @@ void STA_ACTING_Delete(char *p)
     BILLBOARD_Delete(((struct ActingScene *)p)->fAC.p);
     G3D_CAMERA_Delete(((struct ActingScene *)p)->fA8);
     G3D_SYSTEM_Exit();
-    func_020403F4(0);
-    func_020403F4(1);
-    func_020403F4(2);
-    func_020403F4(3);
-    func_020403F4(5);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     func_02030EAC(((struct ActingScene *)p)->f20);
@@ -1113,8 +1113,8 @@ void STA_ACTING_UploadPalettes(u8 *p)
         p[0x19a+i]=(u8)((new&0x3e0)>>5)-(u8)((old&0x3e0)>>5);
         p[0x1aa+i]=(u8)((new&0x7c00)>>10)-(u8)((old&0x7c00)>>10);
     }
-    func_020409B4(3);
-    func_020409B4(5);
+    BG_SYS_PushTile(3);
+    BG_SYS_PushTile(5);
     ((struct ActingScene *)p)->f3C=STA_ACT_LIGHT_AllocElem(((struct ActingScene *)p)->f0,(u32_021F8BD4)p);
 }
 
@@ -1132,7 +1132,7 @@ void STA_ACTING_SetBaseProgram(u8 *p, u32 a1)
     STA_ACT_LIGHT_CreateModel(((struct ActingScene *)p)->f3C, v);
 }
 
-void STA_ACTING_SetupBg(const struct BgTemplate *p,u32 id,u32 type) { BG_SYS_InitBgLayer(id,p,type); func_02040588(id,1); BG_SYS_FreeSlot(id); func_020409B4(id); }
+void STA_ACTING_SetupBg(const struct BgTemplate *p,u32 id,u32 type) { BG_SYS_InitBgLayer(id,p,type); func_02040588(id,1); BG_SYS_FreeSlot(id); BG_SYS_PushTile(id); }
 
 void STA_ACTING_CreateActors(u8 *p)
 {
@@ -1204,14 +1204,14 @@ void STA_ACTING_UpdateCamera(u8 *p)
         func_02048AFC(*(void **)(p + 0xA8), &scale);
         func_02048B44(*(void **)(p + 0xA8), &translation);
         func_02048AD0(*(void **)(p + 0xA8));
-        func_02040618(2, 0, *(u16 *)(p + 4));
+        BG_SYS_FillScrollArea(2, 0, *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetElemFrame(*(void **)(p + 0x40), *(u16 *)(p + 4));
         STA_ACT_OBJ_SetCount(*(void **)(p + 0x54), *(u16 *)(p + 4));
         STA_ACT_AUDIENCE_SetBgScroll(*(void **)(p + 0xB8), *(u16 *)(p + 4));
     }
     if (*(u16 *)(p + 8) == 224) *(int *)(p + 0xC) = 0;
-    func_02040618(2, 3, *(u16 *)(p + 8));
+    BG_SYS_FillScrollArea(2, 3, *(u16 *)(p + 8));
 }
 
 void STA_ACTING_LoadCharAnims(u8 *p)
@@ -1285,7 +1285,7 @@ void STA_ACTING_CreateText(u8 *p)
     ((struct ActingScene *)p)->fD0.u=BMP_WIN_Create(1,4,20,24,4,15,1);
     BMP_WIN_TransferChars((struct Descriptor *)((struct ActingScene *)p)->fD0.u);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct ActingScene *)p)->fD0.u));
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     zero=0;
     ((struct ActingScene *)p)->fD4.u=(u32)GF_FONT_Create(23,0,0,0,((struct ActingScene *)p)->f0);
     ((struct ActingScene *)p)->fDC.u=(u32)MSGDATA_CreateFromMemory(((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->f30))->f18))->f8,((struct ActingScene *)p)->f0);

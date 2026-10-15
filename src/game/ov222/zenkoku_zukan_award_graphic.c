@@ -37,7 +37,7 @@
  *   func_02040588 0x02040588 arm
  *   config 0x021BA280 data a4
  *   records 0x021BA2FC data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -70,9 +70,7 @@ typedef unsigned int u32;
 
 typedef unsigned char u8;
 
-struct Record_021BA048 { u32 id; u8 template_data[32]; u32 type; u32 enabled; };
-
-struct Record_021BA0A8 { u32 id;u8 template_data[32];u32 type;u32 enabled; };
+struct ZenkokuZukanAwardGraphicBgRow { u32 id; u8 cfg[32]; u32 type; u32 enable; };
 
 typedef signed short s16;
 
@@ -109,7 +107,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -145,7 +143,7 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap);
 extern char d_021BA390[];
 extern u32 d_021BA2CC[];
 extern u32 config[];
-extern const struct Record_021BA048 records[];
+extern const struct ZenkokuZukanAwardGraphicBgRow records[];
 extern const char dims[];
 extern struct Vec3 vec1,vec2,vec3;
 
@@ -217,15 +215,15 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap)
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)config);
     for(i=0;i<2;i++) {
-        const struct Record_021BA048 *r=&records[i];
+        const struct ZenkokuZukanAwardGraphicBgRow *r=&records[i];
         u32 id=r->id;
-        BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)r->template_data,(u8)r->type);
+        BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)r->cfg,(u8)r->type);
         BG_SYS_FreeSlot(id);
-        func_02040588(id,r->enabled);
+        func_02040588(id,r->enable);
     }
 }
 
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p) { u32 i;for(i=0;i<2;i++)func_020403F4((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p) { u32 i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf((u8)records[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4); }
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p) { }
 

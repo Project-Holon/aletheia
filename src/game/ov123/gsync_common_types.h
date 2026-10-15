@@ -153,7 +153,7 @@ struct Cmd;
 struct TaskMenuTmpl;
 struct Rec3;
 struct Big;
-struct Obj0203159C;
+struct Proc;
 struct Bank;
 struct R;
 struct Tcbl;
@@ -162,7 +162,7 @@ struct DispVram;
 struct PrintSys;
 struct Node;
 struct S02031140;
-struct S020315D4;
+struct Proc;
 struct TaskMenuState;
 
 /* Objects owned by arm9 helpers whose headers do not exist yet (folded from gsync_state_shared_types.h). */

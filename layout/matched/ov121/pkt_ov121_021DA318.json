@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA318",
+   "name": "MYSTERY_UTIL_TransferWindowList",
    "address": "0x021DA318",
    "kind": "game",
    "region": "ov121",

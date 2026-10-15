@@ -14,8 +14,8 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
 int SAVE_SCREEN_Exit(void *p)

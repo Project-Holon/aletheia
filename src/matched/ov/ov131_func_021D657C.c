@@ -17,14 +17,14 @@
 #include "../include/Obj01255.h"
 #include "../include/Obj23132.h"
 typedef unsigned char u8;
-struct S020315D4;
+struct Proc;
 extern int P_STATUS_ExitWork(char *p);
 extern void GAME_DATA_Delete(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-int P_STATUS_ProcExit(struct S020315D4 *handle, int unused, int mode, char *p)
+int P_STATUS_ProcExit(struct Proc *handle, int unused, int mode, char *p)
 {
     if (!P_STATUS_ExitWork(p)) return 0;
     if (!mode) {

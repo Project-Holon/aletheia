@@ -1,5 +1,5 @@
 /*
- * function: func_021DA1A8
+ * function: WF2DMAP_SCENE_LayoutCells
  * address: 0x021DA1A8
  * packet: pkt_ov129_021DA1A8
  * region: ov129
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021DA1A8(char *p,int animate)
+void WF2DMAP_SCENE_LayoutCells(char *p,int animate)
 {
     Position s;
     int i,j;

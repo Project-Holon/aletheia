@@ -1,5 +1,10 @@
 # Roadmap
 
+Current state (2026-10-15): milestones 1, 2, 2.5 and 2.75 are done. In milestone
+3 the ARM9 static image, ITCM, the DSi `twl` region and 181 of 243 regions link
+byte-identical from C; game code is 100.00 percent fully linked and all code is
+99.98 percent linked. The live figures are in `README.md`.
+
 ## Milestone 1: ROM extraction and rebuild (done)
 
 `tools/ndsrom.py` reads a stock ROM, splits it into its constituent parts

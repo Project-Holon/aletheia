@@ -16,7 +16,7 @@
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -35,7 +35,7 @@ extern u8 BG_SYS_GetField16(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u8 channel);
+extern void BG_SYS_PushTile(u8 channel);
 extern u32 func_020307B0(void *p);
 
 void ZKND_TBAR_LoadCellArchive(u32 a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a5, u8 a6,
@@ -56,7 +56,7 @@ void ZKND_TBAR_LoadCellArchive(u32 a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a
     if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
         BG_SYS_DrawTileEx((u8)channel, x, y, w, h, (u32)scr->data, a4, a5, a6, a7);
         BG_SYS_FillTileMap(channel, x, y, w, h, pal);
-        func_020409B4(channel);
+        BG_SYS_PushTile(channel);
     }
     func_020307B0((void *)file);
 }

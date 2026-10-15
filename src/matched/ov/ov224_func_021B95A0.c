@@ -36,7 +36,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -57,11 +57,11 @@ struct BgTemplate {u32 words[8];};
 struct Entry { u32 id; struct BgTemplate bg; u32 kind,visible; };
 struct Assets {u32 palette,screen,chars;};
 struct Work {u16 heap,pad2; void **args; void *screen,*font;u32 string;void *task;};
-struct GfFont; struct Obj0203159C;
+struct GfFont; struct Proc;
 extern const struct Entry gSubwayMapGraphicSubBgLayerTable[];
 extern struct Assets gSubwayMapGraphicChoiceAssets[];
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
+extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
@@ -82,14 +82,14 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 static inline void SetMode(Mode mode) {
  *(volatile u32 *)0x04001000 &= 0xffff1fff;
  *(volatile u32 *)0x04001000 |= mode<<15;
 }
-int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args)
+int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
 {
  struct Work *p;
  Index i;
@@ -129,7 +129,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args)
  func_02049658(arc,gSubwayMapGraphicChoiceAssets[choice].screen,4,0,0,0,heap);
  func_020498F4(arc,gSubwayMapGraphicChoiceAssets[choice].chars,4,0,0,0,heap);
  ARC_TOOL_DeleteHandle(arc);
- func_020409B4(4);
+ BG_SYS_PushTile(4);
  FADE_Start(3,16,0,0);
  GFL_NET_RestartWithDefaultTimeout(0,p->heap);
  return 1;

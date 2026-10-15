@@ -12,8 +12,8 @@
  * sdk:      put_in_buffer (libcps.TWL.HYB.a network.o)
  * symbols:
  *   MI_CpuCopy                       0x02082ea4 arm
- *   g_021A826C                       0x021a826c data
- *   g_021A1CC0                       0x021a1cc0 data
+ *   gCpsNetVars                       0x021a826c data
+ *   gCpsUdpHeaderTemplate                       0x021a1cc0 data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
@@ -31,8 +31,8 @@ struct CPSGlobal {
     volatile u32 getpnt;
 };
 
-extern struct CPSGlobal g_021A826C;
-extern u8 g_021A1CC0[];
+extern struct CPSGlobal gCpsNetVars;
+extern u8 gCpsUdpHeaderTemplate[];
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 
 void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 size2)
@@ -41,38 +41,38 @@ void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 
     u32 new_putpnt;
     u16 blocklen;
 
-    if (g_021A826C.buf == 0 || g_021A826C.bufsize == 0)
+    if (gCpsNetVars.buf == 0 || gCpsNetVars.bufsize == 0)
         return;
     size = size1 + size2;
     if (size < 8 || size > 0x5e4)
         return;
-    if (buf1[0] != g_021A1CC0[0] || buf1[1] != g_021A1CC0[1] || buf1[2] != g_021A1CC0[2] || buf1[6] != 8)
+    if (buf1[0] != gCpsUdpHeaderTemplate[0] || buf1[1] != gCpsUdpHeaderTemplate[1] || buf1[2] != gCpsUdpHeaderTemplate[2] || buf1[6] != 8)
         return;
     if (buf1[7] != 0 && buf1[7] != 6)
         return;
     blocklen = (u16)((size + 9) & ~1);
-    new_putpnt = g_021A826C.putpnt + blocklen;
-    if (g_021A826C.putpnt < g_021A826C.getpnt && g_021A826C.getpnt <= new_putpnt)
+    new_putpnt = gCpsNetVars.putpnt + blocklen;
+    if (gCpsNetVars.putpnt < gCpsNetVars.getpnt && gCpsNetVars.getpnt <= new_putpnt)
         return;
-    if (new_putpnt == g_021A826C.bufsize) {
+    if (new_putpnt == gCpsNetVars.bufsize) {
         new_putpnt = 0;
-        if (g_021A826C.getpnt == 0)
+        if (gCpsNetVars.getpnt == 0)
             return;
-    } else if (new_putpnt > g_021A826C.bufsize) {
+    } else if (new_putpnt > gCpsNetVars.bufsize) {
         new_putpnt = blocklen;
-        if (g_021A826C.getpnt <= blocklen)
+        if (gCpsNetVars.getpnt <= blocklen)
             return;
     }
-    if (g_021A826C.putpnt + blocklen > g_021A826C.bufsize) {
-        if (g_021A826C.bufsize - g_021A826C.putpnt >= 2)
-            *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = 0;
-        g_021A826C.putpnt = 0;
+    if (gCpsNetVars.putpnt + blocklen > gCpsNetVars.bufsize) {
+        if (gCpsNetVars.bufsize - gCpsNetVars.putpnt >= 2)
+            *(u16 *)(gCpsNetVars.buf + gCpsNetVars.putpnt) = 0;
+        gCpsNetVars.putpnt = 0;
     }
-    *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = blocklen;
-    MI_CpuCopy(dstAddr, g_021A826C.buf + g_021A826C.putpnt + 2, 6);
-    MI_CpuCopy(srcAddr, g_021A826C.buf + g_021A826C.putpnt + 8, 6);
-    MI_CpuCopy(buf1 + 6, g_021A826C.buf + g_021A826C.putpnt + 14, size1 - 6);
+    *(u16 *)(gCpsNetVars.buf + gCpsNetVars.putpnt) = blocklen;
+    MI_CpuCopy(dstAddr, gCpsNetVars.buf + gCpsNetVars.putpnt + 2, 6);
+    MI_CpuCopy(srcAddr, gCpsNetVars.buf + gCpsNetVars.putpnt + 8, 6);
+    MI_CpuCopy(buf1 + 6, gCpsNetVars.buf + gCpsNetVars.putpnt + 14, size1 - 6);
     if (buf2 != 0 && size2 != 0)
-        MI_CpuCopy(buf2, g_021A826C.buf + g_021A826C.putpnt + 8 + size1, size2);
-    g_021A826C.putpnt = new_putpnt;
+        MI_CpuCopy(buf2, gCpsNetVars.buf + gCpsNetVars.putpnt + 8 + size1, size2);
+    gCpsNetVars.putpnt = new_putpnt;
 }

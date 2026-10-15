@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   func_021B7170  0x021B7170  thumb  ov071
+ *   MONOLITH_TOOL_Noop  0x021B7170  thumb  ov071
  */
 #include "../include/Obj00044.h"
 
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_021B7170(void *a);
+extern void MONOLITH_TOOL_Noop(void *a);
 
 void MONOLITH_TOOL_UpdateScrollArrows(u8 *p)
 {
@@ -31,6 +31,6 @@ void MONOLITH_TOOL_UpdateScrollArrows(u8 *p)
         CLACT_SetActorDrawEnable(((struct Obj00044 *)p)->f1C, 0);
     else
         CLACT_SetActorDrawEnable(((struct Obj00044 *)p)->f1C, 1);
-    func_021B7170(((struct Obj00044 *)p)->f18);
-    func_021B7170(((struct Obj00044 *)p)->f1C);
+    MONOLITH_TOOL_Noop(((struct Obj00044 *)p)->f18);
+    MONOLITH_TOOL_Noop(((struct Obj00044 *)p)->f1C);
 }

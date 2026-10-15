@@ -43,7 +43,7 @@
  *   d_021F31A8     0x021F31A8  data  ov029  a1
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   d_021F323C     0x021F323C  data  a1
  *   d_021F32B3 0x021F32B3 data a1
  *   d_021F3344     0x021F3344  data  a4
@@ -127,7 +127,7 @@
  *   BUTTON_MAN_Delete  0x02051C6C  arm
  *   CLACT_DeleteRenderer  0x0204B084  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   UI_GetPowerState 0x0203568C arm
  *   d_021F3520 0x021F3520 data a1
  *   GF_STANDARD_SetField00  0x0203F4CC  arm
@@ -262,7 +262,7 @@ extern int INTRUDE_COMM_GetRequestState(void *eventWork);
 extern void PALANM_CopyToSlot(struct PalAnm *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void MI_CpuFill8(void *, int, int);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 extern unsigned int WIPE_SYS_EndCheck(void);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void *ICA_ANIME_GetField20(const struct GameSystem *p);
@@ -322,7 +322,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void BUTTON_MAN_Delete(struct ButtonTask *task);
 extern void CLACT_DeleteRenderer(struct ActorResources *resources);
 extern u32 CLACT_DeleteUnit(struct ActorSystem *bank);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern int UI_GetPowerState(void);
 extern void GF_STANDARD_SetField00(RtcTime *time);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const CGearPos *delta, u32 which);
@@ -1437,7 +1437,7 @@ void C_GEAR_SetTileFlashStep(CGearTile *tile, int step)
         width = 0x20 - tileX;
     }
     BG_SYS_FillTileMap(4, tileX, tileY, width, 4, palette);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }
 
 
@@ -1806,7 +1806,7 @@ void C_GEAR_DrawEmptyBoard(CGearWork *work)
         for (j = 0; j < rows; j++)
             C_GEAR_DrawTile(work, i, j, 0);
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }
 
 
@@ -1997,7 +1997,7 @@ int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY)
         C_GEAR_TileToScreen(firstCol, firstRow, outX, outY);
         func_020091AC(work->hexMap, firstCol, firstRow, kind, 1, 0);
         C_GEAR_DrawTile(work, firstCol, firstRow, kind);
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         return 1;
     }
     return 0;
@@ -2025,7 +2025,7 @@ void C_GEAR_DrawAllCells(CGearWork *work)
         for (j = 0; j < rows; j++)
             C_GEAR_DrawTile(work, i, j, C_GEAR_GetCellKind(work, i, j));
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }
 
 
@@ -2151,7 +2151,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         func_02040588(6, 1);
         BG_SYS_SetVisibleLayer(6, 3);
         BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
     }
     {
         struct BgTemplate t = d_021F33AC;
@@ -2159,7 +2159,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         func_02040588(5, 1);
         BG_SYS_SetVisibleLayer(5, 1);
         BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
-        func_020409B4(5);
+        BG_SYS_PushTile(5);
     }
     {
         struct BgTemplate t = d_021F336C;
@@ -2167,7 +2167,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         func_02040588(4, 1);
         BG_SYS_SetVisibleLayer(4, 2);
         BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
     }
     C_GEAR_SetupSubScreenBlend(work);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
@@ -2221,7 +2221,7 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
             work->touchY = touchY;
             if ((C_GEAR_CountCellsOfKind(work, kind) > 1 || kind == 4) && C_GEAR_IsColumnRowValid(touchCol, touchRow) != 0) {
                 C_GEAR_SetCellKind(work, work->hexMap, touchCol, touchRow, (kind + 1) % 5);
-                func_020409B4(4);
+                BG_SYS_PushTile(4);
                 GFL_USE_PlaySeDefaultVolume(0x628);
             }
         } else if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
@@ -2689,9 +2689,9 @@ void C_GEAR_FreeGraphics(CGearWork *work)
     C_GEAR_DeleteActors(work);
     CLACT_DeleteRenderer(work->spriteResList);
     CLACT_DeleteUnit(work->spriteSystem);
-    func_020403F4(4);
-    func_020403F4(5);
-    func_020403F4(6);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
     func_02040588(4, 0);
     func_02040588(5, 0);
     func_02040588(6, 0);
@@ -3020,7 +3020,7 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
             for (i = 0; i < 0x600 / 2; i++) {
                 pal[i] += (u16)charBase;
             }
-            func_020409B4(5);
+            BG_SYS_PushTile(5);
         }
     }
     func_0200734C(saveSys, 4);
@@ -3446,7 +3446,7 @@ void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row
     }
     func_020091AC(hexMap, col, row, kind, 1, 0);
     C_GEAR_DrawTile(work, col, row, kind);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     C_GEAR_UpdateTileMarkers(work);
 }
 

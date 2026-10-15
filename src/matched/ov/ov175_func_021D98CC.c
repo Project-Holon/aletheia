@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8338 0x021E8338 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_StepPartyWindow 0x021E8338 thumb ov177
  */
 #include "../include/Obj24307.h"
 typedef struct Work Work;
-extern int func_021E8338(Work *);
+extern int WIFIBATTLEMATCH_VIEW_StepPartyWindow(Work *);
 int WIFIBATTLEMATCH_NET_IsRegSpriteReady(char *p)
 {
-    return func_021E8338(*(Work * *)&((struct Obj24307 *)p)->f24);
+    return WIFIBATTLEMATCH_VIEW_StepPartyWindow(*(Work * *)&((struct Obj24307 *)p)->f24);
 }

@@ -18,8 +18,8 @@
  */
 #include "../include/Obj24881.h"
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void *MI_CpuFill8(void *, int, unsigned);
 extern void BATTLE_REC_AllocWork(unsigned);
 typedef unsigned int   u32;
@@ -28,7 +28,7 @@ struct S;
 extern void BR_MAIN_InitSceneManager(struct S *p, u32 a, u32 b, u32 c);
 extern void BR_MAIN_SetDesiredScene(u8 *p, u32 v);
 extern const char d_0220B2A0[];
-int BR_MAIN_Init(struct Obj0203159C *a, unsigned unused, unsigned mode)
+int BR_MAIN_Init(struct Proc *a, unsigned unused, unsigned mode)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1, 0x59, 0x12000);

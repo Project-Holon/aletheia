@@ -43,7 +43,7 @@
  *   BR_UTIL_FlushText 0x021FC830 thumb ov186
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BR_SIDEBAR_StartSlide 0x021FEE74 thumb ov186
  *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
  *   BR_SIDEBAR_ResetPositions 0x021FEE9C thumb ov186
@@ -171,7 +171,7 @@
  *   BR_NET_GetSearchResultsForRanking 0x021FF6DC thumb ov186
  *   BR_NET_GetSearchResultsForNewest 0x021FF704 thumb ov186
  *   BR_NET_GetSearchResults 0x021FF6B4 thumb ov186
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   BMP_Create 0x02043678 arm
@@ -271,13 +271,13 @@
 #include "br_codein_types.h"
 #include "soc_types.h"
 
-struct Obj24810;
-struct Obj0203159C;
-struct S020315D4;
+struct BrProcQuery;
+struct Proc;
+struct Proc;
 struct PrintSys;
 struct Obj;
 struct Node;
-struct ObjC4;
+struct BattleRecSave;
 struct Big;
 struct Actor;
 struct Blk1AC;
@@ -290,7 +290,6 @@ struct CharBuf;
 struct State;
 struct StrObj;
 struct Strbuf;
-struct Obj020437AC;
 struct Struct36;
 struct Sub0204A9D0;
 struct Sub0200852CObj;
@@ -465,8 +464,8 @@ typedef union Config_021E111C {u64 wide;Point pair;} Config_021E111C;
 
 typedef struct Table {int head[4];SOCLResource pair;} Table;
 
-extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern unsigned BR_PROC_SYS_GetSlotId(struct BrProcQuery *p);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void * MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
@@ -475,7 +474,7 @@ extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTask(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void BR_UTIL_RunTask(u8 *p);
 extern void BR_UTIL_RunHandles(char *);
 extern int BR_UTIL_IsTaskIdle(int *);
@@ -494,7 +493,7 @@ extern int BR_UTIL_FlushText(u8 *p);
 extern void BR_PROC_SYS_PushEntry(unsigned *,unsigned);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BR_SIDEBAR_StartSlide(char *p);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
@@ -518,7 +517,7 @@ extern void func_02030EAC(struct Node *n);
 extern void BR_RES_LoadFadePalettes(char *p, void *owner, unsigned short heap);
 extern void * BMP_OAM_CreateSys(unsigned,void *);
 extern char * BATTLE_REC_GetHeader(void);
-extern struct ObjC4 *BATTLE_REC_GetWork(void);
+extern struct BattleRecSave *BATTLE_REC_GetWork(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void BR_UTIL_DeleteTextWin(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
@@ -593,7 +592,7 @@ extern void func_02045CAC(struct MsgBank *,u32,void *);
 extern int BR_NET_GetSearchResultsForRanking(char *p, void *buffer, int count, int *out);
 extern int BR_NET_GetSearchResultsForNewest(char *p, void *buffer, int count, int *out);
 extern int BR_NET_GetSearchResults(char *p, void *buffer, int count, int *out);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern Slot_021DB2E0 *BMP_MENUWORK_Create(u32,u32);
 extern void *BR_UTIL_CreateListMenu(const Config_021DF1DC *,u16);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -605,7 +604,7 @@ extern void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v);
 extern void BR_UTIL_RefreshList(char *p);
 extern int BR_UTIL_GetListMenuField(char *p, unsigned field);
 extern u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i);
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
@@ -665,14 +664,14 @@ extern void BR_CODEIN_GetMenuCallbacks(Point *);
 extern int BR_CODEIN_HitTestOptionA(char *,int,int),BR_CODEIN_HitTestOptionB(char *,int,int);
 extern int GDS_RAP_SaveVideoSeq(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
 int BR_CODEIN_SidebarCreate(int *task, int unused, char *p);
-int BR_CODEIN_SidebarDestroy(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p);
+int BR_CODEIN_SidebarDestroy(struct Proc *task,int b,int c,struct CodeinWorkB *p);
 int BR_CODEIN_SidebarMain(int a,int b,int c,struct CodeinWorkB *p);
 void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinWorkE *p);
 void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinWorkA *p);
 void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinWorkA *p);
 void BR_CODEIN_SidebarClearStep(int *task);
 int BR_CODEIN_ButtonCreate(int *task,int b,char *p);
-int BR_CODEIN_ButtonDestroy(struct S020315D4 *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p);
+int BR_CODEIN_ButtonDestroy(struct Proc *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p);
 int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *q);
 void BR_CODEIN_ButtonLoadFadePalettes(int a0, struct CodeinWorkF *p);
 int BR_CODEIN_RecordCreate(int *task,int *state,char *q);
@@ -706,7 +705,7 @@ int BR_CODEIN_RecordHitButtonB(char *p, int a, int b);
 int BR_CODEIN_RecordHitButtonC(char *p, int a, int b);
 int BR_CODEIN_RecordHitButtonD(char *p, int a, int b);
 int BR_CODEIN_ListCreate(void *a, int unused, char *q);
-int BR_CODEIN_ListDestroy(struct S020315D4 *a, int unused, char *q, char *p);
+int BR_CODEIN_ListDestroy(struct Proc *a, int unused, char *q, char *p);
 int BR_CODEIN_ListMain(void *unused,u32 *state,char *q,char *p);
 void BR_CODEIN_ListSetupText(struct CodeinWorkA *p, char *q);
 void BR_CODEIN_ListSetupRowA(char *p,char *q);
@@ -818,13 +817,13 @@ void BR_CODEIN_ProfileUpdateActor3(char *p);
 void BR_CODEIN_ProfileClear(char *p);
 int BR_CODEIN_ProfileFindActorIndex(char *p,int a);
 int BR_CODEIN_ProfileFindRecord(const char *p, int a);
-int BR_CODEIN_UploadCreate(struct Obj0203159C *obj,int unused,char *arg);
-int BR_CODEIN_UploadDestroy(struct S020315D4 *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p);
+int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg);
+int BR_CODEIN_UploadDestroy(struct Proc *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p);
 int BR_CODEIN_UploadMain(int a,int b,int c,struct CodeinWorkB *p);
 void BR_CODEIN_UploadStepFadeIn(int a,int *state,struct CodeinWorkB *p);
 void BR_CODEIN_UploadStepFadeOut(int *a,int *state,struct CodeinWorkB *p);
 void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinWorkB *p);
-int BR_CODEIN_SaveCreate(struct Obj0203159C *obj,int unused,char *arg);
+int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg);
 int BR_CODEIN_SaveDestroy(int obj,int b,char *arg,char *p);
 int BR_CODEIN_SaveMain(int a,int b,int c,struct CodeinWorkA *p);
 void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinWorkA *p);
@@ -908,7 +907,7 @@ int BR_CODEIN_SidebarCreate(int *task, int unused, char *p)
 {
     struct CodeinStateA *s;
     void *callback;
-    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0x20,BR_PROC_SYS_GetSlotId(((struct CodeinWorkA *)p)->f10));
+    s=PROCSYS_AllocProcWork((struct Proc *)task,0x20,BR_PROC_SYS_GetSlotId(((struct CodeinWorkA *)p)->f10));
     MI_CpuFill8(s,0,0x20);
     s->f1C=p;
     s->f4=BR_PROC_SYS_GetSlotId(((struct CodeinWorkA *)p)->f10);
@@ -938,7 +937,7 @@ int BR_CODEIN_SidebarCreate(int *task, int unused, char *p)
 
 
 
-int BR_CODEIN_SidebarDestroy(struct S020315D4 *task,int b,int c,struct CodeinWorkB *p) { BR_UTIL_DeleteHandles(*(char * *)&p->f14); BR_UTIL_DeleteHandles(*(char * *)&p->f18); PRINTSYS_QUE_Delete((*(void * *)&p->fC)); BR_UTIL_DeleteTask((void *)(p->f0)); func_020315D4(task); return 1; }
+int BR_CODEIN_SidebarDestroy(struct Proc *task,int b,int c,struct CodeinWorkB *p) { BR_UTIL_DeleteHandles(*(char * *)&p->f14); BR_UTIL_DeleteHandles(*(char * *)&p->f18); PRINTSYS_QUE_Delete((*(void * *)&p->fC)); BR_UTIL_DeleteTask((void *)(p->f0)); func_020315D4(task); return 1; }
 
 
 
@@ -991,7 +990,7 @@ void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinWorkE *p)
     case 5: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=6;break;
     case 6: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,15,0,4);*state=7;break;
     case 7: if(BR_FADE_GetResult(((struct CodeinSubA *)(p->f1C))->f8))*state=8;break;
-    case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(p->f8);*(int *)&p->f8=0;func_020409B4(4);*state=9;}break;
+    case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(p->f8);*(int *)&p->f8=0;BG_SYS_PushTile(4);*state=9;}break;
     case 9: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),3,3,0,48);BR_SIDEBAR_StartBounce((char *)(((struct CodeinSubA *)(p->f1C))->f14));*state=10;break;
     case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult((int *)(((struct CodeinSubA *)(p->f1C))->f8))&mask) {BR_UTIL_StartEffect((void *)(p->f18), 8, 0);*state=11;}break;}
     case 11: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(p->f1C))->f8)),2,3,1,1);*state=12;break;
@@ -1118,10 +1117,10 @@ void BR_CODEIN_SidebarClearStep(int *task)
 int BR_CODEIN_ButtonCreate(int *task,int b,char *p)
 {
     struct CodeinStateB *s;
-    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,24,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C)));
+    s=PROCSYS_AllocProcWork((struct Proc *)task,24,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinWorkB *)p)->f1C)));
     MI_CpuFill8(s,0,24);
     s->fC=p;
-    s->f14=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinWorkB *)p)->f1C));
+    s->f14=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinWorkB *)p)->f1C));
     BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)p)->f18,0);
     BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)p)->f18,1);
     BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)p)->f18),0,s->f14);
@@ -1152,7 +1151,7 @@ int BR_CODEIN_ButtonCreate(int *task,int b,char *p)
 /*
  * lever: Explicit call arms preserve the original conditional argument branch.
  */
-int BR_CODEIN_ButtonDestroy(struct S020315D4 *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); BR_UTIL_DeleteHandles(*(char * *)&p->f4); func_020315D4(task); return 1; }
+int BR_CODEIN_ButtonDestroy(struct Proc *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p) { if(q->f0<5) BR_RES_ApplyBgSet(q->f18,3); else BR_RES_ApplyBgSet(q->f18,4); BR_BTN_Delete(*(u8 * *)&p->f0); BR_UTIL_DeleteHandles(*(char * *)&p->f4); func_020315D4(task); return 1; }
 
 
 
@@ -1279,9 +1278,9 @@ int BR_CODEIN_RecordCreate(int *task,int *state,char *q)
 {
     char *p,*s;
     int i;
-    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14))));
+    p=PROCSYS_AllocProcWork((struct Proc *)task,0xe8,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char **)(q+0x14))));
     MI_CpuFill8(p,0,0xe8);
-    *(unsigned short *)(p+0xb4)=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14)));
+    *(unsigned short *)(p+0xb4)=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char **)(q+0x14)));
     *(int *)(p+0xb0)=0;
     *(char **)(p+0xd0)=q;
     *(void **)p=BMP_OAM_CreateSys(*(unsigned short *)(p+0xb4),*(void **)(q+0x18));
@@ -1352,8 +1351,8 @@ int BR_CODEIN_RecordDestroy(int task,int b,char *q,char *p)
     BR_CODEIN_RecordDeleteTextWin(p,q);
     BR_CODEIN_RecordTeardownTextWin(p,q);
     ((struct CodeinArgA *)q)->f4=((struct CodeinWorkB *)p)->fC8;
-    func_020409B4(4);
-    func_020409B4(1);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(1);
     if(((struct CodeinWorkB *)p)->f18) {
         BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)p)->f18,((struct CodeinSubA *)(((struct CodeinWorkB *)p)->fD0))->f10);
         ((struct CodeinWorkB *)p)->f18=0;
@@ -1362,7 +1361,7 @@ int BR_CODEIN_RecordDestroy(int task,int b,char *q,char *p)
     BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkB *)p)->f8)));
     PRINTSYS_QUE_Delete((*(void * *)&((struct CodeinWorkB *)p)->f4));
     BMP_OAM_DeleteSys((void *)(((struct CodeinWorkB *)p)->f0));
-    func_020315D4((struct S020315D4 *)task);
+    func_020315D4((struct Proc *)task);
     return 1;
 }
 
@@ -2190,7 +2189,7 @@ void BR_CODEIN_RecordDeleteActors(char *p,char *q)
             if(((struct CodeinWorkC *)slot)->f30) { BR_UTIL_Delete(((struct CodeinWorkC *)slot)->f30); *(int *)&((struct CodeinWorkC *)slot)->f30=0; }
         }
         BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10,6);
-        func_020409B4(1);
+        BG_SYS_PushTile(1);
         ((struct CodeinWorkB *)p)->fD4=0;
     }
 }
@@ -2253,7 +2252,7 @@ void BR_CODEIN_RecordDeleteButtons(char *p, char *q)
             slot=p+i*4;
             if(((struct CodeinSlotA *)slot)->f1C) { BR_BTN_DeleteObject(((struct CodeinSlotA *)slot)->f1C); *(int *)&((struct CodeinSlotA *)slot)->f1C=0; }
         }
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f10),6);
         BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10,5);
         ((struct CodeinWorkB *)p)->fD8=0;
@@ -2341,7 +2340,7 @@ void BR_CODEIN_RecordTeardownTextWin(char *p, char *q)
                 *(int *)&((struct CodeinWorkC *)slot)->f28 = 0;
             }
         }
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         BR_RES_ApplyBgSet(((struct CodeinArgA *)q)->f10, 30);
         if (((struct CodeinWorkB *)p)->f18) {
             BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)p)->f18, ((struct CodeinArgA *)q)->f10);
@@ -2527,9 +2526,9 @@ int BR_CODEIN_RecordHitButtonD(char *p, int a, int b)
  */
 int BR_CODEIN_ListCreate(void *a, int unused, char *q)
 {
-    struct CodeinWorkA *p = PROCSYS_AllocProcWork(a, 0x80, BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinArgA *)q)->fC)));
+    struct CodeinWorkA *p = PROCSYS_AllocProcWork(a, 0x80, BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinArgA *)q)->fC)));
     MI_CpuFill8(p, 0, 0x80);
-    p->f7C = BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct CodeinArgA *)q)->fC));
+    p->f7C = BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinArgA *)q)->fC));
     p->f0 = BMP_OAM_CreateSys(p->f7C, (*(void * *)&((struct CodeinArgA *)q)->f4));
     p->f4 = (void *)PRINTSYS_QUE_Create((void *)(p->f7C));
     p->f74 = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)q)->f4)), (char *)(((struct CodeinArgA *)q)->f8), 1, p->f7C);
@@ -2549,12 +2548,12 @@ int BR_CODEIN_ListCreate(void *a, int unused, char *q)
 
 
 
-int BR_CODEIN_ListDestroy(struct S020315D4 *a, int unused, char *q, char *p)
+int BR_CODEIN_ListDestroy(struct Proc *a, int unused, char *q, char *p)
 {
     BR_CODEIN_ListDeleteButtons(p, q);
     BR_CODEIN_ListTeardown(p, q);
-    func_020409B4(4);
-    func_020409B4(1);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(1);
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)q)->f8), 13);
     BR_UTIL_DeleteHandles(*(char * *)&((struct CodeinWorkA *)p)->f74);
     PRINTSYS_QUE_Delete(((struct CodeinWorkA *)p)->f4);
@@ -3229,8 +3228,8 @@ int BR_CODEIN_ResultDestroy(void *a, int b, char *q, struct CodeinWorkA *p)
 {
     BR_CODEIN_ResultTeardown(p, q);
     BR_CODEIN_ResultDeleteButtons(p, q);
-    func_020409B4(4);
-    func_020409B4(1);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(1);
     BR_UTIL_DeleteHandles(p->f64);
     PRINTSYS_QUE_Delete(p->f4);
     BMP_OAM_DeleteSys(p->f0);
@@ -3789,8 +3788,8 @@ void BR_CODEIN_StatTeardown(void *a, int b, struct CodeinWorkA *p)
     p->fC = 0;
     BR_UTIL_Delete(p->f8);
     p->f8 = 0;
-    func_020409B4(4);
-    func_020409B4(1);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(1);
     BR_BTN_DeleteObject(p->f4);
     p->f4 = 0;
     BR_RES_ReleaseSprite((*(void * *)&((struct CodeinSubA *)(p->f108))->f10), 6);
@@ -4035,7 +4034,7 @@ void BR_CODEIN_SearchCreateList(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 
     second=BR_RES_GetMsgData(res);
     MI_CpuFill8(p,0,0xd4);
     p->base=base;
-    p->words=GF_FONT_Create_EC64(heap);
+    p->words=WORDSET_CreateDefault(heap);
     p->c=a5;
     p->d=a6;
     p->list=BMP_MENUWORK_Create(*(u32 *)(base+0x1718),heap);
@@ -4082,7 +4081,7 @@ void BR_CODEIN_SearchDeleteList(char *p)
     unsigned int i;
     BR_CODEIN_SearchDeleteActor(p);
     for (i = 0; i < BR_UTIL_GetListMenuField(((struct CodeinWorkG *)p)->f4, 3); i++) {
-        BMP_Delete((struct Obj020437AC *)BR_UTIL_GetListItemBitmap(((struct CodeinWorkG *)p)->f4, i));
+        BMP_Delete((struct Bmp *)BR_UTIL_GetListItemBitmap(((struct CodeinWorkG *)p)->f4, i));
     }
     WORDSET_DeleteStrbufED04(((struct CodeinWorkG *)p)->f8);
     BR_UTIL_DeleteListMenu(((struct CodeinWorkG *)p)->f4);
@@ -4372,9 +4371,9 @@ int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *q)
 {
     struct CodeinWorkA *p;
     int i;
-    p = PROCSYS_AllocProcWork(obj, 0x58, BR_PROC_SYS_GetSlotId((struct Obj24810 *)(q->fC)));
+    p = PROCSYS_AllocProcWork(obj, 0x58, BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(q->fC)));
     MI_CpuFill8(p, 0, 0x58);
-    p->f54 = BR_PROC_SYS_GetSlotId((struct Obj24810 *)(q->fC));
+    p->f54 = BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(q->fC));
     p->f48 = (void *)PRINTSYS_QUE_Create((void *)(p->f54));
     (*(void * *)&p->f44) = BMP_OAM_CreateSys(p->f54, q->f4);
     (*(int *)&p->f38) = (int)BR_UTIL_CreateTextWin(q->f8, (void *)(*(int *)&p->f48), p->f54);
@@ -4503,7 +4502,7 @@ int BR_CODEIN_CodeDeleteButtons(char *p, struct CodeinArgA *q)
             *(void **)(p + i * 4 + 12) = 0;
         }
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     BR_RES_ApplyBgSet(q->f8, 26);
     return 1;
 }
@@ -4642,7 +4641,7 @@ int BR_CODEIN_CodeDeleteMenu(struct CodeinWorkB *p, struct CodeinArgA *q)
     BMP_MENUWORK_Delete(p->f14);
     p->f14 = 0;
     BR_RES_ApplyBgSet(q->f8, 27);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     return 1;
 }
 
@@ -4707,7 +4706,7 @@ int BR_CODEIN_CodeClosePokeSearch(struct CodeinWorkA *p)
 {
     BR_POKESEARCH_Close((*(void * *)&p->f1C));
     BR_POKESEARCH_Destroy((*(void * *)&p->f1C));
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     return 1;
 }
 
@@ -4793,7 +4792,7 @@ int BR_CODEIN_CodeDeletePokeList(struct CodeinWorkB *p, struct CodeinArgA *q)
     BMP_MENUWORK_Delete(p->f14);
     p->f14 = 0;
     BR_RES_ApplyBgSet(q->f8, 28);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     return 1;
 }
 
@@ -4870,7 +4869,7 @@ void BR_CODEIN_CodeSetupText(struct CodeinWorkA *p, int *q)
 /*
  * extent: final two bytes are alignment padding.
  */
-void BR_CODEIN_CodeDeleteText(char *p,struct CodeinArgA *q){int i;for(i=0;i<6;i++){if(*(void **)(p+i*4+0x20)){BR_UTIL_Delete(*(void **)(p+i*4+0x20));*(void **)(p+i*4+0x20)=0;}}BR_RES_ApplyBgSet(q->f8,25);func_020409B4(1);}
+void BR_CODEIN_CodeDeleteText(char *p,struct CodeinArgA *q){int i;for(i=0;i<6;i++){if(*(void **)(p+i*4+0x20)){BR_UTIL_Delete(*(void **)(p+i*4+0x20));*(void **)(p+i*4+0x20)=0;}}BR_RES_ApplyBgSet(q->f8,25);BG_SYS_PushTile(1);}
 
 
 
@@ -5465,7 +5464,7 @@ void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int 
         BMP_OAM_UploadChars((struct Obj *)((int)grid));
         BMP_OAM_SetObjMode((u8 *)((int)*slot),1);
     }
-    BMP_Delete((struct Obj020437AC *)handle);
+    BMP_Delete((struct Bmp *)handle);
     STRBUF_Delete((struct U16Vec *)source);
 }
 
@@ -6053,15 +6052,15 @@ int BR_CODEIN_ProfileFindRecord(const char *p, int a)
 
 
 
-int BR_CODEIN_UploadCreate(struct Obj0203159C *obj,int unused,char *arg)
+int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
 {
     struct CodeinWorkF *p;
     int i;
     Point pair;
-    p=PROCSYS_AllocProcWork(obj,32,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->fC)));
+    p=PROCSYS_AllocProcWork(obj,32,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->fC)));
     MI_CpuFill8(p,0,32);
     p->f18=arg;
-    p->f8=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->fC));
+    p->f8=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->fC));
     p->f4=(int)BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_UploadStepFadeIn,p->f8);
     p->f0=PRINTSYS_QUE_Create((void *)(p->f8));
     p->fC=(int)BR_UTIL_CreateTextWin(((struct CodeinArgC *)arg)->f8,(void *)(p->f0),p->f8);
@@ -6077,7 +6076,7 @@ int BR_CODEIN_UploadCreate(struct Obj0203159C *obj,int unused,char *arg)
 
 
 
-int BR_CODEIN_UploadDestroy(struct S020315D4 *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)p+i*4+16));BR_UTIL_DeleteTextWin(p->fC,q->f8);PRINTSYS_QUE_Delete(p->f0);BR_UTIL_DeleteTask((void *)((*(int *)&p->f4)));func_020315D4(a);return 1;}
+int BR_CODEIN_UploadDestroy(struct Proc *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)p+i*4+16));BR_UTIL_DeleteTextWin(p->fC,q->f8);PRINTSYS_QUE_Delete(p->f0);BR_UTIL_DeleteTask((void *)((*(int *)&p->f4)));func_020315D4(a);return 1;}
 
 
 
@@ -6182,15 +6181,15 @@ void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinWorkB *p) {
 
 
 
-int BR_CODEIN_SaveCreate(struct Obj0203159C *obj,int unused,char *arg)
+int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg)
 {
     char *p;
     int i;
     if (((struct CodeinArgC *)arg)->f0>=4) func_02034714(d_021E39B4,0,d_021E39B4);
-    p=PROCSYS_AllocProcWork(obj,40,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->f10)));
+    p=PROCSYS_AllocProcWork(obj,40,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->f10)));
     MI_CpuFill8(p,0,40);
     ((struct CodeinWorkC *)p)->f20=arg;
-    ((struct CodeinWorkC *)p)->f1C=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(((struct CodeinArgC *)arg)->f10));
+    ((struct CodeinWorkC *)p)->f1C=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->f10));
     ((struct CodeinWorkC *)p)->f8=(int)BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SaveStepFadeIn,((struct CodeinWorkC *)p)->f1C);
     ((struct CodeinWorkC *)p)->f0=PRINTSYS_QUE_Create((void *)(((struct CodeinWorkC *)p)->f1C));
     BR_CODEIN_SaveSetupText(p,(const Input *)arg);
@@ -6212,7 +6211,7 @@ int BR_CODEIN_SaveDestroy(int obj,int b,char *arg,char *p)
     else { BR_CODEIN_SaveDeleteTextWin(p,arg); BR_CODEIN_SaveTeardown(p,arg); }
     PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinWorkA *)p)->f0)));
     BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkA *)p)->f8)));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     return 1;
 }
 
@@ -6366,7 +6365,7 @@ void BR_CODEIN_SaveDeleteTextWin(char *p, char *a1)
 /*
  * extent: final two bytes are alignment padding.
  */
-void BR_CODEIN_SaveTeardown(char *p,char *q){int i;for(i=0;i<2;i++){if(*(void **)(p+i*4+12)){BR_UTIL_Delete(*(void **)(p+i*4+12));*(void **)(p+i*4+12)=0;}}func_020409B4(4);BR_RES_ApplyBgSet((*(int *)&((struct CodeinArgA *)q)->fC),30);}
+void BR_CODEIN_SaveTeardown(char *p,char *q){int i;for(i=0;i<2;i++){if(*(void **)(p+i*4+12)){BR_UTIL_Delete(*(void **)(p+i*4+12));*(void **)(p+i*4+12)=0;}}BG_SYS_PushTile(4);BR_RES_ApplyBgSet((*(int *)&((struct CodeinArgA *)q)->fC),30);}
 
 
 
@@ -6457,7 +6456,7 @@ int BR_CODEIN_SoclDestroy(int obj,int b,int c,char *p)
     BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkA *)p)->fC)));
     BMP_OAM_DeleteSys((void *)((*(int *)&((struct CodeinWorkA *)p)->f0)));
     BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(((struct CodeinWorkA *)p)->f3C))->f10));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     return 1;
 }
 
@@ -6816,7 +6815,7 @@ void BR_CODEIN_SoclTeardown(struct CodeinWorkA *p,struct CodeinArgA *q)
             *(int *)((char *)p+i*4+0x28)=0;
         }
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     BR_RES_ApplyBgSet(q->f8,0x1e);
     if (p->f8) {
         BR_UTIL_DeleteTextWin(p->f8,q->f8);

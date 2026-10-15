@@ -1,5 +1,5 @@
 /*
- * function: func_021DB938
+ * function: MYSTERY_ALBUM_DeleteSlotActor
  * address: 0x021DB938
  * packet: pkt_ov121_021DB938
  * region: ov121
@@ -36,7 +36,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
-void func_021DB938(char *p,int a,u16 index)
+void MYSTERY_ALBUM_DeleteSlotActor(char *p,int a,u16 index)
 {
     Rect rect;
     int y,x,tile;

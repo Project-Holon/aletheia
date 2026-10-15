@@ -25,7 +25,7 @@
  */
 #include "../include/Obj05564.h"
 typedef unsigned short u16;
-struct PrintSys;struct S02031140;struct S020315D4;struct WordSet;
+struct PrintSys;struct S02031140;struct Proc;struct WordSet;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct PrintSys *);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -33,8 +33,8 @@ extern void BG_SYS_SetLcdSwap(unsigned);
 extern int APP_KEYCURSOR_Delete(int);
 extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned WORDSET_DeleteStrbufED04(struct WordSet *);
-extern void func_021845A4(int),func_020315D4(struct S020315D4 *),GFL_HEAP_DeleteChecked(unsigned int);
-int BEACON_DETAIL_Exit(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
+extern void func_021845A4(int),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
+int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=((struct Obj05564 *)p)->f0;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);

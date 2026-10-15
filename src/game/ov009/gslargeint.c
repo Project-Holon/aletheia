@@ -28,8 +28,8 @@
  *   gsiLargeIntMultM                 0x0217E504 arm
  *   strlen                  0x0209477C  arm
  *   func_0208CF34                  0x0208CF34  arm
- *   g_021A3728                     0x021A3728  data
- *   g_021A3720                     0x021A3720  data
+ *   gGsLargeIntHexFormatNibble                     0x021A3728  data
+ *   gGsLargeIntHexFormatByte                     0x021A3720  data
  *   gsLargeIntReverseBytes           0x0217e934 arm
  *   GSMD5Update                      0x0218497c arm
  *   MSL_C_LIB_AllocFromHeap  0x020913D0  arm
@@ -86,8 +86,8 @@ int gsLargeIntReverseBytes(char *p);
 void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5);
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 extern GslTimer gTimers[9];
-extern char g_021A3728[];
-extern char g_021A3720[];
+extern char gGsLargeIntHexFormatNibble[];
+extern char gGsLargeIntHexFormatByte[];
 extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);
 extern void func_020913E8(void *p);
 extern void *MSL_C_LIB_ReallocResource(unsigned long a0, unsigned long a1);
@@ -837,9 +837,9 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
     lint->mData[lint->mLength - 1] = 0;
     while (len != 0) {
         if (len >= 2)
-            func_0208CF34(hexstream + len - 2, g_021A3720, &temp);
+            func_0208CF34(hexstream + len - 2, gGsLargeIntHexFormatByte, &temp);
         else
-            func_0208CF34(hexstream + len - 1, g_021A3728, &temp);
+            func_0208CF34(hexstream + len - 1, gGsLargeIntHexFormatNibble, &temp);
         if (byteIndex == 0)
             *writePos = 0;
         *writePos |= temp << (8 * byteIndex);

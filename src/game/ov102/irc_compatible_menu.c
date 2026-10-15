@@ -54,7 +54,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -117,7 +117,7 @@
  *   _ffix 0x0209C494 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -150,7 +150,7 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  *   BG_SYS_Init  0x02040C14  arm  arm9
@@ -320,7 +320,7 @@ extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(unsigned, unsigned, unsigned);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -347,7 +347,7 @@ extern void GF_FONT_InitTextColor(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create_EC64(u32 heap);
+extern void *WORDSET_CreateDefault(u32 heap);
 extern void func_02049B40(unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern void WORDSET_DeleteStrbufED04(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
@@ -361,7 +361,7 @@ extern void BMP_Clear(void *bmp, u8 value);
 extern void BMP_WIN_TransferChars(void *bmpWin);
 extern void BMP_WIN_MakeScreen(void *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
-extern void func_020409B4(u32 bgLayer);
+extern void BG_SYS_PushTile(u32 bgLayer);
 extern void STRBUF_Delete(void *strBuf);
 extern void BMP_WIN_Delete(void *bmpWin);
 extern int PRINTSYS_QUE_IsExistTarget(void *printQueue, void *bmp);
@@ -658,7 +658,7 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg)
     range = bg->charRange;
     BG_SYS_DeleteHalf(5, (u16)range, (u16)(range >> 16));
     BG_SYS_SetTileUnit(5, 1, 0);
-    for (i = 0; i < 8; i++) func_020403F4((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
+    for (i = 0; i < 8; i++) BG_SYS_FreeLayerBuf((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -732,7 +732,7 @@ void IRC_COMPATIBLE_MENU_InitText(IrcTextSystem *text, u16 heapId)
     text->font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
     text->msgData = func_02045B38(0, 2, 0x31, heapId);
-    text->wordSet = GF_FONT_Create_EC64(heapId);
+    text->wordSet = WORDSET_CreateDefault(heapId);
     func_02049B40(0x17, 5, 4, 0, 0x20, heapId);
     func_02049B40(0x17, 5, 0, 0, 0x20, heapId);
 }
@@ -782,7 +782,7 @@ void IRC_COMPATIBLE_MENU_InitTitleWindow(IrcWindow *win, int bgLayer, int x, u8 
     bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 void IRC_COMPATIBLE_MENU_InitWindow(IrcWindow *win, int bgLayer, int x, u8 y, u8 width, u8 height, u8 palette, u16 fillColor, u8 charBase, u16 heapId)
@@ -798,7 +798,7 @@ void IRC_COMPATIBLE_MENU_InitWindow(IrcWindow *win, int bgLayer, int x, u8 y, u8
     bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 void IRC_COMPATIBLE_MENU_ExitWindow(IrcWindow *win)
@@ -867,7 +867,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
         IRC_COMPATIBLE_MENU_SetHandler(work, IRC_COMPATIBLE_MENU_HandleOpen);
         IRC_APPBAR_Reset(work->appBar);
         IRC_APPBAR_SetLabel(work->appBar, 0);
-        func_020409B4(0);
+        BG_SYS_PushTile(0);
         IRC_COMPATIBLE_MENU_PrintMessage(&work->title, &work->text, 5, 0, 0);
         IRC_COMPATIBLE_MENU_ResetButtonPalettes(&work->buttons);
         return;
@@ -1057,7 +1057,7 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
         bmpWin = buttons->windows[i];
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
-        func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
         label = func_02045EC0(IRC_COMPATIBLE_MENU_TextGetMsgData(text), rows[i].msgId);
         GF_FONT_SetTextColor(15, 14, 4);
         width = func_0201D304(label, IRC_COMPATIBLE_MENU_TextGetFont(text), 0);
@@ -1113,10 +1113,10 @@ void IRC_COMPATIBLE_MENU_UpdateButtons(IrcButtons *buttons)
         }
         if (blink == 0) {
             BG_SYS_FillTileMap(bgLayer, x, y, width, height, blinkPalette);
-            func_020409B4(bgLayer);
+            BG_SYS_PushTile(bgLayer);
         } else {
             BG_SYS_FillTileMap(bgLayer, x, y, width, height, pressedPalette);
-            func_020409B4(bgLayer);
+            BG_SYS_PushTile(bgLayer);
         }
         (buttons->timer)++;
         if (buttons->timer >= 16) {
@@ -1170,7 +1170,7 @@ void IRC_COMPATIBLE_MENU_ResetButtonPalettes(IrcButtons *buttons)
         case 1: palette = 4; break;
         }
         BG_SYS_FillTileMap(bgLayer, x, y, width, height, palette);
-        func_020409B4(bgLayer);
+        BG_SYS_PushTile(bgLayer);
     }
 }
 

@@ -13,21 +13,21 @@
  * is absent, 1 when it was written.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
 
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 int DWC_SetConnectionClosedCallback(int a, int b)
 {
-    char *p = *(char **)(((char *)&g_021AA878) + 4);
+    char *p = *(char **)(((char *)&gDwcGlobalState) + 4);
 
     if (p == 0) return 0;
     *(int *)(p + 0x88) = a;
-    p = *(char **)(((char *)&g_021AA878) + 4);
+    p = *(char **)(((char *)&gDwcGlobalState) + 4);
     *(int *)(p + 0x8c) = b;
     return 1;
 }

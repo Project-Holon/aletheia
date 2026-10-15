@@ -12,7 +12,7 @@
  * sdk:      FreeFunc_SOCL (soc.o)
  *
  * symbols:
- *   g_021AA4BC   0x021aa4bc data
+ *   gSocStatics   0x021aa4bc data
  */
 
 #include "../include/G_SOCLAlloc.h"
@@ -24,7 +24,7 @@ typedef struct {
     void *(*alloc_)(int, unsigned long);
 } SOCLAlloc;
 
-extern struct SOCLAlloc g_021AA4BC;
+extern struct SOCLAlloc gSocStatics;
 
 static void FreeFunc_SOCL(void *ptr)
 {
@@ -33,5 +33,5 @@ static void FreeFunc_SOCL(void *ptr)
     if (ptr == 0)
         return;
     m = (unsigned long *)((char *)ptr - 4);
-    g_021AA4BC.free_(0, m, *m);
+    gSocStatics.free_(0, m, *m);
 }

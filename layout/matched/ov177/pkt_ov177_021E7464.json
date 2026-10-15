@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E7464",
+   "name": "WIFIBATTLEMATCH_VIEW_CreateActorFromInfo",
    "address": "0x021E7464",
    "kind": "game",
    "region": "ov177",

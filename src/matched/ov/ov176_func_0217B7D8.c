@@ -16,7 +16,7 @@
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   REGULATION_GetCard 0x0200B1D4 thumb
- *   func_021E88B0 0x021E88B0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateMenu 0x021E88B0 thumb ov177
  */
 #include "../include/Obj01762.h"
 #include "../include/Obj24405.h"
@@ -36,7 +36,7 @@ extern void *BATTLE_COMPETITION_GetFromSave(void *);
 struct Rec160;
 extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
 extern void MI_CpuFill8(void *,int,u32);
-extern void *func_021E88B0(Menu *,u8,u8,u8,u32,int);
+extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(Menu *,u8,u8,u8,u32,int);
 static inline void selected(Menu *rec,void *base,int index)
 {
     char *mon;
@@ -75,6 +75,6 @@ void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *p, int index)
     case 0: width=28;height=(rec.count&127)*2;x=2;y=9-(height>>1);break;
     case 1: width=12;height=(rec.count&127)*2;x=19;y=17-height;break;
     }
-    ((struct Obj01762 *)p)->f4=func_021E88B0(&rec,x,y,width,height,((struct Obj01762 *)p)->f34);
+    ((struct Obj01762 *)p)->f4=WIFIBATTLEMATCH_UTIL_CreateMenu(&rec,x,y,width,height,((struct Obj01762 *)p)->f34);
     ((struct Obj01762 *)p)->f8=index;
 }

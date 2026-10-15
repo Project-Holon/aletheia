@@ -12,7 +12,7 @@
  * sdk:      AllocFunc_SOCL (soc.o)
  *
  * symbols:
- *   g_021AA4BC   0x021aa4bc data
+ *   gSocStatics   0x021aa4bc data
  */
 
 #include "../include/G_SOCLAlloc.h"
@@ -24,14 +24,14 @@ typedef struct {
     void *(*alloc_)(int, unsigned long);
 } SOCLAlloc;
 
-extern struct SOCLAlloc g_021AA4BC;
+extern struct SOCLAlloc gSocStatics;
 
 static void *AllocFunc_SOCL(unsigned long size)
 {
     unsigned long *m;
     unsigned long msize = size + 4;
 
-    m = (unsigned long *)g_021AA4BC.alloc_(0, msize);
+    m = (unsigned long *)gSocStatics.alloc_(0, msize);
     if (m != 0)
         *m++ = msize;
     return m;

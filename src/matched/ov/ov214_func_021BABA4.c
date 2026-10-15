@@ -1,5 +1,5 @@
 /*
- * function: func_021BABA4, func_021BABB8
+ * function: BTL_REC_SEL_DeleteActor, BTL_REC_SEL_SetMode
  * unit: yes
  * address: 0x021BABA4
  * packet: pkt_ov214_021BABA4
@@ -23,12 +23,12 @@ extern const Pair d_021BB4C4[];
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
-void func_021BABA4(void*p,void*actor)
+void BTL_REC_SEL_DeleteActor(void*p,void*actor)
 {
     CLACT_DeleteActor(actor);
     UI_SCENE_FreeActorGfx(p);
 }
-void func_021BABB8(int unused,char*p)
+void BTL_REC_SEL_SetMode(int unused,char*p)
 {
     u8 i=((struct Obj08422 *)p)->f2B0;
     if(i>=0x29)i=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E567C
+ * function: WIFIBATTLEMATCH_VIEW_Create
  * address: 0x021E567C
  * packet: pkt_ov177_021E567C
  * region: ov177
@@ -26,8 +26,8 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   func_02040618 0x02040618 arm
- *   func_021E58A4 0x021E58A4 thumb ov177
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   WIFIBATTLEMATCH_VIEW_LoadBgPalette 0x021E58A4 thumb ov177
  */
 typedef unsigned int   u32;
 typedef unsigned short u16;
@@ -49,10 +49,10 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_021E58A4(int unused, int mode, unsigned color);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color);
 
-u32 *func_021E567C(int unused, int mode, int heap)
+u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
 {
     u32 *w;
     u32 c;
@@ -71,7 +71,7 @@ u32 *func_021E567C(int unused, int mode, int heap)
     func_02049B68(h, 0, 4, 0, 0, c);
     func_02049658(h, 2, 3, 0, 0, 0, c);
     func_02049658(h, 2, 7, 0, 0, 0, c);
-    func_021E58A4((int)w, mode, heap);
+    WIFIBATTLEMATCH_VIEW_LoadBgPalette((int)w, mode, heap);
     w[0] = CLACT_RegisterPalette(h, 1, 0, 0, c);
     w[2] = CLACT_RegisterCharacter(h, 3, 0, 0, c);
     w[4] = CLACT_RegisterCellAnim(h, 4, 0xb, c);
@@ -92,9 +92,9 @@ u32 *func_021E567C(int unused, int mode, int heap)
     BG_SYS_Init(0, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xd, 0, c);
     BMP_MENUWORK_LoadCharAndPltt(0, 0xa, 0xe, 0, c);
-    func_02040618(2, 0, -256);
-    func_02040618(1, 0, -256);
-    func_02040618(6, 0, -256);
-    func_02040618(m, 0, -256);
+    BG_SYS_FillScrollArea(2, 0, -256);
+    BG_SYS_FillScrollArea(1, 0, -256);
+    BG_SYS_FillScrollArea(6, 0, -256);
+    BG_SYS_FillScrollArea(m, 0, -256);
     return w;
 }

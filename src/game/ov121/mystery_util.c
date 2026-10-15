@@ -1,7 +1,7 @@
 /*
  * file:     mystery_util.c
  * unit:     yes
- * function: func_021D99A4, func_021D9A40, func_021D9A58, func_021D9A64, func_021D9AC8, func_021D9B28, func_021D9B2C, func_021D9B34, func_021D9B9C, func_021D9BC0, func_021D9BE8, func_021D9CA4, func_021D9D4C, func_021D9E04, func_021D9E50, func_021D9F08, func_021D9F24, func_021D9FF8, func_021D9FFC, func_021DA010, func_021DA038, func_021DA148, func_021DA178, func_021DA1BC, func_021DA280, func_021DA2A8, func_021DA2C8, func_021DA2F0, func_021DA318, func_021DA338, func_021DA3C0, func_021DA3EC, func_021DA4A8, func_021DA4DC, func_021DA698, func_021DA6D0, func_021DA840, func_021DA84C, func_021DA854, func_021DA890, func_021DA898, func_021DA8AC, func_021DA8B0, func_021DA8B8, func_021DA8C0, func_021DA8C4, func_021DA8CC, func_021DA958, func_021DA978, func_021DA994, func_021DA9EC, func_021DA9F0, func_021DA9F8, func_021DAA28, func_021DAAA4, func_021DAB50, func_021DAC18, func_021DAE1C, func_021DAEF0, func_021DAFCC, func_021DB008, func_021DB018, func_021DB3E8, func_021DB478, func_021DB528, func_021DB54C, func_021DB938, func_021DBA78, func_021DBA94, func_021DBC08, func_021DBCC8, func_021DBDB8, func_021DBDBC, func_021DBDF4, func_021DBEE4, func_021DBF04, func_021DBF08, func_021DBF10, func_021DBF40, func_021DBF70, func_021DBF9C, func_021DBFE4, func_021DC004, func_021DC024, func_021DC02C, func_021DC030, func_021DC03C, func_021DC064, func_021DC08C, func_021DC4F0, func_021DC734, func_021DC9CC, func_021DCCE4, func_021DCEC4, func_021DCF54, func_021DCFA4, func_021DCFC8, func_021DD1FC, func_021DD240, func_021DD24C
+ * function: MYSTERY_UTIL_CreateWindow, MYSTERY_UTIL_DeleteWindow, MYSTERY_UTIL_ClearWindow, MYSTERY_UTIL_ShowMessage, MYSTERY_UTIL_ShowString, MYSTERY_UTIL_SetColor, MYSTERY_UTIL_SetPosition, MYSTERY_UTIL_IsMessageDone, MYSTERY_UTIL_TransferWindowChars, MYSTERY_UTIL_ComputeTextPosition, MYSTERY_UTIL_AlignText, MYSTERY_UTIL_CreateMenuWindow, MYSTERY_UTIL_CreateMenuWindow2, MYSTERY_UTIL_DeleteMenuWindow, MYSTERY_UTIL_UpdateMenuWindow, MYSTERY_UTIL_SetMenuMessage, MYSTERY_UTIL_SetMenuMode, MYSTERY_UTIL_GetMenuState, MYSTERY_UTIL_DrawMenuWindow, MYSTERY_UTIL_ResetMenuWindow, MYSTERY_UTIL_CreateMenu, MYSTERY_UTIL_DeleteMenu, MYSTERY_UTIL_UpdateMenu, MYSTERY_UTIL_CreateWindowList, MYSTERY_UTIL_DeleteWindowList, MYSTERY_UTIL_ClearWindowList, MYSTERY_UTIL_IsWindowListDone, MYSTERY_UTIL_ClearListWindow, MYSTERY_UTIL_TransferWindowList, MYSTERY_UTIL_CreateBmpList, MYSTERY_UTIL_DeleteBmpList, MYSTERY_UTIL_DrawBmpList, MYSTERY_UTIL_CopyBmpList, MYSTERY_UTIL_CreateDetailWindow, MYSTERY_UTIL_DeleteDetailWindow, MYSTERY_UTIL_SetVoice, MYSTERY_UTIL_Update, MYSTERY_UTIL_SetListValue, MYSTERY_UTIL_CreateTask, MYSTERY_UTIL_DeleteTask, MYSTERY_UTIL_DispatchTask, MYSTERY_UTIL_GetTaskField04, MYSTERY_UTIL_SetTaskHandler, MYSTERY_UTIL_MarkTaskDone, MYSTERY_UTIL_SetTaskArg, MYSTERY_UTIL_GetTaskArg, MYSTERY_UTIL_CreateTaskEx, MYSTERY_UTIL_DeleteActorPair, MYSTERY_UTIL_UpdateActorPair, MYSTERY_UTIL_SetActorPairText, MYSTERY_UTIL_SetFlag, MYSTERY_UTIL_SetVec, MYSTERY_UTIL_IsMenuFinished, MYSTERY_UTIL_BuildPaletteRow, MYSTERY_UTIL_BlendPalette, MYSTERY_UTIL_BlendPaletteRange, MYSTERY_ALBUM_Create, MYSTERY_ALBUM_DeleteWork, MYSTERY_ALBUM_Update, MYSTERY_ALBUM_UpdateWindows, MYSTERY_ALBUM_GetWindowState, MYSTERY_ALBUM_Setup, MYSTERY_ALBUM_Cleanup, MYSTERY_ALBUM_SetCursor, MYSTERY_ALBUM_UpdateSlots, MYSTERY_ALBUM_SetupSlot, MYSTERY_ALBUM_DeleteSlotActor, MYSTERY_ALBUM_StartScroll, MYSTERY_ALBUM_UpdateScroll, MYSTERY_ALBUM_RemoveCard, MYSTERY_ALBUM_SwapCards, MYSTERY_ALBUM_GetColumnCount, MYSTERY_ALBUM_CountValidCards, MYSTERY_ALBUM_SetupEntry, MYSTERY_ALBUM_ClearEntry, MYSTERY_ALBUM_IsEntryValid, MYSTERY_ALBUM_GetEntryBmp, MYSTERY_ALBUM_CreateEntryArc, MYSTERY_ALBUM_GetEntryArcId, MYSTERY_ALBUM_GetEntryIconPalette, MYSTERY_ALBUM_GetEntryGraphicIndex, MYSTERY_ALBUM_GetEntrySpeciesId, MYSTERY_ALBUM_GetEntryFormId, MYSTERY_ALBUM_GetEntryKind, MYSTERY_ALBUM_GetEntryCard, MYSTERY_ALBUM_GetEntryEggFlag, MYSTERY_ALBUM_GetEntryIconX, MYSTERY_ALBUM_GetEntryIconY, MYSTERY_ALBUM_SelectHandler, MYSTERY_ALBUM_ConfirmHandler, MYSTERY_ALBUM_InfoHandler, MYSTERY_ALBUM_MoveHandler, MYSTERY_ALBUM_SaveHandler, MYSTERY_ALBUM_SingleHandler, MYSTERY_ALBUM_SetupIconSprite, MYSTERY_ALBUM_UpdateIconSprite, MYSTERY_ALBUM_CreateSlotWork, MYSTERY_ALBUM_DeleteSlotWork, MYSTERY_ALBUM_UpdateSlotWork, MYSTERY_ALBUM_CreateAlbumView
  * address:  0x021D99A4
  * region:   ov121
  * compiler: dsi/1.1p1
@@ -24,7 +24,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
  *   BMP_WIN_Delete  0x020452E8  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -67,7 +67,7 @@
  *   func_02061CA4 0x02061CA4 arm
  *   func_02082A7C 0x02082A7C arm
  *   func_0203084C 0x0203084C arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DF8FC 0x021DF8FC data a4
@@ -254,7 +254,187 @@
 #include "../../matched/include/Obj01930.h"
 #include "../../matched/include/Obj22906.h"
 #include "../../matched/include/Obj00237.h"
-#include "mystery_graphic_shared_types.h"
+#include "mystery_net_types.h"
+
+/*
+ * Text window drawn through the BMP_WIN subsystem (mystery_util.c). Allocated
+ * 0x28 bytes by MYSTERY_UTIL_Create; shown and hidden through MYSTERY_UTIL_ShowMessage.
+ */
+typedef struct MysteryUtilWindow {
+    void *bmpWin;           /* 0x00 BMP_WIN handle */
+    unsigned char visible;  /* 0x04 set once the text has been queued */
+    void *printOwner;       /* 0x08 owner passed to PRINTSYS_PrintQueColor */
+    void *bmpWin2;          /* 0x0C second BMP_WIN handle (same as bmpWin) */
+    void *textBuf;          /* 0x10 STRBUF text buffer */
+    unsigned short textParam; /* 0x14 */
+    unsigned short color;   /* 0x16 palette slot / colour word */
+    int posX;               /* 0x18 */
+    int posY;               /* 0x1C */
+    int mode;               /* 0x20 layout mode for MYSTERY_UTIL_AlignText */
+    unsigned int variant;   /* 0x24 window variant */
+} MysteryUtilWindow;
+
+/*
+ * Scrollable text window with a TCBL renderer and a PRINTSYS print stream
+ * (mystery_util.c). Allocated 0x40 bytes by MYSTERY_UTIL_CreateMenuWindow.
+ */
+typedef struct MysteryUtilMenuWindow {
+    void *handler;          /* 0x00 handler/vtable slot (guess) */
+    unsigned int printArg;    /* 0x04 */
+    void *printStream;      /* 0x08 PRINTSYS_PrintStream handle */
+    void *tcbl;             /* 0x0C TCBL text renderer */
+    void *bmpWin;           /* 0x10 BMP_WIN handle */
+    void *textBuf;          /* 0x14 STRBUF */
+    unsigned short height;  /* 0x18 */
+    unsigned short heapTag; /* 0x1A */
+    void *bmpWin2;          /* 0x1C BMP_WIN handle used by PRINTSYS_PrintQue */
+    unsigned char visible;  /* 0x20 */
+    unsigned int elementSlot;   /* 0x24 */
+    unsigned int state;     /* 0x28 */
+    unsigned int result;   /* 0x2C */
+    void *keyCursor;        /* 0x30 APP_KEYCURSOR handle */
+    unsigned char ctrl[8];  /* 0x34 PRINTSYS_CTRL block */
+    void *timeIcon;         /* 0x3C TIME_ICON handle */
+} MysteryUtilMenuWindow;
+
+/*
+ * Table of text windows (mystery_util.c). Built by MYSTERY_UTIL_CreateWindowList; the
+ * descriptor table is an array of MysteryUtilMenuEntry, 24 bytes each.
+ */
+typedef struct MysteryUtilWindowList {
+    const char *desc;       /* 0x00 descriptor table */
+    unsigned int count;     /* 0x04 number of windows */
+    int printOwner;             /* 0x08 */
+    int msgBank;             /* 0x0C */
+    void *items[1];         /* 0x10 text windows */
+} MysteryUtilWindowList;
+
+/* One entry of the descriptor table read by MYSTERY_UTIL_CreateWindowList / MYSTERY_UTIL_DrawBmpList. */
+typedef struct MysteryUtilMenuEntry {
+    union {
+        unsigned int flags;     /* 0x00 read as a u32 by MYSTERY_UTIL_DrawBmpList */
+        unsigned char bytes[4]; /* 0x00 four u8 BMP parameters by MYSTERY_UTIL_CreateWindowList */
+    } u0;
+    int messageId;              /* 0x04 func_02045CAC index */
+    int stringId;               /* 0x08 STRBUF source */
+    int layoutMode;             /* 0x0C mode for MYSTERY_UTIL_AlignText */
+    short posX;                 /* 0x10 */
+    short posY;                 /* 0x12 */
+    unsigned short color;       /* 0x14 palette slot */
+} MysteryUtilMenuEntry;
+
+/*
+ * Table of BMP buffers copied from a MysteryUtilWindowList (mystery_util.c).
+ * Built by MYSTERY_UTIL_CreateBmpList, 0x08 bytes of header then one BMP per window.
+ */
+typedef struct MysteryUtilBmpList {
+    unsigned short heapId;  /* 0x00 */
+    void *srcList;          /* 0x04 MysteryUtilWindowList */
+    void *bmps[1];          /* 0x08 BMP buffers */
+} MysteryUtilBmpList;
+
+/*
+ * Menu window with a BMP_MENULIST and a BMP_MENUWORK (mystery_util.c).
+ * Allocated 0x18 bytes by MYSTERY_UTIL_CreateMenu.
+ */
+typedef struct MysteryUtilMenu {
+    void *bmpWin;           /* 0x00 BMP_WIN handle */
+    unsigned int printOwner;    /* 0x04 print owner */
+    void *bmpWin2;          /* 0x08 BMP_WIN handle */
+    unsigned char winFlag;   /* 0x0C */
+    void *menuList;         /* 0x10 BMP_MENULIST handle */
+    void *menuWork;         /* 0x14 BMP_MENUWORK handle */
+} MysteryUtilMenu;
+
+/* Read-only menu definition passed to MYSTERY_UTIL_CreateMenu. */
+typedef struct MysteryUtilMenuDef {
+    unsigned int menuTable;    /* 0x00 */
+    unsigned int messageTable;    /* 0x04 */
+    unsigned int printOwner;    /* 0x08 */
+    unsigned char pad0C[12];
+    unsigned int count;     /* 0x18 number of message items */
+    unsigned short bgLayer; /* 0x1C */
+    unsigned short palette; /* 0x1E */
+    unsigned short windowX; /* 0x20 */
+    unsigned short windowY; /* 0x22 */
+} MysteryUtilMenuDef;
+
+/* One Mystery Gift card as embedded in a MysteryAlbumEntry (0xCC bytes). */
+typedef struct MysteryAlbumCard {
+    unsigned int arcId;        /* 0x00 */
+    unsigned char pad02[0x16];
+    unsigned short species;     /* 0x1A */
+    unsigned char form;         /* 0x1C */
+    unsigned char pad1D[0x18];
+    unsigned char gender;      /* 0x35 */
+    unsigned char pad36[0x26];
+    unsigned char isEgg;      /* 0x5C */
+    unsigned char pad5D[0x56];
+    unsigned char giftType;     /* 0xB3 */
+    unsigned char padB4[0x18];
+} MysteryAlbumCard;
+
+/* One album slot on the Mystery Gift select screen (0xDC bytes). */
+typedef struct MysteryAlbumEntry {
+    int valid;                  /* 0x00 card present flag */
+    MysteryAlbumCard card;      /* 0x04 card record */
+    void *bmp;                  /* 0xD0 icon BMP */
+    unsigned char padD4[8];     /* 0xD4 */
+} MysteryAlbumEntry;
+
+/*
+ * Root work object of the Mystery Gift album select screen (mystery_album.c
+ * original, held in this file). Allocated 0xC70 bytes by MYSTERY_ALBUM_Create.
+ */
+typedef struct MysteryAlbumWork {
+    unsigned int mode;              /* 0x00 */
+    unsigned int param4;            /* 0x04 */
+    unsigned int param8;            /* 0x08 */
+    void *cardList;                 /* 0x0C MYSTERY_DATA card list */
+    void *windowParamA;                  /* 0x10 */
+    void *windowParamB;                  /* 0x14 */
+    unsigned int param18;           /* 0x18 */
+    unsigned int bank;           /* 0x1C */
+    unsigned int saveParam;           /* 0x20 */
+    unsigned short heapId;          /* 0x24 */
+    unsigned char pad26[2];
+    MysteryAlbumEntry items[12];    /* 0x28 one per card slot */
+    int refreshFlag;                /* 0xA78 */
+    void *slots[12];                /* 0xA7C selected album handles */
+    void *selectedAlbum;            /* 0xAAC */
+    void *menuWork;                 /* 0xAB0 */
+    void *infoWindow;                 /* 0xAB4 */
+    void *windowList;               /* 0xAB8 MysteryUtilWindowList */
+    void *menuWindow;                 /* 0xABC */
+    void *menu;                 /* 0xAC0 */
+    void *task;                 /* 0xAC4 */
+    int cursorIndex;                /* 0xAC8 */
+    unsigned int cursorMode;        /* 0xACC */
+    unsigned int flipFlag;          /* 0xAD0 */
+    unsigned int dirty;          /* 0xAD4 */
+    unsigned int scrollTimer;          /* 0xAD8 */
+    signed char scrollDir;           /* 0xADC */
+    unsigned char padADD;
+    unsigned short swapIndex;        /* 0xADE */
+    int introActive;                   /* 0xAE0 */
+    int introMode;                   /* 0xAE4 */
+    unsigned char padAE8[4];
+    void *actorA;                   /* 0xAEC */
+    void *actorB;                   /* 0xAF0 */
+    void *actorC;                   /* 0xAF4 */
+    void *actorD;                   /* 0xAF8 */
+    void *charHandle;                 /* 0xAFC */
+    void *cellAnimHandle;                 /* 0xB00 */
+    void *paletteHandle;                 /* 0xB04 */
+    void *windows[8];               /* 0xB08 BMP_WIN handles */
+    void *actors[8];                /* 0xB28 CLACT actors */
+    unsigned int charHandles[8];    /* 0xB48 CLACT character handles */
+    unsigned int cellAnimHandles[8];/* 0xB68 CLACT cell-anim handles */
+    unsigned int paletteHandles[8]; /* 0xB88 CLACT palette handles */
+    void *bgPaletteHandle;                 /* 0xBA8 */
+    unsigned short angle;           /* 0xBAC */
+    unsigned char tail[0xC70 - 0xBAE]; /* 0xBAE icon sprites */
+} MysteryAlbumWork;
 
 #define W(k) (*(u32 *)(p+(k)))
 
@@ -291,8 +471,6 @@ struct Grid;
 struct Param;
 
 struct Actor;
-
-struct Obj_021DB938;
 
 struct PtS;
 
@@ -375,8 +553,6 @@ typedef struct {u32 w[51];} Record_021D9624;
 
 typedef struct {u32 w[12];} Desc_021DAB50;
 
-typedef struct Obj_021DAE1C { char pad[0xa7c]; char *slots[12]; } Obj_021DAE1C;
-
 typedef struct Item_021D9624 { char raw[0xdc]; } Item_021D9624;
 
 typedef struct Obj_021DAEF0 { char pad[0x28]; Item_021D9624 items[12]; char tail[0xacc-0x28-12*0xdc]; volatile int index; } Obj_021DAEF0;
@@ -398,35 +574,6 @@ typedef union Rect_021DB938 { u16 h[4]; u8 b[8]; } Rect_021DB938;
 typedef struct Item_021DB938 {
     unsigned char raw[0xDC];
 } Item_021DB938;
-
-typedef struct Obj_021DB938 {
-    unsigned char pad00[0xC];
-    void *list;
-    unsigned char pad10[0x14];
-    u16 f24;
-    unsigned char pad26[2];
-    Item_021DB938 items[12];
-    unsigned char pad[0xA7C - 0x28 - 12 * 0xDC];
-    void *slots[12];
-    unsigned char padAAC[0xAD4 - 0xAAC];
-    int dirty;
-} Obj_021DB938;
-
-typedef struct Obj_021DBCC8 {
-    unsigned char pad00[0xC];
-    void *list;
-    unsigned char pad10[0x10];
-    void *ctx;
-    u16 f24;
-    unsigned char pad26[2];
-    Item_021DB938 items[12];
-    unsigned char pad[0xA7C - 0x28 - 12 * 0xDC];
-    void *slots[12];
-    unsigned char padAAC[4];
-    void *desc;
-    unsigned char padAB4[0xAD4 - 0xAB4];
-    int dirty;
-} Obj_021DBCC8;
 
 typedef struct { u32 w[51]; } Record_021DB938;
 
@@ -566,7 +713,7 @@ extern void BMP_WIN_MakeScreen(void *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(void *p);
 
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern u32 BMP_WIN_Delete(void *d);
 
@@ -684,7 +831,7 @@ extern void func_02082A7C(int, void *,int);
 
 extern void *func_0203084C(u32 heapId);
 
-extern void func_02040618(u32,u32,u32);
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
 
 extern u32 MYSTERY_DATA_GetCardSlotNum(void *);
 
@@ -852,205 +999,205 @@ extern void *POKE_TOOL_GetBoxParam(void *p);
 
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 
-void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap);
+void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap);
 
-void func_021D9A40(u8 *p);
+void MYSTERY_UTIL_DeleteWindow(u8 *p);
 
-void func_021D9A58(u8 *p);
+void MYSTERY_UTIL_ClearWindow(u8 *p);
 
-void func_021D9A64(u8 *p, u16 a, int b, int c);
+void MYSTERY_UTIL_ShowMessage(u8 *p, u16 a, int b, int c);
 
-void func_021D9AC8(u8 *p, int a, int b);
+void MYSTERY_UTIL_ShowString(u8 *p, int a, int b);
 
-void func_021D9B28(u8 *p,unsigned v);
+void MYSTERY_UTIL_SetColor(u8 *p,unsigned v);
 
-void func_021D9B2C(char *p, u32 a, u32 b, int c);
+void MYSTERY_UTIL_SetPosition(char *p, u32 a, u32 b, int c);
 
-int func_021D9B34(u8 *p);
+int MYSTERY_UTIL_IsMessageDone(u8 *p);
 
-void func_021D9B9C(u8 *p);
+void MYSTERY_UTIL_TransferWindowChars(u8 *p);
 
-void func_021D9BC0(const u8 *p,int a,Pair_021D9624 *out);
+void MYSTERY_UTIL_ComputeTextPosition(const u8 *p,int a,Pair_021D9624 *out);
 
-void func_021D9BE8(u32 mode, const Pair_021D9624 *in, const void *bitmap, void *obj, int a, Pair_021D9624 *out);
+void MYSTERY_UTIL_AlignText(u32 mode, const Pair_021D9624 *in, const void *bitmap, void *obj, int a, Pair_021D9624 *out);
 
-void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
+void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, void *c, void *d, u16 heap);
 
-void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap);
+void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, void *c, void *d, u16 heap);
 
-void func_021D9E04(u8 *p);
+void MYSTERY_UTIL_DeleteMenuWindow(u8 *p);
 
-void func_021D9E50(u8 *p);
+void MYSTERY_UTIL_UpdateMenuWindow(u8 *p);
 
-void func_021D9F08(u8 *a, int b, int c, int d);
+void MYSTERY_UTIL_SetMenuMessage(u8 *a, int b, int c, int d);
 
-void func_021D9F24(u8 *p,int mode);
+void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode);
 
-unsigned func_021D9FF8(u8 *p);
+unsigned MYSTERY_UTIL_GetMenuState(u8 *p);
 
-void func_021D9FFC(u8 *p, int a, int b);
+void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b);
 
-void func_021DA010(u8 *p);
+void MYSTERY_UTIL_ResetMenuWindow(u8 *p);
 
-void *func_021DA038(const u8 *p,u16 heap);
+void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap);
 
-void func_021DA148(u8 *p);
+void MYSTERY_UTIL_DeleteMenu(u8 *p);
 
-int func_021DA178(char *p);
+int MYSTERY_UTIL_UpdateMenu(char *p);
 
-void *func_021DA1BC(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap);
+void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap);
 
-void func_021DA280(u8 *p);
+void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 
-void func_021DA2A8(u8 *p);
+void MYSTERY_UTIL_ClearWindowList(u8 *p);
 
-int func_021DA2C8(u8 *p);
+int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 
-void func_021DA2F0(u8 *p,u32 i);
+void MYSTERY_UTIL_ClearListWindow(u8 *p,u32 i);
 
-void func_021DA318(u8 *p);
+void MYSTERY_UTIL_TransferWindowList(u8 *p);
 
-void *func_021DA338(char *p,u16 heap);
+void *MYSTERY_UTIL_CreateBmpList(char *p,u16 heap);
 
-void func_021DA3C0(u8 *p);
+void MYSTERY_UTIL_DeleteBmpList(u8 *p);
 
-void func_021DA3EC(char *p,char *desc,void *dst);
+void MYSTERY_UTIL_DrawBmpList(char *p,char *desc,void *dst);
 
-void func_021DA4A8(u8 *p);
+void MYSTERY_UTIL_CopyBmpList(u8 *p);
 
-struct Out_021D9624 *func_021DA4DC(const struct In *in, u16 heap);
+struct Out_021D9624 *MYSTERY_UTIL_CreateDetailWindow(const struct In *in, u16 heap);
 
-void func_021DA698(u8 *p);
+void MYSTERY_UTIL_DeleteDetailWindow(u8 *p);
 
-int func_021DA6D0(u8 *p);
+int MYSTERY_UTIL_SetVoice(u8 *p);
 
-int func_021DA840(void **p);
+int MYSTERY_UTIL_Update(void **p);
 
-void func_021DA84C(u8 *p,u32 i,u32 value);
+void MYSTERY_UTIL_SetListValue(u8 *p,u32 i,u32 value);
 
-void *func_021DA854(void *a,void *b,u16 heap);
+void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap);
 
-void func_021DA890(void *p);
+void MYSTERY_UTIL_DeleteTask(void *p);
 
-void func_021DA898(char *p);
+void MYSTERY_UTIL_DispatchTask(char *p);
 
-int func_021DA8AC(u32 *p);
+int MYSTERY_UTIL_GetTaskField04(u32 *p);
 
-void func_021DA8B0(u32 *p,u32 a);
+void MYSTERY_UTIL_SetTaskHandler(u32 *p,u32 a);
 
-void func_021DA8B8(u32 *p);
+void MYSTERY_UTIL_MarkTaskDone(u32 *p);
 
-void func_021DA8C0(u32 *p,u32 a);
+void MYSTERY_UTIL_SetTaskArg(u32 *p,u32 a);
 
-void func_021DA8C4(u32 *p);
+void MYSTERY_UTIL_GetTaskArg(u32 *p);
 
-void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap);
+void *MYSTERY_UTIL_CreateTaskEx(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap);
 
-void func_021DA958(u8 *p);
+void MYSTERY_UTIL_DeleteActorPair(u8 *p);
 
-void func_021DA978(char *p);
+void MYSTERY_UTIL_UpdateActorPair(char *p);
 
-void func_021DA994(char *p,int a,int b,int c);
+void MYSTERY_UTIL_SetActorPairText(char *p,int a,int b,int c);
 
-void func_021DA9EC(u8 *p,int a);
+void MYSTERY_UTIL_SetFlag(u8 *p,int a);
 
-void func_021DA9F0(u32 *p,u32 a,u32 b,u32 c);
+void MYSTERY_UTIL_SetVec(u32 *p,u32 a,u32 b,u32 c);
 
-int func_021DA9F8(u8 *p);
+int MYSTERY_UTIL_IsMenuFinished(u8 *p);
 
-void func_021DAA28(char *p,int a,int *out);
+void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out);
 
-s32 func_021DAAA4(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2);
+s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2);
 
-void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 
-char *func_021DAC18(const Input *src,u16 heap);
+char *MYSTERY_ALBUM_Create(const Input *src,u16 heap);
 
-void func_021DAE1C(Obj_021DAE1C *obj);
+void MYSTERY_ALBUM_DeleteWork(MysteryAlbumWork *obj);
 
-void func_021DAEF0(Obj_021DAEF0 *obj);
+void MYSTERY_ALBUM_Update(Obj_021DAEF0 *obj);
 
-void func_021DAFCC(char *p);
+void MYSTERY_ALBUM_UpdateWindows(char *p);
 
-int func_021DB008(char *p);
+int MYSTERY_ALBUM_GetWindowState(char *p);
 
-void func_021DB018(u8 *p, u16 heap);
+void MYSTERY_ALBUM_Setup(u8 *p, u16 heap);
 
-void func_021DB3E8(char *p);
+void MYSTERY_ALBUM_Cleanup(char *p);
 
-void func_021DB478(char *p,int a,int b,int c,u16 heap);
+void MYSTERY_ALBUM_SetCursor(char *p,int a,int b,int c,u16 heap);
 
-void func_021DB528(char *p,int a);
+void MYSTERY_ALBUM_UpdateSlots(char *p,int a);
 
-void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap);
+void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap);
 
-void func_021DB938(char *p,int a,u16 index);
+void MYSTERY_ALBUM_DeleteSlotActor(char *p,int a,u16 index);
 
-void func_021DBA78(u8 *p,int a);
+void MYSTERY_ALBUM_StartScroll(u8 *p,int a);
 
-int func_021DBA94(char *p);
+int MYSTERY_ALBUM_UpdateScroll(char *p);
 
-void func_021DBC08(Obj_021DB938 *o, int idx);
+void MYSTERY_ALBUM_RemoveCard(MysteryAlbumWork *o, int idx);
 
-void func_021DBCC8(Obj_021DBCC8 *o, u32 a, u32 b);
+void MYSTERY_ALBUM_SwapCards(MysteryAlbumWork *o, u32 a, u32 b);
 
-int func_021DBDB8(char *p);
+int MYSTERY_ALBUM_GetColumnCount(char *p);
 
-u32 func_021DBDBC(u32 p);
+u32 MYSTERY_ALBUM_CountValidCards(u32 p);
 
-void func_021DBDF4(char *out,const Record_021DB938 *src,char *p,u16 heap);
+void MYSTERY_ALBUM_SetupEntry(char *out,const Record_021DB938 *src,char *p,u16 heap);
 
-void func_021DBEE4(u32 p);
+void MYSTERY_ALBUM_ClearEntry(u32 p);
 
-int func_021DBF04(int *p);
+int MYSTERY_ALBUM_IsEntryValid(int *p);
 
-void *func_021DBF08(void *p);
+void *MYSTERY_ALBUM_GetEntryBmp(void *p);
 
-void *func_021DBF10(void *p,u16 heap);
+void *MYSTERY_ALBUM_CreateEntryArc(void *p,u16 heap);
 
-u32 func_021DBF40(void *p);
+u32 MYSTERY_ALBUM_GetEntryArcId(void *p);
 
-u32 func_021DBF70(void *p);
+u32 MYSTERY_ALBUM_GetEntryIconPalette(void *p);
 
-int func_021DBF9C(void *p);
+int MYSTERY_ALBUM_GetEntryGraphicIndex(void *p);
 
-int func_021DBFE4(void *p);
+int MYSTERY_ALBUM_GetEntrySpeciesId(void *p);
 
-int func_021DC004(void *p);
+int MYSTERY_ALBUM_GetEntryFormId(void *p);
 
-int func_021DC024(void *p);
+int MYSTERY_ALBUM_GetEntryKind(void *p);
 
-char *func_021DC02C(void *p);
+char *MYSTERY_ALBUM_GetEntryCard(void *p);
 
-int func_021DC030(u32 p);
+int MYSTERY_ALBUM_GetEntryEggFlag(u32 p);
 
-int func_021DC03C(void *p);
+int MYSTERY_ALBUM_GetEntryIconX(void *p);
 
-int func_021DC064(void *p);
+int MYSTERY_ALBUM_GetEntryIconY(void *p);
 
-void func_021DC08C(void *task,u32 *state,char *p);
+void MYSTERY_ALBUM_SelectHandler(void *task,u32 *state,char *p);
 
-void func_021DC4F0(void *task,u32 *state,u8 *p);
+void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p);
 
-void func_021DC734(void *task,u32 *state,char *p);
+void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p);
 
-void func_021DC9CC(void *task,u32 *state,char *p);
+void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p);
 
-void func_021DCCE4(void *arg,u32 *state,char *p);
+void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p);
 
-void func_021DCEC4(void *arg,int *state,char *p);
+void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,char *p);
 
-void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap);
+void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u16 heap);
 
-void func_021DCFA4(u8 *p,int b,int c,u16 d);
+void MYSTERY_ALBUM_UpdateIconSprite(u8 *p,int b,int c,u16 d);
 
-void *func_021DCFC8(const Desc_021DCFC8 *p,u16 heap);
+void *MYSTERY_ALBUM_CreateSlotWork(const Desc_021DCFC8 *p,u16 heap);
 
-void func_021DD1FC(void **p);
+void MYSTERY_ALBUM_DeleteSlotWork(void **p);
 
-int func_021DD240(void **p);
+int MYSTERY_ALBUM_UpdateSlotWork(void **p);
 
-struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, u16 heap);
+struct Out_021DC030 *MYSTERY_ALBUM_CreateAlbumView(Record_021DD24C *a, struct CtxB *b, void *c, u16 heap);
 
 extern const char d_021DFBA0[];
 
@@ -1090,88 +1237,88 @@ extern u8 g0209DF0C;
 
 extern void *gSpeciesNameBank;
 
-void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
+void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
 {
     u8 *p;
     void *q;
     p = func_02030734(heap, 0x28, 0, d_021DFBA0, 0x55);
     MI_CpuFill8(p, 0, 0x28);
-    ((struct Obj01929 *)p)->f8 = h;
-    ((struct Obj01929 *)p)->f14 = b;
-    ((struct Obj01929 *)p)->f16 = 0x440;
-    ((struct Obj01929 *)p)->f24 = a;
-    ((struct Obj01929 *)p)->f10 = STRBUF_Create(0x200, heap);
+    ((MysteryUtilWindow *)p)->printOwner = (void *)h;
+    ((MysteryUtilWindow *)p)->textParam = b;
+    ((MysteryUtilWindow *)p)->color = 0x440;
+    ((MysteryUtilWindow *)p)->variant = a;
+    ((MysteryUtilWindow *)p)->textBuf = STRBUF_Create(0x200, heap);
     q = (void *)BMP_WIN_Create((u8)b, (u16)c, (u16)d, (u8)e, f, g, 1);
-    ((struct Obj01929 *)p)->fC = q;
-    ((struct Obj01929 *)p)->f0 = q;
+    ((MysteryUtilWindow *)p)->bmpWin2 = q;
+    ((MysteryUtilWindow *)p)->bmpWin = q;
     p[4] = 0;
-    BMP_Clear(BMP_WIN_GetBmp(q), ((struct Obj01929 *)p)->f16 & 31);
-    if (((struct Obj01929 *)p)->f24 == 0) {
-        BMP_WIN_TransferChars(((struct Obj01929 *)p)->fC);
-        BMP_WIN_MakeScreen(((struct Obj01929 *)p)->fC);
-        func_020409B4(BMP_WIN_GetBgLayer(((struct Obj01929 *)p)->fC));
+    BMP_Clear(BMP_WIN_GetBmp(q), ((MysteryUtilWindow *)p)->color & 31);
+    if (((MysteryUtilWindow *)p)->variant == 0) {
+        BMP_WIN_TransferChars(((MysteryUtilWindow *)p)->bmpWin2);
+        BMP_WIN_MakeScreen(((MysteryUtilWindow *)p)->bmpWin2);
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(((MysteryUtilWindow *)p)->bmpWin2));
     }
     return p;
 }
 
-void func_021D9A40(u8 *p)
+void MYSTERY_UTIL_DeleteWindow(u8 *p)
 {
-    BMP_WIN_Delete(((struct Obj13950 *)p)->fC);
-    STRBUF_Delete(((struct Obj13950 *)p)->f10);
+    BMP_WIN_Delete(((MysteryUtilWindow *)p)->bmpWin2);
+    STRBUF_Delete(((MysteryUtilWindow *)p)->textBuf);
     func_020307B0(p);
 }
 
-void func_021D9A58(u8 *p) { BMP_WIN_ClearScreen(((struct Obj22875 *)p)->fC); }
+void MYSTERY_UTIL_ClearWindow(u8 *p) { BMP_WIN_ClearScreen(((MysteryUtilWindow *)p)->bmpWin2); }
 
 /*
  * extent: two zero padding bytes at 0x021D9AC6.
  */
-void func_021D9A64(u8 *p, u16 a, int b, int c)
+void MYSTERY_UTIL_ShowMessage(u8 *p, u16 a, int b, int c)
 {
     Pair_021D9624 xy;
     void *q;
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01057 *)p)->fC), ((struct Obj01057 *)p)->f16 & 31);
-    func_02045CAC((struct MsgBank *)a, b, ((struct Obj01057 *)p)->f10);
-    func_021D9BC0(p, c, &xy);
-    q = ((struct Obj01057 *)p)->f8;
-    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
-                 (u32)(((struct Obj01057 *)p)->f10), c, ((struct Obj01057 *)p)->f16);
+    BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin2), ((MysteryUtilWindow *)p)->color & 31);
+    func_02045CAC((struct MsgBank *)a, b, ((MysteryUtilWindow *)p)->textBuf);
+    MYSTERY_UTIL_ComputeTextPosition(p, c, &xy);
+    q = ((MysteryUtilWindow *)p)->printOwner;
+    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
+                 (u32)(((MysteryUtilWindow *)p)->textBuf), c, ((MysteryUtilWindow *)p)->color);
     p[4] = 1;
 }
 
 /*
  * extent: two zero padding bytes at 0x021D9B26.
  */
-void func_021D9AC8(u8 *p, int a, int b)
+void MYSTERY_UTIL_ShowString(u8 *p, int a, int b)
 {
     Pair_021D9624 xy;
     void *q;
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj01057 *)p)->fC), ((struct Obj01057 *)p)->f16 & 31);
-    STRBUF_Copy(((struct Obj01057 *)p)->f10, (struct U16Vec *)a);
-    func_021D9BC0(p, b, &xy);
-    q = ((struct Obj01057 *)p)->f8;
-    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
-                 (u32)(((struct Obj01057 *)p)->f10), b, ((struct Obj01057 *)p)->f16);
+    BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin2), ((MysteryUtilWindow *)p)->color & 31);
+    STRBUF_Copy(((MysteryUtilWindow *)p)->textBuf, (struct U16Vec *)a);
+    MYSTERY_UTIL_ComputeTextPosition(p, b, &xy);
+    q = ((MysteryUtilWindow *)p)->printOwner;
+    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
+                 (u32)(((MysteryUtilWindow *)p)->textBuf), b, ((MysteryUtilWindow *)p)->color);
     p[4] = 1;
 }
 
-void func_021D9B28(u8 *p,unsigned v) { ((struct Obj22876 *)p)->f16=v; }
+void MYSTERY_UTIL_SetColor(u8 *p,unsigned v) { ((MysteryUtilWindow *)p)->color=v; }
 
-void func_021D9B2C(char *p, u32 a, u32 b, int c)
+void MYSTERY_UTIL_SetPosition(char *p, u32 a, u32 b, int c)
 {
     *(u32 *)(p + 0x18) = a;
     *(u32 *)(p + 0x1c) = b;
     *(u32 *)(p + 0x20) = c;
 }
 
-int func_021D9B34(u8 *p)
+int MYSTERY_UTIL_IsMessageDone(u8 *p)
 {
     u32 q;
-    if (((struct Obj02179 *)p)->f24 == 0) {
-        q = ((struct Obj02179 *)p)->f8;
+    if (((MysteryUtilWindow *)p)->variant == 0) {
+        q = (u32)((MysteryUtilWindow *)p)->printOwner;
         if (p[4]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02179 *)p)->f0))) == 0) {
-                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj02179 *)p)->f0);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilWindow *)p)->bmpWin))) == 0) {
+                BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilWindow *)p)->bmpWin);
                 p[4] = 0;
             }
         }
@@ -1179,7 +1326,7 @@ int func_021D9B34(u8 *p)
         return 0;
     } else {
         if (p[4]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj02179 *)p)->f8), (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02179 *)p)->f0))) == 0)
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((MysteryUtilWindow *)p)->printOwner), (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilWindow *)p)->bmpWin))) == 0)
                 p[4] = 0;
         }
         if (p[4] == 0) return 1;
@@ -1187,11 +1334,11 @@ int func_021D9B34(u8 *p)
     }
 }
 
-void func_021D9B9C(u8 *p) {
-    BMP_WIN_TransferChars(((struct Obj08092 *)p)->fC);
-    if(((struct Obj08092 *)p)->f24==1) {
-        BMP_WIN_MakeScreen(((struct Obj08092 *)p)->fC);
-        func_02041B6C(BMP_WIN_GetBgLayer(((struct Obj08092 *)p)->fC));
+void MYSTERY_UTIL_TransferWindowChars(u8 *p) {
+    BMP_WIN_TransferChars(((MysteryUtilWindow *)p)->bmpWin2);
+    if(((MysteryUtilWindow *)p)->variant==1) {
+        BMP_WIN_MakeScreen(((MysteryUtilWindow *)p)->bmpWin2);
+        func_02041B6C(BMP_WIN_GetBgLayer(((MysteryUtilWindow *)p)->bmpWin2));
     }
 }
 
@@ -1199,16 +1346,16 @@ void func_021D9B9C(u8 *p) {
  * note: const record pointer settles stack-store schedule;
  *       two trailing zero alignment bytes.
  */
-void func_021D9BC0(const u8 *p,int a,Pair_021D9624 *out) {
-    void *bitmap=BMP_WIN_GetBmp(((struct Obj01057 *)p)->fC);
-    func_021D9BE8(((struct Obj01057 *)p)->f20,(const Pair_021D9624 *)(p+0x18),bitmap,((struct Obj01057 *)p)->f10,a,out);
+void MYSTERY_UTIL_ComputeTextPosition(const u8 *p,int a,Pair_021D9624 *out) {
+    void *bitmap=BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin2);
+    MYSTERY_UTIL_AlignText(((MysteryUtilWindow *)p)->mode,(const Pair_021D9624 *)(p+0x18),bitmap,((MysteryUtilWindow *)p)->textBuf,a,out);
 }
 
 /*
  * extent: two zero padding bytes at 0x021D9CA2.
  * lever: the two-coordinate copy in case 0 is a Pair_021D9624 assignment.
  */
-void func_021D9BE8(u32 mode, const Pair_021D9624 *in, const void *bitmap, void *obj, int a, Pair_021D9624 *out)
+void MYSTERY_UTIL_AlignText(u32 mode, const Pair_021D9624 *in, const void *bitmap, void *obj, int a, Pair_021D9624 *out)
 {
     int x;
     int y;
@@ -1251,9 +1398,9 @@ static inline void *allocate(u16 heap, u32 size, const char *site, u16 line)
  *   The stack heap then loads as a word and the entry block keeps the original order
  *   (lsls of the line constant after the heap load). See
  *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
- *   Twin: ov177 func_021E8568.
+ *   Twin: ov177 WIFIBATTLEMATCH_UTIL_Create.
  */
-void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap)
+void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     void *q;
@@ -1272,7 +1419,7 @@ void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap)
     q = *(void **)(p + 0x10);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
     *(void **)(p + 0xc) = TCBL_Create(heap, heap, 1, 32);
     return p;
 }
@@ -1282,9 +1429,9 @@ void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap)
  *   (func_02030734 first parameter, STRBUF_Create second, TCBL_Create first two) declares it u16.
  *   The stack heap then loads as a word and the entry block keeps the original order. See
  *   docs/idioms/a-u16-heap-parameter-with-u16-callees-loads-as-a-word-and-keeps-the-entry-order.md.
- *   Twin: ov121 func_021D9CA4.
+ *   Twin: ov121 MYSTERY_UTIL_CreateMenuWindow.
  */
-void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
+void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     struct Descriptor *q;
@@ -1304,125 +1451,125 @@ void *func_021D9D4C(int a, u8 b, void *c, void *d, u16 heap)
     q = *(struct Descriptor **)(p + 0x10);
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen((struct Cfg *)q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
     *(struct Tcbl **)(p + 0xc) = TCBL_Create(heap, heap, 1, 32);
     return p;
 }
 
-void func_021D9E04(u8 *p)
+void MYSTERY_UTIL_DeleteMenuWindow(u8 *p)
 {
-    if (((struct Obj02180 *)p)->f8) {
-        PRINTSYS_PrintStreamDelete(((struct Obj02180 *)p)->f8);
-        ((struct Obj02180 *)p)->f8 = 0;
+    if (((MysteryUtilMenuWindow *)p)->printStream) {
+        PRINTSYS_PrintStreamDelete(((MysteryUtilMenuWindow *)p)->printStream);
+        ((MysteryUtilMenuWindow *)p)->printStream = 0;
     }
-    if (((struct Obj02180 *)p)->f3C) {
-        TIME_ICON_Delete(((struct Obj02180 *)p)->f3C);
-        ((struct Obj02180 *)p)->f3C = 0;
+    if (((MysteryUtilMenuWindow *)p)->timeIcon) {
+        TIME_ICON_Delete(((MysteryUtilMenuWindow *)p)->timeIcon);
+        ((MysteryUtilMenuWindow *)p)->timeIcon = 0;
     }
-    if (((struct Obj02180 *)p)->f30) APP_KEYCURSOR_Delete((int)(((struct Obj02180 *)p)->f30));
-    TCBL_Destroy(((struct Obj02180 *)p)->fC);
-    BMP_MENUWORK_DrawWindowBorder(((struct Obj02180 *)p)->f10, 0);
-    BMP_WIN_Delete(((struct Obj02180 *)p)->f10);
-    STRBUF_Delete(((struct Obj02180 *)p)->f14);
+    if (((MysteryUtilMenuWindow *)p)->keyCursor) APP_KEYCURSOR_Delete((int)(((MysteryUtilMenuWindow *)p)->keyCursor));
+    TCBL_Destroy(((MysteryUtilMenuWindow *)p)->tcbl);
+    BMP_MENUWORK_DrawWindowBorder(((MysteryUtilMenuWindow *)p)->bmpWin, 0);
+    BMP_WIN_Delete(((MysteryUtilMenuWindow *)p)->bmpWin);
+    STRBUF_Delete(((MysteryUtilMenuWindow *)p)->textBuf);
     func_020307B0(p);
 }
 
 /*
  * extent: two trailing zero padding bytes at 0x021D9F06.
  */
-void func_021D9E50(u8 *p)
+void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
 {
     u32 q;
-    switch (((struct Obj00909 *)p)->f28) {
+    switch (((MysteryUtilMenuWindow *)p)->state) {
     case 2:
-        q = ((struct Obj00909 *)p)->f24;
+        q = ((MysteryUtilMenuWindow *)p)->elementSlot;
         if (p[0x20]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00909 *)p)->f1C))) == 0) {
-                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00909 *)p)->f1C);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
+                BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2);
                 p[0x20] = 0;
             }
         }
         break;
     case 0:
-        q = ((struct Obj00909 *)p)->f24;
+        q = ((MysteryUtilMenuWindow *)p)->elementSlot;
         if (p[0x20]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00909 *)p)->f1C))) == 0) {
-                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00909 *)p)->f1C);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
+                BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2);
                 p[0x20] = 0;
             }
         }
-        ((struct Obj00909 *)p)->f2C = p[0x20] == 0 ? 1 : 0;
+        ((MysteryUtilMenuWindow *)p)->result = p[0x20] == 0 ? 1 : 0;
         break;
     case 1:
-        if (((struct Obj00909 *)p)->f8) {
-            if (((struct Obj00909 *)p)->f30)
-                APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj00909 *)p)->f30), (void *)(((struct Obj00909 *)p)->f8), (void *)(((struct Obj00909 *)p)->f10));
-            if (PRINTSYS_CTRL_Update((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
-                ((struct Obj00909 *)p)->f2C = 1;
+        if (((MysteryUtilMenuWindow *)p)->printStream) {
+            if (((MysteryUtilMenuWindow *)p)->keyCursor)
+                APP_KEYCURSOR_Update((struct Ctx *)(((MysteryUtilMenuWindow *)p)->keyCursor), (void *)(((MysteryUtilMenuWindow *)p)->printStream), (void *)(((MysteryUtilMenuWindow *)p)->bmpWin));
+            if (PRINTSYS_CTRL_Update((struct Blk *)(p + 0x34), (void *)(((MysteryUtilMenuWindow *)p)->printStream)))
+                ((MysteryUtilMenuWindow *)p)->result = 1;
         }
         break;
     case 3:
         break;
     }
-    TCBL_Main((struct Tcbl *)(((struct Obj00909 *)p)->fC));
+    TCBL_Main((struct Tcbl *)(((MysteryUtilMenuWindow *)p)->tcbl));
 }
 
-void func_021D9F08(u8 *a, int b, int c, int d)
+void MYSTERY_UTIL_SetMenuMessage(u8 *a, int b, int c, int d)
 {
-    func_02045CAC((struct MsgBank *)b, c, ((struct Obj00236 *)a)->f14);
-    func_021D9F24(a, d);
+    func_02045CAC((struct MsgBank *)b, c, ((MysteryUtilMenuWindow *)a)->textBuf);
+    MYSTERY_UTIL_SetMenuMode(a, d);
 }
 
-void func_021D9F24(u8 *p,int mode)
+void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
 {
     u32 q;
-    BMP_Clear(BMP_WIN_GetBmp(((struct Obj00236 *)p)->f10),((struct Obj00236 *)p)->f18);
-    if(((struct Obj00236 *)p)->f8) {
-        PRINTSYS_PrintStreamDelete(((struct Obj00236 *)p)->f8);
-        ((struct Obj00236 *)p)->f8=0;
+    BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin),((MysteryUtilMenuWindow *)p)->height);
+    if(((MysteryUtilMenuWindow *)p)->printStream) {
+        PRINTSYS_PrintStreamDelete(((MysteryUtilMenuWindow *)p)->printStream);
+        ((MysteryUtilMenuWindow *)p)->printStream=0;
     }
-    if(((struct Obj00236 *)p)->f30) {
-        APP_KEYCURSOR_Delete((int)(((struct Obj00236 *)p)->f30));
-        ((struct Obj00236 *)p)->f30=0;
+    if(((MysteryUtilMenuWindow *)p)->keyCursor) {
+        APP_KEYCURSOR_Delete((int)(((MysteryUtilMenuWindow *)p)->keyCursor));
+        ((MysteryUtilMenuWindow *)p)->keyCursor=0;
     }
-    func_021DA010(p);
+    MYSTERY_UTIL_ResetMenuWindow(p);
     switch(mode) {
     case 2:
-        ((struct Obj00236 *)p)->f3C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj00236 *)p)->f10,((struct Obj00236 *)p)->f18,16,((struct Obj00236 *)p)->f1A);
-        q=((struct Obj00236 *)p)->f24;
-        PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((struct Obj00236 *)p)->f1C),0,0,((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4);
+        ((MysteryUtilMenuWindow *)p)->timeIcon=TIME_ICON_Create((void *)func_020056BC(),((MysteryUtilMenuWindow *)p)->bmpWin,((MysteryUtilMenuWindow *)p)->height,16,((MysteryUtilMenuWindow *)p)->heapTag);
+        q=((MysteryUtilMenuWindow *)p)->elementSlot;
+        PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg);
         p[0x20]=1;
-        ((struct Obj00236 *)p)->f28=0;
+        ((MysteryUtilMenuWindow *)p)->state=0;
         break;
     case 0:
-        q=((struct Obj00236 *)p)->f24;
-        PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((struct Obj00236 *)p)->f1C),0,0,((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4);
+        q=((MysteryUtilMenuWindow *)p)->elementSlot;
+        PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg);
         p[0x20]=1;
-        ((struct Obj00236 *)p)->f28=0;
+        ((MysteryUtilMenuWindow *)p)->state=0;
         break;
     case 1:
         PRINTSYS_CTRL_Init(p+0x34,2);
-        ((struct Obj00236 *)p)->f30=APP_KEYCURSOR_CreateDefault(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
-        ((struct Obj00236 *)p)->f8=PRINTSYS_PrintStream(((struct Obj00236 *)p)->f10,0,0,*(u32 *)&((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4,MSG_SPEED_GetWait(),((struct Obj00236 *)p)->fC,0,((struct Obj00236 *)p)->f1A,((struct Obj00236 *)p)->f18);
-        ((struct Obj00236 *)p)->f28=1;
+        ((MysteryUtilMenuWindow *)p)->keyCursor=APP_KEYCURSOR_CreateDefault(((MysteryUtilMenuWindow *)p)->height,1,0,((MysteryUtilMenuWindow *)p)->heapTag);
+        ((MysteryUtilMenuWindow *)p)->printStream=PRINTSYS_PrintStream(((MysteryUtilMenuWindow *)p)->bmpWin,0,0,*(u32 *)&((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg,MSG_SPEED_GetWait(),((MysteryUtilMenuWindow *)p)->tcbl,0,((MysteryUtilMenuWindow *)p)->heapTag,((MysteryUtilMenuWindow *)p)->height);
+        ((MysteryUtilMenuWindow *)p)->state=1;
         break;
     }
-    ((struct Obj00236 *)p)->f2C=0;
+    ((MysteryUtilMenuWindow *)p)->result=0;
 }
 
-unsigned func_021D9FF8(u8 *p) { return ((struct Obj22877 *)p)->f2C; }
+unsigned MYSTERY_UTIL_GetMenuState(u8 *p) { return ((MysteryUtilMenuWindow *)p)->result; }
 
-void func_021D9FFC(u8 *p, int a, int b)
+void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b)
 {
-    BMP_MENUWORK_DrawWindow(((struct Obj22878 *)p)->f10, 0, a, b);
+    BMP_MENUWORK_DrawWindow(((MysteryUtilMenuWindow *)p)->bmpWin, 0, a, b);
 }
 
-void func_021DA010(u8 *p) { ((struct Obj00236 *)p)->f2C=1; if(*(u8 * *)&((struct Obj00236 *)p)->f3C) { TIME_ICON_Delete(*(u8 * *)&((struct Obj00236 *)p)->f3C); *(u32 *)&((struct Obj00236 *)p)->f3C=0; BMP_WIN_MakeScreen(((struct Obj00236 *)p)->f10); func_020409B4(BMP_WIN_GetBgLayer(((struct Obj00236 *)p)->f10)); } }
+void MYSTERY_UTIL_ResetMenuWindow(u8 *p) { ((MysteryUtilMenuWindow *)p)->result=1; if(*(u8 * *)&((MysteryUtilMenuWindow *)p)->timeIcon) { TIME_ICON_Delete(*(u8 * *)&((MysteryUtilMenuWindow *)p)->timeIcon); *(u32 *)&((MysteryUtilMenuWindow *)p)->timeIcon=0; BMP_WIN_MakeScreen(((MysteryUtilMenuWindow *)p)->bmpWin); BG_SYS_PushTile(BMP_WIN_GetBgLayer(((MysteryUtilMenuWindow *)p)->bmpWin)); } }
 
 /*
  * lever: const source parameter and the original heap stack argument to 0201F878.
  */
-void *func_021DA038(const u8 *p,u16 heap)
+void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
 {
     u8 *out;
     void *q;
@@ -1430,101 +1577,101 @@ void *func_021DA038(const u8 *p,u16 heap)
     Config_021D9BC0 cfg;
     out=func_02030734(heap,24,0,d_021DFBA0,0x2cb);
     MI_CpuFill8(out,0,24);
-    ((struct Obj01731 *)out)->f4=((struct Obj01542 *)p)->f8;
-    ((struct Obj01731 *)out)->f0=(void *)BMP_WIN_Create((u8)(((struct Obj01542 *)p)->f1C),(u16)19,(u16)((u8)(17-(u8)(((struct Obj01542 *)p)->f18*2))),(u8)12,(u8)(((struct Obj01542 *)p)->f18*2),((struct Obj01542 *)p)->f1E,1);
-    BMP_MENUWORK_DrawWindow(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,(u8)(((struct Obj01542 *)p)->f20));
-    q=((struct Obj01731 *)out)->f0;
+    ((MysteryUtilMenu *)out)->printOwner=((MysteryUtilMenuDef *)p)->printOwner;
+    ((MysteryUtilMenu *)out)->bmpWin=(void *)BMP_WIN_Create((u8)(((MysteryUtilMenuDef *)p)->bgLayer),(u16)19,(u16)((u8)(17-(u8)(((MysteryUtilMenuDef *)p)->count*2))),(u8)12,(u8)(((MysteryUtilMenuDef *)p)->count*2),((MysteryUtilMenuDef *)p)->palette,1);
+    BMP_MENUWORK_DrawWindow(((MysteryUtilMenu *)out)->bmpWin,2,((MysteryUtilMenuDef *)p)->windowY,(u8)(((MysteryUtilMenuDef *)p)->windowX));
+    q=((MysteryUtilMenu *)out)->bmpWin;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
-    ((struct Obj01731 *)out)->f8=((struct Obj01731 *)out)->f0;
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
+    ((MysteryUtilMenu *)out)->bmpWin2=((MysteryUtilMenu *)out)->bmpWin;
     out[12]=0;
-    ((struct Obj01731 *)out)->f14=BMP_MENUWORK_Create(((struct Obj01542 *)p)->f18,heap);
-    for(i=0;i<((struct Obj01542 *)p)->f18;i++)
-        BMP_MENUWORK_AddMsgItem(((struct Obj01731 *)out)->f14,((struct Obj01542 *)p)->f0,*(u32 *)(p+12+i*4),i,(u16)heap);
+    ((MysteryUtilMenu *)out)->menuWork=BMP_MENUWORK_Create(((MysteryUtilMenuDef *)p)->count,heap);
+    for(i=0;i<((MysteryUtilMenuDef *)p)->count;i++)
+        BMP_MENUWORK_AddMsgItem(((MysteryUtilMenu *)out)->menuWork,((MysteryUtilMenuDef *)p)->menuTable,*(u32 *)(p+12+i*4),i,(u16)heap);
     cfg=d_021DF78C;
-    cfg.word[0]=*(u32 *)&((struct Obj01731 *)out)->f14;
-    *(u16 *)((u8 *)&cfg+0x10)=((struct Obj01542 *)p)->f18;
-    *(u16 *)((u8 *)&cfg+0x12)=((struct Obj01542 *)p)->f18;
-    cfg.word[3]=*(u32 *)&((struct Obj01731 *)out)->f0;
-    cfg.word[9]=((struct Obj01542 *)p)->f0;
+    cfg.word[0]=*(u32 *)&((MysteryUtilMenu *)out)->menuWork;
+    *(u16 *)((u8 *)&cfg+0x10)=((MysteryUtilMenuDef *)p)->count;
+    *(u16 *)((u8 *)&cfg+0x12)=((MysteryUtilMenuDef *)p)->count;
+    cfg.word[3]=*(u32 *)&((MysteryUtilMenu *)out)->bmpWin;
+    cfg.word[9]=((MysteryUtilMenuDef *)p)->menuTable;
     cfg.word[10]=(u32)(out+8);
-    cfg.word[11]=((struct Obj01542 *)p)->f8;
-    cfg.word[12]=((struct Obj01542 *)p)->f4;
-    ((struct Obj01731 *)out)->f10=BMP_MENULIST_Create((struct Src *)(&cfg),0,0,heap);
-    func_02020CF8(((struct Obj01731 *)out)->f10,heap);
-    func_02020D10(((struct Obj01731 *)out)->f10,0);
+    cfg.word[11]=((MysteryUtilMenuDef *)p)->printOwner;
+    cfg.word[12]=((MysteryUtilMenuDef *)p)->messageTable;
+    ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct Src *)(&cfg),0,0,heap);
+    func_02020CF8(((MysteryUtilMenu *)out)->menuList,heap);
+    func_02020D10(((MysteryUtilMenu *)out)->menuList,0);
     return out;
 }
 
-void func_021DA148(u8 *p) { BMP_MENULIST_Delete(((struct Obj06448 *)p)->f10,0,0); BMP_MENUWORK_Delete(((struct Obj06448 *)p)->f14); BMP_MENUWORK_DrawWindowBorder(((struct Obj06448 *)p)->f0,0); BMP_WIN_ClearScreen(((struct Obj06448 *)p)->f0); BMP_WIN_Delete(((struct Obj06448 *)p)->f0); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteMenu(u8 *p) { BMP_MENULIST_Delete(((MysteryUtilMenu *)p)->menuList,0,0); BMP_MENUWORK_Delete(((MysteryUtilMenu *)p)->menuWork); BMP_MENUWORK_DrawWindowBorder(((MysteryUtilMenu *)p)->bmpWin,0); BMP_WIN_ClearScreen(((MysteryUtilMenu *)p)->bmpWin); BMP_WIN_Delete(((MysteryUtilMenu *)p)->bmpWin); func_020307B0(p); }
 
 /*
  * extent: two bytes of zero alignment padding follow the return.
  */
-int func_021DA178(char *p)
+int MYSTERY_UTIL_UpdateMenu(char *p)
 {
-    u32 q = ((struct Obj04493 *)p)->f4;
+    u32 q = ((MysteryUtilMenu *)p)->printOwner;
     int r;
-    if (((struct Obj04493 *)p)->fC) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q,(void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj04493 *)p)->f8))) == 0) {
-            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj04493 *)p)->f8);
-            ((struct Obj04493 *)p)->fC=0;
+    if (((MysteryUtilMenu *)p)->winFlag) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q,(void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilMenu *)p)->bmpWin2))) == 0) {
+            BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilMenu *)p)->bmpWin2);
+            ((MysteryUtilMenu *)p)->winFlag=0;
         }
     }
-    r=BMP_MENULIST_Main(((struct Obj04493 *)p)->f10);
-    if (r == -2) r=func_02020350(((struct Obj04493 *)p)->f10,2)-1;
+    r=BMP_MENULIST_Main(((MysteryUtilMenu *)p)->menuList);
+    if (r == -2) r=func_02020350(((MysteryUtilMenu *)p)->menuList,2)-1;
     return r;
 }
 
 /*
  * lever: b is u16; const descriptor input and an element slot pointer reproduce scheduling.
  */
-void *func_021DA1BC(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap)
+void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap)
 {
     u32 i;
     int size=n*4+16;
     char *out=func_02030734(heap,size,0,d_021DFBA0,0x374);
     MI_CpuFill8(out,0,size);
-    *(const char * *)&((struct Obj04494 *)out)->f0=desc;
-    ((struct Obj04494 *)out)->f4=n;
-    ((struct Obj04494 *)out)->f8=f;
-    ((struct Obj04494 *)out)->fC=e;
-    for(i=0;i<((struct Obj04494 *)out)->f4;i++) {
+    *(const char * *)&((MysteryUtilWindowList *)out)->desc=desc;
+    ((MysteryUtilWindowList *)out)->count=n;
+    ((MysteryUtilWindowList *)out)->printOwner=f;
+    ((MysteryUtilWindowList *)out)->msgBank=e;
+    for(i=0;i<((MysteryUtilWindowList *)out)->count;i++) {
         const char *v=desc+i*24;
         char *slot=out+i*4;
-        void *q=func_021D99A4((u32)a,b,((struct Obj02469 *)v)->f0,((struct Obj02469 *)v)->f1,((struct Obj02469 *)v)->f2,((struct Obj02469 *)v)->f3,c,d,heap);
+        void *q=MYSTERY_UTIL_CreateWindow((u32)a,b,((MysteryUtilMenuEntry *)v)->u0.bytes[0],((MysteryUtilMenuEntry *)v)->u0.bytes[1],((MysteryUtilMenuEntry *)v)->u0.bytes[2],((MysteryUtilMenuEntry *)v)->u0.bytes[3],c,d,heap);
         ((struct Obj08093 *)slot)->f10=q;
-        func_021D9B2C(q,((struct Obj02469 *)v)->f10,((struct Obj02469 *)v)->f12,((struct Obj02469 *)v)->fC);
-        func_021D9B28(((struct Obj08093 *)slot)->f10,((struct Obj02469 *)v)->f14);
-        if(((struct Obj02469 *)v)->f8) func_021D9AC8(((struct Obj08093 *)slot)->f10,((struct Obj02469 *)v)->f8,((struct Obj04494 *)out)->f8);
-        else func_021D9A64(((struct Obj08093 *)slot)->f10,e,((struct Obj02469 *)v)->f4,((struct Obj04494 *)out)->f8);
+        MYSTERY_UTIL_SetPosition(q,((MysteryUtilMenuEntry *)v)->posX,((MysteryUtilMenuEntry *)v)->posY,((MysteryUtilMenuEntry *)v)->layoutMode);
+        MYSTERY_UTIL_SetColor(((struct Obj08093 *)slot)->f10,((MysteryUtilMenuEntry *)v)->color);
+        if(((MysteryUtilMenuEntry *)v)->stringId) MYSTERY_UTIL_ShowString(((struct Obj08093 *)slot)->f10,((MysteryUtilMenuEntry *)v)->stringId,((MysteryUtilWindowList *)out)->printOwner);
+        else MYSTERY_UTIL_ShowMessage(((struct Obj08093 *)slot)->f10,e,((MysteryUtilMenuEntry *)v)->messageId,((MysteryUtilWindowList *)out)->printOwner);
     }
     return out;
 }
 
-void func_021DA280(u8 *p) { u32 i; for(i=0;i<((struct Obj22879 *)p)->f4;i++) func_021D9A40(*(u8 **)(p+16+i*4)); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteWindowList(u8 *p) { u32 i; for(i=0;i<((MysteryUtilWindowList *)p)->count;i++) MYSTERY_UTIL_DeleteWindow(*(u8 **)(p+16+i*4)); func_020307B0(p); }
 
-void func_021DA2A8(u8 *p) { u32 i; for(i=0;i<((struct Obj22880 *)p)->f4;i++) func_021D9A58(*(u8 **)(p+16+i*4)); }
+void MYSTERY_UTIL_ClearWindowList(u8 *p) { u32 i; for(i=0;i<((MysteryUtilWindowList *)p)->count;i++) MYSTERY_UTIL_ClearWindow(*(u8 **)(p+16+i*4)); }
 
-int func_021DA2C8(u8 *p) { u32 i; int result=1; for(i=0;i<((struct Obj22881 *)p)->f4;i++) result &= func_021D9B34(*(u8 **)(p+16+i*4)); return result; }
+int MYSTERY_UTIL_IsWindowListDone(u8 *p) { u32 i; int result=1; for(i=0;i<((MysteryUtilWindowList *)p)->count;i++) result &= MYSTERY_UTIL_IsMessageDone(*(u8 **)(p+16+i*4)); return result; }
 
-void func_021DA2F0(u8 *p,u32 i) { u8 *d=*(u8 **)(p+16+i*4); BMP_Clear(BMP_WIN_GetBmp(((struct Obj13951 *)d)->fC),((struct Obj13951 *)d)->f16&31); BMP_WIN_TransferChars(*(void **)(*(u8 **)(p+16+i*4)+12)); }
+void MYSTERY_UTIL_ClearListWindow(u8 *p,u32 i) { u8 *d=*(u8 **)(p+16+i*4); BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilWindow *)d)->bmpWin2),((MysteryUtilWindow *)d)->color&31); BMP_WIN_TransferChars(*(void **)(*(u8 **)(p+16+i*4)+12)); }
 
-void func_021DA318(u8 *p) { u32 i; for(i=0;i<((struct Obj22882 *)p)->f4;i++) func_021D9B9C(*(u8 **)(p+16+i*4)); }
+void MYSTERY_UTIL_TransferWindowList(u8 *p) { u32 i; for(i=0;i<((MysteryUtilWindowList *)p)->count;i++) MYSTERY_UTIL_TransferWindowChars(*(u8 **)(p+16+i*4)); }
 
 /*
  * lever: heap is u16 in this function and the two callees receiving it.
  */
-void *func_021DA338(char *p,u16 heap)
+void *MYSTERY_UTIL_CreateBmpList(char *p,u16 heap)
 {
     u32 i;
-    int size=((struct Obj13952 *)p)->f4*4+8;
+    int size=((MysteryUtilWindowList *)p)->count*4+8;
     char *out=func_02030734(heap,size,0,d_021DFBA0,0x42e);
     MI_CpuFill8(out,0,size);
-    *(char * *)&((struct Obj13953 *)out)->f4=p;
-    ((struct Obj13953 *)out)->f0=heap;
-    for(i=0;i<((struct Obj13952 *)p)->f4;i++) {
+    *(char * *)&((MysteryUtilBmpList *)out)->srcList=p;
+    ((MysteryUtilBmpList *)out)->heapId=heap;
+    for(i=0;i<((MysteryUtilWindowList *)p)->count;i++) {
         void *win=BMP_WIN_GetBmp(*(void **)(*(char **)(p+16+i*4)+12));
         u32 x=BMP_GetWidth(win);
         u32 y=BMP_GetHeight(win);
@@ -1534,32 +1681,32 @@ void *func_021DA338(char *p,u16 heap)
     return out;
 }
 
-void func_021DA3C0(u8 *p) { u32 i; for(i=0;i<((struct Obj22884 *)(*(u8 * *)&((struct Obj22883 *)p)->f4))->f4;i++) BMP_Delete(*(void **)(p+8+i*4)); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteBmpList(u8 *p) { u32 i; for(i=0;i<((MysteryUtilWindowList *)(*(u8 * *)&((struct Obj22883 *)p)->f4))->count;i++) BMP_Delete(*(void **)(p+8+i*4)); func_020307B0(p); }
 
 /*
  * extent: two bytes of zero alignment padding follow the return.
  */
-void func_021DA3EC(char *p,char *desc,void *dst)
+void MYSTERY_UTIL_DrawBmpList(char *p,char *desc,void *dst)
 {
     u32 i;
     Pair_021D9624 pos,out;
-    void *text=STRBUF_Create(512,((struct Obj06449 *)p)->f0);
-    for(i=0;i<((struct Obj22885 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f4;i++) {
+    void *text=STRBUF_Create(512,((MysteryUtilBmpList *)p)->heapId);
+    for(i=0;i<((MysteryUtilWindowList *)(*(char * *)&((struct Obj06449 *)p)->f4))->count;i++) {
         char *d=desc+i*24;
-        if(((struct Obj03262 *)d)->f0) {
-            BMP_Clear(*(void **)(p+i*4+8),(u8)(((struct Obj03262 *)d)->f14&31));
-            pos.x=((struct Obj03262 *)d)->f10;
-            pos.y=((struct Obj03262 *)d)->f12;
-            func_021D9BE8(((struct Obj03262 *)d)->fC,&pos,*(void **)(p+i*4+8),text,((struct Obj22886 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,&out);
-            if(((struct Obj03262 *)d)->f8) STRBUF_Copy(text,(struct U16Vec *)(((struct Obj03262 *)d)->f8));
-            else func_02045CAC((struct MsgBank *)(((struct Obj22887 *)(*(char * *)&((struct Obj06449 *)p)->f4))->fC),((struct Obj03262 *)d)->f4,text);
-            PRINTSYS_PrintQueColor(dst,(u32)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(u32)text,((struct Obj22888 *)(*(char * *)&((struct Obj06449 *)p)->f4))->f8,((struct Obj03262 *)d)->f14);
+        if(((MysteryUtilMenuEntry *)d)->u0.flags) {
+            BMP_Clear(*(void **)(p+i*4+8),(u8)(((MysteryUtilMenuEntry *)d)->color&31));
+            pos.x=((MysteryUtilMenuEntry *)d)->posX;
+            pos.y=((MysteryUtilMenuEntry *)d)->posY;
+            MYSTERY_UTIL_AlignText(((MysteryUtilMenuEntry *)d)->layoutMode,&pos,*(void **)(p+i*4+8),text,((MysteryUtilWindowList *)(*(char * *)&((struct Obj06449 *)p)->f4))->printOwner,&out);
+            if(((MysteryUtilMenuEntry *)d)->stringId) STRBUF_Copy(text,(struct U16Vec *)(((MysteryUtilMenuEntry *)d)->stringId));
+            else func_02045CAC((struct MsgBank *)(((MysteryUtilWindowList *)(*(char * *)&((struct Obj06449 *)p)->f4))->msgBank),((MysteryUtilMenuEntry *)d)->messageId,text);
+            PRINTSYS_PrintQueColor(dst,(u32)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(u32)text,((MysteryUtilWindowList *)(*(char * *)&((struct Obj06449 *)p)->f4))->printOwner,((MysteryUtilMenuEntry *)d)->color);
         }
     }
     func_020307B0(text);
 }
 
-void func_021DA4A8(u8 *p) { u32 i; for(i=0;i<((struct Obj22889 *)(*(u8 * *)&((struct Obj13954 *)p)->f4))->f4;i++) { void *out=*(void **)(p+8+i*4); BMP_CopyPixels(out,BMP_WIN_GetBmp(*(void **)(*(u8 **)(*(u8 * *)&((struct Obj13954 *)p)->f4+16+i*4)+12))); } }
+void MYSTERY_UTIL_CopyBmpList(u8 *p) { u32 i; for(i=0;i<((MysteryUtilWindowList *)(*(u8 * *)&((struct Obj13954 *)p)->f4))->count;i++) { void *out=*(void **)(p+8+i*4); BMP_CopyPixels(out,BMP_WIN_GetBmp(*(void **)(*(u8 **)(*(u8 * *)&((MysteryUtilBmpList *)p)->srcList+16+i*4)+12))); } }
 
 /*
  * note (2026-10-05, lane T7, pengy's share): written bottom-up from the listing.
@@ -1568,7 +1715,7 @@ void func_021DA4A8(u8 *p) { u32 i; for(i=0;i<((struct Obj22889 *)(*(u8 * *)&((st
  *   read of in->f3c was merged (4 B short). Struct copy t = d_021DF7C0 (4 records of
  *   24 B). The caller passes a 0x38 B input record and heap.
  */
-struct Out_021D9624 *func_021DA4DC(const struct In *in, u16 heap)
+struct Out_021D9624 *MYSTERY_UTIL_CreateDetailWindow(const struct In *in, u16 heap)
 {
     struct Tbl t;
     struct Pt pt;
@@ -1607,7 +1754,7 @@ struct Out_021D9624 *func_021DA4DC(const struct In *in, u16 heap)
     c = in->f26;
     w = in->f24;
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    out->f0 = ((void *(*)())func_021DA1BC)(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
+    out->f0 = ((void *(*)())MYSTERY_UTIL_CreateWindowList)(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
     for (i = 0; i < out->fC; i++)
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->f8].x;
@@ -1619,13 +1766,13 @@ struct Out_021D9624 *func_021DA4DC(const struct In *in, u16 heap)
     return out;
 }
 
-void func_021DA698(u8 *p) { if(*(u32 * *)&((struct Obj03786 *)p)->f60 && ((struct Obj03786 *)p)->f8!=3) **(u32 * *)&((struct Obj03786 *)p)->f60=((struct Obj03786 *)p)->f8; CLACT_SetActorDrawEnable(((struct Obj03786 *)p)->f4,0); func_021DA2A8(*(u8 * *)&((struct Obj03786 *)p)->f0); func_021DA280(*(u8 * *)&((struct Obj03786 *)p)->f0); func_020409B4((u8)(((struct Obj03786 *)p)->f28)); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteDetailWindow(u8 *p) { if(*(u32 * *)&((struct Obj03786 *)p)->f60 && ((struct Obj03786 *)p)->f8!=3) **(u32 * *)&((struct Obj03786 *)p)->f60=((struct Obj03786 *)p)->f8; CLACT_SetActorDrawEnable(((struct Obj03786 *)p)->f4,0); MYSTERY_UTIL_ClearWindowList(*(u8 * *)&((struct Obj03786 *)p)->f0); MYSTERY_UTIL_DeleteWindowList(*(u8 * *)&((struct Obj03786 *)p)->f0); BG_SYS_PushTile((u8)(((struct Obj03786 *)p)->f28)); func_020307B0(p); }
 
 /*
  * arithmetic: direct division helper uses quotient r0/remainder r1 as a scalar u64;
  *             the caller admits count zero, so ordinary C remainder is not used.
  */
-int func_021DA6D0(u8 *p)
+int MYSTERY_UTIL_SetVoice(u8 *p)
 {
     u32 keys=KEY_GetTrg();
     u32 repeat=KEY_GetRepeat();
@@ -1672,7 +1819,7 @@ int func_021DA6D0(u8 *p)
         if(((struct Obj06450 *)v)->f4C!=((struct Obj06450 *)v)->f3C && ((struct Obj00360 *)p)->f24>=0x7dff && ((struct Obj00360 *)p)->f24<=0x81ff)
             ((struct Obj06450 *)v)->f3C=((struct Obj06450 *)v)->f4C;
         if(((struct Obj06450 *)v)->f3C)
-            func_021DAAA4((int)((void *)15),(u16 *)(p+0x1a+i*2),((struct Obj00360 *)p)->f24,(u8)(((struct Obj00360 *)p)->f2C),(u8)(i+10),*(u16 *)(p+0x12+i*2),((struct Obj00360 *)p)->f22);
+            MYSTERY_UTIL_BlendPalette((int)((void *)15),(u16 *)(p+0x1a+i*2),((struct Obj00360 *)p)->f24,(u8)(((struct Obj00360 *)p)->f2C),(u8)(i+10),*(u16 *)(p+0x12+i*2),((struct Obj00360 *)p)->f22);
     }
     return -1;
 }
@@ -1680,40 +1827,40 @@ int func_021DA6D0(u8 *p)
 /*
  * Addresses are Black-image addresses.
  */
-int func_021DA840(void **p)
+int MYSTERY_UTIL_Update(void **p)
 {
-    return func_021DA2C8(*p);
+    return MYSTERY_UTIL_IsWindowListDone(*p);
 }
 
-void func_021DA84C(u8 *p,u32 i,u32 value)
+void MYSTERY_UTIL_SetListValue(u8 *p,u32 i,u32 value)
 {
     *(u32 *)(p+i*4+76)=value;
 }
 
-void *func_021DA854(void *a,void *b,u16 heap) { u8 *p; p=func_02030734(heap,20,0,d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((struct Obj22893 *)p)->fC=a; func_021DA8B0((u32 *)p,(u32)b); return p; }
+void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=func_02030734(heap,20,0,d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((struct Obj22893 *)p)->fC=a; MYSTERY_UTIL_SetTaskHandler((u32 *)p,(u32)b); return p; }
 
-void func_021DA890(void *p) { func_020307B0(p); }
+void MYSTERY_UTIL_DeleteTask(void *p) { func_020307B0(p); }
 
-void func_021DA898(char *p)
+void MYSTERY_UTIL_DispatchTask(char *p)
 {
     if (((struct Obj13955 *)p)->f4 == 0)
         (*(void (**)(char *, char *, u32))p)(p, p + 8, ((struct Obj13955 *)p)->fC);
 }
 
-int func_021DA8AC(u32 *p) { return p[1]; }
+int MYSTERY_UTIL_GetTaskField04(u32 *p) { return p[1]; }
 
-void func_021DA8B0(u32 *p,u32 a) { p[0]=a; p[2]=0; }
+void MYSTERY_UTIL_SetTaskHandler(u32 *p,u32 a) { p[0]=a; p[2]=0; }
 
-void func_021DA8B8(u32 *p) { p[1]=1; }
+void MYSTERY_UTIL_MarkTaskDone(u32 *p) { p[1]=1; }
 
-void func_021DA8C0(u32 *p,u32 a) { p[4]=a; }
+void MYSTERY_UTIL_SetTaskArg(u32 *p,u32 a) { p[4]=a; }
 
-void func_021DA8C4(u32 *p) { p[2]=p[4]; }
+void MYSTERY_UTIL_GetTaskArg(u32 *p) { p[2]=p[4]; }
 
 /*
  * lever: a and b are u16; the descriptor input pointer is const.
  */
-void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
+void *MYSTERY_UTIL_CreateTaskEx(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
 {
     Desc_021DA3EC desc;
     char *out=func_02030734(heap,36,0,d_021DFBA0,0x6b1);
@@ -1735,9 +1882,9 @@ void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u
     return out;
 }
 
-void func_021DA958(u8 *p) { BMP_OAM_Delete(((struct Obj10414 *)p)->f1C); BMP_Delete(((struct Obj10414 *)p)->f0); STRBUF_Delete(((struct Obj10414 *)p)->f18); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteActorPair(u8 *p) { BMP_OAM_Delete(((struct Obj10414 *)p)->f1C); BMP_Delete(((struct Obj10414 *)p)->f0); STRBUF_Delete(((struct Obj10414 *)p)->f18); func_020307B0(p); }
 
-void func_021DA978(char *p)
+void MYSTERY_UTIL_UpdateActorPair(char *p)
 {
     BMP_Clear((struct CharBuf *)(((struct Obj10415 *)p)->f0), (unsigned char)(((struct Obj10415 *)p)->f4 & 0x1f));
     BMP_OAM_UploadChars(((struct Obj10415 *)p)->f1C);
@@ -1746,27 +1893,27 @@ void func_021DA978(char *p)
 /*
  * extent: two bytes of zero alignment padding after the return.
  */
-void func_021DA994(char *p,int a,int b,int c)
+void MYSTERY_UTIL_SetActorPairText(char *p,int a,int b,int c)
 {
     int xy[2];
     BMP_Clear((struct CharBuf *)(((struct Obj03787 *)p)->f0),(u8)(((struct Obj03787 *)p)->f4&31));
     func_02045CAC((struct MsgBank *)a,b,((struct Obj03787 *)p)->f18);
-    func_021DAA28(p,c,xy);
+    MYSTERY_UTIL_BuildPaletteRow(p,c,xy);
     PRINTSYS_PrintQueColor(((struct Obj03787 *)p)->f20,((struct Obj03787 *)p)->f0,(s16)xy[0],(s16)xy[1],(u32)(((struct Obj03787 *)p)->f18),c,((struct Obj03787 *)p)->f4);
     ((struct Obj03787 *)p)->f8=1;
 }
 
-void func_021DA9EC(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }
+void MYSTERY_UTIL_SetFlag(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }
 
-void func_021DA9F0(u32 *p,u32 a,u32 b,u32 c) { p[3]=a; p[4]=b; p[5]=c; }
+void MYSTERY_UTIL_SetVec(u32 *p,u32 a,u32 b,u32 c) { p[3]=a; p[4]=b; p[5]=c; }
 
-int func_021DA9F8(u8 *p) { if(((struct Obj05358 *)p)->f8) { if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj05358 *)p)->f20),(void *)(((struct Obj05358 *)p)->f0))==0) { BMP_OAM_UploadChars(((struct Obj05358 *)p)->f1C); ((struct Obj05358 *)p)->f8=0; } } if(((struct Obj05358 *)p)->f8==0) return 1; return 0; }
+int MYSTERY_UTIL_IsMenuFinished(u8 *p) { if(((struct Obj05358 *)p)->f8) { if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj05358 *)p)->f20),(void *)(((struct Obj05358 *)p)->f0))==0) { BMP_OAM_UploadChars(((struct Obj05358 *)p)->f1C); ((struct Obj05358 *)p)->f8=0; } } if(((struct Obj05358 *)p)->f8==0) return 1; return 0; }
 
 /*
  * extent: two bytes of zero alignment padding after the return.
  * lever: case 0 is an eight-byte aggregate copy (existing pair-copy idiom).
  */
-void func_021DAA28(char *p,int a,int *out)
+void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out)
 {
     int x,y;
     switch(((struct Obj02470 *)p)->f14) {
@@ -1804,7 +1951,7 @@ static inline u16 blend(u16 c1,u16 c2,s16 factor) {
 /*
  * lever: twin ov104 021B89DC blend spelling, first argument passed through to func_02061CA4.
  */
-s32 func_021DAAA4(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
+s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
  *p=blend(c1,c2,(s16)((FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2));
  return func_02061CA4((void *)a,bank*32+index*2,(u32)p,2);
 }
@@ -1819,7 +1966,7 @@ s32 func_021DAAA4(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
  * declaration (int i=0; for(;...)) sets the i/index birth order (r6/r4).
  * note pass 2 2026-10-06 P2L51: closed from 147/200 (h5 pragma form 7/200, i/index swap fixed by i=0 at declaration).
  */
-void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last) {
+void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last) {
  int i=0;
  int factor=(FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2;
  for(;i<16;i++) p[i]=blend(first[i],last[i],factor);
@@ -1828,7 +1975,7 @@ void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const
 
 #pragma opt_loop_invariants reset
 
-char *func_021DAC18(const Input *src,u16 heap)
+char *MYSTERY_ALBUM_Create(const Input *src,u16 heap)
 {
     char *out;
     int count=0;
@@ -1841,51 +1988,51 @@ char *func_021DAC18(const Input *src,u16 heap)
     void *callback;
     out=func_02030734(heap,0xc70,0,d_021DFBB0,0x19f);
     MI_CpuFill8(out,0,0xc70);
-    ((struct Obj00910 *)out)->fAD0=1;
+    ((MysteryAlbumWork *)out)->flipFlag=1;
     *(Input *)out=*src;
-    ((struct Obj00910 *)out)->f24=heap;
+    ((MysteryAlbumWork *)out)->heapId=heap;
     func_02082A7C(-1,out+0xb48,32);
     func_02082A7C(-1,out+0xb88,32);
     func_02082A7C(-1,out+0xb68,32);
-    for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((struct Obj00910 *)out)->fC);i++) {
-        if(MYSTERY_DATA_IsCardExist(((struct Obj00910 *)out)->fC,i)) {
+    for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((MysteryAlbumWork *)out)->cardList);i++) {
+        if(MYSTERY_DATA_IsCardExist(((MysteryAlbumWork *)out)->cardList,i)) {
             count++;
-            MYSTERY_DATA_GetCard(((struct Obj00910 *)out)->fC,i,&record);
-            func_021DBDF4(out+40+i*0xdc,(const Record_021DB938 *)&record,out,heap);
+            MYSTERY_DATA_GetCard(((MysteryAlbumWork *)out)->cardList,i,&record);
+            MYSTERY_ALBUM_SetupEntry(out+40+i*0xdc,(const Record_021DB938 *)&record,out,heap);
         }
     }
-    callback=(void *)func_021DC08C;
-    if(((struct Obj00910 *)out)->f0) callback=(void *)func_021DCEC4;
-    ((struct Obj00910 *)out)->fAC4=func_021DA854(out,callback,heap);
-    func_021DB018((u8 *)out,heap);
-    func_021DB478(out,1,0,((struct Obj00910 *)out)->fAC8,heap);
+    callback=(void *)MYSTERY_ALBUM_SelectHandler;
+    if(((MysteryAlbumWork *)out)->mode) callback=(void *)MYSTERY_ALBUM_SingleHandler;
+    ((MysteryAlbumWork *)out)->task=MYSTERY_UTIL_CreateTask(out,callback,heap);
+    MYSTERY_ALBUM_Setup((u8 *)out,heap);
+    MYSTERY_ALBUM_SetCursor(out,1,0,((MysteryAlbumWork *)out)->cursorIndex,heap);
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    ((struct Obj00910 *)out)->fAB8=((void *(*)())func_021DA1BC)(0,table,n,1,3,((struct Obj00910 *)out)->f14,((struct Obj00910 *)out)->f1C,*(int *)&((struct Obj00910 *)out)->f10,heap);
+    ((MysteryAlbumWork *)out)->windowList=((void *(*)())MYSTERY_UTIL_CreateWindowList)(0,table,n,1,3,((MysteryAlbumWork *)out)->windowParamB,((MysteryAlbumWork *)out)->bank,*(int *)&((MysteryAlbumWork *)out)->windowParamA,heap);
     MI_CpuFill8(&d,0,48);
     d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
-    d.w[6]=((struct Obj00910 *)out)->f8;d.w[7]=*(u32 *)&((struct Obj00910 *)out)->fC;d.w[8]=((struct Obj00910 *)out)->f1C;
-    d.w[9]=((struct Obj00910 *)out)->f10;d.w[10]=((struct Obj00910 *)out)->f14;d.w[11]=((struct Obj00910 *)out)->f18;
-    ((struct Obj00910 *)out)->fAB0=func_021DCFC8((const Desc_021DCFC8 *)&d,heap);
-    if(func_021DBDBC((u32)out)) {
+    d.w[6]=((MysteryAlbumWork *)out)->param8;d.w[7]=*(u32 *)&((MysteryAlbumWork *)out)->cardList;d.w[8]=((MysteryAlbumWork *)out)->bank;
+    d.w[9]=(u32)((MysteryAlbumWork *)out)->windowParamA;d.w[10]=(u32)((MysteryAlbumWork *)out)->windowParamB;d.w[11]=((MysteryAlbumWork *)out)->param18;
+    ((MysteryAlbumWork *)out)->menuWork=MYSTERY_ALBUM_CreateSlotWork((const Desc_021DCFC8 *)&d,heap);
+    if(MYSTERY_ALBUM_CountValidCards((u32)out)) {
         for(j=0;j<12;j++) {
-            if(func_021DBF04((int *)(out+40+j*0xdc)))
-                *(void **)(out+0xa7c+j*4)=func_021DD24C((Record_021DD24C *)func_021DC02C(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
+            if(MYSTERY_ALBUM_IsEntryValid((int *)(out+40+j*0xdc)))
+                *(void **)(out+0xa7c+j*4)=MYSTERY_ALBUM_CreateAlbumView((Record_021DD24C *)MYSTERY_ALBUM_GetEntryCard(out+40+j*0xdc),((MysteryAlbumWork *)out)->menuWork,(void *)src->w[8],heap);
         }
-        MYSTERY_ALBUM_RequestSetup(((struct Obj00910 *)out)->fA7C,0);
+        MYSTERY_ALBUM_RequestSetup(((MysteryAlbumWork *)out)->slots[0],0);
         func_0203084C(29);
     }
-    func_02040618(3,3,0);
-    func_02040618(7,3,0);
+    BG_SYS_FillScrollArea(3,3,0);
+    BG_SYS_FillScrollArea(7,3,0);
     return out;
 }
 
 /*
- * lever: The slot array at +0xa7c is the same layout as func_021DBC08;
+ * lever: The slot array at +0xa7c is the same layout as MYSTERY_ALBUM_RemoveCard;
  * its member access keeps the offset loaded before the loop index.
  */
-void func_021DAE1C(Obj_021DAE1C *obj)
+void MYSTERY_ALBUM_DeleteWork(MysteryAlbumWork *obj)
 {
     char *p=(char *)obj;
     int i;
@@ -1896,57 +2043,57 @@ void func_021DAE1C(Obj_021DAE1C *obj)
             obj->slots[i]=0;
         }
     }
-    func_021DD1FC(*(void ** *)&((struct Obj01058 *)p)->fAB0);
-    if(((struct Obj01058 *)p)->fABC) {
-        func_021D9E04(((struct Obj01058 *)p)->fABC);
-        ((struct Obj01058 *)p)->fABC=0;
+    MYSTERY_ALBUM_DeleteSlotWork(*(void ** *)&((MysteryAlbumWork *)p)->menuWork);
+    if(((MysteryAlbumWork *)p)->menuWindow) {
+        MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
+        ((MysteryAlbumWork *)p)->menuWindow=0;
     }
-    func_02040618(3,0,0);
-    func_02040618(2,0,0);
-    func_021DA2A8(((struct Obj01058 *)p)->fAB8);
-    func_021DA280(((struct Obj01058 *)p)->fAB8);
-    func_021DB528(p,1);
-    func_021DB528(p,0);
-    func_021DB3E8(p);
-    for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((struct Obj01058 *)p)->fC);j++)
-        func_021DBEE4((u32)(p+0x28+j*0xdc));
+    BG_SYS_FillScrollArea(3,0,0);
+    BG_SYS_FillScrollArea(2,0,0);
+    MYSTERY_UTIL_ClearWindowList(((MysteryAlbumWork *)p)->windowList);
+    MYSTERY_UTIL_DeleteWindowList(((MysteryAlbumWork *)p)->windowList);
+    MYSTERY_ALBUM_UpdateSlots(p,1);
+    MYSTERY_ALBUM_UpdateSlots(p,0);
+    MYSTERY_ALBUM_Cleanup(p);
+    for(j=0;j<MYSTERY_DATA_GetCardSlotNum(((MysteryAlbumWork *)p)->cardList);j++)
+        MYSTERY_ALBUM_ClearEntry((u32)(p+0x28+j*0xdc));
     BG_SYS_ClearSlot(4);
     BG_SYS_ClearSlot(6);
     func_02041B6C(4);
     func_02041B6C(6);
-    func_021DA890(((struct Obj01058 *)p)->fAC4);
+    MYSTERY_UTIL_DeleteTask(((MysteryAlbumWork *)p)->task);
     func_020307B0(p);
 }
 
-void func_021DAEF0(Obj_021DAEF0 *obj)
+void MYSTERY_ALBUM_Update(Obj_021DAEF0 *obj)
 {
     char *p=(char *)obj;
     int flag;
     u16 old;
     int angle;
-    func_021DA898(*(char * *)&((struct Obj01153 *)p)->fAC4);
-    func_021DD240(((struct Obj01153 *)p)->fAB0);
-    if(((struct Obj01153 *)p)->fA78) {
+    MYSTERY_UTIL_DispatchTask(*(char * *)&((MysteryAlbumWork *)p)->task);
+    MYSTERY_ALBUM_UpdateSlotWork(((MysteryAlbumWork *)p)->menuWork);
+    if(((MysteryAlbumWork *)p)->refreshFlag) {
         flag=0;
-        if(*(char * *)&((struct Obj01153 *)p)->fAAC) {
-            MYSTERY_ALBUM_ResetIntro(*(char * *)&((struct Obj01153 *)p)->fAAC);
-            *(char * *)&((struct Obj01153 *)p)->fAAC=0;
+        if(*(char * *)&((MysteryAlbumWork *)p)->selectedAlbum) {
+            MYSTERY_ALBUM_ResetIntro(*(char * *)&((MysteryAlbumWork *)p)->selectedAlbum);
+            *(char * *)&((MysteryAlbumWork *)p)->selectedAlbum=0;
         }
-        if(obj->index<4 && func_021DBF04((int *)(&obj->items[obj->index+((struct Obj01153 *)p)->fAC8*4]))) {
+        if(obj->index<4 && MYSTERY_ALBUM_IsEntryValid((int *)(&obj->items[obj->index+((MysteryAlbumWork *)p)->cursorIndex*4]))) {
             flag=1;
-            MYSTERY_ALBUM_RequestSetup(*(void **)(p+0xa7c+(((struct Obj01153 *)p)->fACC+((struct Obj01153 *)p)->fAC8*4)*4),1);
+            MYSTERY_ALBUM_RequestSetup(*(void **)(p+0xa7c+(((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4)*4),1);
         }
-        if(flag==0) MYSTERY_ALBUM_HideScreen(((struct Obj01153 *)p)->fAB0);
-        ((struct Obj01153 *)p)->fA78=0;
+        if(flag==0) MYSTERY_ALBUM_HideScreen(((MysteryAlbumWork *)p)->menuWork);
+        ((MysteryAlbumWork *)p)->refreshFlag=0;
     }
-    old=((struct Obj01153 *)p)->fBAC;
+    old=((MysteryAlbumWork *)p)->angle;
     angle=old+0x400;
     if(angle>=0x10000)
-        ((struct Obj01153 *)p)->fBAC=old-0xfc00;
+        ((MysteryAlbumWork *)p)->angle=old-0xfc00;
     else
-        ((struct Obj01153 *)p)->fBAC=angle;
-    func_021DCFA4((u8 *)(p+0xbae),14,0,((struct Obj01153 *)p)->fBAC);
-    func_021DCFA4((u8 *)(p+0xc0e),14,2,((struct Obj01153 *)p)->fBAC);
+        ((MysteryAlbumWork *)p)->angle=angle;
+    MYSTERY_ALBUM_UpdateIconSprite((u8 *)(p+0xbae),14,0,((MysteryAlbumWork *)p)->angle);
+    MYSTERY_ALBUM_UpdateIconSprite((u8 *)(p+0xc0e),14,2,((MysteryAlbumWork *)p)->angle);
 }
 
 static inline void update(void *p)
@@ -1955,22 +2102,22 @@ static inline void update(void *p)
 }
 
 /*
- * extent: unit includes tail-call follower func_021DB008 (function-start seed).
+ * extent: unit includes tail-call follower MYSTERY_ALBUM_GetWindowState (function-start seed).
  */
-void func_021DAFCC(char *p)
+void MYSTERY_ALBUM_UpdateWindows(char *p)
 {
     int i;
-    func_021DA2C8(((struct Obj10417 *)p)->fAB8);
-    if(((struct Obj10417 *)p)->fAB4) func_021D9B34(((struct Obj10417 *)p)->fAB4);
+    MYSTERY_UTIL_IsWindowListDone(((MysteryAlbumWork *)p)->windowList);
+    if(((MysteryAlbumWork *)p)->infoWindow) MYSTERY_UTIL_IsMessageDone(((MysteryAlbumWork *)p)->infoWindow);
     for(i=0;i<12;i++) {
         void *q=*(void **)(p+i*4+0xa7c);
         if(q) update(q);
     }
 }
 
-int func_021DB008(char *p)
+int MYSTERY_ALBUM_GetWindowState(char *p)
 {
-    return func_021DA8AC(((struct Obj22899 *)p)->fAC4);
+    return MYSTERY_UTIL_GetTaskField04(((MysteryAlbumWork *)p)->task);
 }
 
 #pragma opt_dead_assignments off
@@ -2023,7 +2170,7 @@ int func_021DB008(char *p)
  *   variant with opt_propagation off (901 B) and opt_lifetimes off (85 B). Idea not done: a
  *   source where W1 is not provably 0 after the first loop-free section.
  */
-void func_021DB018(u8 *p, u16 heap)
+void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
 {
     Tmp t;
     void *arc;
@@ -2035,7 +2182,7 @@ void func_021DB018(u8 *p, u16 heap)
     func_020498F4(arc, 17, 3, 0, 0, 0, heap);
     func_02049658(arc, 10, 1, 0, 0, 0, heap);
     func_020498F4(arc, 19, 1, 0, 0, 0, heap);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_02049B68(arc, 1, 4, 0, 320, heap);
     func_02049658(arc, 10, 7, 0, 0, 0, heap);
     func_020498F4(arc, 18, 7, 0, 0, 0, heap);
@@ -2066,15 +2213,15 @@ void func_021DB018(u8 *p, u16 heap)
         }
         *(u32 *)(p + i * 4 + 0xBA8 - 0xA0) = BMP_WIN_Create(2, t.b[10], t.b[11], 10, 2, 15, 0);
         BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0xBA8 - 0xA0));
-        func_020409B4(2);
+        BG_SYS_PushTile(2);
     }
-    *(void **)(p + 0xAB4) = func_021D99A4(0, 1, 13, 22, 6, 2, 3, *(u32 *)(p + 0x14), heap);
+    *(void **)(p + 0xAB4) = MYSTERY_UTIL_CreateWindow(0, 1, 13, 22, 6, 2, 3, *(u32 *)(p + 0x14), heap);
     arc = func_020490F4(34, heap);
     *(s32 *)(p + 0xAB4 + 0x50) = CLACT_RegisterPaletteEx(arc, 0, 0, 0, 0, 6, heap);
     *(s32 *)(p + 0xAB4 + 0x4C) = CLACT_RegisterCellAnim(arc, 32, 35, heap);
     *(s32 *)(p + 0xAB4 + 0x48) = CLACT_RegisterCharacter(arc, 9, 0, 0, heap);
-    func_021DCF54((char *)p + 0xBAE, arc, 0, 0, 1, heap);
-    func_021DCF54((char *)p + 0xC0E, arc, 0, 2, 3, heap);
+    MYSTERY_ALBUM_SetupIconSprite((char *)p + 0xBAE, arc, 0, 0, 1, heap);
+    MYSTERY_ALBUM_SetupIconSprite((char *)p + 0xC0E, arc, 0, 2, 3, heap);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&t, 0, 8);
     *(u16 *)(t.b) = 0;
@@ -2116,42 +2263,42 @@ void func_021DB018(u8 *p, u16 heap)
 
 #pragma opt_dead_assignments reset
 
-void func_021DB3E8(char *p)
+void MYSTERY_ALBUM_Cleanup(char *p)
 {
     int i;
     BG_SYS_SetTileUnit(2,1,0);
     BG_SYS_SetTileUnit(1,1,0);
     for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+0xaf4+i*4));
-    CLACT_DeleteActor(((struct Obj01058 *)p)->fAF0);
-    CLACT_DeleteActor(((struct Obj01058 *)p)->fAEC);
-    CLACT_ReleaseCharacter((u32)(((struct Obj01058 *)p)->fAFC));
-    CLACT_ReleaseCellAnim((u32)(((struct Obj01058 *)p)->fB00));
-    CLACT_ReleasePalette((u32)(((struct Obj01058 *)p)->fB04));
-    func_021D9A40(((struct Obj01058 *)p)->fAB4);
-    ((struct Obj01058 *)p)->fAB4=0;
-    CLACT_ReleasePalette((u32)(((struct Obj01058 *)p)->fBA8));
+    CLACT_DeleteActor(((MysteryAlbumWork *)p)->actorB);
+    CLACT_DeleteActor(((MysteryAlbumWork *)p)->actorA);
+    CLACT_ReleaseCharacter((u32)(((MysteryAlbumWork *)p)->charHandle));
+    CLACT_ReleaseCellAnim((u32)(((MysteryAlbumWork *)p)->cellAnimHandle));
+    CLACT_ReleasePalette((u32)(((MysteryAlbumWork *)p)->paletteHandle));
+    MYSTERY_UTIL_DeleteWindow(((MysteryAlbumWork *)p)->infoWindow);
+    ((MysteryAlbumWork *)p)->infoWindow=0;
+    CLACT_ReleasePalette((u32)(((MysteryAlbumWork *)p)->bgPaletteHandle));
     for(i=0;i<8;i++) BMP_WIN_Delete(*(void **)(p+0xb08+i*4));
 }
 
-void func_021DB478(char *p,int a,int b,int c,u16 heap)
+void MYSTERY_ALBUM_SetCursor(char *p,int a,int b,int c,u16 heap)
 {
     int i;
     void *text,*other;
-    for(i=0;i<4;i++) func_021DB54C(p,a,b,c,(u16)i,heap);
+    for(i=0;i<4;i++) MYSTERY_ALBUM_SetupSlot(p,a,b,c,(u16)i,heap);
     text=STRBUF_Create(128,heap);
     other=func_02045EC0(((struct Obj00828 *)p)->f1C,150);
     WORDSET_SetSlotNumber(((struct Obj00828 *)p)->f18,0,c+1,1,1,1);
-    WORDSET_SetSlotNumber(((struct Obj00828 *)p)->f18,1,func_021DBDB8(p),1,1,1);
+    WORDSET_SetSlotNumber(((struct Obj00828 *)p)->f18,1,MYSTERY_ALBUM_GetColumnCount(p),1,1,1);
     WORDSET_CopyTaggedText(((struct Obj00828 *)p)->f18,text,other);
-    func_021D9B28(((struct Obj00828 *)p)->fAB4,0x39ea);
-    func_021D9B2C(((struct Obj00828 *)p)->fAB4,0,0,1);
-    func_021D9AC8(((struct Obj00828 *)p)->fAB4,(int)text,((struct Obj00828 *)p)->f10);
+    MYSTERY_UTIL_SetColor(((struct Obj00828 *)p)->fAB4,0x39ea);
+    MYSTERY_UTIL_SetPosition(((struct Obj00828 *)p)->fAB4,0,0,1);
+    MYSTERY_UTIL_ShowString(((struct Obj00828 *)p)->fAB4,(int)text,((struct Obj00828 *)p)->f10);
     STRBUF_Delete(text);
     STRBUF_Delete(other);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
 }
 
-void func_021DB528(char *p,int a) { int i; for(i=0;i<4;i++) func_021DB938(p,a,i); func_020409B4(3); }
+void MYSTERY_ALBUM_UpdateSlots(char *p,int a) { int i; for(i=0;i<4;i++) MYSTERY_ALBUM_DeleteSlotActor(p,a,i); BG_SYS_PushTile(3); }
 
 #pragma opt_loop_invariants off
 
@@ -2193,14 +2340,14 @@ void func_021DB528(char *p,int a) { int i; for(i=0;i<4;i++) func_021DB938(p,a,i)
  *   (1016 -> 1004); (3) `#pragma opt_loop_invariants off` keeps both /3 and %3 calls inside the
  *   y loop (the old lane tried it only while the size was still wrong); (4) do-while loops with
  *   `x = 0;` first in the y body and `y = 0;` before the loops give the original head order;
- *   (5) a local for func_021DBF08's result puts that call before the idx*4 address work;
+ *   (5) a local for MYSTERY_ALBUM_GetEntryBmp's result puts that call before the idx*4 address work;
  *   (6) declaration order off, tab, idx, y, y2, y3 (one counter per loop), m, src, k, ry, rx
  *   gives the original spill slots for most locals; tab = p + 0x28 plain (no inline helper);
  *   (7) dy = 0 before MI_CpuFill8.
  *   Residue (53 bytes): rx and x swapped (original x r4, rx r5; mine rx r4, x r5; decl order of
  *   x/rx did not move it, 2 compiles); index and ry slots swapped (original index sp+0x18, ry
  *   sp+0x1c); obj and the p+0xb88 base temp slots swapped (original obj sp+0x48, temp sp+0x44);
- *   `dx = 0` (movs r6) sits before the call to func_021DBF9C in mine, just before the blx of
+ *   `dx = 0` (movs r6) sits before the call to MYSTERY_ALBUM_GetEntryGraphicIndex in mine, just before the blx of
  *   CLACT_RegisterCharacter in the original.
  *   Idioms checked: of-two-equal-temps-the-later-born-one-gets-the-lower-register (no source
  *   order found that flips x/rx), a-separate-index-local-per-loop-reorders-spill-slots (y per
@@ -2224,7 +2371,7 @@ void func_021DB528(char *p,int a) { int i; for(i=0;i<4;i++) func_021DB938(p,a,i)
  *   x r4, rx r5, tile r6. Passing ry (not r.b[1]) keeps ry itself as the spilled web, so it takes
  *   the slot after k (sp+0x1c) and index takes sp+0x18.
  */
-void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
+void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
 {
     void *obj;
     int off;
@@ -2265,7 +2412,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         } while (x < 2);
         y++;
     } while (y < 2);
-    if (func_021DBF04((int *)(tab + off)) == 0) {
+    if (MYSTERY_ALBUM_IsEntryValid((int *)(tab + off)) == 0) {
         y2 = 0;
         do {
             x = 0;
@@ -2292,22 +2439,22 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         } while (x < 12);
         y3++;
     } while (y3 < 7);
-    BG_SYS_FillTileMap(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
-    dsc = func_021DBF08(tab + off);
+    BG_SYS_FillTileMap(3, r.b[0], ry, 12, 7, (u8)MYSTERY_ALBUM_GetEntryIconX(tab + off));
+    dsc = MYSTERY_ALBUM_GetEntryBmp(tab + off);
     BMP_CopyPixels(dsc, BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)));
     BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
-    obj = func_021DBF10(tab + off, heap);
-    if (func_021DC024(tab + off) != 1)
-        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, func_021DBF40(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
-    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, func_021DBFE4(tab + off), func_021DC004(tab + off), heap);
-    *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, func_021DBF9C(tab + off), 0, 0, heap);
+    obj = MYSTERY_ALBUM_CreateEntryArc(tab + off, heap);
+    if (MYSTERY_ALBUM_GetEntryKind(tab + off) != 1)
+        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, MYSTERY_ALBUM_GetEntryArcId(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
+    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, MYSTERY_ALBUM_GetEntrySpeciesId(tab + off), MYSTERY_ALBUM_GetEntryFormId(tab + off), heap);
+    *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, MYSTERY_ALBUM_GetEntryGraphicIndex(tab + off), 0, 0, heap);
     dx = 0;
     ARC_TOOL_DeleteHandle(obj);
     dy = 0;
     MI_CpuFill8(&pos, 0, 8);
     pos.y = r.h[3];
     pos.flag = 1;
-    if (func_021DC024(tab + off) == 2) {
+    if (MYSTERY_ALBUM_GetEntryKind(tab + off) == 2) {
         dx = 4;
         dy = 8;
     }
@@ -2322,9 +2469,9 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     pos.x += dx;
     pos.y += dy;
     *(void **)(p + 0xb28 + idx * 4) = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xb48 + idx * 4),
-        func_021DC024(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
+        MYSTERY_ALBUM_GetEntryKind(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
         *(u32 *)(p + 0xb68 + idx * 4), &pos, 0, *(u16 *)(p + 0x24));
-    CLACT_SetActorPaletteOffset(*(void **)(p + 0xb28 + idx * 4), (u8)func_021DBF70(tab + off), 0);
+    CLACT_SetActorPaletteOffset(*(void **)(p + 0xb28 + idx * 4), (u8)MYSTERY_ALBUM_GetEntryIconPalette(tab + off), 0);
     CLACT_SetActorDrawEnable(*(void **)(p + 0xb28 + idx * 4), 1);
     if (*(u32 *)(p + 0xae0) && *(u16 *)(p + 0xade) == k) {
         cur.x = src->b[0] * 8 - 0x18;
@@ -2343,13 +2490,13 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
 
 #pragma opt_loop_invariants reset
 
-void func_021DB938(char *p,int a,u16 index)
+void MYSTERY_ALBUM_DeleteSlotActor(char *p,int a,u16 index)
 {
     Rect_021DB938 rect;
     int y,x,tile;
     int yy;
     rect=*(const Rect_021DB938 *)((const Rect_021D9624 *)d_021DF86E + index);
-    if((a && ((struct Obj13956 *)p)->fAD0==0) || (a==0 && ((struct Obj13956 *)p)->fAD0)) {
+    if((a && ((MysteryAlbumWork *)p)->flipFlag==0) || (a==0 && ((MysteryAlbumWork *)p)->flipFlag)) {
         index+=4;
         rect.b[0]+=32;
         rect.b[2]+=32;
@@ -2363,7 +2510,7 @@ void func_021DB938(char *p,int a,u16 index)
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0xb08+index*4)),0);
     BMP_WIN_TransferChars(*(void **)(p+0xb08+index*4));
     if(*(void **)(p+0xb28+index*4)) {
-        CLACT_DeleteActor((struct Obj_021DB938 *)(*(void **)(p+0xb28+index*4)));
+        CLACT_DeleteActor((struct Obj *)(*(void **)(p+0xb28+index*4)));
         *(void **)(p+0xb28+index*4)=0;
         if(*(u32 *)(p+0xb88+index*4)!=-1) {
             CLACT_ReleasePalette(*(u32 *)(p+0xb88+index*4));
@@ -2380,38 +2527,38 @@ void func_021DB938(char *p,int a,u16 index)
     }
 }
 
-void func_021DBA78(u8 *p,int a) { int v; if(a) v=-1; else v=1; ((struct Obj13957 *)p)->fADC=v; ((struct Obj13957 *)p)->fAD8=0; }
+void MYSTERY_ALBUM_StartScroll(u8 *p,int a) { int v; if(a) v=-1; else v=1; ((MysteryAlbumWork *)p)->scrollDir=v; ((MysteryAlbumWork *)p)->scrollTimer=0; }
 
-int func_021DBA94(char *p)
+int MYSTERY_ALBUM_UpdateScroll(char *p)
 {
     int amount,i;
     s16 xy[4];
-    if(((struct Obj02834 *)p)->fADC==0) goto idle;
-    amount=(((struct Obj02834 *)p)->fADC*256)/16;
+    if(((MysteryAlbumWork *)p)->scrollDir==0) goto idle;
+    amount=(((MysteryAlbumWork *)p)->scrollDir*256)/16;
     for(i=0;i<8;i++) {
         if(*(void **)(p+i*4+0xb28)) {
             CLACT_GetActorSurfacePos(*(void **)(p+i*4+0xb28),(struct PtS *)(xy+2),0);
             xy[2]-=(s16)amount;
-            CLACT_AddActorSurfacePos((struct Obj_021DB938 *)(*(void **)(p+i*4+0xb28)), (const struct Vec2 *)(xy+2), 0);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(void **)(p+i*4+0xb28)), (const struct Vec2 *)(xy+2), 0);
             CLACT_GetActorSurfacePos(*(void **)(p+i*4+0xb28),(struct PtS *)xy,0);
             if(xy[0]>=-16 && xy[0]<=272 && xy[1]>=-16 && xy[1]<=208)
-                CLACT_SetActorDrawEnable((struct Obj_021DB938 *)(*(void **)(p+i*4+0xb28)), 1);
-            else CLACT_SetActorDrawEnable((struct Obj_021DB938 *)(*(void **)(p+i*4+0xb28)), 0);
+                CLACT_SetActorDrawEnable((struct Obj *)(*(void **)(p+i*4+0xb28)), 1);
+            else CLACT_SetActorDrawEnable((struct Obj *)(*(void **)(p+i*4+0xb28)), 0);
         }
     }
-    if(((struct Obj02834 *)p)->fAE0) {
-        CLACT_GetActorSurfacePos(((struct Obj02834 *)p)->fAF0,(struct PtS *)(xy+2),0);
+    if(((MysteryAlbumWork *)p)->introActive) {
+        CLACT_GetActorSurfacePos(((MysteryAlbumWork *)p)->actorB,(struct PtS *)(xy+2),0);
         xy[2]-=(s16)amount;
-        CLACT_AddActorSurfacePos((struct Obj_021DB938 *)(((struct Obj02834 *)p)->fAF0), (const struct Vec2 *)(xy+2), 0);
+        CLACT_AddActorSurfacePos((struct Obj *)(((MysteryAlbumWork *)p)->actorB), (const struct Vec2 *)(xy+2), 0);
         if(xy[2]>=-96 && xy[2]<=352 && xy[3]>=-96 && xy[3]<=288)
-            CLACT_SetActorDrawEnable((struct Obj_021DB938 *)(((struct Obj02834 *)p)->fAF0), 1);
-        else CLACT_SetActorDrawEnable((struct Obj_021DB938 *)(((struct Obj02834 *)p)->fAF0), 0);
+            CLACT_SetActorDrawEnable((struct Obj *)(((MysteryAlbumWork *)p)->actorB), 1);
+        else CLACT_SetActorDrawEnable((struct Obj *)(((MysteryAlbumWork *)p)->actorB), 0);
     }
-    func_02040618(3,1,amount);
-    func_02040618(2,1,amount);
-    if((((struct Obj02834 *)p)->fAD8)++>=15) {
-        ((struct Obj02834 *)p)->fAD0^=1;
-        ((struct Obj02834 *)p)->fADC=0;
+    BG_SYS_FillScrollArea(3,1,amount);
+    BG_SYS_FillScrollArea(2,1,amount);
+    if((((MysteryAlbumWork *)p)->scrollTimer)++>=15) {
+        ((MysteryAlbumWork *)p)->flipFlag^=1;
+        ((MysteryAlbumWork *)p)->scrollDir=0;
     }
     return 0;
 idle:
@@ -2422,18 +2569,18 @@ idle:
  * Rebuild every entry from the list, free slot idx, then pull each later
  * slot down one place (swap into an empty slot), and mark the table dirty.
  */
-void func_021DBC08(Obj_021DB938 *o, int idx)
+void MYSTERY_ALBUM_RemoveCard(MysteryAlbumWork *o, int idx)
 {
     unsigned char buf[0xCC];
     u32 i;
 
-    MYSTERY_DATA_DeleteCard(o->list, idx);
-    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++)
-        func_021DBEE4((u32)(&o->items[i]));
-    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++) {
-        if (MYSTERY_DATA_IsCardExist(o->list, i)) {
-            MYSTERY_DATA_GetCard(o->list, i, buf);
-            func_021DBDF4((char *)(&o->items[i]), (const Record_021DB938 *)buf, (char *)((Obj_021DB938 *)o), o->f24);
+    MYSTERY_DATA_DeleteCard(o->cardList, idx);
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++)
+        MYSTERY_ALBUM_ClearEntry((u32)(&o->items[i]));
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++) {
+        if (MYSTERY_DATA_IsCardExist(o->cardList, i)) {
+            MYSTERY_DATA_GetCard(o->cardList, i, buf);
+            MYSTERY_ALBUM_SetupEntry((char *)(&o->items[i]), (const Record_021DB938 *)buf, (char *)o, o->heapId);
         }
     }
     if (o->slots[idx] != 0) {
@@ -2452,106 +2599,106 @@ void func_021DBC08(Obj_021DB938 *o, int idx)
 
 /*
  * note 2026-10-05 (lane Y6): no source existed. Same shape as matched sibling
- *   func_021DBC08 (rebuild entries from the list), then two slot teardowns and rebuilds from
+ *   MYSTERY_ALBUM_RemoveCard (rebuild entries from the list), then two slot teardowns and rebuilds from
  *   the descriptor. EXACT on the first compile with plain struct fields.
  */
-void func_021DBCC8(Obj_021DBCC8 *o, u32 a, u32 b)
+void MYSTERY_ALBUM_SwapCards(MysteryAlbumWork *o, u32 a, u32 b)
 {
     unsigned char buf[0xCC];
     u32 i;
 
-    MYSTERY_DATA_SwapCards(o->list, a, b);
-    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++)
-        func_021DBEE4((u32)(&o->items[i]));
-    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)o->list); i++) {
-        if (MYSTERY_DATA_IsCardExist(o->list, i)) {
-            MYSTERY_DATA_GetCard(o->list, i, buf);
-            func_021DBDF4((char *)(&o->items[i]), (const Record_021DB938 *)buf, (char *)((Obj_021DB938 *)o), o->f24);
+    MYSTERY_DATA_SwapCards(o->cardList, a, b);
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++)
+        MYSTERY_ALBUM_ClearEntry((u32)(&o->items[i]));
+    for (i = 0; i < MYSTERY_DATA_GetCardSlotNum(o->cardList); i++) {
+        if (MYSTERY_DATA_IsCardExist(o->cardList, i)) {
+            MYSTERY_DATA_GetCard(o->cardList, i, buf);
+            MYSTERY_ALBUM_SetupEntry((char *)(&o->items[i]), (const Record_021DB938 *)buf, (char *)o, o->heapId);
         }
     }
     MYSTERY_ALBUM_Delete(o->slots[a]);
     MYSTERY_ALBUM_Delete(o->slots[b]);
-    o->slots[a] = func_021DD24C((Record_021DD24C *)func_021DC02C(&o->items[a]), o->desc, o->ctx, o->f24);
-    o->slots[b] = func_021DD24C((Record_021DD24C *)func_021DC02C(&o->items[b]), o->desc, o->ctx, o->f24);
+    o->slots[a] = MYSTERY_ALBUM_CreateAlbumView((Record_021DD24C *)MYSTERY_ALBUM_GetEntryCard(&o->items[a]), o->menuWork, (void *)o->saveParam, o->heapId);
+    o->slots[b] = MYSTERY_ALBUM_CreateAlbumView((Record_021DD24C *)MYSTERY_ALBUM_GetEntryCard(&o->items[b]), o->menuWork, (void *)o->saveParam, o->heapId);
     o->dirty = 1;
 }
 
-int func_021DBDB8(char *p) { return 3; }
+int MYSTERY_ALBUM_GetColumnCount(char *p) { return 3; }
 
 /*
  * lever: Declare the index before the count, but initialise count first; this places index in r4 and count in r5.
  * prototype: MYSTERY_DATA_GetCardSlotNum returns the value used by the bound. Its forwarding target 0200A400 reads only r0, so legacy trailing arguments are omitted.
  */
-u32 func_021DBDBC(u32 p) { u32 i; u32 count=0; for (i=0;i<MYSTERY_DATA_GetCardSlotNum((struct Obj_021DB938 *)(((struct Obj22900 *)p)->fC));i++) { if (func_021DBF04((int *)(p+40+i*220))) count++; } return count; }
+u32 MYSTERY_ALBUM_CountValidCards(u32 p) { u32 i; u32 count=0; for (i=0;i<MYSTERY_DATA_GetCardSlotNum((struct Obj *)(((MysteryAlbumWork *)p)->cardList));i++) { if (MYSTERY_ALBUM_IsEntryValid((int *)(p+40+i*220))) count++; } return count; }
 
-void func_021DBDF4(char *out,const Record_021DB938 *src,char *p,u16 heap)
+void MYSTERY_ALBUM_SetupEntry(char *out,const Record_021DB938 *src,char *p,u16 heap)
 {
     int flags;
     void *text,*other;
     s16 x,y;
     MI_CpuFill8(out,0,0xdc);
     if(src) {
-        ((struct Obj10418 *)out)->f0=1;
+        ((MysteryAlbumEntry *)out)->valid=1;
         *(Record_021DB938 *)(out+4)=*src;
-        ((struct Obj10418 *)out)->fD0=BMP_Create(10,2,32,heap);
+        ((MysteryAlbumEntry *)out)->bmp=BMP_Create(10,2,32,heap);
         flags=src->w[43];
         text=STRBUF_Create(128,heap);
-        other=func_02045EC0(((struct Obj03788 *)p)->f1C,151);
-        WORDSET_SetSlotNumber(((struct Obj03788 *)p)->f18,0,(u16)(flags>>16),4,1,1);
-        WORDSET_SetSlotNumber(((struct Obj03788 *)p)->f18,1,(u8)(flags>>8),2,0,1);
-        WORDSET_SetSlotNumber(((struct Obj03788 *)p)->f18,2,(u8)flags,2,0,1);
-        WORDSET_CopyTaggedText(((struct Obj03788 *)p)->f18,text,other);
+        other=func_02045EC0((void *)((MysteryAlbumWork *)p)->bank,151);
+        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,0,(u16)(flags>>16),4,1,1);
+        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,1,(u8)(flags>>8),2,0,1);
+        WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->param18,2,(u8)flags,2,0,1);
+        WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->param18,text,other);
         x=40;
-        x-=(s16)(func_0201D304(text,*(u32 *)&((struct Obj03788 *)p)->f10,0)/2);
-        y=8-(s16)(func_0201D42C(text,((struct Obj03788 *)p)->f10)/2);
-        PRINTSYS_Print(((struct Obj10418 *)out)->fD0,x,y,text,((struct Obj03788 *)p)->f10);
+        x-=(s16)(func_0201D304(text,*(u32 *)&((MysteryAlbumWork *)p)->windowParamA,0)/2);
+        y=8-(s16)(func_0201D42C(text,((MysteryAlbumWork *)p)->windowParamA)/2);
+        PRINTSYS_Print(((MysteryAlbumEntry *)out)->bmp,x,y,text,((MysteryAlbumWork *)p)->windowParamA);
         STRBUF_Delete(text);
         STRBUF_Delete(other);
     }
 }
 
-void func_021DBEE4(u32 p) { if (((struct Obj13958 *)p)->f0) { BMP_Delete(*(struct Obj020437AC * *)&((struct Obj13958 *)p)->fD0); MI_CpuFill8((void *)p,0,220); } }
+void MYSTERY_ALBUM_ClearEntry(u32 p) { if (((MysteryAlbumEntry *)p)->valid) { BMP_Delete(*(struct Obj020437AC * *)&((MysteryAlbumEntry *)p)->bmp); MI_CpuFill8((void *)p,0,220); } }
 
-int func_021DBF04(int *p) { return *p; }
+int MYSTERY_ALBUM_IsEntryValid(int *p) { return *p; }
 
-void *func_021DBF08(void *p) { return ((struct Obj22903 *)p)->fD0; }
+void *MYSTERY_ALBUM_GetEntryBmp(void *p) { return ((MysteryAlbumEntry *)p)->bmp; }
 
-void *func_021DBF10(void *p,u16 heap) { switch(func_021DC024(p)) { case 1:return func_020490F4(7,heap); case 2:return func_020490F4(25,heap); default:return func_020490F4(34,heap); } }
+void *MYSTERY_ALBUM_CreateEntryArc(void *p,u16 heap) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1:return func_020490F4(7,heap); case 2:return func_020490F4(25,heap); default:return func_020490F4(34,heap); } }
 
 /*
  * prototype: FILE_UTIL_Get item is u16 here, matching caller truncation before the call.
  */
-u32 func_021DBF40(void *p) { switch(func_021DC024(p)) { case 1:return func_0201BC3C(); case 2:return FILE_UTIL_Get(*(u32 *)func_021DC02C(p),2); default:return 3; } }
+u32 MYSTERY_ALBUM_GetEntryArcId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1:return func_0201BC3C(); case 2:return FILE_UTIL_Get(*(u32 *)MYSTERY_ALBUM_GetEntryCard(p),2); default:return 3; } }
 
-u32 func_021DBF70(void *p) { char *q; if (func_021DC024(p)==1) { q=func_021DC02C(p); return POKE_TOOL_CalcIconPalette(((struct Obj08097 *)q)->f1A,((struct Obj08097 *)q)->f1C,((struct Obj08097 *)q)->f35,((struct Obj08097 *)q)->f5C); } return 0; }
+u32 MYSTERY_ALBUM_GetEntryIconPalette(void *p) { char *q; if (MYSTERY_ALBUM_GetEntryKind(p)==1) { q=MYSTERY_ALBUM_GetEntryCard(p); return POKE_TOOL_CalcIconPalette(((MysteryAlbumCard *)q)->species,((MysteryAlbumCard *)q)->form,((MysteryAlbumCard *)q)->gender,((MysteryAlbumCard *)q)->isEgg); } return 0; }
 
-int func_021DBF9C(void *p)
+int MYSTERY_ALBUM_GetEntryGraphicIndex(void *p)
 {
     char *q;
-    switch(func_021DC024(p)) {
+    switch(MYSTERY_ALBUM_GetEntryKind(p)) {
     case 1:
-        q=func_021DC02C(p);
-        return POKE_TOOL_CalcGraphicIndex(((struct Obj06452 *)q)->f1A,((struct Obj06452 *)q)->f1C,((struct Obj06452 *)q)->f35,((struct Obj06452 *)q)->f5C);
+        q=MYSTERY_ALBUM_GetEntryCard(p);
+        return POKE_TOOL_CalcGraphicIndex(((MysteryAlbumCard *)q)->species,((MysteryAlbumCard *)q)->form,((MysteryAlbumCard *)q)->gender,((MysteryAlbumCard *)q)->isEgg);
     case 2:
-        q=func_021DC02C(p);
-        return FILE_UTIL_Get((u16)((struct Obj06452 *)q)->f0,1);
+        q=MYSTERY_ALBUM_GetEntryCard(p);
+        return FILE_UTIL_Get((u16)((MysteryAlbumCard *)q)->arcId,1);
     default: return 12;
     }
 }
 
-int func_021DBFE4(void *p) { switch(func_021DC024(p)) { case 1: return func_0201BC40(); case 2: return 1; default:return 33; } }
+int MYSTERY_ALBUM_GetEntrySpeciesId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1: return func_0201BC40(); case 2: return 1; default:return 33; } }
 
-int func_021DC004(void *p) { switch(func_021DC024(p)) { case 1: return func_0201BCB4(); case 2: return 0; default:return 36; } }
+int MYSTERY_ALBUM_GetEntryFormId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1: return func_0201BCB4(); case 2: return 0; default:return 36; } }
 
-int func_021DC024(void *p) { return ((struct Obj22905 *)p)->fB7; }
+int MYSTERY_ALBUM_GetEntryKind(void *p) { return ((MysteryAlbumEntry *)p)->card.giftType; }
 
-char *func_021DC02C(void *p) { return (char *)p+4; }
+char *MYSTERY_ALBUM_GetEntryCard(void *p) { return (char *)p+4; }
 
-int func_021DC030(u32 p) { return ((Bits *)(p+184))->flag; }
+int MYSTERY_ALBUM_GetEntryEggFlag(u32 p) { return ((Bits *)(p+184))->flag; }
 
-int func_021DC03C(void *p) { int i,add; i=func_021DC024(p); add=func_021DC030((u32)p) ? 0 : 5; return add+d_021DF838[i]; }
+int MYSTERY_ALBUM_GetEntryIconX(void *p) { int i,add; i=MYSTERY_ALBUM_GetEntryKind(p); add=MYSTERY_ALBUM_GetEntryEggFlag((u32)p) ? 0 : 5; return add+d_021DF838[i]; }
 
-int func_021DC064(void *p) { int i,add; i=func_021DC024(p); add=func_021DC030((u32)p) ? 3 : 0; return add+d_021DF848[i]; }
+int MYSTERY_ALBUM_GetEntryIconY(void *p) { int i,add; i=MYSTERY_ALBUM_GetEntryKind(p); add=MYSTERY_ALBUM_GetEntryEggFlag((u32)p) ? 3 : 0; return add+d_021DF848[i]; }
 
 static inline int wrap(int value,int low,int high)
 {
@@ -2564,228 +2711,228 @@ static inline int wrap(int value,int low,int high)
  * spelling: BF04 uses char-pointer arithmetic and a signed acc read, retaining the post-switch acc reload; raw integer address arithmetic was four bytes short.
  * interfaces: 02035C60's live r0 is consumed by this caller despite its legacy void definition.
  */
-void func_021DC08C(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_SelectHandler(void *task,u32 *state,char *p)
 {
     u32 repeat;
     int delta,changed,count,next,direction;
     Position_021DC030 pos;
     switch(*state) {
     case 0:
-        CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF4,1);
-        CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF8,1);
-        CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAEC,1);
+        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,1);
+        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,1);
+        CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorA,1);
         repeat=KEY_GetRepeat();
         changed=0;delta=0;
         if(TOUCHPANEL_GetTrg()) {
-            ((struct Obj00061 *)p)->fAAC=*(void **)((u32)p+0xa7c+(u16)(((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4)*4);
-            if(((struct Obj00061 *)p)->fAAC) MYSTERY_ALBUM_StartIntro(((struct Obj00061 *)p)->fAAC);
+            ((MysteryAlbumWork *)p)->selectedAlbum=*(void **)((u32)p+0xa7c+(u16)(((MysteryAlbumWork *)p)->cursorMode+*(u32 *)&((MysteryAlbumWork *)p)->cursorIndex*4)*4);
+            if(((MysteryAlbumWork *)p)->selectedAlbum) MYSTERY_ALBUM_StartIntro(((MysteryAlbumWork *)p)->selectedAlbum);
         }
         if(repeat==512) delta=-1;
         else if(repeat==256) delta=1;
         else if(repeat&64) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            switch(((struct Obj00061 *)p)->fACC) {
+            switch(((MysteryAlbumWork *)p)->cursorMode) {
             case 0:
-                if(((struct Obj00061 *)p)->fAE0) ((struct Obj00061 *)p)->fACC=2;
-                else {((struct Obj00061 *)p)->fAE4=1;((struct Obj00061 *)p)->fACC=4;}
+                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=2;
+                else {((MysteryAlbumWork *)p)->introMode=1;((MysteryAlbumWork *)p)->cursorMode=4;}
                 break;
             case 1:
-                if(((struct Obj00061 *)p)->fAE0) ((struct Obj00061 *)p)->fACC=3;
-                else {((struct Obj00061 *)p)->fAE4=0;((struct Obj00061 *)p)->fACC=4;}
+                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=3;
+                else {((MysteryAlbumWork *)p)->introMode=0;((MysteryAlbumWork *)p)->cursorMode=4;}
                 break;
-            case 2: ((struct Obj00061 *)p)->fACC=0;break;
-            case 3: ((struct Obj00061 *)p)->fACC=1;break;
+            case 2: ((MysteryAlbumWork *)p)->cursorMode=0;break;
+            case 3: ((MysteryAlbumWork *)p)->cursorMode=1;break;
             case 4:
-                if(((struct Obj00061 *)p)->fAE4) ((struct Obj00061 *)p)->fACC=2;
-                else ((struct Obj00061 *)p)->fACC=3;
+                if(((MysteryAlbumWork *)p)->introMode) ((MysteryAlbumWork *)p)->cursorMode=2;
+                else ((MysteryAlbumWork *)p)->cursorMode=3;
                 break;
             }
             changed=1;
         } else if(repeat&128) {
             GFL_USE_PlaySeDefaultVolume(0x548);
-            switch(((struct Obj00061 *)p)->fACC) {
-            case 0: ((struct Obj00061 *)p)->fACC=2;break;
-            case 1: ((struct Obj00061 *)p)->fACC=3;break;
+            switch(((MysteryAlbumWork *)p)->cursorMode) {
+            case 0: ((MysteryAlbumWork *)p)->cursorMode=2;break;
+            case 1: ((MysteryAlbumWork *)p)->cursorMode=3;break;
             case 2:
-                if(((struct Obj00061 *)p)->fAE0) ((struct Obj00061 *)p)->fACC=0;
-                else {((struct Obj00061 *)p)->fAE4=1;((struct Obj00061 *)p)->fACC=4;}
+                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=0;
+                else {((MysteryAlbumWork *)p)->introMode=1;((MysteryAlbumWork *)p)->cursorMode=4;}
                 break;
             case 3:
-                if(((struct Obj00061 *)p)->fAE0) ((struct Obj00061 *)p)->fACC=1;
-                else {((struct Obj00061 *)p)->fAE4=0;((struct Obj00061 *)p)->fACC=4;}
+                if(((MysteryAlbumWork *)p)->introActive) ((MysteryAlbumWork *)p)->cursorMode=1;
+                else {((MysteryAlbumWork *)p)->introMode=0;((MysteryAlbumWork *)p)->cursorMode=4;}
                 break;
             case 4:
-                if(((struct Obj00061 *)p)->fAE4) ((struct Obj00061 *)p)->fACC=0;
-                else ((struct Obj00061 *)p)->fACC=1;
+                if(((MysteryAlbumWork *)p)->introMode) ((MysteryAlbumWork *)p)->cursorMode=0;
+                else ((MysteryAlbumWork *)p)->cursorMode=1;
                 break;
             }
             changed=1;
         } else if(repeat&32) {
-            func_021DBDB8(p);
-            if(((struct Obj00061 *)p)->fACC==0 || ((struct Obj00061 *)p)->fACC==2) delta=-1;
-            else if(((struct Obj00061 *)p)->fACC!=4) GFL_USE_PlaySeDefaultVolume(0x548);
-            if(((struct Obj00061 *)p)->fACC!=4) {
-                if(((struct Obj00061 *)p)->fACC<=1) {
-                    --((struct Obj00061 *)p)->fACC;
-                    ((struct Obj00061 *)p)->fACC=wrap(((struct Obj00061 *)p)->fACC,0,1);
+            MYSTERY_ALBUM_GetColumnCount(p);
+            if(((MysteryAlbumWork *)p)->cursorMode==0 || ((MysteryAlbumWork *)p)->cursorMode==2) delta=-1;
+            else if(((MysteryAlbumWork *)p)->cursorMode!=4) GFL_USE_PlaySeDefaultVolume(0x548);
+            if(((MysteryAlbumWork *)p)->cursorMode!=4) {
+                if(((MysteryAlbumWork *)p)->cursorMode<=1) {
+                    --((MysteryAlbumWork *)p)->cursorMode;
+                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,0,1);
                 } else {
-                    --((struct Obj00061 *)p)->fACC;
-                    ((struct Obj00061 *)p)->fACC=wrap(((struct Obj00061 *)p)->fACC,2,3);
+                    --((MysteryAlbumWork *)p)->cursorMode;
+                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,2,3);
                 }
                 changed=1;
             }
         } else if(repeat&16) {
-            func_021DBDB8(p);
-            if(((struct Obj00061 *)p)->fACC==1 || ((struct Obj00061 *)p)->fACC==3) delta=1;
-            else if(((struct Obj00061 *)p)->fACC!=4) GFL_USE_PlaySeDefaultVolume(0x548);
-            if(((struct Obj00061 *)p)->fACC!=4) {
-                if(((struct Obj00061 *)p)->fACC<=1) {
-                    ++((struct Obj00061 *)p)->fACC;
-                    ((struct Obj00061 *)p)->fACC=wrap(((struct Obj00061 *)p)->fACC,0,1);
+            MYSTERY_ALBUM_GetColumnCount(p);
+            if(((MysteryAlbumWork *)p)->cursorMode==1 || ((MysteryAlbumWork *)p)->cursorMode==3) delta=1;
+            else if(((MysteryAlbumWork *)p)->cursorMode!=4) GFL_USE_PlaySeDefaultVolume(0x548);
+            if(((MysteryAlbumWork *)p)->cursorMode!=4) {
+                if(((MysteryAlbumWork *)p)->cursorMode<=1) {
+                    ++((MysteryAlbumWork *)p)->cursorMode;
+                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,0,1);
                 } else {
-                    ++((struct Obj00061 *)p)->fACC;
-                    ((struct Obj00061 *)p)->fACC=wrap(((struct Obj00061 *)p)->fACC,2,3);
+                    ++((MysteryAlbumWork *)p)->cursorMode;
+                    ((MysteryAlbumWork *)p)->cursorMode=wrap(((MysteryAlbumWork *)p)->cursorMode,2,3);
                 }
                 changed=1;
             }
         } else if(KEY_GetTrg()&1) {
-            if(((struct Obj00061 *)p)->fACC==4) {
-                if(((struct Obj00061 *)p)->fAE0==0) {
-                    CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF4,0);
-                    CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF8,0);
+            if(((MysteryAlbumWork *)p)->cursorMode==4) {
+                if(((MysteryAlbumWork *)p)->introActive==0) {
+                    CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
+                    CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
                     GFL_USE_PlaySeDefaultVolume(0x54c);
-                    func_021DA8B0(task,(u32)func_021DCCE4);
+                    MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SaveHandler);
                 }
-            } else if(func_021DBF04((int *)(p+40+220*((u32)*(int *)&((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4)))) {
-                CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF4,0);
-                CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF8,0);
+            } else if(MYSTERY_ALBUM_IsEntryValid((int *)(p+40+220*((u32)*(int *)&((MysteryAlbumWork *)p)->cursorMode+*(u32 *)&((MysteryAlbumWork *)p)->cursorIndex*4)))) {
+                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
+                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                if(((struct Obj00061 *)p)->fAE0) func_021DA8B0(task,(u32)func_021DC9CC);
-                else func_021DA8B0(task,(u32)func_021DC4F0);
+                if(((MysteryAlbumWork *)p)->introActive) MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_MoveHandler);
+                else MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_ConfirmHandler);
             }
         } else if(KEY_GetTrg()&2) {
             GFL_USE_PlaySeDefaultVolume(0x551);
-            if(((struct Obj00061 *)p)->fAE0) {
-                if(*(u8 * *)&((struct Obj00061 *)p)->fABC) {func_021D9E04(*(u8 * *)&((struct Obj00061 *)p)->fABC);((struct Obj00061 *)p)->fABC=0;}
-                CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF0,0);
-                ((struct Obj00061 *)p)->fAE0=0;
+            if(((MysteryAlbumWork *)p)->introActive) {
+                if(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
+                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorB,0);
+                ((MysteryAlbumWork *)p)->introActive=0;
             } else {
-                CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF4,0);
-                CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF8,0);
-                func_021DA8B0(task,(u32)func_021DCCE4);
+                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
+                CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
+                MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SaveHandler);
             }
         }
         if(delta) {
-            count=func_021DBDB8(p);
+            count=MYSTERY_ALBUM_GetColumnCount(p);
             if(delta<0) {
-                if(((struct Obj00061 *)p)->fAC8) next=((struct Obj00061 *)p)->fAC8-1;
+                if(((MysteryAlbumWork *)p)->cursorIndex) next=((MysteryAlbumWork *)p)->cursorIndex-1;
                 else next=count-1;
                 direction=1;
             } else if(delta>0) {
-                if(((struct Obj00061 *)p)->fAC8<count-1) next=((struct Obj00061 *)p)->fAC8+1;
+                if(((MysteryAlbumWork *)p)->cursorIndex<count-1) next=((MysteryAlbumWork *)p)->cursorIndex+1;
                 else next=0;
                 direction=0;
             }
             GFL_USE_PlaySeDefaultVolume(0x642);
-            func_021DBA78((u8 *)p,direction);
-            func_021DB528(p,0);
-            func_021DB478(p,0,direction,next,((struct Obj00061 *)p)->f24);
-            ((struct Obj00061 *)p)->fAC8=next;
-            CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAEC,0);
-            CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF4,0);
-            CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAF8,0);
-            ((struct Obj00061 *)p)->fBAC=0;
-            ((struct Obj00061 *)p)->fA78=1;
+            MYSTERY_ALBUM_StartScroll((u8 *)p,direction);
+            MYSTERY_ALBUM_UpdateSlots(p,0);
+            MYSTERY_ALBUM_SetCursor(p,0,direction,next,((MysteryAlbumWork *)p)->heapId);
+            ((MysteryAlbumWork *)p)->cursorIndex=next;
+            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorA,0);
+            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorC,0);
+            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorD,0);
+            ((MysteryAlbumWork *)p)->angle=0;
+            ((MysteryAlbumWork *)p)->refreshFlag=1;
             *state=1;
         }
         if(changed) {
-            if((int)((struct Obj00061 *)p)->fACC<4) {
+            if((int)((MysteryAlbumWork *)p)->cursorMode<4) {
                 pos.x=data_021DF86E[*(u32 *)(p+0xacc)].c.x*8-24;
                 pos.y=data_021DF86E[*(u32 *)(p+0xacc)].c.y*8-8;
-                CLACT_SetActorAnimSeq(((struct Obj00061 *)p)->fAEC,0);
+                CLACT_SetActorAnimSeq(((MysteryAlbumWork *)p)->actorA,0);
             } else {
                 pos.x=176;pos.y=152;
-                CLACT_SetActorAnimSeq(((struct Obj00061 *)p)->fAEC,11);
+                CLACT_SetActorAnimSeq(((MysteryAlbumWork *)p)->actorA,11);
             }
-            CLACT_AddActorSurfacePos(((struct Obj00061 *)p)->fAEC,(const struct Vec2 *)(&pos),0);
-            ((struct Obj00061 *)p)->fBAC=0;
-            ((struct Obj00061 *)p)->fA78=1;
+            CLACT_AddActorSurfacePos(((MysteryAlbumWork *)p)->actorA,(const struct Vec2 *)(&pos),0);
+            ((MysteryAlbumWork *)p)->angle=0;
+            ((MysteryAlbumWork *)p)->refreshFlag=1;
         }
         break;
     case 1:
-        if(func_021DBA94(p)) *state=0;
+        if(MYSTERY_ALBUM_UpdateScroll(p)) *state=0;
         break;
     }
 }
 
-void func_021DC4F0(void *task,u32 *state,u8 *p)
+void MYSTERY_ALBUM_ConfirmHandler(void *task,u32 *state,u8 *p)
 {
     Desc_021DC4F0 d;
     Vec v;
     int result;
     switch (*state) {
     case 0:
-        if (!((struct Obj00169 *)p)->fABC) {
-            ((struct Obj00169 *)p)->fABC=func_021D9CA4(0,15,((struct Obj00169 *)p)->f14,((struct Obj00169 *)p)->f10,29);
-            func_021D9FFC(((struct Obj00169 *)p)->fABC,1,13);
+        if (!((MysteryAlbumWork *)p)->menuWindow) {
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
         }
-        func_021D9F08(((struct Obj00169 *)p)->fABC,((struct Obj00169 *)p)->f1C,116,0);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,116,0);
         *state=1;
         break;
     case 1:
         MI_CpuFill8(&d,0,36);
-        d.v[0]=*(u32 *)&((struct Obj00169 *)p)->f1C; d.v[1]=*(u32 *)&((struct Obj00169 *)p)->f10; d.v[2]=*(u32 *)&((struct Obj00169 *)p)->f14;
+        d.v[0]=*(u32 *)&((MysteryAlbumWork *)p)->bank; d.v[1]=*(u32 *)&((MysteryAlbumWork *)p)->windowParamA; d.v[2]=*(u32 *)&((MysteryAlbumWork *)p)->windowParamB;
         d.v[3]=117;d.v[4]=118;d.v[5]=119;d.v[6]=3;
         d.a=0;d.b=15;d.c=13;d.d=1;
-        ((struct Obj00169 *)p)->fAC0=func_021DA038((const u8 *)(&d),((struct Obj00169 *)p)->f24);
+        ((MysteryAlbumWork *)p)->menu=MYSTERY_UTIL_CreateMenu((const u8 *)(&d),((MysteryAlbumWork *)p)->heapId);
         *state=2;
         break;
     case 2:
-        result=func_021DA178(((struct Obj00169 *)p)->fAC0);
-        ((struct Obj00169 *)p)->fBAC=0x7fff;
+        result=MYSTERY_UTIL_UpdateMenu(((MysteryAlbumWork *)p)->menu);
+        ((MysteryAlbumWork *)p)->angle=0x7fff;
         if (result==-1) break;
         if (result==0) {
-            ((struct Obj00169 *)p)->fAE0=1;
+            ((MysteryAlbumWork *)p)->introActive=1;
             v.x=data_021DF86E[*(u32 *)(p+0xacc)].c.x*8-24;
             v.y=data_021DF86E[*(u32 *)(p+0xacc)].c.y*8-8;
-            CLACT_AddActorSurfacePos(((struct Obj00169 *)p)->fAF0,(const struct Vec2 *)(&v),0);
-            CLACT_SetActorDrawEnable(((struct Obj00169 *)p)->fAF0,1);
-            ((struct Obj00169 *)p)->fADE=((struct Obj00169 *)p)->fACC+((struct Obj00169 *)p)->fAC8*4;
-            if (((struct Obj00169 *)p)->fAC0) {func_021DA148(((struct Obj00169 *)p)->fAC0);((struct Obj00169 *)p)->fAC0=0;}
-            if (*(u8 * *)&((struct Obj00169 *)p)->fABC) {func_021D9E04(*(u8 * *)&((struct Obj00169 *)p)->fABC);((struct Obj00169 *)p)->fABC=0;}
-            if (!((struct Obj00169 *)p)->fABC) {
-                ((struct Obj00169 *)p)->fABC=func_021D9D4C(0,15,((struct Obj00169 *)p)->f14,((struct Obj00169 *)p)->f10,29);
-                func_021D9FFC(((struct Obj00169 *)p)->fABC,1,13);
+            CLACT_AddActorSurfacePos(((MysteryAlbumWork *)p)->actorB,(const struct Vec2 *)(&v),0);
+            CLACT_SetActorDrawEnable(((MysteryAlbumWork *)p)->actorB,1);
+            ((MysteryAlbumWork *)p)->swapIndex=((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4;
+            if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
+            if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
+            if (!((MysteryAlbumWork *)p)->menuWindow) {
+                ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow2(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+                MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
             }
-            func_021D9F08(((struct Obj00169 *)p)->fABC,((struct Obj00169 *)p)->f1C,122,0);
+            MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,122,0);
             *state=6;
         } else if (result==1) {
-            if (func_021DC030((u32)((void *)((u32)p+40+220*(((struct Obj00169 *)p)->fACC+((struct Obj00169 *)p)->fAC8*4))))) *state=7;
+            if (MYSTERY_ALBUM_GetEntryEggFlag((u32)((void *)((u32)p+40+220*(((MysteryAlbumWork *)p)->cursorMode+((MysteryAlbumWork *)p)->cursorIndex*4))))) *state=7;
             else *state=3;
         } else if (result==2) *state=5;
         break;
     case 3:
-        if (((struct Obj00169 *)p)->fAC0) {func_021DA148(((struct Obj00169 *)p)->fAC0);((struct Obj00169 *)p)->fAC0=0;}
-        func_021D9F08(((struct Obj00169 *)p)->fABC,((struct Obj00169 *)p)->f1C,120,1);
+        if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,120,1);
         *state=4;
         break;
     case 4:
-        if (func_021D9FF8(((struct Obj00169 *)p)->fABC)) *state=5;
+        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=5;
         break;
     case 5:
-        if (*(u8 * *)&((struct Obj00169 *)p)->fABC) {func_021D9E04(*(u8 * *)&((struct Obj00169 *)p)->fABC);((struct Obj00169 *)p)->fABC=0;}
-        if (((struct Obj00169 *)p)->fAC0) {func_021DA148(((struct Obj00169 *)p)->fAC0);((struct Obj00169 *)p)->fAC0=0;}
-        func_021DA8B0(task,(u32)func_021DC08C);
+        if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) {MYSTERY_UTIL_DeleteMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);((MysteryAlbumWork *)p)->menuWindow=0;}
+        if (((MysteryAlbumWork *)p)->menu) {MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);
         break;
     case 6:
-        func_021DA8B0(task,(u32)func_021DC08C);
+        MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);
         break;
     case 7:
-        func_021DA148(((struct Obj00169 *)p)->fAC0);((struct Obj00169 *)p)->fAC0=0;
-        func_021DA8B0(task,(u32)func_021DC734);
+        MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);((MysteryAlbumWork *)p)->menu=0;
+        MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_InfoHandler);
         break;
     }
-    if (*(u8 * *)&((struct Obj00169 *)p)->fABC) func_021D9E50(*(u8 * *)&((struct Obj00169 *)p)->fABC);
+    if (*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(*(u8 * *)&((MysteryAlbumWork *)p)->menuWindow);
 }
 
 static inline void window0(int x,int y,int xx,int yy)
@@ -2812,33 +2959,33 @@ static inline void outside(int planes,int effect)
  * lever: int coordinate locals retain table loads before SDK window plane writes; u8 locals were 4 bytes short.
  * volatile: display control 021DC82C/838/950/958; window registers 021DC84E..892.
  */
-void func_021DC734(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p)
 {
     Desc_021DC734 d;
     u32 index=W(0xac8)*4+W(0xacc);
     int result;
     int x,y;
     switch(*state) {
-    case 0:func_021D9F08(P(0xabc),W(28),123,1);*state=1;break;
+    case 0:MYSTERY_UTIL_SetMenuMessage(P(0xabc),W(28),123,1);*state=1;break;
     case 1:
-        if(func_021D9FF8(P(0xabc))) {
+        if(MYSTERY_UTIL_GetMenuState(P(0xabc))) {
             MI_CpuFill8(&d,0,36);
             d.v[0]=W(28);d.v[1]=W(16);d.v[2]=W(20);
             d.v[3]=124;d.v[4]=125;d.v[6]=2;
             d.a=0;d.b=15;d.c=13;d.d=1;
-            P(0xac0)=func_021DA038((const u8 *)&d,H(36));
+            P(0xac0)=MYSTERY_UTIL_CreateMenu((const u8 *)&d,H(36));
             *state=2;
         }
         break;
     case 2:
-        result=func_021DA178((char *)P(0xac0));
+        result=MYSTERY_UTIL_UpdateMenu((char *)P(0xac0));
         H(0xbac)=0x7fff;
         if(result!=-1) {
-            func_021DA148(P(0xac0));P(0xac0)=0;
+            MYSTERY_UTIL_DeleteMenu(P(0xac0));P(0xac0)=0;
             if(!result) *state=3;
             else {
-                if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
-                func_021DA8B0(task,(u32)func_021DC08C);
+                if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
+                MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);
             }
         }
         break;
@@ -2854,25 +3001,25 @@ void func_021DC734(void *task,u32 *state,char *p)
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}
         break;
     case 5:
-        func_021DBC08((Obj_021DB938 *)p, index);
-        func_021DB528(p,1);
-        func_021DB478(p,1,0,W(0xac8),H(36));
+        MYSTERY_ALBUM_RemoveCard((MysteryAlbumWork *)p, index);
+        MYSTERY_ALBUM_UpdateSlots(p,1);
+        MYSTERY_ALBUM_SetCursor(p,1,0,W(0xac8),H(36));
         W(0xa78)=1;*state=6;break;
     case 6:
         func_0207D658(0x04000050,30,16-W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=7;}
         break;
     case 7:
-        if(!MYSTERY_DATA_HasAnyCard((char *)P(12))) func_021DA2F0(P(0xab8),1);
+        if(!MYSTERY_DATA_HasAnyCard((char *)P(12))) MYSTERY_UTIL_ClearListWindow(P(0xab8),1);
         *(volatile u32 *)0x04000000 &= ~0xe000;
         *state=8;break;
-    case 8:func_021D9F08(P(0xabc),W(28),121,1);*state=9;break;
-    case 9:if(func_021D9FF8(P(0xabc))) *state=10;break;
+    case 8:MYSTERY_UTIL_SetMenuMessage(P(0xabc),W(28),121,1);*state=9;break;
+    case 9:if(MYSTERY_UTIL_GetMenuState(P(0xabc))) *state=10;break;
     case 10:
-        if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
-        func_021DA8B0(task,(u32)func_021DC08C);break;
+        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);break;
     }
-    if(P(0xabc)) func_021D9E50(P(0xabc));
+    if(P(0xabc)) MYSTERY_UTIL_UpdateMenuWindow(P(0xabc));
 }
 
 static inline void window1(int x,int y,int xx,int yy)
@@ -2900,7 +3047,7 @@ static inline void inside1(int planes,int effect)
  * note: 2026-10-05 recoup P23L5: 8 B DIFF first form (asrs for lsrs and row/col slots swapped), then EXACT. Real extent 792 B, not the 46 B of the lane list.
  * volatile: display control 04000000, window registers 04000040..4A.
  */
-void func_021DC9CC(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p)
 {
     u32 index=((Cur_021DC030 *)p)->col+((Cur_021DC030 *)p)->row*4;
     int here,there,mask;
@@ -2909,11 +3056,11 @@ void func_021DC9CC(void *task,u32 *state,char *p)
     int col,row;
     switch(*state) {
     case 0:
-        if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
+        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
         W(0xae0)=0;
         if(index==H(0xade)) {
             CLACT_SetActorDrawEnable((struct Obj *)P(0xaf0),0);
-            func_021DA8B0(task,(u32)func_021DC08C);
+            MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);
             return;
         }
         *state=1;break;
@@ -2937,34 +3084,34 @@ void func_021DC9CC(void *task,u32 *state,char *p)
         func_0207D658(0x04000050,30,W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=3;}break;
     case 3:
-        func_021DBCC8((Obj_021DBCC8 *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
+        MYSTERY_ALBUM_SwapCards((MysteryAlbumWork *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
         row=(u32)H(0xade)>>2;col=H(0xade)%4;
         there=((*(int *)(p+0xac8))==row);
         here=((*(int *)(p+0xac8))==(index>>2));
         if(here) {
-            func_021DB938(p,1,W(0xacc));
-            func_021DB54C(p,1,0,(*(int *)(p+0xac8)),W(0xacc),H(36));
+            MYSTERY_ALBUM_DeleteSlotActor(p,1,W(0xacc));
+            MYSTERY_ALBUM_SetupSlot(p,1,0,(*(int *)(p+0xac8)),W(0xacc),H(36));
         }
         if(there) {
-            func_021DB938(p,1,col);
-            func_021DB54C(p,1,0,row,col,H(36));
+            MYSTERY_ALBUM_DeleteSlotActor(p,1,col);
+            MYSTERY_ALBUM_SetupSlot(p,1,0,row,col,H(36));
         }
-        func_020409B4(3);W(0xa78)=1;*state=4;break;
+        BG_SYS_PushTile(3);W(0xa78)=1;*state=4;break;
     case 4:
         func_0207D658(0x04000050,30,16-W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}break;
     case 5:*(volatile u32 *)0x04000000 &=~0xe000;*state=6;break;
     case 6:
         W(0xae0)=0;CLACT_SetActorDrawEnable((struct Obj *)P(0xaf0),0);
-        if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
-        func_021DA8B0(task,(u32)func_021DC08C);break;
+        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);break;
     }
 }
 
 /*
  * lever: separate case-1 guard tests preserve the branch to the shared state store; a short-circuit guard gives DIFF404.
  */
-void func_021DCCE4(void *arg,u32 *state,char *p)
+void MYSTERY_ALBUM_SaveHandler(void *arg,u32 *state,char *p)
 {
     Desc_021DCCE4 d;
     int result;
@@ -2974,112 +3121,112 @@ void func_021DCCE4(void *arg,u32 *state,char *p)
         *state=1;
         break;
     case 1:
-        if (!((struct Obj00253 *)p)->f0) *state=5;
-        else if (MYSTERY_DATA_HasCardSpace(((struct Obj00253 *)p)->fC)) *state=5;
+        if (!((MysteryAlbumWork *)p)->mode) *state=5;
+        else if (MYSTERY_DATA_HasCardSpace(((MysteryAlbumWork *)p)->cardList)) *state=5;
         else *state=2;
         break;
     case 2:
-        if (!((struct Obj00253 *)p)->fABC) {
-            ((struct Obj00253 *)p)->fABC=func_021D9CA4(0,15,((struct Obj00253 *)p)->f14,((struct Obj00253 *)p)->f10,29);
-            func_021D9FFC(((struct Obj00253 *)p)->fABC,1,13);
+        if (!((MysteryAlbumWork *)p)->menuWindow) {
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
         }
-        func_021D9F08(((struct Obj00253 *)p)->fABC,((struct Obj00253 *)p)->f1C,93,1);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,93,1);
         *state=3;
         break;
     case 3:
-        if (func_021D9FF8(((struct Obj00253 *)p)->fABC)) {
+        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) {
             MI_CpuFill8(&d,0,36);
-            d.v[0]=*(u32 *)&((struct Obj00253 *)p)->f1C;
-            d.v[1]=*(u32 *)&((struct Obj00253 *)p)->f10;
-            d.v[2]=*(u32 *)&((struct Obj00253 *)p)->f14;
+            d.v[0]=*(u32 *)&((MysteryAlbumWork *)p)->bank;
+            d.v[1]=*(u32 *)&((MysteryAlbumWork *)p)->windowParamA;
+            d.v[2]=*(u32 *)&((MysteryAlbumWork *)p)->windowParamB;
             d.v[3]=124;
             d.v[4]=125;
             d.v[6]=2;
             d.a=0; d.b=15; d.c=13; d.d=1;
-            ((struct Obj00253 *)p)->fAC0=func_021DA038((const u8 *)(&d),((struct Obj00253 *)p)->f24);
+            ((MysteryAlbumWork *)p)->menu=MYSTERY_UTIL_CreateMenu((const u8 *)(&d),((MysteryAlbumWork *)p)->heapId);
             *state=4;
         }
         break;
     case 4:
-        result=func_021DA178(((struct Obj00253 *)p)->fAC0);
-        ((struct Obj00253 *)p)->fBAC=0x7fff;
+        result=MYSTERY_UTIL_UpdateMenu(((MysteryAlbumWork *)p)->menu);
+        ((MysteryAlbumWork *)p)->angle=0x7fff;
         if (result!=-1) {
-            func_021DA148(((struct Obj00253 *)p)->fAC0);
-            ((struct Obj00253 *)p)->fAC0=0;
+            MYSTERY_UTIL_DeleteMenu(((MysteryAlbumWork *)p)->menu);
+            ((MysteryAlbumWork *)p)->menu=0;
             if (!result) *state=5;
             else {
-                if (((struct Obj00253 *)p)->fABC) {
-                    func_021D9E04(((struct Obj00253 *)p)->fABC);
-                    ((struct Obj00253 *)p)->fABC=0;
+                if (((MysteryAlbumWork *)p)->menuWindow) {
+                    MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
+                    ((MysteryAlbumWork *)p)->menuWindow=0;
                 }
-                func_021DA8B0(arg,(u32)func_021DC08C);
+                MYSTERY_UTIL_SetTaskHandler(arg,(u32)MYSTERY_ALBUM_SelectHandler);
             }
         }
         break;
     case 5:
-        if (((struct Obj00253 *)p)->fAD4) *state=6;
+        if (((MysteryAlbumWork *)p)->dirty) *state=6;
         else *state=10;
         break;
     case 6:
-        if (!((struct Obj00253 *)p)->fABC) {
-            ((struct Obj00253 *)p)->fABC=func_021D9CA4(0,15,((struct Obj00253 *)p)->f14,((struct Obj00253 *)p)->f10,29);
-            func_021D9FFC(((struct Obj00253 *)p)->fABC,1,13);
+        if (!((MysteryAlbumWork *)p)->menuWindow) {
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+            MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
         }
-        func_021D9F08(((struct Obj00253 *)p)->fABC,((struct Obj00253 *)p)->f1C,115,2);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,115,2);
         *state=7;
         break;
     case 7:
-        if (func_021D9FF8(((struct Obj00253 *)p)->fABC)) *state=8;
+        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=8;
         break;
     case 8:
         ready=1;
-        if (((struct Obj00253 *)p)->fAAC && !MYSTERY_ALBUM_IsIntroIdle(((struct Obj00253 *)p)->fAAC)) ready=0;
+        if (((MysteryAlbumWork *)p)->selectedAlbum && !MYSTERY_ALBUM_IsIntroIdle(((MysteryAlbumWork *)p)->selectedAlbum)) ready=0;
         if (ready) {
-            MYSTERY_DATA_SaveStart(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20));
+            MYSTERY_DATA_SaveStart(((MysteryAlbumWork *)p)->cardList,(int)(((MysteryAlbumWork *)p)->saveParam));
             *state=9;
         }
         break;
     case 9:
-        if (MYSTERY_DATA_SaveMain(((struct Obj00253 *)p)->fC,(int)(((struct Obj00253 *)p)->f20))==2) *state=10;
+        if (MYSTERY_DATA_SaveMain(((MysteryAlbumWork *)p)->cardList,(int)(((MysteryAlbumWork *)p)->saveParam))==2) *state=10;
         break;
     case 10:
-        if (((struct Obj00253 *)p)->fABC) {
-            func_021D9E04(((struct Obj00253 *)p)->fABC);
-            ((struct Obj00253 *)p)->fABC=0;
+        if (((MysteryAlbumWork *)p)->menuWindow) {
+            MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
+            ((MysteryAlbumWork *)p)->menuWindow=0;
         }
-        func_021DA8B8(arg);
+        MYSTERY_UTIL_MarkTaskDone(arg);
         break;
     }
-    if (((struct Obj00253 *)p)->fABC) func_021D9E50(((struct Obj00253 *)p)->fABC);
+    if (((MysteryAlbumWork *)p)->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
 }
 
-void func_021DCEC4(void *arg,int *state,char *p)
+void MYSTERY_ALBUM_SingleHandler(void *arg,int *state,char *p)
 {
     switch (*state) {
     case 0:
-        if (!((struct Obj01930 *)p)->fABC)
-            ((struct Obj01930 *)p)->fABC=func_021D9CA4(0,15,((struct Obj01930 *)p)->f14,((struct Obj01930 *)p)->f10,29);
-        func_021D9FFC(((struct Obj01930 *)p)->fABC,1,13);
-        func_021D9F08(((struct Obj01930 *)p)->fABC,((struct Obj01930 *)p)->f1C,92,1);
+        if (!((MysteryAlbumWork *)p)->menuWindow)
+            ((MysteryAlbumWork *)p)->menuWindow=MYSTERY_UTIL_CreateMenuWindow(0,15,((MysteryAlbumWork *)p)->windowParamB,((MysteryAlbumWork *)p)->windowParamA,29);
+        MYSTERY_UTIL_DrawMenuWindow(((MysteryAlbumWork *)p)->menuWindow,1,13);
+        MYSTERY_UTIL_SetMenuMessage(((MysteryAlbumWork *)p)->menuWindow,((MysteryAlbumWork *)p)->bank,92,1);
         *state=1; break;
     case 1:
-        if (func_021D9FF8(((struct Obj01930 *)p)->fABC)) *state=2;
+        if (MYSTERY_UTIL_GetMenuState(((MysteryAlbumWork *)p)->menuWindow)) *state=2;
         break;
     case 2:
-        if (((struct Obj01930 *)p)->fABC) {
-            func_021D9E04(((struct Obj01930 *)p)->fABC);
-            ((struct Obj01930 *)p)->fABC=0;
+        if (((MysteryAlbumWork *)p)->menuWindow) {
+            MYSTERY_UTIL_DeleteMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
+            ((MysteryAlbumWork *)p)->menuWindow=0;
         }
-        func_021DA8B0(arg,(u32)func_021DC08C);
+        MYSTERY_UTIL_SetTaskHandler(arg,(u32)MYSTERY_ALBUM_SelectHandler);
         break;
     }
-    if (((struct Obj01930 *)p)->fABC) func_021D9E50(((struct Obj01930 *)p)->fABC);
+    if (((MysteryAlbumWork *)p)->menuWindow) MYSTERY_UTIL_UpdateMenuWindow(((MysteryAlbumWork *)p)->menuWindow);
 }
 
 /*
  * extent: two bytes of zero alignment padding after the return.
  */
-void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
+void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u16 heap)
 {
     void *res;
     void *allocation;
@@ -3092,13 +3239,13 @@ void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
     func_020307B0(allocation);
 }
 
-void func_021DCFA4(u8 *p,int b,int c,u16 d) {func_021DAB50((void *)b,(u16 *)p,d,c,(const u16 *)(p+32),(const u16 *)(p+64));}
+void MYSTERY_ALBUM_UpdateIconSprite(u8 *p,int b,int c,u16 d) {MYSTERY_UTIL_BlendPaletteRange((void *)b,(u16 *)p,d,c,(const u16 *)(p+32),(const u16 *)(p+64));}
 
 /*
  * lever: const descriptor input places its loads before the outgoing heap store.
  * interfaces: D81C/D898 scalar stack words reproduce the aggregate layout; complete bodies and forwarding targets read no padding, key only low halfword.
  */
-void *func_021DCFC8(const Desc_021DCFC8 *p,u16 heap)
+void *MYSTERY_ALBUM_CreateSlotWork(const Desc_021DCFC8 *p,u16 heap)
 {
     char *out;
     Config config;
@@ -3122,7 +3269,7 @@ void *func_021DCFC8(const Desc_021DCFC8 *p,u16 heap)
     }
     config=d_021DF99C;
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    ((struct Obj00237 *)out)->f0=((void *(*)())func_021DA1BC)((void *)1,(const char *)&config,5,(u16)((struct Obj00237 *)out)->fA4,(u8)((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
+    ((struct Obj00237 *)out)->f0=((void *(*)())MYSTERY_UTIL_CreateWindowList)((void *)1,(const char *)&config,5,(u16)((struct Obj00237 *)out)->fA4,(u8)((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
     arc=func_020490F4(34,heap);
     *(int *)&((struct Obj00237 *)out)->f4=CLACT_RegisterPalette(arc,3,((struct Obj00237 *)out)->f98,(u16)(p->w[4]<<5),heap);
     *(int *)&((struct Obj00237 *)out)->fC=CLACT_RegisterCellAnim(arc,33,36,heap);
@@ -3149,7 +3296,7 @@ void *func_021DCFC8(const Desc_021DCFC8 *p,u16 heap)
     return out;
 }
 
-void func_021DD1FC(void **p)
+void MYSTERY_ALBUM_DeleteSlotWork(void **p)
 {
     CLACT_DeleteActor(p[8]);
     CLACT_ReleaseCharacter((u32)p[5]);
@@ -3159,13 +3306,13 @@ void func_021DD1FC(void **p)
     CLACT_ReleaseCharacter((u32)p[2]);
     CLACT_ReleaseCellAnim((u32)p[3]);
     CLACT_ReleasePalette((u32)p[1]);
-    func_021DA280(p[0]);
+    MYSTERY_UTIL_DeleteWindowList(p[0]);
     func_020307B0(p);
 }
 
-int func_021DD240(void **p) {return func_021DA2C8(*p);}
+int MYSTERY_ALBUM_UpdateSlotWork(void **p) {return MYSTERY_UTIL_IsWindowListDone(*p);}
 
-struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, u16 heap)
+struct Out_021DC030 *MYSTERY_ALBUM_CreateAlbumView(Record_021DD24C *a, struct CtxB *b, void *c, u16 heap)
 {
     struct Out_021DC030 *out;
     struct Ctx ctx;
@@ -3204,7 +3351,7 @@ struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, 
     ctx.f18 = b->fCC;
     ctx.f1C = b->fC0;
     ctx.f20 = (u32)c;
-    func_021DBDF4((char *)out, (const Record_021DB938 *)a, (char *)&ctx, heap);
+    MYSTERY_ALBUM_SetupEntry((char *)out, (const Record_021DB938 *)a, (char *)&ctx, heap);
     desc = d_021DFA14;
     id16 = (heap & 0x7fff) | 0x8000;
     desc.e[1].f8 = STRBUF_Create(0x25, (u16)id16);
@@ -3222,13 +3369,13 @@ struct Out_021DC030 *func_021DD24C(Record_021DD24C *a, struct CtxB *b, void *c, 
     WORDSET_SetSlotNumber((void *)b->fCC, 1, (u8)(flags >> 8), 2, 0, 1);
     WORDSET_SetSlotNumber((void *)b->fCC, 2, (u8)flags, 2, 0, 1);
     WORDSET_CopyTaggedText((void *)b->fCC, desc.e[4].f8, t4);
-    out->f144 = func_021DA338(*(void **)b, heap);
-    func_021DA3EC(out->f144, (char *)(&desc), (void *)b->fC8);
+    out->f144 = MYSTERY_UTIL_CreateBmpList(*(void **)b, heap);
+    MYSTERY_UTIL_DrawBmpList(out->f144, (char *)(&desc), (void *)b->fC8);
     STRBUF_Delete(desc.e[1].f8);
     STRBUF_Delete(desc.e[2].f8);
     STRBUF_Delete(desc.e[4].f8);
     STRBUF_Delete(t4);
-    if (func_021DC024(out) == 1) {
+    if (MYSTERY_ALBUM_GetEntryKind(out) == 1) {
         struct Rec_021DC030 *r = out->a;
         u16 mv[4];
         u8 iv[6];

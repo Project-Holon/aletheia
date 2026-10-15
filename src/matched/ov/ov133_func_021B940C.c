@@ -15,7 +15,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   DUP_FITTING_ResetActorPose 0x021BA098 thumb ov133
  *   DUP_FITTING_ResetSlots 0x021B94C0 thumb ov133
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   DUP_FITTING_SetText 0x021B9C08 thumb ov133
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -37,7 +37,7 @@ struct WordSet;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void DUP_FITTING_ResetActorPose(u8 *);
 extern void DUP_FITTING_ResetSlots(u8 *);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 extern void DUP_FITTING_SetText(u8 *, unsigned int, void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -59,7 +59,7 @@ int DUP_FITTING_HandleTouch(u8 *p)
         ((struct Obj00004 *)p)->f10 = 192;
         GFL_USE_PlaySeDefaultVolume(1962);
         DUP_FITTING_ResetSlots(p);
-        obj = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
+        obj = WORDSET_CreateDefault(((struct Obj00004 *)p)->f0);
         WORDSET_SetSlotMonSpecies(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
         DUP_FITTING_SetText(p, 0, obj);
         WORDSET_DeleteStrbufED04(obj);

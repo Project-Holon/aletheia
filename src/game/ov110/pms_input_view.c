@@ -76,7 +76,7 @@
  *   PMSIV_EDIT_Delete 0x021BBCF0 thumb ov110
  *   PMSIV_CATEGORY_Delete 0x021BB2CC thumb ov110
  *   PMSIV_WORDWIN_Delete 0x021BF8BC thumb ov110
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   gPmsInputDispConfig 0x021C3604 data a4
  *   gPmsInputBgTemplate0 0x021C3694 data a4
  *   gPmsInputBgTemplate1 0x021C36B4 data a4
@@ -310,7 +310,7 @@ extern void PMSIV_WORDWIN_Delete(struct PmsivWordwin *wordwin);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PRINTSYS_QUE_Clear(struct PrintQue *queue);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *queue);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_SetVramBanks(const void *vramBanks);
 extern void BG_SYS_SetGraphicsMode(const void *dispConfig);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
@@ -639,13 +639,13 @@ void PMS_INPUT_VIEW_TaskExit(void *tcb, struct PmsInputViewTask *task) {
             PRINTSYS_QUE_Clear(view->printQue);
             PRINTSYS_QUE_Delete(view->printQue);
             view->printQue = 0;
-            func_020403F4(0);
-            func_020403F4(1);
-            func_020403F4(2);
-            func_020403F4(3);
-            func_020403F4(4);
-            func_020403F4(5);
-            func_020403F4(6);
+            BG_SYS_FreeLayerBuf(0);
+            BG_SYS_FreeLayerBuf(1);
+            BG_SYS_FreeLayerBuf(2);
+            BG_SYS_FreeLayerBuf(3);
+            BG_SYS_FreeLayerBuf(4);
+            BG_SYS_FreeLayerBuf(5);
+            BG_SYS_FreeLayerBuf(6);
             REG_POWCNT1 |= 0x8000;
             PMS_INPUT_VIEW_EndTask(task);
         }

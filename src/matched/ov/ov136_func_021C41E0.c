@@ -22,8 +22,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern signed char MSG_SPEED_GetWait(void);
 extern void MAILSYS_FillDefaultSentences(void *, u8 *);

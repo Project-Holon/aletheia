@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWC_Free    0x0205A1B0  arm
- *   g_021AB178  0x021AB178  data
+ *   gDwcReliableQueue  0x021AB178  data
  */
 
 typedef struct SendQueue {
@@ -29,17 +29,17 @@ typedef struct QueueInfo {
 } QueueInfo;
 
 extern void DWC_Free(int kind, void *p, int size);
-extern QueueInfo g_021AB178;
+extern QueueInfo gDwcReliableQueue;
 
 void DWCi_CleanupReliableQueue(char *p)
 {
     SendQueue *it;
 
-    while ((it = g_021AB178.head) != 0) {
-        g_021AB178.head = it->fC;
+    while ((it = gDwcReliableQueue.head) != 0) {
+        gDwcReliableQueue.head = it->fC;
         DWC_Free(4, it->f4, it->f8);
         DWC_Free(4, it, 0);
     }
-    g_021AB178.head = 0;
-    g_021AB178.tail = 0;
+    gDwcReliableQueue.head = 0;
+    gDwcReliableQueue.tail = 0;
 }

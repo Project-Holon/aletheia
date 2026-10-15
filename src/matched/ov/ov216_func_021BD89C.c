@@ -1,5 +1,5 @@
 /*
- * function: func_021BD89C
+ * function: BEACON_DETAIL_GRA_AddSlotSlideTask
  * address: 0x021BD89C
  * packet: pkt_ov216_021BD89C
  * region: ov216
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BD8A8 0x021BD8A8 thumb ov216
+ *   BEACON_DETAIL_GRA_AddSlotSlideTaskEx 0x021BD8A8 thumb ov216
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BD8A8(char*,int,int*);
-void func_021BD89C(char*p,int a){func_021BD8A8(p,a,(int*)(p+12));}
+extern void BEACON_DETAIL_GRA_AddSlotSlideTaskEx(char*,int,int*);
+void BEACON_DETAIL_GRA_AddSlotSlideTask(char*p,int a){BEACON_DETAIL_GRA_AddSlotSlideTaskEx(p,a,(int*)(p+12));}

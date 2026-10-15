@@ -36,8 +36,8 @@ void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int s
 typedef unsigned int   u32;
 struct Ctx;
 void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
-struct Obj0203159C;
-void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 void *FIELDMAP_Create(int a, int b);
 void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v);
 unsigned int GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *x);
@@ -46,7 +46,7 @@ struct Comm;
 u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 
-int FIELDMAP_ProcInit(struct Obj0203159C *a, int *state, int b)
+int FIELDMAP_ProcInit(struct Proc *a, int *state, int b)
 {
     switch (*state) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA038
+ * function: MYSTERY_UTIL_CreateMenu
  * address: 0x021DA038
  * packet: pkt_ov121_021DA038
  * region: ov121
@@ -15,7 +15,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
  *   d_021DF78C 0x021DF78C data a4
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
@@ -43,13 +43,13 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *BMP_MENUWORK_Create(u32,u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern void func_02020CF8(struct Obj *p, int heap);
 extern void func_02020D10(u8 *p, u32 v);
-void *func_021DA038(const u8 *p,u16 heap)
+void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
 {
     u8 *out;
     void *q;
@@ -63,7 +63,7 @@ void *func_021DA038(const u8 *p,u16 heap)
     q=((struct Obj01731 *)out)->f0;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
     ((struct Obj01731 *)out)->f8=((struct Obj01731 *)out)->f0;
     out[12]=0;
     ((struct Obj01731 *)out)->f14=BMP_MENUWORK_Create(((struct Obj01542 *)p)->f18,heap);

@@ -30,7 +30,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GF_FONT_Create_EC64"
+    "WORDSET_CreateDefault"
    ],
    "addresses": [
     "0x0201EC64"

@@ -12,7 +12,7 @@
  * DWC_GetAIDBitmap: the bitmap of every aid in the current node list.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  *   DWCi_IsGetAIDValid  0x0216C82C  arm  ov009
  *   DWC_GetAIDList  0x0216B880  arm  ov009
  *   DWCi_GetAIDBitmapFromList  0x0216BCD0  arm  ov009
@@ -20,7 +20,7 @@
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 extern int DWCi_IsGetAIDValid(void);
 extern int DWC_GetAIDList(unsigned char **out);
 extern int DWCi_GetAIDBitmapFromList(unsigned char *p, int n);
@@ -30,7 +30,7 @@ int DWC_GetAIDBitmap(void)
     unsigned char *list;
     int n;
 
-    if (*(int *)(((char *)&g_021AA878) + 4) == 0 || DWCi_IsGetAIDValid() == 0) {
+    if (*(int *)(((char *)&gDwcGlobalState) + 4) == 0 || DWCi_IsGetAIDValid() == 0) {
         return 0;
     }
     n = DWC_GetAIDList(&list);

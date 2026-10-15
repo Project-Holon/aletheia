@@ -13,15 +13,15 @@
  *
  * symbols:
  *   strcmp  0x020948E0  arm
- *   g_021A7C90  0x021A7C90  data
+ *   gQr2RegKeys  0x021A7C90  data
  */
 
-extern char *g_021A7C90[254];
+extern char *gQr2RegKeys[254];
 extern int strcmp(const char *a, const char *b);
 
 int qr2_internal_is_master_only_key(char *keyname)
 {
-    if (strcmp(keyname, g_021A7C90[31]) == 0 || strcmp(keyname, g_021A7C90[32]) == 0)
+    if (strcmp(keyname, gQr2RegKeys[31]) == 0 || strcmp(keyname, gQr2RegKeys[32]) == 0)
         return 1;
     return 0;
 }

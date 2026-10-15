@@ -1,5 +1,5 @@
 /*
- * function: func_021BDDF8
+ * function: INTRO_GRAPHIC_ExitBg
  * address:  0x021BDDF8
  * packet:   pkt_021BDDF8
  * region:   ov204
@@ -25,7 +25,7 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(u8 *, u32, u32);
 
-void func_021BDDF8(u8 *p)
+void INTRO_GRAPHIC_ExitBg(u8 *p)
 {
     BMP_WIN_Exit();
     BG_SYS_Delete();

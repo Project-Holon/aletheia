@@ -16,7 +16,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   gIrcBattleMatchVramBanks 0x021BB6F0 data a4
@@ -41,17 +41,17 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetTileEntry(int,int,int,int,u8,u8,u8);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 void IRCBATTLEMATCH_SetupDisplay(char *a0) {
  BG_SYS_SetVramBanks((const struct DispVram *)gIrcBattleMatchVramBanks);BG_SYS_SetGraphicsMode((struct DispConfig *)gIrcBattleMatchDispConfig);
  BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
- {struct BgTemplate t=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&t,0);BG_SYS_SetTileEntry(0,0,0,0,32,32,17);func_020409B4(0);}
- {struct BgTemplate t=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&t,0);BG_SYS_SetTileEntry(1,0,0,0,32,32,17);func_020409B4(1);}
+ {struct BgTemplate t=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&t,0);BG_SYS_SetTileEntry(0,0,0,0,32,32,17);BG_SYS_PushTile(0);}
+ {struct BgTemplate t=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&t,0);BG_SYS_SetTileEntry(1,0,0,0,32,32,17);BG_SYS_PushTile(1);}
  {struct BgTemplate t=gIrcBattleMatchBgTemplate4;BG_SYS_InitBgLayer(4,&t,0);BG_SYS_SetTileEntry(4,0,0,0,32,32,17);}
- {struct BgTemplate t=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&t,0);BG_SYS_SetTileEntry(5,0,0,0,32,32,17);func_020409B4(5);}
- {struct BgTemplate t=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&t,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,32,17);func_020409B4(6);}
- {struct BgTemplate t=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&t,0);BG_SYS_SetTileEntry(7,0,0,0,32,32,17);func_020409B4(7);}
+ {struct BgTemplate t=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&t,0);BG_SYS_SetTileEntry(5,0,0,0,32,32,17);BG_SYS_PushTile(5);}
+ {struct BgTemplate t=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&t,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,32,17);BG_SYS_PushTile(6);}
+ {struct BgTemplate t=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&t,0);BG_SYS_SetTileEntry(7,0,0,0,32,32,17);BG_SYS_PushTile(7);}
 }
 extern void CLACT_VBlankSystem(void);
 void IRCBATTLEMATCH_VBlankTask(void) { CLACT_VBlankSystem(); }

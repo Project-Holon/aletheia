@@ -24,7 +24,7 @@
  *   func_020355D8 0x020355D8 arm
  *   FX_SinCosTable_   0x020A1B38  data
  *   Table_0209F724   0x0209F724  data
- *   GF_FONT_Create_EC64    0x0201EC64  thumb
+ *   WORDSET_CreateDefault    0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
  *   WORDSET_SetSlotPmsWord    0x0201EFC8  thumb
  *   WORDSET_SetSlotMarkerFlag    0x0201EFFC  thumb
@@ -94,7 +94,7 @@ extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *a0);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
 extern void func_020355D8(void *);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
@@ -556,7 +556,7 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
     void *message;
     int i;
 
-    wordSet = GF_FONT_Create_EC64((u16)heapId);
+    wordSet = WORDSET_CreateDefault((u16)heapId);
     for (i = 0; i < wordCount; i++) {
         u16 word = sentence->word[i];
 

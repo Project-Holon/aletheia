@@ -1,5 +1,5 @@
 /*
- * function: func_021B7014
+ * function: MONOLITH_TOOL_CreateCursor
  * address:  0x021B7014
  * packet:   pkt_ov071_021B7014
  * region:   ov071
@@ -23,7 +23,7 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern const Rect d_021BA854;
 
-int func_021B7014(int *p, const int *pos, int flag)
+int MONOLITH_TOOL_CreateCursor(int *p, const int *pos, int flag)
 {
     Rect r;
     int f;

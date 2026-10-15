@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_CheckFAF0
+ * function: BG_SYS_ReserveTileRun
  * address:  0x0203FAF0
  * packet:   pkt_0203FA08
  * region:   arm9
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
 
-u32 BG_SYS_CheckFAF0(u32 a, u32 b, u32 c)
+u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c)
 {
     u32 d = BG_SYS_GetField17(a & 0xff);
 

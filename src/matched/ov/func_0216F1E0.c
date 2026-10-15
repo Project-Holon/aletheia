@@ -31,8 +31,8 @@ struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int GAME_BEACON_SetTrainerView();
 extern int func_020307B0();
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 int TRCARD_SYS_Exit(int a0, int a1, int a2, int a3)
@@ -69,7 +69,7 @@ a0 = ((struct Obj07207 *)t4)->f18;
     a0 = func_020307B0(a0);
 loc_0216F216:
 a0 = t6 + 0;
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
 loc_0216F21C:
 a0 = 0x26;
     GFL_HEAP_DeleteChecked(a0);

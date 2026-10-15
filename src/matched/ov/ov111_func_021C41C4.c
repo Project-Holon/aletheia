@@ -15,7 +15,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_02045EC0  0x02045EC0  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -49,7 +49,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 void VIEWER_MAIN_LoadResources(Work *p)
 {
@@ -74,5 +74,5 @@ void VIEWER_MAIN_LoadResources(Work *p)
     for (i = 0; i < 5; i++) {
         p->f3294[i] = func_02045EC0(p->f3200, i + 0x38);
     }
-    p->f3204 = GF_FONT_Create_EC64(p->heap);
+    p->f3204 = WORDSET_CreateDefault(p->heap);
 }

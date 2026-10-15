@@ -1,5 +1,5 @@
 /*
- * function: func_021BE3DC
+ * function: INTRO_CMD_CmdBgmFadeIn
  * address:  0x021BE3DC
  * packet:   pkt_021BE3DC
  * region:   ov204
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-int func_021BE3DC(int a, int b, int *p)
+int INTRO_CMD_CmdBgmFadeIn(int a, int b, int *p)
 {
     GFL_USE_FadeInBgmFull((unsigned short)*p);
     return 1;

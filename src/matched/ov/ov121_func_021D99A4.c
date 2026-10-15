@@ -1,5 +1,5 @@
 /*
- * function: func_021D99A4
+ * function: MYSTERY_UTIL_CreateWindow
  * address: 0x021D99A4
  * packet: pkt_ov121_021D99A4
  * region: ov121
@@ -19,7 +19,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
  */
 #include "../include/Obj01929.h"
@@ -39,8 +39,8 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
-void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
+extern void BG_SYS_PushTile(u32);
+void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
 {
     u8 *p;
     void *q;
@@ -59,7 +59,7 @@ void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 hea
     if (((struct Obj01929 *)p)->f24 == 0) {
         BMP_WIN_TransferChars(((struct Obj01929 *)p)->fC);
         BMP_WIN_MakeScreen(((struct Obj01929 *)p)->fC);
-        func_020409B4(BMP_WIN_GetBgLayer(((struct Obj01929 *)p)->fC));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(((struct Obj01929 *)p)->fC));
     }
     return p;
 }

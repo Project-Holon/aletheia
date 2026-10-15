@@ -12,13 +12,13 @@
  * Calls the first word of the table at 0x021A3730 on the argument.
  *
  * symbols:
- *   g_021A3730  0x021A3730  data
+ *   gGsMemoryFuncs  0x021A3730  data
  */
 
-extern char g_021A3730[];
+extern char gGsMemoryFuncs[];
 
 void gsimalloc(int a)
 {
-    (*(void (**)(int))g_021A3730)(a);
+    (*(void (**)(int))gGsMemoryFuncs)(a);
 }
 

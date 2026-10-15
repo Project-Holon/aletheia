@@ -18,8 +18,8 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   DWC_Auth_Create  0x02177EE8  arm  ov009
- *   g_021AA830     0x021AA830  data
- *   g_021A1F74     0x021A1F74  data
+ *   gDwcNasCnt     0x021AA830  data
+ *   gDwcNasInitialId     0x021A1F74  data
  *   DWC_Free       0x0205A1B0  arm
  */
 
@@ -39,22 +39,22 @@ extern void MI_CpuCopy8(void *src, void *dst, int size);
 struct DWCAuthParam;
 extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
 extern void DWC_Free(void);
-extern NalCnt *g_021AA830;
-extern char g_021A1F74[];
+extern NalCnt *gDwcNasCnt;
+extern char gDwcNasInitialId[];
 
 int DWC_NASLoginAsync(void)
 {
-    if (g_021AA830 != 0)
+    if (gDwcNasCnt != 0)
         OS_Terminate();
-    g_021AA830 = DWC_Alloc(4, 0x1E5C);
-    if (g_021AA830 == 0) {
+    gDwcNasCnt = DWC_Alloc(4, 0x1E5C);
+    if (gDwcNasCnt == 0) {
         DWCi_SetError(9, -20100);
         return 0;
     }
-    MI_CpuFill8(g_021AA830, 0, 0x1E5C);
-    MI_CpuCopy8(g_021A1F74, g_021AA830->id, 9);
-    g_021AA830->alloc = (void (*)(void))DWC_Alloc;
-    g_021AA830->free = DWC_Free;
-    DWC_Auth_Create((struct DWCAuthParam *)g_021AA830->auth, g_021AA830);
+    MI_CpuFill8(gDwcNasCnt, 0, 0x1E5C);
+    MI_CpuCopy8(gDwcNasInitialId, gDwcNasCnt->id, 9);
+    gDwcNasCnt->alloc = (void (*)(void))DWC_Alloc;
+    gDwcNasCnt->free = DWC_Free;
+    DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, gDwcNasCnt);
     return 1;
 }

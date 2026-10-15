@@ -95,13 +95,13 @@ struct Callback
   u32 state;
 };
 typedef int (*CallbackFn)(u32 *, u8 *);
-struct Obj0203159C
+struct Proc
 {
   u32 pad00[5];
   void *buffer;
 };
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void func_02082A7C(u32, void *, u32);
 struct S;
 extern void BTLV_CORE_LoadOverlays(unsigned short heap);
@@ -128,7 +128,7 @@ extern void BTL_MAIN_StartSetupTask(struct Callback *, u8 *, u8 *);
 extern void BTL_MAIN_ClearTrainerSlotsAndVoices(char *p);
 extern void BTL_MAIN_CreateParties(struct S *p);
 extern void BTL_MAIN_TrainerRecordAdd(char **p, int i);
-int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
+int BTL_MAIN_ProcInit(struct Proc *owner, u32 *state, u8 *q, u8 *p)
 {
   u32 flag;
   u32 i;

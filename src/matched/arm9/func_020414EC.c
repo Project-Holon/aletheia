@@ -13,11 +13,11 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   MIi_CpuClear16 0x02082A48  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *
  * Clear slot `i` of the 0x2c-byte slot table behind 0x02146A44: if the
  * buffer pointer at +8 is unset there is nothing to do, otherwise zero the
- * buffer over its +0xc length and notify func_020409B4.  Same table and
+ * buffer over its +0xc length and notify BG_SYS_PushTile.  Same table and
  * same guard shape as src/matched/BG_SYS_Delete_03F4.c, which frees the buffer
  * instead of clearing it.
  *
@@ -39,7 +39,7 @@ struct Entry {
 extern struct Entry *g_02146A44;
 
 extern void MIi_CpuClear16(u32 data, void *dest, u32 size);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void BG_SYS_ClearSlot(u32 i)
 {
@@ -47,5 +47,5 @@ void BG_SYS_ClearSlot(u32 i)
         return;
     }
     MIi_CpuClear16(0, g_02146A44[i].unk_08, g_02146A44[i].unk_0c);
-    func_020409B4(i);
+    BG_SYS_PushTile(i);
 }

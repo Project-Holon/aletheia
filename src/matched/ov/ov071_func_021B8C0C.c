@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C0C
+ * function: MONOLITH_TOOL_STATS_Draw
  * address:  0x021B8C0C
  * packet:   pkt_ov071_021B8C0C
  * region:   ov071
@@ -89,7 +89,7 @@ static inline void Draw(Q *q, void *h, u32 x, u32 y, void *buf)
     PRINTSYS_PrintQue(w, (u32)BMP_WIN_GetBmp(h), x, y, buf, (u32)q->fc);
 }
 
-void func_021B8C0C(C *c, Q *q, P *d)
+void MONOLITH_TOOL_STATS_Draw(C *c, Q *q, P *d)
 {
     Counts *x;
     s64 v;

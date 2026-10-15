@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F31A8",
+   "name": "BEACON_VIEW_FreeResSet",
    "address": "0x021F31A8",
    "kind": "game",
    "region": "ov032",

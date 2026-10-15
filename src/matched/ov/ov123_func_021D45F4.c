@@ -30,7 +30,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BUTTON_MAN_Delete  0x02051C6C  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 
 typedef unsigned char  u8;
@@ -63,7 +63,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BUTTON_MAN_Delete(void *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 typedef struct {
     u8 pad0[0xC];
@@ -119,5 +119,5 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *tbl, Own *owner, Rec *recs, 
     if (owner->res != 0)
         BUTTON_MAN_Delete(owner->res);
     owner->res = 0;
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }

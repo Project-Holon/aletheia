@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C00
+ * function: UN_SELECT_UpdateMessage
  * address: 0x021B9C00
  * packet: pkt_ov218_021B9C00
  * region: ov218
@@ -35,7 +35,7 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
-int func_021B9C00(char *p)
+int UN_SELECT_UpdateMessage(char *p)
 {
     if (((struct Obj05563 *)p)->f20 != 0) {
         switch (PRINTSYS_PrintStreamGetState(((struct Obj05563 *)p)->f20)) {

@@ -29,8 +29,8 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BR_UTIL_DeleteTask(void *p);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 int BR_CODEIN_SoclDestroy(int obj,int b,int c,char *p)
 {
     int i;
@@ -44,6 +44,6 @@ int BR_CODEIN_SoclDestroy(int obj,int b,int c,char *p)
     BR_UTIL_DeleteTask((void *)(((struct Obj03333 *)p)->fC));
     BMP_OAM_DeleteSys((void *)(((struct Obj03333 *)p)->f0));
     BR_PROC_SYS_PopEntry((unsigned int *)(((struct Obj24672 *)(*(char * *)&((struct Obj03333 *)p)->f3C))->f10));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     return 1;
 }

@@ -12,7 +12,7 @@
  *   STARTMENU_ConfigPromptDeleteWindows 0x021BC84C thumb ov088
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
@@ -23,9 +23,9 @@ extern void STARTMENU_ConfigPromptDeleteWindows(u8 *p);
 extern unsigned int GF_FONT_Delete(void *ptr);
 extern void BMP_WIN_Exit(void);
 typedef unsigned int   u32;
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_Delete(void);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *a);
+struct Proc;
+extern void func_020315D4(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(u32 a);
-int STARTMENU_ConfigPromptEnd(int a,int b,int c,u8 *p) { STARTMENU_ConfigPromptDeleteWindows(p);GF_FONT_Delete((void *)(((struct Obj02128 *)p)->f8));BMP_WIN_Exit();func_020403F4(3);func_020403F4(1);func_020403F4(5);BG_SYS_Delete();func_020315D4((struct S020315D4 *)a);GFL_HEAP_DeleteChecked(0x39);return 1; }
+int STARTMENU_ConfigPromptEnd(int a,int b,int c,u8 *p) { STARTMENU_ConfigPromptDeleteWindows(p);GF_FONT_Delete((void *)(((struct Obj02128 *)p)->f8));BMP_WIN_Exit();BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(5);BG_SYS_Delete();func_020315D4((struct Proc *)a);GFL_HEAP_DeleteChecked(0x39);return 1; }

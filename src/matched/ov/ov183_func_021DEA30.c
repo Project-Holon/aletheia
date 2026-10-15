@@ -26,7 +26,7 @@
 #include "../include/Obj24584.h"
 typedef unsigned char  u8;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void BR_CODEIN_SearchDeleteList(char *p);
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_BTN_DeleteObject(char *p);
@@ -37,7 +37,7 @@ extern void BR_UTIL_DeleteTextWin(void *, int);
 extern void BR_UTIL_DeleteHandles(char *r5);
 extern void BMP_OAM_DeleteSys(void *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 int BR_CODEIN_StatDestroy(void *a, int b, char *q, char *p)
 {
     int i;

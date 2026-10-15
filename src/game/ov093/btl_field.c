@@ -31,9 +31,9 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
  *   BMP_WIN_GetPosX  0x02045758  arm
@@ -59,7 +59,7 @@
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4

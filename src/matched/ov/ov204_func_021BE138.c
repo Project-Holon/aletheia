@@ -1,5 +1,5 @@
 /*
- * function: func_021BE138
+ * function: INTRO_GRAPHIC_DrawMenuEntry
  * address: 0x021BE138
  * packet: pkt_ov204_021BE138
  * region: ov204
@@ -9,24 +9,24 @@
  * status: EXACT*
  * extent: 021BE17A..021BE17C is two zero alignment bytes.
  * symbols:
- *   func_021BF094 0x021BF094 thumb ov204
+ *   INTRO_CMD_GetScenarioRow 0x021BF094 thumb ov204
  *   INTRO_MSG_DrawMenuList 0x021BF4E8 thumb ov204
- *   func_021BF00C 0x021BF00C thumb ov204
+ *   INTRO_CMD_AddCommand 0x021BF00C thumb ov204
  */
 #include "../include/Obj04608.h"
 struct S021BF00C; struct Q021BF00C;
-extern char *func_021BF094(int);
+extern char *INTRO_CMD_GetScenarioRow(int);
 extern void INTRO_MSG_DrawMenuList(char *);
-extern int func_021BF00C(struct S021BF00C *, struct Q021BF00C *);
-void func_021BE138(char *p, int which)
+extern int INTRO_CMD_AddCommand(struct S021BF00C *, struct Q021BF00C *);
+void INTRO_GRAPHIC_DrawMenuEntry(char *p, int which)
 {
-    char *q = func_021BF094(((struct Obj04608 *)p)->f1C) + 24 * ((struct Obj04608 *)p)->fA0;
+    char *q = INTRO_CMD_GetScenarioRow(((struct Obj04608 *)p)->f1C) + 24 * ((struct Obj04608 *)p)->fA0;
     INTRO_MSG_DrawMenuList(*(char * *)&((struct Obj04608 *)p)->f18);
     if (which == 0) {
-        if (q) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)q);
+        if (q) INTRO_CMD_AddCommand((struct S021BF00C *)p, (struct Q021BF00C *)q);
     } else {
         q += 24;
-        if (q) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)q);
+        if (q) INTRO_CMD_AddCommand((struct S021BF00C *)p, (struct Q021BF00C *)q);
     }
     ((struct Obj04608 *)p)->fA0 += 2;
 }

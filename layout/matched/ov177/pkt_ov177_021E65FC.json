@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E65FC",
+   "name": "WIFIBATTLEMATCH_VIEW_StepMainWindowIdle",
    "address": "0x021E65FC",
    "kind": "game",
    "region": "ov177",

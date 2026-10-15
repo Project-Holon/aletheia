@@ -14,7 +14,7 @@
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   DEMO3D_DATA_UpdateSeFade 0x021BED94 thumb
- *   func_021BF7AC 0x021BF7AC thumb
+ *   DEMO3D_DATA_IsCaptureDone 0x021BF7AC thumb
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   FX_Div 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
@@ -34,7 +34,7 @@ extern struct TcblNode *TCBL_AddTask(struct Tcbl *,void (*)(struct TcblNode *,vo
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void DEMO3D_DATA_UpdateSeFade(struct TcblNode *p, char *q);
-extern int func_021BF7AC(char *p, int v);
+extern int DEMO3D_DATA_IsCaptureDone(char *p, int v);
 extern int GFL_USE_GetSeSlot(u32);
 extern u32 FX_Div(u32,u32);
 void DEMO3D_DATA_CreateSeFade(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
@@ -48,7 +48,7 @@ void DEMO3D_DATA_CreateSeFade(struct Owner *owner,u8 kind,u16 target,int start,i
     work->kind=kind;
     work->start=start;
     work->end=end;
-    work->duration=func_021BF7AC((char *)owner,duration);
+    work->duration=DEMO3D_DATA_IsCaptureDone((char *)owner,duration);
     if(flag == -1) work->target=flag;
     else work->target=GFL_USE_GetSeSlot(target);
     if(start>0) a=0.5f+(float)(start<<12);

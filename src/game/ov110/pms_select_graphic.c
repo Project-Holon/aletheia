@@ -86,7 +86,7 @@
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
@@ -256,7 +256,7 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetGraphicsMode(const void *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FreeSlot(u8 bgId);
@@ -1329,7 +1329,7 @@ void PMS_SELECT_GRAPHIC_ExitSceneBgs(struct PmsSelectGraphicScene *scene)
     const struct PmsSelectGraphicBgRow *base;
     unsigned long i;
     base = gPmsSelectGraphicBgRows;
-    for (i = 0; i < 6; i++) func_020403F4((u8)base[i].id);
+    for (i = 0; i < 6; i++) BG_SYS_FreeLayerBuf((u8)base[i].id);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     MI_CpuFill8(scene, 0, 4);

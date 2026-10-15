@@ -14,7 +14,7 @@
  * symbols:
  *   MI_CpuFill8              0x02082BCC  arm
  *   _tcp_send_handshake            0x021593A8  arm  ov009
- *   g_021A8484               0x021A8484  data
+ *   gCpsSoc               0x021A8484  data
  */
 
 struct _CPSSoc {
@@ -33,7 +33,7 @@ struct _CPSSoc {
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void _tcp_send_handshake(char *soc, unsigned char flag);
-extern struct _CPSSoc g_021A8484;
+extern struct _CPSSoc gCpsSoc;
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 #define GET16(p) SWAP16(*(unsigned short *)(p))
@@ -43,7 +43,7 @@ void _tcp_send_rst(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 {
 	struct _CPSSoc *soc;
 
-	soc = &g_021A8484;
+	soc = &gCpsSoc;
 	MI_CpuFill8(soc, 0, sizeof(struct _CPSSoc));
 	soc->local_port = GET16(tcphdr + 2);
 	soc->remote_port = GET16(tcphdr);

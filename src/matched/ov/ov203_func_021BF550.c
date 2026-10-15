@@ -1,5 +1,5 @@
 /*
- * function: func_021BF550
+ * function: DEMO3D_DATA_FadeMain
  * address: 0x021BF550
  * packet: pkt_ov203_021BF550
  * region: ov203
@@ -10,7 +10,7 @@
  * status: EXACT
  * volatile: 0x04000052
  * symbols:
- *   func_021BF758 0x021BF758 thumb
+ *   DEMO3D_DATA_DeleteFadeWork 0x021BF758 thumb
  *   TCBL_DeleteTask 0x02031194 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   func_02049990 0x02049990 arm
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 struct TcblNode;
 struct Config { u16 a0,heap; u32 a4,a8,stop,a10,a14,a18,a1c,a20,a24; void *archive; };
 struct Context { struct Config *cfg; int state,count,wait; u32 first,a14,second; int fadein,fadeout,blend,step; };
-extern void func_021BF758(void *p);
+extern void DEMO3D_DATA_DeleteFadeWork(void *p);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
@@ -36,12 +36,12 @@ extern u32 FX_Div(u32,u32);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32,int,int,int,int);
-void func_021BF550(struct TcblNode *task,struct Context *ctx)
+void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Context *ctx)
 {
     struct Config *cfg=ctx->cfg;
     float a;
     if(cfg->stop != 0) {
-        func_021BF758(ctx);
+        DEMO3D_DATA_DeleteFadeWork(ctx);
         TCBL_DeleteTask(task);
         return;
     }
@@ -98,7 +98,7 @@ void func_021BF550(struct TcblNode *task,struct Context *ctx)
         }
         break;
     default:
-        func_021BF758(ctx);
+        DEMO3D_DATA_DeleteFadeWork(ctx);
         TCBL_DeleteTask(task);
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F08E4
+ * function: BEACON_VIEW_HitTestRow
  * address:  0x021F08E4
  * packet:   pkt_ov032_021F08E4
  * region:   ov032
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F089C  0x021F089C  thumb  ov032
+ *   BEACON_VIEW_PointInTriangle  0x021F089C  thumb  ov032
  */
 
 typedef unsigned char u8;
 
-extern int func_021F089C(void *pt, int *tri);
+extern int BEACON_VIEW_PointInTriangle(void *pt, int *tri);
 
-int func_021F08E4(u8 *p, void *pt)
+int BEACON_VIEW_HitTestRow(u8 *p, void *pt)
 {
     int i;
     int x;
@@ -33,7 +33,7 @@ int func_021F08E4(u8 *p, void *pt)
         t[3] = y + 0x2b;
         t[4] = x + 0xd2;
         t[5] = y + 0x2b;
-        if (func_021F089C(pt, t))
+        if (BEACON_VIEW_PointInTriangle(pt, t))
             return i;
         t[0] = x;
         t[1] = y + 5;
@@ -41,7 +41,7 @@ int func_021F08E4(u8 *p, void *pt)
         t[3] = y + 0x2b;
         t[4] = x + 0xc6;
         t[5] = y + 5;
-        if (func_021F089C(pt, t))
+        if (BEACON_VIEW_PointInTriangle(pt, t))
             return i;
     }
     return -1;

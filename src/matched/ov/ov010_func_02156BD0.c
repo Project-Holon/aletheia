@@ -31,8 +31,8 @@ typedef unsigned short u16;
 extern int func_02034AC4(s32 handle);
 extern char ov133_id[];
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char sMusicalDressupSysFileName[];
 

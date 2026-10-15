@@ -12,13 +12,13 @@
  * Stores a word at +0x34 of the module state block.
  *
  * symbols:
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
-extern char g_021A826C[];
+extern char gCpsNetVars[];
 
 void CPS_SetScavengerCallback(int v)
 {
-    *(int *)(g_021A826C + 0x34) = v;
+    *(int *)(gCpsNetVars + 0x34) = v;
 }
 

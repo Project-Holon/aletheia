@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void IRC_RESULT_InitMessageWindow(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g)
 {
     int q;
@@ -49,5 +49,5 @@ void IRC_RESULT_InitMessageWindow(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e,
     q = p->f0;
     BMP_WIN_TransferChars((void *)q);
     BMP_WIN_MakeScreen((struct Cfg *)q);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)q));
 }

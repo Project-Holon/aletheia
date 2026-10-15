@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
  */
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_UTIL_DeleteTextWin(void *,int);
 void BR_CODEIN_SoclTeardown(char *p,char *q)
@@ -30,7 +30,7 @@ void BR_CODEIN_SoclTeardown(char *p,char *q)
             *(int *)(p+i*4+0x28)=0;
         }
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     BR_RES_ApplyBgSet(((struct Obj14445 *)q)->f8,0x1e);
     if (((struct Obj10762 *)p)->f8) {
         BR_UTIL_DeleteTextWin(((struct Obj10762 *)p)->f8,((struct Obj14445 *)q)->f8);

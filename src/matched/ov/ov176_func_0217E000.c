@@ -1,5 +1,5 @@
 /*
- * function: func_0217E000
+ * function: LIVEBATTLEMATCH_IRC_DeleteMenuRecord
  * address: 0x0217E000
  * packet: pkt_ov176_0217E000
  * region: ov176
@@ -10,11 +10,11 @@
  * status: EXACT
  * Unlabelled blocker leaf for DA38 and DB0C; parent confirmed unowned.
  * symbols:
- *   func_021E8870 0x021E8870 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ClearBmp 0x021E8870 thumb ov177
  */
 struct S;
-extern void func_021E8870(struct S *);
-void func_0217E000(int *p)
+extern void WIFIBATTLEMATCH_UTIL_ClearBmp(struct S *);
+void LIVEBATTLEMATCH_IRC_DeleteMenuRecord(int *p)
 {
-    func_021E8870((struct S *)p[6]);
+    WIFIBATTLEMATCH_UTIL_ClearBmp((struct S *)p[6]);
 }

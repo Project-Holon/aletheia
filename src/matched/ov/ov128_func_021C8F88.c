@@ -69,14 +69,14 @@
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
- *   d_021CA674 0x021CA674 data a4
+ *   gWf2dmapCursorTileTable 0x021CA674 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u16 v[10]; } Tbl;
-extern const Tbl d_021CA674;
+extern const Tbl gWf2dmapCursorTileTable;
 extern void Wf2dmapFriend_CreateWindow(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void WF2DMAP_TOUCH_TransferScreen(char *p);
@@ -123,7 +123,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
         WF2DMAP_TOUCH_TransferScreen(*(char **)p);
         pal = *(u32 *)(ctx + 0x17c);
         gfx = *(u32 *)(ctx + 0x34);
-        t = d_021CA674;
+        t = gWf2dmapCursorTileTable;
         x = 0;
         n = BMP_WIN_GetWidth(*(void **)(p + 8));
         w1 = second(p);

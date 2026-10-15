@@ -1,5 +1,5 @@
 /*
- * function: func_021B82FC
+ * function: MONOLITH_TOOL_MENU_UpdateCursor
  * address:  0x021B82FC
  * packet:   pkt_ov071_021B82FC
  * region:   ov071
@@ -16,7 +16,7 @@
  *   MONOLITH_TOOL_UpdateBlink  0x021B70C4  thumb  ov071
  */
 
-void func_021B82FC(void *p)
+void MONOLITH_TOOL_MENU_UpdateCursor(void *p)
 {
     void MONOLITH_TOOL_UpdateBlink(void *);
     MONOLITH_TOOL_UpdateBlink((char *)p + 0x34);

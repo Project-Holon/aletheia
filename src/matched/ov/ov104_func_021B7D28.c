@@ -13,7 +13,7 @@
  * GF_FONT_Create 0x0201D7EC thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_02045B38 0x02045B38 arm
- * GF_FONT_Create_EC64 0x0201EC64 thumb
+ * WORDSET_CreateDefault 0x0201EC64 thumb
  * func_02049B40 0x02049B40 arm
  */
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ extern void GF_FONT_InitTextColor(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 void IRC_RHYTHM_InitTextSystem(unsigned *p, int mode, u16 heap) {
  MI_CpuFill8(p,0,0x10);
@@ -41,7 +41,7 @@ void IRC_RHYTHM_InitTextSystem(unsigned *p, int mode, u16 heap) {
  }
  p[2]=PRINTSYS_QUE_Create((void *)heap);
  p[1]=(unsigned int)func_02045B38(0,2,0x34,heap);
- p[3]=(unsigned int)GF_FONT_Create_EC64(heap);
+ p[3]=(unsigned int)WORDSET_CreateDefault(heap);
  func_02049B40(0x17,5,4,0x1C0,0x20,heap);
  func_02049B40(0x17,5,0,0x1C0,0x20,heap);
 }

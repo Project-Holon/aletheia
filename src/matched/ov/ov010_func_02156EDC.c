@@ -36,9 +36,9 @@ extern void GFL_HEAP_DeleteChecked(unsigned int);
 struct Stage;
 extern void MUSICAL_STAGE_SYS_Delete(struct Stage *s);
 typedef signed int     s32;
-struct S020315D4;
+struct Proc;
 extern void func_02034A5C(s32 handle);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern char ov112_id[];
 
 int MUSICAL_STAGE_SYS_Exit(void *a, int b, int c, Ctx **d)

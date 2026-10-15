@@ -14,8 +14,8 @@
  * symbols:
  *   strlen                  0x0209477C  arm
  *   func_0208CF34                  0x0208CF34  arm
- *   g_021A3728                     0x021A3728  data
- *   g_021A3720                     0x021A3720  data
+ *   gGsLargeIntHexFormatNibble                     0x021A3728  data
+ *   gGsLargeIntHexFormatByte                     0x021A3720  data
  */
 
 struct gsLargeInt_s {
@@ -26,8 +26,8 @@ struct gsLargeInt_s {
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
-extern char g_021A3728[];
-extern char g_021A3720[];
+extern char gGsLargeIntHexFormatNibble[];
+extern char gGsLargeIntHexFormatByte[];
 
 int gsLargeIntSetFromHexString(struct gsLargeInt_s *lint, char *hexstream)
 {
@@ -49,9 +49,9 @@ int gsLargeIntSetFromHexString(struct gsLargeInt_s *lint, char *hexstream)
     lint->mData[lint->mLength - 1] = 0;
     while (len != 0) {
         if (len >= 2)
-            func_0208CF34(hexstream + len - 2, g_021A3720, &temp);
+            func_0208CF34(hexstream + len - 2, gGsLargeIntHexFormatByte, &temp);
         else
-            func_0208CF34(hexstream + len - 1, g_021A3728, &temp);
+            func_0208CF34(hexstream + len - 1, gGsLargeIntHexFormatNibble, &temp);
         if (byteIndex == 0)
             *writePos = 0;
         *writePos |= temp << (8 * byteIndex);

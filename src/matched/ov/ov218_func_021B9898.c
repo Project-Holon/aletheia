@@ -1,5 +1,5 @@
 /*
- * function: func_021B9898
+ * function: UN_SELECT_OpenTaskMenu
  * address: 0x021B9898
  * packet: pkt_ov218_021B9898
  * region: ov218
@@ -24,7 +24,7 @@ struct TaskMenuTmpl { u32 heapId; u8 count; u8 pad05[3]; const void *unk08; u32 
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern void STRBUF_Delete(struct U16Vec *);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *, void *);
-struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap)
+struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 heap)
 {
     struct TaskMenuTmpl config;
     struct Item items[2];

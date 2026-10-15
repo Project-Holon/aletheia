@@ -49,7 +49,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_RegisterCharacter    0x0204A6C8  arm
  *   CLACT_RegisterPaletteEx    0x0204AC18  arm
  *   CLACT_RegisterCellAnim    0x0204AF28  arm
@@ -167,7 +167,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -184,8 +184,6 @@ struct Descriptor;
 struct StrObj;
 
 struct GdsRecord;
-
-struct Obj0202DCC4;
 
 struct PmsDraw;
 
@@ -344,7 +342,7 @@ extern unsigned BR_RES_GetFont(char *p);
 
 extern void CLACT_DeleteActor(struct Actor *p);
 
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 
@@ -368,7 +366,7 @@ extern int BR_RES_GetWordSet(char *p);
 
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 
-extern void PMS_DRAW_SetDecoPriority(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void PMS_DRAW_SetDecoPriority(struct PmsDraw *p, u32 i, u32 val);
 
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
@@ -600,7 +598,7 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
     bmp=((BrUtilTextWin *)p)->window;
     BMP_WIN_TransferChars(bmp);
     BMP_WIN_MakeScreen(bmp);
-    func_020409B4(BMP_WIN_GetBgLayer(bmp));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmp));
     return p;
 }
 
@@ -755,7 +753,7 @@ void BR_UTIL_DeleteListMenu(char *p)
     if(((BrUtilListMenu *)p)->cfg.cursor) BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.cursor,0,0);
     for(i=0;i<4;i++) CLACT_DeleteActor((struct Actor *)(*(int *)(p+0x28+i*4)));
     for(i=0;(unsigned)i<((BrUtilListMenu *)p)->cfg.count;i++) {
-        if(((BrUtilListMenu *)p)->bitmaps[i] && ((BrUtilListMenu *)p)->cfg.list[i].text) BMP_Delete((struct Obj020437AC *)((BrUtilListMenu *)p)->bitmaps[i]);
+        if(((BrUtilListMenu *)p)->bitmaps[i] && ((BrUtilListMenu *)p)->cfg.list[i].text) BMP_Delete((struct Bmp *)((BrUtilListMenu *)p)->bitmaps[i]);
     }
     BMP_WIN_ClearScreen((struct Descriptor *)((BrUtilListMenu *)p)->descriptor);BMP_WIN_Delete((struct Descriptor *)((BrUtilListMenu *)p)->descriptor);
     if(((BrUtilListMenu *)p)->cfg.bg<4) BR_RES_ReleaseSprite(((BrUtilListMenu *)p)->cfg.resources,7);
@@ -1428,7 +1426,7 @@ void BR_UTIL_DeleteProfileScreen(int *p)
     if(p[10]) {CLACT_DeleteActor((struct Actor *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
     if(p[9]) {CLACT_DeleteActor((struct Actor *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {BR_UTIL_Delete((void *)p[i]);p[i]=0;}
-    PMS_DRAW_Delete((struct Actor *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);func_020409B4(1);
+    PMS_DRAW_Delete((struct Actor *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);BG_SYS_PushTile(1);
 }
 
 int BR_UTIL_MainProfileScreen(u8 *p)

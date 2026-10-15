@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * interface: original narrows both BG_SYS_DeleteHalf payloads to halfwords.
- * interface: original narrows func_020403F4 layer argument to one byte.
+ * interface: original narrows BG_SYS_FreeLayerBuf layer argument to one byte.
  * symbols:
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   GTSNEGO_DISP_DeleteTouchbar 0x021D698C thumb ov120
@@ -27,7 +27,7 @@
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   func_02040588 0x02040588 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000043 data
@@ -57,7 +57,7 @@ extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(u32,u32,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_Delete(void);
 extern void func_02034A5C(int handle);
 void GTSNEGO_DISP_DeleteMsgSystem(u8 *p)
@@ -96,7 +96,7 @@ void GTSNEGO_DISP_DeleteMsgSystem(u8 *p)
     BG_SYS_SetTileUnit(5,1,0);
     BG_SYS_SetTileUnit(6,1,0);
     func_02040588(5,0);
-    for(i=0;i<=7;i++) func_020403F4((u8)i);
+    for(i=0;i<=7;i++) BG_SYS_FreeLayerBuf((u8)i);
     BG_SYS_Delete();
     func_020307B0(p);
     func_02034A5C((int)ov_id);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA3D0
+ * function: WF2DMAP_SCENE_DeleteOam
  * address: 0x021DA3D0
  * packet: pkt_ov129_021DA3D0
  * region: ov129
@@ -23,4 +23,4 @@ struct Grid;
 extern void CLACT_ReleasePalette(u32);
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_OAM_DeleteSys(void *);
-void func_021DA3D0(u8 *p) { CLACT_ReleasePalette(((struct Obj08140 *)p)->f30C); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08140 *)p)->f300); }
+void WF2DMAP_SCENE_DeleteOam(u8 *p) { CLACT_ReleasePalette(((struct Obj08140 *)p)->f30C); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08140 *)p)->f300); }

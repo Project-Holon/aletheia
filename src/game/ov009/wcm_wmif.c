@@ -77,8 +77,8 @@
  *   WCMi_GetNextScanChannel    0x02165918  arm  ov009
  *   WM_GetDispersionScanPeriod    0x0208EFC4  arm
  *   MI_CpuCopy8      0x02082D44  arm
- *   g_021A1988       0x021A1988  data  ov009
- *   g_021A1990       0x021A1990  data  ov009
+ *   gWcmWmifBssidAny       0x021A1988  data  ov009
+ *   gWcmWmifSsidAny       0x021A1990  data  ov009
  *   WCMi_GetCpsifWork                0x02166378 arm
  *   WCMi_ResetKeepAliveAlarm         0x02165af4 arm
  *   OS_WakeupThread                  0x02085800 arm
@@ -210,8 +210,8 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void WCMi_ResetKeepAliveAlarm(void);
 extern void OS_WakeupThread(void *queue);
 extern void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
-extern unsigned char g_021A1988[];
-extern unsigned char g_021A1990[];
+extern unsigned char gWcmWmifBssidAny[];
+extern unsigned char gWcmWmifSsidAny[];
 
 static void WcmWmReset(void);
 static void WcmWmcbIndication(void *arg);
@@ -1038,12 +1038,12 @@ void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long opt
     wcmw->scanParam.maxChannelTime = t;
     wcmw->scanParam.scanType = (wcmw->option & 0x300000) == 0x300000 ? 0 : 1;
     if (bssid == 0) {
-        MI_CpuCopy8(g_021A1988, wcmw->scanParam.bssid, 6);
+        MI_CpuCopy8(gWcmWmifBssidAny, wcmw->scanParam.bssid, 6);
     } else {
         MI_CpuCopy8(bssid, wcmw->scanParam.bssid, 6);
     }
-    if (essid == 0 || essid == g_021A1990) {
-        MI_CpuCopy8(g_021A1990, wcmw->scanParam.ssid, 32);
+    if (essid == 0 || essid == gWcmWmifSsidAny) {
+        MI_CpuCopy8(gWcmWmifSsidAny, wcmw->scanParam.ssid, 32);
         wcmw->scanParam.ssidLength = 0;
     } else {
         MI_CpuCopy8(essid, wcmw->scanParam.ssid, 32);

@@ -32,8 +32,8 @@ extern void BSUBWAY_RECORD_LIST_DeleteActors(char *p);
 extern void BSUBWAY_RECORD_LIST_DeleteFrames(void *p);
 extern void BSUBWAY_RECORD_LIST_ReleaseBgLayers(void *p);
 extern void BSUBWAY_RECORD_LIST_FreeWork(u8 *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void *func_0203084C(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -46,7 +46,7 @@ int BSUBWAY_RECORD_LIST_Exit(u32 a, u32 b, u32 c, void *p)
     BSUBWAY_RECORD_LIST_DeleteFrames(p);
     BSUBWAY_RECORD_LIST_ReleaseBgLayers(p);
     BSUBWAY_RECORD_LIST_FreeWork(p);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     func_0203084C(0x80);
     GFL_HEAP_DeleteChecked(0x80);
     return 1;

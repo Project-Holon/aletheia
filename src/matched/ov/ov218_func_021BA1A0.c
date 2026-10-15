@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1A0
+ * function: UN_SELECT_IsFadeDone
  * address: 0x021BA1A0
  * packet: pkt_ov218_021BA1A0
  * region: ov218
@@ -15,4 +15,4 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef signed short s16;typedef unsigned int u32;
 extern int FADE_IsActive(void);extern int BRIGHTNESS_IsFinished(int);
-int func_021BA1A0(void){if(FADE_IsActive()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}
+int UN_SELECT_IsFadeDone(void){if(FADE_IsActive()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}

@@ -21,7 +21,7 @@
  *   PRINTSYS_PrintQueColor    0x0201C724  thumb
  *   STRBUF_Delete    0x02045808  arm
  *   MANUAL_CATEGORY_UpdateOptionSlots    0x021BBD28  thumb  ov225
- *   func_021B9E80    0x021B9E80  thumb  ov225
+ *   MANUAL_COMMON_SetScreenId    0x021B9E80  thumb  ov225
  */
 #include "../include/Obj02267.h"
 #include "../include/Obj26324.h"
@@ -43,7 +43,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p);
-extern void func_021B9E80(char *p, unsigned id);
+extern void MANUAL_COMMON_SetScreenId(char *p, unsigned id);
 
 void MANUAL_CATEGORY_DrawOption(char *p)
 {
@@ -58,6 +58,6 @@ void MANUAL_CATEGORY_DrawOption(char *p)
     STRBUF_Delete(r);
     ((struct Obj02267 *)p)->f30 = 1;
     MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
-    func_021B9E80(((struct Obj02267 *)p)->f4,
+    MANUAL_COMMON_SetScreenId(((struct Obj02267 *)p)->f4,
                   *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 4));
 }

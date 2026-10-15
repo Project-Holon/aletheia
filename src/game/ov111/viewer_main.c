@@ -64,7 +64,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_02045EC0  0x02045EC0  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -91,11 +91,11 @@
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   func_02040618  0x02040618  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021C85D8     0x021C85D8  data  a4
  *   BG_SYS_ClearSlot  0x020414EC  arm
@@ -151,14 +151,14 @@
 #define REG_DB_WINOUT   (*(volatile u16 *)0x0400104A)
 #define REG_DB_BLDCNT   (*(volatile u16 *)0x04001050)
 struct PmsDraw;
-struct Obj0203159C;
+struct Proc;
 struct Tcbl;
 struct DispVram;
 struct Actor;
 struct PrintSys;
 struct Node;
 struct Obj;
-struct S020315D4;
+struct Proc;
 struct Sub0200852CObj;
 struct Sub020089A8Obj;
 struct S02031140;
@@ -167,8 +167,6 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 struct Rec;
-struct Obj0202DC98;
-struct Obj0202DCC4;
 struct Ctx;
 typedef unsigned char u8;
 
@@ -1005,7 +1003,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u8 func_020355C4(void);
 extern signed char MSG_SPEED_GetWait(void);
@@ -1043,14 +1041,14 @@ extern void VIEWER_TEXT_Exit(Work_021C40DC *p);
 extern void func_02030EAC(struct Node *n);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020355D8(u32 v);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -1069,11 +1067,11 @@ extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_02040618(u32 bgId, u32 which, u32 value);
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void VIEWER_TEXT_Draw(Work_v4754 *p, void **bg, Info_v4754 *info);
@@ -1082,8 +1080,8 @@ extern void VIEWER_TEXT_DrawWindow(Work_v4754 *p, void **bg, Info_v4754 *info);
 extern void VIEWER_TEXT_FlushWindow(Work_v4754 *p, void **bg);
 extern void VIEWER_TEXT_SetActorAnim(Anim_v4858 *a, int idx, u8 x, u8 y);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void PMS_DRAW_SetDecoVisible(struct Obj0202DCC4 *p, u32 i, u32 val);
-extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
+extern void PMS_DRAW_SetDecoVisible(struct PmsDraw *p, u32 i, u32 val);
+extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 a1);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern fx32 FX_Inv(fx32 v);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
@@ -1470,7 +1468,7 @@ void VIEWER_MAIN_LoadResources(Work_021C41C4 *p)
     for (i = 0; i < 5; i++) {
         p->f3294[i] = func_02045EC0(p->f3200, i + 0x38);
     }
-    p->f3204 = GF_FONT_Create_EC64(p->heap);
+    p->f3204 = WORDSET_CreateDefault(p->heap);
 }
 
 
@@ -1654,7 +1652,7 @@ void VIEWER_MAIN_LoadBgResources(Work_v3CC0 *p)
     func_02049624((void *)APP_ICON_GetArchiveId(), (void *)APP_ICON_GetStatusFrameFileId(), (void *)4, 0, 0, 0, p->heap);
     func_0204989C(APP_ICON_GetArchiveId(), APP_ICON_GetStatusDataFileId(), 4, 0, 0, 0, p->heap);
     BG_SYS_FillTileMap(4, 0, 0x15, 0x20, 3, 0xC);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }
 
 
@@ -1669,16 +1667,16 @@ void VIEWER_MAIN_ExitBg(void)
 {
     BG_SYS_SetMainPlaneVisible(0x1F, 0);
     BG_SYS_SetSubPlaneVisible(0x1F, 0);
-    func_02040618(5, 0, 0);
-    func_02040618(5, 3, 0);
-    func_02040618(3, 0, 0);
-    func_02040618(3, 3, 0);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(4);
-    func_020403F4(5);
-    func_020403F4(2);
-    func_020403F4(3);
+    BG_SYS_FillScrollArea(5, 0, 0);
+    BG_SYS_FillScrollArea(5, 3, 0);
+    BG_SYS_FillScrollArea(3, 0, 0);
+    BG_SYS_FillScrollArea(3, 3, 0);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(3);
     BG_SYS_Delete();
 }
 
@@ -2567,10 +2565,10 @@ void VIEWER_MAIN_VBlank(void *task, Work_021C581C *p)
 
     VIEWER_MAIN_UpdateBrightness((Work_021C5B34 *)p);
     ofs = -(p->shake / 2);
-    func_02040618(5, 0, ofs);
-    func_02040618(5, 3, ofs);
-    func_02040618(3, 0, ofs);
-    func_02040618(3, 3, ofs);
+    BG_SYS_FillScrollArea(5, 0, ofs);
+    BG_SYS_FillScrollArea(5, 3, ofs);
+    BG_SYS_FillScrollArea(3, 0, ofs);
+    BG_SYS_FillScrollArea(3, 3, ofs);
     if (p->dirty) {
         VIEWER_MAIN_InitBrightness((Work_021C4F80 *)p);
     }
@@ -2610,7 +2608,7 @@ void VIEWER_MAIN_UploadBg(Work_021C58E0_021C567C *p)
     BG_SYS_LoadTileData(7, p->chr->data, p->chr->size, 0);
     s = p->scrn;
     BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (u32)s + 0xC, 0x15, 2, s->w >> 3, s->h >> 3);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }
 
 

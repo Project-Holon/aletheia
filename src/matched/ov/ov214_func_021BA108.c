@@ -1,5 +1,5 @@
 /*
- * function: func_021BA108
+ * function: BTL_REC_SEL_PrintEntry
  * address: 0x021BA108
  * packet: pkt_ov214_021BA108
  * region: ov214
@@ -35,7 +35,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char MSG_SPEED_GetWait(void);
 extern void*PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
-void func_021BA108(int unused,char*p,unsigned entry,int v)
+void BTL_REC_SEL_PrintEntry(int unused,char*p,unsigned entry,int v)
 {
     int x;
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct Obj01782 *)p)->f6C),15);

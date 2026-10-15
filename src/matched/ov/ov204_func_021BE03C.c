@@ -1,5 +1,5 @@
 /*
- * function: func_021BE03C
+ * function: INTRO_GRAPHIC_InitCamera7
  * address: 0x021BE03C
  * packet: pkt_ov204_021BE03C
  * region: ov204
@@ -17,10 +17,10 @@
  *   G3D_CAMERA_SetScale 0x02048B60 arm
  *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
- *   func_021BDB70 0x021BDB70 thumb ov204
- *   d_021BFD68 0x021BFD68 data a4
- *   d_021BFD5C 0x021BFD5C data a4
- *   d_021BFD74 0x021BFD74 data a4
+ *   INTRO_GRAPHIC_Setup3d 0x021BDB70 thumb ov204
+ *   gIntroGraphicCameraPos 0x021BFD68 data a4
+ *   gIntroGraphicCameraTarget 0x021BFD5C data a4
+ *   gIntroGraphicCameraUp 0x021BFD74 data a4
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021BFD54 0x021BFD54 data a4
  *   gIntroG3dUnitSetup  0x021C093C  data
@@ -44,17 +44,17 @@ extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void func_021BDB70(void);
-extern struct G_021BFD68 d_021BFD68;
-extern struct G_021BFD5C d_021BFD5C;
-extern struct G_021BFD74 d_021BFD74;
+extern void INTRO_GRAPHIC_Setup3d(void);
+extern struct G_021BFD68 gIntroGraphicCameraPos;
+extern struct G_021BFD5C gIntroGraphicCameraTarget;
+extern struct G_021BFD74 gIntroGraphicCameraUp;
 extern const short d_020A1EB8[];
 extern const struct LightSet d_021BFD54;
-void func_021BE03C(char *p, u8 heap)
+void INTRO_GRAPHIC_InitCamera7(char *p, u8 heap)
 {
     u32 far_clip, near_clip;
-    G3D_SYSTEM_Init(0, 2, 0, 2, 0, heap, func_021BDB70);
-    *(u32 **)p = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
+    G3D_SYSTEM_Init(0, 2, 0, 2, 0, heap, INTRO_GRAPHIC_Setup3d);
+    *(u32 **)p = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&gIntroGraphicCameraPos), ((Vec3 *)&gIntroGraphicCameraTarget), ((Vec3 *)&gIntroGraphicCameraUp), heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
     G3D_CAMERA_SetRoll(*(struct Light **)p, &far_clip);

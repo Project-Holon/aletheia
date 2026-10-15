@@ -14,7 +14,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_InitRun  0x02040B94  arm
  *   g_02202F64  0x02202F64  data  ov135
  *   g_02202F84  0x02202F84  data  ov135
@@ -69,7 +69,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 extern struct BgTemplate g_02202F64;
@@ -95,7 +95,7 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x18, 0);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_02040588(2, 1);
     {
         struct BgTemplate t = g_02202FA4;

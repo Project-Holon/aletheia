@@ -18,13 +18,13 @@
  *   BATTLE_CHAMPIONSHIP_FLOW_CreateView 0x0217AF2C thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_CreateText 0x0217AF50 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_FadeIn 0x0217B014 thumb ov176
- *   func_021E8A3C 0x021E8A3C thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  */
 #include "../include/Obj10694.h"
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern int func_02034AC4(signed int);
 extern char ov67_id[],ov177_id[];
@@ -32,7 +32,7 @@ extern void BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_CreateView(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_CreateText(char *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *,int *,char *);
-extern int *func_021E8A3C(int a, int b, int c);
+extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 int BATTLE_CHAMPIONSHIP_FLOW_Create(void *a,void *b,void *context)
 {
     char *p;
@@ -46,6 +46,6 @@ int BATTLE_CHAMPIONSHIP_FLOW_Create(void *a,void *b,void *context)
     BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic((int *)p);
     BATTLE_CHAMPIONSHIP_FLOW_CreateView((int *)p);
     BATTLE_CHAMPIONSHIP_FLOW_CreateText(p);
-    ((struct Obj10694 *)p)->f4=func_021E8A3C((int)p,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
+    ((struct Obj10694 *)p)->f4=WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
     return 1;
 }

@@ -15,7 +15,7 @@
  *   CONFIG_GetTextSpeed 0x02008374 thumb
  *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
@@ -24,7 +24,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   PDC_MSG_InitBlend 0x021B6C34 thumb ov098
  *   gPdcMsgSrcName 0x021B6E74 data a4
@@ -48,7 +48,7 @@ extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern u32 CONFIG_GetTextSpeed(int);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32);
 extern struct U16Vec *STRBUF_Create(u32, u32);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
@@ -57,7 +57,7 @@ extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u3
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_WIN_DrawFrame(struct Cfg *, u16, u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void PDC_MSG_InitBlend(char *, int);
 u8 *PDC_MSG_Create(void *a, void *b, void *c, u32 heap)
@@ -72,7 +72,7 @@ u8 *PDC_MSG_Create(void *a, void *b, void *c, u32 heap)
     ((struct Obj01704 *)p)->f24 = a;
     ((struct Obj01704 *)p)->f34 = MSG_SPEED_GetWaitForSpeed(CONFIG_GetTextSpeed((int)b));
     *(struct U16Vec * *)&((struct Obj01704 *)p)->f2C = STRBUF_Create(0x100, heap);
-    *(struct WordSet * *)&((struct Obj01704 *)p)->f30 = GF_FONT_Create_EC64(heap);
+    *(struct WordSet * *)&((struct Obj01704 *)p)->f30 = WORDSET_CreateDefault(heap);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 32, 32, 17);
     BG_SYS_Init(1, 0, 1, 0);
     idx = func_020496E4(11, 89, 1, 0, 0, ((struct Obj01704 *)p)->f44);
@@ -80,7 +80,7 @@ u8 *PDC_MSG_Create(void *a, void *b, void *c, u32 heap)
     *(u32 *)&((struct Obj01704 *)p)->f1C = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);
     BMP_WIN_MakeScreen(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C);
     BMP_WIN_DrawFrame(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C, idx, 0);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     func_02040588(1, 0);
     PDC_MSG_InitBlend((char *)p + 4, *(int *)&((struct Obj01704 *)p)->f1C);
     return p;

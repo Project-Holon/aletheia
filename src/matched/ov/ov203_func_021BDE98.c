@@ -1,5 +1,5 @@
 /*
- * function: func_021BDE98
+ * function: DEMO3D_GRAPHIC_Delete
  * address: 0x021BDE98
  * packet: pkt_ov203_021BDE98
  * region: ov203
@@ -10,9 +10,9 @@
  * volatile: 04000050/04001050 stores DECA/DED0; 04000000/04001000 rereads DED2/DEDC.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_021BE12C 0x021BE12C thumb ov203
- *   func_021BE0C4 0x021BE0C4 thumb ov203
- *   func_021BE02C 0x021BE02C thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteG3d 0x021BE12C thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteClact 0x021BE0C4 thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteBg 0x021BE02C thumb ov203
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
@@ -20,20 +20,20 @@
 #include "../include/Obj10861.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021BE12C(int *);
-extern void func_021BE0C4(char *);
-extern void func_021BE02C(void *);
+extern void DEMO3D_GRAPHIC_DeleteG3d(int *);
+extern void DEMO3D_GRAPHIC_DeleteClact(char *);
+extern void DEMO3D_GRAPHIC_DeleteBg(void *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BDE98(char *ctx)
+void DEMO3D_GRAPHIC_Delete(char *ctx)
 {
     if (((struct Obj10861 *)ctx)->f14 == 0) func_02030EAC(((struct Obj10861 *)ctx)->f10);
-    func_021BE12C((int *)(ctx + 8));
+    DEMO3D_GRAPHIC_DeleteG3d((int *)(ctx + 8));
     if (((struct Obj10861 *)ctx)->f14 == 0) {
-        func_021BE0C4(ctx + 4);
-        func_021BE02C(ctx);
+        DEMO3D_GRAPHIC_DeleteClact(ctx + 4);
+        DEMO3D_GRAPHIC_DeleteBg(ctx);
     }
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;

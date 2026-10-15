@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE328",
+   "name": "INTRO_CMD_CmdFade",
    "address": "0x021BE328",
    "kind": "game",
    "region": "ov204",

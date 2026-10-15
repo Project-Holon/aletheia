@@ -1,5 +1,5 @@
 /*
- * function: func_02213850
+ * function: WIFIBATTLEMATCH_SYS_DestroySubWork
  * address: 0x02213850
  * packet: pkt_ov199_02213850
  * region: ov199
@@ -20,12 +20,12 @@ extern void func_02034A5C(int handle);
 extern const char ov093_id[];
 typedef unsigned int   u32;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-int func_02213850(void *a, void *b, void *c, char *work)
+int WIFIBATTLEMATCH_SYS_DestroySubWork(void *a, void *b, void *c, char *work)
 {
     if (((struct Obj06662 *)work)->f8) {
         func_02034A5C((int)ov093_id);

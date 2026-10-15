@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * closed 2026-10-05 (recoup integrator): func_021B652C and MONOLITH_TOOL_InitPalAnm return int (their matched definitions); with void declarations the 0x30 constant was copied from r4; with the real return type the
+ * closed 2026-10-05 (recoup integrator): MONOLITH_TOOL_InitBmpWin and MONOLITH_TOOL_InitPalAnm return int (their matched definitions); with void declarations the 0x30 constant was copied from r4; with the real return type the
  *   bytes are EXACT in c99 and c.
  * checks:   1 every callee's arity from its own ov071 file or a matched caller (PROCSYS_AllocProcWork/MI_CpuFill8 from ov071_021B730C, func_020056A0 from ov071_021B8EE8, func_0207D63C from ov091_021B6F28, GXx_SetMasterBrightness_/02043534/020435F4 from ov088_021B98BC); 2 no twin with the 0xF1 byte store or the 0xF8/0xFC/0x100 self-links; ov088_021B98BC gives the register block; 3 o as int, as a Wk struct, 0x30 as an int local, the byte store through s8, 0x12Cu, the 0x12C/0x130 pair as an array: no change; 4 inline setter for the byte (u8 and int parameter) no change; permuter 300 --types found nothing below 2 B; 5 ls docs/idioms re-read, none fits
  * blocker:  ARM9 BMP_SetDisplaySwap remains unresolved at THM_CALL +0x74;
@@ -77,7 +77,7 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   MONOLITH_TOOL_LoadSlotRecords  0x021B69AC  thumb  ov071
  *   MONOLITH_TOOL_InitDisplay  0x021B64D0  thumb  ov071
- *   func_021B652C  0x021B652C  thumb  ov071
+ *   MONOLITH_TOOL_InitBmpWin  0x021B652C  thumb  ov071
  *   MONOLITH_TOOL_InitPalAnm  0x021B6540  thumb  ov071
  *   MONOLITH_TOOL_InitBackgrounds  0x021B65B4  thumb  ov071
  *   MONOLITH_TOOL_LoadGraphics  0x021B6644  thumb  ov071
@@ -99,8 +99,8 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void BMP_SetDisplaySwap(u32 a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *GPOWER_LoadPowerTable(u32 heap);
@@ -110,7 +110,7 @@ extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void MONOLITH_TOOL_LoadSlotRecords(u8 *a, u8 *b);
 extern void MONOLITH_TOOL_InitDisplay(void);
-extern void func_021B652C(void);
+extern void MONOLITH_TOOL_InitBmpWin(void);
 extern unsigned int MONOLITH_TOOL_InitPalAnm(int *p);
 extern void MONOLITH_TOOL_InitBackgrounds(void);
 extern void MONOLITH_TOOL_LoadGraphics(void *a, void *b);
@@ -119,7 +119,7 @@ extern void MONOLITH_TOOL_InitActors(struct W6844 *p);
 extern void MONOLITH_TOOL_LoadActorResources(int *p);
 extern void MONOLITH_TOOL_VBlankTask(void *unused, struct S02021D50 **p);
 
-int MONOLITH_TOOL_Init(struct Obj0203159C *ctx, int unused, u8 *arg)
+int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, u8 *arg)
 {
     u8 *o;
 
@@ -141,7 +141,7 @@ int MONOLITH_TOOL_Init(struct Obj0203159C *ctx, int unused, u8 *arg)
     MONOLITH_TOOL_LoadSlotRecords(o, arg);
     *(int *)(o + 0x30) = (int)func_020490F4(0x27, 0x61);
     MONOLITH_TOOL_InitDisplay();
-    func_021B652C();
+    MONOLITH_TOOL_InitBmpWin();
     MONOLITH_TOOL_InitPalAnm((int *)o);
     MONOLITH_TOOL_InitBackgrounds();
     MONOLITH_TOOL_LoadGraphics(o, o);

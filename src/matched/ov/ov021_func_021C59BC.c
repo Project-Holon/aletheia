@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * Scroll step: slides the BG by 0xC0/4 per frame and flags the end after 4.
+ *
+ * symbols:
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
  */
 #include "../include/Obj09688.h"
 
@@ -17,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 void SHORTCUT_MENU_ScrollStep(void *a, u8 *p)
 {
@@ -29,5 +32,5 @@ void SHORTCUT_MENU_ScrollStep(void *a, u8 *p)
         v = 0;
         ((struct Obj09688 *)p)->f80 = 1;
     }
-    func_02040618(1, 3, v);
+    BG_SYS_FillScrollArea(1, 3, v);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     manual_common.c
  * unit:     yes
- * function: func_021B9B3C, func_021B9BA4, func_021B9BC8, func_021B9BD4, func_021B9BE0, func_021B9BEC, func_021B9BF8, func_021B9C0C, func_021B9C20, func_021B9C28, func_021B9C34, func_021B9C40, func_021B9C50, func_021B9C58, func_021B9C98, func_021B9CB0, func_021B9CC8, func_021B9CDC, func_021B9CE0, func_021B9CF0, func_021B9CFC, func_021B9D0C, func_021B9D18, func_021B9DEC, func_021B9E60, func_021B9E80, func_021B9EE8, func_021B9F20, func_021B9F24, func_021B9F8C, func_021B9FBC, func_021BA068, func_021BA0F0, func_021BA154, func_021BA158, func_021BA15C, func_021BA160, func_021BA1C0, func_021BA1C4, func_021BA218, func_021BA240, func_021BA28C, func_021BA2B0, func_021BA30C, func_021BA368, func_021BA41C, func_021BA4D8, func_021BA508, func_021BA644, func_021BA65C, func_021BA740, func_021BA760, func_021BA894, func_021BA898, func_021BA9D0, func_021BAA44, func_021BAA50, func_021BAA88, func_021BAABC, func_021BAE2C, func_021BAFF8, func_021BB034, func_021BB044, func_021BB05C, func_021BB074, func_021BB088, func_021BB1F4, func_021BB258, func_021BB2B4, func_021BB308, func_021BB31C, func_021BB3FC, func_021BB400, func_021BB458, func_021BB4F8, func_021BB504, func_021BB50C, func_021BB53C
+ * function: MANUAL_COMMON_CreateMenuTable, MANUAL_COMMON_DeleteMenuTable, MANUAL_COMMON_GetEntryValue0, MANUAL_COMMON_GetEntryValue1, MANUAL_COMMON_GetEntryValue2, MANUAL_COMMON_GetEntryValue3, MANUAL_COMMON_GetEntryPair0, MANUAL_COMMON_GetEntryPair1, MANUAL_COMMON_GetEntryCount, MANUAL_COMMON_GetGroupValue0, MANUAL_COMMON_GetGroupValue1, MANUAL_COMMON_GetGroupValue2, MANUAL_COMMON_GetGroupCount, MANUAL_COMMON_CheckUnlocked, MANUAL_COMMON_GetSaveValue, MANUAL_COMMON_SetSaveValue, MANUAL_COMMON_IsValidKey, MANUAL_COMMON_GetDefaultId, MANUAL_COMMON_GetGroupEntry, MANUAL_COMMON_GetGroupOffset, MANUAL_COMMON_GetEntry, MANUAL_COMMON_GetEntryOffset, MANUAL_COMMON_CreateData, MANUAL_COMMON_DeleteData, MANUAL_COMMON_DrawData, MANUAL_COMMON_SetScreenId, MANUAL_COMMON_InitDisplay, MANUAL_COMMON_DataNoop, MANUAL_COMMON_CreateTouchbar, MANUAL_COMMON_DeleteTouchbar, MANUAL_COMMON_UpdateTouchbar, MANUAL_COMMON_SetTouchbarState, MANUAL_COMMON_SetTouchbarSelection, MANUAL_COMMON_GetTouchbarSelected, MANUAL_COMMON_GetTouchbarPressed, MANUAL_COMMON_TouchbarTaskNoop, MANUAL_COMMON_CreateTouchbarWidget, MANUAL_COMMON_TouchbarNoop, MANUAL_COMMON_CreateTouchbarSlots, MANUAL_COMMON_DeleteTouchbarSlots, MANUAL_COMMON_UpdateTouchbarSlots, MANUAL_COMMON_DrawTouchbarIdle, MANUAL_COMMON_DrawTouchbarStart, MANUAL_COMMON_DrawTouchbarEnd, MANUAL_COMMON_DrawTouchbarContinue, MANUAL_COMMON_LoadTouchbarActors, MANUAL_COMMON_DeleteTouchbarActors, MANUAL_COMMON_UpdateTouchbarActors, MANUAL_COMMON_ResetTouchbar, MANUAL_COMMON_CreateListWork, MANUAL_COMMON_DeleteListWork, MANUAL_COMMON_UpdateListWork, MANUAL_COMMON_ListWorkTaskNoop, MANUAL_COMMON_LoadListWorkAssets, MANUAL_COMMON_CreateListWorkMenu, MANUAL_COMMON_SetListWorkBgMode, MANUAL_COMMON_DeleteListWorkAssets, MANUAL_COMMON_DeleteListWorkMenu, MANUAL_COMMON_UpdateListWorkInput, MANUAL_COMMON_UpdateListWorkDrag, MANUAL_COMMON_BuildListRects, MANUAL_COMMON_GetCursorIndex, MANUAL_COMMON_GetLastVisible, MANUAL_COMMON_GetVisibleCount, MANUAL_COMMON_GetScrollTop, MANUAL_COMMON_RebuildListWindows, MANUAL_COMMON_HitToIndex, MANUAL_COMMON_IndexToY, MANUAL_COMMON_CreateDialog, MANUAL_COMMON_DeleteDialog, MANUAL_COMMON_UpdateDialog, MANUAL_COMMON_DialogTaskNoop, MANUAL_COMMON_LoadDialogAssets, MANUAL_COMMON_CreateDialogWindows, MANUAL_COMMON_SetDialogBgMode, MANUAL_COMMON_DeleteDialogStep, MANUAL_COMMON_DeleteDialogWindows, MANUAL_COMMON_UpdateDialogInput
  * address:  0x021B9B3C
  * region:   ov225
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
- *   file_021BBFF4 0x021BBFF4 data ov225 a1
+ *   gManualCommonTableAllocFile 0x021BBFF4 data ov225 a1
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009210 0x02009210 thumb
@@ -31,7 +31,7 @@
  *   func_02045B38 0x02045B38 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
- *   d_021BC004 0x021BC004 data ov225 a1
+ *   gManualCommonDataAllocFile 0x021BC004 data ov225 a1
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -45,7 +45,7 @@
  *   func_02040588 0x02040588 arm
  *   ov067_id 0x00000043 data a1
  *   func_02034AC4 0x02034AC4 arm
- *   d_021BC014 0x021BC014 data a1
+ *   gManualCommonTouchbarAllocFile 0x021BC014 data a1
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   TOUCHBAR_Delete 0x021B639C thumb ov067
@@ -53,14 +53,14 @@
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
- *   d_021BBF2C 0x021BBF2C data a4
+ *   gManualCommonTouchbarButtonIds 0x021BBF2C data a4
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   d_021BBF4C 0x021BBF4C data a4
+ *   gManualCommonTouchbarBgTable 0x021BBF4C data a4
  *   MI_CpuFill8 0x02082BCC arm
  *   MANUAL_GRAPHIC_GetClactUnit 0x021B9A08 thumb ov225
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
- *   d_021BBF00 0x021BBF00 data a1
+ *   gManualCommonSlotRecords 0x021BBF00 data a1
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -73,7 +73,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -88,7 +88,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   d_021BBF14 0x021BBF14 data a4
+ *   gManualCommonActorEntries 0x021BBF14 data a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -100,7 +100,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   d_021BC028 0x021BC028 data ov225 a1
+ *   gManualCommonListWorkAllocFile 0x021BC028 data ov225 a1
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -109,8 +109,8 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
- *   d_021BBF8C 0x021BBF8C data ov225 a2
- *   d_021BBF94 0x021BBF94 data ov225 a2
+ *   gManualCommonListHeadPos 0x021BBF8C data ov225 a2
+ *   gManualCommonListRowPos 0x021BBF94 data ov225 a2
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02061CA4 0x02061CA4 arm
@@ -127,145 +127,11 @@
  *   APP_TASKMENU_WIN_DeleteNoClear 0x0202815C thumb
  *   APP_TASKMENU_WIN_CreateExNoScreen 0x0202804C thumb
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
- *   file_021BC038 0x021BC038 data a1
- *   d_021BBF9C 0x021BBF9C data a4
+ *   gManualCommonDialogAllocFile 0x021BC038 data a1
+ *   gManualCommonDialogHitRects 0x021BBF9C data a4
  *   gManualGraphicMainBgLayerTable  0x021BBE4C  data
  */
-#include "../../matched/include/Obj08466.h"
-#include "../../matched/include/Obj26135.h"
-#include "../../matched/include/Obj26138.h"
-#include "../../matched/include/Obj26140.h"
-#include "../../matched/include/Obj26141.h"
-#include "../../matched/include/Obj26142.h"
-#include "../../matched/include/Obj26143.h"
-#include "../../matched/include/Obj01787.h"
-#include "../../matched/include/Obj08467.h"
-#include "../../matched/include/Obj04650.h"
-#include "../../matched/include/Obj06734.h"
-#include "../../matched/include/Obj26144.h"
-#include "../../matched/include/Obj14802.h"
-#include "../../matched/include/Obj00367.h"
-#include "../../matched/include/Obj03964.h"
-#include "../../matched/include/Obj01788.h"
-#include "../../matched/include/Obj26145.h"
-#include "../../matched/include/Obj26146.h"
-#include "../../matched/include/Obj08468.h"
-#include "../../matched/include/Obj26147.h"
-#include "../../matched/include/Obj26148.h"
-#include "../../matched/include/Obj26149.h"
-#include "../../matched/include/Obj26150.h"
-#include "../../matched/include/Obj26151.h"
-#include "../../matched/include/Obj26152.h"
-#include "../../matched/include/Obj08469.h"
-#include "../../matched/include/Obj26153.h"
-#include "../../matched/include/Obj04652.h"
-#include "../../matched/include/Obj26154.h"
-#include "../../matched/include/Obj26155.h"
-#include "../../matched/include/Obj26156.h"
-#include "../../matched/include/Obj26157.h"
-#include "../../matched/include/Obj04653.h"
-#include "../../matched/include/Obj26158.h"
-#include "../../matched/include/Obj26159.h"
-#include "../../matched/include/Obj26160.h"
-#include "../../matched/include/Obj26161.h"
-#include "../../matched/include/Obj02561.h"
-#include "../../matched/include/Obj26162.h"
-#include "../../matched/include/Obj26163.h"
-#include "../../matched/include/Obj26164.h"
-#include "../../matched/include/Obj26165.h"
-#include "../../matched/include/Obj26166.h"
-#include "../../matched/include/Obj26167.h"
-#include "../../matched/include/Obj02562.h"
-#include "../../matched/include/Obj10983.h"
-#include "../../matched/include/Obj14803.h"
-#include "../../matched/include/Obj26168.h"
-#include "../../matched/include/Obj26169.h"
-#include "../../matched/include/Obj26170.h"
-#include "../../matched/include/Obj26171.h"
-#include "../../matched/include/Obj10984.h"
-#include "../../matched/include/Obj26178.h"
-#include "../../matched/include/Obj00601.h"
-#include "../../matched/include/Obj26179.h"
-#include "../../matched/include/Obj26180.h"
-#include "../../matched/include/Obj26181.h"
-#include "../../matched/include/Obj26182.h"
-#include "../../matched/include/Obj26183.h"
-#include "../../matched/include/Obj26184.h"
-#include "../../matched/include/Obj00074.h"
-#include "../../matched/include/Obj14804.h"
-#include "../../matched/include/Obj14805.h"
-#include "../../matched/include/Obj26185.h"
-#include "../../matched/include/Obj26186.h"
-#include "../../matched/include/Obj26187.h"
-#include "../../matched/include/Obj26188.h"
-#include "../../matched/include/Obj26189.h"
-#include "../../matched/include/Obj26190.h"
-#include "../../matched/include/Obj26191.h"
-#include "../../matched/include/Obj26192.h"
-#include "../../matched/include/Obj26193.h"
-#include "../../matched/include/Obj26194.h"
-#include "../../matched/include/Obj26195.h"
-#include "../../matched/include/Obj26196.h"
-#include "../../matched/include/Obj26197.h"
-#include "../../matched/include/Obj26198.h"
-#include "../../matched/include/Obj26199.h"
-#include "../../matched/include/Obj08470.h"
-#include "../../matched/include/Obj14806.h"
-#include "../../matched/include/Obj26200.h"
-#include "../../matched/include/Obj26201.h"
-#include "../../matched/include/Obj26202.h"
-#include "../../matched/include/Obj26203.h"
-#include "../../matched/include/Obj26204.h"
-#include "../../matched/include/Obj26205.h"
-#include "../../matched/include/Obj26206.h"
-#include "../../matched/include/Obj26207.h"
-#include "../../matched/include/Obj26208.h"
-#include "../../matched/include/Obj26209.h"
-#include "../../matched/include/Obj26210.h"
-#include "../../matched/include/Obj26211.h"
-#include "../../matched/include/Obj26212.h"
-#include "../../matched/include/Obj26213.h"
-#include "../../matched/include/Obj26214.h"
-#include "../../matched/include/Obj26217.h"
-#include "../../matched/include/Obj26218.h"
-#include "../../matched/include/Obj26219.h"
-#include "../../matched/include/Obj26220.h"
-#include "../../matched/include/Obj26221.h"
-#include "../../matched/include/Obj26222.h"
-#include "../../matched/include/Obj26223.h"
-#include "../../matched/include/Obj26224.h"
-#include "../../matched/include/Obj26225.h"
-#include "../../matched/include/Obj26226.h"
-#include "../../matched/include/Obj05574.h"
-#include "../../matched/include/Obj26227.h"
-#include "../../matched/include/Obj26228.h"
-#include "../../matched/include/Obj26229.h"
-#include "../../matched/include/Obj26230.h"
-#include "../../matched/include/Obj00691.h"
-#include "../../matched/include/Obj26231.h"
-#include "../../matched/include/Obj26232.h"
-#include "../../matched/include/Obj26233.h"
-#include "../../matched/include/Obj26234.h"
-#include "../../matched/include/Obj26235.h"
-#include "../../matched/include/Obj26239.h"
-#include "../../matched/include/Obj01596.h"
-#include "../../matched/include/Obj26240.h"
-#include "../../matched/include/Obj26241.h"
-#include "../../matched/include/Obj26242.h"
-#include "../../matched/include/Obj26243.h"
-#include "../../matched/include/Obj26244.h"
-#include "../../matched/include/Obj26245.h"
-#include "../../matched/include/Obj26246.h"
-#include "../../matched/include/Obj26247.h"
-#include "../../matched/include/Obj26248.h"
-#include "../../matched/include/Obj26249.h"
-#include "../../matched/include/Obj26250.h"
-#include "../../matched/include/Obj26251.h"
-#include "../../matched/include/Obj14809.h"
-#include "../../matched/include/Obj26253.h"
-#include "../../matched/include/Obj00740.h"
 
-#define ST (*(struct State_021BA508 **)p)
 struct Big;
 struct Sub02009210Obj;
 struct Sub020090B0Obj;
@@ -282,133 +148,144 @@ struct Cfg;
 struct U16Vec;
 struct WordSet;
 struct Actor;
-struct R;
-struct Work;
 struct TaskMenuState;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
-
-struct State_021B9B3C {
-    void *owner; u16 heap,pad6; void *screen;
-    struct GfFont *font; u32 str10,str14,str18;
-    struct MsgBank *bank1,*bank2;
-    void *arc1,*arc2,*assets; u16 id,pad32; void *group;
-};
-
+struct ManualMenuTable;
+struct ManualTouchbar;
+struct ManualListBuffer;
+struct ManualRes;
 typedef struct S S;
-
-struct Entry_021B9B3C {unsigned word[7];};
-
-typedef struct {u8 *f0;u32 f4;int f8;u32 fC,f10,f14;int f18,f1c;} A;
-
-typedef struct {int f0;u32 f4;int f8;u8 sub[0x14];u8 elem[1];} R;
-
-struct Block {u32 words[16];};
-
-struct Entry_021BA1C4 {u8 a,b,c,d,e,f,g,h,i;};
-
-typedef signed int     s32;
-
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed int s32;
 typedef short s16;
 
-typedef unsigned int u32_021BA508;
-
-struct Entry { u32_021BA508 first; u16 normal,pad6; u8 left,right,top,bottom; u32_021BA508 active,mask,sound,last; };
-
-typedef signed short s16_021BA65C;
-
-typedef unsigned int u32_021BA65C;
-
-struct Vec2_021BA508
-{
-  s16_021BA65C x;
-  s16_021BA65C y;
+/* Manual data object built by MANUAL_COMMON_CreateData (0x38). */
+struct ManualData {
+    void *owner;                     /* 0x00 save control object */
+    u16 heap;                        /* 0x04 */
+    u16 pad06;                       /* 0x06 */
+    void *screen;                    /* 0x08 graphic screen */
+    u32 font;                        /* 0x0C */
+    u32 printQue0;                   /* 0x10 */
+    u32 printQue1;                   /* 0x14 */
+    u32 printQue2;                   /* 0x18 */
+    void *bank0;                     /* 0x1C */
+    void *bank1;                     /* 0x20 */
+    void *arc0;                      /* 0x24 */
+    void *arc1;                      /* 0x28 */
+    void *assets;                    /* 0x2C archive table */
+    u16 id;                          /* 0x30 */
+    u16 pad32;                       /* 0x32 */
+    void *group;                     /* 0x34 */
 };
 
-struct Data
-{
-  void *owner;
-  u16 heap;
-  u16 pad6;
-  char rest[48];
+/* Archive table object returned by MANUAL_COMMON_CreateMenuTable (0x10). */
+struct ManualMenuTable {
+    u32 base0;      /* 0x00 group table base */
+    u32 offsets0;   /* 0x04 group offset array */
+    u32 base1;      /* 0x08 entry table base */
+    u32 offsets1;   /* 0x0C entry offset array */
 };
 
-struct Work
-{
-  char *owner;
-  struct Data *data;
-  u32_021BA65C field8;
-  void *a[8];
-  void *b[8];
-  u32_021BA65C field4c;
-  void *res50;
-  void *res54;
-  void *res58;
-  struct Obj *obj;
-  void *arr60[8];
-  void *task;
-  u32_021BA65C field84;
-  u32_021BA65C field88;
-  u32_021BA65C field8c;
-  signed char field90;
-  u8 pad91[3];
-  u32_021BA65C field94;
+/* Touch bar object built by MANUAL_COMMON_CreateTouchbar (0x4C). */
+struct ManualTouchbar {
+    void *owner;                /* 0x00 */
+    void *touchbar;             /* 0x04 TOUCHBAR handle */
+    u32 mode;                   /* 0x08 */
+    u8 selectX;                 /* 0x0C */
+    u8 selectY;                 /* 0x0D */
+    u8 pad0E[6];                /* 0x0E */
+    void *bmp0;                 /* 0x14 */
+    u32 pad18;                  /* 0x18 */
+    u32 bmp0Dirty;              /* 0x1C */
+    u32 pressState;             /* 0x20 */
+    int pressedId;              /* 0x24 */
+    int releasedId;             /* 0x28 */
+    u32 animPalette;            /* 0x2C */
+    u32 animCharacter;          /* 0x30 */
+    u32 animCell;               /* 0x34 */
+    void *actor0;               /* 0x38 */
+    void *actor1;               /* 0x3C */
+    u8 focusIndex;              /* 0x40 */
+    u8 pad41[3];                /* 0x41 */
+    u32 animState;              /* 0x44 */
+    void *task;                 /* 0x48 */
 };
 
-typedef unsigned int   u32_021BA740;
+/* List work object built by MANUAL_COMMON_CreateListWork (0x98). */
+struct ManualListWork {
+    char *owner;                /* 0x00 list state */
+    struct ManualData *data;    /* 0x04 */
+    void *resource;             /* 0x08 taskmenu resource */
+    void *win[8];               /* 0x0C */
+    u32 slotFlag[8];            /* 0x2C */
+    u16 field4C;                /* 0x4C */
+    u16 pad4E;                  /* 0x4E */
+    u32 reg0;                   /* 0x50 */
+    u32 reg1;                   /* 0x54 */
+    u32 reg2;                   /* 0x58 */
+    void *actor;                /* 0x5C */
+    void *actorList[8];         /* 0x60 */
+    void *task;                 /* 0x80 */
+    u32 state;                  /* 0x84 */
+    u32 dragging;               /* 0x88 */
+    u32 dirty;                  /* 0x8C */
+    signed char timer;          /* 0x90 */
+    u8 pad91[3];                /* 0x91 */
+    u32 listReady;              /* 0x94 */
+};
 
-typedef unsigned int u32_021BA760;
+/* Confirm dialog object built by MANUAL_COMMON_CreateDialog (0x20). */
+struct ManualDialog {
+    char *owner;                     /* 0x00 selection buffer */
+    struct ManualData *data;         /* 0x04 */
+    void *resource;                  /* 0x08 taskmenu resource */
+    void *win[2];                    /* 0x0C */
+    void *task;                      /* 0x14 */
+    u32 state;                       /* 0x18 */
+    signed char timer;               /* 0x1C */
+    u8 pad1D[3];                     /* 0x1D */
+};
 
-typedef unsigned u32_021BA898;
+/* List state region at ManualListWork.owner (0x14). */
+struct ManualListState {
+    u32 ready;      /* 0x00 */
+    u16 count;      /* 0x04 */
+    u16 pad06;      /* 0x06 */
+    void *data;     /* 0x08 entry table */
+    u16 top;        /* 0x0C */
+    u16 selected;   /* 0x0E */
+    u32 mode;       /* 0x10 */
+};
 
-struct Quad { short x,y,z,w; };
+/* Selection region at ManualWork+0x14 passed to MANUAL_COMMON_CreateDialog (0x8). */
+struct ManualListBuffer {
+    u8 selected;    /* 0x00 */
+    u8 pad01[3];    /* 0x01 */
+    u32 choice;     /* 0x04 */
+};
 
-typedef short s16_021BAA44;
+/* Argument block for TOUCHBAR_Create. */
+typedef struct {u8 *bgTable;u32 layer;int clactUnit;u32 cellW,cellH,flags;int reserved18,reserved1C;} ManualTouchbarArgs;
 
-typedef unsigned int u32_021BAA44;
+struct ManualBgTable {u32 words[16];};
+struct ManualEntryRecord {unsigned word[7];};
+struct ManualBmpParams {u8 layer,baseX,baseY,tiles,palette,mode,slot,pad7,pad8;};
+struct ManualActorEntry { u32 first; u16 normal,pad6; u8 left,right,top,bottom; u32 active,mask,sound,last; };
+struct ManualClactPos { s16 x; s16 y; };
+struct ManualPoint {short x,y;};
+struct ManualQuad { short x,y,z,w; };
+struct ManualTaskEntry {void *resource;u16 tag,pad;u32 flags;};
 
-typedef short s16_021BAA50;
+typedef char ManualData_size[sizeof(struct ManualData)==0x38?1:-1];
+typedef char ManualMenuTable_size[sizeof(struct ManualMenuTable)==0x10?1:-1];
+typedef char ManualTouchbar_size[sizeof(struct ManualTouchbar)==0x4C?1:-1];
+typedef char ManualListWork_size[sizeof(struct ManualListWork)==0x98?1:-1];
+typedef char ManualDialog_size[sizeof(struct ManualDialog)==0x20?1:-1];
+typedef char ManualListState_size[sizeof(struct ManualListState)==0x14?1:-1];
+typedef char ManualListBuffer_size[sizeof(struct ManualListBuffer)==0x8?1:-1];
 
-typedef unsigned int u32_021BAA50;
-
-typedef short s16_021BAA88;
-
-typedef unsigned int u32_021BAA88;
-
-typedef unsigned u32_021BAABC;
-
-struct State_021BA508 {u16 a,b,count,c;void *data;u16 top,selected;};
-
-struct Vec2_021BAABC {short x,y;};
-
-typedef unsigned u32_021BAE2C;
-
-typedef unsigned int u32_021BAFF8;
-
-typedef unsigned u32_021BB088;
-
-struct Entry_021BB088 {void *resource;u16 tag,pad;u32_021BB088 flags;};
-
-typedef unsigned int   u32_021BB308;
-
-typedef unsigned int   u32_021BB31C;
-
-typedef unsigned int   u32_021BB400;
-
-struct Entry_021BB458 { void *resource; u16 tag; u16 pad; unsigned flags; };
-
-typedef unsigned int   u32_021BB458;
-
-typedef unsigned int u32_021BB4F8;
-
-typedef unsigned int u32_021BB504;
-
-typedef unsigned int u32_021BB50C;
-
-typedef unsigned int   u32_021BB53C;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *, int, int, u32, u32 *);
@@ -450,7 +327,7 @@ extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigne
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 extern void MI_CpuFill8(void *,u8,u32);
 extern u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
-extern R *TOUCHBAR_Create(A *,int);
+extern struct ManualRes *TOUCHBAR_Create(ManualTouchbarArgs *,int);
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
@@ -463,7 +340,7 @@ extern void func_02041B6C(unsigned);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern void PRINTSYS_PrintQueColor(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void STRBUF_Delete(struct U16Vec *);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
@@ -482,158 +359,158 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
-extern u32_021BA508 CLACT_GetActorDrawEnable(struct Obj *);
-extern u32_021BA508 KEY_GetRepeat(void);
+extern u32 CLACT_GetActorDrawEnable(struct Obj *);
+extern u32 KEY_GetRepeat(void);
 extern void func_020355D8(u8);
-extern u32_021BA508 TOUCHPANEL_GetPointTrg(u32_021BA508 *,u32_021BA508 *);
+extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
-extern void GFL_USE_PlaySeDefaultVolume(u32_021BA508);
-extern u32_021BA508 CLACT_IsActorAnimActive(struct Actor *);
-extern void BG_SYS_ResetSlot(u32_021BA65C, u32_021BA65C, u32_021BA65C);
-extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2_021BA508 *, u32_021BA65C);
-extern u32_021BA760 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
+extern void GFL_USE_PlaySeDefaultVolume(u32);
+extern u32 CLACT_IsActorAnimActive(struct Actor *);
+extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void CLACT_AddActorSurfacePos(struct Obj *, const struct ManualClactPos *, u32);
+extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
-extern u32_021BA760 APP_TASKMENU_WIN_IsFinish(u8 *);
-extern void func_02049B68(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
-extern u32_021BA898 func_02049658(void *a, u32_021BA898 b, u32_021BA898 c, u32_021BA898 d, u32_021BA898 e, u32_021BA898 f, u16 g);
-extern u32_021BA898 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u32_021BA898,u16);
+extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_FreeSlot(unsigned);
-extern struct R *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
+extern struct ManualRes *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
 extern int func_02061CA4(void *, unsigned, void *, int);
 extern u8 func_020355C4(void);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
-extern void BG_SYS_SetFlagField06(u32_021BAA44);
+extern void BG_SYS_SetFlagField06(u32);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
-extern u32_021BAA88 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
 extern void APP_TASKMENU_WIN_DeleteNoClear(void);
-extern u32_021BB088 *APP_TASKMENU_WIN_CreateExNoScreen(u32_021BB088 a0, u32_021BB088 a1, u32_021BB088 a2, u32_021BB088 a3, u8 a4, u8 a5, u32_021BB088 a6, u32_021BB088 a7, u16 a8);
-extern u32_021BB088 APP_TASKMENU_WIN_Create(u32_021BB088 a0, u32_021BB088 a1, u32_021BB088 a2, u32_021BB088 a3, u8 a4, u16 a5);
-void *func_021B9B3C(void *narc, u32 heap);
-void func_021B9BA4(char *p);
-u16 func_021B9BC8(char *p,int index);
-u16 func_021B9BD4(char *p,int index);
-u16 func_021B9BE0(char *p,int index);
-u16 func_021B9BEC(char *p,int index);
-u16 func_021B9BF8(char *p, int idx, int c);
-u16 func_021B9C0C(char *p, int idx, int c);
-u16 func_021B9C20(const char *p);
-u16 func_021B9C28(char *p,int index);
-u16 func_021B9C34(char *p,int index);
-u16 func_021B9C40(char *p, int idx, int c);
-u16 func_021B9C50(const char *p);
-int func_021B9C58(void *unused,int kind,void *save);
-int func_021B9C98(void *unused, int b, int c);
-void func_021B9CB0(void *unused,int code,struct Big *save);
-int func_021B9CC8(unsigned unused,unsigned key);
-int func_021B9CDC(void *a0);
-int func_021B9CE0(char *p, int idx);
-unsigned short func_021B9CF0(char *p,unsigned i);
-int func_021B9CFC(char *p, int idx);
-unsigned short func_021B9D0C(char *p,unsigned i);
-void *func_021B9D18(void *owner,u16 heap);
-void func_021B9DEC(char *p);
-void func_021B9E60(char *p);
-void func_021B9E80(char *p,unsigned id);
-void func_021B9EE8(void *a0);
-void func_021B9F20(void *a0);
-void *func_021B9F24(char *owner);
-void func_021B9F8C(char *p);
-void func_021B9FBC(char *p);
-void func_021BA068(char *p,unsigned state);
-void func_021BA0F0(char *p,unsigned b,unsigned c);
-unsigned func_021BA154(char *p);
-unsigned func_021BA158(char *p);
-void func_021BA15C(void *task,void *data);
-void func_021BA160(char *p);
-void func_021BA1C0(void *a0);
-void func_021BA1C4(char *p);
-void func_021BA218(char *p);
-void func_021BA240(char *p);
-void func_021BA28C(char *p);
-void func_021BA2B0(char *p);
-void func_021BA30C(char *p);
-void func_021BA368(char *p);
-void func_021BA41C(char *p);
-void func_021BA4D8(char *p);
-void func_021BA508(char *p);
-void func_021BA644(char *p);
-void *func_021BA65C(char *owner, struct Data *data);
-void func_021BA740(char *p);
-int func_021BA760(char *p);
-void func_021BA894(void);
-void func_021BA898(char *p);
-void func_021BA9D0(char *p);
-void func_021BAA44(struct Work *a0);
-void func_021BAA50(char *p);
-void func_021BAA88(char *p);
-int func_021BAABC(char *p);
-int func_021BAE2C(char *p);
-void func_021BAFF8(u8 *p);
-u16 func_021BB034(u16 **p);
-u16 func_021BB044(u16 **p);
-u16 func_021BB05C(u16 **p);
-u16 func_021BB074(u16 **p);
-void func_021BB088(char *p);
-u16 func_021BB1F4(void *p, u16 count, u16 value);
-u16 func_021BB258(void *p, u16 count, u16 index);
-char *func_021BB2B4(char *p, char *data);
-void func_021BB308(char *p);
-int func_021BB31C(char *p);
-void func_021BB3FC(void *p);
-void func_021BB400(char *p);
-void func_021BB458(char *p);
-void func_021BB4F8(char *a0);
-void func_021BB504(char *p);
-void func_021BB50C(char *p);
-int func_021BB53C(char *p);
-extern char file_021BBFF4[];
-extern const char d_021BC004[];
+extern u32 *APP_TASKMENU_WIN_CreateExNoScreen(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
+void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
+void MANUAL_COMMON_DeleteMenuTable(char *p);
+u16 MANUAL_COMMON_GetEntryValue0(char *p,int index);
+u16 MANUAL_COMMON_GetEntryValue1(char *p,int index);
+u16 MANUAL_COMMON_GetEntryValue2(char *p,int index);
+u16 MANUAL_COMMON_GetEntryValue3(char *p,int index);
+u16 MANUAL_COMMON_GetEntryPair0(char *p, int idx, int c);
+u16 MANUAL_COMMON_GetEntryPair1(char *p, int idx, int c);
+u16 MANUAL_COMMON_GetEntryCount(const char *p);
+u16 MANUAL_COMMON_GetGroupValue0(char *p,int index);
+u16 MANUAL_COMMON_GetGroupValue1(char *p,int index);
+u16 MANUAL_COMMON_GetGroupValue2(char *p, int idx, int c);
+u16 MANUAL_COMMON_GetGroupCount(const char *p);
+int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save);
+int MANUAL_COMMON_GetSaveValue(void *unused, int b, int c);
+void MANUAL_COMMON_SetSaveValue(void *unused,int code,struct Big *save);
+int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key);
+int MANUAL_COMMON_GetDefaultId(void *a0);
+int MANUAL_COMMON_GetGroupEntry(char *p, int idx);
+unsigned short MANUAL_COMMON_GetGroupOffset(char *p,unsigned i);
+int MANUAL_COMMON_GetEntry(char *p, int idx);
+unsigned short MANUAL_COMMON_GetEntryOffset(char *p,unsigned i);
+void *MANUAL_COMMON_CreateData(void *owner,u16 heap);
+void MANUAL_COMMON_DeleteData(char *p);
+void MANUAL_COMMON_DrawData(char *p);
+void MANUAL_COMMON_SetScreenId(char *p,unsigned id);
+void MANUAL_COMMON_InitDisplay(void *a0);
+void MANUAL_COMMON_DataNoop(void *a0);
+void *MANUAL_COMMON_CreateTouchbar(char *owner);
+void MANUAL_COMMON_DeleteTouchbar(char *p);
+void MANUAL_COMMON_UpdateTouchbar(char *p);
+void MANUAL_COMMON_SetTouchbarState(char *p,unsigned state);
+void MANUAL_COMMON_SetTouchbarSelection(char *p,unsigned b,unsigned c);
+unsigned MANUAL_COMMON_GetTouchbarSelected(char *p);
+unsigned MANUAL_COMMON_GetTouchbarPressed(char *p);
+void MANUAL_COMMON_TouchbarTaskNoop(void *task,void *data);
+void MANUAL_COMMON_CreateTouchbarWidget(char *p);
+void MANUAL_COMMON_TouchbarNoop(void *a0);
+void MANUAL_COMMON_CreateTouchbarSlots(char *p);
+void MANUAL_COMMON_DeleteTouchbarSlots(char *p);
+void MANUAL_COMMON_UpdateTouchbarSlots(char *p);
+void MANUAL_COMMON_DrawTouchbarIdle(char *p);
+void MANUAL_COMMON_DrawTouchbarStart(char *p);
+void MANUAL_COMMON_DrawTouchbarEnd(char *p);
+void MANUAL_COMMON_DrawTouchbarContinue(char *p);
+void MANUAL_COMMON_LoadTouchbarActors(char *p);
+void MANUAL_COMMON_DeleteTouchbarActors(char *p);
+void MANUAL_COMMON_UpdateTouchbarActors(char *p);
+void MANUAL_COMMON_ResetTouchbar(char *p);
+void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
+void MANUAL_COMMON_DeleteListWork(char *p);
+int MANUAL_COMMON_UpdateListWork(char *p);
+void MANUAL_COMMON_ListWorkTaskNoop(void);
+void MANUAL_COMMON_LoadListWorkAssets(char *p);
+void MANUAL_COMMON_CreateListWorkMenu(char *p);
+void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *a0);
+void MANUAL_COMMON_DeleteListWorkAssets(char *p);
+void MANUAL_COMMON_DeleteListWorkMenu(char *p);
+int MANUAL_COMMON_UpdateListWorkInput(char *p);
+int MANUAL_COMMON_UpdateListWorkDrag(char *p);
+void MANUAL_COMMON_BuildListRects(u8 *p);
+u16 MANUAL_COMMON_GetCursorIndex(u16 **p);
+u16 MANUAL_COMMON_GetLastVisible(u16 **p);
+u16 MANUAL_COMMON_GetVisibleCount(u16 **p);
+u16 MANUAL_COMMON_GetScrollTop(u16 **p);
+void MANUAL_COMMON_RebuildListWindows(char *p);
+u16 MANUAL_COMMON_HitToIndex(void *p, u16 count, u16 value);
+u16 MANUAL_COMMON_IndexToY(void *p, u16 count, u16 index);
+char *MANUAL_COMMON_CreateDialog(char *p, char *data);
+void MANUAL_COMMON_DeleteDialog(char *p);
+int MANUAL_COMMON_UpdateDialog(char *p);
+void MANUAL_COMMON_DialogTaskNoop(void *p);
+void MANUAL_COMMON_LoadDialogAssets(char *p);
+void MANUAL_COMMON_CreateDialogWindows(char *p);
+void MANUAL_COMMON_SetDialogBgMode(char *a0);
+void MANUAL_COMMON_DeleteDialogStep(char *p);
+void MANUAL_COMMON_DeleteDialogWindows(char *p);
+int MANUAL_COMMON_UpdateDialogInput(char *p);
+extern char gManualCommonTableAllocFile[];
+extern const char gManualCommonDataAllocFile[];
 extern const char ov067_id[];
-extern const char d_021BC014[];
-extern const struct Entry_021B9B3C d_021BBF2C[];
-extern const struct Block d_021BBF4C;
-extern const struct Entry_021BA1C4 d_021BBF00[];
-extern const struct Entry d_021BBF14[];
-extern const char d_021BC028[];
-extern const struct Quad d_021BBF8C,d_021BBF94;
-extern const char file_021BC038[];
-extern const u8 d_021BBF9C[];
+extern const char gManualCommonTouchbarAllocFile[];
+extern const struct ManualEntryRecord gManualCommonTouchbarButtonIds[];
+extern const struct ManualBgTable gManualCommonTouchbarBgTable;
+extern const struct ManualBmpParams gManualCommonSlotRecords[];
+extern const struct ManualActorEntry gManualCommonActorEntries[];
+extern const char gManualCommonListWorkAllocFile[];
+extern const struct ManualQuad gManualCommonListHeadPos,gManualCommonListRowPos;
+extern const char gManualCommonDialogAllocFile[];
+extern const u8 gManualCommonDialogHitRects[];
 
 
 
-void *func_021B9B3C(void *narc, u32 heap)
+void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap)
 {
-    void **p = func_02030734(heap, 16, 1, file_021BBFF4, 0x9c);
+    void **table = func_02030734(heap, 16, 1, gManualCommonTableAllocFile, 0x9c);
     u32 size;
-    p[0] = ARC_UTIL_LoadHandleMemberWithSize(narc, 11, 0, heap, &size);
-    p[1] = ARC_UTIL_LoadHandleMemberWithSize(narc, 12, 0, heap, &size);
-    p[2] = ARC_UTIL_LoadHandleMemberWithSize(narc, 9, 0, heap, &size);
-    p[3] = ARC_UTIL_LoadHandleMemberWithSize(narc, 10, 0, heap, &size);
-    return p;
+    table[0] = ARC_UTIL_LoadHandleMemberWithSize(narc, 11, 0, heap, &size);
+    table[1] = ARC_UTIL_LoadHandleMemberWithSize(narc, 12, 0, heap, &size);
+    table[2] = ARC_UTIL_LoadHandleMemberWithSize(narc, 9, 0, heap, &size);
+    table[3] = ARC_UTIL_LoadHandleMemberWithSize(narc, 10, 0, heap, &size);
+    return table;
 }
 
 
 
-void func_021B9BA4(char *p) {func_020307B0(((struct Obj08466 *)p)->fC);func_020307B0(((struct Obj08466 *)p)->f8);func_020307B0(((struct Obj08466 *)p)->f4);func_020307B0(((struct Obj08466 *)p)->f0);func_020307B0(p);}
+void MANUAL_COMMON_DeleteMenuTable(char *table) {func_020307B0((void *)((struct ManualMenuTable *)table)->offsets1);func_020307B0((void *)((struct ManualMenuTable *)table)->base1);func_020307B0((void *)((struct ManualMenuTable *)table)->offsets0);func_020307B0((void *)((struct ManualMenuTable *)table)->base0);func_020307B0(table);}
 
 
 
-u16 func_021B9BC8(char *p,int index) {return *(u16 *)(func_021B9CE0(p,index)+6);}
+u16 MANUAL_COMMON_GetEntryValue0(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(table,index)+6);}
 
 
 
-u16 func_021B9BD4(char *p,int index) {return *(u16 *)(func_021B9CE0(p,index)+8);}
+u16 MANUAL_COMMON_GetEntryValue1(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(table,index)+8);}
 
 
 
-u16 func_021B9BE0(char *p,int index) {return *(u16 *)(func_021B9CE0(p,index)+10);}
+u16 MANUAL_COMMON_GetEntryValue2(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(table,index)+10);}
 
 
 
-u16 func_021B9BEC(char *p,int index) {return *(u16 *)(func_021B9CE0(p,index)+12);}
+u16 MANUAL_COMMON_GetEntryValue3(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(table,index)+12);}
 
 
 
@@ -641,46 +518,46 @@ u16 func_021B9BEC(char *p,int index) {return *(u16 *)(func_021B9CE0(p,index)+12)
 /*
  * Addresses are Black-image addresses.
  */
-u16 func_021B9BF8(char *p, int idx, int c)
+u16 MANUAL_COMMON_GetEntryPair0(char *table, int idx, int pair)
 {
-    return ((u16 *)func_021B9CE0(p, idx))[(c << 1) + 7];
+    return ((u16 *)MANUAL_COMMON_GetGroupEntry(table, idx))[(pair << 1) + 7];
 }
 
 
 
 
-u16 func_021B9C0C(char *p, int idx, int c)
+u16 MANUAL_COMMON_GetEntryPair1(char *table, int idx, int pair)
 {
-    return ((u16 *)func_021B9CE0(p, idx))[(c << 1) + 8];
+    return ((u16 *)MANUAL_COMMON_GetGroupEntry(table, idx))[(pair << 1) + 8];
 }
 
 
 
-u16 func_021B9C20(const char *p) {return **(u16 * *)&((struct Obj26135 *)p)->f4;}
+u16 MANUAL_COMMON_GetEntryCount(const char *table) {return **(u16 * *)&((struct ManualMenuTable *)table)->offsets0;}
 
 
 
-u16 func_021B9C28(char *p,int index) {return *(u16 *)(func_021B9CFC(p,index)+2);}
+u16 MANUAL_COMMON_GetGroupValue0(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetEntry(table,index)+2);}
 
 
 
-u16 func_021B9C34(char *p,int index) {return *(u16 *)(func_021B9CFC(p,index)+4);}
+u16 MANUAL_COMMON_GetGroupValue1(char *table,int index) {return *(u16 *)(MANUAL_COMMON_GetEntry(table,index)+4);}
 
 
 
 
-u16 func_021B9C40(char *p, int idx, int c)
+u16 MANUAL_COMMON_GetGroupValue2(char *table, int idx, int index2)
 {
-    return ((u16 *)func_021B9CFC(p, idx))[c + 3];
+    return ((u16 *)MANUAL_COMMON_GetEntry(table, idx))[index2 + 3];
 }
 
 
 
-u16 func_021B9C50(const char *p) {return **(u16 * *)&((struct Obj26138 *)p)->fC;}
+u16 MANUAL_COMMON_GetGroupCount(const char *table) {return **(u16 * *)&((struct ManualMenuTable *)table)->offsets1;}
 
 
 
-int func_021B9C58(void *unused,int kind,void *save)
+int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
 {
     int result=0;
     switch(kind) {
@@ -698,101 +575,101 @@ int func_021B9C58(void *unused,int kind,void *save)
 
 
 
-int func_021B9C98(void *unused, int b, int c)
+int MANUAL_COMMON_GetSaveValue(void *unused, int id, int save)
 {
-    return func_0200EDEC(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)c)), b);
+    return func_0200EDEC(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)save)), id);
 }
 
 
 
-void func_021B9CB0(void *unused,int code,struct Big *save) {func_0200EE14(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),code);}
+void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {func_0200EE14(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),value);}
 
 
 
-int func_021B9CC8(unsigned unused,unsigned key) {if(key!=65535)return 1;return 0;}
+int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key) {if(key!=65535)return 1;return 0;}
 
 
 
-int func_021B9CDC(void *a0){return 0x48;}
+int MANUAL_COMMON_GetDefaultId(void *unused){return 0x48;}
 
 
 
 
-int func_021B9CE0(char *p, int idx)
+int MANUAL_COMMON_GetGroupEntry(char *table, int idx)
 {
-    return func_021B9CF0(p, idx) + ((struct Obj26140 *)p)->f0;
+    return MANUAL_COMMON_GetGroupOffset(table, idx) + ((struct ManualMenuTable *)table)->base0;
 }
 
 
 
-unsigned short func_021B9CF0(char *p,unsigned i){return *(unsigned short *)(((struct Obj26141 *)p)->f4+i*2+2);}
+unsigned short MANUAL_COMMON_GetGroupOffset(char *table,unsigned index){return *(unsigned short *)(((struct ManualMenuTable *)table)->offsets0+index*2+2);}
 
 
 
 
-int func_021B9CFC(char *p, int idx)
+int MANUAL_COMMON_GetEntry(char *table, int idx)
 {
-    return func_021B9D0C(p, idx) + ((struct Obj26142 *)p)->f8;
+    return MANUAL_COMMON_GetEntryOffset(table, idx) + ((struct ManualMenuTable *)table)->base1;
 }
 
 
 
-unsigned short func_021B9D0C(char *p,unsigned i){return *(unsigned short *)(((struct Obj26143 *)p)->fC+i*2+2);}
+unsigned short MANUAL_COMMON_GetEntryOffset(char *table,unsigned index){return *(unsigned short *)(((struct ManualMenuTable *)table)->offsets1+index*2+2);}
 
 
 
-void *func_021B9D18(void *owner,u16 heap)
+void *MANUAL_COMMON_CreateData(void *owner,u16 heap)
 {
-    struct State_021B9B3C *p=func_02030734(heap,0x38,1,d_021BC004,0x4b);
-    p->owner=owner; p->heap=heap;
-    p->screen=MANUAL_GRAPHIC_CreateScreen(1,p->heap);
-    p->font=GF_FONT_Create(23,0,0,0,p->heap);
-    p->str10=PRINTSYS_QUE_Create((void *)(u32)p->heap);
-    p->str14=PRINTSYS_QUE_Create((void *)(u32)p->heap);
-    p->str18=PRINTSYS_QUE_Create((void *)(u32)p->heap);
-    p->bank1=func_02045B38(0,2,61,p->heap);
-    p->bank2=func_02045B38(0,2,62,p->heap);
-    p->arc1=func_020490F4(223,p->heap);
-    p->arc2=func_020490F4(231,p->heap);
-    ARC_UTIL_UploadPaletteFromArchive(23,5,4,0,64,32,p->heap);
-    p->assets=func_021B9B3C(p->arc1,p->heap);
-    func_021B9EE8(p);
-    p->id=65535;
-    func_021B9E80((char *)p,func_021B9CDC(p->assets));
-    p->group=func_021B9F24((char *)p);
-    return p;
+    struct ManualData *data=func_02030734(heap,0x38,1,gManualCommonDataAllocFile,0x4b);
+    data->owner=owner; data->heap=heap;
+    data->screen=MANUAL_GRAPHIC_CreateScreen(1,data->heap);
+    data->font=(u32)GF_FONT_Create(23,0,0,0,data->heap);
+    data->printQue0=(u32)PRINTSYS_QUE_Create((void *)(u32)data->heap);
+    data->printQue1=(u32)PRINTSYS_QUE_Create((void *)(u32)data->heap);
+    data->printQue2=(u32)PRINTSYS_QUE_Create((void *)(u32)data->heap);
+    data->bank0=func_02045B38(0,2,61,data->heap);
+    data->bank1=func_02045B38(0,2,62,data->heap);
+    data->arc0=func_020490F4(223,data->heap);
+    data->arc1=func_020490F4(231,data->heap);
+    ARC_UTIL_UploadPaletteFromArchive(23,5,4,0,64,32,data->heap);
+    data->assets=MANUAL_COMMON_CreateMenuTable(data->arc0,data->heap);
+    MANUAL_COMMON_InitDisplay(data);
+    data->id=65535;
+    MANUAL_COMMON_SetScreenId((char *)data,MANUAL_COMMON_GetDefaultId(data->assets));
+    data->group=MANUAL_COMMON_CreateTouchbar((char *)data);
+    return data;
 }
 
 
 
-void func_021B9DEC(char *p)
+void MANUAL_COMMON_DeleteData(char *data)
 {
-    func_021B9F8C(((struct Obj01787 *)p)->f34);func_021B9E80(p,0xffff);func_021B9F20(p);
-    func_021B9BA4(((struct Obj01787 *)p)->f2C);ARC_TOOL_DeleteHandle(((struct Obj01787 *)p)->f24);ARC_TOOL_DeleteHandle(((struct Obj01787 *)p)->f28);
-    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01787 *)p)->f1C);MSGDATA_Delete(*(struct Rec * *)&((struct Obj01787 *)p)->f20);
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);
-    GF_FONT_Delete(((struct Obj01787 *)p)->fC);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct Obj01787 *)p)->f8);func_020307B0(p);
+    MANUAL_COMMON_DeleteTouchbar(((struct ManualData *)data)->group);MANUAL_COMMON_SetScreenId(data,0xffff);MANUAL_COMMON_DataNoop(data);
+    MANUAL_COMMON_DeleteMenuTable(((struct ManualData *)data)->assets);ARC_TOOL_DeleteHandle(((struct ManualData *)data)->arc0);ARC_TOOL_DeleteHandle(((struct ManualData *)data)->arc1);
+    MSGDATA_Delete(*(struct Rec * *)&((struct ManualData *)data)->bank0);MSGDATA_Delete(*(struct Rec * *)&((struct ManualData *)data)->bank1);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)data)->printQue0);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct ManualData *)data)->printQue0);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)data)->printQue1);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct ManualData *)data)->printQue1);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)data)->printQue2);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct ManualData *)data)->printQue2);
+    GF_FONT_Delete((void *)((struct ManualData *)data)->font);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct ManualData *)data)->screen);func_020307B0(data);
 }
 
 
 
-void func_021B9E60(char *p){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f10);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f14);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj08467 *)p)->f18);MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct Obj08467 *)p)->f8);}
+void MANUAL_COMMON_DrawData(char *data){PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct ManualData *)data)->printQue0);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct ManualData *)data)->printQue1);PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct ManualData *)data)->printQue2);MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct ManualData *)data)->screen);}
 
 
 
-void func_021B9E80(char *p,unsigned id)
+void MANUAL_COMMON_SetScreenId(char *data,unsigned id)
 {
-    if(((struct Obj04650 *)p)->f30!=id) {
+    if(((struct ManualData *)data)->id!=id) {
         unsigned size;
         void *buf;
-        ((struct Obj04650 *)p)->f30=id;
-        if(((struct Obj04650 *)p)->f30==0xffff) {
-            buf=func_02030734(((struct Obj04650 *)p)->f4,0x18000,1,d_021BC004,245);
+        ((struct ManualData *)data)->id=id;
+        if(((struct ManualData *)data)->id==0xffff) {
+            buf=func_02030734(((struct ManualData *)data)->heap,0x18000,1,gManualCommonDataAllocFile,245);
             size=0x18000;
         } else {
-            buf=ARC_UTIL_LoadHandleMemberWithSize(((struct Obj04650 *)p)->f28,((struct Obj04650 *)p)->f30,1,((struct Obj04650 *)p)->f4,&size);
+            buf=ARC_UTIL_LoadHandleMemberWithSize(((struct ManualData *)data)->arc1,((struct ManualData *)data)->id,1,((struct ManualData *)data)->heap,&size);
         }
         DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);func_020307B0(buf);
     }
@@ -803,70 +680,70 @@ void func_021B9E80(char *p,unsigned id)
 /*
  * volatile: 021B9EEC,021B9EF8 re-read 0400000C;021B9F02 read 04000008.
  */
-void func_021B9EE8(void *a0){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}
+void MANUAL_COMMON_InitDisplay(void *unused){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}
 
 
 
-void func_021B9F20(void *a0){}
+void MANUAL_COMMON_DataNoop(void *unused){}
 
 
 
-void *func_021B9F24(char *owner)
+void *MANUAL_COMMON_CreateTouchbar(char *owner)
 {
-    char *p;
+    char *touchbar;
     func_02034AC4((int)ov067_id);
-    p=func_02030734(((struct Obj26144 *)owner)->f4,0x4c,1,d_021BC014,235);
-    ((struct Obj06734 *)p)->f0=owner;func_021BA160(p);func_021BA1C0(p);func_021BA1C4(p);func_021BA41C(p);
-    ((struct Obj06734 *)p)->f8=4;p[0xc]=0;p[0xd]=0;func_021BA068(p,0);func_021BA644(p);
-    ((struct Obj06734 *)p)->f48=func_020056A0((unsigned)func_021BA15C,(unsigned)p,1);
-    return p;
+    touchbar=func_02030734(((struct ManualData *)owner)->heap,0x4c,1,gManualCommonTouchbarAllocFile,235);
+    ((struct ManualTouchbar *)touchbar)->owner=owner;MANUAL_COMMON_CreateTouchbarWidget(touchbar);MANUAL_COMMON_TouchbarNoop(touchbar);MANUAL_COMMON_CreateTouchbarSlots(touchbar);MANUAL_COMMON_LoadTouchbarActors(touchbar);
+    ((struct ManualTouchbar *)touchbar)->mode=4;touchbar[0xc]=0;touchbar[0xd]=0;MANUAL_COMMON_SetTouchbarState(touchbar,0);MANUAL_COMMON_ResetTouchbar(touchbar);
+    ((struct ManualTouchbar *)touchbar)->task=func_020056A0((unsigned)MANUAL_COMMON_TouchbarTaskNoop,(unsigned)touchbar,1);
+    return touchbar;
 }
 
 
 
-void func_021B9F8C(char *p){func_02030EAC(((struct Obj14802 *)p)->f48);func_021BA4D8(p);func_021BA218(p);TOUCHBAR_Delete(*(unsigned char * *)&((struct Obj14802 *)p)->f4);func_020307B0(p);func_02034A5C((int)ov067_id);}
+void MANUAL_COMMON_DeleteTouchbar(char *touchbar){func_02030EAC(((struct ManualTouchbar *)touchbar)->task);MANUAL_COMMON_DeleteTouchbarActors(touchbar);MANUAL_COMMON_DeleteTouchbarSlots(touchbar);TOUCHBAR_Delete(*(unsigned char * *)&((struct ManualTouchbar *)touchbar)->touchbar);func_020307B0(touchbar);func_02034A5C((int)ov067_id);}
 
 
 
-void func_021B9FBC(char *p)
+void MANUAL_COMMON_UpdateTouchbar(char *touchbar)
 {
-    ((struct Obj00367 *)p)->f24=-1;((struct Obj00367 *)p)->f28=-1;func_021BA240(p);
-    if(((struct Obj00367 *)p)->f20==1) {((struct Obj00367 *)p)->f20=0;return;}
-    if(((struct Obj00367 *)p)->f20==0 || ((struct Obj00367 *)p)->f20==2) {
-        TOUCHBAR_Update(*(S * *)&((struct Obj00367 *)p)->f4);
-        if(((struct Obj00367 *)p)->f20==0) {
-            int result=TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct Obj00367 *)p)->f4);
-            if(result!=-1) {((struct Obj00367 *)p)->f20=2;((struct Obj00367 *)p)->f24=result;}
+    ((struct ManualTouchbar *)touchbar)->pressedId=-1;((struct ManualTouchbar *)touchbar)->releasedId=-1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
+    if(((struct ManualTouchbar *)touchbar)->pressState==1) {((struct ManualTouchbar *)touchbar)->pressState=0;return;}
+    if(((struct ManualTouchbar *)touchbar)->pressState==0 || ((struct ManualTouchbar *)touchbar)->pressState==2) {
+        TOUCHBAR_Update(*(S * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+        if(((struct ManualTouchbar *)touchbar)->pressState==0) {
+            int result=TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+            if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=2;((struct ManualTouchbar *)touchbar)->pressedId=result;}
         } else {
-            int result=TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj00367 *)p)->f4);
-            if(result!=-1) {((struct Obj00367 *)p)->f20=1;((struct Obj00367 *)p)->f28=result;}
+            int result=TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+            if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=1;((struct ManualTouchbar *)touchbar)->releasedId=result;}
         }
     }
-    if(((struct Obj00367 *)p)->f20==0 || ((struct Obj00367 *)p)->f20==3) {
-        func_021BA508(p);
-        if(((struct Obj00367 *)p)->f20==0) {
-            if(((struct Obj00367 *)p)->f44==1) {((struct Obj00367 *)p)->f20=3;*(unsigned *)&((struct Obj00367 *)p)->f24=d_021BBF2C[*(u8 *)(p+0x40)].word[0];}
+    if(((struct ManualTouchbar *)touchbar)->pressState==0 || ((struct ManualTouchbar *)touchbar)->pressState==3) {
+        MANUAL_COMMON_UpdateTouchbarActors(touchbar);
+        if(((struct ManualTouchbar *)touchbar)->pressState==0) {
+            if(((struct ManualTouchbar *)touchbar)->animState==1) {((struct ManualTouchbar *)touchbar)->pressState=3;*(unsigned *)&((struct ManualTouchbar *)touchbar)->pressedId=gManualCommonTouchbarButtonIds[*(u8 *)(touchbar+0x40)].word[0];}
         } else {
-            if(((struct Obj00367 *)p)->f44==3) {((struct Obj00367 *)p)->f20=1;*(unsigned *)&((struct Obj00367 *)p)->f28=d_021BBF2C[*(u8 *)(p+0x40)].word[0];}
+            if(((struct ManualTouchbar *)touchbar)->animState==3) {((struct ManualTouchbar *)touchbar)->pressState=1;*(unsigned *)&((struct ManualTouchbar *)touchbar)->releasedId=gManualCommonTouchbarButtonIds[*(u8 *)(touchbar+0x40)].word[0];}
         }
     }
 }
 
 
 
-void func_021BA068(char *p,unsigned state)
+void MANUAL_COMMON_SetTouchbarState(char *touchbar,unsigned state)
 {
-    if(((struct Obj03964 *)p)->f8==state)return;
-    switch(((struct Obj03964 *)p)->f8) {
-    case 0:TOUCHBAR_SetButtonVisible(((struct Obj03964 *)p)->f4,0,0);break;
-    case 3:CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj03964 *)p)->f38,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj03964 *)p)->f3C,0);break;
+    if(((struct ManualTouchbar *)touchbar)->mode==state)return;
+    switch(((struct ManualTouchbar *)touchbar)->mode) {
+    case 0:TOUCHBAR_SetButtonVisible(((struct ManualTouchbar *)touchbar)->touchbar,0,0);break;
+    case 3:CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1,0);break;
     case 1:case 2:case 4:break;
     }
-    ((struct Obj03964 *)p)->f8=state;func_021BA644(p);
-    switch(((struct Obj03964 *)p)->f8) {
-    case 0:TOUCHBAR_SetButtonVisible(((struct Obj03964 *)p)->f4,0,1);func_021BA28C(p);break;
-    case 1:func_021BA2B0(p);break;
-    case 2:func_021BA30C(p);break;
+    ((struct ManualTouchbar *)touchbar)->mode=state;MANUAL_COMMON_ResetTouchbar(touchbar);
+    switch(((struct ManualTouchbar *)touchbar)->mode) {
+    case 0:TOUCHBAR_SetButtonVisible(((struct ManualTouchbar *)touchbar)->touchbar,0,1);MANUAL_COMMON_DrawTouchbarIdle(touchbar);break;
+    case 1:MANUAL_COMMON_DrawTouchbarStart(touchbar);break;
+    case 2:MANUAL_COMMON_DrawTouchbarEnd(touchbar);break;
     case 3:case 4:break;
     }
 }
@@ -876,35 +753,35 @@ void func_021BA068(char *p,unsigned state)
 /*
  * trailing: 021BA152..021BA154 zero alignment padding, inspected in full show.
  */
-void func_021BA0F0(char *p,unsigned b,unsigned c)
+void MANUAL_COMMON_SetTouchbarSelection(char *touchbar,unsigned count,unsigned selected)
 {
-    p[0xc]=b;p[0xd]=c;
-    if(((struct Obj01788 *)p)->f8==3) {
-        if(((struct Obj01788 *)p)->fC<=1) {
-            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f38,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,0);func_021BA28C(p);return;
+    touchbar[0xc]=count;touchbar[0xd]=selected;
+    if(((struct ManualTouchbar *)touchbar)->mode==3) {
+        if(((struct ManualTouchbar *)touchbar)->selectX<=1) {
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1,0);MANUAL_COMMON_DrawTouchbarIdle(touchbar);return;
         }
-        if(((struct Obj01788 *)p)->fD==0) {
-            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f38,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,1);
-        } else if(((struct Obj01788 *)p)->fD==b-1) {
-            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f38,1);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,0);
+        if(((struct ManualTouchbar *)touchbar)->selectY==0) {
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1,1);
+        } else if(((struct ManualTouchbar *)touchbar)->selectY==count-1) {
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0,1);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1,0);
         } else {
-            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f38,1);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,1);
+            CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0,1);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1,1);
         }
-        func_021BA368(p);
+        MANUAL_COMMON_DrawTouchbarContinue(touchbar);
     }
 }
 
 
 
-unsigned func_021BA154(char *p){return ((struct Obj26145 *)p)->f28;}
+unsigned MANUAL_COMMON_GetTouchbarSelected(char *touchbar){return ((struct ManualTouchbar *)touchbar)->releasedId;}
 
 
 
-unsigned func_021BA158(char *p){return ((struct Obj26146 *)p)->f24;}
+unsigned MANUAL_COMMON_GetTouchbarPressed(char *touchbar){return ((struct ManualTouchbar *)touchbar)->pressedId;}
 
 
 
-void func_021BA15C(void *task,void *data)
+void MANUAL_COMMON_TouchbarTaskNoop(void *task,void *data)
 {
 }
 
@@ -913,52 +790,52 @@ void func_021BA15C(void *task,void *data)
 /*
  * lever: args before gManualGraphicMainBgLayerTable declaration puts the 64-byte copy at sp+0.
  */
-void func_021BA160(char *p)
+void MANUAL_COMMON_CreateTouchbarWidget(char *touchbar)
 {
-    A args;
-    struct Block gManualGraphicMainBgLayerTable=d_021BBF4C;
+    ManualTouchbarArgs args;
+    struct ManualBgTable gManualGraphicMainBgLayerTable=gManualCommonTouchbarBgTable;
     MI_CpuFill8(&args,0,sizeof(args));
-    args.f0=(u8 *)&gManualGraphicMainBgLayerTable;args.f4=2;
-    args.f8=(int)MANUAL_GRAPHIC_GetClactUnit(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
-    args.fC=6;args.f10=3;args.f14=1;args.f18=0;
-    *(R * *)&((struct Obj08468 *)p)->f4=TOUCHBAR_Create(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
-    TOUCHBAR_SetButtonVisible(((struct Obj08468 *)p)->f4,0,0);
+    args.bgTable=(u8 *)&gManualGraphicMainBgLayerTable;args.layer=2;
+    args.clactUnit=(int)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->screen);
+    args.cellW=6;args.cellH=3;args.flags=1;args.reserved18=0;
+    *(struct ManualRes * *)&((struct ManualTouchbar *)touchbar)->touchbar=TOUCHBAR_Create(&args,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    TOUCHBAR_SetButtonVisible(((struct ManualTouchbar *)touchbar)->touchbar,0,0);
 }
 
 
 
-void func_021BA1C0(void *a0){}
+void MANUAL_COMMON_TouchbarNoop(void *unused){}
 
 
 
-void func_021BA1C4(char *p)
+void MANUAL_COMMON_CreateTouchbarSlots(char *touchbar)
 {
     u8 i;
     for(i=0;i<2;i++) {
-        const struct Entry_021BA1C4 *t=&d_021BBF00[i];
-        *(unsigned *)(p+i*4+0x10)=BMP_WIN_Create(t->a,t->b,t->c,t->d,t->e,t->f,t->g);
-        BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*4+0x10)),0);
-        BMP_WIN_TransferChars(*(struct Descriptor **)(p+i*4+0x10));
-        *(unsigned *)(p+i*4+0x18)=0;
+        const struct ManualBmpParams *t=&gManualCommonSlotRecords[i];
+        *(unsigned *)(touchbar+i*4+0x10)=BMP_WIN_Create(t->layer,t->baseX,t->baseY,t->tiles,t->palette,t->mode,t->slot);
+        BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(touchbar+i*4+0x10)),0);
+        BMP_WIN_TransferChars(*(struct Descriptor **)(touchbar+i*4+0x10));
+        *(unsigned *)(touchbar+i*4+0x18)=0;
     }
 }
 
 
 
-void func_021BA218(char *p){unsigned char i;PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26150 *)(*(char * *)&((struct Obj26149 *)p)->f0))->f18);for(i=0;i<2;i++){*(unsigned *)((unsigned)p+i*4+24)=0;BMP_WIN_Delete(*(struct Descriptor **)((unsigned)p+i*4+16));}}
+void MANUAL_COMMON_DeleteTouchbarSlots(char *touchbar){unsigned char i;PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);for(i=0;i<2;i++){*(unsigned *)((unsigned)touchbar+i*4+24)=0;BMP_WIN_Delete(*(struct Descriptor **)((unsigned)touchbar+i*4+16));}}
 
 
 
-void func_021BA240(char *p)
+void MANUAL_COMMON_UpdateTouchbarSlots(char *touchbar)
 {
     u8 i;
     for(i=0;i<2;i++) {
-        if(*(unsigned *)(p+i*4+0x18)!=0) {
-            if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj26152 *)(*(char * *)&((struct Obj26151 *)p)->f0))->f18,BMP_WIN_GetBmp(*(struct Descriptor **)(p+i*4+0x10)))==0) {
-                struct Descriptor *d=*(struct Descriptor **)(p+i*4+0x10);
+        if(*(unsigned *)(touchbar+i*4+0x18)!=0) {
+            if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,BMP_WIN_GetBmp(*(struct Descriptor **)(touchbar+i*4+0x10)))==0) {
+                struct Descriptor *d=*(struct Descriptor **)(touchbar+i*4+0x10);
                 BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);
                 func_02041B6C(BMP_WIN_GetBgLayer(d));
-                *(unsigned *)(p+i*4+0x18)=0;
+                *(unsigned *)(touchbar+i*4+0x18)=0;
             }
         }
     }
@@ -966,30 +843,30 @@ void func_021BA240(char *p)
 
 
 
-void func_021BA28C(char *p){PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26153 *)(*(char * *)&((struct Obj08469 *)p)->f0))->f18);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj08469 *)p)->f14),0);BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj08469 *)p)->f14);((struct Obj08469 *)p)->f1C=0;}
+void MANUAL_COMMON_DrawTouchbarIdle(char *touchbar){PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0);((struct ManualTouchbar *)touchbar)->bmp0Dirty=0;}
 
 
 
-void func_021BA2B0(char *p)
+void MANUAL_COMMON_DrawTouchbarStart(char *touchbar)
 {
     void *s;
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26154 *)(*(char * *)&((struct Obj04652 *)p)->f0))->f18);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj04652 *)p)->f14),0);
-    s=func_02045EC0(*(struct MsgBank * *)&((struct Obj26155 *)(*(char * *)&((struct Obj04652 *)p)->f0))->f1C,2);
-    PRINTSYS_PrintQueColor(((struct Obj26156 *)(*(char * *)&((struct Obj04652 *)p)->f0))->f18,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj04652 *)p)->f14),0,4,(unsigned)s,((struct Obj26157 *)(*(char * *)&((struct Obj04652 *)p)->f0))->fC,0x3c40);
-    STRBUF_Delete(s);((struct Obj04652 *)p)->f1C=1;func_021BA240(p);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);
+    s=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,2);
+    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0,4,(unsigned)s,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font,0x3c40);
+    STRBUF_Delete(s);((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
 
 
 
-void func_021BA30C(char *p)
+void MANUAL_COMMON_DrawTouchbarEnd(char *touchbar)
 {
     void *s;
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26158 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0);
-    s=func_02045EC0(*(struct MsgBank * *)&((struct Obj26159 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f1C,3);
-    PRINTSYS_PrintQueColor(((struct Obj26160 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0,4,(unsigned)s,((struct Obj26161 *)(*(char * *)&((struct Obj04653 *)p)->f0))->fC,0x3c40);
-    STRBUF_Delete(s);((struct Obj04653 *)p)->f1C=1;func_021BA240(p);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);
+    s=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,3);
+    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,(unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0,4,(unsigned)s,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font,0x3c40);
+    STRBUF_Delete(s);((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
 
 
@@ -997,72 +874,72 @@ void func_021BA30C(char *p)
 /*
  * extent: 178 compiled bytes followed by two zero alignment bytes at 021BA41A.
  */
-void func_021BA368(char *p)
+void MANUAL_COMMON_DrawTouchbarContinue(char *touchbar)
 {
     struct WordSet *words;
     struct U16Vec *str;
     void *slot;
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26162 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),0);
-    words=GF_FONT_Create_EC64(((struct Obj26163 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
-    slot=func_02045EC0(*(struct MsgBank * *)&((struct Obj26164 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f1C,4);
-    str=STRBUF_Create(16,((struct Obj26165 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
-    WORDSET_SetSlotNumber(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
-    WORDSET_SetSlotNumber(words,1,((struct Obj02561 *)p)->fC,1,0,1);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),0);
+    words=WORDSET_CreateDefault(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    slot=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,4);
+    str=STRBUF_Create(16,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    WORDSET_SetSlotNumber(words,0,((struct ManualTouchbar *)touchbar)->selectY+1,1,0,1);
+    WORDSET_SetSlotNumber(words,1,((struct ManualTouchbar *)touchbar)->selectX,1,0,1);
     WORDSET_CopyTaggedText(words,str,slot);
-    PRINTSYS_PrintQueColor(((struct Obj26166 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),32,4,(u32)str,((struct Obj26167 *)(*(char * *)&((struct Obj02561 *)p)->f0))->fC,0x3c40);
+    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),32,4,(u32)str,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font,0x3c40);
     STRBUF_Delete(str);STRBUF_Delete(slot);WORDSET_DeleteStrbufED04(words);
-    ((struct Obj02561 *)p)->f1C=1;func_021BA240(p);
+    ((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
 
 
 
-void func_021BA41C(char *p)
+void MANUAL_COMMON_LoadTouchbarActors(char *touchbar)
 {
     u8 i;
     void *loader;
     u32 first;
-    loader=func_020490F4(APP_ICON_GetArchiveId(),((struct Obj26168 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
-    *(int *)&((struct Obj02562 *)p)->f30=CLACT_RegisterPaletteEx((void *)((u32)loader),APP_ICON_GetMoveKindPaletteFileId(),1,128,0,3,((struct Obj26169 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
-    *(int *)&((struct Obj02562 *)p)->f2C=CLACT_RegisterCharacter((void *)((u32)loader),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj26170 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    loader=func_020490F4(APP_ICON_GetArchiveId(),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    *(int *)&((struct ManualTouchbar *)touchbar)->animCharacter=CLACT_RegisterPaletteEx((void *)((u32)loader),APP_ICON_GetMoveKindPaletteFileId(),1,128,0,3,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    *(int *)&((struct ManualTouchbar *)touchbar)->animPalette=CLACT_RegisterCharacter((void *)((u32)loader),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     first=APP_ICON_GetStatusCellFileId(0);
-    *(int *)&((struct Obj02562 *)p)->f34=CLACT_RegisterCellAnim((void *)((u32)loader),first,APP_ICON_GetStatusPaletteFileId(0),((struct Obj26171 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    *(int *)&((struct ManualTouchbar *)touchbar)->animCell=CLACT_RegisterCellAnim((void *)((u32)loader),first,APP_ICON_GetStatusPaletteFileId(0),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     ARC_TOOL_DeleteHandle(loader);
     for(i=0;i<2;i++) {
-        char *parent=*(char * *)&((struct Obj02562 *)p)->f0;
-        char *dest=p+i*4;
-        *(struct Obj * *)&((struct Obj10983 *)dest)->f38=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14803 *)parent)->f8),((struct Obj02562 *)p)->f2C,((struct Obj02562 *)p)->f30,((struct Obj02562 *)p)->f34,&d_021BBF14[i],1,((struct Obj14803 *)parent)->f4);
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,0);
-        CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,1);
+        char *parent=*(char * *)&((struct ManualTouchbar *)touchbar)->owner;
+        char *dest=touchbar+i*4;
+        *(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)parent)->screen),((struct ManualTouchbar *)touchbar)->animPalette,((struct ManualTouchbar *)touchbar)->animCharacter,((struct ManualTouchbar *)touchbar)->animCell,&gManualCommonActorEntries[i],1,((struct ManualData *)parent)->heap);
+        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0,0);
+        CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0,1);
     }
 }
 
 
 
-void func_021BA4D8(char *p) { u8 i; for(i=0;i<2;i++) CLACT_DeleteActor(*(struct Obj **)(p+i*4+0x38)); CLACT_ReleaseCellAnim(((struct Obj10984 *)p)->f34); CLACT_ReleaseCharacter(((struct Obj10984 *)p)->f2C); CLACT_ReleasePalette(((struct Obj10984 *)p)->f30); }
+void MANUAL_COMMON_DeleteTouchbarActors(char *touchbar) { u8 i; for(i=0;i<2;i++) CLACT_DeleteActor(*(struct Obj **)(touchbar+i*4+0x38)); CLACT_ReleaseCellAnim(((struct ManualTouchbar *)touchbar)->animCell); CLACT_ReleaseCharacter(((struct ManualTouchbar *)touchbar)->animPalette); CLACT_ReleasePalette(((struct ManualTouchbar *)touchbar)->animCharacter); }
 
 
 
-void func_021BA508(char *p)
+void MANUAL_COMMON_UpdateTouchbarActors(char *touchbar)
 {
  u8 i;
- u32_021BA508 found,x,y;
- const struct Entry *row;
- switch(((struct Obj00367 *)p)->f44) {
+ u32 found,x,y;
+ const struct ManualActorEntry *row;
+ switch(((struct ManualTouchbar *)touchbar)->animState) {
  case 0:
   found=0;
   for(i=0;i<2;i++) {
-   if(CLACT_GetActorDrawEnable(*(struct Obj **)(p+i*4+0x38))) {
-    row=&d_021BBF14[i];
+   if(CLACT_GetActorDrawEnable(*(struct Obj **)(touchbar+i*4+0x38))) {
+    row=&gManualCommonActorEntries[i];
     if(KEY_GetRepeat()&row->mask) {
-     ((struct Obj00367 *)p)->f40=i;
+     ((struct ManualTouchbar *)touchbar)->focusIndex=i;
      func_020355D8(0);
      found=1;
      break;
     }
     if(TOUCHPANEL_GetPointTrg(&x,&y)) {
      if(row->left<=x && x<=row->right && row->top<=y && y<=row->bottom) {
-      ((struct Obj00367 *)p)->f40=i;
+      ((struct ManualTouchbar *)touchbar)->focusIndex=i;
       found=1;
       func_020355D8(1);
       break;
@@ -1071,98 +948,98 @@ void func_021BA508(char *p)
    }
   }
   if(found) {
-   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
-   if(d_021BBF14[*(u8 *)(p+0x40)].sound) GFL_USE_PlaySeDefaultVolume(d_021BBF14[*(u8 *)(p+0x40)].sound);
-   ((struct Obj00367 *)p)->f44=1;
+   CLACT_SetActorAnimSeq(*(struct Obj **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38),gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].active);
+   if(gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].sound) GFL_USE_PlaySeDefaultVolume(gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].sound);
+   ((struct ManualTouchbar *)touchbar)->animState=1;
   }
   break;
- case 1: ((struct Obj00367 *)p)->f44=2; break;
+ case 1: ((struct ManualTouchbar *)touchbar)->animState=2; break;
  case 2:
-  if(!CLACT_IsActorAnimActive(*(struct Actor **)(p+((struct Obj00367 *)p)->f40*4+0x38))) {
-   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].normal);
-   ((struct Obj00367 *)p)->f44=3;
+  if(!CLACT_IsActorAnimActive(*(struct Actor **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38))) {
+   CLACT_SetActorAnimSeq(*(struct Obj **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38),gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].normal);
+   ((struct ManualTouchbar *)touchbar)->animState=3;
   }
   break;
- case 3: ((struct Obj00367 *)p)->f44=0; ((struct Obj00367 *)p)->f40=255; break;
+ case 3: ((struct ManualTouchbar *)touchbar)->animState=0; ((struct ManualTouchbar *)touchbar)->focusIndex=255; break;
  }
 }
 
 
 
 
-void func_021BA644(char *p)
+void MANUAL_COMMON_ResetTouchbar(char *touchbar)
 {
     int z = 0;
     int m = z - 1;
-    *(int *)(p + 0x20) = z;
-    *(int *)(p + 0x24) = m;
-    *(int *)(p + 0x28) = m;
-    *(u8 *)(p + 0x40) = 0xFF;
-    *(int *)(p + 0x44) = z;
+    *(int *)(touchbar + 0x20) = z;
+    *(int *)(touchbar + 0x24) = m;
+    *(int *)(touchbar + 0x28) = m;
+    *(u8 *)(touchbar + 0x40) = 0xFF;
+    *(int *)(touchbar + 0x44) = z;
 }
 
 
 
-void *func_021BA65C(char *owner, struct Data *data)
+void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
 {
-  struct Work *p;
-  struct Vec2_021BA508 v;
-  u8 i;
-  u32_021BA65C flag;
-  u32_021BA65C state;
-  int n;
-  s16_021BA65C y;
+  struct ManualListWork *work;
+  struct ManualClactPos pos;
+  u8 index;
+  u32 flag;
+  u32 state;
+  int count;
+  s16 y;
   int mode;
-  p = func_02030734(data->heap, 0x98, 1, d_021BC028, 0xdf);
-  p->owner = owner;
-  *((u32_021BA65C *) (owner + 0x10)) = 0;
-  p->data = data;
-  i = 0;
+  work = func_02030734(data->heap, 0x98, 1, gManualCommonListWorkAllocFile, 0xdf);
+  work->owner = owner;
+  *((u32 *) (owner + 0x10)) = 0;
+  work->data = data;
+  index = 0;
   do
   {
-    p->a[i] = 0;
-    p->b[i] = 0;
-    i++;
+    work->win[index] = 0;
+    work->slotFlag[index] = 0;
+    index++;
   }
-  while (i < 8);
-  p->field94 = 0;
-  func_021BA898((char *)p);
-  func_021BAA44(p);
+  while (index < 8);
+  work->listReady = 0;
+  MANUAL_COMMON_LoadListWorkAssets((char *)work);
+  MANUAL_COMMON_SetListWorkBgMode(work);
   BG_SYS_ResetSlot(5, 3, 12);
   flag = 0;
-  if ((*((u16 *) (p->owner + 4))) > 6)
+  if ((*((u16 *) (work->owner + 4))) > 6)
     flag = 1;
-  CLACT_SetActorDrawEnable(p->obj, flag);
-  n = func_021BB074((u16 **) p);
-  n = n + 1;
-  y = func_021BB258(p, n, *((u16 *) (p->owner + 0xc)));
-  v.x = 240;
-  v.y = y;
-  CLACT_AddActorSurfacePos(p->obj, (const struct Vec2_021BA508 *)&v, 1);
-  p->task = func_020056A0((u32_021BA65C) func_021BA894, (u32_021BA65C) p, 1);
-  p->field84 = 0;
-  p->field88 = 0;
-  p->field8c = 0;
-  p->field90 = -1;
-  mode = *((int *) p->owner);
+  CLACT_SetActorDrawEnable(work->actor, flag);
+  count = MANUAL_COMMON_GetScrollTop((u16 **) work);
+  count = count + 1;
+  y = MANUAL_COMMON_IndexToY(work, count, *((u16 *) (work->owner + 0xc)));
+  pos.x = 240;
+  pos.y = y;
+  CLACT_AddActorSurfacePos(work->actor, (const struct ManualClactPos *)&pos, 1);
+  work->task = func_020056A0((u32) MANUAL_COMMON_ListWorkTaskNoop, (u32) work, 1);
+  work->state = 0;
+  work->dragging = 0;
+  work->dirty = 0;
+  work->timer = -1;
+  mode = *((int *) work->owner);
   state = 2;
   if (mode == 0)
     state = 1;
   else
     if (mode == 1)
     state = 2;
-  func_021BA068(*((char **) (((char *) p->data) + 0x34)), state);
-  return p;
+  MANUAL_COMMON_SetTouchbarState(*((char **) (((char *) work->data) + 0x34)), state);
+  return work;
 }
 
 
 
 
-void func_021BA740(char *p)
+void MANUAL_COMMON_DeleteListWork(char *work)
 {
-    func_02030EAC(((struct Obj26178 *)p)->f80);
+    func_02030EAC(((struct ManualListWork *)work)->task);
     BG_SYS_ResetSlot(5, 3, 0);
-    func_020307B0(p);
+    func_020307B0(work);
 }
 
 
@@ -1171,48 +1048,48 @@ void func_021BA740(char *p)
  * extent: lead 308 bytes; empty callback at 021BA894 and two zero alignment bytes.
  * arity: 02028178 retains original r1 payload despite unused input in its body.
  */
-int func_021BA760(char *p)
+int MANUAL_COMMON_UpdateListWork(char *work)
 {
  u8 i;
  int result=0;
  unsigned selected;
- if(!PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct Obj26179 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f14)) return 0;
- if(((struct Obj00601 *)p)->f90==0) result=1;
- else if(((struct Obj00601 *)p)->f90>0) {
-  if(((struct Obj00601 *)p)->f90==1) func_021BAA50(p);
-  (((struct Obj00601 *)p)->f90)--;
+ if(!PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1)) return 0;
+ if(((struct ManualListWork *)work)->timer==0) result=1;
+ else if(((struct ManualListWork *)work)->timer>0) {
+  if(((struct ManualListWork *)work)->timer==1) MANUAL_COMMON_DeleteListWorkAssets(work);
+  (((struct ManualListWork *)work)->timer)--;
  }
- if(((struct Obj00601 *)p)->f84!=1) {
+ if(((struct ManualListWork *)work)->state!=1) {
   for(i=0;i<8;i++) {
-   if(*(u8 **)(p+i*4+0xc) && *(void **)(p+i*4+0x2c))
-    APP_TASKMENU_WIN_Update(*(u8 **)(p+i*4+0xc));
+   if(*(u8 **)(work+i*4+0xc) && *(void **)(work+i*4+0x2c))
+    APP_TASKMENU_WIN_Update(*(u8 **)(work+i*4+0xc));
   }
  }
- if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==2) {
-  if(func_021BAE2C(p)) ((struct Obj00601 *)p)->f84=2;
-  else ((struct Obj00601 *)p)->f84=0;
+ if(((struct ManualListWork *)work)->state==0 || ((struct ManualListWork *)work)->state==2) {
+  if(MANUAL_COMMON_UpdateListWorkDrag(work)) ((struct ManualListWork *)work)->state=2;
+  else ((struct ManualListWork *)work)->state=0;
  }
- if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==3) {
-  func_021B9FBC(*(char * *)&((struct Obj26180 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f34);
-  if(((struct Obj00601 *)p)->f84==0) {
-   if(func_021BA158(*(char * *)&((struct Obj26181 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f34)!=(unsigned)-1) ((struct Obj00601 *)p)->f84=3;
+ if(((struct ManualListWork *)work)->state==0 || ((struct ManualListWork *)work)->state==3) {
+  MANUAL_COMMON_UpdateTouchbar(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->group);
+  if(((struct ManualListWork *)work)->state==0) {
+   if(MANUAL_COMMON_GetTouchbarPressed(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->group)!=(unsigned)-1) ((struct ManualListWork *)work)->state=3;
   } else {
-   selected=func_021BA154(*(char * *)&((struct Obj26182 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f34);
+   selected=MANUAL_COMMON_GetTouchbarSelected(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->group);
    if(selected!=(unsigned)-1) {
-    if(selected==1) ((struct Obj26183 *)(*(char * *)&((struct Obj00601 *)p)->f0))->f10=0;
-    ((struct Obj00601 *)p)->f84=1;
-    ((struct Obj00601 *)p)->f90=1;
+    if(selected==1) ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->owner))->printQue0=0;
+    ((struct ManualListWork *)work)->state=1;
+    ((struct ManualListWork *)work)->timer=1;
    }
   }
  }
- if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==4) {
-  if(((struct Obj00601 *)p)->f84==0) {
-   if(func_021BAABC(p)) ((struct Obj00601 *)p)->f84=4;
+ if(((struct ManualListWork *)work)->state==0 || ((struct ManualListWork *)work)->state==4) {
+  if(((struct ManualListWork *)work)->state==0) {
+   if(MANUAL_COMMON_UpdateListWorkInput(work)) ((struct ManualListWork *)work)->state=4;
   } else {
-   if(APP_TASKMENU_WIN_IsFinish(*(u8 **)(p+func_021BB034((u16 **)p)*4+0xc))) {
-    ((struct Obj26184 *)(*(char * *)&((struct Obj00601 *)p)->f0))->f10=1;
-    ((struct Obj00601 *)p)->f84=1;
-    ((struct Obj00601 *)p)->f90=1;
+   if(APP_TASKMENU_WIN_IsFinish(*(u8 **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc))) {
+    ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->owner))->printQue0=1;
+    ((struct ManualListWork *)work)->state=1;
+    ((struct ManualListWork *)work)->timer=1;
    }
   }
  }
@@ -1222,7 +1099,7 @@ int func_021BA760(char *p)
 
 
 
-void func_021BA894(void) {}
+void MANUAL_COMMON_ListWorkTaskNoop(void) {}
 
 
 
@@ -1230,178 +1107,178 @@ void func_021BA894(void) {}
  * Lever: index before 0x60 keeps field offset in immediate; distinct loop
  * parent local restores r7 parent / r6 destination allocation.
  */
-void func_021BA898(char *p)
+void MANUAL_COMMON_LoadListWorkAssets(char *work)
 {
-    struct Quad q[2];
+    struct ManualQuad quad[2];
     u8 i;
     char *parent;
-    func_02049B68(((struct Obj26185 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,0,4,0,0x40,((struct Obj26186 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    func_02049658(((struct Obj26187 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,2,4,0,0,0,((struct Obj26188 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct Obj26189 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,5,4,0,0,0,0,((struct Obj26190 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    *(int *)&((struct Obj00074 *)p)->f54=CLACT_RegisterPaletteEx(((struct Obj26191 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,1,1,0,0,1,((struct Obj26192 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    *(int *)&((struct Obj00074 *)p)->f50=CLACT_RegisterCharacter(((struct Obj26193 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,3,0,1,((struct Obj26194 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    *(int *)&((struct Obj00074 *)p)->f58=CLACT_RegisterCellAnim(((struct Obj26195 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,7,8,((struct Obj26196 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    q[1]=d_021BBF8C;
-    parent=*(char * *)&((struct Obj00074 *)p)->f4;
-    ((struct Obj00074 *)p)->f5C=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14804 *)parent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[1],1,((struct Obj14804 *)parent)->f4);
-    CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f5C,0);
-    CLACT_SetActorAutoAnim(((struct Obj00074 *)p)->f5C,1);
-    q[0]=d_021BBF94;
+    func_02049B68(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,0,4,0,0x40,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    func_02049658(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,2,4,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,5,4,0,0,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    *(int *)&((struct ManualListWork *)work)->reg1=CLACT_RegisterPaletteEx(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,1,1,0,0,1,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    *(int *)&((struct ManualListWork *)work)->reg0=CLACT_RegisterCharacter(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,3,0,1,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    *(int *)&((struct ManualListWork *)work)->reg2=CLACT_RegisterCellAnim(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->arc0,7,8,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    quad[1]=gManualCommonListHeadPos;
+    parent=*(char * *)&((struct ManualListWork *)work)->data;
+    ((struct ManualListWork *)work)->actor=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)parent)->screen),((struct ManualListWork *)work)->reg0,((struct ManualListWork *)work)->reg1,((struct ManualListWork *)work)->reg2,&quad[1],1,((struct ManualData *)parent)->heap);
+    CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actor,0);
+    CLACT_SetActorAutoAnim(((struct ManualListWork *)work)->actor,1);
+    quad[0]=gManualCommonListRowPos;
     for(i=0;i<8;i++) {
         char *loopparent;
-        q[0].y=i*24-8;
-        loopparent=*(char * *)&((struct Obj00074 *)p)->f4;
-        *(void **)(p+i*4+0x60)=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14805 *)loopparent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[0],1,((struct Obj14805 *)loopparent)->f4);
-        CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
-        CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x60),1);
+        quad[0].y=i*24-8;
+        loopparent=*(char * *)&((struct ManualListWork *)work)->data;
+        *(void **)(work+i*4+0x60)=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)loopparent)->screen),((struct ManualListWork *)work)->reg0,((struct ManualListWork *)work)->reg1,((struct ManualListWork *)work)->reg2,&quad[0],1,((struct ManualData *)loopparent)->heap);
+        CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),0);
+        CLACT_SetActorAutoAnim(*(void **)(work+i*4+0x60),1);
     }
-    func_021BA9D0(p);
+    MANUAL_COMMON_CreateListWorkMenu(work);
 }
 
 
 
-void func_021BA9D0(char *p)
+void MANUAL_COMMON_CreateListWorkMenu(char *work)
 {
     BG_SYS_FreeSlot(5);
-    *(struct R * *)&((struct Obj00074 *)p)->f8 = APP_TASKMENU_RES_Create(5, 4, ((struct Obj26197 *)(*(char * *)&((struct Obj00074 *)p)->f4))->fC, ((struct Obj26198 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f14, ((struct Obj26199 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    ((struct Obj00074 *)p)->f4C = 0x1ce7;
-    func_02061CA4((void *)31, 154, p + 0x4c, 2);
-    func_02061CA4((void *)31, 186, p + 0x4c, 2);
-    func_021BB088(p);
+    *(struct ManualRes * *)&((struct ManualListWork *)work)->resource = APP_TASKMENU_RES_Create(5, 4, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->font, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1, ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+    ((struct ManualListWork *)work)->field4C = 0x1ce7;
+    func_02061CA4((void *)31, 154, work + 0x4c, 2);
+    func_02061CA4((void *)31, 186, work + 0x4c, 2);
+    MANUAL_COMMON_RebuildListWindows(work);
     if (func_020355C4() == 0) {
-        APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p + func_021BB034((u16 **)p) * 4 + 0xc), 1);
-        ((struct Obj00074 *)p)->f8C = 0;
+        APP_TASKMENU_WIN_SetActive(*(struct Obj **)(work + MANUAL_COMMON_GetCursorIndex((u16 **)work) * 4 + 0xc), 1);
+        ((struct ManualListWork *)work)->dirty = 0;
     }
 }
 
 
 
 
-void func_021BAA44(struct Work *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work) { BG_SYS_SetFlagField06(4); }
 
 
 
-void func_021BAA50(char *p) { u8 i; func_021BAA88(p); for(i=0;i<8;i++) CLACT_DeleteActor(*(struct Obj **)(p+i*4+0x60)); CLACT_DeleteActor(*(struct Obj * *)&((struct Obj08470 *)p)->f5C); CLACT_ReleaseCellAnim(((struct Obj08470 *)p)->f58); CLACT_ReleaseCharacter(((struct Obj08470 *)p)->f50); CLACT_ReleasePalette(((struct Obj08470 *)p)->f54); }
+void MANUAL_COMMON_DeleteListWorkAssets(char *work) { u8 i; MANUAL_COMMON_DeleteListWorkMenu(work); for(i=0;i<8;i++) CLACT_DeleteActor(*(struct Obj **)(work+i*4+0x60)); CLACT_DeleteActor(*(struct Obj * *)&((struct ManualListWork *)work)->actor); CLACT_ReleaseCellAnim(((struct ManualListWork *)work)->reg2); CLACT_ReleaseCharacter(((struct ManualListWork *)work)->reg0); CLACT_ReleasePalette(((struct ManualListWork *)work)->reg1); }
 
 
 
-void func_021BAA88(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); BG_SYS_SetFlagField06(5); }
+void MANUAL_COMMON_DeleteListWorkMenu(char *work) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1); for(i=0;i<8;i++) if(*(u8 **)(work+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(work+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualListWork *)work)->resource); BG_SYS_SetFlagField06(5); }
 
 
 
-int func_021BAABC(char *p)
+int MANUAL_COMMON_UpdateListWorkInput(char *work)
 {
     u8 rect[28];
-    struct Vec2_021BAABC delta[4];
+    struct ManualPoint delta[4];
     int hit;
     u16 count,last,y;
-    func_021BAFF8(rect);
+    MANUAL_COMMON_BuildListRects(rect);
     hit=TOUCHPANEL_HitTrg(rect);
-    count=func_021BB05C((u16 **)p);
-    last=func_021BB044((u16 **)p);
+    count=MANUAL_COMMON_GetVisibleCount((u16 **)work);
+    last=MANUAL_COMMON_GetLastVisible((u16 **)work);
     if(func_020355C4()==0) {
         if(hit>=0 && hit<count) {
             func_020355D8(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&2)) {
             func_020355D8(0);
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-            ((struct Obj00074 *)p)->f8C=0;
+            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+            ((struct ManualListWork *)work)->dirty=0;
             GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
         }
     }
     if(func_020355C4()==0) {
         if(KEY_GetTrg()&1) {
-            APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
             return 1;
         }
-        if(ST->count>1) {
+        if((*(struct ManualListState **)work)->count>1) {
             if(KEY_GetRepeat()&0x40) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
-                if(ST->selected>ST->top) ST->selected--;
-                else if(ST->count<=6) ST->selected=ST->count-1;
+                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                if((*(struct ManualListState **)work)->selected>(*(struct ManualListState **)work)->top) (*(struct ManualListState **)work)->selected--;
+                else if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->count-1;
                 else {
-                    if(ST->selected!=0) {
-                        ST->top--;
-                        ST->selected--;
+                    if((*(struct ManualListState **)work)->selected!=0) {
+                        (*(struct ManualListState **)work)->top--;
+                        (*(struct ManualListState **)work)->selected--;
                     } else {
-                        ST->top=func_021BB074((u16 **)p);
-                        ST->selected=ST->count-1;
+                        (*(struct ManualListState **)work)->top=MANUAL_COMMON_GetScrollTop((u16 **)work);
+                        (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->count-1;
                     }
-                    func_021BB088(p);
-                    y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),ST->top);
+                    MANUAL_COMMON_RebuildListWindows(work);
+                    y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                     delta[3].x=240;
                     delta[3].y=y;
-                    CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[3]), 1);
+                    CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct ManualListWork *)work)->actor, (const struct ManualClactPos *)(&delta[3]), 1);
                 }
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-                ((struct Obj00074 *)p)->f8C=0;
+                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                ((struct ManualListWork *)work)->dirty=0;
                 GFL_USE_PlaySeDefaultVolume(0x548);
             } else if(KEY_GetRepeat()&0x80) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
-                if(ST->selected<last) ST->selected++;
-                else if(ST->count<=6) ST->selected=0;
+                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                if((*(struct ManualListState **)work)->selected<last) (*(struct ManualListState **)work)->selected++;
+                else if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=0;
                 else {
-                    if(ST->selected<ST->count-1) {
-                        ST->top++;
-                        ST->selected++;
-                    } else {ST->top=0;ST->selected=0;}
-                    func_021BB088(p);
-                    y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),ST->top);
+                    if((*(struct ManualListState **)work)->selected<(*(struct ManualListState **)work)->count-1) {
+                        (*(struct ManualListState **)work)->top++;
+                        (*(struct ManualListState **)work)->selected++;
+                    } else {(*(struct ManualListState **)work)->top=0;(*(struct ManualListState **)work)->selected=0;}
+                    MANUAL_COMMON_RebuildListWindows(work);
+                    y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                     delta[2].x=240;
                     delta[2].y=y;
-                    CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[2]), 1);
+                    CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct ManualListWork *)work)->actor, (const struct ManualClactPos *)(&delta[2]), 1);
                 }
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-                ((struct Obj00074 *)p)->f8C=0;
+                APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                ((struct ManualListWork *)work)->dirty=0;
                 GFL_USE_PlaySeDefaultVolume(0x548);
             } else if(KEY_GetRepeat()&0x220) {
-                if(ST->selected!=0) {
-                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
-                    if(ST->count<=6) ST->selected=0;
+                if((*(struct ManualListState **)work)->selected!=0) {
+                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                    if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=0;
                     else {
-                        if(ST->top>=6) {ST->top-=6;ST->selected-=6;}
-                        else {ST->top=0;if(ST->selected>=6) ST->selected-=6;else ST->selected=0;}
-                        func_021BB088(p);
-                        y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),ST->top);
+                        if((*(struct ManualListState **)work)->top>=6) {(*(struct ManualListState **)work)->top-=6;(*(struct ManualListState **)work)->selected-=6;}
+                        else {(*(struct ManualListState **)work)->top=0;if((*(struct ManualListState **)work)->selected>=6) (*(struct ManualListState **)work)->selected-=6;else (*(struct ManualListState **)work)->selected=0;}
+                        MANUAL_COMMON_RebuildListWindows(work);
+                        y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                         delta[1].x=240;
                         delta[1].y=y;
-                        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[1]), 1);
+                        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct ManualListWork *)work)->actor, (const struct ManualClactPos *)(&delta[1]), 1);
                     }
-                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-                    ((struct Obj00074 *)p)->f8C=0;
+                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                    ((struct ManualListWork *)work)->dirty=0;
                     GFL_USE_PlaySeDefaultVolume(0x548);
                 }
             } else if(KEY_GetRepeat()&0x110) {
-                if(ST->selected<ST->count-1) {
-                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
-                    if(ST->count<=6) ST->selected=ST->count-1;
+                if((*(struct ManualListState **)work)->selected<(*(struct ManualListState **)work)->count-1) {
+                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
+                    if((*(struct ManualListState **)work)->count<=6) (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->count-1;
                     else {
-                        ST->top+=6;
-                        if(ST->top>func_021BB074((u16 **)p)) ST->top=func_021BB074((u16 **)p);
-                        ST->selected+=6;
-                        if(ST->selected>=ST->count) ST->selected=ST->count-1;
-                        func_021BB088(p);
-                        y=func_021BB258(p,(u16)(func_021BB074((u16 **)p)+1),ST->top);
+                        (*(struct ManualListState **)work)->top+=6;
+                        if((*(struct ManualListState **)work)->top>MANUAL_COMMON_GetScrollTop((u16 **)work)) (*(struct ManualListState **)work)->top=MANUAL_COMMON_GetScrollTop((u16 **)work);
+                        (*(struct ManualListState **)work)->selected+=6;
+                        if((*(struct ManualListState **)work)->selected>=(*(struct ManualListState **)work)->count) (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->count-1;
+                        MANUAL_COMMON_RebuildListWindows(work);
+                        y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                         delta[0].x=240;
                         delta[0].y=y;
-                        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)(&delta[0]), 1);
+                        CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct ManualListWork *)work)->actor, (const struct ManualClactPos *)(&delta[0]), 1);
                     }
-                    APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-                    ((struct Obj00074 *)p)->f8C=0;
+                    APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+                    ((struct ManualListWork *)work)->dirty=0;
                     GFL_USE_PlaySeDefaultVolume(0x548);
                 }
             }
         }
     } else if(hit>=0 && hit<count) {
-        ST->selected=ST->top+hit;
-        APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
-        ((struct Obj00074 *)p)->f8C=0;
-        APP_TASKMENU_WIN_SetDecide(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),1);
+        (*(struct ManualListState **)work)->selected=(*(struct ManualListState **)work)->top+hit;
+        APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
+        ((struct ManualListWork *)work)->dirty=0;
+        APP_TASKMENU_WIN_SetDecide(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
         GFL_USE_PlaySeDefaultVolume(0x54c);
         return 1;
     }
@@ -1414,167 +1291,167 @@ int func_021BAABC(char *p)
  * Lever: initialise offset after cursor clear, letting zero schedule at
  * that call's argument setup rather than before the touch-mode setter.
  */
-int func_021BAE2C(char *p)
+int MANUAL_COMMON_UpdateListWorkDrag(char *work)
 {
-    u32_021BAE2C dragx,dragy;
-    struct Vec2_021BAABC drag;
-    u32_021BAE2C clickx,clicky;
-    struct Vec2_021BAABC click;
-    if(CLACT_GetActorDrawEnable(*(struct Obj * *)&((struct Obj00074 *)p)->f5C)==0) return 0;
-    if(((struct Obj00074 *)p)->f88) {
+    u32 dragx,dragy;
+    struct ManualPoint drag;
+    u32 clickx,clicky;
+    struct ManualPoint click;
+    if(CLACT_GetActorDrawEnable(*(struct Obj * *)&((struct ManualListWork *)work)->actor)==0) return 0;
+    if(((struct ManualListWork *)work)->dragging) {
         if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
             func_020355D8(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
             offset=0;
             drag.x=240;
             if(dragy>=8) offset=dragy-8;
             drag.y=offset;
             if(drag.y<17) drag.y=17;
             else if(drag.y>135) drag.y=135;
-            CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)&drag, 1);
-            selection=func_021BB1F4(p,(u16)(func_021BB074((u16 **)p)+1),(u16)dragy);
-            if(selection!=((struct Obj26201 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC) {
-                ((struct Obj26202 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC=selection;
-                end=func_021BB044((u16 **)p);
-                if(((struct Obj00074 *)p)->f8C || ((struct Obj26203 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE<((struct Obj26204 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC || end<((struct Obj26205 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE) {
-                    ((struct Obj26207 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE=((struct Obj26206 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
-                    ((struct Obj00074 *)p)->f8C=1;
+            CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct ManualListWork *)work)->actor, (const struct ManualClactPos *)&drag, 1);
+            selection=MANUAL_COMMON_HitToIndex(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(u16)dragy);
+            if(selection!=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top) {
+                ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top=selection;
+                end=MANUAL_COMMON_GetLastVisible((u16 **)work);
+                if(((struct ManualListWork *)work)->dirty || ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->selected<((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top || end<((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->selected) {
+                    ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->selected=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top;
+                    ((struct ManualListWork *)work)->dirty=1;
                 }
-                func_021BB088(p);
+                MANUAL_COMMON_RebuildListWindows(work);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
-        } else ((struct Obj00074 *)p)->f88=0;
+        } else ((struct ManualListWork *)work)->dragging=0;
         return 1;
     } else {
         if(TOUCHPANEL_GetPointTrg(&clickx,&clicky) && clickx>=240 && clickx<=247 && clicky>=17 && clicky<=150) {
             int offset;
             u16 selection,end;
             func_020355D8(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),0);
             offset=0;
             GFL_USE_PlaySeDefaultVolume(0x548);
-            ((struct Obj00074 *)p)->f88=1;
+            ((struct ManualListWork *)work)->dragging=1;
             click.x=240;
             if(clicky>=8) offset=clicky-8;
             click.y=offset;
             if(click.y<17) click.y=17;
             else if(click.y>135) click.y=135;
-            CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00074 *)p)->f5C, (const struct Vec2_021BA508 *)&click, 1);
-            selection=func_021BB1F4(p,(u16)(func_021BB074((u16 **)p)+1),(u16)clicky);
-            if(selection!=((struct Obj26208 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC) {
-                ((struct Obj26209 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC=selection;
-                end=func_021BB044((u16 **)p);
-                if(((struct Obj00074 *)p)->f8C || ((struct Obj26210 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE<((struct Obj26211 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC || end<((struct Obj26212 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE) {
-                    ((struct Obj26214 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE=((struct Obj26213 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
-                    ((struct Obj00074 *)p)->f8C=1;
+            CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct ManualListWork *)work)->actor, (const struct ManualClactPos *)&click, 1);
+            selection=MANUAL_COMMON_HitToIndex(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(u16)clicky);
+            if(selection!=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top) {
+                ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top=selection;
+                end=MANUAL_COMMON_GetLastVisible((u16 **)work);
+                if(((struct ManualListWork *)work)->dirty || ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->selected<((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top || end<((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->selected) {
+                    ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->selected=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top;
+                    ((struct ManualListWork *)work)->dirty=1;
                 }
-                func_021BB088(p);
+                MANUAL_COMMON_RebuildListWindows(work);
             }
         }
-        if(((struct Obj00074 *)p)->f88) return 1;
+        if(((struct ManualListWork *)work)->dragging) return 1;
         return 0;
     }
 }
 
 
 
-void func_021BAFF8(u8 *p) { u8 i; for(i=0;i<6;i++) { p[i*4]=i*24+12; p[i*4+1]=(i+1)*24+11; p[i*4+2]=16; p[i*4+3]=239; } p[24]=255; p[25]=0; p[26]=0; p[27]=0; }
+void MANUAL_COMMON_BuildListRects(u8 *rect) { u8 i; for(i=0;i<6;i++) { rect[i*4]=i*24+12; rect[i*4+1]=(i+1)*24+11; rect[i*4+2]=16; rect[i*4+3]=239; } rect[24]=255; rect[25]=0; rect[26]=0; rect[27]=0; }
 
 
 
 
-u16 func_021BB034(u16 **p)
+u16 MANUAL_COMMON_GetCursorIndex(u16 **work)
 {
-    u16 *q = *p;
-    return (u16)(q[7] - q[6] + 1);
+    u16 *state = *work;
+    return (u16)(state[7] - state[6] + 1);
 }
 
 
 
 
-u16 func_021BB044(u16 **p)
+u16 MANUAL_COMMON_GetLastVisible(u16 **work)
 {
-    u16 *q = *p;
-    u16 a = (u16)(q[6] + 5);
-    u16 b = q[2];
-    if (a < b)
-        return a;
-    return (u16)(b - 1);
+    u16 *state = *work;
+    u16 limit = (u16)(state[6] + 5);
+    u16 count = state[2];
+    if (limit < count)
+        return limit;
+    return (u16)(count - 1);
 }
 
 
 
 
-u16 func_021BB05C(u16 **p)
+u16 MANUAL_COMMON_GetVisibleCount(u16 **work)
 {
-    return (u16)(func_021BB044(p) - (*p)[6] + 1);
+    return (u16)(MANUAL_COMMON_GetLastVisible(work) - (*work)[6] + 1);
 }
 
 
 
 
-u16 func_021BB074(u16 **p)
+u16 MANUAL_COMMON_GetScrollTop(u16 **work)
 {
-    u16 v = (*p)[2];
-    if (v <= 6)
+    u16 count = (*work)[2];
+    if (count <= 6)
         return 0;
-    return (u16)(v - 6);
+    return (u16)(count - 6);
 }
 
 
 
-void func_021BB088(char *p)
+void MANUAL_COMMON_RebuildListWindows(char *work)
 {
-    struct Entry_021BB088 e;
+    struct ManualTaskEntry entry;
     u8 first,last,i;
     u16 index,end;
     first=0;
-    index=(u16)(((struct Obj26217 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC-1);
-    if (((struct Obj26218 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC==0) {
-        if (*(u8 * *)&((struct Obj00074 *)p)->fC) {
-            APP_TASKMENU_WIN_ClearScreen(*(u8 * *)&((struct Obj00074 *)p)->fC);
-            ((struct Obj00074 *)p)->f2C=0;
+    index=(u16)(((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top-1);
+    if (((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top==0) {
+        if (*(u8 * *)&((struct ManualListWork *)work)->win[0]) {
+            APP_TASKMENU_WIN_ClearScreen(*(u8 * *)&((struct ManualListWork *)work)->win[0]);
+            ((struct ManualListWork *)work)->slotFlag[0]=0;
         }
-        index=((struct Obj26219 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
+        index=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top;
         first=1;
-        CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f60,0);
+        CLACT_SetActorDrawEnable(((struct ManualListWork *)work)->actorList[0],0);
     }
-    end=(u16)(func_021BB044((u16 **)p)+1);
-    if (end>=((struct Obj26220 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f4) end--;
+    end=(u16)(MANUAL_COMMON_GetLastVisible((u16 **)work)+1);
+    if (end>=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->count) end--;
     last=(u8)(first+end-index);
     for(i=last+1;i<=7;i++) {
-        if (*(u8 **)(p+i*4+0xc)) {
-            APP_TASKMENU_WIN_ClearScreen(*(u8 **)(p+i*4+0xc));
-            *(u32_021BB088 *)(p+i*4+0x2c)=0;
+        if (*(u8 **)(work+i*4+0xc)) {
+            APP_TASKMENU_WIN_ClearScreen(*(u8 **)(work+i*4+0xc));
+            *(u32 *)(work+i*4+0x2c)=0;
         }
-        CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
+        CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),0);
     }
     for(i=first;i<=last;i++) {
-        if (*(u8 **)(p+i*4+0xc)) APP_TASKMENU_WIN_DeleteNoClear();
-        e.resource=func_02045EC0(*(struct MsgBank * *)&((struct Obj26221 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f20,*(u16 *)(*(char * *)&((struct Obj26222 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+2));
-        if(i==0 || i==7) e.tag=0x3da3; else e.tag=0x39e3;
-        e.flags=0;
-        if(((struct Obj00074 *)p)->f94)
-            *(u32_021BB088 **)(p+i*4+0xc)=APP_TASKMENU_WIN_CreateExNoScreen(*(u32_021BB088 *)&((struct Obj00074 *)p)->f8,(u32_021BB088)&e,2,(u8)(i*3),28,3,0,0,((struct Obj26223 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+        if (*(u8 **)(work+i*4+0xc)) APP_TASKMENU_WIN_DeleteNoClear();
+        entry.resource=func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->bank1,*(u16 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+2));
+        if(i==0 || i==7) entry.tag=0x3da3; else entry.tag=0x39e3;
+        entry.flags=0;
+        if(((struct ManualListWork *)work)->listReady)
+            *(u32 **)(work+i*4+0xc)=APP_TASKMENU_WIN_CreateExNoScreen(*(u32 *)&((struct ManualListWork *)work)->resource,(u32)&entry,2,(u8)(i*3),28,3,0,0,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
         else
-            *(u32_021BB088 *)(p+i*4+0xc)=APP_TASKMENU_WIN_Create(*(u32_021BB088 *)&((struct Obj00074 *)p)->f8,(u32_021BB088)&e,2,(u8)(i*3),28,((struct Obj26224 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-        APP_TASKMENU_WIN_Update(*(u8 **)(p+i*4+0xc));
-        *(u32_021BB088 *)(p+i*4+0x2c)=1;
-        STRBUF_Delete(e.resource);
-        if (*(u32_021BB088 *)(*(char * *)&((struct Obj26225 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==0)
-            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
-        else if (*(u32_021BB088 *)(*(char * *)&((struct Obj26226 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==1)
-            CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),1);
+            *(u32 *)(work+i*4+0xc)=APP_TASKMENU_WIN_Create(*(u32 *)&((struct ManualListWork *)work)->resource,(u32)&entry,2,(u8)(i*3),28,((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
+        APP_TASKMENU_WIN_Update(*(u8 **)(work+i*4+0xc));
+        *(u32 *)(work+i*4+0x2c)=1;
+        STRBUF_Delete(entry.resource);
+        if (*(u32 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+4)==0)
+            CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),0);
+        else if (*(u32 *)(*(char * *)&((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->data+index*8+4)==1)
+            CLACT_SetActorDrawEnable(*(void **)(work+i*4+0x60),1);
         index++;
     }
-    ((struct Obj00074 *)p)->f94=1;
+    ((struct ManualListWork *)work)->listReady=1;
 }
 
 
 
-u16 func_021BB1F4(void *p, u16 count, u16 value)
+u16 MANUAL_COMMON_HitToIndex(void *unused, u16 count, u16 value)
 {
     u16 index, upper, lower;
     if (count <= 1) index = 0;
@@ -1597,7 +1474,7 @@ u16 func_021BB1F4(void *p, u16 count, u16 value)
  * lever: narrow the average to u16 before subtracting 8; minimum clamp returns directly.
  * extent: 90 compiled bytes followed by two zero alignment bytes at 021BB2B2.
  */
-u16 func_021BB258(void *p, u16 count, u16 index)
+u16 MANUAL_COMMON_IndexToY(void *unused, u16 count, u16 index)
 {
     u16 result, low, high;
     if (index == 0) result = 17;
@@ -1615,29 +1492,29 @@ u16 func_021BB258(void *p, u16 count, u16 index)
 
 
 
-char *func_021BB2B4(char *p, char *data)
+char *MANUAL_COMMON_CreateDialog(char *owner, char *data)
 {
-    char *q;
-    q = func_02030734(((struct Obj26227 *)data)->f4, 32, 1, file_021BC038, 157);
-    *(char * *)&((struct Obj05574 *)q)->f0 = p;
-    ((struct Obj26228 *)p)->f4 = 1;
-    *(char * *)&((struct Obj05574 *)q)->f4 = data;
-    func_021BB400(q);
-    func_021BB4F8(q);
-    ((struct Obj05574 *)q)->f14 = func_020056A0((unsigned)func_021BB3FC, (unsigned)q, 1);
-    ((struct Obj05574 *)q)->f18 = 0;
-    q[0x1c] = -1;
-    func_021BA068(*(char * *)&((struct Obj26229 *)(*(char * *)&((struct Obj05574 *)q)->f4))->f34, 0);
-    return q;
+    char *dialog;
+    dialog = func_02030734(((struct ManualData *)data)->heap, 32, 1, gManualCommonDialogAllocFile, 157);
+    *(char * *)&((struct ManualDialog *)dialog)->owner = owner;
+    ((struct ManualListBuffer *)owner)->choice = 1;
+    *(char * *)&((struct ManualDialog *)dialog)->data = data;
+    MANUAL_COMMON_LoadDialogAssets(dialog);
+    MANUAL_COMMON_SetDialogBgMode(dialog);
+    ((struct ManualDialog *)dialog)->task = func_020056A0((unsigned)MANUAL_COMMON_DialogTaskNoop, (unsigned)dialog, 1);
+    ((struct ManualDialog *)dialog)->state = 0;
+    dialog[0x1c] = -1;
+    MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group, 0);
+    return dialog;
 }
 
 
 
 
-void func_021BB308(char *p)
+void MANUAL_COMMON_DeleteDialog(char *dialog)
 {
-    func_02030EAC((struct Node *)(((struct Obj26230 *)p)->f14));
-    func_020307B0(p);
+    func_02030EAC((struct Node *)(((struct ManualDialog *)dialog)->task));
+    func_020307B0(dialog);
 }
 
 
@@ -1646,46 +1523,46 @@ void func_021BB308(char *p)
  * Tail: 021BB3FA alignment, existing matched follower 021BB3FC.
  * Lever: switch body order 1 then 0 preserves the shared store block.
  */
-int func_021BB31C(char *p)
+int MANUAL_COMMON_UpdateDialog(char *dialog)
 {
     int done = 0;
     u8 i;
-    if (((struct Obj00691 *)p)->f1C==0) done=1;
-    else if (((struct Obj00691 *)p)->f1C>0) {
-        if (((struct Obj00691 *)p)->f1C==1) func_021BB504(p);
-        --((struct Obj00691 *)p)->f1C;
+    if (((struct ManualDialog *)dialog)->timer==0) done=1;
+    else if (((struct ManualDialog *)dialog)->timer>0) {
+        if (((struct ManualDialog *)dialog)->timer==1) MANUAL_COMMON_DeleteDialogStep(dialog);
+        --((struct ManualDialog *)dialog)->timer;
     }
-    if (((struct Obj00691 *)p)->f18==0 || ((struct Obj00691 *)p)->f18==2) {
-        func_021B9FBC(*(char * *)&((struct Obj26231 *)(*(char * *)&((struct Obj00691 *)p)->f4))->f34);
-        if (((struct Obj00691 *)p)->f18==0) {
-            if (func_021BA158(*(char * *)&((struct Obj26232 *)(*(char * *)&((struct Obj00691 *)p)->f4))->f34)!=-1)
-                ((struct Obj00691 *)p)->f18=2;
+    if (((struct ManualDialog *)dialog)->state==0 || ((struct ManualDialog *)dialog)->state==2) {
+        MANUAL_COMMON_UpdateTouchbar(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group);
+        if (((struct ManualDialog *)dialog)->state==0) {
+            if (MANUAL_COMMON_GetTouchbarPressed(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group)!=-1)
+                ((struct ManualDialog *)dialog)->state=2;
         } else {
-            int result=func_021BA154(*(char * *)&((struct Obj26233 *)(*(char * *)&((struct Obj00691 *)p)->f4))->f34);
+            int result=MANUAL_COMMON_GetTouchbarSelected(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group);
             if (result!=-1) {
                 switch (result) {
-                case 1: ((struct Obj26234 *)(*(char * *)&((struct Obj00691 *)p)->f0))->f4=1; break;
-                case 0: ((struct Obj26235 *)(*(char * *)&((struct Obj00691 *)p)->f0))->f4=0; break;
+                case 1: ((struct ManualListBuffer *)(*(char * *)&((struct ManualDialog *)dialog)->owner))->choice=1; break;
+                case 0: ((struct ManualListBuffer *)(*(char * *)&((struct ManualDialog *)dialog)->owner))->choice=0; break;
                 }
-                ((struct Obj00691 *)p)->f18=1;
-                ((struct Obj00691 *)p)->f1C=1;
+                ((struct ManualDialog *)dialog)->state=1;
+                ((struct ManualDialog *)dialog)->timer=1;
             }
         }
     }
-    if (((struct Obj00691 *)p)->f18==0 || ((struct Obj00691 *)p)->f18==3) {
-        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((u8 *)(*(char **)(p+0xc+i*4)));
-        if (((struct Obj00691 *)p)->f18==0) {
-            if (func_021BB53C(p)) ((struct Obj00691 *)p)->f18=3;
+    if (((struct ManualDialog *)dialog)->state==0 || ((struct ManualDialog *)dialog)->state==3) {
+        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((u8 *)(*(char **)(dialog+0xc+i*4)));
+        if (((struct ManualDialog *)dialog)->state==0) {
+            if (MANUAL_COMMON_UpdateDialogInput(dialog)) ((struct ManualDialog *)dialog)->state=3;
         } else {
-            if (APP_TASKMENU_WIN_IsFinish((u8 *)(*(char **)(p+0xc+**(u8 * *)&((struct Obj00691 *)p)->f0*4)))) {
+            if (APP_TASKMENU_WIN_IsFinish((u8 *)(*(char **)(dialog+0xc+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4)))) {
                 unsigned value;
-                if (**(u8 * *)&((struct Obj00691 *)p)->f0==0) value=2;
-                else if (**(u8 * *)&((struct Obj00691 *)p)->f0==1) value=3;
+                if (**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) value=2;
+                else if (**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) value=3;
                 else goto finish;
-                ((struct Obj26239 *)(*(char * *)&((struct Obj00691 *)p)->f0))->f4=value;
+                ((struct ManualListBuffer *)(*(char * *)&((struct ManualDialog *)dialog)->owner))->choice=value;
 finish:
-                ((struct Obj00691 *)p)->f18=1;
-                ((struct Obj00691 *)p)->f1C=1;
+                ((struct ManualDialog *)dialog)->state=1;
+                ((struct ManualDialog *)dialog)->timer=1;
             }
         }
     }
@@ -1694,7 +1571,7 @@ finish:
 
 
 
-void func_021BB3FC(void *p)
+void MANUAL_COMMON_DialogTaskNoop(void *unused)
 {
 }
 
@@ -1703,101 +1580,101 @@ void func_021BB3FC(void *p)
 /*
  * extent: 86 compiled bytes followed by two zero alignment bytes at 021BB456.
  */
-void func_021BB400(char *p)
+void MANUAL_COMMON_LoadDialogAssets(char *dialog)
 {
-    func_02049B68((void *)(((struct Obj26240 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 0, 4, 0, 64, ((struct Obj26241 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
-    func_02049658((void *)(((struct Obj26242 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 2, 4, 0, 0, 0, ((struct Obj26243 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
-    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct Obj26244 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f24), 4, 4, 0, 0, 0, 0, ((struct Obj26245 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
-    func_021BB458(p);
+    func_02049B68((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    func_02049658((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 4, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    MANUAL_COMMON_CreateDialogWindows(dialog);
 }
 
 
 
-void func_021BB458(char *p)
+void MANUAL_COMMON_CreateDialogWindows(char *dialog)
 {
-    struct Entry_021BB458 entries[2];
+    struct ManualTaskEntry entries[2];
     u8 i;
-    *(struct R * *)&((struct Obj01596 *)p)->f8 = APP_TASKMENU_RES_Create(5, 4, ((struct Obj26246 *)(*(char * *)&((struct Obj01596 *)p)->f4))->fC, ((struct Obj26247 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f14, ((struct Obj26248 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
-    entries[0].resource = func_02045EC0(*(struct MsgBank * *)&((struct Obj26249 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f1C, 0);
+    *(struct ManualRes * *)&((struct ManualDialog *)dialog)->resource = APP_TASKMENU_RES_Create(5, 4, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->font, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    entries[0].resource = func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 0);
     entries[0].tag = 0x39e3;
     entries[0].flags = 0;
-    entries[1].resource = func_02045EC0(*(struct MsgBank * *)&((struct Obj26250 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f1C, 1);
+    entries[1].resource = func_02045EC0(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 1);
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
-        *(unsigned *)(p + i * 4 + 0xc) = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj01596 *)p)->f8, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct Obj26251 *)(*(char * *)&((struct Obj01596 *)p)->f4))->f4);
+        *(unsigned *)(dialog + i * 4 + 0xc) = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct ManualDialog *)dialog)->resource, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
         STRBUF_Delete(entries[i].resource);
     }
-    if (func_020355C4() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(p + *(u8 *)*(char * *)&((struct Obj01596 *)p)->f0 * 4 + 0xc), 1);
+    if (func_020355C4() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc), 1);
 }
 
 
 
-void func_021BB4F8(char *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_SetFlagField06(4); }
 
 
 
-void func_021BB504(char *p) { func_021BB50C(p); }
+void MANUAL_COMMON_DeleteDialogStep(char *dialog) { MANUAL_COMMON_DeleteDialogWindows(dialog); }
 
 
 
-void func_021BB50C(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26253 *)(*(char * *)&((struct Obj14809 *)p)->f4))->f14); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14809 *)p)->f8); BG_SYS_SetFlagField06(5); }
+void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(dialog+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource); BG_SYS_SetFlagField06(5); }
 
 
 
 /*
  * Lever: unhinted BF9C data uses this function's own overlay region.
  */
-int func_021BB53C(char *p)
+int MANUAL_COMMON_UpdateDialogInput(char *dialog)
 {
-    int hit=TOUCHPANEL_HitTrg(d_021BBF9C);
+    int hit=TOUCHPANEL_HitTrg(gManualCommonDialogHitRects);
     if(func_020355C4()==0) {
         if(hit>=0 && hit<=1) {
             func_020355D8(1);
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
+            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
         }
     } else {
         if(KEY_GetTrg()!=0 && !(KEY_GetTrg()&0x402)) {
             func_020355D8(0);
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x548);
             return 0;
         }
     }
     if(func_020355C4()==0) {
         if(KEY_GetTrg()&1) {
-            APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetDecide(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x54c);
             return 1;
         } else if(KEY_GetRepeat()&0x40) {
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
-            if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) **(u8 * *)&((struct Obj00740 *)p)->f0=1; else **(u8 * *)&((struct Obj00740 *)p)->f0=0;
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+            if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) **(u8 * *)&((struct ManualDialog *)dialog)->owner=1; else **(u8 * *)&((struct ManualDialog *)dialog)->owner=0;
+            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x548);
         } else if(KEY_GetRepeat()&0x80) {
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
-            if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) **(u8 * *)&((struct Obj00740 *)p)->f0=0; else **(u8 * *)&((struct Obj00740 *)p)->f0=1;
-            APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+            if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) **(u8 * *)&((struct ManualDialog *)dialog)->owner=0; else **(u8 * *)&((struct ManualDialog *)dialog)->owner=1;
+            APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
             GFL_USE_PlaySeDefaultVolume(0x548);
         } else if(KEY_GetRepeat()&0x220) {
-            if(**(u8 * *)&((struct Obj00740 *)p)->f0==1) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
-                **(u8 * *)&((struct Obj00740 *)p)->f0=0;
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) {
+                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+                **(u8 * *)&((struct ManualDialog *)dialog)->owner=0;
+                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
         } else if(KEY_GetRepeat()&0x110) {
-            if(**(u8 * *)&((struct Obj00740 *)p)->f0==0) {
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),0);
-                **(u8 * *)&((struct Obj00740 *)p)->f0=1;
-                APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+            if(**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) {
+                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),0);
+                **(u8 * *)&((struct ManualDialog *)dialog)->owner=1;
+                APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
                 GFL_USE_PlaySeDefaultVolume(0x548);
             }
         }
     } else if(hit>=0 && hit<=1) {
-        **(u8 * *)&((struct Obj00740 *)p)->f0=hit;
-        APP_TASKMENU_WIN_SetActive(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
-        APP_TASKMENU_WIN_SetDecide(*(void **)(p+**(u8 * *)&((struct Obj00740 *)p)->f0*4+0xc),1);
+        **(u8 * *)&((struct ManualDialog *)dialog)->owner=hit;
+        APP_TASKMENU_WIN_SetActive(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
+        APP_TASKMENU_WIN_SetDecide(*(void **)(dialog+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4+0xc),1);
         GFL_USE_PlaySeDefaultVolume(0x54c);
         return 1;
     }

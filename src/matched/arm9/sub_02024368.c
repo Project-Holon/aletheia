@@ -27,7 +27,7 @@
  *
  * symbols:
  *   Table_0209F724   0x0209F724  data
- *   GF_FONT_Create_EC64    0x0201EC64  thumb
+ *   WORDSET_CreateDefault    0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
  *   WORDSET_SetSlotPmsWord    0x0201EFC8  thumb
  *   WORDSET_SetSlotMarkerFlag    0x0201EFFC  thumb
@@ -49,7 +49,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
@@ -68,7 +68,7 @@ void *sub_02024368(u16 *slots, u32 heap, int count)
     void *k;
     int i;
 
-    obj = GF_FONT_Create_EC64((u16)heap);
+    obj = WORDSET_CreateDefault((u16)heap);
     for (i = 0; i < count; i++) {
         u16 v = slots[i + 2];
 

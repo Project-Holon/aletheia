@@ -1,5 +1,5 @@
 /*
- * function: func_021E8754
+ * function: WIFIBATTLEMATCH_UTIL_SetMode
  * address:  0x021E8754
  * packet:   pkt_ov177_021E8754
  * region:   ov177
@@ -28,7 +28,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
- *   func_021E8848  0x021E8848  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_StopTimeIcon  0x021E8848  thumb  ov177
  *   func_020056BC  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
@@ -74,7 +74,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int APP_KEYCURSOR_Delete(int a0);
-extern void func_021E8848(S *);
+extern void WIFIBATTLEMATCH_UTIL_StopTimeIcon(S *);
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
@@ -84,7 +84,7 @@ extern int  APP_KEYCURSOR_CreateDefault(int, int, int, int);
 extern signed char MSG_SPEED_GetWait(void);
 extern int  PRINTSYS_PrintStream(int, int, int, int, int, int, int, int, int, int);
 
-void func_021E8754(S *p, int mode)
+void WIFIBATTLEMATCH_UTIL_SetMode(S *p, int mode)
 {
     int q;
 
@@ -98,7 +98,7 @@ void func_021E8754(S *p, int mode)
         APP_KEYCURSOR_Delete(p->f34);
         p->f34 = 0;
     }
-    func_021E8848(p);
+    WIFIBATTLEMATCH_UTIL_StopTimeIcon(p);
     switch (mode) {
     case 2:
         p->f10 = (int)TIME_ICON_Create((void *)func_020056BC(), (void *)p->f14, (unsigned char)p->f1c, 0x10, p->f1e);

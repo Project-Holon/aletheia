@@ -21,15 +21,15 @@
  * symbols:
  *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   OS_SPrintf                  0x02084F40  arm
- *   g_020A61DC                     0x020A61DC  data
- *   g_021A3710                     0x021A3710  data
+ *   gCtypeMap                     0x020A61DC  data
+ *   gGsDebugHexFormat2                     0x021A3710  data
  */
 
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern const unsigned short g_020A61DC[];
-static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x10)); }
-extern char g_021A3710[];
+extern const unsigned short gCtypeMap[];
+static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (gCtypeMap[c] & 0x10)); }
+extern char gGsDebugHexFormat2[];
 
 void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen)
 {
@@ -40,7 +40,7 @@ void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen)
     while (theInLen--) {
         unsigned char aChar = (unsigned char)(*theInStream++);
 
-        OS_SPrintf(theOutStream, g_021A3710, aChar);
+        OS_SPrintf(theOutStream, gGsDebugHexFormat2, aChar);
         if (isgraph(aChar))
             *(aTextOutStream++) = (char)aChar;
         else

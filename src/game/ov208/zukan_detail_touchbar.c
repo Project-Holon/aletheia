@@ -31,7 +31,7 @@
  *   CLACT_RegisterCharacter        0x0204A6C8  arm
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
  *   KEY_GetTrg 0x020362DC arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_021BDCF8 0x021BDCF8 thumb ov208
  *   d_021C8DE4 0x021C8DE4 data a1
@@ -128,7 +128,7 @@ extern void CLACT_ReleasePalette(u32 i);
 
 extern u32 KEY_GetTrg(void);
 
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
@@ -300,7 +300,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
     p->heap=heap;p->dexFlags=arg;
     p->state=0;p->prevMode=0;p->mode=0;
     p->prevKind=1;p->kind=0;p->arrowKind=0;p->scrollIdx=0;
-    func_02040618(1,3,-24);BG_SYS_SetVisibleLayer(1,0);
+    BG_SYS_FillScrollArea(1,3,-24);BG_SYS_SetVisibleLayer(1,0);
     p->bgPriority=0;p->bgDirty=0;
     p->clactUnit=CLACT_CreateUnit(16,0,p->heap);
     CLACT_SetUnitDefaultRenderer(p->clactUnit);

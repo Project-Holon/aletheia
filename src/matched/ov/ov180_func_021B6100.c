@@ -16,11 +16,11 @@
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 typedef unsigned int u32;
-struct Obj0203159C;
+struct Proc;
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, u32, u32);
-int HALL_OF_FAME_ProcInit(struct Obj0203159C *obj, void *unused, u32 value)
+int HALL_OF_FAME_ProcInit(struct Proc *obj, void *unused, u32 value)
 {
     u32 *p;
     GFL_HEAP_CreateChildHeap(1, 141, 0x60000);

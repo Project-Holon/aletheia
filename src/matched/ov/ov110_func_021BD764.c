@@ -38,8 +38,8 @@ extern void TCB_Noop(void *);
 extern u32 func_020307B0(void *p);
 extern void func_021B95F4(char *);
 extern void PMSI_SEARCH_Delete(unsigned);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 void PMS_INPUT_Destroy(u8 *p,void *a)
 {
     PMSI_PARAM_SetUiInputMode(*(void **)p,*(void **)(p+0x70));

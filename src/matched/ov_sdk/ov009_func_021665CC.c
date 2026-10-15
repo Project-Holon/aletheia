@@ -11,13 +11,13 @@
  *
  * symbols:
  *   MI_CpuCopy                   0x02082EA4  arm
- *   g_021AA80C                   0x021AA80C  data
+ *   gWcmCpsifMac                   0x021AA80C  data
 */
 
 extern void MI_CpuCopy(const void *src, void *dst, unsigned long size);
-extern char g_021AA80C[6];
+extern char gWcmCpsifMac[6];
 
 void WCMi_CpsifSetMacAddress(const void *mac)
 {
-	MI_CpuCopy(mac, g_021AA80C, 6);
+	MI_CpuCopy(mac, gWcmCpsifMac, 6);
 }

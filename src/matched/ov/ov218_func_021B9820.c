@@ -1,5 +1,5 @@
 /*
- * function: func_021B9820
+ * function: UN_SELECT_CreateTouchBar
  * address: 0x021B9820
  * packet: pkt_ov218_021B9820
  * region: ov218
@@ -25,7 +25,7 @@ extern void MI_CpuFill8(void *, u32, u32);
 extern R *TOUCHBAR_Create(A *, int);
 extern void TOUCHBAR_SetAllButtonsBgPriority(u8 *, u32);
 extern void TOUCHBAR_SetButtonSound(unsigned char *p, unsigned int id, int v);
-R *func_021B9820(int heap, int id)
+R *UN_SELECT_CreateTouchBar(int heap, int id)
 {
     Table table = d_021BAC20;
     A config;

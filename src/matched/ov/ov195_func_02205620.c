@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
@@ -34,7 +34,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
 extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
@@ -55,7 +55,7 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 
         r = (u32)func_02045EC0((struct MsgBank *)a, b);
     } else {
         src = (u32)func_02045EC0((struct MsgBank *)a, b);
-        w = (u32)GF_FONT_Create_EC64(heap);
+        w = (u32)WORDSET_CreateDefault(heap);
         p[0].kind = k0;
         p[0].val = v0;
         p[1].kind = k1;

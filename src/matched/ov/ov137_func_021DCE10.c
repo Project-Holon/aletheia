@@ -31,7 +31,7 @@
  * TCBL_Create 0x0203101C arm
  * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
- * GF_FONT_Create_EC64 0x0201EC64 thumb
+ * WORDSET_CreateDefault 0x0201EC64 thumb
  * GF_FONT_Create 0x0201D7EC thumb
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
@@ -52,15 +52,15 @@ typedef unsigned int u32;
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *func_020490F4(u32 id, u32 heap);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 extern void BG_SYS_Create(u16);
 struct GfFont;
 struct MsgBank;
 struct Tcbl;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void GURU2_RECEIPT_SetVramBanks(void),GURU2_RECEIPT_InitBg(void);
@@ -90,7 +90,7 @@ int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
         BG_SYS_Create(114);
-        *(void **)(p+60)=GF_FONT_Create_EC64(114);
+        *(void **)(p+60)=WORDSET_CreateDefault(114);
         *(void **)(p+64)=func_02045B38(0,2,42,114);
         *(void **)(p+56)=GF_FONT_Create(23,0,0,0,114);
         GURU2_RECEIPT_SetVramBanks(); GURU2_RECEIPT_InitBg();

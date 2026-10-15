@@ -16,7 +16,7 @@
  *   DWCi_IsServerUpdating  0x02168D7C  arm  ov009
  *   DWCi_UpdateServersAsync  0x02168DA4  arm  ov009
  *   DWCi_UpdateServersCallback  0x0216BF98  arm  ov009
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -38,7 +38,7 @@ typedef struct DwcState {
 
 typedef struct DwcGlobal DwcGlobal;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 
 
@@ -49,10 +49,10 @@ extern void DWCi_UpdateServersCallback(int error, int isChanged);
 
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam)
 {
-	if (DWCi_IsError() || ((DwcState *)g_021AA878.st)->state < 3 || DWCi_IsServerUpdating())
+	if (DWCi_IsError() || ((DwcState *)gDwcGlobalState.st)->state < 3 || DWCi_IsServerUpdating())
 		return 0;
-	((DwcState *)g_021AA878.st)->updateCallback = updateCallback;
-	((DwcState *)g_021AA878.st)->updateParam = updateParam;
-	DWCi_UpdateServersAsync((int)((DwcState *)g_021AA878.st)->updateBuf0, (int)((DwcState *)g_021AA878.st)->updateBuf1, (int)DWCi_UpdateServersCallback, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
+	((DwcState *)gDwcGlobalState.st)->updateCallback = updateCallback;
+	((DwcState *)gDwcGlobalState.st)->updateParam = updateParam;
+	DWCi_UpdateServersAsync((int)((DwcState *)gDwcGlobalState.st)->updateBuf0, (int)((DwcState *)gDwcGlobalState.st)->updateBuf1, (int)DWCi_UpdateServersCallback, 0, (int)statusCallback, (int)statusParam, (int)deleteCallback, (int)deleteParam);
 	return 1;
 }

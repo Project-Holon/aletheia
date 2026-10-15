@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
@@ -28,7 +28,7 @@ struct net_vars {
     volatile unsigned long put;
 };
 
-extern struct net_vars g_021A826C;
+extern struct net_vars gCpsNetVars;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
@@ -36,8 +36,8 @@ void throw_packet(void)
 {
     unsigned long en = OS_DisableInterrupts();
 
-    g_021A826C.put += *(unsigned short *)(g_021A826C.buf + g_021A826C.put);
-    if (g_021A826C.put >= g_021A826C.limit)
-        g_021A826C.put = 0;
+    gCpsNetVars.put += *(unsigned short *)(gCpsNetVars.buf + gCpsNetVars.put);
+    if (gCpsNetVars.put >= gCpsNetVars.limit)
+        gCpsNetVars.put = 0;
     OS_RestoreInterrupts(en);
 }

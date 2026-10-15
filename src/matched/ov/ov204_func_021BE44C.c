@@ -1,5 +1,5 @@
 /*
- * function: func_021BE44C
+ * function: INTRO_CMD_CmdSetMsgBank
  * address: 0x021BE44C
  * packet: pkt_ov204_021BE44C
  * region: ov204
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj25350.h"
 extern void INTRO_MSG_SetMsgBank(char *,void *,unsigned short);
-int func_021BE44C(char *p,int *state,unsigned *q){INTRO_MSG_SetMsgBank(*(char * *)&((struct Obj25350 *)p)->f18,(void *)q[0],q[1]);return 1;}
+int INTRO_CMD_CmdSetMsgBank(char *p,int *state,unsigned *q){INTRO_MSG_SetMsgBank(*(char * *)&((struct Obj25350 *)p)->f18,(void *)q[0],q[1]);return 1;}

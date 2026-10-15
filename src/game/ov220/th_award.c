@@ -33,13 +33,13 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   bgtable 0x021BA370 data a4
  *   resources 0x021BA4E0 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -100,7 +100,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -114,10 +114,10 @@
 struct BgTemplate;
 struct GfFont;
 struct Obj;
-struct Obj0203159C;
+struct Proc;
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 struct Cfg;
 struct Descriptor;
 struct Bmp;
@@ -144,14 +144,13 @@ typedef struct {unsigned first;char pad[40];} Entry;
 
 typedef short s16;
 
-struct Param_021B95A0
+/* Actor position passed to CLACT_CreateActor (8 bytes); the tail word is reserved. */
+struct ThAwardActorPos
 {
   s16 x;
   s16 y;
-  u32 zero;
+  u32 reserved;
 };
-
-struct Param_021B9B64 {s16 x,y;u32 zero;};
 
 /* Actor registration slot, one per species form (up to 4). */
 struct ThAwardSlot {
@@ -201,7 +200,7 @@ struct Rec { u32 msg; u16 a; u16 level; u32 b; };
 
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,u32,u32);
 extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -212,20 +211,20 @@ extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32),func_020409B4(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern void FADE_Start(u32,int,int,int);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),GFL_USE_IsBgmPlaying(void),FADE_IsActive(void);
 extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
@@ -238,7 +237,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void TH_AWARD_GRAPHIC_Update(char*);
-extern void ARC_TOOL_DeleteHandle(void *),func_020409B4(unsigned);
+extern void ARC_TOOL_DeleteHandle(void *),BG_SYS_PushTile(unsigned);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
@@ -268,7 +267,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -351,7 +350,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     func_02049B68(owner,resources[variant].a,4,0,0,heap);
     func_02049658(owner,resources[variant].b,4,0,0,0,heap);
     func_020498F4(owner,resources[variant].c,4,0,0,0,heap);
-    ARC_TOOL_DeleteHandle(owner);func_020409B4(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,p->heap);
+    ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,p->heap);
     if (p->args->flag0C && p->bgmIndex!=7) GFL_USE_FadeOutBgm(6);
     return 1;
 }
@@ -371,7 +370,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
 int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p)
 {
     int i;
-    for(i=0;i<1u;i++) func_020403F4((u8)d_021BA370[i].first);
+    for(i=0;i<1u;i++) BG_SYS_FreeLayerBuf((u8)d_021BA370[i].first);
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     TH_AWARD_DeleteWindows((struct ThAwardWork *)p);
@@ -474,8 +473,8 @@ void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
     func_020498F4(object,4,2,0,0,0,p->heap);
     func_020498F4(object,5,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(object);
-    func_020409B4(2);
-    func_020409B4(1);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(1);
 }
 
 
@@ -502,7 +501,7 @@ void TH_AWARD_CreateSpeciesActors(char *p)
   u8 i;
   char *res;
   char *slot;
-  struct Param_021B95A0 param;
+  struct ThAwardActorPos param;
   void *actor;
   char *args = *((char **) (p + 4));
   *((u8 *) (p + 0x18)) = 0;
@@ -568,7 +567,7 @@ void TH_AWARD_DeleteSpeciesActors(struct ThAwardWork *p)
 void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
 {
     void *owner;
-    struct Param_021B9B64 param;
+    struct ThAwardActorPos param;
     u8 i=0;
     p->bgSlotCount=0;
     if(p->bgmIndex!=7){
@@ -662,7 +661,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     STRBUF_Delete(x);
     m = *(u16 *)(b + 2);
     if (m > 9999) m = 9999;
-    g = GF_FONT_Create_EC64(p->heap);
+    g = WORDSET_CreateDefault(p->heap);
     t = func_02045EC0(p->msgBank, 0x2a);
     z = STRBUF_Create(5, (u16)p->heap);
     off = 0;

@@ -25,8 +25,8 @@
  *   APP_ICON_GetStatusPaletteFileId 0x02027620 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   gClActorInitParam 0x020A1448 data a4
- *   d_021CA5CC 0x021CA5CC data a4
- *   d_021CA7D0 0x021CA7D0 data a4
+ *   gWf2dmapVramBanks 0x021CA5CC data a4
+ *   gWf2dmapRendererParam 0x021CA7D0 data a4
  */
 #include "../include/Obj01936.h"
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 a,b;u8 c,d,e,f;u32 g;u16 h[6];} Config;
 extern const Config gClActorInitParam;
-extern u8 d_021CA5CC[],d_021CA7D0[];
+extern u8 gWf2dmapVramBanks[],gWf2dmapRendererParam[];
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
@@ -60,11 +60,11 @@ void Wf2dmapFriend_InitActors(char *p,int heap)
     u32 first,second;
     config.c=16;
     config.d=112;
-    CLACT_InitSystem((const struct Cfg *)(&config),(u32)d_021CA5CC,heap);
+    CLACT_InitSystem((const struct Cfg *)(&config),(u32)gWf2dmapVramBanks,heap);
     bank=CLACT_CreateUnit(32,0,heap);
     ((struct Obj01936 *)p)->f138=bank;
     CLACT_SetUnitDefaultRenderer(bank);
-    ((struct Obj01936 *)p)->f140=CLACT_CreateRenderer(d_021CA7D0,1,heap);
+    ((struct Obj01936 *)p)->f140=CLACT_CreateRenderer(gWf2dmapRendererParam,1,heap);
     bank=CLACT_CreateUnit(18,1,heap);
     ((struct Obj01936 *)p)->f13C=bank;
     CLACT_SetUnitRenderer(bank,((struct Obj01936 *)p)->f140);

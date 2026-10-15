@@ -16,8 +16,8 @@
  *   OS_SPrintf  0x02084F40  arm
  *   func_02189750  0x02189750  arm  ov009
  *   gpiPeerFinishTransferMessage  0x0218F51C  arm  ov009
- *   g_021A5698  0x021A5698  data
- *   g_021A569C  0x021A569C  data
+ *   gGpiTransferEmptyMsg  0x021A5698  data
+ *   gGpiTransferResultFmt  0x021A569C  data
  */
 
 struct GPITransferID {
@@ -31,8 +31,8 @@ extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, void *peer, char *string);
 struct GPIPeer;
 extern int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *message, int len);
-extern char g_021A5698[];
-extern char g_021A569C[];
+extern char gGpiTransferEmptyMsg[];
+extern char gGpiTransferResultFmt[];
 
 int gpiSendTransferReply(void **connection, struct GPITransferID *transferID, void *peer, int result, char *msg)
 {
@@ -40,11 +40,11 @@ int gpiSendTransferReply(void **connection, struct GPITransferID *transferID, vo
     int r;
 
     if (msg == 0)
-        msg = g_021A5698;
+        msg = gGpiTransferEmptyMsg;
     r = func_0218F4BC(connection, peer, 0xc9, transferID);
     if (r != 0)
         return r;
-    OS_SPrintf(buffer, g_021A569C, 1, result);
+    OS_SPrintf(buffer, gGpiTransferResultFmt, 1, result);
     r = func_02189750(connection, peer, buffer);
     if (r != 0)
         return r;

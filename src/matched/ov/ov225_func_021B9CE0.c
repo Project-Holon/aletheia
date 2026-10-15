@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CE0
+ * function: MANUAL_COMMON_GetGroupEntry
  * address:  0x021B9CE0
  * packet:   pkt_021B9CE0
  * region:   ov225
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9CF0  0x021B9CF0  thumb  ov225
+ *   MANUAL_COMMON_GetGroupOffset  0x021B9CF0  thumb  ov225
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj26140.h"
 
-extern unsigned short func_021B9CF0(char *p, unsigned i);
+extern unsigned short MANUAL_COMMON_GetGroupOffset(char *p, unsigned i);
 
-int func_021B9CE0(char *p, int idx)
+int MANUAL_COMMON_GetGroupEntry(char *p, int idx)
 {
-    return func_021B9CF0(p, idx) + ((struct Obj26140 *)p)->f0;
+    return MANUAL_COMMON_GetGroupOffset(p, idx) + ((struct Obj26140 *)p)->f0;
 }

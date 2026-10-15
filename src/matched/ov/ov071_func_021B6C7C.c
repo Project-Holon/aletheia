@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C7C
+ * function: MONOLITH_TOOL_UpdateHighlight
  * address:  0x021B6C7C
  * packet:   pkt_ov071_021B6C7C
  * region:   ov071
@@ -28,12 +28,12 @@
  *
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_021B6E00  0x021B6E00  thumb  ov071
- *   func_021B6E0C  0x021B6E0C  thumb  ov071
- *   func_021B6E18  0x021B6E18  thumb  ov071
+ *   MONOLITH_TOOL_GetHighlightColorA  0x021B6E00  thumb  ov071
+ *   MONOLITH_TOOL_GetHighlightColorB  0x021B6E0C  thumb  ov071
+ *   MONOLITH_TOOL_GetHighlightColorCount  0x021B6E18  thumb  ov071
  *   PALANM_GetColor  0x02021F3C  thumb
  *   PALANM_BlendChannel  0x02021FD8  thumb
- *   func_021B6DB4  0x021B6DB4  thumb  ov071
+ *   MONOLITH_TOOL_SetHighlightMode  0x021B6DB4  thumb  ov071
  *   d_021BABE0     0x021BABE0  data  a1
   * note 2026-10-05 (D8 lane16): witness PALANM_GetColor filed as src/matched/arm9/PALANM_GetColor.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
  */
@@ -55,14 +55,14 @@ extern char d_021BABE0[];
 typedef unsigned int   u32;
 struct Chan02021FD8;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int func_021B6E00(unsigned int x);
-extern int func_021B6E0C(unsigned int x);
-extern int func_021B6E18(int);
+extern int MONOLITH_TOOL_GetHighlightColorA(unsigned int x);
+extern int MONOLITH_TOOL_GetHighlightColorB(unsigned int x);
+extern int MONOLITH_TOOL_GetHighlightColorCount(int);
 extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern void func_021B6DB4(int *p, int a, int idx);
+extern void MONOLITH_TOOL_SetHighlightMode(int *p, int a, int idx);
 
-void func_021B6C7C(int *p, int idx)
+void MONOLITH_TOOL_UpdateHighlight(int *p, int idx)
 {
     Ent *e;
     int a, b, n;
@@ -73,9 +73,9 @@ void func_021B6C7C(int *p, int idx)
     if (idx >= 4) {
         func_02034714(d_021BABE0, (int)0, d_021BABE0);
     }
-    a = func_021B6E00((int)idx);
-    b = func_021B6E0C((int)idx);
-    n = func_021B6E18(idx);
+    a = MONOLITH_TOOL_GetHighlightColorA((int)idx);
+    b = MONOLITH_TOOL_GetHighlightColorB((int)idx);
+    n = MONOLITH_TOOL_GetHighlightColorCount(idx);
     switch (e->state) {
     case 1:
         v = e->v;
@@ -107,7 +107,7 @@ void func_021B6C7C(int *p, int idx)
                 e->v = 0;
                 e->cnt++;
                 if (e->cnt > 1) {
-                    func_021B6DB4(p, 0, idx);
+                    MONOLITH_TOOL_SetHighlightMode(p, 0, idx);
                 }
             }
             for (i = 0; i < n; i++) {

@@ -19,7 +19,7 @@
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   BMP_MENUWORK_DrawFrame 0x0201F628 thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02041B6C 0x02041B6C arm
  */
 
@@ -33,7 +33,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern void  BMP_MENUWORK_DrawFrame(void *ctx, u32 v10, u32 v14, u32 v18, u32 v0, int a3, int a2);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02041B6C(u32 bit);
 
 void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3)
@@ -47,7 +47,7 @@ void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3)
     BMP_MENUWORK_DrawFrame(ctx, v10, v14, v18, v0, a3, a2);
 
     if (a1 == 0) {
-        func_020409B4((u32)ctx);
+        BG_SYS_PushTile((u32)ctx);
     } else if (a1 == 1) {
         func_02041B6C((u32)ctx);
     }

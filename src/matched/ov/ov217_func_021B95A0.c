@@ -36,8 +36,8 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct DispVram;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void RESEARCH_TOP_ResetProc(void *p, u32 value);
@@ -50,7 +50,7 @@ u32 RESEARCH_TOP_InitProc(u32 a0, u32 a1, u8 *a2, u32 a3)
 {
     switch (((struct Obj10952 *)((u8*)a1))->f0) {
     case 0:
-    PROCSYS_AllocProcWork((struct Obj0203159C *)a0, 32, 1);
+    PROCSYS_AllocProcWork((struct Proc *)a0, 32, 1);
     ((struct Obj10952 *)((u8*)a1))->f0 = (u32)(((struct Obj10952 *)((u8*)a1))->f0 + 1);
     break;
     case 1:

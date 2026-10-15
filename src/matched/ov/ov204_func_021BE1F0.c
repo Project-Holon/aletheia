@@ -1,5 +1,5 @@
 /*
- * function: func_021BE1F0
+ * function: INTRO_GRAPHIC_CmdRunHandler
  * address: 0x021BE1F0
  * packet: pkt_ov204_021BE1F0
  * region: ov204
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BF094 0x021BF094 thumb ov204
- *   func_021BF00C 0x021BF00C thumb ov204
- *   d_021C09D0 0x021C09D0 data a4
+ *   INTRO_CMD_GetScenarioRow 0x021BF094 thumb ov204
+ *   INTRO_CMD_AddCommand 0x021BF00C thumb ov204
+ *   gIntroGraphicHandlerTable 0x021C09D0 data a4
  */
 #include "../include/Obj10872.h"
 typedef struct Row { unsigned tag; char data[20]; } Row;
-extern Row *func_021BF094(unsigned);
+extern Row *INTRO_CMD_GetScenarioRow(unsigned);
 struct Q021BF00C;
 struct S021BF00C;
-extern int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q);
-extern int (*const d_021C09D0[])(void *);
-int func_021BE1F0(char *p, int unused, unsigned *q)
+extern int INTRO_CMD_AddCommand(struct S021BF00C *p, struct Q021BF00C *q);
+extern int (*const gIntroGraphicHandlerTable[])(void *);
+int INTRO_GRAPHIC_CmdRunHandler(char *p, int unused, unsigned *q)
 {
-    Row *row = func_021BF094(((struct Obj10872 *)p)->f1C) + ((struct Obj10872 *)p)->fA0;
-    if (!d_021C09D0[*q](p)) row++;
-    if (row) func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)row);
+    Row *row = INTRO_CMD_GetScenarioRow(((struct Obj10872 *)p)->f1C) + ((struct Obj10872 *)p)->fA0;
+    if (!gIntroGraphicHandlerTable[*q](p)) row++;
+    if (row) INTRO_CMD_AddCommand((struct S021BF00C *)p, (struct Q021BF00C *)row);
     ((struct Obj10872 *)p)->fA0 += 2;
     return 1;
 }

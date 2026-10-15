@@ -18,13 +18,13 @@
  *   gsifree                 0x0217EAE0  arm
  *   gpiCanFreeProfile       0x02190140  arm
  *   gpiRemoveProfile        0x0218FF24  arm
- *   g_021A446C              0x021A446C  data
+ *   gGpiBuddyErrorInvalidProfile              0x021A446C  data
  */
 
 typedef struct GPIConnection GPIConnection;
 typedef struct GPIProfile GPIProfile;
 
-extern char g_021A446C[];
+extern char gGpiBuddyErrorInvalidProfile[];
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern void gpiSetErrorString(void **connection, char *errorString);
 extern int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile);
@@ -41,11 +41,11 @@ int gpiAuthBuddyRequest(void **connection, int profile)
     iconnection = (GPIConnection *)*connection;
 
     if (!gpiGetProfile(connection, profile, &pProfile)) {
-        gpiSetErrorString(connection, g_021A446C);
+        gpiSetErrorString(connection, gGpiBuddyErrorInvalidProfile);
         return 2;
     }
     if (*(int *)((char *)pProfile + 0x14) == 0) {
-        gpiSetErrorString(connection, g_021A446C);
+        gpiSetErrorString(connection, gGpiBuddyErrorInvalidProfile);
         return 2;
     }
 

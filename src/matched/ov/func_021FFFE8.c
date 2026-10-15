@@ -25,6 +25,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm  arm9
  *   BG_SYS_SetTileEntry  0x02041300  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * One-shot bring-up of layers 4..7 gated on the field at p+0x12e0: the
  * layer-4 clear, the layer-6 clear only when the second argument is zero,
@@ -72,7 +73,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 extern struct BgTemplate g_02203944;

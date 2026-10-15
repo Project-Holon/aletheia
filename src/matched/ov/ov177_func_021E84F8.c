@@ -1,5 +1,5 @@
 /*
- * function: func_021E84F8
+ * function: WIFIBATTLEMATCH_VIEW_UpdatePartyWindow
  * address: 0x021E84F8
  * packet: pkt_ov177_021E84F8
  * region: ov177
@@ -19,7 +19,7 @@ struct PrintSys;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-int func_021E84F8(char *p, void *q)
+int WIFIBATTLEMATCH_VIEW_UpdatePartyWindow(char *p, void *q)
 {
  int result=1;
  unsigned i;

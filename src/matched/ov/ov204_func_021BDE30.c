@@ -1,5 +1,5 @@
 /*
- * function: func_021BDE30
+ * function: INTRO_GRAPHIC_InitBg7
  * address: 0x021BDE30
  * packet: pkt_ov204_021BDE30
  * region: ov204
@@ -36,7 +36,7 @@ extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021BDE30(void *p,u16 heap)
+void INTRO_GRAPHIC_InitBg7(void *p,u16 heap)
 {
     struct BgTemplate t1,t2,t3,t4,t5;
     MI_CpuFill8(p,0,4);

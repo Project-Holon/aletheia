@@ -102,7 +102,7 @@
  *   func_020315D4  0x020315D4  arm
  *   func_0203084C  0x0203084C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   BG_SYS_Update  0x020419E4  arm
  *   STRBUF_GetChars  0x02045A90  arm
@@ -125,7 +125,7 @@
  *   d_021C895C  0x021C895C  data
  *   d_021C89E0  0x021C89E0  data
  *   d_021C885C  0x021C885C  data
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
@@ -135,7 +135,7 @@
  *   func_02049B68  0x02049B68  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_MENUWORK_LoadPltt  0x0201F57C  thumb
  *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
  *   func_02049F78  0x02049F78  arm
@@ -144,7 +144,6 @@
 struct CharBuf;
 struct Descriptor;
 struct PrintSys;
-struct Obj0202DC98;
 struct PmsDraw;
 struct Strbuf;
 struct Cfg;
@@ -158,8 +157,8 @@ struct PlayTime;
 struct Bank;
 struct Obj;
 struct Actor;
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 struct Node;
 struct DispVram;
 struct DispConfig;
@@ -1018,7 +1017,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
-extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *o, int i, u32 a1);
+extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 a1);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -1063,7 +1062,7 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MIi_CpuClearFast(int v, void *p, int size);
 extern void VIEWER_ACTOR_CreateObjects(Work_021C6FC4 *p);
 extern void VIEWER_ACTOR_Init3D(Work_021C6FC4 *p);
@@ -1083,10 +1082,10 @@ extern void VIEWER_ACTOR_DeleteModel(Work_021C7098 *p);
 extern void VIEWER_ACTOR_Exit3D(Work_021C7098 *p);
 extern void VIEWER_ACTOR_DeleteObjects(Work_021C7098 *p);
 extern void VIEWER_ACTOR_SetRtcDate(Work_021C7098 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void *func_0203084C(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
@@ -1105,7 +1104,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_Delete(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
@@ -1115,7 +1114,7 @@ extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16
 extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u32 d);
 extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
@@ -1802,10 +1801,10 @@ void VIEWER_TEXT_VBlank(void *unused, Work_021C70EC *p)
 {
     int v = -(p->f11C / 2);
 
-    func_02040618(6, 0, v);
-    func_02040618(6, 3, v);
-    func_02040618(3, 0, v);
-    func_02040618(3, 3, v);
+    BG_SYS_FillScrollArea(6, 0, v);
+    BG_SYS_FillScrollArea(6, 3, v);
+    BG_SYS_FillScrollArea(3, 0, v);
+    BG_SYS_FillScrollArea(3, 3, v);
     CLACT_VBlankSystem();
     BG_SYS_Update();
 }
@@ -1908,7 +1907,7 @@ void VIEWER_TEXT_ExitBg(Work_021C72C8 *p)
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        func_020403F4((u8)d_021C885C[i]);
+        BG_SYS_FreeLayerBuf((u8)d_021C885C[i]);
     }
     BG_SYS_Delete();
     *(volatile u16 *)0x04000050 = 0;
@@ -1947,7 +1946,7 @@ void VIEWER_TEXT_LoadBgResources(Work_021C72FC *p)
     func_020498F4(arc2, APP_ICON_GetStatusDataFileId(), 2, 0, 0, 0, 0x27);
     ARC_UTIL_UploadPaletteFromHandle(arc2, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x27);
     BG_SYS_FillTileMap(2, 0, 0x15, 0x20, 3, 0xE);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     ARC_TOOL_DeleteHandle(arc2);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x27);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x27);

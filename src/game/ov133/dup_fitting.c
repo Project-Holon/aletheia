@@ -38,7 +38,7 @@
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
@@ -130,7 +130,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   MUSICAL_MCSS_CreateRenderObj 0x021F5164 thumb ov112
@@ -197,11 +197,11 @@
  *   MUSICAL_MCSS_SetIndexB 0x021F4AFC thumb ov112
  *   FX_Sqrt 0x0207C7B4 arm
  *   FX_Atan2Idx 0x0207CFB8 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BA594 0x021BA594 data ov133 a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   func_0207CFB8 0x0207CFB8 arm
@@ -271,7 +271,7 @@
  *   DUP_FITTING_ITEM_ElemHitDistance 0x021BA324 thumb ov133
  */
 #include "dup_fitting_types.h"
-#include "dup_fitting_shared_types.h"
+#include "dup_fitting_types.h"
 
 #define B(k) (*(u8 *)((u8 *)p+(k)))
 
@@ -424,7 +424,7 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 
 extern void BMP_WIN_Exit(void);
 
@@ -560,7 +560,7 @@ extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -666,7 +666,7 @@ extern int MUSICAL_MCSS_SetIndexC(u8 *p, int index, int mode);
 
 extern int MUSICAL_MCSS_SetIndexB(u8 *p, int index, int mode);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
@@ -676,7 +676,7 @@ extern int FX_Atan2Idx(int, int);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
 
@@ -1042,8 +1042,8 @@ void DUP_FITTING_Delete(char *p)
     BILLBOARD_Delete(((struct DupFittingWork *)p)->billboard);
     G3D_CAMERA_Delete(((struct DupFittingWork *)p)->camera);
     G3D_SYSTEM_Exit();
-    func_020403F4(0);func_020403F4(1);func_020403F4(2);func_020403F4(3);
-    func_020403F4(4);func_020403F4(6);func_020403F4(5);func_020403F4(7);
+    BG_SYS_FreeLayerBuf(0);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(4);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     func_020307B0(p);
@@ -1314,12 +1314,12 @@ void DUP_FITTING_InitModels(u8 *p)
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x1850), 1);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x1854), 0);
     ARC_TOOL_DeleteHandle(g);
-    func_020409B4(3);
-    func_020409B4(2);
-    func_020409B4(7);
+    BG_SYS_PushTile(3);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(7);
 }
 
-void DUP_FITTING_InitBgLayer(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);func_02040588(id,1);BG_SYS_FreeSlot(id);func_020409B4(id);}
+void DUP_FITTING_InitBgLayer(const void *t,unsigned int id) {BG_SYS_InitBgLayer(id,t,0);func_02040588(id,1);BG_SYS_FreeSlot(id);BG_SYS_PushTile(id);}
 
 void DUP_FITTING_InitRenderObj(u8 *p)
 {
@@ -2636,7 +2636,7 @@ void DUP_FITTING_DrawFrames(u8 *p)
         MUSICAL_MCSS_SetElemPos((int)*(u8 **)(p + 0x1884), id, (Vec *)v);
         e = (u8 *)DUP_FITTING_ITEM_ElemGetNext(e);
     }
-    func_02040618(2, 3, -*(int *)(p + 0x10));
+    BG_SYS_FillScrollArea(2, 3, -*(int *)(p + 0x10));
     r.x = 0x20;
     {
         int t = 0xC0 - *(int *)(p + 0x10);
@@ -2669,7 +2669,7 @@ int DUP_FITTING_HandleTouch(u8 *p)
         ((struct DupFittingWork *)p)->progress = 192;
         GFL_USE_PlaySeDefaultVolume(1962);
         DUP_FITTING_ResetSlots(p);
-        obj = GF_FONT_Create_EC64(((struct DupFittingWork *)p)->heapId);
+        obj = WORDSET_CreateDefault(((struct DupFittingWork *)p)->heapId);
         WORDSET_SetSlotMonSpecies(obj, 0, ((struct DupFittingOutfitTable *)(*(u8 * *)&((struct DupFittingOwner *)(*(u8 * *)&((struct DupFittingWork *)p)->parent))->outfitTable))->monSpecies);
         DUP_FITTING_SetText(p, 0, obj);
         WORDSET_DeleteStrbufED04(obj);
@@ -2919,14 +2919,14 @@ void DUP_FITTING_SetText(u8 *p, unsigned int index, void *object)
     *(int *)&((struct DupFittingWork *)p)->busy = 1;
 }
 
-void DUP_FITTING_SetTextMon(unsigned char *p) {void *r=GF_FONT_Create_EC64(((struct DupFittingWork *)p)->heapId);WORDSET_SetSlotMonSpecies(r,0,((struct DupFittingOutfitTable *)(*(unsigned char * *)&((struct DupFittingOwner *)(*(unsigned char * *)&((struct DupFittingWork *)p)->parent))->outfitTable))->monSpecies);DUP_FITTING_SetText(p,0,r);WORDSET_DeleteStrbufED04(r);}
+void DUP_FITTING_SetTextMon(unsigned char *p) {void *r=WORDSET_CreateDefault(((struct DupFittingWork *)p)->heapId);WORDSET_SetSlotMonSpecies(r,0,((struct DupFittingOutfitTable *)(*(unsigned char * *)&((struct DupFittingOwner *)(*(unsigned char * *)&((struct DupFittingWork *)p)->parent))->outfitTable))->monSpecies);DUP_FITTING_SetText(p,0,r);WORDSET_DeleteStrbufED04(r);}
 
 void DUP_FITTING_SetTextItem(u8 *p, u8 *entry)
 {
     void *manager = (void *)MUSICAL_MCSS_NoOp5(*(u8 * *)&((struct DupFittingWork *)p)->elemSet);
     u8 *data = (u8 *)DUP_FITTING_ITEM_ElemGetData(entry);
     int index = MUSICAL_MCSS_GetElemC(manager, ((struct DupFittingItemData *)data)->id);
-    void *obj = GF_FONT_Create_EC64(((struct DupFittingWork *)p)->heapId);
+    void *obj = WORDSET_CreateDefault(((struct DupFittingWork *)p)->heapId);
     void *a = func_02045EC0(((struct DupFittingWork *)p)->msgBankB, ((struct DupFittingItemData *)data)->id + 3);
     void *b = func_02045EC0(((struct DupFittingWork *)p)->msgBankC, index + 16);
     WORDSET_SetSlotTag(obj, 0, a, 0, 1, 2);
@@ -2957,7 +2957,7 @@ void DUP_FITTING_SetTextHelp(u8 *p, int state)
     case 6:
     case 7: index = 0x16; break;
     }
-    w = GF_FONT_Create_EC64(((struct DupFittingWork *)p)->heapId);
+    w = WORDSET_CreateDefault(((struct DupFittingWork *)p)->heapId);
     str = func_02045EC0(((struct DupFittingWork *)p)->msgBankC, index);
     WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
     DUP_FITTING_SetText(p, 4, w);

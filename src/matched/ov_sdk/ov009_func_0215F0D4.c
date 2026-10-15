@@ -12,17 +12,17 @@
  * Clears the eight bytes of the object at 0x021AA4AC.
  *
  * symbols:
- *   g_021AA4AC  0x021AA4AC  data
+ *   SOCLi_Resource  0x021AA4AC  data
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
 
 #include "../include/G_SOCLResource.h"
 
-extern struct SOCLResource g_021AA4AC;
+extern struct SOCLResource SOCLi_Resource;
 extern void MI_CpuFill8(void *p, int v, int n);
 
 void SOCLi_InitResource(void)
 {
-    MI_CpuFill8(((char *)&g_021AA4AC), 0, 8);
+    MI_CpuFill8(((char *)&SOCLi_Resource), 0, 8);
 }
 

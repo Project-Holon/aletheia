@@ -1,5 +1,5 @@
 /*
- * function: func_021D9B9C
+ * function: MYSTERY_UTIL_TransferWindowChars
  * address: 0x021D9B9C
  * packet: pkt_ov121_021D9B9C
  * region: ov121
@@ -24,7 +24,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(unsigned);
 struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-void func_021D9B9C(u8 *p) {
+void MYSTERY_UTIL_TransferWindowChars(u8 *p) {
     BMP_WIN_TransferChars(((struct Obj08092 *)p)->fC);
     if(((struct Obj08092 *)p)->f24==1) {
         BMP_WIN_MakeScreen(((struct Obj08092 *)p)->fC);

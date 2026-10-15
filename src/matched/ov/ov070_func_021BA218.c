@@ -16,7 +16,7 @@
  *   ITEMMENU_FlushWindowAt  0x021BB724  thumb  ov070
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   FILE_UTIL_Create_0F14  0x02020F14  thumb
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
@@ -52,7 +52,7 @@ struct Rec;
 struct WordSet;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *FILE_UTIL_Create_0F14(u32 a);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
 extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
@@ -89,7 +89,7 @@ void ITEMMENU_PrintItemList(char *p)
     } else {
         w = ((struct Obj01514 *)p)->f774;
         BMP_WIN_ClearScreen((struct Descriptor *)w);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     }
     if (((struct Obj01514 *)p)->f818 == ((struct Obj01514 *)p)->f814) {
         return;

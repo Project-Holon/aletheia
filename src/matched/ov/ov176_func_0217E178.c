@@ -1,5 +1,5 @@
 /*
- * function: func_0217E178,func_0217E1B8
+ * function: LIVEBATTLEMATCH_IRC_WaitExit,LIVEBATTLEMATCH_IRC_ResetState
  * unit: yes
  * address: 0x0217E178
  * packet: pkt_ov176_0217E178
@@ -16,7 +16,7 @@
 extern int GFL_NET_GetRunState(void);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
-int func_0217E178(int *p)
+int LIVEBATTLEMATCH_IRC_WaitExit(int *p)
 {
     switch (*p) {
     case 0:
@@ -36,4 +36,4 @@ int func_0217E178(int *p)
     }
     return 0;
 }
-int func_0217E1B8(int *p) { *p = 0; return 1; }
+int LIVEBATTLEMATCH_IRC_ResetState(int *p) { *p = 0; return 1; }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_CheckFAF0",
+   "name": "BG_SYS_ReserveTileRun",
    "address": "0x0203FAF0",
    "kind": "game",
    "region": "arm9",

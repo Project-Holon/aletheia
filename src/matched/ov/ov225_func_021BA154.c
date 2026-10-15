@@ -1,5 +1,5 @@
 /*
- * function: func_021BA154
+ * function: MANUAL_COMMON_GetTouchbarSelected
  * address: 0x021BA154
  * packet: pkt_ov225_021BA154
  * region: ov225
@@ -11,4 +11,4 @@
 
  */
 #include "../include/Obj26145.h"
-unsigned func_021BA154(char *p){return ((struct Obj26145 *)p)->f28;}
+unsigned MANUAL_COMMON_GetTouchbarSelected(char *p){return ((struct Obj26145 *)p)->f28;}

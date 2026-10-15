@@ -1,5 +1,5 @@
 /*
- * function: func_021D928C
+ * function: MYSTERY_UpdateScrollA
  * address: 0x021D928C
  * packet: pkt_ov121_021D928C
  * region: ov121
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D6C58 0x021D6C58 thumb ov121
+ *   MYSTERY_GetClactActor 0x021D6C58 thumb ov121
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_SetActorPos 0x0204B528 arm
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int   u32;
 struct Obj;
-extern void *func_021D6C58(u8 *p, int i);
+extern void *MYSTERY_GetClactActor(u8 *p, int i);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 struct Actor;
 struct Pt;
@@ -30,7 +30,7 @@ extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-void func_021D928C(u8 *p)
+void MYSTERY_UpdateScrollA(u8 *p)
 {
     int i;
     void *sprite;
@@ -42,7 +42,7 @@ void func_021D928C(u8 *p)
         if((((struct Obj02177 *)p)->f8)++>60) ((struct Obj02177 *)p)->f10=-819;
     }
     for(i=0;i<32;i++) {
-        sprite=func_021D6C58(((struct Obj02177 *)p)->f118,i+1);
+        sprite=MYSTERY_GetClactActor(((struct Obj02177 *)p)->f118,i+1);
         if(CLACT_GetActorDrawEnable(sprite)) {
             q=p+i*4;
             ((struct Obj08089 *)q)->f18=((struct Obj08089 *)q)->f18+((struct Obj08089 *)q)->f98;

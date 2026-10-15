@@ -14,8 +14,8 @@
  * symbols:
  *   func_02082EA4  0x02082EA4  arm
  *   send_packet  0x021579E8  arm  ov009
- *   g_021A82D4  0x021A82D4  data
- *   g_021A826C  0x021A826C  data
+ *   CPSMyMac  0x021A82D4  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 struct NetVars {
@@ -24,20 +24,20 @@ struct NetVars {
 };
 extern void func_02082EA4(void *src, void *dst, unsigned long size);
 extern void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len);
-extern unsigned char g_021A82D4[6];
-extern struct NetVars g_021A826C;
+extern unsigned char CPSMyMac[6];
+extern struct NetVars gCpsNetVars;
 
 void reply_arp(unsigned char *buf)
 {
 	unsigned short v;
 	*(unsigned short *)(buf + 6) = 0x200;
 	func_02082EA4(buf + 8, buf + 0x12, 10);
-	func_02082EA4(g_021A82D4, buf + 8, 6);
-	v = (unsigned short)(g_021A826C.myip >> 16);
+	func_02082EA4(CPSMyMac, buf + 8, 6);
+	v = (unsigned short)(gCpsNetVars.myip >> 16);
 	*(unsigned short *)(buf + 0xe) = (v >> 8) | (v << 8);
-	v = (unsigned short)g_021A826C.myip;
+	v = (unsigned short)gCpsNetVars.myip;
 	*(unsigned short *)(buf + 0x10) = (v >> 8) | (v << 8);
 	func_02082EA4(buf + 0x12, buf - 0xe, 6);
-	func_02082EA4(g_021A82D4, buf - 8, 6);
+	func_02082EA4(CPSMyMac, buf - 8, 6);
 	send_packet(buf - 0xe, 0x2a, 0, 0);
 }

@@ -12,16 +12,16 @@
  * Word at +0x24 of the block held at +0x4 of the module state object, zero when the block is unset.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 int DWC_GetState(void)
 {
-    int *p = *(int **)(((char *)&g_021AA878) + 4);
+    int *p = *(int **)(((char *)&gDwcGlobalState) + 4);
 
     return p != 0 ? *(int *)((char *)p + 0x24) : 0;
 }

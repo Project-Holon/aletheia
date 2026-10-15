@@ -1,5 +1,5 @@
 /*
- * function: func_021BA254
+ * function: BTL_REC_SEL_PrintQueEntry
  * address: 0x021BA254
  * packet: pkt_ov214_021BA254
  * region: ov214
@@ -15,7 +15,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
- *   func_021BA2B8 0x021BA2B8 thumb ov214
+ *   BTL_REC_SEL_IsEntryShown 0x021BA2B8 thumb ov214
  */
 #include "../include/Obj01082.h"
 typedef unsigned char u8;
@@ -32,8 +32,8 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern u32 func_021BA2B8(int unused, u8 *p);
-void func_021BA254(void*obj,char*p,unsigned entry)
+extern u32 BTL_REC_SEL_IsEntryShown(int unused, u8 *p);
+void BTL_REC_SEL_PrintQueEntry(void*obj,char*p,unsigned entry)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct Obj01082 *)p)->f6C),15);
     if(*(void* *)&((struct Obj01082 *)p)->f5C)PRINTSYS_PrintStreamDelete(*(void* *)&((struct Obj01082 *)p)->f5C);
@@ -42,5 +42,5 @@ void func_021BA254(void*obj,char*p,unsigned entry)
     *(void* *)&((struct Obj01082 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01082 *)p)->f58,entry);
     *(int *)&((struct Obj01082 *)p)->f7C=0;
     PRINTSYS_PrintQue(*(void* *)&((struct Obj01082 *)p)->fC,(unsigned)BMP_WIN_GetBmp(*(void* *)&((struct Obj01082 *)p)->f6C),0,0,*(void* *)&((struct Obj01082 *)p)->f78,((struct Obj01082 *)p)->f8);
-    func_021BA2B8((int)obj,(u8 *)p);
+    BTL_REC_SEL_IsEntryShown((int)obj,(u8 *)p);
 }

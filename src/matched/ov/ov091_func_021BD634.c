@@ -12,7 +12,7 @@
  *   to u32 keeps the size but moves the text spill before outgoing stores.
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -45,7 +45,7 @@ struct PrintSys;
 struct Cfg;
 extern s16 FX_SinCosTable_[];
 extern struct U16Vec *STRBUF_Create(u32,u32);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
@@ -88,7 +88,7 @@ void PLIST_BATTLE_UpdateTimer(u8 *p)
         minute=(u8)(timer/60);
         second=(u8)(timer%60);
         buf=STRBUF_Create(32,H(0));
-        words=GF_FONT_Create_EC64(H(0));
+        words=WORDSET_CreateDefault(H(0));
         if(minute==0) {
             text=func_02045EC0(P(0x134),175);
             WORDSET_SetSlotNumber(words,1,second,2,1,1);

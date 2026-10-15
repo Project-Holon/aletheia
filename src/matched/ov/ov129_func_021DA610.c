@@ -1,5 +1,5 @@
 /*
- * function: func_021DA610
+ * function: WF2DMAP_SCENE_ShowMessage
  * address:  0x021DA610
  * packet:   pkt_021DA610
  * region:   ov129
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DA578  0x021DA578  thumb
+ *   WF2DMAP_SCENE_DrawMessage  0x021DA578  thumb
  */
 
-extern void func_021DA578(void *p, int a, void *b, unsigned int c);
+extern void WF2DMAP_SCENE_DrawMessage(void *p, int a, void *b, unsigned int c);
 
-void func_021DA610(void *p, int sel, void *b, unsigned int c)
+void WF2DMAP_SCENE_ShowMessage(void *p, int sel, void *b, unsigned int c)
 {
     if (sel == 1) {
-        func_021DA578(p, 5, b, c);
+        WF2DMAP_SCENE_DrawMessage(p, 5, b, c);
         return;
     }
     if (sel == 2)
-        func_021DA578(p, 6, b, c);
+        WF2DMAP_SCENE_DrawMessage(p, 6, b, c);
 }

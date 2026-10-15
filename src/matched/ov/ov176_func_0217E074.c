@@ -1,5 +1,5 @@
 /*
- * function: func_0217E074
+ * function: LIVEBATTLEMATCH_IRC_NoOp
  * address: 0x0217E074
  * packet: pkt_ov176_0217E074
  * region: ov176
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_0217E074(void) {}
+void LIVEBATTLEMATCH_IRC_NoOp(void) {}

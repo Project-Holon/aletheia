@@ -17,7 +17,7 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -53,7 +53,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -231,7 +231,7 @@ enum StaRibbonVramPart {
 
 extern u32 func_020307B0(void *mem);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
-extern void func_020409B4(u32 bgId);
+extern void BG_SYS_PushTile(u32 bgId);
 extern void *func_020490F4(u32 arcId, u32 heapId);
 extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
@@ -260,7 +260,7 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgId);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
 extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
 extern int TOUCHPANEL_GetTrg(void);
@@ -717,7 +717,7 @@ void P_STA_RIBBON_Hide(PStatusWork *wk, PStaRibbonWork *work)
     unsigned char i;
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) P_STA_OAM_SetBitmapActorsEnabled(work->rows[i].actors,0);
     BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     work->isActive=0;
     CLACT_SetActorAnimSeq(wk->buttonActor[STA_RIBBON_BUTTON_PAGE_TAB],2);
 }
@@ -777,7 +777,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     MI_CpuCopy8(pixels,source,0x660);
     text=func_02045EC0(work->msgBank,owned->category+160);
     buffer=STRBUF_Create(32,wk->heapId);
-    wordSet=GF_FONT_Create_EC64(wk->heapId);
+    wordSet=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(wordSet,0,owned->number,2,2,1);
     WORDSET_CopyTaggedText(wordSet,buffer,text);
     GF_FONT_SetTextColor(1,2,0);

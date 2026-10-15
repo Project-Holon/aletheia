@@ -11,12 +11,12 @@
  * volatile: 021EEF02 re-reads counter after 021EEF00 store.
  * symbols:
  *   gMbParentUi 0x021F6EA0 data a4
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  */
 
 #include "../include/G_Counter.h"
 
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u16 f0;volatile u16 f2;} Counter;
-extern struct Counter gMbParentUi; extern void func_02040618(unsigned,unsigned,unsigned);
-void MB_COMM_SYS_VBlankRefreshBgStandalone(void) { gMbParentUi.f2++; if(gMbParentUi.f2>=5){gMbParentUi.f2=0;func_02040618(3,5,1);func_02040618(7,5,1);} }
+extern struct Counter gMbParentUi; extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+void MB_COMM_SYS_VBlankRefreshBgStandalone(void) { gMbParentUi.f2++; if(gMbParentUi.f2>=5){gMbParentUi.f2=0;BG_SYS_FillScrollArea(3,5,1);BG_SYS_FillScrollArea(7,5,1);} }

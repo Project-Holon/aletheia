@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FD4
+ * function: UN_SELECT_IsListDone
  * address: 0x021B9FD4
  * packet: pkt_ov218_021B9FD4
  * region: ov218
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov218/un_select_p02.c and filed here.
  */
 
-int func_021B9FD4(void);
+int UN_SELECT_IsListDone(void);
 
-int func_021B9FD4(void) { return 1; }
+int UN_SELECT_IsListDone(void) { return 1; }

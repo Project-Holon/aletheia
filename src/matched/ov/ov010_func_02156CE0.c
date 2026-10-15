@@ -52,8 +52,8 @@ typedef struct Work {
 } Work;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 typedef signed int     s32;
 struct Deal;
 struct Src;

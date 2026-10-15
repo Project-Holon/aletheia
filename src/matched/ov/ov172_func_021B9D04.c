@@ -19,7 +19,7 @@
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CTVT_CAMVIEW_StopCapture  0x021B7578  thumb  ov172
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
@@ -50,7 +50,7 @@ struct Descriptor;
 struct Obj;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CTVT_CAMVIEW_StopCapture(int x, char *p);
 extern void CTVT_CAMVIEW_RequestShutterSound1(int x, char *p);
@@ -98,7 +98,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
         BMP_MENUWORK_DrawWindowBorder((void *)q[0x1F], 1);
         BMP_WIN_ClearScreen((struct Descriptor *)q[0x1F]);
         BMP_WIN_MakeScreen((struct Cfg *)q[0xB]);
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         CLACT_SetActorAnimSeq((struct Obj *)q[0x26], 1);
     }
     APP_TASKMENU_CloseMenu((void *)q[0x20]);

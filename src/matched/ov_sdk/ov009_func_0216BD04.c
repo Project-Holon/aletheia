@@ -17,12 +17,12 @@
  *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  *   DWCi_StopMatch  0x0216EB68  arm  ov009
  *   DWCi_StopFriendProcess  0x02168E50  arm  ov009
- *   g_021AA878     0x021AA878  data
+ *   gDwcGlobalState     0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 extern void DWCi_StopLogin(int error, int errorCode);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern void DWCi_StopFriendProcess(int error, int errorCode);
@@ -39,14 +39,14 @@ static int DWCi_HandleGPError(int result)
     case 3: dwcError = 6; errorCode = -10; break;
     case 4: dwcError = 6; errorCode = -20; break;
     }
-    switch (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x24)) {
+    switch (*(int *)(*(char **)(((char *)&gDwcGlobalState) + 4) + 0x24)) {
     case 1:
         errorCode += (int)0xffff11b8;
         DWCi_StopLogin(dwcError, errorCode);
         break;
     case 2:
         errorCode += (int)0xffff11b8;
-        if (*(int *)(*(char **)(((char *)&g_021AA878) + 4) + 0x94) < 1)
+        if (*(int *)(*(char **)(((char *)&gDwcGlobalState) + 4) + 0x94) < 1)
             DWCi_StopLogin(dwcError, errorCode);
         break;
     case 4:

@@ -46,23 +46,23 @@
  *   gsifree                       0x0217EAE0 arm ov009
  *   goastrdup                     0x0217F1E0 arm ov009
  *   gpiAddCallback                0x02189DFC arm ov009
- *   g_021A43AC                    0x021A43AC data
- *   g_021A4280                    0x021A4280 data
- *   g_021A42BC                    0x021A42BC data
- *   g_021A43B8                    0x021A43B8 data
- *   g_021A43C0                    0x021A43C0 data
- *   g_021A43C8                    0x021A43C8 data
- *   g_021A43D0                    0x021A43D0 data
- *   g_021A43DC                    0x021A43DC data
- *   g_021A43E8                    0x021A43E8 data
- *   g_021A43F0                    0x021A43F0 data
- *   g_021A43F8                    0x021A43F8 data
- *   g_021A4404                    0x021A4404 data
- *   g_021A4410                    0x021A4410 data
- *   g_021A441C                    0x021A441C data
- *   g_021A4428                    0x021A4428 data
- *   g_021A4434                    0x021A4434 data
- *   g_021A4440                    0x021A4440 data
+ *   gGpiBuddyKeyProfile                    0x021A43AC data
+ *   gGpiBuddyErrorUnexpectedData                    0x021A4280 data
+ *   gGpiBuddyErrorOutOfMemory                    0x021A42BC data
+ *   gGpiBuddyKeyState                    0x021A43B8 data
+ *   gGpiBuddyKeyBip                    0x021A43C0 data
+ *   gGpiBuddyKeyBport                    0x021A43C8 data
+ *   gGpiBuddyKeyHostIp                    0x021A43D0 data
+ *   gGpiBuddyKeyHprivIp                    0x021A43DC data
+ *   gGpiBuddyKeyQport                    0x021A43E8 data
+ *   gGpiBuddyKeyHport                    0x021A43F0 data
+ *   gGpiBuddyKeySessFlags                    0x021A43F8 data
+ *   gGpiBuddyKeyRstatus                    0x021A4404 data
+ *   gGpiBuddyKeyGameType                    0x021A4410 data
+ *   gGpiBuddyKeyGameVnt                    0x021A441C data
+ *   gGpiBuddyKeyGameMn                    0x021A4428 data
+ *   gGpiBuddyKeyProduct                    0x021A4434 data
+ *   gGpiBuddyKeyQmodeFlags                    0x021A4440 data
  */
 
 typedef struct GPIBuddyStatusInfo {
@@ -128,28 +128,28 @@ extern char *goastrdup(char *src);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg,
                           void *operation, int type);
 
-extern char g_021A43AC[];
-extern char g_021A4280[];
-extern char g_021A42BC[];
-extern char g_021A43B8[];
-extern char g_021A43C0[];
-extern char g_021A43C8[];
-extern char g_021A43D0[];
-extern char g_021A43DC[];
-extern char g_021A43E8[];
-extern char g_021A43F0[];
-extern char g_021A43F8[];
-extern char g_021A4404[];
-extern char g_021A4410[];
-extern char g_021A441C[];
-extern char g_021A4428[];
-extern char g_021A4434[];
-extern char g_021A4440[];
+extern char gGpiBuddyKeyProfile[];
+extern char gGpiBuddyErrorUnexpectedData[];
+extern char gGpiBuddyErrorOutOfMemory[];
+extern char gGpiBuddyKeyState[];
+extern char gGpiBuddyKeyBip[];
+extern char gGpiBuddyKeyBport[];
+extern char gGpiBuddyKeyHostIp[];
+extern char gGpiBuddyKeyHprivIp[];
+extern char gGpiBuddyKeyQport[];
+extern char gGpiBuddyKeyHport[];
+extern char gGpiBuddyKeySessFlags[];
+extern char gGpiBuddyKeyRstatus[];
+extern char gGpiBuddyKeyGameType[];
+extern char gGpiBuddyKeyGameVnt[];
+extern char gGpiBuddyKeyGameMn[];
+extern char gGpiBuddyKeyProduct[];
+extern char gGpiBuddyKeyQmodeFlags[];
 extern void gpiStatusInfoKeyFree(void *ptr);
 
 #define PARSE_KEY(k) do { \
     if (!gpiValueForKey(input, (k), buffer, 0x400)) { \
-        gpiSetError(connection, 1, g_021A4280); \
+        gpiSetError(connection, 1, gGpiBuddyErrorUnexpectedData); \
         gpiCallErrorCallback(connection, 3, 1); \
         return 3; \
     } \
@@ -170,11 +170,11 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
 
     date = gsiTimeNitro(0);
 
-    PARSE_KEY(g_021A43AC);
+    PARSE_KEY(gGpiBuddyKeyProfile);
     profileid = atoi(buffer);
     profile = gpiProfileListAdd(connection, profileid);
     if (profile == 0) {
-        gpiSetErrorString(connection, g_021A42BC);
+        gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
         return 1;
     }
     if (profile->unk20 == 0 && profile->unk2c == 0) {
@@ -182,7 +182,7 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
     if (profile->unkc == 0) {
         profile->unkc = (GPIBuddyStatusInfo *)gsimalloc(0x3c);
         if (profile->unkc == 0) {
-            gpiSetErrorString(connection, g_021A42BC);
+            gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
             return 1;
         }
         memset(profile->unkc, 0, 0x3c);
@@ -196,77 +196,77 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
         flag = 1;
         profile->unkc->unk38 = ArrayNew(8, 1, gpiStatusInfoKeyFree);
         if (profile->unkc->unk38 == 0) {
-            gpiSetErrorString(connection, g_021A42BC);
+            gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
             return flag;
         }
     }
 
     buddyStatus = profile->unkc;
 
-    PARSE_KEY(g_021A43B8);
+    PARSE_KEY(gGpiBuddyKeyState);
     buddyStatus->unk4 = atoi(buffer);
 
-    PARSE_KEY(g_021A43C0);
+    PARSE_KEY(gGpiBuddyKeyBip);
     buddyStatus->unk1c = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
                          (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
                          (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
                          (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
-    PARSE_KEY(g_021A43C8);
+    PARSE_KEY(gGpiBuddyKeyBport);
     buddyStatus->unk20 = (unsigned short)atoi(buffer);
 
-    PARSE_KEY(g_021A43D0);
+    PARSE_KEY(gGpiBuddyKeyHostIp);
     buddyStatus->unk24 = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
                          (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
                          (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
                          (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
-    PARSE_KEY(g_021A43DC);
+    PARSE_KEY(gGpiBuddyKeyHprivIp);
     buddyStatus->unk28 = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
                          (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
                          (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
                          (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
-    PARSE_KEY(g_021A43E8);
+    PARSE_KEY(gGpiBuddyKeyQport);
     buddyStatus->unk2c = (unsigned short)atoi(buffer);
 
-    PARSE_KEY(g_021A43F0);
+    PARSE_KEY(gGpiBuddyKeyHport);
     buddyStatus->unk2e = (unsigned short)atoi(buffer);
 
-    PARSE_KEY(g_021A43F8);
+    PARSE_KEY(gGpiBuddyKeySessFlags);
     buddyStatus->unk18 = atoi(buffer);
     gsifree(buddyStatus->unk8);
     buddyStatus->unk8 = 0;
 
-    PARSE_KEY(g_021A4404);
+    PARSE_KEY(gGpiBuddyKeyRstatus);
     buddyStatus->unk8 = goastrdup(buffer);
     gsifree(buddyStatus->unkc);
     buddyStatus->unkc = 0;
 
-    PARSE_KEY(g_021A4410);
+    PARSE_KEY(gGpiBuddyKeyGameType);
     buddyStatus->unkc = goastrdup(buffer);
     gsifree(buddyStatus->unk10);
     buddyStatus->unk10 = 0;
 
-    PARSE_KEY(g_021A441C);
+    PARSE_KEY(gGpiBuddyKeyGameVnt);
     buddyStatus->unk10 = goastrdup(buffer);
     gsifree(buddyStatus->unk14);
     buddyStatus->unk14 = 0;
 
-    PARSE_KEY(g_021A4428);
+    PARSE_KEY(gGpiBuddyKeyGameMn);
     buddyStatus->unk14 = goastrdup(buffer);
 
-    PARSE_KEY(g_021A4434);
+    PARSE_KEY(gGpiBuddyKeyProduct);
     buddyStatus->unk34 = atoi(buffer);
 
-    PARSE_KEY(g_021A4440);
+    PARSE_KEY(gGpiBuddyKeyQmodeFlags);
     buddyStatus->unk30 = atoi(buffer);
 
     callback = iconnection->callback;
     if (callback.fn != 0) {
         anArg = (GPRecvBuddyStatusArg *)gsimalloc(0xc);
         if (anArg == 0) {
-            gpiSetErrorString(connection, g_021A42BC);
+            gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
             return 1;
         }
         anArg->date = date;

@@ -14,7 +14,7 @@
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   func_02040588 0x02040588 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   NAMEIN_GRAPHIC_InitCursor 0x021F19A0 thumb ov194
  *   NAMEIN_GRAPHIC_GridIndex 0x021F3358 thumb ov194
  *   NAMEIN_GRAPHIC_InitPicker 0x021F256C thumb ov194
@@ -37,7 +37,7 @@ extern void MI_CpuFill8(void *,int,int);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u32);
 extern void BG_SYS_DecodeTile(u32,const void *,u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void NAMEIN_GRAPHIC_InitCursor(u8 *,void *,void *,u32);
 struct Descriptor;
 extern u32 NAMEIN_GRAPHIC_GridIndex(u32 a, u32 b, u32 c);
@@ -65,13 +65,13 @@ void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void *data,v
  ((struct Obj00733 *)p)->f120=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(u32)(p+0x128),heap);
  if(mode==3){BG_SYS_DecodeTile(1,*(char * *)&((struct Obj00733 *)p)->f124+12,2048);func_02040588(2,0);}
  else {BG_SYS_DecodeTile(1,*(char * *)&((struct Obj00733 *)p)->f128+12,2048);func_02040588(2,1);}
- func_020409B4(1);
+ BG_SYS_PushTile(1);
  NAMEIN_GRAPHIC_InitCursor(p+0x24,(void *)mode,palette,heap);
  index=NAMEIN_GRAPHIC_GridIndex(((struct Obj00733 *)p)->f100,((struct Obj00733 *)p)->f104,p[0x108]);
  NAMEIN_GRAPHIC_InitPicker((char *)p,mode,index,((struct Obj00733 *)p)->f12C,heap);
  bg=(void *)BMP_WIN_Create(3,3,5,26,15,15,1);
  ((struct Obj00733 *)p)->fE0=bg;
- BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);func_020409B4(BMP_WIN_GetBgLayer(bg));
+ BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);BG_SYS_PushTile(BMP_WIN_GetBgLayer(bg));
  ((struct Obj00733 *)p)->fEC=((struct Obj00733 *)p)->fE0;p[0xf0]=0;
  NAMEIN_GRAPHIC_DrawCellTips((char *)p,(char *)p+0xec,window,font,heap);
  if(func_020355C4()==0){

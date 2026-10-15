@@ -1,5 +1,5 @@
 /*
- * function: func_0217D2BC
+ * function: DIGITALCARDCHECK_CopyRegulation
  * address: 0x0217D2BC
  * packet: pkt_ov176_0217D2BC
  * region: ov176
@@ -27,4 +27,4 @@ extern void *func_0200BAF4(int,int);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void MI_CpuCopy8(void *,const void *,u32);
 extern u32 func_020307B0(void *p);
-void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
+void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}

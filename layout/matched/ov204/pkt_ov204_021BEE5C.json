@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEE5C",
+   "name": "INTRO_CMD_CmdActorFadeOut",
    "address": "0x021BEE5C",
    "kind": "game",
    "region": "ov204",

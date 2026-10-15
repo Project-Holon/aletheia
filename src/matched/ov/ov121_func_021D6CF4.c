@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CF4
+ * function: MYSTERY_CreateParticle
  * address: 0x021D6CF4
  * packet: pkt_ov121_021D6CF4
  * region: ov121
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 extern const char d_021DFB80[];
-void func_021D6CF4(int *p, int heap)
+void MYSTERY_CreateParticle(int *p, int heap)
 {
     void *v;
     MI_CpuFill8(p, 0, 16);

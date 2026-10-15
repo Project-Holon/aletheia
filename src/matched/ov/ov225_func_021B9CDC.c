@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CDC
+ * function: MANUAL_COMMON_GetDefaultId
  * address: 0x021B9CDC
  * packet: pkt_ov225_021B9CDC
  * region: ov225
@@ -10,4 +10,4 @@
  * symbols:
 
  */
-int func_021B9CDC(void *a0){return 0x48;}
+int MANUAL_COMMON_GetDefaultId(void *a0){return 0x48;}

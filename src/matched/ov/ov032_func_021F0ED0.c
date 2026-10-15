@@ -1,5 +1,5 @@
 /*
- * function: func_021F0ED0
+ * function: BEACON_VIEW_SetEntryStatusVisible
  * address:  0x021F0ED0
  * packet:   pkt_021F0ED0
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0ED0 0x021F0ED0 thumb
+ *   BEACON_VIEW_SetEntryStatusVisible 0x021F0ED0 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
 #include "../include/Obj20418.h"
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021F0ED0(char *p, int a)
+void BEACON_VIEW_SetEntryStatusVisible(char *p, int a)
 {
     CLACT_SetActorDrawEnable(((struct Obj20418 *)p)->f14, a);
 }

@@ -15,7 +15,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   SHORTCUT_MENU_CreateList  0x021C58CC  thumb  ov021
  */
 #include "../include/Obj00874.h"
@@ -31,7 +31,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 extern void SHORTCUT_MENU_CreateList(char *p, u16 a, u16 b, u32 heap);
 
 void SHORTCUT_MENU_InitList(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int *g, u16 h)
@@ -52,7 +52,7 @@ void SHORTCUT_MENU_InitList(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, in
     a[2] = r;
     BMP_WIN_TransferChars((struct Descriptor *)r);
     BMP_WIN_MakeScreen((struct Cfg *)r);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)r));
     a[4] = a[2];
     ((struct Obj00874 *)a)->f14 = 0;
     SHORTCUT_MENU_CreateList((char *)a, b[0], b[1], h);

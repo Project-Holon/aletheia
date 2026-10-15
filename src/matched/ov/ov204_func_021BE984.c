@@ -1,5 +1,5 @@
 /*
- * function: func_021BE984
+ * function: INTRO_CMD_CmdDrawTile
  * address: 0x021BE984
  * packet: pkt_ov204_021BE984
  * region: ov204
@@ -21,7 +21,7 @@ struct S { u8 pad[0xA8]; u8 data[4096]; };
 extern void BG_SYS_DrawTileSub(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041B6C(u32);
-int func_021BE984(struct S *p,u32 *q)
+int INTRO_CMD_CmdDrawTile(struct S *p,u32 *q)
 {
     switch (*q) {
     case 0:

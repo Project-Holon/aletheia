@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF78C",
+   "name": "DEMO3D_DATA_TaskCreateCapture",
    "address": "0x021BF78C",
    "kind": "game",
    "region": "ov203",

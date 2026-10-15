@@ -20,7 +20,7 @@
  *   DWCi_StopLogin  0x0216A3B8  arm  ov009
  *   DWCi_SetState  0x0216BC84  arm  ov009
  *   GSIStartAvailableCheckA  0x0217C750  arm  ov009
- *   g_021AA878     0x021AA878  data
+ *   gDwcGlobalState     0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -40,7 +40,7 @@ typedef struct {
     void *param;
 } Ctl;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 extern int DWCi_IsError(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
@@ -57,23 +57,23 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
 
     if (!ingamesn)
         return 0;
-    if (DWCi_IsError() || ((Ctl *)g_021AA878.st)->state != 0)
+    if (DWCi_IsError() || ((Ctl *)gDwcGlobalState.st)->state != 0)
         return 0;
-    ((Ctl *)g_021AA878.st)->callback = callback;
-    ((Ctl *)g_021AA878.st)->param = param;
+    ((Ctl *)gDwcGlobalState.st)->callback = callback;
+    ((Ctl *)gDwcGlobalState.st)->param = param;
     if (!ingamesn || ingamesn[0] == 0) {
         len = 0;
     } else {
-        MIi_CpuClear16(0, ((Ctl *)g_021AA878.st)->ingamesn, 0x34);
+        MIi_CpuClear16(0, ((Ctl *)gDwcGlobalState.st)->ingamesn, 0x34);
         len = (u32)DWCi_WStrLen(ingamesn) > 25 ? 25 : (u32)DWCi_WStrLen(ingamesn);
-        MIi_CpuCopy16(ingamesn, ((Ctl *)g_021AA878.st)->ingamesn, len * 2);
+        MIi_CpuCopy16(ingamesn, ((Ctl *)gDwcGlobalState.st)->ingamesn, len * 2);
     }
-    ((Ctl *)g_021AA878.st)->ingamesn[len] = 0;
+    ((Ctl *)gDwcGlobalState.st)->ingamesn[len] = 0;
     if (DWC_GetInetStatus() != 4) {
         DWCi_StopLogin(2, -60010);
         return 0;
     }
     DWCi_SetState(1);
-    GSIStartAvailableCheckA(((Ctl *)g_021AA878.st)->gamename);
+    GSIStartAvailableCheckA(((Ctl *)gDwcGlobalState.st)->gamename);
     return 1;
 }

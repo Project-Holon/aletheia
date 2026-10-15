@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6A0
+ * function: BTL_REC_SEL_StartTimer
  * address: 0x021BA6A0
  * packet: pkt_ov214_021BA6A0
  * region: ov214
@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   func_02035630 0x02035630 arm
- *   func_021BA794 0x021BA794 thumb ov214
+ *   BTL_REC_SEL_DrawCounter 0x021BA794 thumb ov214
  */
 #include "../../matched/include/Obj00202.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_02035630(void);
-extern void func_021BA794(void *, void *, unsigned int);
-void func_021BA6A0(void *obj, char *p, u32 v)
+extern void BTL_REC_SEL_DrawCounter(void *, void *, unsigned int);
+void BTL_REC_SEL_StartTimer(void *obj, char *p, u32 v)
 {
     u32 threshold;
     if (func_02035630() == 30) threshold = 30;
@@ -28,5 +28,5 @@ void func_021BA6A0(void *obj, char *p, u32 v)
     ((struct Obj00202 *)p)->fB8 = 0;
     ((struct Obj00202 *)p)->fBC = 0;
     ((struct Obj00202 *)p)->fC0 = 0;
-    func_021BA794(obj, p, v);
+    BTL_REC_SEL_DrawCounter(obj, p, v);
 }

@@ -11,7 +11,7 @@
  * symbols:
  *   C_GEAR_GetCellKind  0x021F2B9C  thumb  ov029
  *   C_GEAR_DrawTile  0x021F1290  thumb  ov029
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   d_021F332C     0x021F332C  data  a4
  */
 
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 C_GEAR_GetCellKind(u8 *p, int row, int col);
 extern void C_GEAR_DrawTile(void *, int, int, int);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern const int d_021F332C[2];
 
 void C_GEAR_DrawAllCells(void *p)
@@ -36,5 +36,5 @@ void C_GEAR_DrawAllCells(void *p)
         for (j = 0; j < n; j++)
             C_GEAR_DrawTile(p, i, j, C_GEAR_GetCellKind(p, i, j));
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }

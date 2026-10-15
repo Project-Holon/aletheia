@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7070",
+   "name": "MONOLITH_TOOL_CreateBlink",
    "address": "0x021B7070",
    "kind": "game",
    "region": "ov071",

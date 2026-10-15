@@ -1,5 +1,5 @@
 /*
- * function: func_021BE7F0
+ * function: DEMO3D_DATA_Create
  * address: 0x021BE7F0
  * packet: pkt_ov203_021BE7F0
  * region: ov203
@@ -18,7 +18,7 @@ typedef struct Entry { int x; unsigned short id, pad; int flag; } Entry;
 extern const char d_021C3CF0[];
 extern unsigned d_021C0348[];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-void *func_021BE7F0(unsigned heap)
+void *DEMO3D_DATA_Create(unsigned heap)
 {
     char *ctx;
     Entry *entries;

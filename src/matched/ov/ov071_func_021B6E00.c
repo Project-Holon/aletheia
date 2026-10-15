@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B6E00, func_021B6E0C, func_021B6E18
+ * function: MONOLITH_TOOL_GetHighlightColorA, MONOLITH_TOOL_GetHighlightColorB, MONOLITH_TOOL_GetHighlightColorCount
  * address:  0x021B6E00
  * packet:   pkt_ov071_021B6E00
  * region:   ov071
@@ -13,17 +13,17 @@
  * Two bounded constant selectors and a constant return.
  */
 
-int func_021B6E00(unsigned int x)
+int MONOLITH_TOOL_GetHighlightColorA(unsigned int x)
 {
     return x <= 1 ? 0x32 : 0x12;
 }
 
-int func_021B6E0C(unsigned int x)
+int MONOLITH_TOOL_GetHighlightColorB(unsigned int x)
 {
     return x <= 1 ? 0x42 : 0x22;
 }
 
-int func_021B6E18(int a0)
+int MONOLITH_TOOL_GetHighlightColorCount(int a0)
 {
     return 3;
 }

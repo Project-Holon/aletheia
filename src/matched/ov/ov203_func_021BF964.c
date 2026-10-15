@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE990 0x021BE990 thumb ov203
+ *   DEMO3D_DATA_GetAnimIndex 0x021BE990 thumb ov203
  *   DEMO3D_CMDSYS_Dispatch 0x021BF9B8 thumb ov203
  */
 #include "../include/Obj10867.h"
 typedef struct { int kind;unsigned limit;int values[8]; } Record;
 typedef unsigned int   u32;
-extern u32 func_021BE990(u32 id);
+extern u32 DEMO3D_DATA_GetAnimIndex(u32 id);
 extern void DEMO3D_CMDSYS_Dispatch(unsigned a, unsigned b, char *p);
 int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
     Record *r;
     int i;
-    r=(Record *)func_021BE990(((struct Obj10867 *)owner)->f78);
+    r=(Record *)DEMO3D_DATA_GetAnimIndex(((struct Obj10867 *)owner)->f78);
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
         if(r[i].limit==-1) DEMO3D_CMDSYS_Dispatch((unsigned int)p,(unsigned int)owner,(char *)(&r[i]));

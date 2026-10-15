@@ -143,7 +143,7 @@
  *   GAME_DATA_GetIntrudeCount 0x02012B70 thumb
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   sBgLayer0Template     0x021BBB40  data  a4
@@ -255,7 +255,7 @@
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb  arm9
@@ -539,7 +539,7 @@ extern u32 PALANM_Delete(void *a0);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *p);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(int bg);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u8 func_02008550(const struct MyStatus *obj);
@@ -644,7 +644,7 @@ extern void func_0200816C();
 extern int func_02008284(struct BagCursor *p);
 extern void func_02008270(struct BagCursor *p, int i, s16 *a, s16 *b);
 extern void *func_02045B38();
-extern void *GF_FONT_Create_EC64();
+extern void *WORDSET_CreateDefault();
 extern void *PRINTSYS_QUE_CreateEx();
 extern struct KeyCursor *APP_KEYCURSOR_CreateDefault();
 extern int GF_FONT_Create();
@@ -2708,7 +2708,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->tempString = STRBUF_Create(0xc8, work->heapId);
     work->messageString = STRBUF_Create(0xc8, work->heapId);
     work->listStrings = STRBUF_Create(0x40, work->heapId);
-    work->wordSet = GF_FONT_Create_EC64(work->heapId);
+    work->wordSet = WORDSET_CreateDefault(work->heapId);
     work->printSys = PRINTSYS_QUE_CreateEx(0x40 << 6, work->heapId);
     work->itemDescWindow = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
     work->menuTaskArg = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
@@ -3196,32 +3196,32 @@ void ITEMMENU_InitDisplayBanks(void)
     layer0Template = sBgLayer0Template;
     BG_SYS_InitBgLayer(0, &layer0Template, 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     func_02040588(0, 0);
 
     layer1Template = sBgLayer1Template;
     BG_SYS_InitBgLayer(1, &layer1Template, 0);
     BG_SYS_FreeSlot(1);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     func_02040588(1, 0);
 
     layer2Template = sBgLayer2Template;
     BG_SYS_InitBgLayer(2, &layer2Template, 0);
     BG_SYS_FreeSlot(2);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_02040588(2, 0);
 
     layer3Template = sBgLayer3Template;
     BG_SYS_InitBgLayer(3, &layer3Template, 0);
     BG_SYS_Init(3, 0, 1, 0);
     BG_SYS_FreeSlot(3);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_02040588(3, 0);
 
     layer4Template = sBgLayer4Template;
     BG_SYS_InitBgLayer(4, &layer4Template, 0);
     func_02040588(4, 0);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 
     layer5Template = sBgLayer5Template;
     BG_SYS_InitBgLayer(5, &layer5Template, 0);
@@ -3383,7 +3383,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     charBase = func_02049740(archive, 0x1C, 1, 0, 0, work->heapId);
     work->bgPaletteC = charBase;
     func_02049990(archive, 0x1D, 1, 0, (u16)charBase + 0x8000, 0, 0, work->heapId);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     work->iconCharRes = CLACT_RegisterPaletteEx(archive, 0x13, 0, 0x140, 0, 3, work->heapId);
     work->iconPaletteRes = CLACT_RegisterCharacter(archive, 0x14, 0, 0, work->heapId);
     work->iconCellRes = CLACT_RegisterCellAnim(archive, 0x17, 0x1A, work->heapId);
@@ -3839,7 +3839,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
     } else {
         windowHandle = work->listWindows[ITEMMENU_WINDOW_MENU_4].window;
         BMP_WIN_ClearScreen(windowHandle);
-        func_020409B4(BMP_WIN_GetBgLayer(windowHandle));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(windowHandle));
     }
     if (work->shownItemId == work->scrollOffset) {
         return;

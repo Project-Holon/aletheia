@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gMslRefToken  0x02150FEC  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 struct Soc {
@@ -40,7 +40,7 @@ struct NetVars {
 };
 
 extern struct ThreadInfo gMslRefToken;
-extern struct NetVars g_021A826C;
+extern struct NetVars gCpsNetVars;
 
 unsigned short CPS_SocGetEport(void)
 {
@@ -50,16 +50,16 @@ unsigned short CPS_SocGetEport(void)
 
 	do {
 		conflict = 0;
-		g_021A826C.eport++;
-		if (g_021A826C.eport < 0x400 || g_021A826C.eport >= 5000)
-			g_021A826C.eport = 0x400;
+		gCpsNetVars.eport++;
+		if (gCpsNetVars.eport < 0x400 || gCpsNetVars.eport >= 5000)
+			gCpsNetVars.eport = 0x400;
 		for (t = gMslRefToken.list; t != 0; t = t->next) {
 			soc = t->soc;
-			if (soc != 0 && soc->thread != 0 && soc->local_port == g_021A826C.eport) {
+			if (soc != 0 && soc->thread != 0 && soc->local_port == gCpsNetVars.eport) {
 				conflict = 1;
 				break;
 			}
 		}
 	} while (conflict);
-	return g_021A826C.eport;
+	return gCpsNetVars.eport;
 }

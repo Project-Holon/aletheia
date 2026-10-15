@@ -1,5 +1,5 @@
 /*
- * function: func_021E5868
+ * function: WIFIBATTLEMATCH_VIEW_Delete
  * address: 0x021E5868
  * packet: pkt_ov177_021E5868
  * region: ov177
@@ -21,7 +21,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern u32 func_020307B0(void *p);
 typedef struct { int a, b, c, d, e, f; } S5868;
-void func_021E5868(S5868 *p)
+void WIFIBATTLEMATCH_VIEW_Delete(S5868 *p)
 {
     CLACT_ReleasePalette(p->a);
     CLACT_ReleaseCharacter(p->c);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9F08
+ * function: MYSTERY_UTIL_SetMenuMessage
  * address:  0x021D9F08
  * packet:   pkt_021D9F08
  * region:   ov121
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_021D9F24  0x021D9F24  thumb
+ *   MYSTERY_UTIL_SetMenuMode  0x021D9F24  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,10 +24,10 @@ typedef signed int     s32;
 
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021D9F24(u8 *p, int mode);
+extern void MYSTERY_UTIL_SetMenuMode(u8 *p, int mode);
 
-void func_021D9F08(u8 *a, int b, int c, int d)
+void MYSTERY_UTIL_SetMenuMessage(u8 *a, int b, int c, int d)
 {
     MSGDATA_ReadString((struct MsgBank *)b, c, ((struct Obj00236 *)a)->f14);
-    func_021D9F24(a, d);
+    MYSTERY_UTIL_SetMenuMode(a, d);
 }

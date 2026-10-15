@@ -16,8 +16,8 @@
  *   MANUAL_CATEGORY_CreateOptionSlots 0x021BBC54 thumb ov225
  *   MANUAL_CATEGORY_OptionTaskNoop 0x021BBBF0 thumb ov225
  *   func_020056A0 0x020056A0 thumb
- *   func_021BA068 0x021BA068 thumb ov225
- *   func_021BA0F0 0x021BA0F0 thumb ov225
+ *   MANUAL_COMMON_SetTouchbarState 0x021BA068 thumb ov225
+ *   MANUAL_COMMON_SetTouchbarSelection 0x021BA0F0 thumb ov225
  *   MANUAL_CATEGORY_DrawOption 0x021BBD74 thumb ov225
  */
 #include "../include/Obj02563.h"
@@ -34,8 +34,8 @@ extern void MANUAL_CATEGORY_SetOptionBgMode(char *);
 extern void MANUAL_CATEGORY_CreateOptionSlots(u8 *);
 extern void MANUAL_CATEGORY_OptionTaskNoop(void *);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
-extern void func_021BA068(char *, unsigned);
-extern void func_021BA0F0(char *, unsigned, unsigned);
+extern void MANUAL_COMMON_SetTouchbarState(char *, unsigned);
+extern void MANUAL_COMMON_SetTouchbarSelection(char *, unsigned, unsigned);
 extern void MANUAL_CATEGORY_DrawOption(char *);
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
 {
@@ -52,8 +52,8 @@ char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
     ((struct Obj02563 *)q)->f34 = func_020056A0((unsigned)MANUAL_CATEGORY_OptionTaskNoop, (unsigned)q, 1);
     ((struct Obj02563 *)q)->f38 = 0;
     q[0x3c] = -1;
-    func_021BA068(*(char * *)&((struct Obj26305 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, 3);
-    func_021BA0F0(*(char * *)&((struct Obj26306 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, *(u8 *)*(char * *)&((struct Obj02563 *)q)->f0, ((struct Obj02563 *)q)->f8);
+    MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct Obj26305 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, 3);
+    MANUAL_COMMON_SetTouchbarSelection(*(char * *)&((struct Obj26306 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, *(u8 *)*(char * *)&((struct Obj02563 *)q)->f0, ((struct Obj02563 *)q)->f8);
     MANUAL_CATEGORY_DrawOption(q);
     return q;
 }

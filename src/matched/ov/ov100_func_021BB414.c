@@ -24,21 +24,21 @@ typedef unsigned short u16;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(int, int, int);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern void func_0207D63C(int, int, int, int, int);
 extern void IRCBATTLEMATCH_InitScreen(char *p);
 
-int IRCBATTLEMATCH_ProcInit(struct Obj0203159C *a, int b, int c)
+int IRCBATTLEMATCH_ProcInit(struct Proc *a, int b, int c)
 {
     int r5;
 
     GFL_HEAP_CreateChildHeap(1, 0x1f, 0x20000);
     r5 = 0xcf0;
-    a = (struct Obj0203159C *)PROCSYS_AllocProcWork(a, r5, 0x1f);
+    a = (struct Proc *)PROCSYS_AllocProcWork(a, r5, 0x1f);
     MI_CpuFill8((int)a, 0, r5);
     ((struct Obj00178 *)a)->f244 = c;
     ((struct Obj00178 *)a)->f278 = 0x1f;

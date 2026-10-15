@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void POKE_SUMMARY_MAIN_ExitScreen(char *);
 struct S02031140;
-struct S020315D4;
+struct Proc;
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int POKE_SUMMARY_MAIN_Delete(void *p,u32 a,u32 b,char *ctx) { POKE_SUMMARY_MAIN_ExitScreen(ctx); TCBL_Destroy(((struct Obj00362 *)ctx)->f64); GF_FONT_Delete(((struct Obj00362 *)ctx)->f60); func_020315D4(p); GFL_HEAP_DeleteChecked(79); return 1; }

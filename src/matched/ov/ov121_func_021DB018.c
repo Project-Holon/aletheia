@@ -1,5 +1,5 @@
 /*
- * function: func_021DB018
+ * function: MYSTERY_ALBUM_Setup
  * address: 0x021DB018
  * packet: pkt_ov121_021DB018
  * region: ov121
@@ -16,18 +16,18 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_021D99A4 0x021D99A4 thumb ov121
+ *   MYSTERY_UTIL_CreateWindow 0x021D99A4 thumb ov121
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_021DCF54 0x021DCF54 thumb ov121
+ *   MYSTERY_ALBUM_SetupIconSprite 0x021DCF54 thumb ov121
  *   MI_CpuFill8 0x02082BCC arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -95,18 +95,18 @@ extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern unsigned int func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
 extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void *func_021D99A4(u32, u32, u16, u16, u8, u8, u8, u32, u16);
+extern void *MYSTERY_UTIL_CreateWindow(u32, u32, u16, u16, u8, u8, u8, u32, u16);
 extern s32 CLACT_RegisterPaletteEx(void *, u32, u32, u32, u16, u16, u16);
 extern s32 CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern s32 CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
-extern void func_021DCF54(char *, void *, int, int, u8, u16);
+extern void MYSTERY_ALBUM_SetupIconSprite(char *, void *, int, int, u8, u16);
 extern void MI_CpuFill8(void *, int, int);
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
@@ -114,7 +114,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern void func_02040588(unsigned char which, unsigned char enable);
 #pragma opt_dead_assignments off
-void func_021DB018(u8 *p, u16 heap)
+void MYSTERY_ALBUM_Setup(u8 *p, u16 heap)
 {
     Tmp t;
     void *arc;
@@ -126,7 +126,7 @@ void func_021DB018(u8 *p, u16 heap)
     func_020498F4(arc, 17, 3, 0, 0, 0, heap);
     func_02049658(arc, 10, 1, 0, 0, 0, heap);
     func_020498F4(arc, 19, 1, 0, 0, 0, heap);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_02049B68(arc, 1, 4, 0, 320, heap);
     func_02049658(arc, 10, 7, 0, 0, 0, heap);
     func_020498F4(arc, 18, 7, 0, 0, 0, heap);
@@ -157,15 +157,15 @@ void func_021DB018(u8 *p, u16 heap)
         }
         *(u32 *)(p + i * 4 + 0xBA8 - 0xA0) = BMP_WIN_Create(2, t.b[10], t.b[11], 10, 2, 15, 0);
         BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0xBA8 - 0xA0));
-        func_020409B4(2);
+        BG_SYS_PushTile(2);
     }
-    *(void **)(p + 0xAB4) = func_021D99A4(0, 1, 13, 22, 6, 2, 3, *(u32 *)(p + 0x14), heap);
+    *(void **)(p + 0xAB4) = MYSTERY_UTIL_CreateWindow(0, 1, 13, 22, 6, 2, 3, *(u32 *)(p + 0x14), heap);
     arc = func_020490F4(34, heap);
     *(s32 *)(p + 0xAB4 + 0x50) = CLACT_RegisterPaletteEx(arc, 0, 0, 0, 0, 6, heap);
     *(s32 *)(p + 0xAB4 + 0x4C) = CLACT_RegisterCellAnim(arc, 32, 35, heap);
     *(s32 *)(p + 0xAB4 + 0x48) = CLACT_RegisterCharacter(arc, 9, 0, 0, heap);
-    func_021DCF54((char *)p + 0xBAE, arc, 0, 0, 1, heap);
-    func_021DCF54((char *)p + 0xC0E, arc, 0, 2, 3, heap);
+    MYSTERY_ALBUM_SetupIconSprite((char *)p + 0xBAE, arc, 0, 0, 1, heap);
+    MYSTERY_ALBUM_SetupIconSprite((char *)p + 0xC0E, arc, 0, 2, 3, heap);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&t, 0, 8);
     *(u16 *)(t.b) = 0;

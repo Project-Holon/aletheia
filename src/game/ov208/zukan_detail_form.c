@@ -24,7 +24,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -107,7 +107,7 @@
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -362,7 +362,7 @@ extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 is
 
 extern u32  POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -482,7 +482,7 @@ extern void ov208_func_021C4AF4(u16 *heap, struct Ov208Form *p, int key);
 
 extern void ov208_func_021BC34C(void *proc);
 
-extern void func_02040618(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
 
 extern void BG_SYS_FreeSlot(u32 bgId);
 
@@ -711,8 +711,8 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
         *seq = 1;
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                func_02040618(i, 0, 0);
-                func_02040618(i, 3, 0);
+                BG_SYS_FillScrollArea(i, 0, 0);
+                BG_SYS_FillScrollArea(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
@@ -1090,7 +1090,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, int ke
     k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     switch (*(u32 *)((u8 *)p + 0x148 + idx * 16)) {
     case 0:
-        ws = (u32)GF_FONT_Create_EC64(*heap);
+        ws = (u32)WORDSET_CreateDefault(*heap);
         src = p->str[2];
         str = (u32)STRBUF_Create(0x40, *heap);
         WORDSET_Callback((struct WordSet *)ws, 0, k);
@@ -1249,7 +1249,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key
     p->active[0] = 1;
     STRBUF_Delete((struct U16Vec *)text);
     bmp2 = BMP_WIN_GetBmp((struct Descriptor *)p->win[1]);
-    ws = GF_FONT_Create_EC64(*heap);
+    ws = WORDSET_CreateDefault(*heap);
     src = (void *)p->str[0];
     str = STRBUF_Create(8, *heap);
     WORDSET_SetSlotNumber(ws, 0, p->f54a, 2, 1, 1);
@@ -1257,7 +1257,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, int key
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(ws);
-    ws2 = GF_FONT_Create_EC64(*heap);
+    ws2 = WORDSET_CreateDefault(*heap);
     src2 = (void *)p->str[1];
     str = STRBUF_Create(8, *heap);
     WORDSET_SetSlotNumber(ws2, 0, p->f54c, 2, 1, 1);

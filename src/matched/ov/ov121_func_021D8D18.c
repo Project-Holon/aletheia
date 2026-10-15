@@ -1,5 +1,5 @@
 /*
- * function: func_021D8D18
+ * function: MYSTERY_IsCardViewDone
  * address: 0x021D8D18
  * packet: pkt_ov121_021D8D18
  * region: ov121
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 #include "../include/Obj22868.h"
-int func_021D8D18(char *p)
+int MYSTERY_IsCardViewDone(char *p)
 {
     return ((struct Obj22868 *)p)->f8;
 }

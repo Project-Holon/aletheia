@@ -14,10 +14,10 @@
  * symbols:
  *   gpiAppendStringToBuffer  0x0218946C  arm
  *   gpiAppendIntToBuffer     0x0218949C  arm
- *   g_021A4D60               0x021A4D60  data
- *   g_021A4AE0               0x021A4AE0  data
- *   g_021A4D78               0x021A4D78  data
- *   g_021A4C18               0x021A4C18  data
+ *   gGpiInfoKeyGetProfileSessKey               0x021A4D60  data
+ *   gGpiInfoKeyProfileId               0x021A4AE0  data
+ *   gGpiInfoKeyId               0x021A4D78  data
+ *   gGpiInfoKeyFinal               0x021A4C18  data
  */
 
 struct GPIBuffer {
@@ -38,21 +38,21 @@ extern int gpiAppendStringToBuffer(void **connection, struct GPIBuffer *outputBu
                                    char *buffer);
 extern int gpiAppendIntToBuffer(void **connection, struct GPIBuffer *outputBuffer,
                                 int num);
-extern char g_021A4D60[];
-extern char g_021A4AE0[];
-extern char g_021A4D78[];
-extern char g_021A4C18[];
+extern char gGpiInfoKeyGetProfileSessKey[];
+extern char gGpiInfoKeyProfileId[];
+extern char gGpiInfoKeyId[];
+extern char gGpiInfoKeyFinal[];
 
 int gpiSendGetInfo(void **connection, int profileid, int operationid)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
 
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4D60);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyGetProfileSessKey);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4AE0);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyProfileId);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, profileid);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4D78);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyId);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, operationid);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4C18);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyFinal);
     return 0;
 }

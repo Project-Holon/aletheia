@@ -23,7 +23,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -192,7 +192,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_SetTileUnit(u32, u32, u32);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
@@ -349,7 +349,7 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->wins[14]);
         break;
@@ -362,7 +362,7 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->wins[14]);
         break;
@@ -375,7 +375,7 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->wins[14]);
         break;
@@ -388,7 +388,7 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
         if (bright[1] == 0x10) {
             BG_SYS_SetTileEntry(2, 5, 0x10, 1, 1, 0xF, 0x10);
             BG_SYS_SetTileEntry(2, 6, 0x11, 1, 0xF, 0xF, 0x10);
-            func_020409B4(2);
+            BG_SYS_PushTile(2);
         }
         BMP_WIN_Delete(p->wins[14]);
         BMP_WIN_Delete(p->wins[15]);

@@ -14,7 +14,7 @@
  *   TALKMSGWIN_Delete  0x02194798  thumb  ov021
  *   TCBL_Destroy  0x02031140  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -54,7 +54,7 @@ struct U16Vec;
 extern void TALKMSGWIN_Delete(unsigned char *a);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -78,10 +78,10 @@ void FIELD_MSGBG_Delete(Obj *o)
     }
     if (o->f02 != 0xff) {
         BG_SYS_SetTileUnit(o->f02, 1, 0);
-        func_020403F4((u8)o->f02);
+        BG_SYS_FreeLayerBuf((u8)o->f02);
     }
     if (o->f04 != 0xff) {
-        func_020403F4((u8)o->f04);
+        BG_SYS_FreeLayerBuf((u8)o->f04);
     }
     do {
         if (s->f18 != 0) {

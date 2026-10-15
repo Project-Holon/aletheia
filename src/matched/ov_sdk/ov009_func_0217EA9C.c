@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021A3730                   0x021A3730  data
+ *   gGsMemoryFuncs                   0x021A3730  data
 */
 
-extern void *d_021A3730[4];
+extern void *gGsMemoryFuncs[4];
 
 void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long))
 {
-    d_021A3730[0] = p_malloc;
-    d_021A3730[1] = p_free;
-    d_021A3730[2] = p_realloc;
-    d_021A3730[3] = p_memalign;
+    gGsMemoryFuncs[0] = p_malloc;
+    gGsMemoryFuncs[1] = p_free;
+    gGsMemoryFuncs[2] = p_realloc;
+    gGsMemoryFuncs[3] = p_memalign;
 }

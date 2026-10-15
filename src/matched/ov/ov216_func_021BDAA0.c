@@ -1,5 +1,5 @@
 /*
- * function: func_021BDAA0
+ * function: BEACON_DETAIL_GRA_AddPrintWaitTask
  * address: 0x021BDAA0
  * packet: pkt_ov216_021BDAA0
  * region: ov216
@@ -25,7 +25,7 @@ extern struct TcblNode *TCBL_AddTask(struct Tcbl *,TcblFunc,u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void BEACON_DETAIL_GRA_PrintWaitTask(int,int **);
-void func_021BDAA0(u8 *p,int arg,int *counter)
+void BEACON_DETAIL_GRA_AddPrintWaitTask(u8 *p,int arg,int *counter)
 {
     Work *work;
     work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)BEACON_DETAIL_GRA_PrintWaitTask,12,0));

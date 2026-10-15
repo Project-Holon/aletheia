@@ -11,7 +11,7 @@
  * symbols:
  *   gIntroSite 0x021C0AE4 data a1
  *   func_02030734 0x02030734 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
  *   func_02049B40 0x02049B40 arm
@@ -42,7 +42,7 @@ struct Obj;
 struct Tcbl;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -64,7 +64,7 @@ char *INTRO_MSG_Create(u16 heap)
     void *obj;
     p=func_02030734(heap,72,1,gIntroSite,129);
     ((struct Obj01008 *)p)->f0=heap;
-    ((struct Obj01008 *)p)->f8=GF_FONT_Create_EC64(heap);
+    ((struct Obj01008 *)p)->f8=WORDSET_CreateDefault(heap);
     ((struct Obj01008 *)p)->f4=(void *)PRINTSYS_QUE_Create((void *)heap);
     ((struct Obj01008 *)p)->f18=TCBL_Create(((struct Obj01008 *)p)->f0,((struct Obj01008 *)p)->f0,2,0);
     func_02049B40(23,5,0,320,32,heap);

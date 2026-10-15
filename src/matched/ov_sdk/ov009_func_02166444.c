@@ -21,7 +21,7 @@
  *   WCMi_WmifSetDCFData  0x02166D2C  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifSetDCFData  0x02731E50  arm  twl
- *   g_021AA7E8     0x021AA7E8  data ov009
+ *   gWcmCpsifMutex     0x021AA7E8  data ov009
  *
  * Sends a DCF frame: merges header and body into the send buffer under the CPS interface mutex, then dispatches to the WM or NWM sender by device id.
  */
@@ -34,7 +34,7 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-extern unsigned char g_021AA7E8[];
+extern unsigned char gWcmCpsifMutex[];
 extern unsigned long OS_DisableInterrupts(void);
 extern int WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -57,15 +57,15 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         OS_RestoreInterrupts(e);
         return -1;
     }
-    OS_LockMutex(g_021AA7E8);
+    OS_LockMutex(gWcmCpsifMutex);
     w = (WCMWork *)WCMi_GetSystemWork();
     if (w == 0) {
-        OS_UnlockMutex(g_021AA7E8);
+        OS_UnlockMutex(gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
         return -1;
     }
     if (w->phase != 9 || w->resetting == 1) {
-        OS_UnlockMutex(g_021AA7E8);
+        OS_UnlockMutex(gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
         return -4;
     }
@@ -80,7 +80,7 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         }
         break;
     }
-    OS_UnlockMutex(g_021AA7E8);
+    OS_UnlockMutex(gWcmCpsifMutex);
     OS_RestoreInterrupts(e);
     return headerLen + bodyLen;
 }

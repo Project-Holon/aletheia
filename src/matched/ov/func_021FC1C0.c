@@ -25,6 +25,7 @@
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *   BG_SYS_SetTileEntry  0x02041300  arm  arm9
  *   BG_SYS_ClearLayerEx  0x02041570  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * Three-layer bring-up after the display restore, with engine-B plane 0x16
  * toggled and layers 2 and 3 both 020414EC'd and tilemap-cleared.
@@ -68,7 +69,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
 extern struct DispConfig g_022034AC;

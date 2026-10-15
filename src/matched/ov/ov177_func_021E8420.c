@@ -1,5 +1,5 @@
 /*
- * function: func_021E8420
+ * function: WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt
  * address: 0x021E8420
  * packet: pkt_ov177_021E8420
  * region: ov177
@@ -32,7 +32,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int func_0209C2B0(int, int);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-int func_021E8420(Work *p)
+int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(Work *p)
 {
     int done;
     int shift;

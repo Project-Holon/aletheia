@@ -1,5 +1,5 @@
 /*
- * function: func_021BEF08
+ * function: INTRO_CMD_CmdSetWordSet
  * address: 0x021BEF08
  * packet: pkt_ov204_021BEF08
  * region: ov204
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct WordSet;
 extern int INTRO_MSG_GetWordSet(u8 *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet*,u32,void*);
-void func_021BEF08(u8*p,u32 a){struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(*(u8* *)&((struct Obj14618 *)p)->f18);WORDSET_SetSlotMyStatus(q,a,**(void** *)&((struct Obj14618 *)p)->f4);}
+void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(*(u8* *)&((struct Obj14618 *)p)->f18);WORDSET_SetSlotMyStatus(q,a,**(void** *)&((struct Obj14618 *)p)->f4);}

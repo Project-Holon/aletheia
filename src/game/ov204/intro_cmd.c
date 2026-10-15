@@ -1,7 +1,7 @@
 /*
  * file:     intro_cmd.c
  * unit:     yes
- * function: func_021BE328, func_021BE360, func_021BE374, func_021BE398, func_021BE3A4, func_021BE3B8, func_021BE3CC, func_021BE3DC, func_021BE3EC, func_021BE420, func_021BE430, func_021BE44C, func_021BE460, func_021BE478, func_021BE4AC, func_021BE4B8, func_021BE510, func_021BE524, func_021BE53C, func_021BE54C, func_021BE560, func_021BE578, func_021BE61C, func_021BE6A4, func_021BE6B4, func_021BE6E8, func_021BE6F8, func_021BE708, func_021BE770, func_021BE78C, func_021BE7A8, func_021BE838, func_021BE864, func_021BE874, func_021BE884, func_021BE898, func_021BE970, func_021BE984, func_021BEB00, func_021BEBEC, func_021BED6C, func_021BEDB8, func_021BEE5C, func_021BEEF0, func_021BEF08, func_021BEF20, func_021BEF74, func_021BEF88, func_021BF00C, func_021BF030, func_021BF080, func_021BF094
+ * function: INTRO_CMD_CmdFade, INTRO_CMD_CmdBrightnessSet, INTRO_CMD_CmdBrightnessChange, INTRO_CMD_CmdBrightnessWait, INTRO_CMD_CmdBgmChange, INTRO_CMD_CmdBgmWait, INTRO_CMD_CmdBgmFadeOut, INTRO_CMD_CmdBgmFadeIn, INTRO_CMD_CmdSe, INTRO_CMD_CmdSeStop, INTRO_CMD_CmdWaitInput, INTRO_CMD_CmdSetMsgBank, INTRO_CMD_CmdSub, INTRO_CMD_CmdPrintText, INTRO_CMD_CmdDrawWindowBorder, INTRO_CMD_CmdAddSlot, INTRO_CMD_CmdSetVanishFlag, INTRO_CMD_CmdSetSlotAnim, INTRO_CMD_CmdGetSlotAnimFinished, INTRO_CMD_CmdClearSlotAnimFinished, INTRO_CMD_CmdMoveSlot, INTRO_CMD_CmdSlotAlpha, INTRO_CMD_CmdPrintAndMepachi, INTRO_CMD_CmdSaveStart, INTRO_CMD_CmdSavePause, INTRO_CMD_CmdSaveResume, INTRO_CMD_CmdSaveNoOp, INTRO_CMD_CmdSaveTimeIcon, INTRO_CMD_CmdSetAppliedFlag, INTRO_CMD_CmdSetConfig, INTRO_CMD_CmdMoveVoice, INTRO_CMD_CmdParticle, INTRO_CMD_CmdSetVisible, INTRO_CMD_CmdSetAnimFrame, INTRO_CMD_CmdUpdateIntro, INTRO_CMD_CmdAnimMode, INTRO_CMD_CmdUpdateAnimFrame, INTRO_CMD_CmdDrawTile, INTRO_CMD_CmdSetTile, INTRO_CMD_CreateActors, INTRO_CMD_DeleteActors, INTRO_CMD_CmdActorFadeIn, INTRO_CMD_CmdActorFadeOut, INTRO_CMD_CmdCheckConfig, INTRO_CMD_CmdSetWordSet, INTRO_CMD_Create, INTRO_CMD_Delete, INTRO_CMD_Main, INTRO_CMD_AddCommand, INTRO_CMD_RunCommands, INTRO_CMD_ClearCommand, INTRO_CMD_GetScenarioRow
  * address:  0x021BE328
  * region:   ov204
  * compiler: dsi/1.1p1
@@ -24,10 +24,10 @@
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
- *   d_021C09D4 0x021C09D4 data a4
+ *   gIntroCmdHandlerTable 0x021C09D4 data a4
  *   INTRO_G3D_AddPokemonSlot 0x021BF67C thumb ov204
  *   INTRO_G3D_SetSlotMepachi 0x021BF7CC thumb ov204
- *   d_021BFFE4 0x021BFFE4 data a1
+ *   gIntroMcssArg 0x021BFFE4 data a1
  *   INTRO_G3D_SetVanishFlag 0x021BF720 thumb ov204
  *   INTRO_G3D_SetSlotAnim 0x021BF744 thumb ov204
  *   INTRO_G3D_GetSlotAnimFinished 0x021BF77C thumb ov204
@@ -65,10 +65,10 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021BDD78 0x021BDD78 thumb ov204
+ *   INTRO_GRAPHIC_GetClactOwner 0x021BDD78 thumb ov204
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   init 0x021BFFCC data a2
+ *   gIntroActorPos 0x021BFFCC data a2
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -77,10 +77,10 @@
  *   CLACT_GetActorObjMode 0x0204B6E4 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_02030734 0x02030734 arm
- *   d_021C0AAC 0x021C0AAC data a1
+ *   gIntroCmdSite 0x021C0AAC data a1
  *   func_020307B0 0x020307B0 arm
- *   d_021C09D8 0x021C09D8 data a4
- *   d_021C0AB8 0x021C0AB8 data a4
+ *   gIntroCmdCommandTable 0x021C09D8 data a4
+ *   gIntroScenarioTables 0x021C0AB8 data a4
  *   gIntroSite 0x021C0AE4 data a1
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
@@ -99,81 +99,17 @@
  *   INTRO_MSG_DeleteTimeIcon 0x021BF580 thumb ov204
  *   INTRO_MCSS_AddSlot 0x021BF624 thumb ov204
  */
-#include "../../matched/include/Obj25350.h"
-#include "../../matched/include/Obj14608.h"
-#include "../../matched/include/Obj25352.h"
-#include "../../matched/include/Obj10874.h"
-#include "../../matched/include/Obj25353.h"
-#include "../../matched/include/Obj25354.h"
-#include "../../matched/include/Obj25355.h"
-#include "../../matched/include/Obj25357.h"
-#include "../../matched/include/Obj25359.h"
-#include "../../matched/include/Obj04609.h"
-#include "../../matched/include/Obj05529.h"
-#include "../../matched/include/Obj25360.h"
-#include "../../matched/include/Obj14612.h"
-#include "../../matched/include/Obj25361.h"
-#include "../../matched/include/Obj25362.h"
-#include "../../matched/include/Obj05530.h"
-#include "../../matched/include/Obj25363.h"
-#include "../../matched/include/Obj25365.h"
-#include "../../matched/include/Obj25366.h"
-#include "../../matched/include/Obj08382.h"
-#include "../../matched/include/Obj25369.h"
-#include "../../matched/include/Obj25370.h"
-#include "../../matched/include/Obj25372.h"
-#include "../../matched/include/Obj25374.h"
-#include "../../matched/include/Obj03920.h"
-#include "../../matched/include/Obj25376.h"
-#include "../../matched/include/Obj00550.h"
-#include "../../matched/include/Obj06672.h"
-#include "../../matched/include/Obj08383.h"
-#include "../../matched/include/Obj14616.h"
-#include "../../matched/include/Obj14617.h"
-#include "../../matched/include/Obj25378.h"
-#include "../../matched/include/Obj14618.h"
-#include "../../matched/include/Obj03921.h"
-#include "../../matched/include/Obj25381.h"
-#include "../../matched/include/Obj25382.h"
-#include "../../matched/include/Obj06673.h"
-#include "../../matched/include/Obj14620.h"
 #include "intro_types.h"
 
-struct Sub0200852CObj;
+struct IntroGameState;
 
 struct Actor;
-
-struct Q021BF00C;
-
-struct S021BF00C;
-
-struct State;
 
 typedef signed short   s16;
 
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-struct S { u8 pad[0xA8]; u8 data[4096]; };
-
-typedef struct {u16 v[12];} Init;
-
-typedef struct Row { unsigned tag; unsigned data[5]; } Row;
-
-struct S021BF00C
-{
-    char pad[0x20];
-    void *slots[8];
-};
-
-struct Q021BF00C
-{
-    char pad[0x14];
-    unsigned char b : 1;
-};
-
-typedef struct Command { unsigned tag; unsigned data[5]; } Command;
-
-typedef struct State { char pad[0x20]; Command *commands[8]; Slot slots[8]; } State;
+typedef struct {u16 v[12];} IntroActorPos;
 
 extern void FADE_Start(unsigned,int,int,int);
 
@@ -233,7 +169,7 @@ extern int SAVE_CONTROL_INTR_IsFinished(unsigned char *p);
 
 extern void CONFIG_SetAppliedFlag(u16*,u32);
 
-extern void func_0200854C(struct Sub0200852CObj*,u32);
+extern void func_0200854C(struct IntroGameState*,u32);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
@@ -271,7 +207,7 @@ extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct IntroGameState *obj);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
@@ -281,7 +217,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern unsigned func_021BDD78(char *p);
+extern unsigned INTRO_GRAPHIC_GetClactOwner(char *p);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -305,109 +241,109 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath
 
 extern u32 func_020307B0(void *p);
 
-int func_021BE328(char *p,int *state,int *q);
+int INTRO_CMD_CmdFade(char *p,int *state,int *q);
 
-u32 func_021BE360(u32 a, u32 b, u32 *c);
+u32 INTRO_CMD_CmdBrightnessSet(u32 a, u32 b, u32 *c);
 
-int func_021BE374(int a0, int a1, int *src);
+int INTRO_CMD_CmdBrightnessChange(int a0, int a1, int *src);
 
-int func_021BE398(void);
+int INTRO_CMD_CmdBrightnessWait(void);
 
-u32 func_021BE3A4(u32 a, u32 b, u32 *c);
+u32 INTRO_CMD_CmdBgmChange(u32 a, u32 b, u32 *c);
 
-u32 func_021BE3B8(void);
+u32 INTRO_CMD_CmdBgmWait(void);
 
-int func_021BE3CC(int a, int b, int *p);
+int INTRO_CMD_CmdBgmFadeOut(int a, int b, int *p);
 
-int func_021BE3DC(int a, int b, int *p);
+int INTRO_CMD_CmdBgmFadeIn(int a, int b, int *p);
 
-int func_021BE3EC(char *p,int *state,unsigned *q);
+int INTRO_CMD_CmdSe(char *p,int *state,unsigned *q);
 
-int func_021BE420(int a, int b, int *p);
+int INTRO_CMD_CmdSeStop(int a, int b, int *p);
 
-u32 func_021BE430(void);
+u32 INTRO_CMD_CmdWaitInput(void);
 
-int func_021BE44C(char *p,int *state,unsigned *q);
+int INTRO_CMD_CmdSetMsgBank(char *p,int *state,unsigned *q);
 
-int func_021BE460(char *p,int *state,int *q);
+int INTRO_CMD_CmdSub(char *p,int *state,int *q);
 
-int func_021BE478(char *p,int *state,unsigned *q);
+int INTRO_CMD_CmdPrintText(char *p,int *state,unsigned *q);
 
-int func_021BE4AC(char *p,int *state,int *q);
+int INTRO_CMD_CmdDrawWindowBorder(char *p,int *state,int *q);
 
-int func_021BE4B8(char *p, int unused, unsigned *q);
+int INTRO_CMD_CmdAddSlot(char *p, int unused, unsigned *q);
 
-int func_021BE510(char *p,int *state,int *q);
+int INTRO_CMD_CmdSetVanishFlag(char *p,int *state,int *q);
 
-int func_021BE524(char *p,int *state,unsigned *q);
+int INTRO_CMD_CmdSetSlotAnim(char *p,int *state,unsigned *q);
 
-unsigned func_021BE53C(char *p,int *state,unsigned *q);
+unsigned INTRO_CMD_CmdGetSlotAnimFinished(char *p,int *state,unsigned *q);
 
-int func_021BE54C(char *p,int *state,unsigned *q);
+int INTRO_CMD_CmdClearSlotAnimFinished(char *p,int *state,unsigned *q);
 
-int func_021BE560(char *p,int *state,int *q);
+int INTRO_CMD_CmdMoveSlot(char *p,int *state,int *q);
 
-int func_021BE578(char *p, int *state, unsigned *q);
+int INTRO_CMD_CmdSlotAlpha(char *p, int *state, unsigned *q);
 
-int func_021BE61C(char *p, int *state, unsigned *q);
+int INTRO_CMD_CmdPrintAndMepachi(char *p, int *state, unsigned *q);
 
-int func_021BE6A4(char *a);
+int INTRO_CMD_CmdSaveStart(char *a);
 
-int func_021BE6B4(char *p,int *state,unsigned *q);
+int INTRO_CMD_CmdSavePause(char *p,int *state,unsigned *q);
 
-int func_021BE6E8(char *a);
+int INTRO_CMD_CmdSaveResume(char *a);
 
-int func_021BE6F8(char *a);
+int INTRO_CMD_CmdSaveNoOp(char *a);
 
-int func_021BE708(char *p, int *state);
+int INTRO_CMD_CmdSaveTimeIcon(char *p, int *state);
 
-int func_021BE770(u8*p,u32 unused,u32*q);
+int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q);
 
-int func_021BE78C(u8*p,u32 unused,u32*q);
+int INTRO_CMD_CmdSetConfig(u8*p,u32 unused,u32*q);
 
-int func_021BE7A8(u8 *p, u32 *q);
+int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q);
 
-int func_021BE838(u8*p,u32 unused,u32*q);
+int INTRO_CMD_CmdParticle(u8*p,u32 unused,u32*q);
 
-int func_021BE864(char *a, int b, int *p);
+int INTRO_CMD_CmdSetVisible(char *a, int b, int *p);
 
-int func_021BE874(char *a, int b, int *p);
+int INTRO_CMD_CmdSetAnimFrame(char *a, int b, int *p);
 
-int func_021BE884(u8*p);
+int INTRO_CMD_CmdUpdateIntro(u8*p);
 
-int func_021BE898(char *p,u32 *q);
+int INTRO_CMD_CmdAnimMode(char *p,u32 *q);
 
-int func_021BE970(u8*p);
+int INTRO_CMD_CmdUpdateAnimFrame(u8*p);
 
-int func_021BE984(struct S *p,u32 *q);
+int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q);
 
-int func_021BEB00(void *p,u32 *q);
+int INTRO_CMD_CmdSetTile(void *p,u32 *q);
 
-int func_021BEBEC(char *p);
+int INTRO_CMD_CreateActors(char *p);
 
-int func_021BED6C(char *p);
+int INTRO_CMD_DeleteActors(char *p);
 
-int func_021BEDB8(char *p, unsigned *state, unsigned *q);
+int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q);
 
-int func_021BEE5C(char *p, unsigned *state, unsigned *q);
+int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q);
 
-int func_021BEEF0(u8*p);
+int INTRO_CMD_CmdCheckConfig(u8*p);
 
-void func_021BEF08(u8*p,u32 a);
+void INTRO_CMD_CmdSetWordSet(u8*p,u32 a);
 
-char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap);
+char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap);
 
-void func_021BEF74(u8*p);
+void INTRO_CMD_Delete(u8*p);
 
-int func_021BEF88(char *p);
+int INTRO_CMD_Main(char *p);
 
-int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q);
+int INTRO_CMD_AddCommand(IntroCmdWork *p, IntroCommand *q);
 
-int func_021BF030(State *p);
+int INTRO_CMD_RunCommands(IntroCmdWork *p);
 
-void func_021BF080(char *p, u8 i);
+void INTRO_CMD_ClearCommand(IntroCmdWork *p, u8 i);
 
-Row *func_021BF094(u32 n);
+IntroCommand *INTRO_CMD_GetScenarioRow(u32 n);
 
 char *INTRO_MSG_Create(u16 heap);
 
@@ -433,40 +369,40 @@ void INTRO_MSG_DeleteTimeIcon(u8 *p);
 
 void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i);
 
-extern const char d_021BFFE4[];
+extern const char gIntroMcssArg[];
 
-extern const Init init;
+extern const IntroActorPos gIntroActorPos;
 
-extern const char d_021C0AAC[];
+extern const char gIntroCmdSite[];
 
-extern const u32 d_021C0AB8[];
+extern const u32 gIntroScenarioTables[];
 
-int func_021BE328(char *p,int *state,int *q){switch(*state){case 0:FADE_Start(q[0],q[1],q[2],q[3]);(*state)++;break;case 1:if(FADE_IsActive()==0)return 1;break;}return 0;}
+int INTRO_CMD_CmdFade(char *p,int *state,int *q){switch(*state){case 0:FADE_Start(q[0],q[1],q[2],q[3]);(*state)++;break;case 1:if(FADE_IsActive()==0)return 1;break;}return 0;}
 
 /*
  * Addresses are Black-image addresses.
  */
-u32 func_021BE360(u32 a, u32 b, u32 *c)
+u32 INTRO_CMD_CmdBrightnessSet(u32 a, u32 b, u32 *c)
 {
     BRIGHTNESS_Set((s16)*c, 0x1d, 1);
     return 1;
 }
 
-int func_021BE374(int a0, int a1, int *src)
+int INTRO_CMD_CmdBrightnessChange(int a0, int a1, int *src)
 {
     BRIGHTNESS_ChangeRequest((unsigned char)src[0], (short)src[1], (short)src[2], 0x1d, 1);
     return 1;
 }
 
-int func_021BE398(void) {BRIGHTNESS_IsFinished(1);return 1;}
+int INTRO_CMD_CmdBrightnessWait(void) {BRIGHTNESS_IsFinished(1);return 1;}
 
-u32 func_021BE3A4(u32 a, u32 b, u32 *c)
+u32 INTRO_CMD_CmdBgmChange(u32 a, u32 b, u32 *c)
 {
     GFL_USE_CancelChangeAndPlayBgm(*c, 0xffff);
     return 1;
 }
 
-u32 func_021BE3B8(void)
+u32 INTRO_CMD_CmdBgmWait(void)
 {
     if (GFL_USE_IsBgmPlaying() != 0) {
         return 1;
@@ -474,27 +410,27 @@ u32 func_021BE3B8(void)
     return 0;
 }
 
-int func_021BE3CC(int a, int b, int *p)
+int INTRO_CMD_CmdBgmFadeOut(int a, int b, int *p)
 {
     GFL_USE_FadeOutBgm((unsigned short)*p);
     return 1;
 }
 
-int func_021BE3DC(int a, int b, int *p)
+int INTRO_CMD_CmdBgmFadeIn(int a, int b, int *p)
 {
     GFL_USE_FadeInBgmFull((unsigned short)*p);
     return 1;
 }
 
-int func_021BE3EC(char *p,int *state,unsigned *q){int i;GFL_USE_PlaySeDefaultVolume(q[0]);i=GFL_USE_GetSeSlot(q[0]);if(q[1])GFL_USE_SetSeSlotVolume(i,q[1]);if(q[2])GFL_USE_SetSeSlotParams(i,-1,-1,q[2]);return 1;}
+int INTRO_CMD_CmdSe(char *p,int *state,unsigned *q){int i;GFL_USE_PlaySeDefaultVolume(q[0]);i=GFL_USE_GetSeSlot(q[0]);if(q[1])GFL_USE_SetSeSlotVolume(i,q[1]);if(q[2])GFL_USE_SetSeSlotParams(i,-1,-1,q[2]);return 1;}
 
-int func_021BE420(int a, int b, int *p)
+int INTRO_CMD_CmdSeStop(int a, int b, int *p)
 {
     GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(*p));
     return 1;
 }
 
-u32 func_021BE430(void)
+u32 INTRO_CMD_CmdWaitInput(void)
 {
     if (TOUCHPANEL_GetTrg() != 0 || KEY_GetTrg() != 0) {
         return 1;
@@ -502,89 +438,92 @@ u32 func_021BE430(void)
     return 0;
 }
 
-int func_021BE44C(char *p,int *state,unsigned *q){INTRO_MSG_SetMsgBank(*(char * *)&((struct Obj25350 *)p)->f18,q[0],q[1]);return 1;}
+int INTRO_CMD_CmdSetMsgBank(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_SetMsgBank(work->msg,q[0],q[1]);return 1;}
 
-extern int (*const d_021C09D4[])(char *,int);
+extern int (*const gIntroCmdHandlerTable[])(char *,int);
 
-int func_021BE460(char *p,int *state,int *q){d_021C09D4[q[0]](p,q[1]);return 1;}
+int INTRO_CMD_CmdSub(char *p,int *state,int *q){gIntroCmdHandlerTable[q[0]](p,q[1]);return 1;}
 
-int func_021BE478(char *p,int *state,unsigned *q){switch(*state){case 0:INTRO_MSG_PrintText(*(char * *)&((struct Obj14608 *)p)->f18,(void *)q[0],q[1]);(*state)++;break;case 1:if(INTRO_MSG_UpdatePrint(*(char * *)&((struct Obj14608 *)p)->f18))return 1;break;}return 0;}
+int INTRO_CMD_CmdPrintText(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;switch(*state){case 0:INTRO_MSG_PrintText(work->msg,(void *)q[0],q[1]);(*state)++;break;case 1:if(INTRO_MSG_UpdatePrint(work->msg))return 1;break;}return 0;}
 
-int func_021BE4AC(char *p,int *state,int *q){INTRO_MSG_DrawWindowBorder((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}
+int INTRO_CMD_CmdDrawWindowBorder(char *p,int *state,int *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_DrawWindowBorder((u8 *)work->msg);return 1;}
 
-int func_021BE4B8(char *p, int unused, unsigned *q)
+int INTRO_CMD_CmdAddSlot(char *p, int unused, unsigned *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     if (q[1] == 0) {
-        INTRO_MCSS_AddSlot(((struct Obj10874 *)p)->f8, q[2], q[3], 0, (void *)d_021BFFE4, q[0]);
-        INTRO_G3D_SetSlotMepachi(((struct Obj10874 *)p)->f8, q[0], 1);
+        INTRO_MCSS_AddSlot(work->mcss, q[2], q[3], 0, (void *)gIntroMcssArg, q[0]);
+        INTRO_G3D_SetSlotMepachi(work->mcss, q[0], 1);
     } else {
-        INTRO_G3D_AddPokemonSlot(((struct Obj10874 *)p)->f8, q[2], q[3], 0x1000, q[1], q[0]);
+        INTRO_G3D_AddPokemonSlot(work->mcss, q[2], q[3], 0x1000, q[1], q[0]);
     }
     return 1;
 }
 
-int func_021BE510(char *p,int *state,int *q){INTRO_G3D_SetVanishFlag(((struct Obj25353 *)p)->f8,q[1],q[0]);return 1;}
+int INTRO_CMD_CmdSetVanishFlag(char *p,int *state,int *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_G3D_SetVanishFlag(work->mcss,q[1],q[0]);return 1;}
 
 /*
  * follower: tail-call stub 0x021BE53C included; function_starts seed.
  */
-int func_021BE524(char *p,int *state,unsigned *q){INTRO_G3D_SetSlotAnim(*(char * *)&((struct Obj25354 *)p)->f8,(unsigned char)q[0],q[1],q[2]);return 1;}
+int INTRO_CMD_CmdSetSlotAnim(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_G3D_SetSlotAnim(work->mcss,(unsigned char)q[0],q[1],q[2]);return 1;}
 
-unsigned func_021BE53C(char *p,int *state,unsigned *q){return INTRO_G3D_GetSlotAnimFinished(*(char * *)&((struct Obj25355 *)p)->f8,q[0]);}
+unsigned INTRO_CMD_CmdGetSlotAnimFinished(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;return INTRO_G3D_GetSlotAnimFinished(work->mcss,q[0]);}
 
-int func_021BE54C(char *p,int *state,unsigned *q){INTRO_G3D_ClearSlotAnimFinished((u8 *)(*(char * *)&((struct Obj25357 *)p)->f8),q[0]);return 1;}
+int INTRO_CMD_CmdClearSlotAnimFinished(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_G3D_ClearSlotAnimFinished((u8 *)work->mcss,q[0]);return 1;}
 
-int func_021BE560(char *p,int *state,int *q){return INTRO_G3D_MoveSlot(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}
+int INTRO_CMD_CmdMoveSlot(char *p,int *state,int *q){IntroCmdWork *work=(IntroCmdWork *)p;return INTRO_G3D_MoveSlot(work->mcss,(unsigned char)q[0],q[1],q[2]);}
 
-int func_021BE578(char *p, int *state, unsigned *q)
+int INTRO_CMD_CmdSlotAlpha(char *p, int *state, unsigned *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     switch (*state) {
     case 0:
         if (q[1] != 0)
-            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)1);
+            INTRO_G3D_SetSlotAlpha(work->mcss, q[0], (unsigned char)1);
         else
-            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)31);
-        INTRO_G3D_SetVanishFlag(((struct Obj04609 *)p)->f8, 1, q[0]);
+            INTRO_G3D_SetSlotAlpha(work->mcss, q[0], (unsigned char)31);
+        INTRO_G3D_SetVanishFlag(work->mcss, 1, q[0]);
         state[1] = 31;
         ++*state;
         break;
     case 1:
         state[1] -= 2;
         if (state[1] <= 0) {
-            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)31);
-            INTRO_G3D_SetVanishFlag(((struct Obj04609 *)p)->f8, q[1], q[0]);
+            INTRO_G3D_SetSlotAlpha(work->mcss, q[0], (unsigned char)31);
+            INTRO_G3D_SetVanishFlag(work->mcss, q[1], q[0]);
             return 1;
         }
         if (q[1] == 1)
-            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)(31 - state[1]));
+            INTRO_G3D_SetSlotAlpha(work->mcss, q[0], (unsigned char)(31 - state[1]));
         else if (q[1] == 0)
-            INTRO_G3D_SetSlotAlpha(((struct Obj04609 *)p)->f8, q[0], (unsigned char)state[1]);
+            INTRO_G3D_SetSlotAlpha(work->mcss, q[0], (unsigned char)state[1]);
         break;
     }
     return 0;
 }
 
-int func_021BE61C(char *p, int *state, unsigned *q)
+int INTRO_CMD_CmdPrintAndMepachi(char *p, int *state, unsigned *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     unsigned index = q[0];
     unsigned other = q[1];
     switch (*state) {
     case 0:
-        INTRO_MSG_PrintText(((struct Obj05529 *)p)->f18, (void *)index, q[2]);
+        INTRO_MSG_PrintText(work->msg, (void *)index, q[2]);
         ++*state;
         break;
     case 1:
-        if (INTRO_MSG_UpdatePrint(((struct Obj05529 *)p)->f18) != 0) {
-            INTRO_G3D_SetSlotMepachi(((struct Obj05529 *)p)->f8, other, 1);
+        if (INTRO_MSG_UpdatePrint(work->msg) != 0) {
+            INTRO_G3D_SetSlotMepachi(work->mcss, other, 1);
             return 1;
         }
-        switch (INTRO_MSG_GetPrintState(((struct Obj05529 *)p)->f18)) {
+        switch (INTRO_MSG_GetPrintState(work->msg)) {
         case 1:
-            INTRO_G3D_SetSlotMepachi(((struct Obj05529 *)p)->f8, other, 1);
+            INTRO_G3D_SetSlotMepachi(work->mcss, other, 1);
             state[1] = 0;
             break;
         case 0:
-            INTRO_G3D_SetSlotMepachi(((struct Obj05529 *)p)->f8, other, state[1] % 12 < 6 ? 1 : 0);
+            INTRO_G3D_SetSlotMepachi(work->mcss, other, state[1] % 12 < 6 ? 1 : 0);
             state[1]++;
             break;
         case 2:
@@ -595,17 +534,19 @@ int func_021BE61C(char *p, int *state, unsigned *q)
     return 0;
 }
 
-int func_021BE6A4(char *a)
+int INTRO_CMD_CmdSaveStart(char *a)
 {
-    SAVE_CONTROL_INTR_Start(((struct Obj25360 *)a)->fA4);
+    IntroCmdWork *work = (IntroCmdWork *)a;
+    SAVE_CONTROL_INTR_Start((int)work->saveControl);
     return 1;
 }
 
-int func_021BE6B4(char *p,int *state,unsigned *q){switch(*state){case 0:SAVE_CONTROL_INTR_Pause(*(unsigned char * *)&((struct Obj14612 *)p)->fA4);(*state)++;break;case 1:if(SAVE_CONTROL_INTR_IsPausedOrFinished(*(unsigned char * *)&((struct Obj14612 *)p)->fA4)==1)return 1;break;}return 0;}
+int INTRO_CMD_CmdSavePause(char *p,int *state,unsigned *q){IntroCmdWork *work=(IntroCmdWork *)p;switch(*state){case 0:SAVE_CONTROL_INTR_Pause(work->saveControl);(*state)++;break;case 1:if(SAVE_CONTROL_INTR_IsPausedOrFinished(work->saveControl)==1)return 1;break;}return 0;}
 
-int func_021BE6E8(char *a)
+int INTRO_CMD_CmdSaveResume(char *a)
 {
-    SAVE_CONTROL_INTR_Resume((unsigned char *)(((struct Obj25361 *)a)->fA4));
+    IntroCmdWork *work = (IntroCmdWork *)a;
+    SAVE_CONTROL_INTR_Resume((unsigned char *)work->saveControl);
     return 1;
 }
 
@@ -614,30 +555,32 @@ int func_021BE6E8(char *a)
  * only overlay in the window that does not overlap the caller's ov204), so
  * the bl gIntroSite resolves as matched and the verdict promoted to EXACT.
  */
-int func_021BE6F8(char *a)
+int INTRO_CMD_CmdSaveNoOp(char *a)
 {
-    SAVE_CONTROL_INTR_NoOp(((struct Obj25362 *)a)->fA4);
+    IntroCmdWork *work = (IntroCmdWork *)a;
+    SAVE_CONTROL_INTR_NoOp((int)work->saveControl);
     return 1;
 }
 
-int func_021BE708(char *p, int *state)
+int INTRO_CMD_CmdSaveTimeIcon(char *p, int *state)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     switch (*state) {
     case 0:
-        if (SAVE_CONTROL_INTR_IsFinished(((struct Obj05530 *)p)->fA4) == 1)
+        if (SAVE_CONTROL_INTR_IsFinished(work->saveControl) == 1)
             return 1;
-        INTRO_MSG_PrintText(((struct Obj05530 *)p)->f18, (void *)5, 0);
+        INTRO_MSG_PrintText(work->msg, (void *)5, 0);
         ++*state;
         break;
     case 1:
-        if (INTRO_MSG_UpdatePrint(((struct Obj05530 *)p)->f18) == 1) {
-            INTRO_MSG_StartTimeIcon(((struct Obj05530 *)p)->f18);
+        if (INTRO_MSG_UpdatePrint(work->msg) == 1) {
+            INTRO_MSG_StartTimeIcon(work->msg);
             ++*state;
         }
         break;
     case 2:
-        if (SAVE_CONTROL_INTR_IsFinished(((struct Obj05530 *)p)->fA4) == 1) {
-            INTRO_MSG_DeleteTimeIcon(((struct Obj05530 *)p)->f18);
+        if (SAVE_CONTROL_INTR_IsFinished(work->saveControl) == 1) {
+            INTRO_MSG_DeleteTimeIcon(work->msg);
             return 1;
         }
         break;
@@ -645,15 +588,16 @@ int func_021BE708(char *p, int *state)
     return 0;
 }
 
-int func_021BE770(u8*p,u32 unused,u32*q){u16*obj=*(u16* *)&((struct Obj25365 *)(*(u8* *)&((struct Obj25363 *)p)->f4))->f4;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetAppliedFlag(obj,flag);return 1;}
+int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;u16*obj=(u16 *)((IntroArgs *)work->args)->appliedFlag;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetAppliedFlag(obj,flag);return 1;}
 
 /*
  * prototype: 0200854C widened to u32: original has no byte truncation; its u8 prototype added a shift pair.
  */
-int func_021BE78C(u8*p,u32 unused,u32*q){struct Sub0200852CObj*obj=**(struct Sub0200852CObj** *)&((struct Obj25366 *)p)->f4;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;func_0200854C(obj,flag);return 1;}
+int INTRO_CMD_CmdSetConfig(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;struct IntroGameState*obj=((IntroArgs *)work->args)->gameState;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;func_0200854C(obj,flag);return 1;}
 
-int func_021BE7A8(u8 *p, u32 *q)
+int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     switch (*q) {
     case 0:
         if (q[1] == 3) {
@@ -664,20 +608,20 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 1:
-        if (INTRO_G3D_MoveSlot1((char *)(((struct Obj08382 *)p)->f8), 0x1000, 0xFFFF4800) == 1) {
+        if (INTRO_G3D_MoveSlot1(work->mcss, 0x1000, 0xFFFF4800) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x7F5);
             (*q)++;
         }
         break;
     case 2:
         if (GFL_USE_IsAnySeBusy() == 0) {
-            INTRO_G3D_SetSlotAnim((char *)(((struct Obj08382 *)p)->f8), 1, 0, 1);
-            PM_VOICE_Start(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10));
+            INTRO_G3D_SetSlotAnim(work->mcss, 1, 0, 1);
+            PM_VOICE_Start(((IntroArgs *)work->args)->voiceId);
             (*q)++;
         }
         break;
     case 3:
-        if (PM_VOICE_IsSlotActive(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10)) == 0) {
+        if (PM_VOICE_IsSlotActive(((IntroArgs *)work->args)->voiceId) == 0) {
             *q = 0;
             return 1;
         }
@@ -686,46 +630,49 @@ int func_021BE7A8(u8 *p, u32 *q)
     return 0;
 }
 
-int func_021BE838(u8*p,u32 unused,u32*q){func_0207D63C((void*)0x04000050,1,9,0,0);INTRO_PARTICLE_StartEffect(*(u32* *)&((struct Obj25369 *)p)->f10,q[0],q[1],0);return 1;}
+int INTRO_CMD_CmdParticle(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;func_0207D63C((void*)0x04000050,1,9,0,0);INTRO_PARTICLE_StartEffect(work->particle,q[0],q[1],0);return 1;}
 
-int func_021BE864(char *a, int b, int *p)
+int INTRO_CMD_CmdSetVisible(char *a, int b, int *p)
 {
-    INTRO_G3D_SetVisible((char *)(((struct Obj25370 *)a)->fC), *p);
+    IntroCmdWork *work = (IntroCmdWork *)a;
+    INTRO_G3D_SetVisible(work->g3d, *p);
     return 1;
 }
 
-int func_021BE874(char *a, int b, int *p)
+int INTRO_CMD_CmdSetAnimFrame(char *a, int b, int *p)
 {
-    INTRO_G3D_SetAnimFrame((char *)(((struct Obj25372 *)a)->fC), *p);
+    IntroCmdWork *work = (IntroCmdWork *)a;
+    INTRO_G3D_SetAnimFrame(work->g3d, *p);
     return 1;
 }
 
-int func_021BE884(u8*p){if(INTRO_G3D_UpdateIntro(*(char* *)&((struct Obj25374 *)p)->fC))return 1;return 0;}
+int INTRO_CMD_CmdUpdateIntro(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(INTRO_G3D_UpdateIntro(work->g3d))return 1;return 0;}
 
 /*
  * lever: load the case-2 object once before q[1]'s comparison and reuse
  *   it in both arms; repeated arm loads gave 220 bytes/80 different.
  */
-int func_021BE898(char *p,u32 *q)
+int INTRO_CMD_CmdAnimMode(char *p,u32 *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     void *obj;
     switch (*q) {
     case 0:
-        INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,0);
+        INTRO_G3D_SetAnimMode(work->g3d,0);
         *q=4;
         break;
     case 1:
         if (KEY_GetTrg()&16) {
             if (q[1]!=1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,2);
+                INTRO_G3D_SetAnimMode(work->g3d,2);
                 q[1]=1;
                 *q=4;
             }
         } else if (KEY_GetTrg()&32) {
             if (q[1]!=0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,1);
+                INTRO_G3D_SetAnimMode(work->g3d,1);
                 q[1]=0;
                 *q=4;
             }
@@ -735,34 +682,34 @@ int func_021BE898(char *p,u32 *q)
         }
         break;
     case 2:
-        obj=**(void ** *)&((struct Obj03920 *)p)->f4;
+        obj=((IntroArgs *)work->args)->gameState;
         if (q[1]==0) {
             func_0200854C(obj,0);
-            INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,3);
+            INTRO_G3D_SetAnimMode(work->g3d,3);
         } else {
             func_0200854C(obj,1);
-            INTRO_G3D_SetAnimMode(*(char * *)&((struct Obj03920 *)p)->fC,4);
+            INTRO_G3D_SetAnimMode(work->g3d,4);
         }
         (*q)++;
         break;
     case 3:
-        if (INTRO_G3D_UpdateAnimMode(*(char * *)&((struct Obj03920 *)p)->fC)!=0) return 1;
+        if (INTRO_G3D_UpdateAnimMode(work->g3d)!=0) return 1;
         break;
     case 4:
-        if (INTRO_G3D_UpdateAnimMode(*(char * *)&((struct Obj03920 *)p)->fC)!=0) *q=1;
+        if (INTRO_G3D_UpdateAnimMode(work->g3d)!=0) *q=1;
         break;
     }
     return 0;
 }
 
-int func_021BE970(u8*p){if(INTRO_G3D_UpdateAnimFrame((int *)(*(char* *)&((struct Obj25376 *)p)->fC)))return 1;return 0;}
+int INTRO_CMD_CmdUpdateAnimFrame(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(INTRO_G3D_UpdateAnimFrame((int *)work->g3d))return 1;return 0;}
 
 /*
  * lever: unsigned integer p+0xA8 at the first paired call, member address
  *   at the second, keeps equivalent addresses apart; pointer-only was 364
  *   bytes/275 different, this spelling EXACT380 (existing distinct-arithmetic idiom).
  */
-int func_021BE984(struct S *p,u32 *q)
+int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q)
 {
     switch (*q) {
     case 0:
@@ -802,7 +749,7 @@ int func_021BE984(struct S *p,u32 *q)
 /*
  * extent: two bytes of zero alignment at 0x021BEBEA.
  */
-int func_021BEB00(void *p,u32 *q)
+int INTRO_CMD_CmdSetTile(void *p,u32 *q)
 {
     switch (*q) {
     case 0:
@@ -837,47 +784,48 @@ int func_021BEB00(void *p,u32 *q)
     return 0;
 }
 
-int func_021BEBEC(char *p)
+int INTRO_CMD_CreateActors(char *p)
 {
-    Init local;
+    IntroCmdWork *work = (IntroCmdWork *)p;
+    IntroActorPos local;
     void *arc;
     u32 i;
     char *row;
-    arc=func_020490F4(170,((struct Obj00550 *)p)->f0);
-    if(func_02008550(**(void ** *)&((struct Obj00550 *)p)->f4)==0){
-        ((struct Obj00550 *)p)->f10B4=(void *)CLACT_RegisterCharacter(arc,6,0,0,((struct Obj00550 *)p)->f0);
-        ((struct Obj00550 *)p)->f10C0=(void *)CLACT_RegisterPalette(arc,7,0,0,((struct Obj00550 *)p)->f0);
-        ((struct Obj00550 *)p)->f10CC=(void *)CLACT_RegisterCellAnim(arc,5,4,((struct Obj00550 *)p)->f0);
+    arc=func_020490F4(170,work->heapId);
+    if(func_02008550(((IntroArgs *)work->args)->gameState)==0){
+        work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
+        work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,7,0,0,work->heapId);
+        work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,5,4,work->heapId);
     }else{
-        ((struct Obj00550 *)p)->f10B4=(void *)CLACT_RegisterCharacter(arc,10,0,0,((struct Obj00550 *)p)->f0);
-        ((struct Obj00550 *)p)->f10C0=(void *)CLACT_RegisterPalette(arc,11,0,0,((struct Obj00550 *)p)->f0);
-        ((struct Obj00550 *)p)->f10CC=(void *)CLACT_RegisterCellAnim(arc,9,8,((struct Obj00550 *)p)->f0);
+        work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,10,0,0,work->heapId);
+        work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,11,0,0,work->heapId);
+        work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,9,8,work->heapId);
     }
-    ((struct Obj00550 *)p)->f10B8=(void *)CLACT_RegisterCharacter(arc,17,0,0,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10C4=(void *)CLACT_RegisterPalette(arc,18,0,32,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10D0=(void *)CLACT_RegisterCellAnim(arc,16,15,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10BC=(void *)CLACT_RegisterCharacter(arc,21,0,0,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10C8=(void *)CLACT_RegisterPalette(arc,22,0,64,((struct Obj00550 *)p)->f0);
-    ((struct Obj00550 *)p)->f10D4=(void *)CLACT_RegisterCellAnim(arc,20,19,((struct Obj00550 *)p)->f0);
+    work->charHandle[1].ptr=(void *)CLACT_RegisterCharacter(arc,17,0,0,work->heapId);
+    work->palHandle[1].ptr=(void *)CLACT_RegisterPalette(arc,18,0,32,work->heapId);
+    work->cellAnimHandle[1].ptr=(void *)CLACT_RegisterCellAnim(arc,16,15,work->heapId);
+    work->charHandle[2].ptr=(void *)CLACT_RegisterCharacter(arc,21,0,0,work->heapId);
+    work->palHandle[2].ptr=(void *)CLACT_RegisterPalette(arc,22,0,64,work->heapId);
+    work->cellAnimHandle[2].ptr=(void *)CLACT_RegisterCellAnim(arc,20,19,work->heapId);
     ARC_TOOL_DeleteHandle(arc);
-    local=init;
+    local=gIntroActorPos;
     for(i=0;i<3;i++){
         row=p+i*4;
-        ((struct Obj06672 *)row)->f10A8=CLACT_CreateActor((void *)func_021BDD78(((struct Obj00550 *)p)->f14),(unsigned int)((struct Obj06672 *)row)->f10B4,(unsigned int)((struct Obj06672 *)row)->f10C0,(unsigned int)((struct Obj06672 *)row)->f10CC,(char *)&local+i*8,0,((struct Obj00550 *)p)->f0);
-        CLACT_SetActorDrawEnable(((struct Obj06672 *)row)->f10A8,0);
+        work->actor[i]=(void *)CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner(work->display),(unsigned int)work->charHandle[i].ptr,(unsigned int)work->palHandle[i].ptr,(unsigned int)work->cellAnimHandle[i].ptr,(char *)&local+i*8,0,work->heapId);
+        CLACT_SetActorDrawEnable(work->actor[i],0);
     }
     return 1;
 }
 
-int func_021BED6C(char *p)
+int INTRO_CMD_DeleteActors(char *p)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     unsigned i;
     for (i = 0; i < 3; i++) {
-        char *q = p + i * 4;
-        CLACT_ReleaseCharacter(((struct Obj08383 *)q)->f10B4);
-        CLACT_ReleasePalette(((struct Obj08383 *)q)->f10C0);
-        CLACT_ReleaseCellAnim(((struct Obj08383 *)q)->f10CC);
-        CLACT_DeleteActor(((struct Obj08383 *)q)->f10A8);
+        CLACT_ReleaseCharacter(work->charHandle[i].id);
+        CLACT_ReleasePalette(work->palHandle[i].id);
+        CLACT_ReleaseCellAnim(work->cellAnimHandle[i].id);
+        CLACT_DeleteActor(work->actor[i]);
     }
     return 1;
 }
@@ -887,21 +835,21 @@ static inline void change_alpha(int a, int b)
     *(volatile unsigned short *)0x04000052 = (unsigned short)(a | (b << 8));
 }
 
-int func_021BEDB8(char *p, unsigned *state, unsigned *q)
+int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     unsigned i;
     switch (*state) {
     case 0:
         func_0207D63C((volatile void *)0x04000050, 0, 12, 0, 16);
-        CLACT_SetActorObjMode(*(void **)(p + 0x10a8 + q[0] * 4), 1);
-        CLACT_SetActorDrawEnable(*(void **)(p + 0x10a8 + q[0] * 4), 1);
+        CLACT_SetActorObjMode(work->actor[q[0]], 1);
+        CLACT_SetActorDrawEnable(work->actor[q[0]], 1);
         ++*state;
         break;
     case 16:
         for (i = 0; i < 3; i++) {
-            char *row = p + i * 4;
-            if (CLACT_GetActorObjMode(((struct Obj14616 *)row)->f10A8) == 1)
-                CLACT_SetActorObjMode(((struct Obj14616 *)row)->f10A8, 0);
+            if (CLACT_GetActorObjMode(work->actor[i]) == 1)
+                CLACT_SetActorObjMode(work->actor[i], 0);
         }
         *state = 0;
         return 1;
@@ -916,21 +864,21 @@ int func_021BEDB8(char *p, unsigned *state, unsigned *q)
 /*
  * volatile: hardware BLDALPHA write at 021BEEDC.
  */
-int func_021BEE5C(char *p, unsigned *state, unsigned *q)
+int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
 {
+    IntroCmdWork *work = (IntroCmdWork *)p;
     unsigned i;
     switch (*state) {
     case 0:
         func_0207D63C((volatile void *)0x04000050, 0, 12, 16, 0);
         for (i = 0; i < 3; i++)
-            CLACT_SetActorObjMode(*(void **)(p + 0x10a8 + i * 4), 1);
+            CLACT_SetActorObjMode(work->actor[i], 1);
         ++*state;
         break;
     case 16:
         for (i = 0; i < 3; i++) {
-            char *row = p + i * 4;
-            CLACT_SetActorObjMode(((struct Obj14617 *)row)->f10A8, 0);
-            CLACT_SetActorDrawEnable(((struct Obj14617 *)row)->f10A8, 0);
+            CLACT_SetActorObjMode(work->actor[i], 0);
+            CLACT_SetActorDrawEnable(work->actor[i], 0);
         }
         *state = 0;
         return 1;
@@ -942,89 +890,87 @@ int func_021BEE5C(char *p, unsigned *state, unsigned *q)
     return 0;
 }
 
-int func_021BEEF0(u8*p){if(!func_02008550(**(struct Sub0200852CObj** *)&((struct Obj25378 *)p)->f4))return 1;return 0;}
+int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!func_02008550(((IntroArgs *)work->args)->gameState))return 1;return 0;}
 
-void func_021BEF08(u8*p,u32 a){struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(*(u8* *)&((struct Obj14618 *)p)->f18);WORDSET_SetSlotMyStatus(q,a,**(void** *)&((struct Obj14618 *)p)->f4);}
+void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(work->msg);WORDSET_SetSlotMyStatus(q,a,((IntroArgs *)work->args)->gameState);}
 
-char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
+char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
 {
-    char *p = func_02030734(heap, 0x10d8, 1, d_021C0AAC, 0x6f2);
-    ((struct Obj03921 *)p)->f0 = heap;
-    *(char * *)&((struct Obj03921 *)p)->f4 = d;
-    ((struct Obj03921 *)p)->f8 = c;
-    ((struct Obj03921 *)p)->fC = a;
-    ((struct Obj03921 *)p)->f10 = b;
-    ((struct Obj03921 *)p)->f14 = e;
-    ((struct Obj03921 *)p)->fA4 = ((struct Obj25381 *)d)->fC;
-    ((struct Obj03921 *)p)->f18 = INTRO_MSG_Create(heap);
-    return p;
+    IntroCmdWork *work = func_02030734(heap, 0x10d8, 1, gIntroCmdSite, 0x6f2);
+    work->heapId = heap;
+    work->args = d;
+    work->mcss = (void *)c;
+    work->g3d = a;
+    work->particle = (void *)b;
+    work->display = (void *)e;
+    work->saveControl = ((IntroArgs *)d)->saveControl;
+    work->msg = INTRO_MSG_Create(heap);
+    return (char *)work;
 }
 
-void func_021BEF74(u8*p){INTRO_MSG_Delete(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}
+void INTRO_CMD_Delete(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;INTRO_MSG_Delete(work->msg);func_020307B0(work);}
 
-extern int (*const d_021C09D8[])(void *, void *, void *);
+extern int (*const gIntroCmdCommandTable[])(void *, void *, void *);
 
-int func_021BEF88(char *p)
+int INTRO_CMD_Main(char *p)
 {
-    INTRO_MSG_Main(((struct Obj06673 *)p)->f18);
-    if (func_021BF030((struct State *)p) == 0) {
+    IntroCmdWork *work = (IntroCmdWork *)p;
+    INTRO_MSG_Main(work->msg);
+    if (INTRO_CMD_RunCommands(work) == 0) {
         char *base = p;
         int i;
         base += 0x40;
         for (i = 0; i < 9; i++) {
-            Row *row = func_021BF094(((struct Obj06673 *)p)->f1C) + ((struct Obj06673 *)p)->fA0;
+            IntroCommand *row = INTRO_CMD_GetScenarioRow(work->scenarioId) + work->rowIndex;
             if (row->tag == 1) {
-                d_021C09D8[row->tag](p, base + i * 12, row->data);
-                row = func_021BF094(((struct Obj06673 *)p)->f1C);
+                gIntroCmdCommandTable[row->tag](p, base + i * 12, row->data);
+                row = INTRO_CMD_GetScenarioRow(work->scenarioId);
             }
             if (row->tag == 0x34)
                 return 0;
-            ++((struct Obj06673 *)p)->fA0;
-            if (!func_021BF00C((struct S021BF00C *)p, (struct Q021BF00C *)row))
+            ++work->rowIndex;
+            if (!INTRO_CMD_AddCommand(work, row))
                 break;
         }
     }
     return 1;
 }
 
-int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q)
+int INTRO_CMD_AddCommand(IntroCmdWork *p, IntroCommand *q)
 {
     int i;
     for (i = 0; i < 8; i++)
     {
-        if (p->slots[i] == 0)
+        if (p->commands[i] == 0)
         {
-            p->slots[i] = q;
+            p->commands[i] = q;
             break;
         }
     }
-    return q->b;
+    return q->tail.bits.flag;
 }
 
-extern int (*const d_021C09D8[])(void *, void *, void *);
+extern int (*const gIntroCmdCommandTable[])(void *, void *, void *);
 
-int func_021BF030(State *p)
+int INTRO_CMD_RunCommands(IntroCmdWork *p)
 {
     int result = 0;
     int i;
     for (i = 0; i < 8; i++) {
-        Command *q = p->commands[i];
+        IntroCommand *q = p->commands[i];
         if (q) {
-            if (!d_021C09D8[q->tag](p, &p->slots[i], q->data)) result = 1;
-            else func_021BF080((char *)p, i);
+            if (!gIntroCmdCommandTable[q->tag](p, &p->slots[i], q->data)) result = 1;
+            else INTRO_CMD_ClearCommand(p, i);
         }
     }
     return result;
 }
 
-void func_021BF080(char *p, u8 i)
+void INTRO_CMD_ClearCommand(IntroCmdWork *p, u8 i)
 {
-    char *q;
-
-    *(int *)(p + i * 4 + 0x20) = 0;
-    q = p + i * 0xC;
-    ((struct Obj14620 *)q)->f40 = 0;
-    ((struct Obj14620 *)q)->f44 = 0;
+    p->commands[i] = 0;
+    p->slots[i].data[0] = 0;
+    p->slots[i].data[1] = 0;
 }
 
-Row *func_021BF094(u32 n){return *(Row **)((u32)d_021C0AB8+n*4);}
+IntroCommand *INTRO_CMD_GetScenarioRow(u32 n){return *(IntroCommand **)((u32)gIntroScenarioTables+n*4);}

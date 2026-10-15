@@ -1,5 +1,5 @@
 /*
- * function: func_021DA3B8
+ * function: WF2DMAP_SCENE_CreateOam
  * address:  0x021DA3B8
  * packet:   pkt_021DA3B8
  * region:   ov129
@@ -18,7 +18,7 @@
 
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 
-void func_021DA3B8(char *p)
+void WF2DMAP_SCENE_CreateOam(char *p)
 {
     void *x = BMP_OAM_CreateSys(0x32, ((struct Obj14061 *)p)->f25C);
 

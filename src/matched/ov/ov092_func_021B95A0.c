@@ -37,13 +37,13 @@ struct W {
 };
 
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *PROCSYS_Create(int a0);
 
-int EVENT_BATTLE_RETURN_Init(struct Obj0203159C *a0)
+int EVENT_BATTLE_RETURN_Init(struct Proc *a0)
 {
     struct W *p;
 

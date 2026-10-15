@@ -74,12 +74,12 @@
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -355,12 +355,12 @@ extern unsigned int G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_020403F4(unsigned int);
+extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -909,13 +909,13 @@ void P_STATUS_ExitGraphics(PStatusWork *wk)
     G3D_SYSTEM_Exit();
     CLACT_DeleteUnit(wk->clunit);
     CLACT_ExitSystem();
-    func_020403F4(5);
-    func_020403F4(6);
-    func_020403F4(7);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -940,7 +940,7 @@ void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
     BG_SYS_InitBgLayer(bg,(const struct BgTemplate *)cfg,mode);
     func_02040588(bg,1);
     BG_SYS_FreeSlot(bg);
-    func_020409B4(bg);
+    BG_SYS_PushTile(bg);
 }
 
 

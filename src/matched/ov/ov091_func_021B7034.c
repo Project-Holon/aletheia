@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  */
 
 typedef unsigned int   u32;
-void func_020403F4(u32 i);
+void BG_SYS_FreeLayerBuf(u32 i);
 
 void POKELIST_ShutdownBgPlane0(void)
 {
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(0);
 }

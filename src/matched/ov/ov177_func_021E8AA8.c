@@ -1,5 +1,5 @@
 /*
- * function: func_021E8AA8
+ * function: WIFIBATTLEMATCH_UTIL_ClearCallback
  * address:  0x021E8AA8
  * packet:   pkt_021E8AA8
  * region:   ov177
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8AA8   0x021E8AA8  thumb ov177
- *   func_021E8AA0   0x021E8AA0  thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback   0x021E8AA8  thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback   0x021E8AA0  thumb ov177
  *
- * Unlabelled ov177 thunk hidden in a word run: tail-calls func_021E8AA0 with
+ * Unlabelled ov177 thunk hidden in a word run: tail-calls WIFIBATTLEMATCH_UTIL_SetCallback with
  * its second argument zeroed.  Matched to supply the `matched` witness for the
  * pending ov175 caller WIFIBATTLEMATCH_NET_TaskCleanupB.
  */
 
-extern void func_021E8AA0(int *p, int v);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
-void func_021E8AA8(int a)
+void WIFIBATTLEMATCH_UTIL_ClearCallback(int a)
 {
-    func_021E8AA0((int *)a, 0);
+    WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, 0);
 }

@@ -17,14 +17,14 @@
  *   strlen  0x0209477C  arm
  *   DWCi_Http_AddResult  0x0217A344  arm  ov009
  *   strncmp  0x020949F4  arm
- *   g_021A25D4     0x021A25D4  data ov009
- *   g_021A26B4     0x021A26B4  data ov009
- *   g_021A26B8     0x021A26B8  data ov009
- *   g_021A26C4     0x021A26C4  data ov009
- *   g_021A2604     0x021A2604  data ov009
- *   g_021A26C8     0x021A26C8  data ov009
- *   g_021A26CC     0x021A26CC  data ov009
- *   g_021A26D0     0x021A26D0  data ov009
+ *   gDwcHttpHeaderTerminator     0x021A25D4  data ov009
+ *   gDwcHttpSpace     0x021A26B4  data ov009
+ *   gDwcHttpLabelHttpResult     0x021A26B8  data ov009
+ *   gDwcHttpStatusOk     0x021A26C4  data ov009
+ *   gDwcHttpCrLf     0x021A2604  data ov009
+ *   gDwcHttpColonSpace     0x021A26C8  data ov009
+ *   gDwcHttpEquals     0x021A26CC  data ov009
+ *   gDwcHttpAmpersand     0x021A26D0  data ov009
  */
 
 typedef struct DWCHttpBuffer {
@@ -64,14 +64,14 @@ extern int strlen(const u8 *s);
 extern int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 
-extern const char g_021A25D4[];
-extern const char g_021A26B4[];
-extern char g_021A26B8[];
-extern const char g_021A26C4[];
-extern const char g_021A2604[];
-extern const char g_021A26C8[];
-extern const char g_021A26CC[];
-extern const char g_021A26D0[];
+extern const char gDwcHttpHeaderTerminator[];
+extern const char gDwcHttpSpace[];
+extern char gDwcHttpLabelHttpResult[];
+extern const char gDwcHttpStatusOk[];
+extern const char gDwcHttpCrLf[];
+extern const char gDwcHttpColonSpace[];
+extern const char gDwcHttpEquals[];
+extern const char gDwcHttpAmpersand[];
 
 int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
 {
@@ -93,38 +93,38 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
     MI_CpuFill8(http->labelvalue, 0, sizeof(http->labelvalue));
 
     buffer = http->rep.buffer;
-    httpbody_top = (char *)strstr((const unsigned char *)buffer, (const unsigned char *)g_021A25D4);
+    httpbody_top = (char *)strstr((const unsigned char *)buffer, (const unsigned char *)gDwcHttpHeaderTerminator);
     if (httpbody_top == 0)
         return 0;
     httpbody_end = httpbody_top + 4 + strlen((const u8 *)(httpbody_top + 4));
 
-    p_char1 = (char *)strstr((const unsigned char *)buffer, (const unsigned char *)g_021A26B4);
+    p_char1 = (char *)strstr((const unsigned char *)buffer, (const unsigned char *)gDwcHttpSpace);
     if (p_char1 == 0)
         return 0;
     temp = p_char1[4];
     p_char1[4] = 0;
-    if (DWCi_Http_AddResult(http, &parse_result, g_021A26B8, p_char1 + 1) != 1) {
+    if (DWCi_Http_AddResult(http, &parse_result, gDwcHttpLabelHttpResult, p_char1 + 1) != 1) {
         p_char1[4] = temp;
         return 0;
     }
     p_char1[4] = temp;
 
-    if (noparsebody == 1 || strncmp((const u8 *)(p_char1 + 1), (const u8 *)g_021A26C4, 3) != 0)
+    if (noparsebody == 1 || strncmp((const u8 *)(p_char1 + 1), (const u8 *)gDwcHttpStatusOk, 3) != 0)
         return 1;
 
-    index = (char *)strstr((const unsigned char *)(p_char1 + 5), (const unsigned char *)g_021A2604);
+    index = (char *)strstr((const unsigned char *)(p_char1 + 5), (const unsigned char *)gDwcHttpCrLf);
     if (index == 0)
         return 0;
     index += 2;
 
     while (*index != '\r' && *(index + 1) != '\n') {
-        p_char1 = (char *)strstr((const unsigned char *)index, (const unsigned char *)g_021A26C8);
+        p_char1 = (char *)strstr((const unsigned char *)index, (const unsigned char *)gDwcHttpColonSpace);
         if (p_char1 == 0)
             break;
         p_char1_temp = *p_char1;
         value = p_char1 + 2;
         *p_char1 = 0;
-        p_char2 = (char *)strstr((const unsigned char *)value, (const unsigned char *)g_021A2604);
+        p_char2 = (char *)strstr((const unsigned char *)value, (const unsigned char *)gDwcHttpCrLf);
         if (p_char2 == 0) {
             *p_char1 = p_char1_temp;
             break;
@@ -143,15 +143,15 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
 
     index = httpbody_top + 4;
     while (index < httpbody_end) {
-        buffer = (char *)strstr((const unsigned char *)index, (const unsigned char *)g_021A26CC);
+        buffer = (char *)strstr((const unsigned char *)index, (const unsigned char *)gDwcHttpEquals);
         if (buffer == 0)
             break;
         p_char1_temp = *buffer;
         p_char1 = buffer + 1;
         *buffer = 0;
-        p_char2 = (char *)strstr((const unsigned char *)p_char1, (const unsigned char *)g_021A26D0);
+        p_char2 = (char *)strstr((const unsigned char *)p_char1, (const unsigned char *)gDwcHttpAmpersand);
         if (p_char2 == 0)
-            p_char2 = (char *)strstr((const unsigned char *)p_char1, (const unsigned char *)g_021A2604);
+            p_char2 = (char *)strstr((const unsigned char *)p_char1, (const unsigned char *)gDwcHttpCrLf);
         if (p_char2 != 0) {
             p_char2_temp = *p_char2;
             *p_char2 = 0;

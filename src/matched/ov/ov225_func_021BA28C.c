@@ -1,5 +1,5 @@
 /*
- * function: func_021BA28C
+ * function: MANUAL_COMMON_DrawTouchbarIdle
  * address: 0x021BA28C
  * packet: pkt_ov225_021BA28C
  * region: ov225
@@ -16,4 +16,4 @@
 #include "../include/Obj08469.h"
 #include "../include/Obj26153.h"
 struct PrintSys;struct Descriptor;struct CharBuf;extern void PRINTSYS_QUE_Clear(struct PrintSys *);extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(struct CharBuf *,unsigned char),BMP_WIN_TransferChars(struct Descriptor *);
-void func_021BA28C(char *p){PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26153 *)(*(char * *)&((struct Obj08469 *)p)->f0))->f18);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj08469 *)p)->f14),0);BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj08469 *)p)->f14);((struct Obj08469 *)p)->f1C=0;}
+void MANUAL_COMMON_DrawTouchbarIdle(char *p){PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26153 *)(*(char * *)&((struct Obj08469 *)p)->f0))->f18);BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj08469 *)p)->f14),0);BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj08469 *)p)->f14);((struct Obj08469 *)p)->f1C=0;}

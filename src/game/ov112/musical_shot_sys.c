@@ -86,12 +86,12 @@
  *   func_0207DCF8  0x0207DCF8  arm
  *   BILLBOARD_Create  0x0204EBD4  arm
  *   BILLBOARD_SetScale  0x0204ED70  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_021F81AC  0x021F81AC  data  a4
  *   d_021F81B8  0x021F81B8  data  ov112  a4
@@ -105,7 +105,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
@@ -130,14 +130,10 @@
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
  */
-#include "../../matched/include/Obj00587.h"
-#include "../../matched/include/Obj08019.h"
-#include "../../matched/include/Obj10295.h"
-
-struct Obj0203159C;
+struct Proc;
 struct RtcDate;
 struct Node;
-struct S020315D4;
+struct Proc;
 struct Cfg;
 struct DispConfig;
 struct DispVram;
@@ -155,8 +151,6 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct {u32 a:5,b:4,c:7,d:5,e:6,f:5;} Settings;
-
 typedef struct {u32 x,y,z,week;} Options;
 
 typedef struct {u32 a,b;u8 *config;u32 c,d;} Save;
@@ -166,10 +160,6 @@ typedef struct {u16 heap,pad;void *task;Save *save;void *scene,*actors;} State;
 typedef enum {ConfigSize=432} AllocSize;
 
 typedef short s16;
-
-struct F5 { u32 v : 5; };
-
-struct BF { u16 a : 2; u16 c : 1; u16 b : 5; };
 
 typedef struct { u32 w[7]; } T28;
 
@@ -182,18 +172,59 @@ typedef struct
   int z;
 } Vec;
 
-typedef struct 
+/* The gender/shiny/form bitfield at the top of a performer (offset 0x02). */
+typedef struct { u16 gender : 2; u16 shiny : 1; u16 form : 5; } MusicalPerformerBits;
+
+/* One prop slot of a show performer (MusicalShowEquip in ov010). */
+typedef struct
 {
-  u32 low : 5;
-  u32 flags : 4;
-  u32 high : 23;
-} Flags;
+  u16 propId;
+  s16 offset;
+  u8 bodySlot;
+  u8 pad[3];
+} MusicalShowProp;
+
+/* One performer of a show (MusicalShowPerformer in ov010, 0x58 bytes). */
+typedef struct
+{
+  u16 monsNo;
+  u16 gender : 2;
+  u16 shiny : 1;
+  u16 form : 5;
+  u32 personality;
+  u16 name[8];
+  MusicalShowProp props[8];
+} MusicalShowPerformer;
+
+/* A performer seen from the record base plus 0x58 per slot. The original code
+   indexes the record by 0x58, so the view starts on the record header word. */
+typedef struct
+{
+  u32 recordHeader;
+  MusicalShowPerformer performer;
+} MusicalShowPerformerView;
+
+/* The show record stored in the musical save (MusicalShowRecord in ov010, 0x1B0 bytes). */
+typedef struct
+{
+  u32 programId : 5;
+  u32 winnerMask : 4;
+  u32 year : 7;
+  u32 month : 5;
+  u32 day : 6;
+  u32 localSlot : 2;
+  u32 reserved : 3;
+  MusicalShowPerformer performers[4];
+  u16 title[0x25];
+  u8 showType;
+  u8 valid;
+} MusicalShowRecord;
 
 typedef struct 
 {
   u16 heap;
   u16 pad;
-  Flags *record;
+  MusicalShowRecord *record;
   u8 *objects[4];
   void *camera;
   void *board;
@@ -211,7 +242,7 @@ typedef struct
 } ShotScene;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern int func_02034AC4(int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
@@ -227,7 +258,7 @@ extern void MUSICAL_MCSS_Delete(u8 *);
 extern void func_02030EAC(struct Node *n);
 extern void func_02034A5C(int);
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void MUSICAL_MCSS_Main(u8 *p);
 extern int MUSICAL_MCSS_NoOp2(u32 *p);
@@ -280,17 +311,17 @@ extern void func_02048AD0(struct Light *l);
 extern void func_0207DCF8(const void *a);
 extern void *BILLBOARD_Create(u8 *src, void *heap);
 extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
@@ -352,8 +383,8 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   p->save->b=0;
   cfg=p->save->config;
   GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&options));
-  ((Settings *)cfg)->a=3;((Settings *)cfg)->b=(u8)2;
-  ((Settings *)cfg)->c=options.x;((Settings *)cfg)->d=options.y;((Settings *)cfg)->e=options.z;
+  ((MusicalShowRecord *)cfg)->programId=3;((MusicalShowRecord *)cfg)->winnerMask=(u8)2;
+  ((MusicalShowRecord *)cfg)->year=options.x;((MusicalShowRecord *)cfg)->month=options.y;((MusicalShowRecord *)cfg)->day=options.z;
   *(u16 *)((u32)cfg+(length-0x4C))=0x30DD;
   *(u16 *)((u32)cfg+(length-0x4A))=0x30B1;
   *(u16 *)((u32)cfg+(length-0x48))=0x30C3;
@@ -367,20 +398,20 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   *(u16 *)((u32)cfg+(length-0x38))=0x30FC;
   *(u16 *)((u32)cfg+(length-0x36))=0x30EA;
   *(u16 *)((u32)cfg+(length-0x34))=STRBUF_GetEosChar();
-  ((struct Obj08019 *)cfg)->f4=643;((struct Obj08019 *)cfg)->f5C=643;((struct Obj08019 *)cfg)->fB4=643;((struct Obj08019 *)cfg)->f10C=643;
+  ((MusicalShowRecord *)cfg)->performers[0].monsNo=643;((MusicalShowRecord *)cfg)->performers[1].monsNo=643;((MusicalShowRecord *)cfg)->performers[2].monsNo=643;((MusicalShowRecord *)cfg)->performers[3].monsNo=643;
   for(i=0;i<4;i++){
    u8 *q;
    q=cfg+88U*i;
-   ((struct Obj00587 *)q)->fC=0x30C8;((struct Obj00587 *)q)->fE=0x30EC;((struct Obj00587 *)q)->f10=0x30FC;((struct Obj00587 *)q)->f12=0x30CA;((struct Obj00587 *)q)->f14=0xFF11+i;((struct Obj00587 *)q)->f16=0;
-   for(j=0;j<8;j++){u8 *slot;slot=q+8*j;((struct Obj10295 *)slot)->f1C=255;((struct Obj10295 *)slot)->f1E=0;((struct Obj10295 *)slot)->f20=10;}
+   ((MusicalShowPerformerView *)q)->performer.name[0]=0x30C8;((MusicalShowPerformerView *)q)->performer.name[1]=0x30EC;((MusicalShowPerformerView *)q)->performer.name[2]=0x30FC;((MusicalShowPerformerView *)q)->performer.name[3]=0x30CA;((MusicalShowPerformerView *)q)->performer.name[4]=0xFF11+i;((MusicalShowPerformerView *)q)->performer.name[5]=0;
+   for(j=0;j<8;j++){u8 *slot;slot=q+8*j;((MusicalShowPerformerView *)slot)->performer.props[0].propId=255;((MusicalShowPerformerView *)slot)->performer.props[0].offset=0;((MusicalShowPerformerView *)slot)->performer.props[0].bodySlot=10;}
    q=cfg+88*i;
-   ((struct Obj00587 *)q)->f1C=11;((struct Obj00587 *)q)->f1E=0;q[32]=7;
-   ((struct Obj00587 *)q)->f24=11;((struct Obj00587 *)q)->f26=0;q[40]=8;
-   ((struct Obj00587 *)q)->f2C=11;((struct Obj00587 *)q)->f2E=0;q[48]=6;
-   ((struct Obj00587 *)q)->f34=11;((struct Obj00587 *)q)->f36=0;q[56]=4;
-   ((struct Obj00587 *)q)->f3C=11;((struct Obj00587 *)q)->f3E=0;q[64]=2;
-   ((struct Obj00587 *)q)->f44=11;((struct Obj00587 *)q)->f46=0;q[72]=1;
-   ((struct Obj00587 *)q)->f4C=11;((struct Obj00587 *)q)->f4E=0;q[80]=0;
+   ((MusicalShowPerformerView *)q)->performer.props[0].propId=11;((MusicalShowPerformerView *)q)->performer.props[0].offset=0;((MusicalShowPerformerView *)q)->performer.props[0].bodySlot=7;
+   ((MusicalShowPerformerView *)q)->performer.props[1].propId=11;((MusicalShowPerformerView *)q)->performer.props[1].offset=0;((MusicalShowPerformerView *)q)->performer.props[1].bodySlot=8;
+   ((MusicalShowPerformerView *)q)->performer.props[2].propId=11;((MusicalShowPerformerView *)q)->performer.props[2].offset=0;((MusicalShowPerformerView *)q)->performer.props[2].bodySlot=6;
+   ((MusicalShowPerformerView *)q)->performer.props[3].propId=11;((MusicalShowPerformerView *)q)->performer.props[3].offset=0;((MusicalShowPerformerView *)q)->performer.props[3].bodySlot=4;
+   ((MusicalShowPerformerView *)q)->performer.props[4].propId=11;((MusicalShowPerformerView *)q)->performer.props[4].offset=0;((MusicalShowPerformerView *)q)->performer.props[4].bodySlot=2;
+   ((MusicalShowPerformerView *)q)->performer.props[5].propId=11;((MusicalShowPerformerView *)q)->performer.props[5].offset=0;((MusicalShowPerformerView *)q)->performer.props[5].bodySlot=1;
+   ((MusicalShowPerformerView *)q)->performer.props[6].propId=11;((MusicalShowPerformerView *)q)->performer.props[6].offset=0;((MusicalShowPerformerView *)q)->performer.props[6].bodySlot=0;
   }
   if(KEY_GetCont()&256)p->save->a=1;else p->save->a=0;
   p->save->c=0;
@@ -472,7 +503,7 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
     for (i = 0; i < 4; i++) {
         u32 off = i * 0x58;
         u8 *row;
-        *(u32 *)(o + i * 4 + 8) = (u32)MUSICAL_MCSS_AllocMon(*(u16 *)(src + off + 4), (u8)((struct BF *)(src + 6 + off))->a, (u8)((struct BF *)(src + 6 + off))->b, (u8)((struct BF *)(src + 6 + off))->c, *(u32 *)(src + off + 8), heap);
+        *(u32 *)(o + i * 4 + 8) = (u32)MUSICAL_MCSS_AllocMon(*(u16 *)(src + off + 4), (u8)((MusicalPerformerBits *)(src + 6 + off))->gender, (u8)((MusicalPerformerBits *)(src + 6 + off))->form, (u8)((MusicalPerformerBits *)(src + 6 + off))->shiny, *(u32 *)(src + off + 8), heap);
         row = (u8 *)((u32)src + off);
         for (j = 0; j < 8; j++) {
             u8 k = row[j * 8 + 0x20];
@@ -487,7 +518,7 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
     MUSICAL_SHOT_SYS_InitActors((ShotScene *)o);
     MUSICAL_MCSS_DrawLabel(o);
     ((ShotScene *)o)->model = STA_ACT_LIGHT_AllocElem(*(u16 *)o, 0);
-    STA_ACT_LIGHT_CreateModel(((ShotScene *)o)->model, (u8)((struct F5 *)((ShotScene *)o)->record)->v);
+    STA_ACT_LIGHT_CreateModel(((ShotScene *)o)->model, (u8)((ShotScene *)o)->record->programId);
     STA_ACT_LIGHT_SetElemFrame(((ShotScene *)o)->sprite, 0x80);
     STA_ACT_LIGHT_SetModelFrame(((ShotScene *)o)->model, 0x80);
     return o;
@@ -597,7 +628,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);
-    func_02040618(2, 3, 0xE0);
+    BG_SYS_FillScrollArea(2, 3, 0xE0);
     h = func_020490F4(0x2F, *(u16 *)p);
     ARC_UTIL_UploadPaletteFromHandle(h, 3, 0, 0, 0, 0x20, *(u16 *)p);
     func_02049658(h, 9, 2, 0, 0, 0, *(u16 *)p);
@@ -605,8 +636,8 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     ARC_UTIL_UploadPaletteFromHandle(h, 2, 0, 0x20, 0x20, 0x20, *(u16 *)p);
     func_02049658(h, 8, 3, 0, 0, 0, *(u16 *)p);
     func_020498F4(h, 0xE, 3, 0, 0, 0, *(u16 *)p);
-    func_020409B4(2);
-    func_020409B4(3);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(3);
     ARC_TOOL_DeleteHandle(h);
     func_0207D63C((void *)0x04000050, 8, 1, 0, 0xA);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x8000;
@@ -615,10 +646,10 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
 }
 
 
-void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); func_020409B4(b); }
+void MUSICAL_SHOT_SYS_LoadBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
 
 
-void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { func_020403F4(3); func_020403F4(1); func_020403F4(2); BILLBOARD_Delete(((ShotScene *)p)->board); G3D_CAMERA_Delete(((ShotScene *)p)->camera); G3D_SYSTEM_Exit(); func_020403F4(0); }
+void MUSICAL_SHOT_SYS_Exit3D(u8 *p) { BG_SYS_FreeLayerBuf(3); BG_SYS_FreeLayerBuf(1); BG_SYS_FreeLayerBuf(2); BILLBOARD_Delete(((ShotScene *)p)->board); G3D_CAMERA_Delete(((ShotScene *)p)->camera); G3D_SYSTEM_Exit(); BG_SYS_FreeLayerBuf(0); }
 
 
 /*
@@ -663,7 +694,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
     }
   }
 
-  flags = p->record->flags;
+  flags = p->record->winnerMask;
   for (i = 0, mask = 1; i < 4; i++, mask <<= 1)
   {
     if (!(flags & mask))
@@ -692,7 +723,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
     offset = 4 * i;
     row = (u8 *)(((u32)p) + offset);
     scale.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
-    if (p->record->flags & mask)
+    if (p->record->winnerMask & mask)
     {
       u8 *actor;
       temp = base;

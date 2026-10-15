@@ -27,7 +27,7 @@
  *   DWCi_ShutdownTransport  0x0217772C  arm  ov009
  *   gt2CloseSocket  0x02195AD8  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
- *   g_021AA878     0x021AA878  data
+ *   gDwcGlobalState     0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -46,7 +46,7 @@ typedef struct {
     void *sb;
 } Ctl;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 struct ServerBrowser;
 struct qr2_implementation_s;
@@ -68,38 +68,38 @@ extern void func_0205A1B0(int name, void *ptr, long size);
 
 void DWC_ShutdownFriendsMatch(void)
 {
-    if (g_021AA878.st == 0)
+    if (gDwcGlobalState.st == 0)
         return;
-    if (((Ctl *)g_021AA878.st)->qr2 != 0) {
-        qr2_shutdown(((Ctl *)g_021AA878.st)->qr2);
-        ((Ctl *)g_021AA878.st)->qr2 = 0;
+    if (((Ctl *)gDwcGlobalState.st)->qr2 != 0) {
+        qr2_shutdown(((Ctl *)gDwcGlobalState.st)->qr2);
+        ((Ctl *)gDwcGlobalState.st)->qr2 = 0;
     }
-    ((Ctl *)g_021AA878.st)->flag = 0;
-    if (((Ctl *)g_021AA878.st)->sb != 0) {
-        ServerBrowserFree(((Ctl *)g_021AA878.st)->sb);
-        ((Ctl *)g_021AA878.st)->sb = 0;
+    ((Ctl *)gDwcGlobalState.st)->flag = 0;
+    if (((Ctl *)gDwcGlobalState.st)->sb != 0) {
+        ServerBrowserFree(((Ctl *)gDwcGlobalState.st)->sb);
+        ((Ctl *)gDwcGlobalState.st)->sb = 0;
     }
     func_02176B34();
     DWCi_BeginCloseStatsConnection();
     CloseStatsConnection();
     DWCi_EndCloseStatsConnection();
-    if (((Ctl *)g_021AA878.st)->gpConn != 0) {
-        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 0, 0, 0);
-        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 3, 0, 0);
-        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 1, 0, 0);
-        func_0218597C(&((Ctl *)g_021AA878.st)->gpConn, 2, 0, 0);
-        func_02185948(&((Ctl *)g_021AA878.st)->gpConn);
-        gpDestroy((int **)(&((Ctl *)g_021AA878.st)->gpConn));
-        ((Ctl *)g_021AA878.st)->gpConn = 0;
+    if (((Ctl *)gDwcGlobalState.st)->gpConn != 0) {
+        func_0218597C(&((Ctl *)gDwcGlobalState.st)->gpConn, 0, 0, 0);
+        func_0218597C(&((Ctl *)gDwcGlobalState.st)->gpConn, 3, 0, 0);
+        func_0218597C(&((Ctl *)gDwcGlobalState.st)->gpConn, 1, 0, 0);
+        func_0218597C(&((Ctl *)gDwcGlobalState.st)->gpConn, 2, 0, 0);
+        func_02185948(&((Ctl *)gDwcGlobalState.st)->gpConn);
+        gpDestroy((int **)(&((Ctl *)gDwcGlobalState.st)->gpConn));
+        ((Ctl *)gDwcGlobalState.st)->gpConn = 0;
     }
     DWCi_ShutdownLogin();
     DWCi_ShutdownFriend();
     func_0216F334();
     DWCi_ShutdownTransport();
-    if (((Ctl *)g_021AA878.st)->socket != 0) {
-        gt2CloseSocket(((Ctl *)g_021AA878.st)->socket);
-        ((Ctl *)g_021AA878.st)->socket = 0;
+    if (((Ctl *)gDwcGlobalState.st)->socket != 0) {
+        gt2CloseSocket(((Ctl *)gDwcGlobalState.st)->socket);
+        ((Ctl *)gDwcGlobalState.st)->socket = 0;
     }
-    func_0205A1B0(4, g_021AA878.st, 0);
-    g_021AA878.st = 0;
+    func_0205A1B0(4, gDwcGlobalState.st, 0);
+    gDwcGlobalState.st = 0;
 }

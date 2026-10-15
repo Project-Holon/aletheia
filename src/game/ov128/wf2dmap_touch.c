@@ -20,7 +20,7 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
- *   d_021CA529 0x021CA529 data a1
+ *   gWf2dmapFriendKeyHitRects 0x021CA529 data a1
  *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   STRBUF_Create 0x020457B0 arm
@@ -35,7 +35,7 @@
  *   func_02049EF4 0x02049EF4 arm
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
- *   d_021CA674 0x021CA674 data a4
+ *   gWf2dmapCursorTileTable 0x021CA674 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  *   Wf2dmapFriend_DrawText 0x021C6ADC thumb ov128
@@ -52,13 +52,13 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   Wf2dmapFriend_RestartActorAnim 0x021C6E18 thumb ov128
  *   KEY_GetCont 0x0203630C arm
- *   d_021CA576 0x021CA576 data a1
+ *   gWf2dmapEditHitRects 0x021CA576 data a1
  *   Wf2dmapFriend_SetActorAutoAnim 0x021C6DF8 thumb ov128
- *   func_02040618 0x02040618 arm
- *   d_021CA564 0x021CA564 data a2
- *   d_021CA538 0x021CA538 data a4
- *   d_021CA7E0 0x021CA7E0 data a4
- *   d_021CA521 0x021CA521 data a1
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   gWf2dmapEntryPositions 0x021CA564 data a2
+ *   gWf2dmapTileValues 0x021CA538 data a4
+ *   gWf2dmapTileItemValues 0x021CA7E0 data a4
+ *   gWf2dmapTileItemIds 0x021CA521 data a1
  *   Wf2dmapFriend_PrintMyStatus 0x021C6BCC thumb ov128
  *   Wf2dmapFriend_SetActorDrawEnable 0x021C6DD8 thumb ov128
  *   func_02009864 0x02009864 thumb
@@ -76,14 +76,14 @@
  *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   d_021CA640 0x021CA640 data a2
+ *   gWf2dmapTrainerActorBounds 0x021CA640 data a2
  *   BG_SYS_DrawTileEx 0x020410D0 arm
- *   d_021CA544 0x021CA544 data a1
- *   d_021CA4F7 0x021CA4F7 data a1
- *   d_021CA554 0x021CA554 data a1
+ *   gWf2dmapSliderTileX 0x021CA544 data a1
+ *   gWf2dmapSliderFlags 0x021CA4F7 data a1
+ *   gWf2dmapSliderTileY 0x021CA554 data a1
  *   _u32_div_f 0x0209C2B0 arm
- *   d_021CA648 0x021CA648 data a2
- *   d_021CA5A2 0x021CA5A2 data a2
+ *   gWf2dmapWidgetFileIds 0x021CA648 data a2
+ *   gWf2dmapTileWindowParams 0x021CA5A2 data a2
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
@@ -109,40 +109,6 @@
  *   BEACON_GetBlock  0x0200C0F0  thumb  arm9
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
  */
-#include "../../matched/include/Obj00227.h"
-#include "../../matched/include/Obj03544.h"
-#include "../../matched/include/Obj03813.h"
-#include "../../matched/include/Obj10489.h"
-#include "../../matched/include/Obj00329.h"
-#include "../../matched/include/Obj10490.h"
-#include "../../matched/include/Obj14044.h"
-#include "../../matched/include/Obj23102.h"
-#include "../../matched/include/Obj23103.h"
-#include "../../matched/include/Obj00773.h"
-#include "../../matched/include/Obj10491.h"
-#include "../../matched/include/Obj08131.h"
-#include "../../matched/include/Obj23105.h"
-#include "../../matched/include/Obj10493.h"
-#include "../../matched/include/Obj02842.h"
-#include "../../matched/include/Obj00992.h"
-#include "../../matched/include/Obj10494.h"
-#include "../../matched/include/Obj14046.h"
-#include "../../matched/include/Obj23107.h"
-#include "../../matched/include/Obj23108.h"
-#include "../../matched/include/Obj23109.h"
-#include "../../matched/include/Obj08133.h"
-#include "../../matched/include/Obj10496.h"
-#include "../../matched/include/Obj14048.h"
-#include "../../matched/include/Obj03812.h"
-#include "../../matched/include/Obj00725.h"
-#include "../../matched/include/Obj00774.h"
-#include "../../matched/include/Obj14051.h"
-#include "../../matched/include/Obj23113.h"
-#include "../../matched/include/Obj00775.h"
-#include "../../matched/include/Obj00179.h"
-#include "../../matched/include/Obj14052.h"
-#include "../../matched/include/Obj06477.h"
-#include "../../matched/include/Obj08135.h"
 #include "wf2dmap_ui_types.h"
 
 struct Big;
@@ -179,7 +145,6 @@ typedef struct {u16 v[4];} Bounds;
 
 typedef signed int     s32;
 
-typedef struct {u16 x,y,z,pad;u32 value;void *items[8];volatile u32 count[8];} Record;
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BEACON_GetBlock(void *);
@@ -222,7 +187,7 @@ extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void Wf2dmapFriend_RestartActorAnim(u8 *p, int i, u16 a);
 extern unsigned int KEY_GetCont(void);
 extern void Wf2dmapFriend_SetActorAutoAnim(u8 *p, u32 a);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void Wf2dmapFriend_PrintMyStatus(u8 *,u8 *,int,unsigned);
 extern void Wf2dmapFriend_SetActorDrawEnable(u8 *p, u32 a);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -296,7 +261,7 @@ void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *a1);
 void WF2DMAP_TOUCH_InitTileRecord(u32 p,int unused,const u16 *q,u32 value,u16 heap);
 void WF2DMAP_TOUCH_Noop(void *a0);
 void WF2DMAP_TOUCH_SetTileRecordField(u32 p,int unused,u32 index,u32 value,u32 unused5,u16 heap);
-void WF2DMAP_TOUCH_ClearTileRecord(Record *p,u32 index);
+void WF2DMAP_TOUCH_ClearTileRecord(Wf2dmapTouchTileRecord *p,u32 index);
 void WF2DMAP_TOUCH_ClearScreenAt(char *p,u32 index);
 void WF2DMAP_TOUCH_ClearAllScreens(char *p,void *q);
 void WF2DMAP_TOUCH_SetBgScroll(void *q,char *p);
@@ -327,31 +292,31 @@ void WF2DMAP_TOUCH_AddSlot(char *p,void *q);
 void WF2DMAP_TOUCH_UpdateSlots(char *p);
 void WF2DMAP_TOUCH_TransferScreen(char *p);
 void WF2DMAP_TOUCH_ReleaseActor(int *p);
-extern const u8 d_021CA529[];
-extern const Tbl d_021CA674;
-extern const u8 d_021CA576[];
-extern const s16 d_021CA564[][3];
-extern const u32 d_021CA538[];
-extern const u32 d_021CA7E0[];
-extern const u8 d_021CA521[];
-extern const Bounds d_021CA640;
-extern const u8 d_021CA544[];
-extern const u8 d_021CA4F7[];
-extern const u8 d_021CA554[];
-extern const u16 d_021CA648[4];
-extern const u8 d_021CA5A2[10][4];
+extern const u8 gWf2dmapFriendKeyHitRects[];
+extern const Tbl gWf2dmapCursorTileTable;
+extern const u8 gWf2dmapEditHitRects[];
+extern const s16 gWf2dmapEntryPositions[][3];
+extern const u32 gWf2dmapTileValues[];
+extern const u32 gWf2dmapTileItemValues[];
+extern const u8 gWf2dmapTileItemIds[];
+extern const Bounds gWf2dmapTrainerActorBounds;
+extern const u8 gWf2dmapSliderTileX[];
+extern const u8 gWf2dmapSliderFlags[];
+extern const u8 gWf2dmapSliderTileY[];
+extern const u16 gWf2dmapWidgetFileIds[4];
+extern const u8 gWf2dmapTileWindowParams[10][4];
 
 
 
 
 char *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap) {
  void *v;void *base;int idx;char *ret;unsigned kind;
- v=BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00227 *)q)->f4));
- base=(void *)GAME_DATA_GetField1A0(((struct Obj00227 *)q)->f4);idx=*(u8 *)(q+24+*(signed char *)&((struct Obj00227 *)q)->fB);
+ v=BEACON_GetBlock(GAME_DATA_GetSaveControl(((Wf2dmapTouchFriendData *)q)->saveData));
+ base=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);idx=*(u8 *)(q+24+*(signed char *)&((Wf2dmapTouchFriendData *)q)->index);
  kind=func_02009864(base,idx,9);
  if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,7,0,v);
  else ret=NAMEIN_SETUP_CreateArgs(heap,4,func_02009864(base,idx,8),0,7,0,v);
- if(((struct Obj00227 *)q)->f64==1) {STRBUF_SetString(((struct Obj03544 *)ret)->f20,(const u16 *)(((struct Obj00227 *)q)->f60));((struct Obj00227 *)q)->f64=0;}
+ if(((Wf2dmapTouchFriendData *)q)->nameFlag==1) {STRBUF_SetString(((Wf2dmapNameEntry *)ret)->text,(const u16 *)(((Wf2dmapTouchFriendData *)q)->nameText));((Wf2dmapTouchFriendData *)q)->nameFlag=0;}
  return ret;
 }
 
@@ -393,7 +358,7 @@ int WF2DMAP_TOUCH_FriendKeyScreen(void *p, u8 *q, u8 *r, int heap)
         }
         break;
     case 2:
-        if (CLACT_IsActorAnimActive(((struct Obj03813 *)r)->f164) != 1) {
+        if (CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)r)->actorA) != 1) {
             Wf2dmapFriend_SetState(q, 0, 2);
             WF2DMAP_TOUCH_ClearScreens(p, r);
             WF2DMAP_TOUCH_DeleteScreenThunk(p, q, r);
@@ -401,7 +366,7 @@ int WF2DMAP_TOUCH_FriendKeyScreen(void *p, u8 *q, u8 *r, int heap)
         }
         break;
     case 3:
-        if (CLACT_IsActorAnimActive(((struct Obj03813 *)r)->f168) != 1) q[8] = 4;
+        if (CLACT_IsActorAnimActive(((Wf2dmapTouchGfx *)r)->actorB) != 1) q[8] = 4;
         break;
     case 4:
         WIPE_SYS_Start(0, 0, 0, 0, 6, 1, heap);
@@ -431,7 +396,7 @@ void WF2DMAP_TOUCH_DeleteScreenThunk(void *p, void *q, void *r)
 
 
 int WF2DMAP_TOUCH_GetFriendKeyInput(void *unused,int *q) {
- int v=TOUCHPANEL_HitTrg(d_021CA529);
+ int v=TOUCHPANEL_HitTrg(gWf2dmapFriendKeyHitRects);
  if(v!=-1) {func_020355D8(1);*q=1;return v;}
  if(KEY_GetTrg()&2) {func_020355D8(0);*q=0;return 0;}
  if(KEY_GetTrg()&1024) {func_020355D8(0);*q=0;return 1;}
@@ -521,7 +486,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
         WF2DMAP_TOUCH_TransferScreen(*(char **)p);
         pal = *(u32 *)(ctx + 0x17c);
         gfx = *(u32 *)(ctx + 0x34);
-        t = d_021CA674;
+        t = gWf2dmapCursorTileTable;
         x = 0;
         n = BMP_WIN_GetWidth(*(void **)(p + 8));
         w1 = Wf2dmapTouchSecondWindow(p);
@@ -668,7 +633,7 @@ int WF2DMAP_TOUCH_GetMenuKeyInput(void *p,int *q,void *r) {
 
 
 int WF2DMAP_TOUCH_GetMenuTouchInput(void *p,void *q,void *r,int *flag) {
- int v=TOUCHPANEL_HitTrg(d_021CA576);
+ int v=TOUCHPANEL_HitTrg(gWf2dmapEditHitRects);
  if(v==-1)return 2;
  *flag=1;
  if(v==0)return WF2DMAP_TOUCH_SelectMenu(p,q,r,3);
@@ -721,7 +686,7 @@ int WF2DMAP_TOUCH_StepSlideIn(u8 *p,void *a,void *b,int c)
     }
     offset=(value*256)/8;
     if(((Wf2dmapTouchEdit *)p)->variant==2) offset=-offset;
-    func_02040618(3,0,offset);
+    BG_SYS_FillScrollArea(3,0,offset);
     ((Wf2dmapTouchEdit *)p)->slideStep=((Wf2dmapTouchEdit *)p)->slideStep+1;
     return 0;
 }
@@ -749,15 +714,15 @@ void WF2DMAP_TOUCH_CreateEditWidgets(u8 *p, void *unused, u8 *q, u16 heap)
     WF2DMAP_TOUCH_CreateWidgetHandles(p + 0xf8, q, heap);
     WF2DMAP_TOUCH_CreateTileWidgets(p, q);
     for (k = 0; k < 2; k++) {
-        row = d_021CA564[k];
+        row = gWf2dmapEntryPositions[k];
         y = Wf2dmapTouchAbsolute(row[1]);
         x = Wf2dmapTouchAbsolute(row[0]);
         Wf2dmapFriend_CreateWindow(q, (u32 *)(p + 0x118 + k * 8), 3, (u8)(x + 2), y + 1, 26, 18, 10, 0, 0);
     }
     for (i = 0; i < 3; i++) {
-        WF2DMAP_TOUCH_InitTileRecord((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)d_021CA564[i], d_021CA538[i], heap);
+        WF2DMAP_TOUCH_InitTileRecord((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)gWf2dmapEntryPositions[i], gWf2dmapTileValues[i], heap);
         for (j = 0; j < 8; j++) {
-            WF2DMAP_TOUCH_SetTileRecordField((u32)(p + 20 + i * 0x4c), (int)q, j, d_021CA521[j], d_021CA7E0[j], heap);
+            WF2DMAP_TOUCH_SetTileRecordField((u32)(p + 20 + i * 0x4c), (int)q, j, gWf2dmapTileItemIds[j], gWf2dmapTileItemValues[j], heap);
             *(void **)(p + 0x20 + j * 4) = p + 0x118;
             *(void **)(p + 0x6c + j * 4) = p + 0x120;
             *(void **)(p + 0xb8 + j * 4) = p + 0x120;
@@ -781,7 +746,7 @@ void WF2DMAP_TOUCH_DeleteEditWidgets(u8 *p,void *unused,u8 *q)
     WF2DMAP_TOUCH_AddSlot((char *)q,q+12);
     base=p+20;
     for(i=0;i<3;i++) {
-        for(j=0;j<8;j++) WF2DMAP_TOUCH_ClearTileRecord((Record *)(base+i*76), j);
+        for(j=0;j<8;j++) WF2DMAP_TOUCH_ClearTileRecord((Wf2dmapTouchTileRecord *)(base+i*76), j);
         WF2DMAP_TOUCH_Noop(base+i*76);
     }
     for(i=0;i<2;i++) BMP_WIN_Delete(*(void **)(p+i*8+0x118));
@@ -861,38 +826,38 @@ void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
     u32 i,base,id,archive,offset;
     int pos;
     Bounds bounds;
-    base=GAME_DATA_GetField1A0(((struct Obj00992 *)q)->f4);
-    func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),9);
+    base=GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+    func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),9);
     for(i=0;i<10;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
     pos=BMP_WIN_GetDispWidth(*(void **)(p+offset));
-    TOUCHBAR_PrintYesNoCancelLabels((u32)(p+offset),(void *)(*(u32 *)&((struct Obj00329 *)ctx)->f34),*(u32 *)&((struct Obj00329 *)ctx)->f17C,
+    TOUCHBAR_PrintYesNoCancelLabels((u32)(p+offset),(void *)(*(u32 *)&((Wf2dmapTouchGfx *)ctx)->printWin),*(u32 *)&((Wf2dmapTouchGfx *)ctx)->palWin,
         (int)((u32)pos*8)/2,0,0x3C40,
-        *(u8 *)((u32)q+((struct Obj00992 *)q)->fB+0x38)+1,((struct Obj00992 *)q)->f14,heap);
+        *(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+0x38)+1,((Wf2dmapTouchFriendData *)q)->nextColor,heap);
     WF2DMAP_TOUCH_PrintItem(p+(offset+8),q,ctx,19,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+16),q,ctx,20,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+0x140,q,ctx,21,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),2));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),2));
     WF2DMAP_TOUCH_PrintItem(p+(offset+32),q,ctx,22,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),3));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),3));
     WF2DMAP_TOUCH_PrintItem(p+0x150,q,ctx,22,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+48),q,ctx,23,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),4));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),4));
     WF2DMAP_TOUCH_PrintItem(p+0x160,q,ctx,24,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+=64),q,ctx,27,0,0,0x3C40);
-    if(Wf2dmapFriend_PrintTrainerStats(ctx,q,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24))!=0)
+    if(Wf2dmapFriend_PrintTrainerStats(ctx,q,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24))!=0)
         WF2DMAP_TOUCH_PrintItem(p+0x170,q,ctx,28,0,0,0x3C40);
-    else BMP_WIN_TransferChars(((struct Obj00773 *)p)->f170);
+    else BMP_WIN_TransferChars(((Wf2dmapTouchEdit *)p)->trainerWindow[9].handle);
     for(i=0;i<10;i++) WF2DMAP_TOUCH_TransferScreen(*(char **)(p+i*8+0x128));
-    bounds=d_021CA640;
-    id=CURSOR_MOVE_GetTableGroup(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
+    bounds=gWf2dmapTrainerActorBounds;
+    id=CURSOR_MOVE_GetTableGroup(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),8));
     archive=POKEGRA_OpenTrainerHandle(heap);
-    ((struct Obj00773 *)p)->f17C=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
-    ((struct Obj00773 *)p)->f180=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
-    ((struct Obj00773 *)p)->f184=POKEGRA_RegisterTrainerCellAnim(id,2,0,heap);
+    ((Wf2dmapTouchEdit *)p)->cgr=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
+    ((Wf2dmapTouchEdit *)p)->palette=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
+    ((Wf2dmapTouchEdit *)p)->cellAnim=POKEGRA_RegisterTrainerCellAnim(id,2,0,heap);
     ARC_TOOL_DeleteHandle((void *)archive);
-    ((struct Obj00773 *)p)->f178=(u32)CLACT_CreateActor((void *)((struct Obj00329 *)ctx)->f138,((struct Obj00773 *)p)->f17C,
-        ((struct Obj00773 *)p)->f180,((struct Obj00773 *)p)->f184,&bounds,0,heap);
+    ((Wf2dmapTouchEdit *)p)->cursorBmp=(u32)CLACT_CreateActor((void *)((Wf2dmapTouchGfx *)ctx)->actorBank,((Wf2dmapTouchEdit *)p)->cgr,
+        ((Wf2dmapTouchEdit *)p)->palette,((Wf2dmapTouchEdit *)p)->cellAnim,&bounds,0,heap);
 }
 
 
@@ -931,10 +896,10 @@ void WF2DMAP_TOUCH_DrawSlider(u8 *p,u8 *q,int idx)
         return;
     }
     t=*(u16 * *)&((Wf2dmapTouchGfx *)q)->bmpDesc[1];
-    BG_SYS_DrawTileEx(2,*(const u8 *)((u32)d_021CA544+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),20,
-        *(const u8 *)((u32)d_021CA554+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),4,(u32)((u8 *)t+12),
-        *(const u8 *)((u32)d_021CA544+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),
-        *(const u8 *)((u32)d_021CA4F7+(u32)((Wf2dmapTouchEdit *)p)->direction),(u32)t[0]>>3,(u32)t[1]>>3);
+    BG_SYS_DrawTileEx(2,*(const u8 *)((u32)gWf2dmapSliderTileX+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),20,
+        *(const u8 *)((u32)gWf2dmapSliderTileY+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),4,(u32)((u8 *)t+12),
+        *(const u8 *)((u32)gWf2dmapSliderTileX+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),
+        *(const u8 *)((u32)gWf2dmapSliderFlags+(u32)((Wf2dmapTouchEdit *)p)->direction),(u32)t[0]>>3,(u32)t[1]>>3);
     func_02041B6C(2);
 }
 
@@ -1025,8 +990,8 @@ void WF2DMAP_TOUCH_CreateWidgetHandles(u8 *p,u8 *q,u16 heap)
 {
     u16 ids[4];
     int i;
-    ids[0]=d_021CA648[0]; ids[1]=d_021CA648[1];
-    ids[2]=d_021CA648[2]; ids[3]=d_021CA648[3];
+    ids[0]=gWf2dmapWidgetFileIds[0]; ids[1]=gWf2dmapWidgetFileIds[1];
+    ids[2]=gWf2dmapWidgetFileIds[2]; ids[3]=gWf2dmapWidgetFileIds[3];
     for(i=0;i<4;i++) {
         ((Wf2dmapTouchWidget *)p)->handle=func_02049EF4(((Wf2dmapTouchGfx *)q)->archive,ids[i],0,(void **)&((Wf2dmapTouchWidget *)p)->bitmap,heap);
         p+=8;
@@ -1059,7 +1024,7 @@ void WF2DMAP_TOUCH_CreateTileWidgets(u8 *p,void *q)
     int i;
     p+=0x128;
     for(i=0;i<10;i++)
-        Wf2dmapFriend_CreateWindow(q,(u32 *)(p+i*8),1,d_021CA5A2[i][0],d_021CA5A2[i][1],d_021CA5A2[i][2],d_021CA5A2[i][3],10,0,0);
+        Wf2dmapFriend_CreateWindow(q,(u32 *)(p+i*8),1,gWf2dmapTileWindowParams[i][0],gWf2dmapTileWindowParams[i][1],gWf2dmapTileWindowParams[i][2],gWf2dmapTileWindowParams[i][3],10,0,0);
 }
 
 
@@ -1078,7 +1043,7 @@ void WF2DMAP_TOUCH_DeleteTileScreens(u8 *p, void *a1)
 
 
 
-void WF2DMAP_TOUCH_InitTileRecord(u32 p,int unused,const u16 *q,u32 value,u16 heap) { int i; ((Record *)p)->value=value; ((Record *)p)->x=q[0]; ((Record *)p)->y=q[1]; ((Record *)p)->z=q[2]; for(i=0;i<8;i++) *(u32 *)(p+44+i*4)=0; }
+void WF2DMAP_TOUCH_InitTileRecord(u32 p,int unused,const u16 *q,u32 value,u16 heap) { int i; ((Wf2dmapTouchTileRecord *)p)->value=value; ((Wf2dmapTouchTileRecord *)p)->x=q[0]; ((Wf2dmapTouchTileRecord *)p)->y=q[1]; ((Wf2dmapTouchTileRecord *)p)->z=q[2]; for(i=0;i<8;i++) *(u32 *)(p+44+i*4)=0; }
 
 
 
@@ -1096,12 +1061,12 @@ void WF2DMAP_TOUCH_SetTileRecordField(u32 p,int unused,u32 index,u32 value,u32 u
 /*
  * volatile: 021C9F1E rereads loop bound field, also entry021C9F0E.
  */
-void WF2DMAP_TOUCH_ClearTileRecord(Record *p,u32 index) {u8 i;if(p->items[index]){for(i=0;i<p->count[index];i++) {} p->items[index]=0;p->count[index]=0;}}
+void WF2DMAP_TOUCH_ClearTileRecord(Wf2dmapTouchTileRecord *p,u32 index) {u8 i;if(p->items[index]){for(i=0;i<p->count[index];i++) {} p->items[index]=0;p->count[index]=0;}}
 
 
 
 
-void WF2DMAP_TOUCH_ClearScreenAt(char *p,u32 index) {u32 i;void *q;char *base;base=p+index*4;for(i=0;i<((struct Obj10496 *)base)->f2C;i++){BMP_Clear(BMP_WIN_GetBmp(**(void ** *)&((struct Obj10496 *)base)->fC),0);q=**(void ** *)&((struct Obj10496 *)base)->fC;BMP_WIN_ClearScreen(q);func_02041B6C(BMP_WIN_GetBgLayer(q));}}
+void WF2DMAP_TOUCH_ClearScreenAt(char *p,u32 index) {u32 i;void *q;char *base;base=p+index*4;for(i=0;i<((Wf2dmapTouchTileRecord *)base)->count[0];i++){BMP_Clear(BMP_WIN_GetBmp(**(void ** *)&((Wf2dmapTouchTileRecord *)base)->items[0]),0);q=**(void ** *)&((Wf2dmapTouchTileRecord *)base)->items[0];BMP_WIN_ClearScreen(q);func_02041B6C(BMP_WIN_GetBgLayer(q));}}
 
 
 
@@ -1116,7 +1081,7 @@ static inline int Wf2dmapTouchAbs(int x) { return x<0?-x:x; }
 
 
 
-void WF2DMAP_TOUCH_SetBgScroll(void *q,char *p) { BG_SYS_SetTileEntry(3,0,Wf2dmapTouchAbs(((struct Obj14048 *)p)->f0),Wf2dmapTouchAbs(((struct Obj14048 *)p)->f2),32,24,0);func_02041B6C(3); }
+void WF2DMAP_TOUCH_SetBgScroll(void *q,char *p) { BG_SYS_SetTileEntry(3,0,Wf2dmapTouchAbs(((Wf2dmapTouchTileRecord *)p)->x),Wf2dmapTouchAbs(((Wf2dmapTouchTileRecord *)p)->y),32,24,0);func_02041B6C(3); }
 
 
 
@@ -1251,36 +1216,36 @@ void WF2DMAP_TOUCH_UpdateTopBar(unsigned *p)
  * Extent ends with two bytes of zero alignment padding.
  */
 int WF2DMAP_TOUCH_StepTopBarBlink(char *p)  {
-    switch(((struct Obj00774 *)p)->f8)  {
-        case 0: WF2DMAP_TOUCH_DrawTopHighlight((u32)(((struct Obj00774 *)p)->f0),1);
-        ((struct Obj00774 *)p)->fA=0;
-        (((struct Obj00774 *)p)->f8)++;
+    switch(((Wf2dmapFriendListScreen *)p)->blinkState)  {
+        case 0: WF2DMAP_TOUCH_DrawTopHighlight((u32)(((Wf2dmapFriendListScreen *)p)->highlight),1);
+        ((Wf2dmapFriendListScreen *)p)->blinkTimer=0;
+        (((Wf2dmapFriendListScreen *)p)->blinkState)++;
         break;
-        case 1: (((struct Obj00774 *)p)->fA)++;
-        if(((struct Obj00774 *)p)->fA==4)  {
-            WF2DMAP_TOUCH_DrawTopHighlight((u32)(((struct Obj00774 *)p)->f0),2);
-            ((struct Obj00774 *)p)->fA=0;
-            (((struct Obj00774 *)p)->f8)++;
+        case 1: (((Wf2dmapFriendListScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendListScreen *)p)->blinkTimer==4)  {
+            WF2DMAP_TOUCH_DrawTopHighlight((u32)(((Wf2dmapFriendListScreen *)p)->highlight),2);
+            ((Wf2dmapFriendListScreen *)p)->blinkTimer=0;
+            (((Wf2dmapFriendListScreen *)p)->blinkState)++;
         }
         break;
-        case 2: (((struct Obj00774 *)p)->fA)++;
-        if(((struct Obj00774 *)p)->fA==4)  {
-            WF2DMAP_TOUCH_DrawTopHighlight((u32)(((struct Obj00774 *)p)->f0),1);
-            ((struct Obj00774 *)p)->fA=0;
-            (((struct Obj00774 *)p)->f8)++;
+        case 2: (((Wf2dmapFriendListScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendListScreen *)p)->blinkTimer==4)  {
+            WF2DMAP_TOUCH_DrawTopHighlight((u32)(((Wf2dmapFriendListScreen *)p)->highlight),1);
+            ((Wf2dmapFriendListScreen *)p)->blinkTimer=0;
+            (((Wf2dmapFriendListScreen *)p)->blinkState)++;
         }
         break;
-        case 3: (((struct Obj00774 *)p)->fA)++;
-        if(((struct Obj00774 *)p)->fA==4)  {
-            WF2DMAP_TOUCH_DrawTopHighlight((u32)(((struct Obj00774 *)p)->f0),2);
-            ((struct Obj00774 *)p)->fA=0;
-            (((struct Obj00774 *)p)->f8)++;
+        case 3: (((Wf2dmapFriendListScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendListScreen *)p)->blinkTimer==4)  {
+            WF2DMAP_TOUCH_DrawTopHighlight((u32)(((Wf2dmapFriendListScreen *)p)->highlight),2);
+            ((Wf2dmapFriendListScreen *)p)->blinkTimer=0;
+            (((Wf2dmapFriendListScreen *)p)->blinkState)++;
         }
         break;
-        case 4: (((struct Obj00774 *)p)->fA)++;
-        if(((struct Obj00774 *)p)->fA==4)  {
-            ((struct Obj00774 *)p)->f8=0;
-            ((struct Obj00774 *)p)->fA=0;
+        case 4: (((Wf2dmapFriendListScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendListScreen *)p)->blinkTimer==4)  {
+            ((Wf2dmapFriendListScreen *)p)->blinkState=0;
+            ((Wf2dmapFriendListScreen *)p)->blinkTimer=0;
             return 0;
         }
         break;
@@ -1333,7 +1298,7 @@ void WF2DMAP_TOUCH_UpdateItemBar(char *p)  {
     }
     else  {
         for(i=0;i<8;i++)  {
-            if(i==((struct Obj23113 *)p)->f4) WF2DMAP_TOUCH_DrawItemHighlight(i,3);
+            if(i==((Wf2dmapFriendItemScreen *)p)->cursor) WF2DMAP_TOUCH_DrawItemHighlight(i,3);
             else WF2DMAP_TOUCH_DrawItemHighlight(i,1);
         }
     }
@@ -1343,36 +1308,36 @@ void WF2DMAP_TOUCH_UpdateItemBar(char *p)  {
 
 
 int WF2DMAP_TOUCH_StepItemBarBlink(char *p)  {
-    switch(((struct Obj00775 *)p)->f8)  {
-        case 0: WF2DMAP_TOUCH_DrawItemHighlight(((struct Obj00775 *)p)->f4,1);
-        ((struct Obj00775 *)p)->fA=0;
-        (((struct Obj00775 *)p)->f8)++;
+    switch(((Wf2dmapFriendItemScreen *)p)->blinkState)  {
+        case 0: WF2DMAP_TOUCH_DrawItemHighlight(((Wf2dmapFriendItemScreen *)p)->cursor,1);
+        ((Wf2dmapFriendItemScreen *)p)->blinkTimer=0;
+        (((Wf2dmapFriendItemScreen *)p)->blinkState)++;
         break;
-        case 1: (((struct Obj00775 *)p)->fA)++;
-        if(((struct Obj00775 *)p)->fA==4)  {
-            WF2DMAP_TOUCH_DrawItemHighlight(((struct Obj00775 *)p)->f4,2);
-            ((struct Obj00775 *)p)->fA=0;
-            (((struct Obj00775 *)p)->f8)++;
+        case 1: (((Wf2dmapFriendItemScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendItemScreen *)p)->blinkTimer==4)  {
+            WF2DMAP_TOUCH_DrawItemHighlight(((Wf2dmapFriendItemScreen *)p)->cursor,2);
+            ((Wf2dmapFriendItemScreen *)p)->blinkTimer=0;
+            (((Wf2dmapFriendItemScreen *)p)->blinkState)++;
         }
         break;
-        case 2: (((struct Obj00775 *)p)->fA)++;
-        if(((struct Obj00775 *)p)->fA==4)  {
-            WF2DMAP_TOUCH_DrawItemHighlight(((struct Obj00775 *)p)->f4,1);
-            ((struct Obj00775 *)p)->fA=0;
-            (((struct Obj00775 *)p)->f8)++;
+        case 2: (((Wf2dmapFriendItemScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendItemScreen *)p)->blinkTimer==4)  {
+            WF2DMAP_TOUCH_DrawItemHighlight(((Wf2dmapFriendItemScreen *)p)->cursor,1);
+            ((Wf2dmapFriendItemScreen *)p)->blinkTimer=0;
+            (((Wf2dmapFriendItemScreen *)p)->blinkState)++;
         }
         break;
-        case 3: (((struct Obj00775 *)p)->fA)++;
-        if(((struct Obj00775 *)p)->fA==4)  {
-            WF2DMAP_TOUCH_DrawItemHighlight(((struct Obj00775 *)p)->f4,2);
-            ((struct Obj00775 *)p)->fA=0;
-            (((struct Obj00775 *)p)->f8)++;
+        case 3: (((Wf2dmapFriendItemScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendItemScreen *)p)->blinkTimer==4)  {
+            WF2DMAP_TOUCH_DrawItemHighlight(((Wf2dmapFriendItemScreen *)p)->cursor,2);
+            ((Wf2dmapFriendItemScreen *)p)->blinkTimer=0;
+            (((Wf2dmapFriendItemScreen *)p)->blinkState)++;
         }
         break;
-        case 4: (((struct Obj00775 *)p)->fA)++;
-        if(((struct Obj00775 *)p)->fA==4)  {
-            ((struct Obj00775 *)p)->f8=0;
-            ((struct Obj00775 *)p)->fA=0;
+        case 4: (((Wf2dmapFriendItemScreen *)p)->blinkTimer)++;
+        if(((Wf2dmapFriendItemScreen *)p)->blinkTimer==4)  {
+            ((Wf2dmapFriendItemScreen *)p)->blinkState=0;
+            ((Wf2dmapFriendItemScreen *)p)->blinkTimer=0;
             return 0;
         }
         break;
@@ -1398,7 +1363,7 @@ void WF2DMAP_TOUCH_SetBgOffset(int a) {if(a==1)func_0207D658(0x04000050,28,0);el
 
 
 
-void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n) {CLACT_SetActorAnimFrame(((struct Obj00179 *)p)->f1A4,0);CLACT_SetActorAnimSeq(((struct Obj00179 *)p)->f1A4,n+2);}
+void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n) {CLACT_SetActorAnimFrame(((Wf2dmapFriendItemScreen *)p)->actor2,0);CLACT_SetActorAnimSeq(((Wf2dmapFriendItemScreen *)p)->actor2,n+2);}
 
 
 
@@ -1406,8 +1371,8 @@ void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n) {CLACT_SetActorAnimFrame(((st
 
 void WF2DMAP_TOUCH_MakeScreen(char *p)
 {
-    BMP_WIN_MakeScreen(((struct Obj14052 *)p)->fC);
-    func_02041B6C(BMP_WIN_GetBgLayer(((struct Obj14052 *)p)->fC));
+    BMP_WIN_MakeScreen(((Wf2dmapTouchGfx *)p)->window);
+    func_02041B6C(BMP_WIN_GetBgLayer(((Wf2dmapTouchGfx *)p)->window));
 }
 
 
@@ -1430,7 +1395,7 @@ void WF2DMAP_TOUCH_AddSlot(char *p,void *q) {u32 i;for(i=0;i<64;i++) {if(!*(void
 
 
 
-void WF2DMAP_TOUCH_UpdateSlots(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((struct Obj06477 *)p)->f34;if(((struct Obj08135 *)q)->f4) {if(!PRINTSYS_QUE_IsExistTarget(v,BMP_WIN_GetBmp(((struct Obj08135 *)q)->f0))) {BMP_WIN_TransferChars(((struct Obj08135 *)q)->f0);((struct Obj08135 *)q)->f4=0;}}}}
+void WF2DMAP_TOUCH_UpdateSlots(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((Wf2dmapTouchGfx *)p)->printWin;if(((Wf2dmapTouchSlot *)q)->dirty) {if(!PRINTSYS_QUE_IsExistTarget(v,BMP_WIN_GetBmp(((Wf2dmapTouchSlot *)q)->window))) {BMP_WIN_TransferChars(((Wf2dmapTouchSlot *)q)->window);((Wf2dmapTouchSlot *)q)->dirty=0;}}}}
 
 
 

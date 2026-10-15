@@ -14,7 +14,7 @@
  *   BTL_SERVER_FLOW_GetTurnRecord  0x021C812C  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   BTL_SERVER_FLOW_GetTurnCount  0x021C8138  thumb  ov093
- *   func_021E7DF0  0x021E7DF0  thumb  ov093
+ *   WIFIBATTLEMATCH_VIEW_DeleteActorArray  0x021E7DF0  thumb  ov093
  *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -25,7 +25,7 @@ struct Q7;
 struct QQ;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern u16 BTL_SERVER_FLOW_GetTurnCount(struct Q7 *p);
-extern u32 func_021E7DF0(int a, int b, int c);
+extern u32 WIFIBATTLEMATCH_VIEW_DeleteActorArray(int a, int b, int c);
 extern void BTLV_CORE_EventScaleDamage(int n);
 
 void HAND_WAZA_RoundDoublePower(void *a, void *b, int c)
@@ -35,7 +35,7 @@ void HAND_WAZA_RoundDoublePower(void *a, void *b, int c)
     if (c == BTL_EVENT_GetVar(3)) {
         x = (int)BTL_SERVER_FLOW_GetTurnRecord((u8 *)((int)b));
         y = BTL_EVENT_GetFactorKey(a);
-        if (func_021E7DF0(x, y, BTL_SERVER_FLOW_GetTurnCount(b)) > 1)
+        if (WIFIBATTLEMATCH_VIEW_DeleteActorArray(x, y, BTL_SERVER_FLOW_GetTurnCount(b)) > 1)
             BTLV_CORE_EventScaleDamage(2);
     }
 }

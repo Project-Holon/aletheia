@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201D304  0x0201D304  thumb
@@ -38,7 +38,7 @@ struct StrObj;
 struct U16Vec;
 struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create_EC64(u16 heap);
+extern void *WORDSET_CreateDefault(u16 heap);
 extern void *STRBUF_Create(u32 size, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -59,7 +59,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(u32 a0, void *a1, u32 a2, u16 a3, u16 a4, u
     u16 t;
 
     m = func_02045B38(0, 2, 0xa3, heap);
-    w = GF_FONT_Create_EC64(heap);
+    w = WORDSET_CreateDefault(heap);
     buf = STRBUF_Create(0xa, heap);
     s = func_02045EC0(m, 0);
     t = func_0201D304(s, a2, 0);

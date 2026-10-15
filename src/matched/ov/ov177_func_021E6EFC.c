@@ -1,5 +1,5 @@
 /*
- * function: func_021E6EFC
+ * function: WIFIBATTLEMATCH_VIEW_DeleteWindow
  * address: 0x021E6EFC
  * packet: pkt_ov177_021E6EFC
  * region: ov177
@@ -14,7 +14,7 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021E6EFC(unsigned *p)
+void WIFIBATTLEMATCH_VIEW_DeleteWindow(unsigned *p)
 {
     unsigned i;
     for (i = 0; i < p[0]; i++) {

@@ -14,7 +14,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj03327.h"
 extern void BMP_WIN_Init(unsigned short);
@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 void STAFF_ROLL_InitWindows(char *p)
 {
     unsigned h;
@@ -35,9 +35,9 @@ void STAFF_ROLL_InitWindows(char *p)
     h = ((struct Obj03327 *)p)->f2BC;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     h = ((struct Obj03327 *)p)->f2C4;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
 }

@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8420 0x021E8420 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt 0x021E8420 thumb ov177
  */
 #include "../include/Obj24308.h"
 typedef struct Work Work;
-extern int func_021E8420(Work *);
+extern int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(Work *);
 int WIFIBATTLEMATCH_NET_IsRegSpriteAnimDone(char *p)
 {
-    return func_021E8420(*(Work * *)&((struct Obj24308 *)p)->f24);
+    return WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(*(Work * *)&((struct Obj24308 *)p)->f24);
 }

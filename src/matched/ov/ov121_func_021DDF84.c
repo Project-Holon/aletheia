@@ -14,7 +14,7 @@
  *   Parent confirmed the integrator ownership despite their absence from SDK union.
  * extent: unlabelled boolean accessor MYSTERY_ALBUM_IsIntroIdle at 0x021DE014 follows.
  * symbols:
- *   func_021DC024 0x021DC024 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   MYSTERY_ALBUM_SetBlendMain 0x021DDC30 arm ov121
@@ -24,7 +24,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021DC024(void *);
+extern int MYSTERY_ALBUM_GetEntryKind(void *);
 extern void CLACT_SetActorBgPriority(void *,u8);
 typedef unsigned int   u32;
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
@@ -36,7 +36,7 @@ void MYSTERY_ALBUM_ResetIntro(char *p)
 {
     char *palette;
     void (*blend)(int,int);
-    if (func_021DC024(p)==1) {
+    if (MYSTERY_ALBUM_GetEntryKind(p)==1) {
         *(u16 *)(p+0xdc)=0;
         *(u16 *)(p+0xde)=0;
         CLACT_SetActorBgPriority(*(void **)(*(char **)(p+0x11c)+0x20),*(unsigned *)(*(char **)(p+0x11c)+0x8c));

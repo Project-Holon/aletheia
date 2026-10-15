@@ -1,5 +1,5 @@
 /*
- * function: func_021F2144
+ * function: BEACON_VIEW_DrawEntryText
  * address:  0x021F2144
  * packet:   pkt_ov032_021F2144
  * region:   ov032
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F2144 0x021F2144 thumb
- *   func_021F21B0 0x021F21B0 thumb
+ *   BEACON_VIEW_DrawEntryText 0x021F2144 thumb
+ *   BEACON_VIEW_StartWindowCTask 0x021F21B0 thumb
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -26,13 +26,13 @@ typedef unsigned int u32;
 typedef signed short   s16;
 struct CharBuf;
 struct Obj;
-extern void func_021F21B0(char *p, char *q, int *r);
+extern void BEACON_VIEW_StartWindowCTask(char *p, char *q, int *r);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 
-void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
+void BEACON_VIEW_DrawEntryText(char *p, char *q, void *text, u16 col, u32 a4)
 {
     u32 *t;
 
@@ -44,5 +44,5 @@ void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
         return;
     }
     PRINTSYS_PrintQueColor((void *)(((struct Obj07635 *)p)->fB4), t[1], 0, 0, (u32)text, ((struct Obj07635 *)p)->fB0, col);
-    func_021F21B0(p, q, (int *)a4);
+    BEACON_VIEW_StartWindowCTask(p, q, (int *)a4);
 }

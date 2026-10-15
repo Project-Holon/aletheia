@@ -1,5 +1,5 @@
 /*
- * function: func_021F10D8
+ * function: BEACON_VIEW_PrintEntryRank
  * address:  0x021F10D8
  * packet:   pkt_ov032_021F10D8
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F10D8 0x021F10D8 thumb
+ *   BEACON_VIEW_PrintEntryRank 0x021F10D8 thumb
  *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
  *   PALANM_CopyToSlot 0x020215BC thumb
  */
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
-void func_021F10D8(char *this, u8 *p, int a)
+void BEACON_VIEW_PrintEntryRank(char *this, u8 *p, int a)
 {
     u8 v;
     int k;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6AEC
+ * function: MYSTERY_CreateClact
  * address: 0x021D6AEC
  * packet: pkt_ov121_021D6AEC
  * region: ov121
@@ -44,7 +44,7 @@ extern void MI_CpuFill8(void *,int,int);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 func_02005728(u32 range);
-void func_021D6AEC(char *p, void *owner, u16 heap)
+void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
 {
     void *res;
     Record point;

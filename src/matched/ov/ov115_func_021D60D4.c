@@ -18,10 +18,10 @@
 #include "../include/Obj10336.h"
 #include "../include/Obj22603.h"
 typedef unsigned char u8;typedef unsigned int u32;
-struct S020315D4;
+struct Proc;
 extern void WIFILOGIN_MSG_CloseMessage(u8 *p);
 extern void WIFILOGIN_MSG_Delete(u8 *);
 extern void WIFILOGIN_DISP_DeleteDisplay(u8 *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 int WIFILOGIN_MSG_DeleteWork(void *a,int b,u8 *c,u8 *p) { if(!((struct Obj22603 *)c)->f4)WIFILOGIN_MSG_CloseMessage(((struct Obj10336 *)p)->f8);WIFILOGIN_MSG_Delete(*(u8 * *)&((struct Obj10336 *)p)->f8);WIFILOGIN_DISP_DeleteDisplay(*(u8 * *)&((struct Obj10336 *)p)->f4);func_020315D4(a);GFL_HEAP_DeleteChecked(121);return 1; }

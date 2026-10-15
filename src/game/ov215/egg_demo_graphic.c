@@ -36,7 +36,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021F7178 0x021F7178 data a4
  *   d_021F71F4 0x021F71F4 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -63,7 +63,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
-#include "egg_demo_graphic_shared_types.h"
+#include "egg_demo_types.h"
 
 struct DispVram;
 
@@ -135,7 +135,7 @@ extern void BG_SYS_FreeSlot(u8);
 
 extern void func_02040588(u8,u8);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BMP_WIN_Exit(void);
 
@@ -310,7 +310,7 @@ void EGG_DEMO_GRAPHIC_InitBg(void *bgWork,unsigned heapId)
  * lever: a named unsigned byte-address base keeps the table in r4 and
  * index in r5; the inline address swaps them, and word indexing adds lsl #2.
  */
-void EGG_DEMO_GRAPHIC_DeleteBg(void *bgWork){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgWork,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteBg(void *bgWork){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)BG_SYS_FreeLayerBuf((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgWork,0,4);}
 
 /*
  * extent: two-byte alignment padding follows the body.

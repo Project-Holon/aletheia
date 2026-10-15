@@ -52,7 +52,7 @@ struct BigObj;
 
 struct Blk37;
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,u32);
 
@@ -62,7 +62,7 @@ extern u32 PROCSYS_Main(void *);
 
 extern void func_0203133C(struct S020314B8 *p);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void *func_02030734(u16,u32,int,const char *,u16);
 

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   ZUKAN_DETAIL_HEADBAR_CreateWindows 0x021BE868 thumb ov208
  *   func_021BE920 0x021BE920 thumb ov208
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 struct Ov208Icon { u16 heap,pad2; unsigned f4,f8; int fc; unsigned pad10[2],f18,f1c,f20,f24,f28,f2c,f30; };
 extern const char d_021C8DFC[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 struct Ov208Gfx;
 extern void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Gfx *g);
@@ -34,7 +34,7 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
 {
     struct Ov208Icon *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
     p->heap=heap;p->f4=arg;p->f8=0;p->fc=5;
-    func_02040618(5,3,24);
+    BG_SYS_FillScrollArea(5,3,24);
     BG_SYS_SetVisibleLayer(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows((struct Ov208Gfx *)p);
     func_021BE920(p);

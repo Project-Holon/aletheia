@@ -1,5 +1,5 @@
 /*
- * function: func_021BB074
+ * function: MANUAL_COMMON_GetScrollTop
  * address:  0x021BB074
  * packet:   pkt_021BB074
  * region:   ov225
@@ -14,7 +14,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021BB074(u16 **p)
+u16 MANUAL_COMMON_GetScrollTop(u16 **p)
 {
     u16 v = (*p)[2];
     if (v <= 6)

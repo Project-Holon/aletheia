@@ -14,7 +14,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02008554 0x02008554 thumb
- *   func_021E5C20 0x021E5C20 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateMainWindow 0x021E5C20 thumb ov177
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u32 func_021E5C20(Desc *,int,u32,int,u32,u32,u32,u32,u32,int);
+extern u32 WIFIBATTLEMATCH_VIEW_CreateMainWindow(Desc *,int,u32,int,u32,u32,u32,u32,u32,int);
 #define CTX ((u32 *)p[16])
 #define REC ((u32 *)CTX[2])
 void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode)
@@ -52,6 +52,6 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode)
             desc.total=desc.a+desc.b;
         }
         desc.name=func_02008554((const struct Sub0200852CObj *)sys);
-        p[6]=func_021E5C20(&desc,flag,sys,base,p[1],p[2],p[3],p[4],p[5],87);
+        p[6]=WIFIBATTLEMATCH_VIEW_CreateMainWindow(&desc,flag,sys,base,p[1],p[2],p[3],p[4],p[5],87);
     }
 }

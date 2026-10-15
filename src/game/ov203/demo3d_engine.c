@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_engine.c
  * unit:     yes
- * function: func_021BE160, func_021BE4B4, func_021BE508, func_021BE538, func_021BE620, func_021BE62C, func_021BE638, func_021BE63C, func_021BE79C, func_021BE7A8, func_021BE7BC, func_021BE7D8
+ * function: DEMO3D_ENGINE_Create, DEMO3D_ENGINE_Delete, DEMO3D_ENGINE_SetClipPlanes, DEMO3D_ENGINE_Update, DEMO3D_ENGINE_GetFrame, DEMO3D_ENGINE_GetFrameNum, DEMO3D_ENGINE_SetMode, DEMO3D_ENGINE_SetupLighting, DEMO3D_ENGINE_ClampAnimeId, DEMO3D_ENGINE_GetAnimeId, DEMO3D_ENGINE_CreateAnimeStream, DEMO3D_ENGINE_GetAnimeKind
  * address:  0x021BE160
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -69,30 +69,24 @@
  *   d_021C185C  0x021C185C  data
  *   d_021C186C 0x021C186C data a4
  *   ICA_ANIME_CreateStream  0x02011510  thumb  arm9
- *   func_021BE79C  0x021BE79C  thumb  ov203
- *   func_021BDF18 0x021BDF18 thumb ov203
- *   func_021BDF24 0x021BDF24 thumb ov203
- *   func_021BDF3C 0x021BDF3C thumb ov203
- *   func_021BE150 0x021BE150 thumb ov203
- *   func_021BE158 0x021BE158 thumb ov203
- *   func_021BE7F0 0x021BE7F0 thumb ov203
- *   func_021BE85C 0x021BE85C thumb ov203
- *   func_021BE874 0x021BE874 thumb ov203
- *   func_021BE920 0x021BE920 thumb ov203
- *   func_021BE938 0x021BE938 thumb ov203
+ *   DEMO3D_ENGINE_ClampAnimeId  0x021BE79C  thumb  ov203
+ *   DEMO3D_GRAPHIC_UpdateLookAt 0x021BDF18 thumb ov203
+ *   DEMO3D_GRAPHIC_EndDraw 0x021BDF24 thumb ov203
+ *   DEMO3D_GRAPHIC_SetupLightBlock 0x021BDF3C thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteDouble3d 0x021BE150 thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteCamera 0x021BE158 thumb ov203
+ *   DEMO3D_DATA_Create 0x021BE7F0 thumb ov203
+ *   DEMO3D_DATA_Delete 0x021BE85C thumb ov203
+ *   DEMO3D_DATA_BuildTable 0x021BE874 thumb ov203
+ *   DEMO3D_DATA_GetAnimId 0x021BE920 thumb ov203
+ *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
  */
-#include "../../matched/include/Obj03354.h"
-#include "../../matched/include/Obj25315.h"
-#include "../../matched/include/Obj25316.h"
-#include "../../matched/include/Obj25317.h"
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_engine_shared_types.h"
 
 #define DISP (*(volatile u16 *)0x04000060)
 
 struct Config;
-
-struct Context;
 
 struct G3dSys;
 
@@ -108,13 +102,9 @@ struct Ctx;
 
 struct Arg;
 
-struct Obj11245;
-
-struct Obj11244;
-
 struct Config { u8 pad[0xd],hour,minute; u8 second:7,spare:1; };
 
-typedef short s16_021BE13C;
+typedef short s16;
 
 typedef long long s64;
 
@@ -127,22 +117,45 @@ struct Cam {
     fx32 f8, fc, f10, f14, f18, f1c;
 };
 
+/* Processed demo config embedded in struct Ctx at 0x78. */
+typedef struct Demo3dCfg {
+    u32 id;       /* 0x00 */
+    u32 frame;    /* 0x04 */
+    u8  color;    /* 0x08 */
+    u8  timeZone; /* 0x09 */
+    u8  flag;     /* 0x0A */
+    u8  mode;     /* 0x0B */
+    u8  extra;    /* 0x0C */
+    u8  sec;      /* 0x0D */
+} Demo3dCfg;
+
+/*
+ * Engine context of the demo3d demo (0x88 bytes; DEMO3D_ENGINE_Create allocates it
+ * with func_02030734(heap, 0x88, 1, ...)).  DEMO3D_ENGINE_Update also views the 0x30
+ * block as its G3D draw arguments.
+ */
 struct Ctx {
-    u32 owner, id, f8, fc, f10, f14; void *f18; u32 f1c;
-    void *f20;
-    u32 f24, f28, f2c;
-    u32 z30[6];
-    u8 mtx[0x24];
-    u32 f6c;
-    u16 *f70;
-    struct Cam *f74;
-    u32 f78, f7c;
-    u8 b80, b81, b82, b83, b84, b85;
+    void *graphic;      /* 0x00 owner graphic context */
+    u32 id;             /* 0x04 animation id */
+    u32 cmdMode;        /* 0x08 command update mode */
+    u32 pad0c;
+    u32 animeOn;        /* 0x10 also selects clip-plane update */
+    u32 step;           /* 0x14 frame step */
+    struct IcaAnime *anime; /* 0x18 animation stream */
+    u32 table;          /* 0x1C G3D_UTIL handle */
+    void *light;        /* 0x20 G3D camera */
+    u32 nearClip;       /* 0x24 */
+    u32 farClip;        /* 0x28 */
+    u32 count;          /* 0x2C object count */
+    u32 scale[6];       /* 0x30 */
+    u8 matrix[0x24];    /* 0x48 */
+    u32 cmdSys;         /* 0x6C DEMO3D_CMDSYS handle */
+    u16 *indices;       /* 0x70 */
+    struct Cam *cam;    /* 0x74 camera/light record */
+    Demo3dCfg data;     /* 0x78 */
 };
 
 typedef signed int     s32;
-
-struct Context { void *owner; u32 a4,a8,ac,a10,step; struct IcaAnime *anime; u8 *table; void *light; u32 a24,a28,count; u8 args[0x3c]; void *events; u16 *indices; struct Record *record; };
 
 typedef int BOOL;
 
@@ -226,7 +239,7 @@ extern void G3D_CAMERA_SetNearClipAlt(struct Light *,u32);
 
 extern void G3D_CAMERA_SetFarClipAlt(struct Light *,u32);
 
-extern u32 ICA_ANIME_GetFrame(struct Obj11245 *p);
+extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
 
 extern void DEMO3D_CMDSYS_Update(void *,int,int);
 
@@ -244,7 +257,7 @@ extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 
 extern void DOUBLE3DDISP_SetDrawDone(void);
 
-extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
+extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *p);
 
 extern void ZONEDATA_GetTimeLightColors(u32,u32,u32,u32,u32,u16 *,u16);
 
@@ -262,53 +275,53 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 
 extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
 
-void func_021BDF18(char *p);
+void DEMO3D_GRAPHIC_UpdateLookAt(Demo3dGraphic *p);
 
-void func_021BDF24(char *p);
+void DEMO3D_GRAPHIC_EndDraw(Demo3dGraphic *p);
 
-void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2);
+void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2);
 
-void func_021BE150(void);
+void DEMO3D_GRAPHIC_DeleteDouble3d(void);
 
-void func_021BE158(void *p);
+void DEMO3D_GRAPHIC_DeleteCamera(void *p);
 
-struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap);
+struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap);
 
-void func_021BE4B4(char *ctx, int b, int c, u32 d);
+void DEMO3D_ENGINE_Delete(struct Ctx *ctx, int b, int c, u32 d);
 
-void func_021BE508(char *p,struct Light *q);
+void DEMO3D_ENGINE_SetClipPlanes(struct Ctx *p, struct Light *q);
 
-int func_021BE538(const struct Context *ctx, u32 frames);
+int DEMO3D_ENGINE_Update(const struct Ctx *ctx, u32 frames);
 
-int func_021BE620(char *p);
+int DEMO3D_ENGINE_GetFrame(struct Ctx *p);
 
-u32 func_021BE62C(char *p);
+u32 DEMO3D_ENGINE_GetFrameNum(struct Ctx *p);
 
-void func_021BE638(char *p,int a);
+void DEMO3D_ENGINE_SetMode(struct Ctx *p,int a);
 
-void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *record,u16 heap);
+void DEMO3D_ENGINE_SetupLighting(struct Ctx *ctx,struct Config *cfg,const struct Record *record,u16 heap);
 
-unsigned func_021BE79C(unsigned x);
+unsigned DEMO3D_ENGINE_ClampAnimeId(unsigned x);
 
-u32 func_021BE7A8(u32 id);
+u32 DEMO3D_ENGINE_GetAnimeId(u32 id);
 
-void *func_021BE7BC(u32 a, u32 b, u32 c);
+void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c);
 
-u8 func_021BE7D8(unsigned x);
+u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x);
 
-void *func_021BE7F0(unsigned heap);
+void *DEMO3D_DATA_Create(unsigned heap);
 
-void func_021BE85C(char *a);
+void DEMO3D_DATA_Delete(char *a);
 
-void func_021BE874(char *ctx, const char *config, u8 type);
+void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type);
 
-u32 func_021BE920(u32 a);
+u32 DEMO3D_DATA_GetAnimId(u32 a);
 
-int func_021BE938(void *a);
+int DEMO3D_DATA_GetAnimCount(void *a);
 
 extern const char d_021C3CE0[];
 
-extern const s16_021BE13C FX_SinCosTable_[];
+extern const s16 FX_SinCosTable_[];
 
 extern VecFx32 d_021BFCE0;
 
@@ -329,13 +342,13 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * 2026-10-05 (integrator): the angle divisor is the plain literal 360 and the alloc size the literal 0x88; mwcc derives 0x168 from the live 0x88 itself (`adds r7,#0xE0`), so the earlier `sz` local was not needed. EXACT in c99 and c.
  * note: 2026-10-05 wave P2 lane Q3 (pengy share, user-approved). Levers: heap is a u16
  *   parameter (entry spill of r2 first, raw reload at every use); cam written as
- *   `cam = ctx->f74 = func_021BE7A8(...)` (store to ctx first, then the local slot sp+0x24);
+ *   `cam = ctx->f74 = DEMO3D_ENGINE_GetAnimeId(...)` (store to ctx first, then the local slot sp+0x24);
  *   cnt is a signed int (ble guard); ortho bounds as in ov088 021B9C2C (FX_Mul/FX_Div,
  *   top = FX_Div(t, c), bottom = -FX_Div(t, c)). The angle divisor is written sz + 0xE0:
  *   the original keeps 0x88 live in r7 (alloc size) and derives 0x168 from it with
  *   adds #0xE0; flagged for the integrator as an odd but listing-forced form.
  */
-struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
+struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
 {
     struct Ctx *ctx;
 
@@ -349,17 +362,17 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     u32 h;
 
     ctx = func_02030734(heap, 0x88, 1, d_021C3CE0, 0x79);
-    ctx->owner = (u32)owner;
+    ctx->graphic = owner;
     ctx->id = cfg->f4;
-    ctx->f78 = ctx->id;
-    ctx->b80 = cfg->fc;
-    ctx->f7c = cfg->f8;
-    ctx->b81 = TIMEZONE_GetTimeZoneOfHour((u8)cfg->sec, (u8)cfg->fd);
-    ctx->b82 = cfg->bit7;
-    ctx->b83 = cfg->fd;
-    ctx->b84 = cfg->fe;
-    ctx->b85 = cfg->sec;
-    cam = ctx->f74 = (struct Cam *)func_021BE7A8(ctx->id);
+    ctx->data.id = ctx->id;
+    ctx->data.color = cfg->fc;
+    ctx->data.frame = cfg->f8;
+    ctx->data.timeZone = TIMEZONE_GetTimeZoneOfHour((u8)cfg->sec, (u8)cfg->fd);
+    ctx->data.flag = cfg->bit7;
+    ctx->data.mode = cfg->fd;
+    ctx->data.extra = cfg->fe;
+    ctx->data.sec = cfg->sec;
+    cam = ctx->cam = (struct Cam *)DEMO3D_ENGINE_GetAnimeId(ctx->id);
     q = (((cam->fc >> 12) / 2) << 16) / 360;
     c = FX_SinCosTable_[(q >> 4) * 2 + 1];
     far = cam->f1c;
@@ -374,72 +387,72 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     d = 0x1000;
     right = FX_Div(FX_Mul(FX_Div(w, d), s), c);
     left = -FX_Div(FX_Mul(FX_Div(w, d), s), c);
-    ctx->f20 = G3D_CAMERA_Create(1, top, bottom, left, right, near, mid, far,
+    ctx->light = G3D_CAMERA_Create(1, top, bottom, left, right, near, mid, far,
                              &d_021BFCE0, &d_021BFCD4, &d_021BFCEC, heap);
-    G3D_CAMERA_GetNearClipAlt(ctx->f20, &ctx->f24);
-    G3D_CAMERA_GetFarClipAlt(ctx->f20, &ctx->f28);
-    func_021BE63C((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
-    ctx->f14 = func_021BE920(ctx->id);
-    ctx->f10 = func_021BE938((void *)ctx->id);
-    if (ctx->f10) {
+    G3D_CAMERA_GetNearClipAlt(ctx->light, &ctx->nearClip);
+    G3D_CAMERA_GetFarClipAlt(ctx->light, &ctx->farClip);
+    DEMO3D_ENGINE_SetupLighting(ctx, (struct Config *)cfg, (const struct Record *)ctx->cam, heap);
+    ctx->step = DEMO3D_DATA_GetAnimId(ctx->id);
+    ctx->animeOn = DEMO3D_DATA_GetAnimCount((void *)ctx->id);
+    if (ctx->animeOn) {
         DOUBLE3DDISP_Init(heap);
-        func_02005654((int)func_021BE150, 0);
+        func_02005654((int)DEMO3D_GRAPHIC_DeleteDouble3d, 0);
     }
-    ctx->z30[0] = 0;
-    ctx->z30[1] = 0;
-    ctx->z30[2] = 0;
-    ctx->z30[3] = 0x1000;
-    ctx->z30[4] = 0x1000;
-    ctx->z30[5] = 0x1000;
-    MTX_Identity33_(ctx->mtx);
-    ctx->f2c = func_021BE7D8(ctx->id);
-    ctx->f70 = func_02030734(heap, ctx->f2c * 2, 1, d_021C3CE0, 0xB7);
-    ctx->f18 = func_021BE7BC(ctx->id, heap, 10);
-    if (ctx->f7c)
-        r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
+    ctx->scale[0] = 0;
+    ctx->scale[1] = 0;
+    ctx->scale[2] = 0;
+    ctx->scale[3] = 0x1000;
+    ctx->scale[4] = 0x1000;
+    ctx->scale[5] = 0x1000;
+    MTX_Identity33_(ctx->matrix);
+    ctx->count = DEMO3D_ENGINE_GetAnimeKind(ctx->id);
+    ctx->indices = func_02030734(heap, ctx->count * 2, 1, d_021C3CE0, 0xB7);
+    ctx->anime = DEMO3D_ENGINE_CreateAnimeStream(ctx->id, heap, 10);
+    if (ctx->data.frame)
+        r = _fadd(0x3f000000, _ffltu(ctx->data.frame << 12));
     else
-        r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
-    ICA_ANIME_SetFrame((struct IcaAnime *)ctx->f18, _ffix(r));
-    n = ctx->f2c * 6;
-    ctx->f1c = G3D_UTIL_Create((u16)n, (u16)n, heap);
-    e = func_021BE7F0(heap);
-    for (i = 0; i < ctx->f2c; i++) {
-        func_021BE874(e, (const char *)(&ctx->f78), i);
-        ctx->f70[i] = G3D_UTIL_AddUnit(ctx->f1c, e);
+        r = _fsub(_ffltu(ctx->data.frame << 12), 0x3f000000);
+    ICA_ANIME_SetFrame(ctx->anime, _ffix(r));
+    n = ctx->count * 6;
+    ctx->table = G3D_UTIL_Create((u16)n, (u16)n, heap);
+    e = DEMO3D_DATA_Create(heap);
+    for (i = 0; i < ctx->count; i++) {
+        DEMO3D_DATA_BuildTable(e, (const char *)(&ctx->data), i);
+        ctx->indices[i] = G3D_UTIL_AddUnit(ctx->table, e);
     }
-    func_021BE85C(e);
-    for (j = 0; j < ctx->f2c; j++) {
-        h = func_02048A18((u8 *)ctx->f1c, (u16)ctx->f70[j]);
+    DEMO3D_DATA_Delete(e);
+    for (j = 0; j < ctx->count; j++) {
+        h = func_02048A18((u8 *)ctx->table, (u16)ctx->indices[j]);
         cnt = G3D_SYSTEM_GetObjectAnimeCount((int *)h);
         for (k = 0; k < cnt; k++) {
-            if (ctx->f7c)
-                r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
+            if (ctx->data.frame)
+                r = _fadd(0x3f000000, _ffltu(ctx->data.frame << 12));
             else
-                r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
+                r = _fsub(_ffltu(ctx->data.frame << 12), 0x3f000000);
             ang = _ffix(r);
             G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)h, (u16)k);
             G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)h, k, &ang);
         }
     }
-    ctx->f6c = DEMO3D_CMDSYS_Create(ctx, heap);
+    ctx->cmdSys = DEMO3D_CMDSYS_Create(ctx, heap);
     return ctx;
 }
 
-void func_021BE4B4(char *ctx, int b, int c, u32 d)
+void DEMO3D_ENGINE_Delete(struct Ctx *ctx, int b, int c, u32 d)
 {
     unsigned i;
-    DEMO3D_CMDSYS_Delete(((struct Obj03354 *)ctx)->f6C);
-    func_021BE158(((struct Obj03354 *)ctx)->f20);
-    if (((struct Obj03354 *)ctx)->f10) {
+    DEMO3D_CMDSYS_Delete((char *)ctx->cmdSys);
+    DEMO3D_GRAPHIC_DeleteCamera(ctx->light);
+    if (ctx->animeOn) {
         func_0200566C();
         DOUBLE3DDISP_Exit();
     }
-    ICA_ANIME_Delete(((struct Obj03354 *)ctx)->f18);
-    for (i = 0; i < ((struct Obj03354 *)ctx)->f2C; i++) {
-        G3D_UTIL_RemoveUnit(((struct Obj03354 *)ctx)->f1C, (*(unsigned short **)(ctx + 0x70))[i]);
+    ICA_ANIME_Delete(ctx->anime);
+    for (i = 0; i < ctx->count; i++) {
+        G3D_UTIL_RemoveUnit((struct Ctx *)ctx->table, ctx->indices[i]);
     }
-    G3D_UTIL_Delete(((struct Obj03354 *)ctx)->f1C);
-    func_020307B0(((struct Obj03354 *)ctx)->f70);
+    G3D_UTIL_Delete((struct Rec *)ctx->table);
+    func_020307B0(ctx->indices);
     func_020307B0(ctx);
 }
 
@@ -452,49 +465,49 @@ void func_021BE4B4(char *ctx, int b, int c, u32 d)
  *   0x02048BBC ARM EXACT, dsi/1.1p1 -O4,p, verified without --region:
  *   void G3D_CAMERA_SetFarClipAlt(struct Light *p,u32 v) { *(u32 *)((char *)p+8)=v; }
  */
-void func_021BE508(char *p,struct Light *q)
+void DEMO3D_ENGINE_SetClipPlanes(struct Ctx *p,struct Light *q)
 {
     int x;
-    if(DOUBLE3DDISP_GetMode()==0)x=*(short *)(*(char **)(p+0x74)+0x20);
-    else x=*(short *)(*(char **)(p+0x74)+0x22);
-    G3D_CAMERA_SetNearClipAlt(q,x+*(u32 *)(p+0x24));
-    G3D_CAMERA_SetFarClipAlt(q,x+*(u32 *)(p+0x28));
+    if(DOUBLE3DDISP_GetMode()==0)x=*(short *)((char *)p->cam+0x20);
+    else x=*(short *)((char *)p->cam+0x22);
+    G3D_CAMERA_SetNearClipAlt(q,x+p->nearClip);
+    G3D_CAMERA_SetFarClipAlt(q,x+p->farClip);
 }
 
-int func_021BE538(const struct Context *ctx, u32 frames)
+int DEMO3D_ENGINE_Update(const struct Ctx *ctx, u32 frames)
 {
     u32 done;
     long advance = 0;
-    unsigned long time = ICA_ANIME_GetFrame((struct Obj11245 *)ctx->anime);
+    unsigned long time = ICA_ANIME_GetFrame(ctx->anime);
     u32 i;
     for(i=0;i<frames+1;i++) {
-        if(ctx->a8 == 0) DEMO3D_CMDSYS_Update(ctx->events,time+advance,i);
-        else DEMO3D_CMDSYS_Update(ctx->events,-4096,i);
+        if(ctx->cmdMode == 0) DEMO3D_CMDSYS_Update((void *)ctx->cmdSys,time+advance,i);
+        else DEMO3D_CMDSYS_Update((void *)ctx->cmdSys,-4096,i);
         advance += ctx->step;
     }
     done = ICA_ANIME_IncFrameNoLoop(ctx->anime,advance);
     ICA_ANIME_SetCameraStatus(ctx->light,ctx->anime);
     for(i=0;i<ctx->count;i++) {
-        void *obj=(void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]);
+        void *obj=(void *)G3D_UTIL_GetObject((u8 *)ctx->table,ctx->indices[i]);
         int j, count=G3D_SYSTEM_GetObjectAnimeCount(obj);
         for(j=0;j<count;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,(u16)j,advance);
     }
-    if(ctx->a10 != 0) func_021BE508((char *)ctx,ctx->light);
+    if(ctx->animeOn != 0) DEMO3D_ENGINE_SetClipPlanes((struct Ctx *)ctx,ctx->light);
     func_02048AD0(ctx->light);
-    func_021BDF18(ctx->owner);
+    DEMO3D_GRAPHIC_UpdateLookAt((Demo3dGraphic *)ctx->graphic);
     for(i=0;i<ctx->count;i++) {
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]),(struct Arg *)ctx->args);
+        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((u8 *)ctx->table,ctx->indices[i]),(struct Arg *)ctx->scale);
     }
-    func_021BDF24(ctx->owner);
-    if(ctx->a10 != 0) DOUBLE3DDISP_SetDrawDone();
+    DEMO3D_GRAPHIC_EndDraw((Demo3dGraphic *)ctx->graphic);
+    if(ctx->animeOn != 0) DOUBLE3DDISP_SetDrawDone();
     return done;
 }
 
-int func_021BE620(char *p) { return ICA_ANIME_GetFrame(((struct Obj25315 *)p)->f18); }
+int DEMO3D_ENGINE_GetFrame(struct Ctx *p) { return ICA_ANIME_GetFrame(p->anime); }
 
-u32 func_021BE62C(char *p) { return ICA_ANIME_GetFrameNum(((struct Obj25316 *)p)->f18); }
+u32 DEMO3D_ENGINE_GetFrameNum(struct Ctx *p) { return ICA_ANIME_GetFrameNum(p->anime); }
 
-void func_021BE638(char *p,int a) { ((struct Obj25317 *)p)->f8=a; }
+void DEMO3D_ENGINE_SetMode(struct Ctx *p,int a) { p->cmdMode=a; }
 
 static inline void Anti(BOOL enable) {
     if(enable) DISP=(u16)((DISP & ~0x3000)|16);
@@ -522,15 +535,15 @@ static inline void Edge(BOOL enable) {
  * parameter copy; const record preserves the later clear-color loads.
  * volatile: 0x04000060, 0x04000340, 0x04000358
  */
-void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *record,u16 heap)
+void DEMO3D_ENGINE_SetupLighting(struct Ctx *ctx,struct Config *cfg,const struct Record *record,u16 heap)
 {
     u16 colors[10];
     u32 fogtable[8];
     u32 i;
     ZONEDATA_GetTimeLightColors(record->id,cfg->hour,cfg->minute,0,cfg->second,colors,heap);
-    func_021BDF3C(ctx->owner,colors,0);
+    DEMO3D_GRAPHIC_SetupLightBlock((Demo3dGraphic *)ctx->graphic,colors,0);
     Anti(record->anti);
-    Test(record->test,ctx->record->ref);
+    Test(record->test,((struct Record *)ctx->cam)->ref);
     Blend(record->blend);
     Edge(record->edge);
     if(record->edge) func_0207DCF8(record->edgecolors);
@@ -545,18 +558,18 @@ void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *r
     G3D_SYSTEM_SetSwapBuffersMode(record->mode1,record->mode2);
 }
 
-unsigned func_021BE79C(unsigned x) { if(x==0||x>=19)x=0;return x; }
+unsigned DEMO3D_ENGINE_ClampAnimeId(unsigned x) { if(x==0||x>=19)x=0;return x; }
 
-u32 func_021BE7A8(u32 id)
+u32 DEMO3D_ENGINE_GetAnimeId(u32 id)
 {
-    return *(u32 *)(d_021C185C + func_021BE79C(id) * 0x14);
+    return *(u32 *)(d_021C185C + DEMO3D_ENGINE_ClampAnimeId(id) * 0x14);
 }
 
-void *func_021BE7BC(u32 a, u32 b, u32 c)
+void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c)
 {
-    u16 *t = (u16 *)func_021BE7A8(a);
+    u16 *t = (u16 *)DEMO3D_ENGINE_GetAnimeId(a);
 
     return ICA_ANIME_CreateStream(b, 0xa0, *t, c);
 }
 
-u8 func_021BE7D8(unsigned x) { return *(u32 *)(d_021C186C+func_021BE79C(x)*20); }
+u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x) { return *(u32 *)(d_021C186C+DEMO3D_ENGINE_ClampAnimeId(x)*20); }

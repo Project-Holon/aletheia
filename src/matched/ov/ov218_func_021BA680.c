@@ -1,5 +1,5 @@
 /*
- * function: func_021BA680
+ * function: UN_SELECT_SetActorX
  * address: 0x021BA680
  * packet: pkt_ov218_021BA680
  * region: ov218
@@ -16,4 +16,4 @@
 #include "../include/Obj03959.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef signed short s16;typedef unsigned int u32;
 struct Actor;struct Obj;typedef struct PtS{s16 x,y;} PtS;extern void CLACT_GetActorSurfacePos(struct Actor *,PtS *,u32);extern void CLACT_AddActorSurfacePos(struct Obj *,const PtS *,u32);
-void func_021BA680(char *p,int v){PtS pos;s16 y;void *o;o=((struct Obj03959 *)p)->f2CC;y=(s16)v;if(y<16)y=16;else if(y>152)y=152;CLACT_GetActorSurfacePos(o,&pos,0);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,0);}
+void UN_SELECT_SetActorX(char *p,int v){PtS pos;s16 y;void *o;o=((struct Obj03959 *)p)->f2CC;y=(s16)v;if(y<16)y=16;else if(y>152)y=152;CLACT_GetActorSurfacePos(o,&pos,0);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,0);}

@@ -17,11 +17,11 @@
 
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *p, int v, int n);
 
-int STARTMENU_LogoScreenInit(struct Obj0203159C *a0)
+int STARTMENU_LogoScreenInit(struct Proc *a0)
 {
     GFL_HEAP_CreateChildHeap(1, 0x16, 0x70000);
     MI_CpuFill8(PROCSYS_AllocProcWork(a0, 8, 0x16), 0, 8);

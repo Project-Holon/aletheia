@@ -201,13 +201,13 @@
  *   func_0202EA20 0x0202EA20 thumb
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02034A5C 0x02034A5C arm
  *   d_021D89B0      0x021D89B0  data
  *   BG_SYS_InitBgLayer   0x0203FCA0  arm
  *   BG_SYS_FreeSlot   0x020414AC  arm
- *   func_020409B4   0x020409B4  arm
+ *   BG_SYS_PushTile   0x020409B4  arm
  *   BG_SYS_Init   0x02040C14  arm
  *   BG_SYS_SetTileEntry   0x02041300  arm
  *   PALANM_Create 0x02021518 thumb
@@ -230,7 +230,7 @@
  *   d_021D8944 0x021D8944 data a4
  *   d_021D8964 0x021D8964 data a4
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
@@ -344,9 +344,9 @@ struct S;
 struct TaskMenu;
 struct Ctx;
 struct BigObj;
-struct Obj0203159C;
+struct Proc;
 struct Big;
-struct S020315D4;
+struct Proc;
 struct DispVram;
 struct Bank;
 struct Cfg;
@@ -560,7 +560,7 @@ extern int GTSNEGO_MSG_IsCursorAnimDone(u8 *p);
 extern void *GTSNEGO_MSG_OpenMenu(char *p, int n);
 extern void GTSNEGO_MSG_DeleteDraw(u8 *);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern char *GTSNEGO_MSG_Create(u32 heap, u32 n);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -579,7 +579,7 @@ extern void func_0200F7F4(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned int);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void GTSNEGO_MSG_Delete(char *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02034AC4(int);
@@ -609,12 +609,12 @@ extern void CLACT_ExitSystem(void);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(u32,u32,u32);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_Delete(void);
 extern void func_02034A5C(int handle);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_SetTileEntry(u32, u32, u32, u32, u8, u8, u8);
 extern void *PALANM_Create(u32);
@@ -628,7 +628,7 @@ extern void func_0207E468(void *,int,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void CLACT_VBlankSystem(void);
-extern void func_02040618(u32,u32,u32);
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
@@ -2298,7 +2298,7 @@ void GTSNEGO_DISP_DeleteMsgSystem(u8 *p)
     BG_SYS_SetTileUnit(5,1,0);
     BG_SYS_SetTileUnit(6,1,0);
     func_02040588(5,0);
-    for(i=0;i<=7;i++) func_020403F4((u8)i);
+    for(i=0;i<=7;i++) BG_SYS_FreeLayerBuf((u8)i);
     BG_SYS_Delete();
     func_020307B0(p);
     func_02034A5C((int)ov_id);
@@ -2336,7 +2336,7 @@ void GTSNEGO_DISP_InitBgLayers(u8 *a0)
     b[7] = d_021D89B0[0];
     BG_SYS_InitBgLayer(0, &b[7], 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     func_02040588(0, 1);
 
     b[6] = d_021D89B0[5];
@@ -2344,43 +2344,43 @@ void GTSNEGO_DISP_InitBgLayers(u8 *a0)
     func_02040588(1, 1);
     BG_SYS_Init(1, 0, 1, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 
     b[5] = d_021D89B0[1];
     BG_SYS_InitBgLayer(2, &b[5], 0);
     func_02040588(2, 1);
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 
     b[4] = d_021D89B0[2];
     BG_SYS_InitBgLayer(3, &b[4], 0);
     func_02040588(3, 1);
     BG_SYS_SetTileEntry(3, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
 
     b[3] = d_021D89B0[3];
     BG_SYS_InitBgLayer(4, &b[3], 0);
     func_02040588(4, 1);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 
     b[2] = d_021D89B0[4];
     BG_SYS_InitBgLayer(5, &b[2], 0);
     func_02040588(5, 1);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
 
     b[1] = d_021D89B0[6];
     BG_SYS_InitBgLayer(6, &b[1], 0);
     func_02040588(6, 1);
     BG_SYS_Init(6, 0, 1, 0);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
 
     b[0] = d_021D89B0[7];
     BG_SYS_InitBgLayer(7, &b[0], 0);
     func_02040588(7, 1);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }
 
 
@@ -2483,7 +2483,7 @@ void GTSNEGO_DISP_SetTradePalette(struct GtsnegoMsgCtx *p,int flag,int mode)
 /*
  * extent: two-byte zero alignment padding follows.
  */
-void GTSNEGO_DISP_VBlank(void *unused,u8 *p){CLACT_VBlankSystem();if(((struct GtsnegoMsgCtx *)p)->f100){func_02040618(4,3,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f104+72);func_02040618(6,3,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f104+72);((struct GtsnegoMsgCtx *)p)->f100=0;}}
+void GTSNEGO_DISP_VBlank(void *unused,u8 *p){CLACT_VBlankSystem();if(((struct GtsnegoMsgCtx *)p)->f100){BG_SYS_FillScrollArea(4,3,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f104+72);BG_SYS_FillScrollArea(6,3,*(unsigned int *)&((struct GtsnegoMsgCtx *)p)->f104+72);((struct GtsnegoMsgCtx *)p)->f100=0;}}
 
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE898
+ * function: INTRO_CMD_CmdAnimMode
  * address: 0x021BE898
  * packet: pkt_ov204_021BE898
  * region: ov204
@@ -25,7 +25,7 @@ extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 struct Sub0200852CObj;
 extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
-int func_021BE898(char *p,u32 *q)
+int INTRO_CMD_CmdAnimMode(char *p,u32 *q)
 {
     void *obj;
     switch (*q) {

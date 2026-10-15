@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   sWf2dmapPaletteDesc 0x021C60C4 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  */
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { u32 a[4]; u8 b[12]; u32 c; } Descriptor;
 extern const Descriptor sWf2dmapPaletteDesc;
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_InitBgLayer(u8,void *,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *p)
@@ -28,7 +28,7 @@ void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *p)
     d=sWf2dmapPaletteDesc;
     d.b[1]=p[2]; d.b[2]=p[3]; d.b[3]=p[4];
     d.b[8]=p[5]; d.b[9]=p[6]; d.b[10]=0; d.c=p[7];
-    func_020403F4((u8)id);
+    BG_SYS_FreeLayerBuf((u8)id);
     BG_SYS_InitBgLayer(id,&d,0);
     func_02040588(id,1);
 }

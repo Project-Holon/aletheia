@@ -10,7 +10,7 @@
  * symbols:
  *   d_021C3AC8 0x021C3AC8 data a1
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   RESEARCH_GRAPH_SetHighlightB 0x021BEB88 thumb ov217
  */
 #include "../include/Obj25909.h"
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef struct { u8 x,y,w,h; u8 rest[32]; } E;
 extern struct E d_021C3AC8[];
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern u32 RESEARCH_GRAPH_SetHighlightB(u32);
 void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
 {
@@ -41,5 +41,5 @@ void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
         RESEARCH_GRAPH_SetHighlightB((u32)p);
         break;
     }
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 }

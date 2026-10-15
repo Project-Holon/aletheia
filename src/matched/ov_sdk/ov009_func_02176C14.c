@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWC_Free    0x0205A1B0  arm
- *   g_021AB178  0x021AB178  data
+ *   gDwcReliableQueue  0x021AB178  data
  */
 
 typedef struct SendQueue {
@@ -29,7 +29,7 @@ typedef struct QueueInfo {
 } QueueInfo;
 
 extern void DWC_Free(int kind, void *p, int size);
-extern QueueInfo g_021AB178;
+extern QueueInfo gDwcReliableQueue;
 
 int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
 {
@@ -37,12 +37,12 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
     int retrycount;
     int res;
 
-    for (it = g_021AB178.head; it != 0; it = it->fC) {
+    for (it = gDwcReliableQueue.head; it != 0; it = it->fC) {
         retrycount = 0;
         do {
             res = func(it->f0, it->f4, it->f8, 1);
             if (res == 0) {
-                g_021AB178.total -= it->f8;
+                gDwcReliableQueue.total -= it->f8;
                 DWC_Free(4, it->f4, it->f8);
                 it->f4 = 0;
                 it->f8 = 0;
@@ -54,10 +54,10 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
         if (retrycount == 3)
             break;
     }
-    for (it = g_021AB178.head; it != 0; it = g_021AB178.head) {
+    for (it = gDwcReliableQueue.head; it != 0; it = gDwcReliableQueue.head) {
         if (it->f4 != 0)
             break;
-        g_021AB178.head = it->fC;
+        gDwcReliableQueue.head = it->fC;
         DWC_Free(4, it, 0);
     }
     return it == 0;

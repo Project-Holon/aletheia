@@ -18,11 +18,11 @@
 typedef unsigned int u32;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
-int CDEMO_MAIN_Create(struct Obj0203159C *p, u32 b, u32 c)
+int CDEMO_MAIN_Create(struct Proc *p, u32 b, u32 c)
 {
     char *r;
 

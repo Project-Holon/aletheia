@@ -19,7 +19,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   OEKAKI_RefreshNamePlates  0x02185F74  thumb  ov023
  */
 
@@ -56,7 +56,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern void OEKAKI_RefreshNamePlates(u32 *a, int b, W *p);
 
 void OEKAKI_CreateWindows(W *p)
@@ -82,7 +82,7 @@ void OEKAKI_CreateWindows(W *p)
         w = p->win[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     }
     OEKAKI_RefreshNamePlates(p->win, 0x44f, p);
 }

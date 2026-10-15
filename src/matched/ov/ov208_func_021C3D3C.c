@@ -13,7 +13,7 @@
  *   ov208_func_021BC3A8  0x021BC3A8  thumb  ov208
  *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
  *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   ov208_func_021BDCA4  0x021BDCA4  thumb  ov208
@@ -82,7 +82,7 @@ typedef int            s32;
 extern void *ov208_func_021BC3A8(int key);
 extern void *ov208_func_021BC3B4(int key);
 extern void *ov208_func_021BC3B8(int key);
-extern void func_02040618(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
 extern void BG_SYS_FreeSlot(u32 bgId);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void ov208_func_021BDCA4(void *s, u8 v);
@@ -168,8 +168,8 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         *seq = 1;
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                func_02040618(i, 0, 0);
-                func_02040618(i, 3, 0);
+                BG_SYS_FillScrollArea(i, 0, 0);
+                BG_SYS_FillScrollArea(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }

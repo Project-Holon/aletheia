@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C40
+ * function: MANUAL_COMMON_GetGroupValue2
  * address:  0x021B9C40
  * packet:   pkt_021B9C40
  * region:   ov225
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9CFC  0x021B9CFC  thumb  ov225
+ *   MANUAL_COMMON_GetEntry  0x021B9CFC  thumb  ov225
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned short u16;
 
-extern int func_021B9CFC(char *, int);
+extern int MANUAL_COMMON_GetEntry(char *, int);
 
-u16 func_021B9C40(char *p, int idx, int c)
+u16 MANUAL_COMMON_GetGroupValue2(char *p, int idx, int c)
 {
-    return ((u16 *)func_021B9CFC(p, idx))[c + 3];
+    return ((u16 *)MANUAL_COMMON_GetEntry(p, idx))[c + 3];
 }

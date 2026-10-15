@@ -1,5 +1,5 @@
 /*
- * function: func_021F2674
+ * function: BEACON_VIEW_UpdateList
  * address:  0x021F2674
  * packet:   pkt_ov032_021F2674
  * region:   ov032
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F2674 0x021F2674 thumb
+ *   BEACON_VIEW_UpdateList 0x021F2674 thumb
  *   BEACON_VIEW_ShowViewFlagMessage 0x021F00C8 thumb ov032
  *   BEACON_VIEW_CheckLeaveRequest 0x021F0078 thumb ov032
  *   BEACON_VIEW_UpdateListTouch 0x021EFF7C thumb ov032
- *   func_021F0114 0x021F0114 thumb ov032
+ *   BEACON_VIEW_ShowNextHistoryPower 0x021F0114 thumb ov032
  *   BEACON_VIEW_LoadNextRecord 0x021F0140 thumb ov032
  */
 #include "../include/Obj00188.h"
@@ -23,10 +23,10 @@ extern int BEACON_VIEW_ShowViewFlagMessage(char *);
 extern int BEACON_VIEW_CheckLeaveRequest(char *);
 typedef unsigned char  u8;
 extern int BEACON_VIEW_UpdateListTouch(u8 *p);
-extern int func_021F0114(u8 *p);
+extern int BEACON_VIEW_ShowNextHistoryPower(u8 *p);
 extern int BEACON_VIEW_LoadNextRecord(u8 *p);
 
-int func_021F2674(char *p)
+int BEACON_VIEW_UpdateList(char *p)
 {
     int r;
 
@@ -43,7 +43,7 @@ int func_021F2674(char *p)
             ((struct Obj00188 *)p)->f74 = ((struct Obj00188 *)p)->f74 - 1;
             return 0;
         }
-        if (func_021F0114((u8 *)p) == 1) {
+        if (BEACON_VIEW_ShowNextHistoryPower((u8 *)p) == 1) {
             ((struct Obj00188 *)p)->f74 = 90;
             return 2;
         }

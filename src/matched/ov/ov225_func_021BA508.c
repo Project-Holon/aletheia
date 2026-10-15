@@ -1,5 +1,5 @@
 /*
- * function: func_021BA508
+ * function: MANUAL_COMMON_UpdateTouchbarActors
  * address: 0x021BA508
  * packet: pkt_ov225_021BA508
  * region: ov225
@@ -16,7 +16,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   d_021BBF14 0x021BBF14 data a4
+ *   gManualCommonActorEntries 0x021BBF14 data a4
  */
 #include "../include/Obj00367.h"
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj; struct Actor;
 struct Entry { u32 first; u16 normal,pad6; u8 left,right,top,bottom; u32 active,mask,sound,last; };
-extern const struct Entry d_021BBF14[];
+extern const struct Entry gManualCommonActorEntries[];
 extern u32 CLACT_GetActorDrawEnable(struct Obj *);
 extern u32 KEY_GetRepeat(void);
 extern void func_020355D8(u8);
@@ -32,7 +32,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
-void func_021BA508(char *p)
+void MANUAL_COMMON_UpdateTouchbarActors(char *p)
 {
  u8 i;
  u32 found,x,y;
@@ -42,7 +42,7 @@ void func_021BA508(char *p)
   found=0;
   for(i=0;i<2;i++) {
    if(CLACT_GetActorDrawEnable(*(struct Obj **)(p+i*4+0x38))) {
-    row=&d_021BBF14[i];
+    row=&gManualCommonActorEntries[i];
     if(KEY_GetRepeat()&row->mask) {
      ((struct Obj00367 *)p)->f40=i;
      func_020355D8(0);
@@ -60,15 +60,15 @@ void func_021BA508(char *p)
    }
   }
   if(found) {
-   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
-   if(d_021BBF14[*(u8 *)(p+0x40)].sound) GFL_USE_PlaySeDefaultVolume(d_021BBF14[*(u8 *)(p+0x40)].sound);
+   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),gManualCommonActorEntries[*(u8 *)(p+0x40)].active);
+   if(gManualCommonActorEntries[*(u8 *)(p+0x40)].sound) GFL_USE_PlaySeDefaultVolume(gManualCommonActorEntries[*(u8 *)(p+0x40)].sound);
    ((struct Obj00367 *)p)->f44=1;
   }
   break;
  case 1: ((struct Obj00367 *)p)->f44=2; break;
  case 2:
   if(!CLACT_IsActorAnimActive(*(struct Actor **)(p+((struct Obj00367 *)p)->f40*4+0x38))) {
-   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].normal);
+   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),gManualCommonActorEntries[*(u8 *)(p+0x40)].normal);
    ((struct Obj00367 *)p)->f44=3;
   }
   break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8D1C
+ * function: MYSTERY_CardViewAnimScroll
  * address: 0x021D8D1C
  * packet: pkt_ov121_021D8D1C
  * region: ov121
@@ -12,9 +12,9 @@
  * symbols:
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_021D694C 0x021D694C thumb ov121
- *   func_021DAB50 0x021DAB50 thumb ov121
- *   func_021D9254 0x021D9254 thumb ov121
+ *   MYSTERY_SetupBg 0x021D694C thumb ov121
+ *   MYSTERY_UTIL_BlendPaletteRange 0x021DAB50 thumb ov121
+ *   MYSTERY_StartScroll 0x021D9254 thumb ov121
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -29,19 +29,19 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(void *,int,int,int,int);
 struct Actor;
 struct Obj;
-extern void func_021D694C(u16 *p, int mode);
-extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
-extern void func_021D9254(char *p, int n);
+extern void MYSTERY_SetupBg(u16 *p, int mode);
+extern void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
+extern void MYSTERY_StartScroll(char *p, int n);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021D8D1C(u8 *p)
+void MYSTERY_CardViewAnimScroll(u8 *p)
 {
     s16 y;
     switch(((struct Obj00498 *)p)->f20) {
     case 0:
         func_02040588(2,0);
-        func_021D694C(((struct Obj00498 *)p)->f24,2);
+        MYSTERY_SetupBg(((struct Obj00498 *)p)->f24,2);
         ((struct Obj00498 *)p)->f20=1;
         return;
     case 1:
@@ -54,11 +54,11 @@ void func_021D8D1C(u8 *p)
         u32 n=(((struct Obj00498 *)p)->f18*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
         ((struct Obj00498 *)p)->f30=(((struct Obj00498 *)p)->f18*32767u)/120u;
-        func_021DAB50((void *)15,(u16 *)(p+50),((struct Obj00498 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
-        func_021DAB50((void *)31,(u16 *)(p+82),((struct Obj00498 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange((void *)15,(u16 *)(p+50),((struct Obj00498 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
+        MYSTERY_UTIL_BlendPaletteRange((void *)31,(u16 *)(p+82),((struct Obj00498 *)p)->f30,0,(const u16 *)(p+114),(const u16 *)(p+146));
         if((((struct Obj00498 *)p)->f18)++>120) {
             *(volatile u16 *)0x04000050=0;
-            func_021D9254(((struct Obj00498 *)p)->f28,1);
+            MYSTERY_StartScroll(((struct Obj00498 *)p)->f28,1);
             ((struct Obj00498 *)p)->f18=0;
             ((struct Obj00498 *)p)->f20=3;
             return;
@@ -78,7 +78,7 @@ void func_021D8D1C(u8 *p)
         if(y>=-48 && y<=192) CLACT_SetActorDrawEnable(((struct Obj00498 *)p)->f4,1);
         if((((struct Obj00498 *)p)->f18)++>=60) {
             GFL_USE_PlaySeDefaultVolume(1649);
-            func_021D9254(((struct Obj00498 *)p)->f28,0);
+            MYSTERY_StartScroll(((struct Obj00498 *)p)->f28,0);
             ((struct Obj00498 *)p)->f18=0;
             ((struct Obj00498 *)p)->f20=5;
             return;

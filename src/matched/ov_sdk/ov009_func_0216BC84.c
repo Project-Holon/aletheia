@@ -13,20 +13,20 @@
  * +0x24 link to v.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
 
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 void DWCi_SetState(int v)
 {
-    char *p = *(char **)(((char *)&g_021AA878) + 4);
+    char *p = *(char **)(((char *)&gDwcGlobalState) + 4);
 
     *(int *)(p + 0x28) = *(int *)(p + 0x24);
-    p = *(char **)(((char *)&g_021AA878) + 4);
+    p = *(char **)(((char *)&gDwcGlobalState) + 4);
     *(int *)(p + 0x24) = v;
 }
 

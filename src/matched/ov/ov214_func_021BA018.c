@@ -1,5 +1,5 @@
 /*
- * function: func_021BA018
+ * function: BTL_REC_SEL_DeleteWindows
  * address: 0x021BA018
  * packet: pkt_ov214_021BA018
  * region: ov214
@@ -29,7 +29,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 typedef unsigned int   u32;
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021BA018(int unused,char*p)
+void BTL_REC_SEL_DeleteWindows(int unused,char*p)
 {
     if(*(void* *)&((struct Obj00636 *)p)->f5C)PRINTSYS_PrintStreamDelete(*(void* *)&((struct Obj00636 *)p)->f5C);
     if(*(void* *)&((struct Obj00636 *)p)->f78)STRBUF_Delete(*(void* *)&((struct Obj00636 *)p)->f78);

@@ -47,8 +47,8 @@
  *   SOCLiDhcpState              0x021AA448 data
  *   SOCLiUDPSendSocket          0x021AA44C data
  *   SOCLiCPSConfig              0x021AA450 data
- *   g_021A1CFC                  0x021A1CFC data
- *   g_021A82BC                  0x021A82BC data
+ *   SOCLSocketParamTCP                  0x021A1CFC data
+ *   gCpsMyIp                  0x021A82BC data
  */
 
 #include "../include/G_SOCLSocketParam.h"
@@ -106,8 +106,8 @@ static u32 SOCLiRequestedIP = 0;
 static u32 SOCLiUDPSendSocket = 0;
 static u32 SOCLiYieldWait = 0;
 
-extern struct SOCLSocketParam g_021A1CFC;
-extern u32 g_021A82BC;
+extern struct SOCLSocketParam SOCLSocketParamTCP;
+extern u32 gCpsMyIp;
 
 void MI_CpuFill8(void *dstp, u8 data, u32 size);
 void CPS_SetThreadPriority(u32 new_prio);
@@ -153,10 +153,10 @@ static void SOCLi_StartupCPS(void)
     } else if (mss < 0x240) {
         mss = 0x240;
     }
-    ((u16 *)&g_021A1CFC)[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
+    ((u16 *)&SOCLSocketParamTCP)[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
     cps_config->mymss = (u32)(mss - 0x28);
-    ((u16 *)&g_021A1CFC)[2] = (u16)((mss - 0x28) * 2);
-    g_021A82BC = 0;
+    ((u16 *)&SOCLSocketParamTCP)[2] = (u16)((mss - 0x28) * 2);
+    gCpsMyIp = 0;
     if (socl_config->use_dhcp != 0) {
         cps_config->mode = 0;
         SOCLiDhcpState = 1;

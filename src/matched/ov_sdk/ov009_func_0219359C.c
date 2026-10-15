@@ -23,12 +23,12 @@
  * symbols:
  *   gpiSetError  0x02193710  arm  ov009
  *   gpiCallErrorCallback  0x02189D78  arm  ov009
- *   g_021A57B8     0x021A57B8  data
+ *   gGpiUtilityMsgParseError     0x021A57B8  data
  */
 
 extern void gpiSetError(int *connection, int result, int errorString);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
-extern char g_021A57B8[];
+extern char gGpiUtilityMsgParseError[];
 
 int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *key, char *value)
 {
@@ -40,19 +40,19 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
     start = (char *)buffer;
 
     if (*buffer++ != '\\') {
-        gpiSetError(connection, 1, (int)g_021A57B8);
+        gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
         gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
 
     for (i = 0; (c = *buffer++) != '\\'; i++) {
         if (c == 0) {
-            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
             gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         if (i == 0x1ff) {
-            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
             gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
@@ -62,7 +62,7 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
 
     for (i = 0; ((c = *buffer++) != '\\') && (c != 0); i++) {
         if (i == 0x1ff) {
-            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
             gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }

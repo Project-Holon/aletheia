@@ -1,5 +1,5 @@
 /*
- * function: func_021DD1FC
+ * function: MYSTERY_ALBUM_DeleteSlotWork
  * address: 0x021DD1FC
  * packet: pkt_ov121_021DD1FC
  * region: ov121
@@ -13,7 +13,7 @@
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   func_021DA280 0x021DA280 thumb ov121
+ *   MYSTERY_UTIL_DeleteWindowList 0x021DA280 thumb ov121
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char  u8;
@@ -23,9 +23,9 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern void func_021DA280(u8 *p);
+extern void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 extern u32 func_020307B0(void *p);
-void func_021DD1FC(void **p)
+void MYSTERY_ALBUM_DeleteSlotWork(void **p)
 {
     CLACT_DeleteActor(p[8]);
     CLACT_ReleaseCharacter((u32)p[5]);
@@ -35,6 +35,6 @@ void func_021DD1FC(void **p)
     CLACT_ReleaseCharacter((u32)p[2]);
     CLACT_ReleaseCellAnim((u32)p[3]);
     CLACT_ReleasePalette((u32)p[1]);
-    func_021DA280(p[0]);
+    MYSTERY_UTIL_DeleteWindowList(p[0]);
     func_020307B0(p);
 }

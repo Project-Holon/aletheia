@@ -1,5 +1,5 @@
 /*
- * function: func_021F1484
+ * function: BEACON_VIEW_MoveEntryToSlot
  * address:  0x021F1484
  * packet:   pkt_ov032_021F1484
  * region:   ov032
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F1484 0x021F1484 thumb
- *   func_021F1218 0x021F1218 thumb
- *   func_021F0EA4 0x021F0EA4 thumb
- *   func_021F155C 0x021F155C thumb
+ *   BEACON_VIEW_MoveEntryToSlot 0x021F1484 thumb
+ *   BEACON_VIEW_SetEntryPosition 0x021F1218 thumb
+ *   BEACON_VIEW_SetEntryVisible 0x021F0EA4 thumb
+ *   BEACON_VIEW_StartEntrySlide 0x021F155C thumb
  */
 
 typedef unsigned char u8;
 
-extern void func_021F1218(char *p, short x, short y);
-extern void func_021F0EA4(char *p, unsigned a);
-extern void func_021F155C(char *p, u8 *e, int mode, u8 delay, int *r);
+extern void BEACON_VIEW_SetEntryPosition(char *p, short x, short y);
+extern void BEACON_VIEW_SetEntryVisible(char *p, unsigned a);
+extern void BEACON_VIEW_StartEntrySlide(char *p, u8 *e, int mode, u8 delay, int *r);
 
-void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s)
+void BEACON_VIEW_MoveEntryToSlot(char *this, int a, u8 *b, u8 *c, void *s)
 {
     int i;
     u8 *e;
@@ -32,14 +32,14 @@ void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s)
             b[2] = 5;
         else
             b[2] = 0;
-        func_021F1218((char *)b, -13 * (1 - b[2]), -40 * (1 - b[2]));
-        func_021F0EA4((char *)b, 1);
+        BEACON_VIEW_SetEntryPosition((char *)b, -13 * (1 - b[2]), -40 * (1 - b[2]));
+        BEACON_VIEW_SetEntryVisible((char *)b, 1);
     }
     for (i = 0; i < 5; i++) {
         e = (u8 *)(this + 0x1b8) + i * 0x34;
         if (e[1] != 0xff) {
             if (c == 0 || e[0] != c[0])
-                func_021F155C(this, e, a, 0, s);
+                BEACON_VIEW_StartEntrySlide(this, e, a, 0, s);
         }
     }
 }

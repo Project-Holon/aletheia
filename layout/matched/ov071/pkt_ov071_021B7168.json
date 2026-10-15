@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B7168",
-    "func_021B7170"
+    "MONOLITH_TOOL_DeleteActorAt",
+    "MONOLITH_TOOL_Noop"
+   ],
+   "addresses": [
+    "0x021B7168",
+    "0x021B7170"
    ]
   }
  ]

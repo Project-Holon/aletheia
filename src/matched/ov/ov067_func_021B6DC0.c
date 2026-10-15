@@ -31,7 +31,7 @@
  *   func_02049740  0x02049740  arm
  *   func_020498F4  0x020498F4  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
  *   func_02040588  0x02040588  arm
@@ -121,7 +121,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -199,7 +199,7 @@ S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u3
     func_020498F4(h, 0xa5, p->f14, (u16)p->f84, 0x600, 0, p->heap);
     BG_SYS_FillTileMap(p->f14, 0, 0, 0x20, 0xb, p->f16);
     BG_SYS_FillTileMap(p->f14, 0, 0xb, 0x20, 0xd, p->f17);
-    func_020409B4(p->f14);
+    BG_SYS_PushTile(p->f14);
     ARC_TOOL_DeleteHandle(h);
     YESNO_MENU_CopyPalette(p->f10, p->f16, p->pal);
     YESNO_MENU_CopyPalette(p->f10, p->f17, p->pal);

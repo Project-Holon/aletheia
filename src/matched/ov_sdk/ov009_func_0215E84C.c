@@ -19,7 +19,7 @@
  *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   SOCLi_SendCommandPacketToCtrlPipe  0x0215CEFC  arm  ov009
- *   g_021AA4AC     0x021AA4AC  data
+ *   SOCLi_Resource     0x021AA4AC  data
  *   SOCLi_CloseCallBack  0x0215E980  arm  ov009
  */
 
@@ -39,7 +39,7 @@ struct SOCLSocket {
 	signed char flag_mode;
 };
 
-extern struct SOCLResource g_021AA4AC;
+extern struct SOCLResource SOCLi_Resource;
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -90,10 +90,10 @@ int SOCL_Close(int s)
 		if (socket->flag_mode != 0 && socket->flag_mode != 4)
 			mode = 0;
 		if (mode == 0) {
-			g_021AA4AC.b--;
+			SOCLi_Resource.b--;
 		} else {
 			SOCLi_SendCommandPacket((int)socket->send_pipe, 0);
-			g_021AA4AC.a--;
+			SOCLi_Resource.a--;
 		}
 	}
 	command = func_0215CE3C(SOCLi_CloseCallBack, socket, 1);

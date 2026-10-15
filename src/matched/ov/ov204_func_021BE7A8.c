@@ -1,5 +1,5 @@
 /*
- * function: func_021BE7A8
+ * function: INTRO_CMD_CmdMoveVoice
  * address:  0x021BE7A8
  * packet:   pkt_ov204_021BE7A8
  * region:   ov204
@@ -29,7 +29,7 @@ extern u32 PM_VOICE_IsActive(u32 i);
 extern void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v);
 extern int INTRO_G3D_MoveSlot1(char *p, int delta, int limit);
 
-int func_021BE7A8(u8 *p, u32 *q)
+int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q)
 {
     switch (*q) {
     case 0:

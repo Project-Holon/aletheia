@@ -53,31 +53,31 @@
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A85E4  0x021A85E4  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsScavengerThread  0x021A85E4  data
+ *   gCpsNetVars  0x021A826C  data
  *   OS_JoinThread  0x02085710  arm
  *   OS_DestroyThread  0x020855BC  arm
  *   OS_CancelAlarm  0x020873F8  arm
  *   func_02157290  0x02157290  arm  ov009
- *   g_021A86A4  0x021A86A4  data
- *   g_021A82FC  0x021A82FC  data
- *   g_021A8524  0x021A8524  data
+ *   gCpsTcpipThread  0x021A86A4  data
+ *   gCpsDackTimerAlarm  0x021A82FC  data
+ *   gCpsDackTimerThread  0x021A8524  data
  *   OS_SetThreadPriority             0x02085988 arm
  *   is_broadcast  0x021578EC  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
  *   WCM_SendDCFDataEx  0x02166444  arm  ov009
- *   g_021A1CC0  0x021A1CC0  data
+ *   gCpsUdpHeaderTemplate  0x021A1CC0  data
  *   MI_CpuCopy                       0x02082ea4 arm
  *   OS_SleepThread  0x020857B0  arm
  *   gMslRefToken  0x02150FEC  data
  *   func_020870D0  0x020870D0  arm
- *   g_021A82D4  0x021A82D4  data
- *   g_021A1CA1  0x021A1CA1  data
- *   g_021A8384  0x021A8384  data
+ *   CPSMyMac  0x021A82D4  data
+ *   gCpsBroadcastMac  0x021A1CA1  data
+ *   gCpsArpCache  0x021A8384  data
  *   g_021A838E  0x021A838E  data
  *   MI_CpuFill8              0x02082BCC  arm
  *   OS_Sleep  0x02085A38  arm
- *   g_021A1CA8  0x021A1CA8  data
+ *   gCpsRetryDelays  0x021A1CA8  data
  *   ip_islocal            0x02157888  arm  ov009
  *   get_targetip  0x021578C8  arm  ov009
  *   OS_DisableInterrupts     0x02087988  arm
@@ -88,17 +88,17 @@
  *   eport  0x021A8272  data
  *   _ZZ13func_02158524PhmP7_CPSSocE7pingseq  0x021A8274  data
  *   _ZZ13func_0215C350PmiE10sleep_save       0x021A82AC  data
- *   g_021A8328     0x021A8328  data
+ *   gCpsSendHeader     0x021A8328  data
  *   OSi_ThreadInfo                   0x02150fec data
  *   dacktimer_reschedule             0x0215bac0 arm
  *   _tcp_send_handshake              0x021593a8 arm
- *   g_021A8484               0x021A8484  data
+ *   gCpsSoc               0x021A8484  data
  *   find_socket  0x02159244  arm  ov009
  *   OS_YieldThread  0x020858D8  arm
  *   _tcp_send_ack  0x02159404  arm  ov009
  *   OS_YieldThread                   0x020858d8 arm
  *   dt_rst            0x0215A0CC  arm  ov009
- *   g_021A8A64                       0x021a8a64 data
+ *   gCpsFragTable                       0x021a8a64 data
  *   MI_CpuFill8  0x02082BCC  arm
  *   CPSi_SslConnect  0x02162968  arm  ov009
  *   _tcp_send_finack                 0x02159494 arm
@@ -117,16 +117,16 @@
  *   CPSi_SslGetLength  0x02162C28  arm  ov009
  *   d_021A826C     0x021A826C  data
  *   CPSi_SslPeriodical  0x02162EC4  arm  ov009
- *   g_021A83E4     0x021A83E4  data
- *   g_021A88E4     0x021A88E4  data
- *   g_021A8764     0x021A8764  data
+ *   gCpsRecvSoc     0x021A83E4  data
+ *   gCpsRecvBuffer     0x021A88E4  data
+ *   gCpsSendBuffer     0x021A8764  data
  *   func_0208738C  0x0208738C  arm
  *   dacktimer_alarmhandler  0x0215BBF0  arm  ov009
- *   g_021A1CCC               0x021A1CCC  data
+ *   gCpsHostName               0x021A1CCC  data
  *   pad_mem  0x0215BD58  arm  ov009
- *   g_021A878E     0x021A878E  data
+ *   gCpsDhcpBuffer     0x021A878E  data
  *   CPS_SocConsume                    0x0215b064 arm ov009
- *   g_021A1C9C                       0x021a1c9c data
+ *   gCpsRetryCounts                       0x021a1c9c data
  *   CPSDhcpMode                      0x021a8278 data
  *   cps                              0x021a827c data
  *   OS_Sleep                         0x02085a38 arm
@@ -141,11 +141,11 @@ typedef struct CpsArpEntry {
     unsigned short when;
 } CpsArpEntry;
 
-#define NET_THREAD (*(void *volatile *)&g_021A826C.thread)
+#define NET_THREAD (*(void *volatile *)&gCpsNetVars.thread)
 #define BSWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 #define HTONS(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
-#define IPID g_021A826C.ipid
-#define MYIP g_021A826C.myip
+#define IPID gCpsNetVars.ipid
+#define MYIP gCpsNetVars.myip
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define SET32(p, v) (*(u16 *)(p) = HTONS((v) >> 16), *(u16 *)((p) + 2) = HTONS(v))
 #define TCPDATA(p) ((p) + (((p)[12] & 0xF0u) >> 2))
@@ -378,22 +378,21 @@ extern struct _OSThread tcpip_thread;
 extern u8 dacktimer_stack[0x800];
 extern u8 scavenger_stack[0x800];
 extern u8 tcpip_stack[0x800];
-extern char g_021A82FC[];
-extern u8 g_021A1CC0[];
-extern unsigned char g_021A82D4[6];
-extern unsigned char g_021A1CA1[6];
-extern CpsArpEntry g_021A8384[8];
-extern unsigned long g_021A1CA8[];
-extern u8 g_021A8328[90];
+extern char gCpsDackTimerAlarm[];
+extern u8 gCpsUdpHeaderTemplate[];
+extern unsigned char CPSMyMac[6];
+extern unsigned char gCpsBroadcastMac[6];
+extern CpsArpEntry gCpsArpCache[8];
+extern unsigned long gCpsRetryDelays[];
+extern u8 gCpsSendHeader[90];
 extern int OSi_ThreadInfo;
-extern struct _CPSSoc g_021A8484;
-extern u8 d_021A826C[];
-extern CPSSoc g_021A83E4;
-extern unsigned char g_021A88E4[384];
-extern unsigned char g_021A8764[384];
-extern char g_021A1CCC[];
-extern unsigned char g_021A878E[];
-extern u8 g_021A1C9C[];
+extern struct _CPSSoc gCpsSoc;
+extern CPSSoc gCpsRecvSoc;
+extern unsigned char gCpsRecvBuffer[384];
+extern unsigned char gCpsSendBuffer[384];
+extern char gCpsHostName[];
+extern unsigned char gCpsDhcpBuffer[];
+extern u8 gCpsRetryCounts[];
 
 
 
@@ -550,7 +549,7 @@ static inline unsigned short swap16(unsigned short x)
 
 
 /* the ARP receive path reads the state block through its base address */
-#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
+#define NV(off, type) (*(type *)((char *)&gCpsNetVars + (off)))
 
 
 
@@ -560,7 +559,7 @@ static inline unsigned short swap16(unsigned short x)
 
 static inline int dhcp_denied(void)
 {
-    return g_021A826C.dhcp_callback ? g_021A826C.dhcp_callback() == 0 : 0;
+    return gCpsNetVars.dhcp_callback ? gCpsNetVars.dhcp_callback() == 0 : 0;
 }
 
 
@@ -683,7 +682,7 @@ static unsigned long check_socket(unsigned char *iphdr, unsigned char *tcphdr, s
  * LCG x and the return into named temps before the `context->x` store (the
  * store-operands-first lever) stays 24; `const char *name` on the read-only
  * source parameter (the const-source-pointer tie lever) stays 24; `const` on
- * the read-only extern `g_021A82DC[2]` blows up to 384/159.  Reverted to the
+ * the read-only extern `gCpsDnsIp[2]` blows up to 384/159.  Reverted to the
  * 24-byte state.  This is the list scheduler's slot tie-break, not a body
  * shape: all 7 relocations resolve and every instruction opcode is right.
  *
@@ -875,7 +874,7 @@ u32 resolve_common(u8 *name, u32 type, u16 id, u8 *rname, u32 rname_max)
     d[4] = 1;
     CPS_SocWrite(outbuf, d + 5 - outbuf);
     start = TICK();
-    while (g_021A826C.link_is_on() && ip == 0 && (int)(TICK() - start) < 0xf) {
+    while (gCpsNetVars.link_is_on() && ip == 0 && (int)(TICK() - start) < 0xf) {
         if (CPS_SocGetLength() == 0) {
             OS_Sleep(10);
             continue;
@@ -948,15 +947,15 @@ void dhcp_release_server(void)
 
 	CPS_SocUse();
 	CPS_SocDatagramMode();
-	CPS_SocBind(0x44, 0x43, g_021A826C.dhcp_server_ip);
-	buf = g_021A878E;
+	CPS_SocBind(0x44, 0x43, gCpsNetVars.dhcp_server_ip);
+	buf = gCpsDhcpBuffer;
 	d = dhcp_setcommon(buf, 7);
 	*d++ = 0x36;
 	*d++ = 4;
-	*d++ = (unsigned short)(g_021A826C.dhcp_server_ip >> 16) >> 8;
-	*d++ = g_021A826C.dhcp_server_ip >> 16;
-	*d++ = (unsigned short)g_021A826C.dhcp_server_ip >> 8;
-	*d++ = g_021A826C.dhcp_server_ip;
+	*d++ = (unsigned short)(gCpsNetVars.dhcp_server_ip >> 16) >> 8;
+	*d++ = gCpsNetVars.dhcp_server_ip >> 16;
+	*d++ = (unsigned short)gCpsNetVars.dhcp_server_ip >> 8;
+	*d++ = gCpsNetVars.dhcp_server_ip;
 	*d++ = 0xff;
 	d = pad_mem(0, 300, d, d - buf);
 	CPS_SocWrite(buf, d - buf);
@@ -1084,7 +1083,7 @@ int dhcp_analyze_response(u32 id, int retry)
     u8 c;
     long timeout;
 
-    timeout = g_021A1C9C[retry] * 7;
+    timeout = gCpsRetryCounts[retry] * 7;
     start = TICK();
     result = 0;
     while (link_is_on() && result == 0 && (long)(TICK() - start) < timeout) {
@@ -1093,7 +1092,7 @@ int dhcp_analyze_response(u32 id, int retry)
             continue;
         }
         s = CPS_SocRead(&len);
-        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && maccmp((short unsigned int *)(s + 0x1c), (short unsigned int *)g_021A82D4) == 0) {
+        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && maccmp((short unsigned int *)(s + 0x1c), (short unsigned int *)CPSMyMac) == 0) {
             myip_tmp = G32(s + 0x10);
             end = s + len;
             result = 3;
@@ -1160,27 +1159,27 @@ unsigned long dhcp_send_request(int mode)
 	unsigned char *buf;
 	unsigned char *d;
 
-	buf = g_021A878E;
+	buf = gCpsDhcpBuffer;
 	d = dhcp_setcommon(buf, 3);
 	if (mode == 0) {
 		d[0] = 0x32;
 		d[1] = 4;
-		d[2] = (unsigned char)(HI16(g_021A826C.offered_myip) >> 8);
-		d[3] = (unsigned char)HI16(g_021A826C.offered_myip);
-		d[4] = (unsigned char)(LO16(g_021A826C.offered_myip) >> 8);
-		d[5] = (unsigned char)LO16(g_021A826C.offered_myip);
+		d[2] = (unsigned char)(HI16(gCpsNetVars.offered_myip) >> 8);
+		d[3] = (unsigned char)HI16(gCpsNetVars.offered_myip);
+		d[4] = (unsigned char)(LO16(gCpsNetVars.offered_myip) >> 8);
+		d[5] = (unsigned char)LO16(gCpsNetVars.offered_myip);
 		d[6] = 0x36;
 		d[7] = 4;
-		d[8] = (unsigned char)(HI16(g_021A826C.dhcp_server_ip) >> 8);
-		d[9] = (unsigned char)HI16(g_021A826C.dhcp_server_ip);
-		d[10] = (unsigned char)(LO16(g_021A826C.dhcp_server_ip) >> 8);
-		d[11] = (unsigned char)LO16(g_021A826C.dhcp_server_ip);
+		d[8] = (unsigned char)(HI16(gCpsNetVars.dhcp_server_ip) >> 8);
+		d[9] = (unsigned char)HI16(gCpsNetVars.dhcp_server_ip);
+		d[10] = (unsigned char)(LO16(gCpsNetVars.dhcp_server_ip) >> 8);
+		d[11] = (unsigned char)LO16(gCpsNetVars.dhcp_server_ip);
 		d += 12;
 	}
 	*d++ = 0xff;
 	d = pad_mem(0, 300, d, d - buf);
 	CPS_SocWrite(buf, d - buf);
-	return g_021A826C.xid;
+	return gCpsNetVars.xid;
 }
 
 
@@ -1195,24 +1194,24 @@ unsigned long dhcp_send_request(int mode)
  */
 unsigned long dhcp_send_discover(void)
 {
-	unsigned char *buf = g_021A878E;
+	unsigned char *buf = gCpsDhcpBuffer;
 	unsigned char *d;
 
-	g_021A826C.rand_state = g_021A826C.rand_mult * g_021A826C.rand_state + g_021A826C.rand_inc;
-	g_021A826C.xid = (unsigned long)(g_021A826C.rand_state >> 32);
+	gCpsNetVars.rand_state = gCpsNetVars.rand_mult * gCpsNetVars.rand_state + gCpsNetVars.rand_inc;
+	gCpsNetVars.xid = (unsigned long)(gCpsNetVars.rand_state >> 32);
 	d = dhcp_setcommon(buf, 1);
-	if (g_021A826C.offered_myip != 0) {
+	if (gCpsNetVars.offered_myip != 0) {
 		*d++ = 0x32;
 		*d++ = 4;
-		*d++ = (unsigned short)(g_021A826C.offered_myip >> 16) >> 8;
-		*d++ = g_021A826C.offered_myip >> 16;
-		*d++ = (unsigned short)g_021A826C.offered_myip >> 8;
-		*d++ = g_021A826C.offered_myip;
+		*d++ = (unsigned short)(gCpsNetVars.offered_myip >> 16) >> 8;
+		*d++ = gCpsNetVars.offered_myip >> 16;
+		*d++ = (unsigned short)gCpsNetVars.offered_myip >> 8;
+		*d++ = gCpsNetVars.offered_myip;
 	}
 	*d++ = 0xff;
 	d = pad_mem(0, 300, d, d - buf);
 	CPS_SocWrite(buf, d - buf);
-	return g_021A826C.xid;
+	return gCpsNetVars.xid;
 }
 
 
@@ -1249,11 +1248,11 @@ unsigned char *dhcp_setcommon(unsigned char *d, int type)
 	MI_CpuFill8(d, 0, 0xec);
 	*(unsigned short *)(d + 0) = 0x0101;
 	d[2] = 6;
-	*(unsigned short *)(d + 4) = SWAP16((unsigned short)(g_021A826C.xid >> 16));
-	*(unsigned short *)(d + 6) = SWAP16((unsigned short)g_021A826C.xid);
-	*(unsigned short *)(d + 12) = SWAP16((unsigned short)(g_021A826C.myip >> 16));
-	*(unsigned short *)(d + 14) = SWAP16((unsigned short)g_021A826C.myip);
-	MI_CpuCopy(g_021A82D4, d + 0x1c, 6);
+	*(unsigned short *)(d + 4) = SWAP16((unsigned short)(gCpsNetVars.xid >> 16));
+	*(unsigned short *)(d + 6) = SWAP16((unsigned short)gCpsNetVars.xid);
+	*(unsigned short *)(d + 12) = SWAP16((unsigned short)(gCpsNetVars.myip >> 16));
+	*(unsigned short *)(d + 14) = SWAP16((unsigned short)gCpsNetVars.myip);
+	MI_CpuCopy(CPSMyMac, d + 0x1c, 6);
 	*(unsigned short *)(d + 0xec) = 0x8263;
 	*(unsigned short *)(d + 0xee) = 0x6353;
 	*(unsigned short *)(d + 0xf0) = 0x0135;
@@ -1261,12 +1260,12 @@ unsigned char *dhcp_setcommon(unsigned char *d, int type)
 	d[0xf3] = 0x3d;
 	d[0xf4] = 7;
 	d[0xf5] = 1;
-	MI_CpuCopy(g_021A82D4, d + 0xf6, 6);
+	MI_CpuCopy(CPSMyMac, d + 0xf6, 6);
 	d += 0xfc;
 	if (type != 7) {
 		d[0] = 0x0c;
 		d[1] = 10;
-		MI_CpuCopy(g_021A1CCC, d + 2, 10);
+		MI_CpuCopy(gCpsHostName, d + 2, 10);
 		d[12] = 0x37;
 		d[13] = 3;
 		d[14] = 1;
@@ -1301,12 +1300,12 @@ void dacktimer_alarmhandler(void)
  */
 void dacktimer(void)
 {
-    if (OS_IsThreadTerminated(((char *)&g_021A85E4)))
+    if (OS_IsThreadTerminated(((char *)&gCpsScavengerThread)))
         return;
     do {
         dacktimer_reschedule();
         OS_SleepThread(0);
-    } while (!OS_IsThreadTerminated(((char *)&g_021A85E4)));
+    } while (!OS_IsThreadTerminated(((char *)&gCpsScavengerThread)));
 }
 
 
@@ -1342,8 +1341,8 @@ void dacktimer_reschedule(void)
 		}
 	}
 	if (nextdelay != 0xffffffff) {
-		OS_CancelAlarm(g_021A82FC);
-		func_0208738C(g_021A82FC, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
+		OS_CancelAlarm(gCpsDackTimerAlarm);
+		func_0208738C(gCpsDackTimerAlarm, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);
 }
@@ -1357,7 +1356,7 @@ void dacktimer_reschedule(void)
 /*
  * sdk:      scavenger (libcps.TWL.HYB.a network.o, static)
  *
- * g_021A826C is network.o's block of file statics (first symbol wfailed);
+ * gCpsNetVars is network.o's block of file statics (first symbol wfailed);
  * the fields below are named by the offsets this function touches.
  *
  * Case 0 spells the callback test out with a flag; cases 1 and 2 use the
@@ -1377,30 +1376,30 @@ void scavenger(void)
     int denied;
 
     dhcp_state = 0;
-    g_021A826C.calm = 0;
-    MI_CpuFill8(&g_021A83E4, 0, sizeof(CPSSoc));
-    g_021A83E4.rcvbuf.size = sizeof(g_021A88E4);
-    g_021A83E4.rcvbuf.data = g_021A88E4;
-    g_021A83E4.sndbuf.size = sizeof(g_021A8764);
-    g_021A83E4.sndbuf.data = g_021A8764;
-    CPS_SocRegister((int)(&g_021A83E4));
+    gCpsNetVars.calm = 0;
+    MI_CpuFill8(&gCpsRecvSoc, 0, sizeof(CPSSoc));
+    gCpsRecvSoc.rcvbuf.size = sizeof(gCpsRecvBuffer);
+    gCpsRecvSoc.rcvbuf.data = gCpsRecvBuffer;
+    gCpsRecvSoc.sndbuf.size = sizeof(gCpsSendBuffer);
+    gCpsRecvSoc.sndbuf.data = gCpsSendBuffer;
+    CPS_SocRegister((int)(&gCpsRecvSoc));
     gwcache_sleep = 1;
     dhcp_sleep = 1;
     first = 1;
-    g_021A826C.dhcp_state = 1;
+    gCpsNetVars.dhcp_state = 1;
 
     for (;;)
     {
         OS_Sleep(1000);
-        if (g_021A826C.calm)
+        if (gCpsNetVars.calm)
             break;
         now = (unsigned long)(func_020870D0() >> 16);
 
-        if (g_021A826C.link_is_on())
+        if (gCpsNetVars.link_is_on())
         {
             if (--dhcp_sleep == 0)
             {
-                if (g_021A826C.mode & 1)
+                if (gCpsNetVars.mode & 1)
                 {
                     if (dhcp_state == 0)
                     {
@@ -1415,7 +1414,7 @@ void scavenger(void)
                     case 0:
                         if (first)
                         {
-                            g_021A826C.dhcp_state = 2;
+                            gCpsNetVars.dhcp_state = 2;
                             first = 0;
                         }
                         if (!dhcp_discover_server() || !dhcp_request_server(&dhcp_sleep, 0))
@@ -1426,9 +1425,9 @@ void scavenger(void)
                         else
                         {
                             denied = 0;
-                            if (g_021A826C.dhcp_callback)
+                            if (gCpsNetVars.dhcp_callback)
                             {
-                                if (g_021A826C.dhcp_callback() == 0)
+                                if (gCpsNetVars.dhcp_callback() == 0)
                                     denied = 1;
                             }
                             if (denied)
@@ -1508,14 +1507,14 @@ void scavenger(void)
 
         for (i = 0; i < 8; i++)
         {
-            arp = &((CPSArpCache *)g_021A8384)[i];
+            arp = &((CPSArpCache *)gCpsArpCache)[i];
             if (arp->ip && (short)(now - arp->when) > 957)
                 arp->ip = 0;
         }
 
-        if (g_021A826C.gateway_ip && --gwcache_sleep == 0)
+        if (gCpsNetVars.gateway_ip && --gwcache_sleep == 0)
         {
-            send_arprequest(g_021A826C.gateway_ip);
+            send_arprequest(gCpsNetVars.gateway_ip);
             gwcache_sleep = 105;
         }
 
@@ -1549,20 +1548,20 @@ void scavenger(void)
 
         for (i = 0; i < 8; i++)
         {
-            CPSFragTable *f = &g_021A8A64[i];
+            CPSFragTable *f = &gCpsFragTable[i];
             if (f->count && (long)(now - f->time) > 239)
             {
-                g_021A826C.free(f->buf);
+                gCpsNetVars.free(f->buf);
                 f->count = 0;
             }
         }
 
         CPSi_SslPeriodical(now);
-        if (g_021A826C.periodic)
-            g_021A826C.periodic();
+        if (gCpsNetVars.periodic)
+            gCpsNetVars.periodic();
     }
 
-    if (!(g_021A826C.mode & 1) && dhcp_state != 3)
+    if (!(gCpsNetVars.mode & 1) && dhcp_state != 3)
         dhcp_release_server();
     CPS_SocUnRegister();
 }
@@ -1578,8 +1577,8 @@ void scavenger(void)
  */
 void set_fixed_ip(void)
 {
-    ((void (*)(void))(*(unsigned int *)(d_021A826C + 0x28)))();
-    if (*(unsigned int *)(d_021A826C + 0x50) == 0)
+    ((void (*)(void))(*(unsigned int *)((char *)&gCpsNetVars + 0x28)))();
+    if (*(unsigned int *)((char *)&gCpsNetVars + 0x50) == 0)
         return;
     if (garprequest() != 0)
         return;
@@ -1599,12 +1598,12 @@ int garprequest(void)
 {
     unsigned long start;
 
-    send_arprequest(g_021A826C.myip);
+    send_arprequest(gCpsNetVars.myip);
     OS_Sleep(100);
-    send_arprequest(g_021A826C.myip);
+    send_arprequest(gCpsNetVars.myip);
     start = (unsigned long)(func_020870D0() >> 16);
-    while (g_021A826C.link_is_on() != 0 && (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x17) {
-        if (g_021A826C.ip_conflict != 0)
+    while (gCpsNetVars.link_is_on() != 0 && (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x17) {
+        if (gCpsNetVars.ip_conflict != 0)
             return 0;
         OS_Sleep(100);
     }
@@ -1725,7 +1724,7 @@ unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned cha
 		} else {
 			total_written = CPSi_TcpWrite2Raw(buf, len, buf2, len2, (struct _CPSSoc *)soc);
 		}
-		if (!g_021A826C.wfailed)
+		if (!gCpsNetVars.wfailed)
 			return total_written;
 	}
 	return 0;
@@ -1754,14 +1753,14 @@ u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
     need_probe = 0;
     soc->ackrcvd = 0;
     start_time = TICK();
-    while (g_021A826C.link_is_on() && len != 0 && soc->state == 4 && (int)(TICK() - start_time) < 0x9f) {
+    while (gCpsNetVars.link_is_on() && len != 0 && soc->state == 4 && (int)(TICK() - start_time) < 0x9f) {
         seqno = soc->seqno;
         tcp_write_do2(buf, len, buf2, len2, soc, need_probe);
         {
             u32 t = TICK();
             do {
                 OS_YieldThread__();
-                if (!g_021A826C.link_is_on())
+                if (!gCpsNetVars.link_is_on())
                     break;
                 if (soc->state != 4)
                     break;
@@ -1781,7 +1780,7 @@ u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
         if (soc->state == 4 && soc->remote_win == 0 && acked_len == 0) {
             if (need_probe == 0) {
                 u32 t = TICK();
-                while (g_021A826C.link_is_on() && (int)(TICK() - t) < 0xf) {
+                while (gCpsNetVars.link_is_on() && (int)(TICK() - t) < 0xf) {
                     OS_YieldThread__();
                     if (soc->remote_win != 0)
                         break;
@@ -1846,8 +1845,8 @@ unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct _CPSSoc
 		thislen = soc->remote_mss;
 		if (thislen >= remote_win)
 			thislen = remote_win;
-		if (g_021A826C.mymss < thislen)
-			thislen = g_021A826C.mymss;
+		if (gCpsNetVars.mymss < thislen)
+			thislen = gCpsNetVars.mymss;
 		if (!need_probe)
 			thislen &= ~1;
 		if (len < thislen)
@@ -2065,7 +2064,7 @@ void CPS_TcpClose(void)
     if (*(unsigned char *)(soc + 9) != 0)
         CPSi_SslClose(soc);
     start = (unsigned long)(func_020870D0() >> 16);
-    while (g_021A826C.link_is_on() != 0 && *(unsigned char *)(soc + 8) != 0 &&
+    while (gCpsNetVars.link_is_on() != 0 && *(unsigned char *)(soc + 8) != 0 &&
            (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x27)
         OS_YieldThread__();
     *(unsigned char *)(soc + 8) = 0;
@@ -2176,14 +2175,14 @@ unsigned long CPSi_TcpConnectRaw(struct _CPSSoc *soc)
 		soc->when = (unsigned long)(func_020870D0() >> 16);
 		_tcp_send_handshake((char *)((struct _CPSSoc *)((char *)soc)), 2);
 		enabled = OS_DisableInterrupts();
-		if (soc->state == 2 && g_021A826C.myip != 0) {
+		if (soc->state == 2 && gCpsNetVars.myip != 0) {
 			soc->block_type = 1;
 			OS_SleepThread(0);
 		}
 		OS_RestoreInterrupts(enabled);
 		if (soc->state == 4)
 			return 0;
-		if (g_021A826C.myip == 0)
+		if (gCpsNetVars.myip == 0)
 			break;
 	}
 	return 1;
@@ -2298,7 +2297,7 @@ void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned
     if (soc == 0)
         return;
     if (remote_ip == 0x7f000001)
-        remote_ip = g_021A826C.myip;
+        remote_ip = gCpsNetVars.myip;
     *(unsigned short *)(soc + 0x1a) = remote_port;
     *(unsigned short *)(soc + 0x18) = *(unsigned short *)(soc + 0x1a);
     *(unsigned long *)(soc + 0x20) = remote_ip;
@@ -2394,8 +2393,8 @@ void CPS_SocRegister(int v)
 
 unsigned long get_seqno(void)
 {
-    g_021A826C.rand_state = g_021A826C.rand_mult * g_021A826C.rand_state + g_021A826C.rand_inc;
-    return (unsigned long)(g_021A826C.rand_state >> 32);
+    gCpsNetVars.rand_state = gCpsNetVars.rand_mult * gCpsNetVars.rand_state + gCpsNetVars.rand_inc;
+    return (unsigned long)(gCpsNetVars.rand_state >> 32);
 }
 
 
@@ -2420,18 +2419,18 @@ unsigned short CPS_SocGetEport(void)
 
 	do {
 		conflict = 0;
-		g_021A826C.eport++;
-		if (g_021A826C.eport < 0x400 || g_021A826C.eport >= 5000)
-			g_021A826C.eport = 0x400;
+		gCpsNetVars.eport++;
+		if (gCpsNetVars.eport < 0x400 || gCpsNetVars.eport >= 5000)
+			gCpsNetVars.eport = 0x400;
 		for (t = gMslRefToken.list; t != 0; t = t->next) {
 			soc = t->specific[0];
-			if (soc != 0 && soc->thread != 0 && soc->local_port == g_021A826C.eport) {
+			if (soc != 0 && soc->thread != 0 && soc->local_port == gCpsNetVars.eport) {
 				conflict = 1;
 				break;
 			}
 		}
 	} while (conflict);
-	return g_021A826C.eport;
+	return gCpsNetVars.eport;
 }
 
 
@@ -2514,7 +2513,7 @@ void dispatch_ip(u8 *buf, u32 len)
             return;
         if (calc_checksum(buf, (buf[0] & 0xf) << 2) != 0xffff)
             return;
-        if (g_021A826C.myip == NTOHL(buf + 0x10))
+        if (gCpsNetVars.myip == NTOHL(buf + 0x10))
             reg_arpcache((u8 (*)[6])(buf - 8), NTOHL(buf + 0xc), 1);
     }
     buf = check_frag(buf, &fragmented);
@@ -2526,14 +2525,14 @@ void dispatch_ip(u8 *buf, u32 len)
     len = NTOHS(buf + 2) - header_len;
     if (type == 0x11) {
         dispatch_udp(buf, data, len);
-    } else if (g_021A826C.myip != 0) {
+    } else if (gCpsNetVars.myip != 0) {
         if (type == 1)
             dispatch_icmp(buf, data, len);
         else if (type == 6)
             dispatch_tcp(buf, data, len);
     }
     if (fragmented)
-        g_021A826C.free(buf - 14);
+        gCpsNetVars.free(buf - 14);
 }
 
 
@@ -2577,7 +2576,7 @@ u8 *check_frag(u8 *buf, u32 *fragmented)
     header_len = (buf[0] & 0xf) << 2;
     ipfrom = NTOHL(buf + 0xc);
     id = *(u16 *)(buf + 4);
-    p = g_021A8A64;
+    p = gCpsFragTable;
     for (i = 0; i < 8; i++, p++) {
         if (p->count != 0 && p->ipfrom == ipfrom && p->id == id)
             break;
@@ -2591,7 +2590,7 @@ u8 *check_frag(u8 *buf, u32 *fragmented)
         if (unused == 0 || size > 0x1000)
             return 0;
         p = unused;
-        p->buf = g_021A826C.alloc(header_len + 0xe + 0x1000);
+        p->buf = gCpsNetVars.alloc(header_len + 0xe + 0x1000);
         if (p->buf == 0)
             return 0;
         p->ipfrom = ipfrom;
@@ -2603,7 +2602,7 @@ u8 *check_frag(u8 *buf, u32 *fragmented)
     }
     if (p->count == 8 || size > 0x1000) {
         p->count = 0;
-        g_021A826C.free(p->buf);
+        gCpsNetVars.free(p->buf);
         return 0;
     }
     frag_last = frag_ofs + ((frag_size + 7) >> 3);
@@ -3326,7 +3325,7 @@ void _tcp_send_rst(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 {
 	struct _CPSSoc *soc;
 
-	soc = &g_021A8484;
+	soc = &gCpsSoc;
 	MI_CpuFill8(soc, 0, sizeof(struct _CPSSoc));
 	soc->local_port = GET16(tcphdr + 2);
 	soc->remote_port = GET16(tcphdr);
@@ -3413,7 +3412,7 @@ send:
  */
 void _tcp_send_handshake(char *soc, unsigned char flag)
 {
-    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || gMslRefToken.current != (struct _OSThread *)&g_021A86A4) {
+    if (no_need_inq(*(unsigned long *)(soc + 0x1c)) != 0 || gMslRefToken.current != (struct _OSThread *)&gCpsTcpipThread) {
         _send_tcp(0, 0, (struct _CPSSoc *)soc, flag);
     } else {
         send_arprequest(get_targetip(*(unsigned long *)(soc + 0x1c)));
@@ -3794,7 +3793,7 @@ void dispatch_arp(unsigned char *buf, unsigned long len)
 
 	if (len < 0x1c)
 		return;
-	if (maccmp((short unsigned int *)(buf + 8), (short unsigned int *)g_021A82D4) == 0 || NV(0x50, long) == 0)
+	if (maccmp((short unsigned int *)(buf + 8), (short unsigned int *)CPSMyMac) == 0 || NV(0x50, long) == 0)
 		return;
 	if (*(unsigned short *)buf != 0x100 || *(unsigned short *)(buf + 2) != 8 || *(unsigned short *)(buf + 4) != 0x406)
 		return;
@@ -3842,13 +3841,13 @@ void reply_arp(unsigned char *buf)
 	unsigned short v;
 	*(unsigned short *)(buf + 6) = 0x200;
 	func_02082EA4(buf + 8, buf + 0x12, 10);
-	func_02082EA4(g_021A82D4, buf + 8, 6);
-	v = (unsigned short)(g_021A826C.myip >> 16);
+	func_02082EA4(CPSMyMac, buf + 8, 6);
+	v = (unsigned short)(gCpsNetVars.myip >> 16);
 	*(unsigned short *)(buf + 0xe) = (v >> 8) | (v << 8);
-	v = (unsigned short)g_021A826C.myip;
+	v = (unsigned short)gCpsNetVars.myip;
 	*(unsigned short *)(buf + 0x10) = (v >> 8) | (v << 8);
 	func_02082EA4(buf + 0x12, buf - 0xe, 6);
-	func_02082EA4(g_021A82D4, buf - 8, 6);
+	func_02082EA4(CPSMyMac, buf - 8, 6);
 	send_packet(buf - 0xe, 0x2a, 0, 0);
 }
 
@@ -3865,8 +3864,8 @@ void reply_arp(unsigned char *buf)
 /*
  * sdk:      _send_tcp (libcps.TWL.HYB.a network.o, static)
  *
- * g_021A8328 is tmpbuf (90 bytes); the object addresses tmpbuf + 0x22.
- * g_021A826C is network.o's block of file statics (first symbol wfailed).
+ * gCpsSendHeader is tmpbuf (90 bytes); the object addresses tmpbuf + 0x22.
+ * gCpsNetVars is network.o's block of file statics (first symbol wfailed).
  *
  * The checksum goes through a u16 local: HTONS names its operand twice, and
  * with the calls inline the checksum is computed twice and len takes the
@@ -3881,8 +3880,8 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     if ((flag & 5) == 0 && soc->state == 0)
         return len;
 
-    if (gMslRefToken.current == (struct _OSThread *)&g_021A86A4)
-        hdr = g_021A8328 + 0x22;
+    if (gMslRefToken.current == (struct _OSThread *)&gCpsTcpipThread)
+        hdr = gCpsSendHeader + 0x22;
     else
         hdr = soc->sndbuf.data + 0x22;
 
@@ -3923,8 +3922,8 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
         SET32(hdr + 20, 0x01010500 | (sack_count * 8 + 2));
         this_tcp_size = 24 + sack_count * 8;
         mss = soc->remote_mss;
-        if (mss >= g_021A826C.mymss)
-            mss = g_021A826C.mymss;
+        if (mss >= gCpsNetVars.mymss)
+            mss = gCpsNetVars.mymss;
         if (len > mss - 4 - sack_count * 8)
             len = (mss - 4 - sack_count * 8) & ~1;
     }
@@ -3933,7 +3932,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
         this_tcp_size = 20;
     }
 
-    SET32(hdr - 12, g_021A826C.myip);
+    SET32(hdr - 12, gCpsNetVars.myip);
     SET32(hdr - 8, soc->remote_ip);
     *(u16 *)(hdr - 4) = HTONS(6);
     *(u16 *)(hdr - 2) = HTONS(this_tcp_size + len);
@@ -3949,7 +3948,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     *(u16 *)(hdr + 18) = 0;
     if (flag & 2)
     {
-        SET32(hdr + 20, 0x02040000u + g_021A826C.mymss);
+        SET32(hdr + 20, 0x02040000u + gCpsNetVars.mymss);
         SET32(hdr + 24, 0x01010402);
     }
     if (flag & 0x10)
@@ -3983,8 +3982,8 @@ void send_udp(unsigned char *data, unsigned long len, struct _CPSSoc *soc)
 	unsigned char *hdr;
 
 	hdr = soc->sndbuf.data + 0x22;
-	*(unsigned short *)(hdr - 0xc) = swap16((unsigned short)(g_021A826C.myip >> 16));
-	*(unsigned short *)(hdr - 0xa) = swap16((unsigned short)g_021A826C.myip);
+	*(unsigned short *)(hdr - 0xc) = swap16((unsigned short)(gCpsNetVars.myip >> 16));
+	*(unsigned short *)(hdr - 0xa) = swap16((unsigned short)gCpsNetVars.myip);
 	*(unsigned short *)(hdr - 0x8) = swap16((unsigned short)(soc->remote_ip >> 16));
 	*(unsigned short *)(hdr - 0x6) = swap16((unsigned short)soc->remote_ip);
 	*(unsigned short *)(hdr - 0x4) = 0x1100;
@@ -4032,7 +4031,7 @@ void send_udp(unsigned char *data, unsigned long len, struct _CPSSoc *soc)
  *     across the first strh (vendor hoists both bases; ours sinks the second) plus the seq home
  *     (vendor lr, ours ip). DWARF order reproduced gets the pool words right but not the schedule.
  *
- * w8 re-probed-2 (all parked at 46 B unless stated): making g_021A826C `const` AND storing ping_seq
+ * w8 re-probed-2 (all parked at 46 B unless stated): making gCpsNetVars `const` AND storing ping_seq
  *     through a const-stripping cast does NOT let its base win the materialisation race -- still
  *     OSi first, same as OSi const alone, so the flip is not about the write. A `const unsigned
  *     long *osi = gMslRefToken` local with `(u16)osi[1]` also leaves 46 B. DWARF order plus
@@ -4163,13 +4162,13 @@ void send_ip_frag(unsigned char *hdr, unsigned long hdr_len, unsigned char *body
 	*(unsigned short *)(hdr - 0xe) = swap16((unsigned short)offset);
 	*(unsigned short *)(hdr - 0xa) = 0;
 	*(unsigned short *)(hdr - 0xa) = swap16(calc_checksum(hdr - 0x14, 0x14));
-	if (ip_to != 0x7f000001 && ip_to != g_021A826C.myip)
+	if (ip_to != 0x7f000001 && ip_to != gCpsNetVars.myip)
 		send_ether(hdr - 0x14, hdr_len + 0x14, body, body_len, ip_to, 0x800);
-	if (ip_to != 0x7f000001 && ip_to != g_021A826C.myip && !is_multicast(ip_to))
+	if (ip_to != 0x7f000001 && ip_to != gCpsNetVars.myip && !is_multicast(ip_to))
 		return;
-	MI_CpuCopy(g_021A1CC0, hdr - 0x1c, 8);
+	MI_CpuCopy(gCpsUdpHeaderTemplate, hdr - 0x1c, 8);
 	enabled = OS_DisableInterrupts();
-	put_in_buffer(g_021A82D4, g_021A82D4, hdr - 0x1c, hdr_len + 0x1c, body, body_len);
+	put_in_buffer(CPSMyMac, CPSMyMac, hdr - 0x1c, hdr_len + 0x1c, body, body_len);
 	OS_RestoreInterrupts(enabled);
 }
 
@@ -4215,7 +4214,7 @@ void send_ether(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, 
 		hdr[-0xa] = ip_to >> 8;
 		hdr[-9] = ip_to;
 	}
-	func_02082EA4(g_021A82D4, hdr - 8, 6);
+	func_02082EA4(CPSMyMac, hdr - 8, 6);
 	send_packet(hdr - 0xe, hdr_len + 0xe, body, body_len);
 }
 
@@ -4245,7 +4244,7 @@ void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 	unsigned short now;
 	unsigned short oldest_time;
 
-	if (ip == 0x7f000001 || ip == g_021A826C.myip)
+	if (ip == 0x7f000001 || ip == gCpsNetVars.myip)
 		return;
 	if (!ip_islocal(ip))
 		return;
@@ -4253,9 +4252,9 @@ void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 		return;
 	now = (unsigned short)(OS_GetTick() >> 16);
 	for (i = 0; i < 8; i++) {
-		if (g_021A8384[i].ip == ip) {
-			g_021A8384[i].when = now;
-			MI_CpuCopy(mac, g_021A8384[i].mac, 6);
+		if (gCpsArpCache[i].ip == ip) {
+			gCpsArpCache[i].when = now;
+			MI_CpuCopy(mac, gCpsArpCache[i].mac, 6);
 			return;
 		}
 	}
@@ -4264,18 +4263,18 @@ void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 	oldest_time = 0;
 	candidate = 0;
 	for (i = 0; i < 8; i++) {
-		if (g_021A8384[i].ip == 0) {
+		if (gCpsArpCache[i].ip == 0) {
 			candidate = i;
 			break;
 		}
-		if ((short)(now - g_021A8384[i].when) > oldest_time) {
+		if ((short)(now - gCpsArpCache[i].when) > oldest_time) {
 			candidate = i;
-			oldest_time = now - g_021A8384[i].when;
+			oldest_time = now - gCpsArpCache[i].when;
 		}
 	}
-	g_021A8384[candidate].ip = ip;
-	MI_CpuCopy(mac, g_021A8384[candidate].mac, 6);
-	g_021A8384[candidate].when = now;
+	gCpsArpCache[candidate].ip = ip;
+	MI_CpuCopy(mac, gCpsArpCache[candidate].mac, 6);
+	gCpsArpCache[candidate].when = now;
 }
 
 
@@ -4289,8 +4288,8 @@ unsigned char *arprequest(unsigned long ip)
 
     for (retry1 = 0; retry1 < 6; retry1++) {
         send_arprequest(ip);
-        for (retry2 = 0; retry2 < g_021A1CA8[retry1] / 100; retry2++) {
-            if (g_021A826C.myip == 0)
+        for (retry2 = 0; retry2 < gCpsRetryDelays[retry1] / 100; retry2++) {
+            if (gCpsNetVars.myip == 0)
                 return 0;
             OS_Sleep(100);
             r = inq_arpcache(ip);
@@ -4315,14 +4314,14 @@ void send_arprequest(unsigned long ip)
 
 	MI_CpuFill8(buf, 0, 42);
 	MI_CpuFill8(buf, 0xff, 6);
-	MI_CpuCopy(g_021A82D4, buf + 6, 6);
+	MI_CpuCopy(CPSMyMac, buf + 6, 6);
 	*(unsigned short *)(buf + 12) = 0x0608;
 	buf[15] = 1;
 	buf[16] = 8;
 	*(unsigned short *)(buf + 18) = 0x0406;
 	buf[21] = 1;
-	MI_CpuCopy(g_021A82D4, buf + 22, 6);
-	put_ip(buf + 28, g_021A826C.myip);
+	MI_CpuCopy(CPSMyMac, buf + 22, 6);
+	put_ip(buf + 28, gCpsNetVars.myip);
 	put_ip(buf + 38, ip);
 	send_packet(buf, 42, 0, 0);
 }
@@ -4343,15 +4342,15 @@ unsigned char *inq_arpcache(unsigned long ip)
 
 	enabled = OS_DisableInterrupts();
 	result = 0;
-	if (ip == 0x7f000001 || ip == g_021A826C.myip) {
-		result = (unsigned char (*)[6])g_021A82D4;
+	if (ip == 0x7f000001 || ip == gCpsNetVars.myip) {
+		result = (unsigned char (*)[6])CPSMyMac;
 	} else if (is_broadcast(ip) || is_multicast(ip)) {
-		result = (unsigned char (*)[6])g_021A1CA1;
+		result = (unsigned char (*)[6])gCpsBroadcastMac;
 	} else {
 		for (i = 0; i < 8; i++) {
-			if (ip == g_021A8384[i].ip) {
-				g_021A8384[i].when = func_020870D0() >> 16;
-				result = &g_021A8384[i].mac;
+			if (ip == gCpsArpCache[i].ip) {
+				gCpsArpCache[i].when = func_020870D0() >> 16;
+				result = &gCpsArpCache[i].mac;
 				break;
 			}
 		}
@@ -4375,9 +4374,9 @@ void throw_packet(void)
 {
     unsigned long en = OS_DisableInterrupts();
 
-    g_021A826C.getpnt += *(unsigned short *)(g_021A826C.buf + g_021A826C.getpnt);
-    if (g_021A826C.getpnt >= g_021A826C.bufsize)
-        g_021A826C.getpnt = 0;
+    gCpsNetVars.getpnt += *(unsigned short *)(gCpsNetVars.buf + gCpsNetVars.getpnt);
+    if (gCpsNetVars.getpnt >= gCpsNetVars.bufsize)
+        gCpsNetVars.getpnt = 0;
     OS_RestoreInterrupts(en);
 }
 
@@ -4400,22 +4399,22 @@ unsigned char *receive_packet(unsigned long *len)
 	unsigned char *buf;
 
 	enable = OS_DisableInterrupts();
-	while (g_021A826C.getpnt == g_021A826C.putpnt) {
-		g_021A826C.thread = cur_thread();
+	while (gCpsNetVars.getpnt == gCpsNetVars.putpnt) {
+		gCpsNetVars.thread = cur_thread();
 		OS_SleepThread(0);
-		g_021A826C.thread = 0;
+		gCpsNetVars.thread = 0;
 	}
 	OS_RestoreInterrupts(enable);
-	buf = g_021A826C.buf;
+	buf = gCpsNetVars.buf;
 	do {
-		if (g_021A826C.bufsize - g_021A826C.getpnt < 2)
-			g_021A826C.getpnt = 0;
-		blocklen = *(unsigned short *)(buf + g_021A826C.getpnt);
+		if (gCpsNetVars.bufsize - gCpsNetVars.getpnt < 2)
+			gCpsNetVars.getpnt = 0;
+		blocklen = *(unsigned short *)(buf + gCpsNetVars.getpnt);
 		if (blocklen == 0)
-			g_021A826C.getpnt = 0;
+			gCpsNetVars.getpnt = 0;
 	} while (blocklen == 0);
 	*len = blocklen - 2;
-	return g_021A826C.buf + g_021A826C.getpnt + 2;
+	return gCpsNetVars.buf + gCpsNetVars.getpnt + 2;
 }
 
 
@@ -4456,40 +4455,40 @@ void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 
     u32 new_putpnt;
     u16 blocklen;
 
-    if (g_021A826C.buf == 0 || g_021A826C.bufsize == 0)
+    if (gCpsNetVars.buf == 0 || gCpsNetVars.bufsize == 0)
         return;
     size = size1 + size2;
     if (size < 8 || size > 0x5e4)
         return;
-    if (buf1[0] != g_021A1CC0[0] || buf1[1] != g_021A1CC0[1] || buf1[2] != g_021A1CC0[2] || buf1[6] != 8)
+    if (buf1[0] != gCpsUdpHeaderTemplate[0] || buf1[1] != gCpsUdpHeaderTemplate[1] || buf1[2] != gCpsUdpHeaderTemplate[2] || buf1[6] != 8)
         return;
     if (buf1[7] != 0 && buf1[7] != 6)
         return;
     blocklen = (u16)((size + 9) & ~1);
-    new_putpnt = g_021A826C.putpnt + blocklen;
-    if (g_021A826C.putpnt < g_021A826C.getpnt && g_021A826C.getpnt <= new_putpnt)
+    new_putpnt = gCpsNetVars.putpnt + blocklen;
+    if (gCpsNetVars.putpnt < gCpsNetVars.getpnt && gCpsNetVars.getpnt <= new_putpnt)
         return;
-    if (new_putpnt == g_021A826C.bufsize) {
+    if (new_putpnt == gCpsNetVars.bufsize) {
         new_putpnt = 0;
-        if (g_021A826C.getpnt == 0)
+        if (gCpsNetVars.getpnt == 0)
             return;
-    } else if (new_putpnt > g_021A826C.bufsize) {
+    } else if (new_putpnt > gCpsNetVars.bufsize) {
         new_putpnt = blocklen;
-        if (g_021A826C.getpnt <= blocklen)
+        if (gCpsNetVars.getpnt <= blocklen)
             return;
     }
-    if (g_021A826C.putpnt + blocklen > g_021A826C.bufsize) {
-        if (g_021A826C.bufsize - g_021A826C.putpnt >= 2)
-            *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = 0;
-        g_021A826C.putpnt = 0;
+    if (gCpsNetVars.putpnt + blocklen > gCpsNetVars.bufsize) {
+        if (gCpsNetVars.bufsize - gCpsNetVars.putpnt >= 2)
+            *(u16 *)(gCpsNetVars.buf + gCpsNetVars.putpnt) = 0;
+        gCpsNetVars.putpnt = 0;
     }
-    *(u16 *)(g_021A826C.buf + g_021A826C.putpnt) = blocklen;
-    MI_CpuCopy(dstAddr, g_021A826C.buf + g_021A826C.putpnt + 2, 6);
-    MI_CpuCopy(srcAddr, g_021A826C.buf + g_021A826C.putpnt + 8, 6);
-    MI_CpuCopy(buf1 + 6, g_021A826C.buf + g_021A826C.putpnt + 14, size1 - 6);
+    *(u16 *)(gCpsNetVars.buf + gCpsNetVars.putpnt) = blocklen;
+    MI_CpuCopy(dstAddr, gCpsNetVars.buf + gCpsNetVars.putpnt + 2, 6);
+    MI_CpuCopy(srcAddr, gCpsNetVars.buf + gCpsNetVars.putpnt + 8, 6);
+    MI_CpuCopy(buf1 + 6, gCpsNetVars.buf + gCpsNetVars.putpnt + 14, size1 - 6);
     if (buf2 != 0 && size2 != 0)
-        MI_CpuCopy(buf2, g_021A826C.buf + g_021A826C.putpnt + 8 + size1, size2);
-    g_021A826C.putpnt = new_putpnt;
+        MI_CpuCopy(buf2, gCpsNetVars.buf + gCpsNetVars.putpnt + 8 + size1, size2);
+    gCpsNetVars.putpnt = new_putpnt;
 }
 
 
@@ -4501,8 +4500,8 @@ void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 
  */
 void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len)
 {
-    func_02082EA4(g_021A1CC0, hdr + 6, 6);
-    g_021A826C.wfailed = WCM_SendDCFDataEx(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
+    func_02082EA4(gCpsUdpHeaderTemplate, hdr + 6, 6);
+    gCpsNetVars.wfailed = WCM_SendDCFDataEx(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
 }
 
 
@@ -4532,7 +4531,7 @@ int maccmp(unsigned short *a, unsigned short *b)
  */
 unsigned long ip_isme(unsigned long ip)
 {
-    unsigned long my = g_021A826C.myip;
+    unsigned long my = gCpsNetVars.myip;
     int d = 1;
     int c = 1;
     int b = 1;
@@ -4751,18 +4750,18 @@ void CPS_Cleanup(void)
     unsigned long enable;
 
     CPS_CalmDown();
-    OS_JoinThread(((char *)&g_021A85E4));
-    OS_DestroyThread(((char *)&g_021A86A4));
-    OS_CancelAlarm(g_021A82FC);
+    OS_JoinThread(((char *)&gCpsScavengerThread));
+    OS_DestroyThread(((char *)&gCpsTcpipThread));
+    OS_CancelAlarm(gCpsDackTimerAlarm);
     enable = OS_DisableInterrupts();
-    if (!OS_IsThreadTerminated(((char *)&g_021A8524)))
-        OS_WakeupThreadDirect((struct _OSThread *)(((char *)&g_021A8524)));
+    if (!OS_IsThreadTerminated(((char *)&gCpsDackTimerThread)))
+        OS_WakeupThreadDirect((struct _OSThread *)(((char *)&gCpsDackTimerThread)));
     OS_RestoreInterrupts(enable);
-    OS_JoinThread(((char *)&g_021A8524));
-    g_021A826C.thread = 0;
+    OS_JoinThread(((char *)&gCpsDackTimerThread));
+    gCpsNetVars.thread = 0;
     reset_network_vars(0);
-    g_021A826C.buf = 0;
-    g_021A826C.bufsize = 0;
+    gCpsNetVars.buf = 0;
+    gCpsNetVars.bufsize = 0;
 }
 
 
@@ -4775,7 +4774,7 @@ void CPS_Cleanup(void)
  */
 void CPS_SetScavengerCallback(int v)
 {
-    g_021A826C.periodic = (void (*)(void))v;
+    gCpsNetVars.periodic = (void (*)(void))v;
 }
 
 
@@ -4789,11 +4788,11 @@ void CPS_SetScavengerCallback(int v)
 int CPS_CalmDown(void)
 {
     unsigned long enable = OS_DisableInterrupts();
-    int result = OS_IsThreadTerminated(((char *)&g_021A85E4));
+    int result = OS_IsThreadTerminated(((char *)&gCpsScavengerThread));
 
-    if (result == 0 && g_021A826C.calm == 0) {
-        g_021A826C.calm = 1;
-        OS_WakeupThreadDirect((struct _OSThread *)(((char *)&g_021A85E4)));
+    if (result == 0 && gCpsNetVars.calm == 0) {
+        gCpsNetVars.calm = 1;
+        OS_WakeupThreadDirect((struct _OSThread *)(((char *)&gCpsScavengerThread)));
     }
     OS_RestoreInterrupts(enable);
     return result;
@@ -5067,7 +5066,7 @@ static void reset_network_vars(int reason)
     CPSDhcpServerIp = 0;
     if (!had_ip)
         return;
-    MI_CpuFill8(g_021A8384, 0, 0x60);
+    MI_CpuFill8(gCpsArpCache, 0, 0x60);
     for (t = gMslRefToken.list; t != 0; t = t->next) {
         soc = t->specific[0];
         if (soc != 0 && soc->thread != 0) {
@@ -5080,9 +5079,9 @@ static void reset_network_vars(int reason)
         }
     }
     for (i = 0; i < 8; i++) {
-        if (g_021A8A64[i].count != 0) {
-            CPSiFree(g_021A8A64[i].buf);
-            g_021A8A64[i].count = 0;
+        if (gCpsFragTable[i].count != 0) {
+            CPSiFree(gCpsFragTable[i].buf);
+            gCpsFragTable[i].count = 0;
         }
     }
     CPSi_SslCleanup();

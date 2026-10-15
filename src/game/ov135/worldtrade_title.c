@@ -20,7 +20,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
  *   GXx_GetMasterBrightness_ 0x0207D55C arm
@@ -34,7 +34,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
- *   BG_SYS_Delete_03F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -90,7 +90,7 @@
  *   g_02203924  0x02203924  data  ov135
  *   g_02203964  0x02203964  data  ov135
  *   g_022039E4  0x022039E4  data  ov135
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   d_022038E0 0x022038E0 data a2
  *   WORLDTRADE_ClearSelectedSpecies 0x021F4F90 thumb ov135
  *   g_022038EC  0x022038EC  data  ov135
@@ -136,7 +136,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -185,7 +185,7 @@ extern void WORLDTRADE_ClearBusyFlag(Work *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 
@@ -236,7 +236,7 @@ extern unsigned WIPE_SYS_EndCheck(void);
 
 extern void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e);
 
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 
 extern void WORLDTRADE_ClearSelectedSpecies(void *);
 
@@ -500,16 +500,16 @@ void WORLDTRADE_TITLE_ScrollBg(Work *p, u32 a, u32 b)
     func_02040588(7, 1);
 }
 
-void WORLDTRADE_TITLE_ExitBgPlanes(Work *p) {if(p->f12E0==1 && p->f12E4==0) {p->f12E0=0;func_020403F4(6);func_020403F4(5);func_020403F4(4);func_020403F4(7);}}
+void WORLDTRADE_TITLE_ExitBgPlanes(Work *p) {if(p->f12E0==1 && p->f12E4==0) {p->f12E0=0;BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(4);BG_SYS_FreeLayerBuf(7);}}
 
 /*
  * Poke channels 2, 1 and 0 in that order.
  */
 void WORLDTRADE_TITLE_ExitBgPlanesSub(void)
 {
-    BG_SYS_Delete_03F4(2);
-    BG_SYS_Delete_03F4(1);
-    BG_SYS_Delete_03F4(0);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
 }
 
 void WORLDTRADE_TITLE_SetBgVisible(Work *p) {BG_SYS_SetMainPlaneVisible(1,0);BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetMainPlaneVisible(4,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&p->cursor_p,0);}
@@ -571,14 +571,14 @@ void WORLDTRADE_TITLE_CreateWindows(u8 *p)
     ((struct Obj03300 *)p)->fD48=(void *)BMP_WIN_Create(1,(u8)2,(u8)1,(u8)0x1C,2,1,(u16)1);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj03300 *)p)->fD48),0xA);
     w=*(u32 *)&((struct Obj03300 *)p)->fD48;
-    BMP_WIN_TransferChars((void *)w); BMP_WIN_MakeScreen((void *)w); func_020409B4(BMP_WIN_GetBgLayer((void *)w));
+    BMP_WIN_TransferChars((void *)w); BMP_WIN_MakeScreen((void *)w); BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)w));
     WORLDTRADE_ADAPTER_PrintQueColor((void *)(((struct Obj03300 *)p)->fD48), 0, (u32)((struct Obj03300 *)p)->fB8C, 0, 2, 0, 0x35CA, (Ctx_02202878 *)(p+0xFA0));
     for(i=0;i<3;i++) {
         u32 window;
         *(void **)((u32)p+i*4+0xD50)=(void *)BMP_WIN_Create(1,(u8)9,(u8)(i*5+6),(u8)0xF,2,1,(u16)1);
         BMP_Clear(BMP_WIN_GetBmp(*(void **)((int)((u32)p+i*4)+0xD50)),1);
         window=*(u32 *)((u32)p+i*4+0xD50);
-        BMP_WIN_TransferChars((void *)window); BMP_WIN_MakeScreen((void *)window); func_020409B4(BMP_WIN_GetBgLayer((void *)window));
+        BMP_WIN_TransferChars((void *)window); BMP_WIN_MakeScreen((void *)window); BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)window));
     }
     ((struct Obj03300 *)p)->fD40=(void *)BMP_WIN_Create(0,(u8)2,(u8)0x15,(u8)0x1B,2,0xD,(u16)1);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj03300 *)p)->fD40),0xF);
@@ -905,7 +905,7 @@ void WORLDTRADE_TITLE_PrintMessage(u8 *p, u32 n, int a2, int a3, int a4)
     w = ((struct Obj02863 *)p)->fD40;
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     BMP_MENUWORK_DrawWindow((void *)(((struct Obj02863 *)p)->fD40), 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((struct Obj02863 *)p)->fD40), 0, ((struct Obj02863 *)p)->fB88, 0, 0, p + 0xfa0);
 }
@@ -924,7 +924,7 @@ void WORLDTRADE_TITLE_PrintMessageSub(u8 *p, int k, int a2, int a3, int a4)
     v = ((struct Obj04139 *)p)->fDD0;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
 }
 
 void WORLDTRADE_TITLE_PrintBankString(void *p,void *bank,u32 b,u32 id,u32 fifth,void *out,u16 se) { void *s=func_02045EC0(bank,id); WORLDTRADE_ADAPTER_PrintQueColor(p,b,(u32)s,0,0,0,se,(Ctx_02202878 *)out); STRBUF_Delete(s); }

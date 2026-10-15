@@ -16,7 +16,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Create  0x020457B0  arm
  *   NAMEIN_GRAPHIC_LoadCharMember  0x021F4DBC  thumb  ov194
  *   NAMEIN_GRAPHIC_LoadPairMember  0x021F4F50  thumb  ov194
@@ -47,7 +47,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int NAMEIN_GRAPHIC_LoadCharMember(int a, int b);
 extern int NAMEIN_GRAPHIC_LoadPairMember(int a);
@@ -76,7 +76,7 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
     *(int *)(p + 0x40) = h;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     *(int *)(p + 0x2c) = *(int *)(p + 0x40);
     *(u8 *)(p + 0x30) = i;
     *(int *)(p + 0x3c) = (int)STRBUF_Create(0xe, f);

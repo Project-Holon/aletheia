@@ -17,18 +17,18 @@
  *   atoi  0x020964E0  arm
  *   strstr  0x02094B20  arm
  *   gpiCallErrorCallback  0x02189D78  arm  ov009
- *   g_021A5718     0x021A5718  data
- *   g_021A5720     0x021A5720  data
- *   g_021A5728     0x021A5728  data
- *   g_021A5734     0x021A5734  data
+ *   gGpiUtilityKeyError     0x021A5718  data
+ *   gGpiUtilityKeyErr     0x021A5720  data
+ *   gGpiUtilityKeyErrMsg     0x021A5728  data
+ *   gGpiUtilityKeyFatal     0x021A5734  data
  *   strlen  0x0209477C  arm
  *   GSISocketSelect  0x0217ED64  arm  ov009
  *   gsDebugFormat  0x0217D254  arm  ov009
- *   g_021A573C     0x021A573C  data
- *   g_021A5750     0x021A5750  data
- *   g_021A5788     0x021A5788  data
- *   g_021A57A0     0x021A57A0  data
- *   g_021A57B8     0x021A57B8  data
+ *   gGpiUtilityMsgErrorConnecting     0x021A573C  data
+ *   gGpiUtilityMsgErrorChecking     0x021A5750  data
+ *   gGpiUtilityMsgConnectionRejected     0x021A5788  data
+ *   gGpiUtilityMsgConnectionAccepted     0x021A57A0  data
+ *   gGpiUtilityMsgParseError     0x021A57B8  data
  *   Util_RandSeed  0x0217F790  arm  ov009
  *   Util_RandInt  0x0217F7AC  arm  ov009
  *   B64Encode  0x0217FA90  arm  ov009
@@ -58,15 +58,15 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
 void gpiSetError(int *connection, int result, int errorString);
 void gpiSetErrorString(int *p, int b);
 void gpiEncodeString(const char *plaintext, char *encoded);
-extern char g_021A5718[];
-extern char g_021A5720[];
-extern char g_021A5728[];
-extern char g_021A5734[];
-extern char g_021A573C[];
-extern char g_021A5750[];
-extern char g_021A5788[];
-extern char g_021A57A0[];
-extern char g_021A57B8[];
+extern char gGpiUtilityKeyError[];
+extern char gGpiUtilityKeyErr[];
+extern char gGpiUtilityKeyErrMsg[];
+extern char gGpiUtilityKeyFatal[];
+extern char gGpiUtilityMsgErrorConnecting[];
+extern char gGpiUtilityMsgErrorChecking[];
+extern char gGpiUtilityMsgConnectionRejected[];
+extern char gGpiUtilityMsgConnectionAccepted[];
+extern char gGpiUtilityMsgParseError[];
 
 
 /*
@@ -105,14 +105,14 @@ int gpiCheckForError(int *connection, const char *input, int fatal)
     char value[0x10];
     int *ic = (int *)*connection;
 
-    if (strncmp((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
+    if (strncmp((const unsigned char *)input, (const unsigned char *)gGpiUtilityKeyError, 7) != 0)
         goto fail;
-    if (gpiValueForKey(input, g_021A5720, value, 0x10))
+    if (gpiValueForKey(input, gGpiUtilityKeyErr, value, 0x10))
         ic[0x5b8 / 4] = atoi((u32)value);
-    if (!gpiValueForKey(input, g_021A5728, (char *)ic, 0x100))
+    if (!gpiValueForKey(input, gGpiUtilityKeyErrMsg, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
-        int b = strstr((const u8 *)input, (const u8 *)g_021A5734) != 0;
+        int b = strstr((const u8 *)input, (const u8 *)gGpiUtilityKeyFatal) != 0;
         gpiCallErrorCallback(connection, 4, b != 0);
     }
     return 1;
@@ -192,20 +192,20 @@ int gpiCheckSocketConnect(int *connection, int sock, int *state)
     e[0] = 0;
     r = GSISocketSelect(sock, 0, &e[1], &e[0]);
     if (r == -1) {
-        gsDebugFormat(1, 0, 1, (const char *)((int)g_021A573C));
-        gpiSetError(connection, 5, (int)g_021A5750);
+        gsDebugFormat(1, 0, 1, (const char *)((int)gGpiUtilityMsgErrorConnecting));
+        gpiSetError(connection, 5, (int)gGpiUtilityMsgErrorChecking);
         gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     if (r <= 0)
         goto zero;
     if (e[0] != 0) {
-        gsDebugFormat(1, 0, 1, (const char *)((int)g_021A5788));
+        gsDebugFormat(1, 0, 1, (const char *)((int)gGpiUtilityMsgConnectionRejected));
         *state = 4;
         return 0;
     }
     if (e[1] != 0) {
-        gsDebugFormat(1, 0, 8, (const char *)((int)g_021A57A0));
+        gsDebugFormat(1, 0, 8, (const char *)((int)gGpiUtilityMsgConnectionAccepted));
         *state = 3;
         return 0;
     }
@@ -237,19 +237,19 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
     start = (char *)buffer;
 
     if (*buffer++ != '\\') {
-        gpiSetError(connection, 1, (int)g_021A57B8);
+        gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
         gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
 
     for (i = 0; (c = *buffer++) != '\\'; i++) {
         if (c == 0) {
-            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
             gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         if (i == 0x1ff) {
-            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
             gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
@@ -259,7 +259,7 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
 
     for (i = 0; ((c = *buffer++) != '\\') && (c != 0); i++) {
         if (i == 0x1ff) {
-            gpiSetError(connection, 1, (int)g_021A57B8);
+            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
             gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }

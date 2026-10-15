@@ -23,8 +23,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct S020315D4;
-extern void MB_COMM_SYS_Exit(u8 *p);extern void GAME_DATA_Delete(unsigned char *);extern void func_020307B0(void *);extern void func_020315D4(struct S020315D4 *);extern void GFL_HEAP_DeleteChecked(u32);extern u32 func_0200FB24(void);extern int func_0200FBB0(void);extern void GFL_NET_ERR_ShowScreen(int);extern void GFL_NET_ERR_ShowSimpleScreen(void);extern void UI_SoftReset(int);
+struct Proc;
+extern void MB_COMM_SYS_Exit(u8 *p);extern void GAME_DATA_Delete(unsigned char *);extern void func_020307B0(void *);extern void func_020315D4(struct Proc *);extern void GFL_HEAP_DeleteChecked(u32);extern u32 func_0200FB24(void);extern int func_0200FBB0(void);extern void GFL_NET_ERR_ShowScreen(int);extern void GFL_NET_ERR_ShowSimpleScreen(void);extern void UI_SoftReset(int);
 typedef struct {u8 f00;u8 pad[3];void *f04;} Save;
 typedef struct {u16 f00,pad02;u32 f04;Save *f08;u32 f0C,f10,f14,f18;} Ctx;
 int MB_COMM_SYS_ProcExit(void *task,int unused,int keep,Ctx *p){int mode;u32 a,b,c;

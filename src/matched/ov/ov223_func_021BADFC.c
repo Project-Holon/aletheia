@@ -1,5 +1,5 @@
 /*
- * function: PSEL_NopADFC
+ * function: PSEL_NopBgUpdate
  * address: 0x021BADFC
  * packet: pkt_ov223_021BADFC
  * region: ov223
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void PSEL_NopADFC(char *a0) {}
+void PSEL_NopBgUpdate(char *a0) {}

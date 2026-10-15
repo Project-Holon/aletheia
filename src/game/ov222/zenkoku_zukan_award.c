@@ -38,7 +38,7 @@
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   tbl_021BA1F4 0x021BA1F4 data a4
  *   tbl_021BA360 0x021BA360 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -53,7 +53,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
  *   CONFIG_GetAppliedFlag 0x020083E4 thumb
@@ -65,7 +65,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -101,7 +101,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02040804 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
@@ -124,11 +124,11 @@
 #define R (*(volatile u16*)0x04000060)
 struct BgTemplate;
 struct Obj;
-struct Obj0203159C;
+struct Proc;
 struct GfFont;
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 struct Big;
 struct Bmp;
 struct Cfg;
@@ -194,7 +194,7 @@ struct ZenkokuZukanAwardWork {
 };
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,int,u32);
 extern void *ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -212,14 +212,14 @@ extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
-extern void FADE_Start(u32,int,int,int),func_020409B4(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
-extern void func_020403F4(u32 i);
+extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char*);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
@@ -235,7 +235,7 @@ extern u32 KEY_GetTrg(void);
 extern void func_020355D8(unsigned char);
 extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetAppliedFlag(unsigned short *p);
@@ -247,7 +247,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -279,7 +279,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned func_02040804(unsigned);
 extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
@@ -354,7 +354,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  func_02049B68(h,tbl_021BA360[selected].a,4,zero,zero,heap);
  func_02049658(h,tbl_021BA360[selected].b,4,zero,zero,zero,heap);
  func_020498F4(h,tbl_021BA360[selected].c,4,zero,zero,zero,heap);
- ARC_TOOL_DeleteHandle(h);func_020409B4(4);ZENKOKU_ZUKAN_AWARD_SetupActorPos((char *)p);
+ ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);ZENKOKU_ZUKAN_AWARD_SetupActorPos((char *)p);
  FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;
@@ -365,7 +365,7 @@ int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p)
  LayerCount i;
  i=0;
  do {
-  func_020403F4((u8)d_021BA1F4[i].layer);
+  BG_SYS_FreeLayerBuf((u8)d_021BA1F4[i].layer);
   i++;
  } while((u32)i<COUNT);
  *(volatile u16*)0x04001050=0;
@@ -430,7 +430,7 @@ void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(struct ZenkokuZukanAwardWork *p)
     func_02049658(h,5,1,0,0,0,p->heap);
     func_020498F4(h,7,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }
 
 void ZENKOKU_ZUKAN_AWARD_Noop(struct ZenkokuZukanAwardWork *p){}
@@ -465,7 +465,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
             BMP_WIN_SetPosY(p->windows[j], d_021BA1E0[j].b);
         }
     }
-    ws = (u32)GF_FONT_Create_EC64(p->heap);
+    ws = (u32)WORDSET_CreateDefault(p->heap);
     t = (u32)func_02045EC0(p->msgBank, 4);
     x = (u32)STRBUF_Create(0x20, p->heap);
     off = 0;
@@ -547,7 +547,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupTiles(struct ZenkokuZukanAwardWork *p)
  tile=BMP_WIN_GetCharOffset(p->windows[1])|0xf000;
  for(y=0;y<24;y++) for(x=0;x<32;x++) {tiles[index]=tile;index++;}
  BG_SYS_DrawTile(2,(u32)tiles,0,24,32,24);
- func_020409B4(2);
+ BG_SYS_PushTile(2);
  func_020307B0(tiles);
 }
 
@@ -586,8 +586,8 @@ void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
     Pt pos;
     if(*(int*)(*(char**)(p+4)+4)==0){
         s16 *t;
-        func_02040618(1,3,0x40);
-        func_02040618(2,3,0x40);
+        BG_SYS_FillScrollArea(1,3,0x40);
+        BG_SYS_FillScrollArea(2,3,0x40);
         t=(s16*)d_021BA1D8;
         pos.x=t[0];
         pos.y=t[1]-0x40;

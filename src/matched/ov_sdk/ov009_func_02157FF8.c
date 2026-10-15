@@ -16,8 +16,8 @@
  *   is_multicast            0x02157928  arm  ov009
  *   OS_GetTick               0x020870D0  arm
  *   MI_CpuCopy               0x02082EA4  arm
- *   g_021A826C               0x021A826C  data
- *   g_021A8384               0x021A8384  data
+ *   gCpsNetVars               0x021A826C  data
+ *   gCpsArpCache               0x021A8384  data
  */
 
 #include "../include/G_ArpEntry.h"
@@ -26,10 +26,10 @@ extern unsigned long ip_islocal(unsigned long ip);
 extern int is_multicast(unsigned v);
 extern unsigned long long OS_GetTick(void);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
-extern unsigned char g_021A826C;
-extern struct ArpEntry g_021A8384[8];
+extern unsigned char gCpsNetVars;
+extern struct ArpEntry gCpsArpCache[8];
 
-#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
+#define NV(off, type) (*(type *)((char *)&gCpsNetVars + (off)))
 
 void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 {
@@ -46,9 +46,9 @@ void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 		return;
 	now = (unsigned short)(OS_GetTick() >> 16);
 	for (i = 0; i < 8; i++) {
-		if (g_021A8384[i].ip == ip) {
-			g_021A8384[i].when = now;
-			MI_CpuCopy(mac, g_021A8384[i].mac, 6);
+		if (gCpsArpCache[i].ip == ip) {
+			gCpsArpCache[i].when = now;
+			MI_CpuCopy(mac, gCpsArpCache[i].mac, 6);
 			return;
 		}
 	}
@@ -57,16 +57,16 @@ void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry)
 	oldest_time = 0;
 	candidate = 0;
 	for (i = 0; i < 8; i++) {
-		if (g_021A8384[i].ip == 0) {
+		if (gCpsArpCache[i].ip == 0) {
 			candidate = i;
 			break;
 		}
-		if ((short)(now - g_021A8384[i].when) > oldest_time) {
+		if ((short)(now - gCpsArpCache[i].when) > oldest_time) {
 			candidate = i;
-			oldest_time = now - g_021A8384[i].when;
+			oldest_time = now - gCpsArpCache[i].when;
 		}
 	}
-	g_021A8384[candidate].ip = ip;
-	MI_CpuCopy(mac, g_021A8384[candidate].mac, 6);
-	g_021A8384[candidate].when = now;
+	gCpsArpCache[candidate].ip = ip;
+	MI_CpuCopy(mac, gCpsArpCache[candidate].mac, 6);
+	gCpsArpCache[candidate].when = now;
 }

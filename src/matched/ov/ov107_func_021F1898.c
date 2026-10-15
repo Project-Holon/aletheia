@@ -12,7 +12,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
  */
@@ -37,7 +37,7 @@ struct Descriptor;
 void *BMP_WIN_GetBmp(struct Descriptor *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 int TALKMSGWIN_ClearWindowFrame(void *, void *);
-void func_020409B4(u32 index);
+void BG_SYS_PushTile(u32 index);
 void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 void TIME_ICON_Delete(u8 *p);
 
@@ -46,7 +46,7 @@ void MB_UTIL_MSG_ClearWindow(Ov107Ctx *p)
     BMP_Clear(BMP_WIN_GetBmp(p->f10), 0);
     if (p->f04 == 8) {
         TALKMSGWIN_ClearWindowFrame(p->f54, p->f10);
-        func_020409B4(p->f02);
+        BG_SYS_PushTile(p->f02);
     } else {
         BMP_MENUWORK_DrawWindowBorder(p->f10, 1);
     }

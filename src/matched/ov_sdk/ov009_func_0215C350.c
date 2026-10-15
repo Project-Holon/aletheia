@@ -18,7 +18,7 @@
  *   dhcp_send_request  0x0215BE80  arm  ov009
  *   dhcp_analyze_response  0x0215BF88  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
- *   g_021A826C     0x021A826C  data
+ *   gCpsNetVars     0x021A826C  data
  */
 
 struct NetVars {
@@ -35,7 +35,7 @@ extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, u
 extern unsigned long dhcp_send_request(int mode);
 extern int dhcp_analyze_response(unsigned long id, int retry);
 extern void CPS_SocRelease(void);
-extern struct NetVars g_021A826C;
+extern struct NetVars gCpsNetVars;
 
 int dhcp_request_server(unsigned long *sleep, int mode)
 {
@@ -46,7 +46,7 @@ int dhcp_request_server(unsigned long *sleep, int mode)
 	CPS_SocUse();
 	CPS_SocDatagramMode();
 	if (mode == 1)
-		CPS_SocBind(0x44, 0x43, g_021A826C.dhcp_server_ip);
+		CPS_SocBind(0x44, 0x43, gCpsNetVars.dhcp_server_ip);
 	else
 		CPS_SocBind(0x44, 0x43, 0xffffffff);
 	for (retry = 0; retry < 5; retry++) {
@@ -56,18 +56,18 @@ int dhcp_request_server(unsigned long *sleep, int mode)
 	}
 	CPS_SocRelease();
 	if (result == 2) {
-		*sleep = g_021A826C.lease_time >> 1;
-		g_021A826C.lease_sleep = (g_021A826C.lease_time * 3) >> 3;
+		*sleep = gCpsNetVars.lease_time >> 1;
+		gCpsNetVars.lease_sleep = (gCpsNetVars.lease_time * 3) >> 3;
 		return 1;
 	}
-	save = g_021A826C.lease_sleep >> 1;
-	g_021A826C.lease_sleep = save;
+	save = gCpsNetVars.lease_sleep >> 1;
+	gCpsNetVars.lease_sleep = save;
 	*sleep = save;
 	switch (mode) {
 	case 1:
 		if (save < 0x3c) {
 			*sleep = 1;
-			g_021A826C.lease_sleep = g_021A826C.lease_time >> 3;
+			gCpsNetVars.lease_sleep = gCpsNetVars.lease_time >> 3;
 		}
 		break;
 	case 2:

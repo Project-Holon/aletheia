@@ -1,5 +1,5 @@
 /*
- * function: func_021F0DE0
+ * function: BEACON_VIEW_MoveActorSurface
  * address: 0x021F0DE0
  * packet: pkt_ov032_021F0DE0
  * region: ov032
@@ -16,4 +16,4 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021F0DE0(void *p, short x, short y) { Pair d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(p,(const struct Vec2 *)(&d),0); }
+void BEACON_VIEW_MoveActorSurface(void *p, short x, short y) { Pair d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(p,(const struct Vec2 *)(&d),0); }

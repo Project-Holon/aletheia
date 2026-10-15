@@ -16,8 +16,8 @@
  *   strlen  0x0209477C  arm
  *   DWCi_Http_ReallocBuffer  0x0217A15C  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
- *   g_021A2688     0x021A2688  data ov009
- *   g_021A268C     0x021A268C  data ov009
+ *   gDwcHttpParamFmt     0x021A2688  data ov009
+ *   gDwcHttpParamAmpFmt     0x021A268C  data ov009
  */
 
 typedef struct DWCHttpBuffer {
@@ -40,8 +40,8 @@ extern int strlen(const u8 *s);
 extern int DWCi_Http_ReallocBuffer(DWCHttp *http, DWCHttpBuffer *buf, int size);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
-extern const char g_021A2688[];
-extern const char g_021A268C[];
+extern const char gDwcHttpParamFmt[];
+extern const char gDwcHttpParamAmpFmt[];
 
 int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len)
 {
@@ -53,9 +53,9 @@ int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned
 
     temp_buffer = &http->req;
     if (http->num_postitem == 0)
-        format = g_021A2688;
+        format = gDwcHttpParamFmt;
     else
-        format = g_021A268C;
+        format = gDwcHttpParamAmpFmt;
 
     http->num_postitem++;
 

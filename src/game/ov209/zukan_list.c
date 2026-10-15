@@ -43,7 +43,7 @@
  *   gZukanListBgTemplateLayer5 0x021BE854 data a4
  *   gZukanListBgTemplateLayer6 0x021BE8D4 data a4
  *   gZukanListBgTemplateLayer7 0x021BE834 data a4
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -66,7 +66,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -218,7 +218,7 @@ struct FrameList;
 
 struct ProcSystem;
 
-struct S020315D4;
+struct Proc;
 
 struct Node;
 
@@ -366,7 +366,7 @@ extern void *PROCSYS_AllocProcWork(struct ProcSystem *,unsigned,unsigned);
 
 extern void MI_CpuFill8(void *,int,int);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -398,7 +398,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BG_SYS_Delete(void);
 
@@ -444,7 +444,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
@@ -995,14 +995,14 @@ void ZUKAN_LIST_ExitBgSystem(void)
 {
     BG_SYS_SetMainPlaneVisible(0xf, 0);
     BG_SYS_SetSubPlaneVisible(0xf, 0);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -1092,7 +1092,7 @@ void ZUKAN_LIST_CreateFontAndPrinter(struct ZukanList *p)
 {
     p->msgBank = func_02045B38(0, 2, 0x114, 0x6B);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x6B);
-    p->wordSet = GF_FONT_Create_EC64(0x6B);
+    p->wordSet = WORDSET_CreateDefault(0x6B);
     p->printer = (void *)PRINTSYS_QUE_Create((void *)0x6B);
     p->textBuf = STRBUF_Create(0x80, 0x6B);
 }

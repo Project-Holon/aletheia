@@ -1,5 +1,5 @@
 /*
- * function: func_021D9320
+ * function: WF2DMAP_SCENE_CheckGridNumber
  * address: 0x021D9320
  * packet: pkt_ov129_021D9320
  * region: ov129
@@ -10,12 +10,12 @@
  * status: EXACT*
  * trailing: Two zero alignment bytes.
  * symbols:
- *   func_021D92E4 0x021D92E4 thumb ov129
+ *   WF2DMAP_SCENE_GetGridNumber 0x021D92E4 thumb ov129
  */
 #include "../include/Obj14053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021D92E4(u8 *);
-int func_021D9320(u8 *p) { if(!((struct Obj14053 *)p)->f328) return 1; if(func_021D92E4(p)<=((struct Obj14053 *)p)->f344) return 1; return 0; }
+extern int WF2DMAP_SCENE_GetGridNumber(u8 *);
+int WF2DMAP_SCENE_CheckGridNumber(u8 *p) { if(!((struct Obj14053 *)p)->f328) return 1; if(WF2DMAP_SCENE_GetGridNumber(p)<=((struct Obj14053 *)p)->f344) return 1; return 0; }

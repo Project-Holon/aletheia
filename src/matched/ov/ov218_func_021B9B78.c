@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B78
+ * function: UN_SELECT_DrawMessage
  * address: 0x021B9B78
  * packet: pkt_ov218_021B9B78
  * region: ov218
@@ -44,7 +44,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021B9B78(char *p, u32 id)
+void UN_SELECT_DrawMessage(char *p, u32 id)
 {
     int value = MSG_SPEED_GetWait();
     struct Descriptor *obj = *(struct Descriptor * *)&((struct Obj02265 *)p)->f24;

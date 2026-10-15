@@ -26,7 +26,7 @@
  *   STRBUF_SetString 0x02045924 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02030734 0x02030734 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -37,7 +37,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020307B0 0x020307B0 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -196,7 +196,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
@@ -555,7 +555,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -567,7 +567,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
@@ -578,7 +578,7 @@ extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 func_020307B0(void *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -882,7 +882,7 @@ void MUSICAL_MCSS_DrawLabel(u8 *p)
     ((struct Obj00669 *)p)->f60=GF_FONT_Create(23,0,0,0,((struct Obj00669 *)p)->f0);
     func_02049B40(23,5,0,320,32,((struct Obj00669 *)p)->f0);
     buf=STRBUF_Create(128,((struct Obj00669 *)p)->f0);
-    t=GF_FONT_Create_EC64(((struct Obj00669 *)p)->f0);
+    t=WORDSET_CreateDefault(((struct Obj00669 *)p)->f0);
     f=func_02045B38(0,2,78,((struct Obj00669 *)p)->f0);
     b=func_02045EC0(f,0);
     WORDSET_SetSlotNumber(t,0,(*(Input_021F40D0 * *)&((struct Obj00669 *)p)->f4)->a,2,2,1);
@@ -902,7 +902,7 @@ void MUSICAL_MCSS_DrawLabel(u8 *p)
     BMP_WIN_MakeScreen(((struct Obj00669 *)p)->f54);
     BMP_WIN_TransferChars(((struct Obj00669 *)p)->f58);
     BMP_WIN_MakeScreen(((struct Obj00669 *)p)->f58);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }
 
 
@@ -962,9 +962,9 @@ void MUSICAL_MCSS_Delete(u8 *p)
     }
     CLACT_DeleteUnit((struct Bank *)(((struct Obj04456 *)p)->f48));
     MUSICAL_MCSS_DeleteWindows(p);
-    func_020403F4(4);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
     func_020307B0(p);
 }
 
@@ -1095,7 +1095,7 @@ void MUSICAL_MCSS_CreateUnits(u8 *p)
         func_02049658((void *)((u32)t),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((struct Obj00721 *)p)->f0);
         func_020498F4((void *)((u32)t),APP_ICON_GetStatusDataFileId(),6,0,0,0,((struct Obj00721 *)p)->f0);
         BG_SYS_FillTileMap(6,0,21,32,3,9);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         ((struct Obj00721 *)p)->f4C=CLACT_RegisterPaletteEx((void *)((u32)t),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((struct Obj00721 *)p)->f0);
         ((struct Obj00721 *)p)->f50=CLACT_RegisterCharacter((void *)((u32)t),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj00721 *)p)->f0);
         v=APP_ICON_GetStatusCellFileId(0);
@@ -1118,7 +1118,7 @@ void MUSICAL_MCSS_CreateUnits(u8 *p)
 
 
 
-void MUSICAL_MCSS_InitBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); func_020409B4(b); }
+void MUSICAL_MCSS_InitBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
 
 
 
@@ -1133,7 +1133,7 @@ void MUSICAL_MCSS_InitWindows(u8 *p)
     ((struct Obj01147 *)p)->f1C=BMP_WIN_Create(4,1,1,30,4,10,1);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01147 *)p)->f1C);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj01147 *)p)->f1C));
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     zero=0;
     ((struct Obj01147 *)p)->f20=(u32)GF_FONT_Create(23,0,0,0,((struct Obj01147 *)p)->f0);
     ((struct Obj01147 *)p)->f28=(u32)func_02045B38(0,2,78,((struct Obj01147 *)p)->f0);

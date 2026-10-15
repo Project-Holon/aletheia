@@ -38,8 +38,8 @@
  *   func_0218964C  0x0218964C  arm  ov009
  *   gpiSendOrBufferChar  0x02189644  arm  ov009
  *   gsiTimeNitro  0x02184098  arm  ov009
- *   g_021A4FEC  0x021A4FEC  data
- *   g_021A4FF0  0x021A4FF0  data
+ *   gGpiPeerEmptyMsg  0x021A4FEC  data
+ *   gGpiPeerLenMsgFmt  0x021A4FF0  data
  */
 
 struct GPIPeer {
@@ -54,8 +54,8 @@ extern int func_02189750(void **connection, struct GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, struct GPIPeer *peer, char *string, int stringLen);
 extern int gpiSendOrBufferChar();
 extern long gsiTimeNitro(long *timer);
-extern char g_021A4FEC[];   /* "" -- the default when message is 0 */
-extern char g_021A4FF0[];   /* "\len\%d\msg\\\n" -- OS_SPrintf's format */
+extern char gGpiPeerEmptyMsg[];   /* "" -- the default when message is 0 */
+extern char gGpiPeerLenMsgFmt[];   /* "\len\%d\msg\\\n" -- OS_SPrintf's format */
 
 int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *message, int len)
 {
@@ -65,10 +65,10 @@ int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *
     if (peer == 0)
         return 3;
     if (message == 0)
-        message = g_021A4FEC;
+        message = gGpiPeerEmptyMsg;
     if (len == -1)
         len = strlen((const u8 *)message);
-    OS_SPrintf(buffer, g_021A4FF0, len);
+    OS_SPrintf(buffer, gGpiPeerLenMsgFmt, len);
     result = func_02189750(connection, peer, buffer);
     if (result != 0)
         return result;

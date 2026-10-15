@@ -24,7 +24,7 @@
  *   BMP_WIN_GetDispHeight  0x02045750  arm
  *   BMP_WIN_GetPosX  0x02045758  arm
  *   BMP_WIN_GetPosY  0x02045760  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   func_02041B6C  0x02041B6C  arm
  *
@@ -43,7 +43,7 @@ extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02041B6C(u32 bit);
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5,
                           u8 a6);
@@ -63,7 +63,7 @@ void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind)
     d = BMP_WIN_GetDispHeight(desc);
     BG_SYS_SetTileEntry(id, 0, (u8)(a - 1), (u8)(b - 1), (u8)(c + 2), (u8)(d + 2), 0);
     if (kind == 0) {
-        func_020409B4(id);
+        BG_SYS_PushTile(id);
         return;
     }
     if (kind == 1) {

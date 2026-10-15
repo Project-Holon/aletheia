@@ -15,8 +15,8 @@
  *   strlen  0x0209477C  arm
  *   func_0217A0D4  0x0217A0D4  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
- *   g_021A2608     0x021A2608  data
- *   g_021A265C     0x021A265C  data
+ *   gDwcHttpPostFormat     0x021A2608  data
+ *   gDwcHttpGetFormat     0x021A265C  data
  */
 
 typedef struct {
@@ -25,8 +25,8 @@ typedef struct {
     char *end;
     int cap;
 } Buf;
-extern char g_021A2608[];
-extern char g_021A265C[];
+extern char gDwcHttpPostFormat[];
+extern char gDwcHttpGetFormat[];
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern int func_0217A0D4(char *http, Buf *buf, unsigned long size);
@@ -40,9 +40,9 @@ int DWCi_Http_WriteBasicHeader(char *http)
 
     req = (Buf *)(http + 0x1a34);
     if (*(int *)(http + 0x1008) == 0) {
-        format = g_021A2608;
+        format = gDwcHttpPostFormat;
     } else {
-        format = g_021A265C;
+        format = gDwcHttpGetFormat;
     }
     result_len = strlen((const u8 *)(*(char **)(http + 0x1124))) +
                  (strlen((const u8 *)format) - 4 + strlen((const u8 *)(*(char **)(http + 0x1128))));

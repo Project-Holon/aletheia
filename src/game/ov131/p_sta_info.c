@@ -18,7 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02045B38 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -48,7 +48,7 @@
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -129,7 +129,7 @@ struct StaInfoStatRows { u8 row[6][6]; };
 
 extern u32 func_020307B0(void *p);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
@@ -148,7 +148,7 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
@@ -275,12 +275,12 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
         win=work->win[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     }
     win=work->win[STA_INFO_WIN_MEMO];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     if(wk->isEgg==0) {
         type1=func_02017E88(mon,174,0);
         type2=func_02017E88(mon,175,0);
@@ -354,7 +354,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
     u32 species;
     if(wk->isEgg==0) {
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],8,1,1,0x3c40);
-        dexWordSet=GF_FONT_Create_EC64(wk->heapId);
+        dexWordSet=WORDSET_CreateDefault(wk->heapId);
         dexNo=func_02017E88(mon,5,0);
         color=0x440;
         if(wk->param->isNationalDex==0) dexNo=work->dexTable[dexNo];
@@ -376,7 +376,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_TYPE],12,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
         otName=STRBUF_Create(0x20,wk->heapId);
-        otWordSet=GF_FONT_Create_EC64(wk->heapId);
+        otWordSet=WORDSET_CreateDefault(wk->heapId);
         tmpValue=func_02017E88(mon,0x9a,otName);
         if(tmpValue==0) color=0x14c0;
         else if(tmpValue==1) color=0xc80;
@@ -386,7 +386,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         WORDSET_DeleteStrbufED04(otWordSet);
         STRBUF_Delete(otName);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,1,1,0x3c40);
-        idWordSet=GF_FONT_Create_EC64(wk->heapId);
+        idWordSet=WORDSET_CreateDefault(wk->heapId);
         idNo=func_02017E88(mon,7,0);
         WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,0x41,1,0x440);
@@ -402,13 +402,13 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         expToNext=expNextLv-exp;
         if(level==100) expToNext=0;
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_EXP_LABEL],17,1,1,0x3c40);
-        expWordSet=GF_FONT_Create_EC64(wk->heapId);
+        expWordSet=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(expWordSet,0,exp,7,0,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_EXP_VALUE],expWordSet,18,1,1,0x440);
         WORDSET_DeleteStrbufED04(expWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_LABEL],19,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],20,1,1,0x440);
-        toNextWordSet=GF_FONT_Create_EC64(wk->heapId);
+        toNextWordSet=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(toNextWordSet,0,expToNext,6,0,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],toNextWordSet,21,0x21,1,0x440);
         WORDSET_DeleteStrbufED04(toNextWordSet);

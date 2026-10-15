@@ -22,13 +22,13 @@
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void STARTMENU_ConfigPromptSetupGraphics(char *);
 typedef unsigned char  u8;
 extern void STARTMENU_ConfigPromptDrawQuestion(u8 *p);
 
-int STARTMENU_ConfigPromptInit(struct Obj0203159C *a, int b, int *c)
+int STARTMENU_ConfigPromptInit(struct Proc *a, int b, int *c)
 {
     char *r;
     GFL_HEAP_CreateChildHeap(1, 0x39, 0x80000);

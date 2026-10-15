@@ -1,5 +1,5 @@
 /*
- * function: func_021D8D00
+ * function: MYSTERY_StepCardView
  * address:  0x021D8D00
  * packet:   pkt_021D8D00
  * region:   ov121
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-void func_021D8D00(char *p)
+void MYSTERY_StepCardView(char *p)
 {
     if (*(void (**)(void))(p + 0x2c) != 0) {
         (*(void (**)(char *))(p + 0x2c))(p);

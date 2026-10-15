@@ -90,7 +90,7 @@ typedef struct {
 extern void VIEWER_MAIN_CopyBg6(const u8 *src, u8 *dst);
 struct Node;
 struct Obj;
-struct S020315D4;
+struct Proc;
 struct Sub0200852CObj;
 struct Sub020089A8Obj;
 extern void *GAME_DATA_GetSaveBlock21(void **h);
@@ -111,7 +111,7 @@ extern void func_02030EAC(struct Node *n);
 struct S02031140;
 extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020355D8(u32 v);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 
 int VIEWER_MAIN_Delete(void *man, int *state, Args *args, Work *p)

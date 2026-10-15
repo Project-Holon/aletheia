@@ -1,5 +1,5 @@
 /*
- * function: func_021D6CEC
+ * function: MYSTERY_ResetActorAngle
  * address: 0x021D6CEC
  * packet: pkt_ov121_021D6CEC
  * region: ov121
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021D6CEC(u8 *p) { ((struct Obj22853 *)p)->f98=0; }
+void MYSTERY_ResetActorAngle(u8 *p) { ((struct Obj22853 *)p)->f98=0; }

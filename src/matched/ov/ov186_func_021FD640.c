@@ -16,7 +16,7 @@
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   func_020307B0 0x020307B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
@@ -29,12 +29,12 @@ extern void BR_UTIL_Delete(u8 *p);
 extern void PMS_DRAW_Delete(struct Obj *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern u32 func_020307B0(void *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void BR_UTIL_DeleteProfileScreen(int *p)
 {
     int i;
     if(p[10]) {CLACT_DeleteActor((struct Obj *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
     if(p[9]) {CLACT_DeleteActor((struct Obj *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {BR_UTIL_Delete((void *)p[i]);p[i]=0;}
-    PMS_DRAW_Delete((struct Obj *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);func_020409B4(1);
+    PMS_DRAW_Delete((struct Obj *)p[8]);BR_RES_ApplyBgSet(p[7],8);func_020307B0(p);BG_SYS_PushTile(1);
 }

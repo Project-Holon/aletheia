@@ -22,7 +22,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_InitMutex  0x02086004  arm
  *   gWcmCpsifWork  0x021AA7DC  data ov009
- *   g_021AA80C  0x021AA80C  data ov009
+ *   gWcmCpsifMac  0x021AA80C  data ov009
  *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -31,7 +31,7 @@
  *   WCMi_WmifSetDCFData  0x02166D2C  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCMi_NwmifSetDCFData  0x02731E50  arm  twl
- *   g_021AA7E8     0x021AA7E8  data ov009
+ *   gWcmCpsifMutex     0x021AA7E8  data ov009
  *   OS_WakeupThread  0x02085800  arm
  *   OS_IrqHandler  0x01FF80F0  data
  *   MI_CpuCopy                   0x02082EA4  arm
@@ -104,8 +104,8 @@ void WCMi_CpsifSetMacAddress(void *mac);
 void WCM_GetMacAddress(int a);
 unsigned long WCMi_MergeToBuffer(unsigned char deviceId, unsigned short *sendBuf, void *header, unsigned long headerLen, void *body, unsigned long bodyLen);
 extern WcmCpsifWork gWcmCpsifWork;
-extern char g_021AA80C[];
-extern unsigned char g_021AA7E8[];
+extern char gWcmCpsifMac[];
+extern unsigned char gWcmCpsifMutex[];
 extern int OS_IrqHandler;
 
 
@@ -121,7 +121,7 @@ void WCMi_InitCpsif(void)
     }
     gWcmCpsifWork.inited = 1;
     gWcmCpsifWork.reserved24 = 0;
-    MI_CpuFill8(g_021AA80C, 0, 6);
+    MI_CpuFill8(gWcmCpsifMac, 0, 6);
     gWcmCpsifWork.reserved8 = 0;
     gWcmCpsifWork.reserved4 = 0;
     OS_InitMutex(gWcmCpsifWork.mutex);
@@ -245,15 +245,15 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         OS_RestoreInterrupts(e);
         return -1;
     }
-    OS_LockMutex(g_021AA7E8);
+    OS_LockMutex(gWcmCpsifMutex);
     w = (WCMWork_02166444 *)WCMi_GetSystemWork();
     if (w == 0) {
-        OS_UnlockMutex(g_021AA7E8);
+        OS_UnlockMutex(gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
         return -1;
     }
     if (w->phase != 9 || w->resetting == 1) {
-        OS_UnlockMutex(g_021AA7E8);
+        OS_UnlockMutex(gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
         return -4;
     }
@@ -268,7 +268,7 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         }
         break;
     }
-    OS_UnlockMutex(g_021AA7E8);
+    OS_UnlockMutex(gWcmCpsifMutex);
     OS_RestoreInterrupts(e);
     return headerLen + bodyLen;
 }
@@ -298,7 +298,7 @@ void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex)
 
 void WCMi_CpsifSetMacAddress(void *mac)
 {
-	MI_CpuCopy(mac, g_021AA80C, 6);
+	MI_CpuCopy(mac, gWcmCpsifMac, 6);
 }
 
 
@@ -309,7 +309,7 @@ void WCMi_CpsifSetMacAddress(void *mac)
  */
 void WCM_GetMacAddress(int a)
 {
-    func_02082EA4(g_021AA80C, a, 6);
+    func_02082EA4(gWcmCpsifMac, a, 6);
 }
 
 

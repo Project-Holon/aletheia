@@ -54,7 +54,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   gIrcRankingDispConfig 0x021B94A8 data
  *   gIrcRankingBgEntries 0x021B9524 data a4
  */
@@ -102,7 +102,7 @@ extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  int i; int k; u32 bg; struct MsgBank *msg; struct GfFont *font; struct StrObj *str;
  MI_CpuFill8(p, 0, 0x10);
@@ -143,5 +143,5 @@ void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  MSGDATA_Delete((struct Rec *)msg);
  BMP_WIN_TransferChars((struct Descriptor *)p[3]);
  BMP_WIN_MakeScreen((struct Cfg *)p[3]);
- func_020409B4(0);
+ BG_SYS_PushTile(0);
 }

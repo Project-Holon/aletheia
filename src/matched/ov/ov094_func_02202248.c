@@ -19,7 +19,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   INFOWIN_Init 0x02024A20 thumb
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -54,7 +54,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void INFOWIN_Init(u8, u8, void *, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -87,7 +87,7 @@ void BTLV_INPUT_LoadScreenResources(char *p)
     BMP_WIN_TransferChars(((struct Obj00083 *)p)->f230);
     BMP_WIN_MakeScreen(((struct Obj00083 *)p)->f228);
     BMP_WIN_MakeScreen(((struct Obj00083 *)p)->f230);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     INFOWIN_Init(6, 15, ((struct Obj00083 *)p)->f4C, ((struct Obj00083 *)p)->f240);
     func_02040588(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);

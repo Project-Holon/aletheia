@@ -19,8 +19,8 @@
  *   pad_mem  0x0215BD58  arm  ov009
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_SocRelease  0x0215AB5C  arm  ov009
- *   g_021A826C  0x021A826C  data
- *   g_021A878E  0x021A878E  data
+ *   gCpsNetVars  0x021A826C  data
+ *   gCpsDhcpBuffer  0x021A878E  data
  */
 
 struct NetVars {
@@ -35,8 +35,8 @@ extern unsigned char *dhcp_setcommon(unsigned char *d, int type);
 extern unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
 extern void CPS_SocRelease(void);
-extern struct NetVars g_021A826C;
-extern unsigned char g_021A878E[];
+extern struct NetVars gCpsNetVars;
+extern unsigned char gCpsDhcpBuffer[];
 
 void dhcp_release_server(void)
 {
@@ -45,15 +45,15 @@ void dhcp_release_server(void)
 
 	CPS_SocUse();
 	CPS_SocDatagramMode();
-	CPS_SocBind(0x44, 0x43, g_021A826C.dhcp_server_ip);
-	buf = g_021A878E;
+	CPS_SocBind(0x44, 0x43, gCpsNetVars.dhcp_server_ip);
+	buf = gCpsDhcpBuffer;
 	d = dhcp_setcommon(buf, 7);
 	*d++ = 0x36;
 	*d++ = 4;
-	*d++ = (unsigned short)(g_021A826C.dhcp_server_ip >> 16) >> 8;
-	*d++ = g_021A826C.dhcp_server_ip >> 16;
-	*d++ = (unsigned short)g_021A826C.dhcp_server_ip >> 8;
-	*d++ = g_021A826C.dhcp_server_ip;
+	*d++ = (unsigned short)(gCpsNetVars.dhcp_server_ip >> 16) >> 8;
+	*d++ = gCpsNetVars.dhcp_server_ip >> 16;
+	*d++ = (unsigned short)gCpsNetVars.dhcp_server_ip >> 8;
+	*d++ = gCpsNetVars.dhcp_server_ip;
 	*d++ = 0xff;
 	d = pad_mem(0, 300, d, d - buf);
 	CPS_SocWrite(buf, d - buf);

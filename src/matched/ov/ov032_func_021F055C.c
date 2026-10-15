@@ -1,5 +1,5 @@
 /*
- * function: func_021F055C
+ * function: BEACON_VIEW_UpdateSelectTouch
  * address:  0x021F055C
  * packet:   pkt_ov032_021F055C
  * region:   ov032
@@ -13,11 +13,11 @@
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   BEACON_VIEW_RequestTransition  0x021F253C  thumb  ov032
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   func_021F0A18  0x021F0A18  thumb  ov032
- *   func_021F08E4  0x021F08E4  thumb  ov032
- *   func_021F1F00  0x021F1F00  thumb  ov032
- *   func_021F096C  0x021F096C  thumb  ov032
- *   func_021F1340  0x021F1340  thumb  ov032
+ *   BEACON_VIEW_HitTestActorTouch  0x021F0A18  thumb  ov032
+ *   BEACON_VIEW_HitTestRow  0x021F08E4  thumb  ov032
+ *   BEACON_VIEW_ShowTouchedRow  0x021F1F00  thumb  ov032
+ *   BEACON_VIEW_HitTestIcon  0x021F096C  thumb  ov032
+ *   BEACON_VIEW_StartSlide  0x021F1340  thumb  ov032
  */
 #include "../include/Obj00188.h"
 
@@ -30,13 +30,13 @@ struct Ctx;
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 extern void BEACON_VIEW_RequestTransition(char *p, int v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int func_021F0A18(u8 *p, u32 *v);
-extern int func_021F08E4(u8 *p, void *pt);
-extern void func_021F1F00(char *p, int a);
-extern int func_021F096C(u8 *p, void *pt);
-extern void func_021F1340(char *this, int a, u8 b);
+extern int BEACON_VIEW_HitTestActorTouch(u8 *p, u32 *v);
+extern int BEACON_VIEW_HitTestRow(u8 *p, void *pt);
+extern void BEACON_VIEW_ShowTouchedRow(char *p, int a);
+extern int BEACON_VIEW_HitTestIcon(u8 *p, void *pt);
+extern void BEACON_VIEW_StartSlide(char *this, int a, u8 b);
 
-int func_021F055C(u8 *p)
+int BEACON_VIEW_UpdateSelectTouch(u8 *p)
 {
     Pair v;
     int r;
@@ -48,17 +48,17 @@ int func_021F055C(u8 *p)
     }
     if (TOUCHPANEL_GetPointTrg(&v.x, &v.y) == 0)
         return 2;
-    if (func_021F0A18(p, (u32 *)(&v)) == 2)
+    if (BEACON_VIEW_HitTestActorTouch(p, (u32 *)(&v)) == 2)
         return 6;
-    r = func_021F08E4(p, &v);
+    r = BEACON_VIEW_HitTestRow(p, &v);
     if (r != -1) {
         p[0x7e] = r;
-        func_021F1F00((char *)p, (u8)r);
+        BEACON_VIEW_ShowTouchedRow((char *)p, (u8)r);
         return 4;
     }
-    s = func_021F096C(p, &v);
+    s = BEACON_VIEW_HitTestIcon(p, &v);
     if (s != -1) {
-        func_021F1340((char *)p, s, (int)5);
+        BEACON_VIEW_StartSlide((char *)p, s, (int)5);
         return 3;
     }
     return 2;

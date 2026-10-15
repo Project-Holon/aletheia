@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E8A3C",
+   "name": "WIFIBATTLEMATCH_UTIL_CreateCallback",
    "address": "0x021E8A3C",
    "kind": "game",
    "region": "ov177",

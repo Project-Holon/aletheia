@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0B0
+ * function: BTL_REC_SEL_ClearWindowWhite
  * address: 0x021BA0B0
  * packet: pkt_ov214_021BA0B0
  * region: ov214
@@ -27,7 +27,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021BA0B0(int unused, char *p)
+void BTL_REC_SEL_ClearWindowWhite(int unused, char *p)
 {
     struct Descriptor *d;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj14700 *)p)->f6C), 15);

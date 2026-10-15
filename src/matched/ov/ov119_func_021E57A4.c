@@ -9,22 +9,22 @@
  * status: EXACT
  * symbols:
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  */
 #include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 void POKETRADE_2D_ExitSubBgs(int p)
 {
     if (((struct Obj00001 *)p)->f11EB == 1) {
         BG_SYS_SetTileUnit(4, 1, 0);
         BG_SYS_SetTileUnit(6, 1, 0);
-        func_020403F4(4);
-        func_020403F4(5);
-        func_020403F4(6);
-        func_020403F4(7);
+        BG_SYS_FreeLayerBuf(4);
+        BG_SYS_FreeLayerBuf(5);
+        BG_SYS_FreeLayerBuf(6);
+        BG_SYS_FreeLayerBuf(7);
         ((struct Obj00001 *)p)->f11EB = 0;
     }
 }

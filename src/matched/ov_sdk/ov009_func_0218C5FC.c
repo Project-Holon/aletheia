@@ -14,10 +14,10 @@
  * symbols:
  *   gpiAppendStringToBuffer  0x0218946C  arm  ov009
  *   gpiAppendIntToBuffer  0x0218949C  arm  ov009
- *   g_021A4BF4  0x021A4BF4  data
- *   g_021A4C0C  0x021A4C0C  data
- *   g_021A4C18  0x021A4C18  data
- *   g_021A4C20  0x021A4C20  data
+ *   gGpiInfoKeyUpdateProSessKey  0x021A4BF4  data
+ *   gGpiInfoKeyPartnerId  0x021A4C0C  data
+ *   gGpiInfoKeyFinal  0x021A4C18  data
+ *   gGpiInfoKeyUpdateUiSessKey  0x021A4C20  data
  */
 
 struct GPIConnection {
@@ -37,29 +37,29 @@ struct GPIConnection {
 
 extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
 extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
-extern char g_021A4BF4[];
-extern char g_021A4C0C[];
-extern char g_021A4C18[];
-extern char g_021A4C20[];
+extern char gGpiInfoKeyUpdateProSessKey[];
+extern char gGpiInfoKeyPartnerId[];
+extern char gGpiInfoKeyFinal[];
+extern char gGpiInfoKeyUpdateUiSessKey[];
 
 int gpiAddLocalInfo(void **connection, void *buffer)
 {
     struct GPIConnection *iconnection = (struct GPIConnection *)*connection;
 
     if (iconnection->nickPending > 0) {
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4BF4);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateProSessKey);
         gpiAppendIntToBuffer((int *)connection, buffer, iconnection->profileid);
         gpiAppendStringToBuffer((int *)connection, buffer, iconnection->nick);
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C0C);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyPartnerId);
         gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessionKey);
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C18);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
         iconnection->nickPending = 0;
     }
     if (iconnection->emailPending > 0) {
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C20);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateUiSessKey);
         gpiAppendIntToBuffer((int *)connection, buffer, iconnection->profileid);
         gpiAppendStringToBuffer((int *)connection, buffer, iconnection->email);
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C18);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
         iconnection->emailPending = 0;
     }
     return 0;

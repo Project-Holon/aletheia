@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6A4
+ * function: INTRO_CMD_CmdSaveStart
  * address:  0x021BE6A4
  * packet:   pkt_021BE6A4
  * region:   ov204
@@ -16,7 +16,7 @@
 
 extern void SAVE_CONTROL_INTR_Start(int);
 
-int func_021BE6A4(char *a)
+int INTRO_CMD_CmdSaveStart(char *a)
 {
     SAVE_CONTROL_INTR_Start(((struct Obj25360 *)a)->fA4);
     return 1;

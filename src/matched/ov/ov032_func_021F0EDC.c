@@ -1,5 +1,5 @@
 /*
- * function: func_021F0EDC
+ * function: BEACON_VIEW_ResetEntry
  * address:  0x021F0EDC
  * packet:   pkt_ov032_021F0EDC
  * region:   ov032
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0EDC  0x021F0EDC  thumb
- *   func_021F0EA4  0x021F0EA4  thumb  ov032
- *   func_021F0ED0  0x021F0ED0  thumb  ov032
+ *   BEACON_VIEW_ResetEntry  0x021F0EDC  thumb
+ *   BEACON_VIEW_SetEntryVisible  0x021F0EA4  thumb  ov032
+ *   BEACON_VIEW_SetEntryStatusVisible  0x021F0ED0  thumb  ov032
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   STRBUF_Clear  0x0204581C  arm
@@ -22,8 +22,8 @@
 
 typedef unsigned char u8;
 
-extern void func_021F0EA4(char *p, unsigned a);
-extern void func_021F0ED0(char *p, int a);
+extern void BEACON_VIEW_SetEntryVisible(char *p, unsigned a);
+extern void BEACON_VIEW_SetEntryStatusVisible(char *p, int a);
 struct CharBuf;
 struct Obj;
 struct TcblNode;
@@ -33,12 +33,12 @@ extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021F0EDC(char *p)
+void BEACON_VIEW_ResetEntry(char *p)
 {
     int z = 0;
 
-    func_021F0EA4(p, 0);
-    func_021F0ED0(p, 0);
+    BEACON_VIEW_SetEntryVisible(p, 0);
+    BEACON_VIEW_SetEntryStatusVisible(p, 0);
     BMP_Clear((struct CharBuf *)(((struct Obj00225 *)p)->f1C), 0);
     BMP_OAM_UploadChars((struct Obj *)(*(int *)&((struct Obj00225 *)p)->f18));
     STRBUF_Clear((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f24));

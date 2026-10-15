@@ -1,5 +1,5 @@
 /*
- * function: func_021D9580
+ * function: MYSTERY_SetupDisplay3d
  * address: 0x021D9580
  * packet: pkt_ov121_021D9580
  * region: ov121
@@ -26,7 +26,7 @@ extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int 
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 #define REG (*(volatile u16 *)0x04000060)
-void func_021D9580(void)
+void MYSTERY_SetupDisplay3d(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1,0);

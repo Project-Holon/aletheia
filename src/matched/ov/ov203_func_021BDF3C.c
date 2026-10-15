@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF3C
+ * function: DEMO3D_GRAPHIC_SetupLightBlock
  * address: 0x021BDF3C
  * packet: pkt_ov203_021BDF3C
  * region: ov203
@@ -21,4 +21,4 @@ extern void G3D_LIGHT_SetSlotFlags(struct LightSlot *,unsigned,unsigned short *)
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 struct Block {int tag;struct LightSlot *slots;};
 struct Obj {int a,b;struct Block block;};
-void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2){struct Block *p=&obj->block;G3D_LIGHT_SetSlotFlags(p->slots,0,a);G3D_LIGHT_SetSlotFlags(p->slots,1,a+1);G3D_LIGHT_SetSlotFlags(p->slots,2,a+2);G3D_LIGHT_SetSlotFlags(p->slots,3,a+3);G3D_LIGHT_ApplySlots(p->slots);}
+void DEMO3D_GRAPHIC_SetupLightBlock(struct Obj *obj, unsigned short *a, int a2){struct Block *p=&obj->block;G3D_LIGHT_SetSlotFlags(p->slots,0,a);G3D_LIGHT_SetSlotFlags(p->slots,1,a+1);G3D_LIGHT_SetSlotFlags(p->slots,2,a+2);G3D_LIGHT_SetSlotFlags(p->slots,3,a+3);G3D_LIGHT_ApplySlots(p->slots);}

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   C_GEAR_DrawTile  0x021F1290  thumb  ov029
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   d_021F3324     0x021F3324  data  a4
  */
 
@@ -20,7 +20,7 @@ typedef struct { int a, b; } Pair;
 extern const Pair d_021F3324;
 extern void C_GEAR_DrawTile(void *p, int i, int j, int k);
 typedef unsigned int   u32;
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void C_GEAR_DrawEmptyBoard(void *p)
 {
@@ -32,5 +32,5 @@ void C_GEAR_DrawEmptyBoard(void *p)
         for (j = 0; j < n; j++)
             C_GEAR_DrawTile(p, i, j, 0);
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }

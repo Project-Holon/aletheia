@@ -1,5 +1,5 @@
 /*
- * function: func_021F0820
+ * function: BEACON_VIEW_HasRepeatedDigits
  * address:  0x021F0820
  * packet:   pkt_ov032_021F0820
  * region:   ov032
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_021F0820(u32 x)
+int BEACON_VIEW_HasRepeatedDigits(u32 x)
 {
     u32 d;
 

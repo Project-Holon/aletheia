@@ -1,5 +1,5 @@
 /*
- * function: func_021BE948
+ * function: DEMO3D_DATA_GetTextureSize
  * address: 0x021BE948
  * packet: pkt_ov203_021BE948
  * region: ov203
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE7A8 0x021BE7A8 thumb ov203
+ *   DEMO3D_ENGINE_GetAnimeId 0x021BE7A8 thumb ov203
  */
 typedef unsigned int   u32;
-extern u32 func_021BE7A8(u32 id);
+extern u32 DEMO3D_ENGINE_GetAnimeId(u32 id);
 typedef struct Flags { unsigned short doubled:1; unsigned short rest:15; } Flags;
-void func_021BE948(void *ctx, int mode, unsigned char *width, unsigned char *height)
+void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsigned char *height)
 {
-    unsigned char *record = (unsigned char *)func_021BE7A8((u32)ctx);
+    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetAnimeId((u32)ctx);
     if (mode == 0) {
         *width = record[0x4e];
         *height = record[0x4f] * (((Flags *)(record + 6))->doubled + 1);

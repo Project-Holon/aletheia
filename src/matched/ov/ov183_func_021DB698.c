@@ -21,8 +21,8 @@
  */
 #include "../include/Obj01072.h"
 #include "../include/Obj02517.h"
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *,int,int);
 struct Obj24810;
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
@@ -37,7 +37,7 @@ extern void BR_FADE_SetBlendLevel(int,int,int);
 int BR_CODEIN_ButtonCreate(int *task,int b,char *p)
 {
     char *s;
-    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,24,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct Obj01072 *)p)->f1C)));
+    s=PROCSYS_AllocProcWork((struct Proc *)task,24,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct Obj01072 *)p)->f1C)));
     MI_CpuFill8(s,0,24);
     *(char * *)&((struct Obj02517 *)s)->fC=p;
     ((struct Obj02517 *)s)->f14=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char * *)&((struct Obj01072 *)p)->f1C));

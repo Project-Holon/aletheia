@@ -19,7 +19,7 @@
  *   strcpy                           0x02094798 arm
  *   atoi                             0x020964e0 arm
  *   strcmp                           0x020948e0 arm
- *   g_021A1FD8                       0x021a1fd8 data
+ *   gDwcNasTimeSample                       0x021a1fd8 data
  *   errno                            0x02153fac data
  *   monthname                        0x021a1fa8 data
  *   DWCnastimediffvalid              0x021aa834 data
@@ -51,7 +51,7 @@ extern void strcpy(char *dst, const char *src);
 extern int atoi(const char *s);
 extern int strcmp(const char *a, const char *b);
 
-extern char g_021A1FD8[];
+extern char gDwcNasTimeSample[];
 extern int errno;
 extern char *monthname[12];
 extern NasTimeDiff DWCnastimediffvalid;
@@ -67,7 +67,7 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
     long long serversec;
     char datestr2[30];
 
-    if (strlen(datestr) != strlen(g_021A1FD8) ||
+    if (strlen(datestr) != strlen(gDwcNasTimeSample) ||
         datestr[7] != 0x20 || datestr[11] != 0x20 || datestr[16] != 0x20 ||
         datestr[19] != 0x3a || datestr[22] != 0x3a || datestr[25] != 0x20)
         goto fail;

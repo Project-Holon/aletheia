@@ -21,7 +21,7 @@
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   gIntroSite 0x021C0AE4 data a1
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   TCBL_Create 0x0203101C arm
  *   func_02049B40 0x02049B40 arm
@@ -59,7 +59,7 @@
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   func_02020CF8 0x02020CF8 thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_02020D10 0x02020D10 thumb
  *   BMP_MENULIST_Delete 0x0202020C thumb
@@ -138,7 +138,7 @@ typedef struct IntroMsgWork {
     unsigned short heapId;   /* 0x00 */
     unsigned char pad_2[2];
     void *printSys;          /* 0x04: PRINTSYS_QUE_Create result */
-    void *wordSet;           /* 0x08: GF_FONT_Create_EC64 result */
+    void *wordSet;           /* 0x08: WORDSET_CreateDefault result */
     void *msgBank;           /* 0x0C: func_02045B38 result */
     void *font;              /* 0x10: GF_FONT_Create result */
     void *printStream;       /* 0x14: PRINTSYS_PrintStream result */
@@ -169,7 +169,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sitePath
 
 extern u32 func_020307B0(void *p);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
@@ -259,7 +259,7 @@ extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 
 extern void func_02020CF8(struct Obj *p, int heap);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern void func_02020D10(u8 *p, u32 v);
 
@@ -315,7 +315,7 @@ char *INTRO_MSG_Create(u16 heap)
     void *obj;
     p=func_02030734(heap,72,1,gIntroSite,129);
     p->heapId=heap;
-    p->wordSet=GF_FONT_Create_EC64(heap);
+    p->wordSet=WORDSET_CreateDefault(heap);
     p->printSys=(void *)PRINTSYS_QUE_Create((void *)heap);
     p->tcbl=TCBL_Create(p->heapId,p->heapId,2,0);
     func_02049B40(23,5,0,320,32,heap);
@@ -490,7 +490,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.textParam=work->font;
     *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
     func_02020CF8(*(void **)state,(u32)heap);
-    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4((u8)BMP_WIN_GetBgLayer(obj));
+    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
     BMP_MENUWORK_DrawWindow(obj,1,7,9);
     if(flag)func_02020D10(*(void **)state,0);
     else func_02020D10(*(void **)state,1);

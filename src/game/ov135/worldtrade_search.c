@@ -24,7 +24,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
@@ -36,7 +36,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
- *   BG_SYS_Delete_03F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -99,7 +99,7 @@
  *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
  *   WORLDTRADE_SetActorSurfacePos 0x021F4EA0 thumb ov135
  *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
  *   WORLDTRADE_DEPOSIT_PrintLevelRange  0x021F8154  thumb
@@ -177,7 +177,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -248,7 +248,7 @@ extern void WORLDTRADE_DeleteTimeIcon(Work *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 
@@ -352,7 +352,7 @@ extern unsigned WIPE_SYS_EndCheck(void);
 
 extern void WORLDTRADE_INPUT_PrintStringAlignedWrapped(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
 
@@ -689,10 +689,10 @@ void WORLDTRADE_SEARCH_SetupBgPlanes(void)
  */
 void WORLDTRADE_SEARCH_ExitBgPlanes(void)
 {
-    BG_SYS_Delete_03F4(2);
-    BG_SYS_Delete_03F4(1);
-    BG_SYS_Delete_03F4(0);
-    BG_SYS_Delete_03F4(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(3);
 }
 
 /*
@@ -760,7 +760,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Work *p)
     v = p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     BG_SYS_Init(3, 0, 1, 0);
     for (i = 0; i < 6; i++) {
         p->item_u6[i] = BMP_WIN_Create(3, (u8)tbl_022037BC[i].x, (u8)tbl_022037BC[i].y, (u8)0xb, 2, 0xd, (u16)0);
@@ -768,7 +768,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Work *p)
         v = p->item_u6[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
     for (i = 0; i < 2; i++) {
         p->tab[i] = BMP_WIN_Create(3, (u8)tbl_022037A8[i].x, (u8)tbl_022037A8[i].y, (u8)0x1c, 2, 0xd, (u16)0);
@@ -776,7 +776,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Work *p)
         v = p->tab[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
     for (i = 0; i < 3; i++) {
         p->page[i] = BMP_WIN_Create(3, (u8)tbl_022037B0[i].x, (u8)tbl_022037B0[i].y, (u8)0xa, 2, 0xd, (u16)0);
@@ -784,7 +784,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Work *p)
         v = p->page[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
 }
 
@@ -1407,7 +1407,7 @@ int WORLDTRADE_SEARCH_StateGenderMenuInput(Work *p)
         w = p->d40;
         BMP_WIN_TransferChars(w);
         BMP_WIN_MakeScreen(w);
-        func_020409B4(BMP_WIN_GetBgLayer(w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
         p->state_i = 0;
         break;
     case 0:
@@ -1500,7 +1500,7 @@ int WORLDTRADE_SEARCH_StateConditionMenuInput(Work *p)
         w = p->d40;
         BMP_WIN_TransferChars(w);
         BMP_WIN_MakeScreen(w);
-        func_020409B4(BMP_WIN_GetBgLayer(w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
         p->state_i = 0;
     } else {
         WORLDTRADE_SEARCH_SetBlendEffect(0);
@@ -1693,7 +1693,7 @@ void WORLDTRADE_SEARCH_PrintMessage(u8 *p, u32 k, int b, int c, int d)
     v = ((struct Obj00018 *)p)->fD40;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
 }
 
 /*
@@ -1746,7 +1746,7 @@ void WORLDTRADE_SEARCH_DrawHistoryHeader(void *win, void *bank, int flag, void *
         pal = 2;
     }
     BG_SYS_FillTileMap(1, 0x11, 2, 0xF, 4, pal);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     str = func_02045EC0(bank, 0x4B);
     WORLDTRADE_INPUT_PrintStringAlignedWrapped(win, (void *)str, 0, 0, 0, color, (void *)g);
     STRBUF_Delete(str);
@@ -1768,14 +1768,14 @@ int WORLDTRADE_SEARCH_CompareRecords(Rec *x, Rec *y, int m, int n)
 
 void WORLDTRADE_SEARCH_ScrollBgs(Work *p)
 {
-    func_02040618(0, 3, p->scroll);
-    func_02040618(1, 3, p->scroll);
-    func_02040618(2, 3, p->scroll);
-    func_02040618(3, 3, p->scroll);
-    func_02040618(4, 3, -p->scroll);
-    func_02040618(5, 3, -p->scroll);
-    func_02040618(6, 3, -p->scroll);
-    func_02040618(7, 3, -p->scroll);
+    BG_SYS_FillScrollArea(0, 3, p->scroll);
+    BG_SYS_FillScrollArea(1, 3, p->scroll);
+    BG_SYS_FillScrollArea(2, 3, p->scroll);
+    BG_SYS_FillScrollArea(3, 3, p->scroll);
+    BG_SYS_FillScrollArea(4, 3, -p->scroll);
+    BG_SYS_FillScrollArea(5, 3, -p->scroll);
+    BG_SYS_FillScrollArea(6, 3, -p->scroll);
+    BG_SYS_FillScrollArea(7, 3, -p->scroll);
 }
 
 /*

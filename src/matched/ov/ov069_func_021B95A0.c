@@ -38,8 +38,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void  MIi_CpuClearFast(u32 val, void *dst, u32 size);
 extern void  WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 struct Obj;

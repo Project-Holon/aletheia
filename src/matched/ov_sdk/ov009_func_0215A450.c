@@ -13,8 +13,8 @@
  * symbols:
  *   OS_GetTick                       0x020870d0 arm
  *   MI_CpuCopy                       0x02082ea4 arm
- *   g_021A8A64                       0x021a8a64 data
- *   g_021A826C                       0x021a826c data
+ *   gCpsFragTable                       0x021a8a64 data
+ *   gCpsNetVars                       0x021a826c data
  */
 
 #include "../include/G_CPSFragTable.h"
@@ -43,8 +43,8 @@ struct CPSVars {
     void (*free)(void *);
 };
 
-extern struct CPSFragTable g_021A8A64[8];
-extern struct CPSVars g_021A826C;
+extern struct CPSFragTable gCpsFragTable[8];
+extern struct CPSVars gCpsNetVars;
 extern unsigned long long OS_GetTick(void);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 
@@ -75,7 +75,7 @@ u8 *check_frag(u8 *buf, u32 *fragmented)
     header_len = (buf[0] & 0xf) << 2;
     ipfrom = NTOHL(buf + 0xc);
     id = *(u16 *)(buf + 4);
-    p = ((CPSFragTable *)g_021A8A64);
+    p = ((CPSFragTable *)gCpsFragTable);
     for (i = 0; i < 8; i++, p++) {
         if (p->count != 0 && p->ipfrom == ipfrom && p->id == id)
             break;
@@ -89,7 +89,7 @@ u8 *check_frag(u8 *buf, u32 *fragmented)
         if (unused == 0 || size > 0x1000)
             return 0;
         p = unused;
-        p->buf = g_021A826C.alloc(header_len + 0xe + 0x1000);
+        p->buf = gCpsNetVars.alloc(header_len + 0xe + 0x1000);
         if (p->buf == 0)
             return 0;
         p->ipfrom = ipfrom;
@@ -101,7 +101,7 @@ u8 *check_frag(u8 *buf, u32 *fragmented)
     }
     if (p->count == 8 || size > 0x1000) {
         p->count = 0;
-        g_021A826C.free(p->buf);
+        gCpsNetVars.free(p->buf);
         return 0;
     }
     frag_last = frag_ofs + ((frag_size + 7) >> 3);

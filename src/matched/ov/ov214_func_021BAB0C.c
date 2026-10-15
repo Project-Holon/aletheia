@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB0C
+ * function: BTL_REC_SEL_CreateActor
  * address: 0x021BAB0C
  * packet: pkt_ov214_021BAB0C
  * region: ov214
@@ -38,7 +38,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-int func_021BAB0C(int a,u16 b,int c,u8 d,u32 e,u32 f,u32 g,u32 h,void*x,u8 i,u8 j,u8 k,u8 l,u8 m)
+int BTL_REC_SEL_CreateActor(int a,u16 b,int c,u8 d,u32 e,u32 f,u32 g,u32 h,void*x,u8 i,u8 j,u8 k,u8 l,u8 m)
 {
     In in;
     int actor;

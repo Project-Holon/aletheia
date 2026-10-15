@@ -1,7 +1,7 @@
 /*
  * file:     monolith_tool.c
  * unit:     yes
- * function: MONOLITH_TOOL_Init, MONOLITH_TOOL_Main, MONOLITH_TOOL_Exit, MONOLITH_TOOL_InitDisplay, func_021B6524, func_021B652C, func_021B6538, MONOLITH_TOOL_InitPalAnm, MONOLITH_TOOL_FreePalAnm, MONOLITH_TOOL_InitBackgrounds, MONOLITH_TOOL_FreeBackgrounds, MONOLITH_TOOL_LoadGraphics, MONOLITH_TOOL_FreeSubBgChar, MONOLITH_TOOL_InitText, MONOLITH_TOOL_FreeText, MONOLITH_TOOL_InitActors, MONOLITH_TOOL_FreeActors, MONOLITH_TOOL_LoadActorResources, MONOLITH_TOOL_FreeActorResources, MONOLITH_TOOL_VBlankTask, MONOLITH_TOOL_LoadSlotRecords, MONOLITH_TOOL_CreateButton, func_021B6B38, func_021B6B58, func_021B6B70, func_021B6B98, func_021B6BEC, func_021B6C30, func_021B6C48, func_021B6C54, func_021B6C74, func_021B6C7C, func_021B6DB4, func_021B6E00, func_021B6E0C, func_021B6E18, MONOLITH_TOOL_CreateLabel, MONOLITH_TOOL_FreeLabel, MONOLITH_TOOL_UpdateLabel, MONOLITH_TOOL_GetTitleSpecies, MONOLITH_TOOL_GetSlotIconStates, func_021B6F54, func_021B6FD8, func_021B6FE0, func_021B7014, func_021B7068, func_021B7070, func_021B70B8, MONOLITH_TOOL_UpdateBlink, func_021B7108, func_021B7114, func_021B7118, func_021B7168, func_021B7170, func_021B7174, func_021B718C, func_021B7194, func_021B71FC, func_021B7204, func_021B7234, MONOLITH_TOOL_SLOT_SELECT_Init, MONOLITH_TOOL_SLOT_SELECT_Main, MONOLITH_TOOL_SLOT_SELECT_Exit, MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds, MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds, MONOLITH_TOOL_SLOT_SELECT_LoadGraphics, MONOLITH_TOOL_SLOT_SELECT_InitMsgWindow, MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow, MONOLITH_TOOL_SLOT_SELECT_ShowMessage, MONOLITH_TOOL_SLOT_SELECT_IsMessageDone, MONOLITH_TOOL_SLOT_SELECT_HideMessage, MONOLITH_TOOL_SLOT_SELECT_CreateSlotIcons, MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons, MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons, MONOLITH_TOOL_SLOT_SELECT_MoveCursor, MONOLITH_TOOL_SLOT_SELECT_CreateButtons, MONOLITH_TOOL_SLOT_SELECT_FreeButtons, MONOLITH_TOOL_SLOT_SELECT_UpdateButtons, MONOLITH_TOOL_SLOT_SELECT_CreateCursor, MONOLITH_TOOL_SLOT_SELECT_FreeCursor, MONOLITH_TOOL_SLOT_SELECT_UpdateCursor, MONOLITH_TOOL_SLOT_SELECT_SetMode, MONOLITH_TOOL_TITLE_Init, MONOLITH_TOOL_TITLE_Main, MONOLITH_TOOL_TITLE_Exit, MONOLITH_TOOL_TITLE_InitBackgrounds, MONOLITH_TOOL_TITLE_FreeBackgrounds, MONOLITH_TOOL_TITLE_LoadGraphics, MONOLITH_TOOL_TITLE_CreateSlotIcons, MONOLITH_TOOL_TITLE_FreeSlotIcons, MONOLITH_TOOL_TITLE_UpdateSlotIcons, MONOLITH_TOOL_MENU_Create, MONOLITH_TOOL_MENU_Update, MONOLITH_TOOL_MENU_Destroy, func_021B81A0, func_021B8270, func_021B82A4, func_021B82E4, func_021B82F0, func_021B82FC, func_021B8308, func_021B833C, func_021B8350, func_021B83C0, func_021B83CC, func_021B8434, func_021B8440, MONOLITH_TOOL_SUMMARY_Create, MONOLITH_TOOL_SUMMARY_Update, MONOLITH_TOOL_SUMMARY_Destroy, func_021B8650, func_021B869C, func_021B86BC, func_021B86E8, func_021B8750, func_021B8764, func_021B878C, func_021B8798, MONOLITH_TOOL_STATS_Create, MONOLITH_TOOL_STATS_Update, MONOLITH_TOOL_STATS_Destroy, func_021B8A70, func_021B8ABC, func_021B8ADC, func_021B8B08, func_021B8BF4, func_021B8C0C, func_021B8EC4, func_021B8ED0, func_021B8EDC, MONOLITH_TOOL_LIST_Init, MONOLITH_TOOL_LIST_Main, MONOLITH_TOOL_LIST_Exit, MONOLITH_TOOL_LIST_InitBackgrounds, MONOLITH_TOOL_LIST_FreeBackgrounds, MONOLITH_TOOL_LIST_LoadGraphics, MONOLITH_TOOL_LIST_FreeBgChar, MONOLITH_TOOL_LIST_InitWindows, MONOLITH_TOOL_LIST_FreeWindows, MONOLITH_TOOL_LIST_DrawTitle, MONOLITH_TOOL_LIST_ShowMessage, MONOLITH_TOOL_LIST_ShowFormattedMessage, MONOLITH_TOOL_LIST_IsMessageDone, MONOLITH_TOOL_LIST_HideMessage, MONOLITH_TOOL_LIST_FitBackground, MONOLITH_TOOL_LIST_BuildEntryList, MONOLITH_TOOL_LIST_FreeEntryBitmaps, MONOLITH_TOOL_LIST_DrawEntryNames, MONOLITH_TOOL_CreateRowGrids, MONOLITH_TOOL_DeleteRowGrids, MONOLITH_TOOL_CreateBackButton, func_021B9BA0, func_021B9BAC, MONOLITH_TOOL_CreateMarker, MONOLITH_TOOL_DeleteMarker, MONOLITH_TOOL_UpdateMarker, MONOLITH_TOOL_CreateScrollArrows, MONOLITH_TOOL_DeleteScrollArrows, MONOLITH_TOOL_UpdateScrollArrows, MONOLITH_TOOL_ProcessListInput, MONOLITH_TOOL_SetCursor, MONOLITH_TOOL_SetRowHighlight, func_021B9FEC, func_021B9FF8, MONOLITH_TOOL_ClearPrevHighlight, MONOLITH_TOOL_ApplyCursorChange, MONOLITH_TOOL_ScrollBy, MONOLITH_TOOL_UpdateBgScroll, MONOLITH_TOOL_UpdateRows, MONOLITH_TOOL_TaskUploadRows, MONOLITH_TOOL_GetRowAtY, MONOLITH_TOOL_InitInfoScreen, MONOLITH_TOOL_MainInfoScreen, MONOLITH_TOOL_ExitInfoScreen, MONOLITH_TOOL_SetupInfoBgs, MONOLITH_TOOL_HideInfoBgs, MONOLITH_TOOL_LoadInfoPalette, MONOLITH_TOOL_CreateInfoWindows, MONOLITH_TOOL_DeleteInfoWindows, MONOLITH_TOOL_DrawInfoHeader, MONOLITH_TOOL_DrawActiveEntry, MONOLITH_TOOL_DrawSelectedEntry
+ * function: MONOLITH_TOOL_Init, MONOLITH_TOOL_Main, MONOLITH_TOOL_Exit, MONOLITH_TOOL_InitDisplay, MONOLITH_TOOL_DeleteBg, MONOLITH_TOOL_InitBmpWin, MONOLITH_TOOL_ExitBmpWin, MONOLITH_TOOL_InitPalAnm, MONOLITH_TOOL_FreePalAnm, MONOLITH_TOOL_InitBackgrounds, MONOLITH_TOOL_FreeBackgrounds, MONOLITH_TOOL_LoadGraphics, MONOLITH_TOOL_FreeSubBgChar, MONOLITH_TOOL_InitText, MONOLITH_TOOL_FreeText, MONOLITH_TOOL_InitActors, MONOLITH_TOOL_FreeActors, MONOLITH_TOOL_LoadActorResources, MONOLITH_TOOL_FreeActorResources, MONOLITH_TOOL_VBlankTask, MONOLITH_TOOL_LoadSlotRecords, MONOLITH_TOOL_CreateButton, MONOLITH_TOOL_FreeButton, MONOLITH_TOOL_SetButtonVisible, MONOLITH_TOOL_IsButtonUploaded, MONOLITH_TOOL_HighlightButtonPulse, MONOLITH_TOOL_HighlightButtonFlash, MONOLITH_TOOL_SetButtonPulse, MONOLITH_TOOL_SetButtonFlash, MONOLITH_TOOL_ResetHighlights, MONOLITH_TOOL_GetHighlightMode, MONOLITH_TOOL_UpdateHighlight, MONOLITH_TOOL_SetHighlightMode, MONOLITH_TOOL_GetHighlightColorA, MONOLITH_TOOL_GetHighlightColorB, MONOLITH_TOOL_GetHighlightColorCount, MONOLITH_TOOL_CreateLabel, MONOLITH_TOOL_FreeLabel, MONOLITH_TOOL_UpdateLabel, MONOLITH_TOOL_GetTitleSpecies, MONOLITH_TOOL_GetSlotIconStates, MONOLITH_TOOL_CreateSlotIcon, MONOLITH_TOOL_DeleteSlotIcon, MONOLITH_TOOL_UpdateSlotIconState, MONOLITH_TOOL_CreateCursor, MONOLITH_TOOL_DeleteCursor, MONOLITH_TOOL_CreateBlink, MONOLITH_TOOL_DeleteBlink, MONOLITH_TOOL_UpdateBlink, MONOLITH_TOOL_StartBlink, MONOLITH_TOOL_IsBlinkActive, MONOLITH_TOOL_CreateActorAt, MONOLITH_TOOL_DeleteActorAt, MONOLITH_TOOL_Noop, MONOLITH_TOOL_CreateTaskMenuRes, MONOLITH_TOOL_DeleteTaskMenuRes, MONOLITH_TOOL_OpenTaskMenu, MONOLITH_TOOL_CloseTaskMenu, MONOLITH_TOOL_UpdateTaskMenu, MONOLITH_TOOL_DrawSlotCounts, MONOLITH_TOOL_SLOT_SELECT_Init, MONOLITH_TOOL_SLOT_SELECT_Main, MONOLITH_TOOL_SLOT_SELECT_Exit, MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds, MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds, MONOLITH_TOOL_SLOT_SELECT_LoadGraphics, MONOLITH_TOOL_SLOT_SELECT_InitMsgWindow, MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow, MONOLITH_TOOL_SLOT_SELECT_ShowMessage, MONOLITH_TOOL_SLOT_SELECT_IsMessageDone, MONOLITH_TOOL_SLOT_SELECT_HideMessage, MONOLITH_TOOL_SLOT_SELECT_CreateSlotIcons, MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons, MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons, MONOLITH_TOOL_SLOT_SELECT_MoveCursor, MONOLITH_TOOL_SLOT_SELECT_CreateButtons, MONOLITH_TOOL_SLOT_SELECT_FreeButtons, MONOLITH_TOOL_SLOT_SELECT_UpdateButtons, MONOLITH_TOOL_SLOT_SELECT_CreateCursor, MONOLITH_TOOL_SLOT_SELECT_FreeCursor, MONOLITH_TOOL_SLOT_SELECT_UpdateCursor, MONOLITH_TOOL_SLOT_SELECT_SetMode, MONOLITH_TOOL_TITLE_Init, MONOLITH_TOOL_TITLE_Main, MONOLITH_TOOL_TITLE_Exit, MONOLITH_TOOL_TITLE_InitBackgrounds, MONOLITH_TOOL_TITLE_FreeBackgrounds, MONOLITH_TOOL_TITLE_LoadGraphics, MONOLITH_TOOL_TITLE_CreateSlotIcons, MONOLITH_TOOL_TITLE_FreeSlotIcons, MONOLITH_TOOL_TITLE_UpdateSlotIcons, MONOLITH_TOOL_MENU_Create, MONOLITH_TOOL_MENU_Update, MONOLITH_TOOL_MENU_Destroy, MONOLITH_TOOL_MENU_CreateButtons, MONOLITH_TOOL_MENU_FreeButtons, MONOLITH_TOOL_MENU_UpdateButtons, MONOLITH_TOOL_MENU_CreateCursor, MONOLITH_TOOL_MENU_FreeCursor, MONOLITH_TOOL_MENU_UpdateCursor, MONOLITH_TOOL_MENU_InitBackgrounds, MONOLITH_TOOL_MENU_FreeBackgrounds, MONOLITH_TOOL_MENU_CreateWindow, MONOLITH_TOOL_MENU_FreeWindow, MONOLITH_TOOL_MENU_ShowMessage, MONOLITH_TOOL_MENU_IsMessageDone, MONOLITH_TOOL_MENU_HideMessage, MONOLITH_TOOL_SUMMARY_Create, MONOLITH_TOOL_SUMMARY_Update, MONOLITH_TOOL_SUMMARY_Destroy, MONOLITH_TOOL_SUMMARY_InitBackgrounds, MONOLITH_TOOL_SUMMARY_FreeBackgrounds, MONOLITH_TOOL_SUMMARY_LoadGraphics, MONOLITH_TOOL_SUMMARY_CreateWindows, MONOLITH_TOOL_SUMMARY_DeleteWindows, MONOLITH_TOOL_SUMMARY_CreateLabel, MONOLITH_TOOL_SUMMARY_FreeLabel, MONOLITH_TOOL_SUMMARY_Draw, MONOLITH_TOOL_STATS_Create, MONOLITH_TOOL_STATS_Update, MONOLITH_TOOL_STATS_Destroy, MONOLITH_TOOL_STATS_InitBackgrounds, MONOLITH_TOOL_STATS_FreeBackgrounds, MONOLITH_TOOL_STATS_LoadGraphics, MONOLITH_TOOL_STATS_CreateWindows, MONOLITH_TOOL_STATS_DeleteWindows, MONOLITH_TOOL_STATS_Draw, MONOLITH_TOOL_STATS_CreateCursor, MONOLITH_TOOL_STATS_FreeCursor, MONOLITH_TOOL_STATS_UpdateCursor, MONOLITH_TOOL_LIST_Init, MONOLITH_TOOL_LIST_Main, MONOLITH_TOOL_LIST_Exit, MONOLITH_TOOL_LIST_InitBackgrounds, MONOLITH_TOOL_LIST_FreeBackgrounds, MONOLITH_TOOL_LIST_LoadGraphics, MONOLITH_TOOL_LIST_FreeBgChar, MONOLITH_TOOL_LIST_InitWindows, MONOLITH_TOOL_LIST_FreeWindows, MONOLITH_TOOL_LIST_DrawTitle, MONOLITH_TOOL_LIST_ShowMessage, MONOLITH_TOOL_LIST_ShowFormattedMessage, MONOLITH_TOOL_LIST_IsMessageDone, MONOLITH_TOOL_LIST_HideMessage, MONOLITH_TOOL_LIST_FitBackground, MONOLITH_TOOL_LIST_BuildEntryList, MONOLITH_TOOL_LIST_FreeEntryBitmaps, MONOLITH_TOOL_LIST_DrawEntryNames, MONOLITH_TOOL_CreateRowGrids, MONOLITH_TOOL_DeleteRowGrids, MONOLITH_TOOL_CreateBackButton, MONOLITH_TOOL_LIST_FreeBackButton, MONOLITH_TOOL_LIST_UpdateBackButton, MONOLITH_TOOL_CreateMarker, MONOLITH_TOOL_DeleteMarker, MONOLITH_TOOL_UpdateMarker, MONOLITH_TOOL_CreateScrollArrows, MONOLITH_TOOL_DeleteScrollArrows, MONOLITH_TOOL_UpdateScrollArrows, MONOLITH_TOOL_ProcessListInput, MONOLITH_TOOL_SetCursor, MONOLITH_TOOL_SetRowHighlight, MONOLITH_TOOL_SetRowHighlightSelected, MONOLITH_TOOL_SetRowHighlightNormal, MONOLITH_TOOL_ClearPrevHighlight, MONOLITH_TOOL_ApplyCursorChange, MONOLITH_TOOL_ScrollBy, MONOLITH_TOOL_UpdateBgScroll, MONOLITH_TOOL_UpdateRows, MONOLITH_TOOL_TaskUploadRows, MONOLITH_TOOL_GetRowAtY, MONOLITH_TOOL_InitInfoScreen, MONOLITH_TOOL_MainInfoScreen, MONOLITH_TOOL_ExitInfoScreen, MONOLITH_TOOL_SetupInfoBgs, MONOLITH_TOOL_HideInfoBgs, MONOLITH_TOOL_LoadInfoPalette, MONOLITH_TOOL_CreateInfoWindows, MONOLITH_TOOL_DeleteInfoWindows, MONOLITH_TOOL_DrawInfoHeader, MONOLITH_TOOL_DrawActiveEntry, MONOLITH_TOOL_DrawSelectedEntry
  * address:  0x021B6100
  * region:   ov071
  * compiler: dsi/1.1p1
@@ -68,7 +68,7 @@
  *   func_02040588  0x02040588  arm
  *   d_021BA794     0x021BA794  data  a4
  *   d_021BA7B4     0x021BA7B4  data  a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   PALANM_LoadHandlePaletteToSlotAt  0x02021660  thumb
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
@@ -76,12 +76,12 @@
  *   func_02049658  0x02049658  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   APP_ICON_LoadTouchBar  0x02027634  thumb
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -254,7 +254,6 @@
  *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  */
 
-struct S02021D50;
 struct Proc;
 struct Ctx;
 struct PrintSys;
@@ -262,16 +261,12 @@ struct Tcbl;
 struct Node;
 struct PalAnmSlot;
 struct S020314B8;
-struct Proc;
 struct DispConfig;
 struct DispVram;
-struct Obj02021EE4;
 struct BgTemplate;
 struct GfFont;
 struct MsgBank;
 struct WordSet;
-struct Rec;
-struct S02031140;
 struct Bank;
 struct Cfg;
 struct Bitmap;
@@ -279,24 +274,19 @@ struct BmpOamGrid;
 struct Sys;
 struct Strbuf;
 struct Actor;
-struct Bitmap;
 struct Chan02021FD8;
 struct R;
 struct TaskMenuState;
 struct TaskMenu;
 struct TaskMenuTmpl;
 struct Rec3;
-struct Bitmap;
 struct BmpWin;
 struct Blk;
-struct P;
 struct Vec2;
-struct Strbuf;
 struct Sub0200852CObj;
 struct BigObj;
 struct Big;
 struct Rec1B0;
-struct Pos;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -306,16 +296,24 @@ typedef unsigned int u32;
 #include "monolith_tool_types.h"
 
 typedef struct {
-    int a;
-    int b;
+    int topProc;
+    int subProc;
 } Pair;
 
-struct S6844 {
-    int w0, w4;
-    u8 b8, b9, ba, bb;
-    int wc;
-    u16 h10, h12, h14, h16;
-    int w18;
+/* CLACT system init config, same layout as arm9 struct SysInit. */
+struct SysInit {
+    short surface_pos[4];
+    u8 oam_main_base;
+    u8 oam_main_count;
+    u8 oam_sub_base;
+    u8 oam_sub_count;
+    u32 n_transfers;
+    u16 n_chars;
+    u16 n_pltts;
+    u16 n_cells;
+    u16 n_spare;
+    u16 n_main_blocks;
+    u16 n_sub_blocks;
 };
 
 typedef signed int     s32;
@@ -365,38 +363,37 @@ struct MonolithToolIconPos {
     u16 x, y, animSeq, reserved6;
 };
 
-struct Ent {
-    int w[4];
-};
-
-struct P { int w[6]; int pad[10]; struct Ent e[2]; };
-
 typedef enum { V4 = 4, V5 = 5 } Value;
 
 struct MonolithToolCursorPos {
     u16 x, y, animSeq, reserved6;
 };
 
-typedef struct { void *s; u16 h; int z; } Item;
+typedef struct { void *text; u16 color; int flags; } Item;
 
-typedef struct {void **f0;u8 *f4;u8 *f8;u8 padc[0x20];u8 f2c,f2d,f2e;} C;
+/* Task menu template, same layout and field names as ov070 struct TaskMenuTmpl. */
+struct TaskMenuTmpl {
+    int heapId;
+    u8 itemNum;
+    u8 pad[3];
+    void *items;
+    int posType;
+    u8 charPosX;
+    u8 charPosY;
+    u8 width;
+    u8 height;
+};
 
 typedef signed char s8;
 
+/* Hit area of one menu entry, passed to TOUCHPANEL_HitTrg. */
 typedef struct {
-    u8 b[0x14];
+    u8 hitBox[0x14];
 } Menu;
 
 typedef long long s64;
 
 typedef enum { FALSE, TRUE } BoolFlag;
-
-typedef struct {
-    char pad0[0x2c];
-    int f2c;
-    s64 f30;
-    u8 f38[1];
-} Save;
 
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
@@ -440,7 +437,7 @@ extern void func_02082A7C(int, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *, u32);
 extern u32 PALANM_Delete(void *a0);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
@@ -448,7 +445,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 extern void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern void BG_SYS_DeleteHalf(u32, u32, u32);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -510,7 +507,7 @@ extern void BG_SYS_SetTileEntry(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -598,9 +595,9 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup);
 int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work);
 int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work);
 void MONOLITH_TOOL_InitDisplay(void);
-void func_021B6524(void);
-void func_021B652C(void);
-void func_021B6538(void);
+void MONOLITH_TOOL_DeleteBg(void);
+void MONOLITH_TOOL_InitBmpWin(void);
+void MONOLITH_TOOL_ExitBmpWin(void);
 unsigned int MONOLITH_TOOL_InitPalAnm(MonolithToolWork *work);
 void MONOLITH_TOOL_FreePalAnm(MonolithToolWork *work);
 void MONOLITH_TOOL_InitBackgrounds(void);
@@ -616,44 +613,44 @@ void MONOLITH_TOOL_FreeActorResources(MonolithToolWork *work);
 void MONOLITH_TOOL_VBlankTask(void *unused, MonolithToolWork *work);
 void MONOLITH_TOOL_LoadSlotRecords(MonolithToolWork *work, MonolithToolSetup *setup);
 void MONOLITH_TOOL_CreateButton(MonolithToolWork *work, MonolithToolButton *button, int resIndex, int sizeClass, int x, int y, int msgId, void *wordSet);
-void func_021B6B38(MonolithToolButton *button);
-void func_021B6B58(MonolithToolButton *button, int visible);
-int func_021B6B70(MonolithToolWork *work, MonolithToolButton *button);
-void func_021B6B98(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot);
-void func_021B6BEC(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot);
-void func_021B6C30(MonolithToolProcArgs *args, int pulse, int slot);
-void func_021B6C48(MonolithToolProcArgs *args, int slot);
-void func_021B6C54(MonolithToolProcArgs *args);
-u8 func_021B6C74(MonolithToolProcArgs *args, int slot);
-void func_021B6C7C(MonolithToolProcArgs *args, int slot);
-void func_021B6DB4(MonolithToolProcArgs *args, int mode, int slot);
-int func_021B6E00(unsigned int x);
-int func_021B6E0C(unsigned int x);
-int func_021B6E18(int a0);
+void MONOLITH_TOOL_FreeButton(MonolithToolButton *button);
+void MONOLITH_TOOL_SetButtonVisible(MonolithToolButton *button, int visible);
+int MONOLITH_TOOL_IsButtonUploaded(MonolithToolWork *work, MonolithToolButton *button);
+void MONOLITH_TOOL_HighlightButtonPulse(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot);
+void MONOLITH_TOOL_HighlightButtonFlash(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot);
+void MONOLITH_TOOL_SetButtonPulse(MonolithToolProcArgs *args, int pulse, int slot);
+void MONOLITH_TOOL_SetButtonFlash(MonolithToolProcArgs *args, int slot);
+void MONOLITH_TOOL_ResetHighlights(MonolithToolProcArgs *args);
+u8 MONOLITH_TOOL_GetHighlightMode(MonolithToolProcArgs *args, int slot);
+void MONOLITH_TOOL_UpdateHighlight(MonolithToolProcArgs *args, int slot);
+void MONOLITH_TOOL_SetHighlightMode(MonolithToolProcArgs *args, int mode, int slot);
+int MONOLITH_TOOL_GetHighlightColorA(unsigned int x);
+int MONOLITH_TOOL_GetHighlightColorB(unsigned int x);
+int MONOLITH_TOOL_GetHighlightColorCount(int a0);
 void MONOLITH_TOOL_CreateLabel(MonolithToolWork *work, MonolithToolLabel *label, int resIndex, int x, int y, int widthTiles, int heightTiles, int msgId, void *wordSet);
 void MONOLITH_TOOL_FreeLabel(MonolithToolLabel *label);
 int MONOLITH_TOOL_UpdateLabel(MonolithToolWork *work, MonolithToolLabel *label);
 void *MONOLITH_TOOL_GetTitleSpecies(MonolithToolProcArgs *args);
 MonolithCounts *MONOLITH_TOOL_GetSlotIconStates(MonolithToolProcArgs *args);
-int func_021B6F54(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex);
-void func_021B6FD8(void *p);
-void func_021B6FE0(void *p, MonolithCounts *counts, int i);
-int func_021B7014(MonolithToolWork *work, const int *pos, int resIndex);
-void func_021B7068(void *p);
-void func_021B7070(MonolithToolWork *work, MonolithToolBlink *blink);
-void func_021B70B8(MonolithToolBlink *blink);
+int MONOLITH_TOOL_CreateSlotIcon(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex);
+void MONOLITH_TOOL_DeleteSlotIcon(void *p);
+void MONOLITH_TOOL_UpdateSlotIconState(void *p, MonolithCounts *counts, int i);
+int MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex);
+void MONOLITH_TOOL_DeleteCursor(void *p);
+void MONOLITH_TOOL_CreateBlink(MonolithToolWork *work, MonolithToolBlink *blink);
+void MONOLITH_TOOL_DeleteBlink(MonolithToolBlink *blink);
 void MONOLITH_TOOL_UpdateBlink(MonolithToolBlink *p);
-void func_021B7108(MonolithToolBlink *blink);
-int func_021B7114(MonolithToolBlink *blink);
-struct Actor *func_021B7118(MonolithToolWork *work, int x, int y, int animSeq);
-void func_021B7168(void *p);
-void func_021B7170(void *a);
-struct R *func_021B7174(u32 *p, int a, u16 heap);
-void func_021B718C(void *p);
-void *func_021B7194(int *p, void *arg1, u32 heap);
-void func_021B71FC(void *p);
-int func_021B7204(MonolithToolWork *work, int unused, void *p, int *q);
-void func_021B7234(void *a, int flag, int bg);
+void MONOLITH_TOOL_StartBlink(MonolithToolBlink *blink);
+int MONOLITH_TOOL_IsBlinkActive(MonolithToolBlink *blink);
+struct Actor *MONOLITH_TOOL_CreateActorAt(MonolithToolWork *work, int x, int y, int animSeq);
+void MONOLITH_TOOL_DeleteActorAt(void *p);
+void MONOLITH_TOOL_Noop(void *a);
+struct R *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap);
+void MONOLITH_TOOL_DeleteTaskMenuRes(void *p);
+void *MONOLITH_TOOL_OpenTaskMenu(int *p, void *arg1, u32 heap);
+void MONOLITH_TOOL_CloseTaskMenu(void *p);
+int MONOLITH_TOOL_UpdateTaskMenu(MonolithToolWork *work, int unused, void *p, int *q);
+void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg);
 int MONOLITH_TOOL_SLOT_SELECT_Init(void *ctx, int *state, MonolithToolProcArgs *args);
 int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen);
 int MONOLITH_TOOL_SLOT_SELECT_Exit(void *proc, void *unused, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen);
@@ -688,42 +685,42 @@ void MONOLITH_TOOL_TITLE_UpdateSlotIcons(MonolithToolTitle *screen,MonolithToolP
 int MONOLITH_TOOL_MENU_Create(struct Proc *ctx, int unused, MonolithToolProcArgs *args);
 int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args, MonolithToolMenu *screen);
 int MONOLITH_TOOL_MENU_Destroy(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolMenu *screen);
-void func_021B81A0(MonolithToolProcArgs *args, MonolithToolMenu *screen);
-void func_021B8270(MonolithToolMenu *screen);
-void func_021B82A4(MonolithToolProcArgs *args, MonolithToolMenu *screen);
-void func_021B82E4(MonolithToolProcArgs *args, MonolithToolMenu *screen);
-void func_021B82F0(MonolithToolMenu *screen);
-void func_021B82FC(MonolithToolMenu *screen);
-void func_021B8308(void);
-void func_021B833C(void);
-void func_021B8350(MonolithToolMenu *screen, MonolithToolWork *work);
-void func_021B83C0(MonolithToolMenu *screen);
-void func_021B83CC(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId);
-int func_021B8434(MonolithToolWork *work, MonolithToolMenu *screen);
-void func_021B8440(MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_CreateButtons(MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_FreeButtons(MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_UpdateButtons(MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_CreateCursor(MonolithToolProcArgs *args, MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_FreeCursor(MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_UpdateCursor(MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_InitBackgrounds(void);
+void MONOLITH_TOOL_MENU_FreeBackgrounds(void);
+void MONOLITH_TOOL_MENU_CreateWindow(MonolithToolMenu *screen, MonolithToolWork *work);
+void MONOLITH_TOOL_MENU_FreeWindow(MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_ShowMessage(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId);
+int MONOLITH_TOOL_MENU_IsMessageDone(MonolithToolWork *work, MonolithToolMenu *screen);
+void MONOLITH_TOOL_MENU_HideMessage(MonolithToolMenu *screen);
 int MONOLITH_TOOL_SUMMARY_Create(struct Proc *ctx, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen);
 int MONOLITH_TOOL_SUMMARY_Update(int unused, int *state, MonolithToolProcArgs *args, MonolithToolSummary *screen);
 int MONOLITH_TOOL_SUMMARY_Destroy(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolSummary *screen);
-void func_021B8650(void);
-void func_021B869C(void);
-void func_021B86BC(MonolithToolWork *work);
-void func_021B86E8(int unused, MonolithToolSummary *screen);
-void func_021B8750(MonolithToolSummary *screen);
-void func_021B8764(MonolithToolWork *work, MonolithToolSummary *screen);
-void func_021B878C(MonolithToolSummary *screen);
-void func_021B8798(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolSummary *screen, u8 *saveData, unsigned slot);
+void MONOLITH_TOOL_SUMMARY_InitBackgrounds(void);
+void MONOLITH_TOOL_SUMMARY_FreeBackgrounds(void);
+void MONOLITH_TOOL_SUMMARY_LoadGraphics(MonolithToolWork *work);
+void MONOLITH_TOOL_SUMMARY_CreateWindows(int unused, MonolithToolSummary *screen);
+void MONOLITH_TOOL_SUMMARY_DeleteWindows(MonolithToolSummary *screen);
+void MONOLITH_TOOL_SUMMARY_CreateLabel(MonolithToolWork *work, MonolithToolSummary *screen);
+void MONOLITH_TOOL_SUMMARY_FreeLabel(MonolithToolSummary *screen);
+void MONOLITH_TOOL_SUMMARY_Draw(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolSummary *screen, u8 *saveData, unsigned slot);
 int MONOLITH_TOOL_STATS_Create(struct Proc *ctx, int *state, MonolithToolProcArgs *args, MonolithToolStats *screen);
 int MONOLITH_TOOL_STATS_Update(int unused, int *state, MonolithToolProcArgs *args, MonolithToolStats *screen);
 int MONOLITH_TOOL_STATS_Destroy(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolStats *screen);
-void func_021B8A70(void);
-void func_021B8ABC(void);
-void func_021B8ADC(MonolithToolWork *work);
-void func_021B8B08(int unused, MonolithToolStats *screen);
-void func_021B8BF4(MonolithToolStats *screen);
-void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolStats *screen);
-void func_021B8EC4(MonolithToolProcArgs *args, MonolithToolStats *screen);
-void func_021B8ED0(MonolithToolStats *screen);
-void func_021B8EDC(MonolithToolStats *screen);
+void MONOLITH_TOOL_STATS_InitBackgrounds(void);
+void MONOLITH_TOOL_STATS_FreeBackgrounds(void);
+void MONOLITH_TOOL_STATS_LoadGraphics(MonolithToolWork *work);
+void MONOLITH_TOOL_STATS_CreateWindows(int unused, MonolithToolStats *screen);
+void MONOLITH_TOOL_STATS_DeleteWindows(MonolithToolStats *screen);
+void MONOLITH_TOOL_STATS_Draw(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolStats *screen);
+void MONOLITH_TOOL_STATS_CreateCursor(MonolithToolProcArgs *args, MonolithToolStats *screen);
+void MONOLITH_TOOL_STATS_FreeCursor(MonolithToolStats *screen);
+void MONOLITH_TOOL_STATS_UpdateCursor(MonolithToolStats *screen);
 int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithListWork *work);
 int MONOLITH_TOOL_LIST_Main(int unused, int *state, MonolithToolProcArgs *args, MonolithListWork *work);
 int MONOLITH_TOOL_LIST_Exit(void *proc, void *unused, MonolithToolProcArgs *args, MonolithListWork *work);
@@ -745,8 +742,8 @@ int MONOLITH_TOOL_LIST_DrawEntryNames(MonolithListWork *work, MonolithToolWork *
 void MONOLITH_TOOL_CreateRowGrids(MonolithListWork *work, MonolithToolWork *toolWork);
 void MONOLITH_TOOL_DeleteRowGrids(MonolithListWork *work);
 void MONOLITH_TOOL_CreateBackButton(MonolithToolProcArgs *args, MonolithListWork *work);
-void func_021B9BA0(MonolithListWork *work);
-void func_021B9BAC(MonolithToolWork *toolWork, MonolithListWork *work);
+void MONOLITH_TOOL_LIST_FreeBackButton(MonolithListWork *work);
+void MONOLITH_TOOL_LIST_UpdateBackButton(MonolithToolWork *toolWork, MonolithListWork *work);
 void MONOLITH_TOOL_CreateMarker(MonolithToolProcArgs *args, MonolithListWork *work);
 void MONOLITH_TOOL_DeleteMarker(MonolithListWork *work);
 void MONOLITH_TOOL_UpdateMarker(MonolithListWork *work);
@@ -756,8 +753,8 @@ void MONOLITH_TOOL_UpdateScrollArrows(MonolithListWork *work);
 int MONOLITH_TOOL_ProcessListInput(MonolithToolProcArgs *args, MonolithListWork *work);
 int MONOLITH_TOOL_SetCursor(MonolithListWork *work, int index, int inputMode);
 void MONOLITH_TOOL_SetRowHighlight(MonolithListWork *work, int index, int palette);
-void func_021B9FEC(MonolithListWork *work, int index);
-void func_021B9FF8(MonolithListWork *work, int index);
+void MONOLITH_TOOL_SetRowHighlightSelected(MonolithListWork *work, int index);
+void MONOLITH_TOOL_SetRowHighlightNormal(MonolithListWork *work, int index);
 void MONOLITH_TOOL_ClearPrevHighlight(MonolithListWork *work);
 void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWork *work);
 int MONOLITH_TOOL_ScrollBy(MonolithListWork *work, int delta);
@@ -781,7 +778,7 @@ extern char d_021BA7D4;
 extern char d_021BA764;
 extern char d_021BA794;
 extern char d_021BA7B4;
-extern struct S6844 gClActorInitParam;
+extern struct SysInit gClActorInitParam;
 extern const struct MonolithToolActorPos d_021BA80C;
 extern const struct MonolithToolGridParam d_021BA814;
 extern char d_021BABE0[];
@@ -843,7 +840,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     MONOLITH_TOOL_LoadSlotRecords(work, setup);
     work->archive = func_020490F4(0x27, 0x61);
     MONOLITH_TOOL_InitDisplay();
-    func_021B652C();
+    MONOLITH_TOOL_InitBmpWin();
     MONOLITH_TOOL_InitPalAnm(work);
     MONOLITH_TOOL_InitBackgrounds();
     MONOLITH_TOOL_LoadGraphics(work, work);
@@ -894,12 +891,12 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
             work->procArgs.abortRequested = 1;
         if (work->procArgs.abortRequested == 0) {
             if (work->topProcStarted == 0) {
-                PROCSYS_Push(work->topProcSys, -1, d_021BA774[work->currentScreen].a, &work->procArgs);
+                PROCSYS_Push(work->topProcSys, -1, d_021BA774[work->currentScreen].topProc, &work->procArgs);
                 work->topProcStarted = 1;
             }
             if (work->subProcStarted == 0) {
                 GF_FONT_SetTextColor(0xF, 2, 0);
-                PROCSYS_Push(work->subProcSys, -1, d_021BA774[work->currentScreen].b, &work->procArgs);
+                PROCSYS_Push(work->subProcSys, -1, d_021BA774[work->currentScreen].subProc, &work->procArgs);
                 work->subProcStarted = 1;
             }
         }
@@ -907,7 +904,7 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
         k = work->procArgs.requestedScreen;
         if (k == 4 || (s2 != 1 && work->procArgs.abortRequested == 1)) {
             work->procArgs.topProcDone = 1;
-        } else if (work->currentScreen != k && d_021BA774[work->currentScreen].a != d_021BA774[k].a) {
+        } else if (work->currentScreen != k && d_021BA774[work->currentScreen].topProc != d_021BA774[k].topProc) {
             work->procArgs.topProcDone = 1;
         }
         s1 = PROCSYS_Main((void *)work->topProcSys);
@@ -968,8 +965,8 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work)
     MONOLITH_TOOL_FreeSubBgChar(work);
     MONOLITH_TOOL_FreeBackgrounds();
     MONOLITH_TOOL_FreePalAnm(work);
-    func_021B6538();
-    func_021B6524();
+    MONOLITH_TOOL_ExitBmpWin();
+    MONOLITH_TOOL_DeleteBg();
     ARC_TOOL_DeleteHandle(work->archive);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
@@ -995,21 +992,21 @@ void MONOLITH_TOOL_InitDisplay(void)
 /*
  * Three ARM9 thunks that share a literal-pool tail-call shape.
  */
-void func_021B6524(void)
+void MONOLITH_TOOL_DeleteBg(void)
 {
     BG_SYS_Delete();
 }
 
 
 
-void func_021B652C(void)
+void MONOLITH_TOOL_InitBmpWin(void)
 {
     BMP_WIN_Init(0x61);
 }
 
 
 
-void func_021B6538(void)
+void MONOLITH_TOOL_ExitBmpWin(void)
 {
     BMP_WIN_Exit();
 }
@@ -1068,8 +1065,8 @@ void MONOLITH_TOOL_FreeBackgrounds(void)
 {
     func_02040588(3, 0);
     func_02040588(7, 0);
-    func_020403F4(3);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(7);
 }
 
 
@@ -1097,9 +1094,9 @@ void MONOLITH_TOOL_LoadGraphics(MonolithToolWork *work, MonolithToolWork *work2)
     APP_ICON_LoadTouchBar(h, 7, 0x61, work->subBgCharOffset, 0xc);
     PALANM_LoadHandlePaletteToSlot(work2->palAnm, h, 0x1b, 0x61, 1, 0x20, 0xc0);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(7);
-    func_020409B4(3);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
+    BG_SYS_PushTile(3);
+    BG_SYS_PushTile(7);
 }
 
 
@@ -1121,7 +1118,7 @@ void MONOLITH_TOOL_InitText(MonolithToolWork *work)
     work->taskList = TCBL_Create(0x61, 0x61, 4, 0x20);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x61);
     work->printSys = (struct PrintSys *)PRINTSYS_QUE_Create((void *)0x61);
-    work->wordSet = GF_FONT_Create_EC64(0x61);
+    work->wordSet = WORDSET_CreateDefault(0x61);
     work->msgBank[0] = func_02045B38(0, 2, 0x43, 0x61);
     work->msgBank[1] = func_02045B38(0, 2, 0xa0, 0x61);
     work->msgBank[2] = func_02045B38(0, 2, 0xa1, 0x61);
@@ -1151,15 +1148,15 @@ void MONOLITH_TOOL_FreeText(MonolithToolWork *work)
 
 void MONOLITH_TOOL_InitActors(MonolithToolWork *work)
 {
-    struct S6844 s;
+    struct SysInit s;
 
     s = gClActorInitParam;
-    s.b8 = 4;
-    s.b9 = 0x7c;
-    s.ba = 4;
-    s.bb = 0x7c;
-    s.h10 = 0x60;
-    s.h14 = 0x40;
+    s.oam_main_base = 4;
+    s.oam_main_count = 0x7c;
+    s.oam_sub_base = 4;
+    s.oam_sub_count = 0x7c;
+    s.n_chars = 0x60;
+    s.n_cells = 0x40;
     CLACT_InitSystem((const struct Cfg *)(&s), (u32)(&d_021BA7D4), 0x61);
     work->unitBank = CLACT_CreateUnit(0x60, 0, 0x61);
     CLACT_SetUnitDefaultRenderer(work->unitBank);
@@ -1345,7 +1342,7 @@ void MONOLITH_TOOL_CreateButton(MonolithToolWork *work, MonolithToolButton *butt
 
 
 
-void func_021B6B38(MonolithToolButton *button)
+void MONOLITH_TOOL_FreeButton(MonolithToolButton *button)
 {
     CLACT_DeleteActor(button->actor);
     BMP_OAM_Delete(button->grid);
@@ -1363,7 +1360,7 @@ void func_021B6B38(MonolithToolButton *button)
 /*
  * extent: two-byte alignment padding at 0x021B6B6E.
  */
-void func_021B6B58(MonolithToolButton *button, int visible)
+void MONOLITH_TOOL_SetButtonVisible(MonolithToolButton *button, int visible)
 {
     CLACT_SetActorDrawEnable(button->actor, visible);
     BMP_OAM_SetEnabled(button->grid, visible);
@@ -1374,7 +1371,7 @@ void func_021B6B58(MonolithToolButton *button, int visible)
 
 
 
-int func_021B6B70(MonolithToolWork *work, MonolithToolButton *button)
+int MONOLITH_TOOL_IsButtonUploaded(MonolithToolWork *work, MonolithToolButton *button)
 {
     if (button->on == 1) {
         if (PRINTSYS_QUE_IsExistTarget(work->printSys, button->bitmap) == 0) {
@@ -1388,33 +1385,33 @@ int func_021B6B70(MonolithToolWork *work, MonolithToolButton *button)
 
 
 
-void func_021B6B98(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot)
+void MONOLITH_TOOL_HighlightButtonPulse(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot)
 {
     int i;
 
     for (i = 0; i < count; i++) {
         if (i == selected) {
             CLACT_SetActorPaletteOffset((struct Actor *)button[i].actor, 1, 1);
-            func_021B6DB4(args, 1, slot);
+            MONOLITH_TOOL_SetHighlightMode(args, 1, slot);
         } else {
             CLACT_SetActorPaletteOffset((struct Actor *)button[i].actor, 0, 1);
         }
     }
     if (selected == 0xff) {
-        func_021B6DB4(args, 0, slot);
+        MONOLITH_TOOL_SetHighlightMode(args, 0, slot);
     }
 }
 
 
 
-void func_021B6BEC(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot)
+void MONOLITH_TOOL_HighlightButtonFlash(MonolithToolProcArgs *args, MonolithToolButton *button, int count, int selected, int slot)
 {
     int i;
 
     for (i = 0; i < count; i++) {
         if (i == selected) {
             CLACT_SetActorPaletteOffset((struct Actor *)button[i].actor, 1, 1);
-            func_021B6DB4(args, 2, slot);
+            MONOLITH_TOOL_SetHighlightMode(args, 2, slot);
         } else {
             CLACT_SetActorPaletteOffset((struct Actor *)button[i].actor, 0, 1);
         }
@@ -1426,20 +1423,20 @@ void func_021B6BEC(MonolithToolProcArgs *args, MonolithToolButton *button, int c
 
 
 
-void func_021B6C30(MonolithToolProcArgs *args, int pulse, int slot)
+void MONOLITH_TOOL_SetButtonPulse(MonolithToolProcArgs *args, int pulse, int slot)
 {
     if (pulse == 1) {
-        func_021B6DB4(args, 1, slot);
+        MONOLITH_TOOL_SetHighlightMode(args, 1, slot);
     } else {
-        func_021B6DB4(args, 0, slot);
+        MONOLITH_TOOL_SetHighlightMode(args, 0, slot);
     }
 }
 
 
 
-void func_021B6C48(MonolithToolProcArgs *args, int slot)
+void MONOLITH_TOOL_SetButtonFlash(MonolithToolProcArgs *args, int slot)
 {
-    func_021B6DB4(args, 2, slot);
+    MONOLITH_TOOL_SetHighlightMode(args, 2, slot);
 }
 
 
@@ -1447,7 +1444,7 @@ void func_021B6C48(MonolithToolProcArgs *args, int slot)
 
 
 
-void func_021B6C54(MonolithToolProcArgs *args) { int i; for(i=0;i<4;i++) MI_CpuFill8(&args->highlight[i],0,8); }
+void MONOLITH_TOOL_ResetHighlights(MonolithToolProcArgs *args) { int i; for(i=0;i<4;i++) MI_CpuFill8(&args->highlight[i],0,8); }
 
 
 
@@ -1455,7 +1452,7 @@ void func_021B6C54(MonolithToolProcArgs *args) { int i; for(i=0;i<4;i++) MI_CpuF
 
 
 
-u8 func_021B6C74(MonolithToolProcArgs *args, int slot)
+u8 MONOLITH_TOOL_GetHighlightMode(MonolithToolProcArgs *args, int slot)
 {
     return args->highlight[slot].mode;
 }
@@ -1486,7 +1483,7 @@ u8 func_021B6C74(MonolithToolProcArgs *args, int slot)
  *
  * note 2026-10-05 (D8 lane16): witness PALANM_GetColor filed as src/matched/arm9/PALANM_GetColor.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
  */
-void func_021B6C7C(MonolithToolProcArgs *args, int slot)
+void MONOLITH_TOOL_UpdateHighlight(MonolithToolProcArgs *args, int slot)
 {
     MonolithToolHighlight *highlight;
     int firstColor, srcColor, colorCount;
@@ -1496,9 +1493,9 @@ void func_021B6C7C(MonolithToolProcArgs *args, int slot)
     if (slot >= 4) {
         func_02034714(d_021BABE0, (int)0, d_021BABE0);
     }
-    firstColor = func_021B6E00((int)slot);
-    srcColor = func_021B6E0C((int)slot);
-    colorCount = func_021B6E18(slot);
+    firstColor = MONOLITH_TOOL_GetHighlightColorA((int)slot);
+    srcColor = MONOLITH_TOOL_GetHighlightColorB((int)slot);
+    colorCount = MONOLITH_TOOL_GetHighlightColorCount(slot);
     switch (highlight->mode) {
     case 1:
         level = highlight->level;
@@ -1530,7 +1527,7 @@ void func_021B6C7C(MonolithToolProcArgs *args, int slot)
                 highlight->level = 0;
                 highlight->flashCount++;
                 if (highlight->flashCount > 1) {
-                    func_021B6DB4(args, 0, slot);
+                    MONOLITH_TOOL_SetHighlightMode(args, 0, slot);
                 }
             }
             for (i = 0; i < colorCount; i++) {
@@ -1546,13 +1543,13 @@ void func_021B6C7C(MonolithToolProcArgs *args, int slot)
 
 
 
-void func_021B6DB4(MonolithToolProcArgs *args, int mode, int slot)
+void MONOLITH_TOOL_SetHighlightMode(MonolithToolProcArgs *args, int mode, int slot)
 {
     MonolithToolHighlight *highlight;
     highlight = &args->highlight[slot];
     MI_CpuFill8(highlight, 0, 8);
     highlight->mode = mode;
-    PALANM_BlendChannel((struct Chan02021FD8 *)args->work->palAnm, (int)slot, (u16)func_021B6E00(slot), (u16)func_021B6E18(slot), 0, 0);
+    PALANM_BlendChannel((struct Chan02021FD8 *)args->work->palAnm, (int)slot, (u16)MONOLITH_TOOL_GetHighlightColorA(slot), (u16)MONOLITH_TOOL_GetHighlightColorCount(slot), 0, 0);
 }
 
 
@@ -1563,7 +1560,7 @@ void func_021B6DB4(MonolithToolProcArgs *args, int mode, int slot)
 /*
  * Two bounded constant selectors and a constant return.
  */
-int func_021B6E00(unsigned int x)
+int MONOLITH_TOOL_GetHighlightColorA(unsigned int x)
 {
     return x <= 1 ? 0x32 : 0x12;
 }
@@ -1574,7 +1571,7 @@ int func_021B6E00(unsigned int x)
 
 
 
-int func_021B6E0C(unsigned int x)
+int MONOLITH_TOOL_GetHighlightColorB(unsigned int x)
 {
     return x <= 1 ? 0x42 : 0x22;
 }
@@ -1585,7 +1582,7 @@ int func_021B6E0C(unsigned int x)
 
 
 
-int func_021B6E18(int a0)
+int MONOLITH_TOOL_GetHighlightColorCount(int a0)
 {
     return 3;
 }
@@ -1680,7 +1677,7 @@ MonolithCounts *MONOLITH_TOOL_GetSlotIconStates(MonolithToolProcArgs *args)
  * comes out with the opposite branch polarity (beq to 0, not bne to 1).
  * const on d lets both d[] loads go ahead of the stores into s.
  */
-int func_021B6F54(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex)
+int MONOLITH_TOOL_CreateSlotIcon(MonolithToolWork *work, MonolithCounts *counts, int slot, const int *pos, int resIndex)
 {
     struct MonolithToolIconPos iconPos;
     int actor;
@@ -1707,7 +1704,7 @@ int func_021B6F54(MonolithToolWork *work, MonolithCounts *counts, int slot, cons
 /*
  * Tail call to CLACT_DeleteActor.
  */
-void func_021B6FD8(void *p)
+void MONOLITH_TOOL_DeleteSlotIcon(void *p)
 {
     CLACT_DeleteActor(p);
 }
@@ -1716,14 +1713,14 @@ void func_021B6FD8(void *p)
 
 
 
-void func_021B6FE0(void *p, MonolithCounts *counts, int i) { Value v; if(counts->slotIconState[i]==1) v=V5; else if(counts->slotIconState[i]==2) v=V4; else {CLACT_SetActorDrawEnable(p,0);return;} CLACT_SetActorDrawEnable(p,1);CLACT_ChangeActorAnimSeq(p,v); }
+void MONOLITH_TOOL_UpdateSlotIconState(void *p, MonolithCounts *counts, int i) { Value v; if(counts->slotIconState[i]==1) v=V5; else if(counts->slotIconState[i]==2) v=V4; else {CLACT_SetActorDrawEnable(p,0);return;} CLACT_SetActorDrawEnable(p,1);CLACT_ChangeActorAnimSeq(p,v); }
 
 
 
 
 
 
-int func_021B7014(MonolithToolWork *work, const int *pos, int resIndex)
+int MONOLITH_TOOL_CreateCursor(MonolithToolWork *work, const int *pos, int resIndex)
 {
     struct MonolithToolCursorPos cursorPos;
     int onSubScreen;
@@ -1738,7 +1735,7 @@ int func_021B7014(MonolithToolWork *work, const int *pos, int resIndex)
 
 
 
-void func_021B7068(void *p)
+void MONOLITH_TOOL_DeleteCursor(void *p)
 {
     CLACT_DeleteActor(p);
 }
@@ -1748,7 +1745,7 @@ void func_021B7068(void *p)
 
 
 
-void func_021B7070(MonolithToolWork *work, MonolithToolBlink *blink)
+void MONOLITH_TOOL_CreateBlink(MonolithToolWork *work, MonolithToolBlink *blink)
 {
     struct MonolithToolCursorPos cursorPos;
     int actor;
@@ -1765,7 +1762,7 @@ void func_021B7070(MonolithToolWork *work, MonolithToolBlink *blink)
  * CLACT_DeleteActor with it.  It is the callee whose only image-wide callers are
  * the three ov071 offset-thunks (matched via this EXACT entry).
  */
-void func_021B70B8(MonolithToolBlink *blink)
+void MONOLITH_TOOL_DeleteBlink(MonolithToolBlink *blink)
 {
     CLACT_DeleteActor((void *)blink->actor);
 }
@@ -1796,7 +1793,7 @@ void MONOLITH_TOOL_UpdateBlink(MonolithToolBlink *p)
 /*
  * Byte initialiser and its getter.
  */
-void func_021B7108(MonolithToolBlink *blink)
+void MONOLITH_TOOL_StartBlink(MonolithToolBlink *blink)
 {
     blink->active = 1;
     blink->frame = 0;
@@ -1808,7 +1805,7 @@ void func_021B7108(MonolithToolBlink *blink)
 
 
 
-int func_021B7114(MonolithToolBlink *blink)
+int MONOLITH_TOOL_IsBlinkActive(MonolithToolBlink *blink)
 {
     return blink->active;
 }
@@ -1818,7 +1815,7 @@ int func_021B7114(MonolithToolBlink *blink)
 
 
 
-struct Actor *func_021B7118(MonolithToolWork *work, int x, int y, int animSeq)
+struct Actor *MONOLITH_TOOL_CreateActorAt(MonolithToolWork *work, int x, int y, int animSeq)
 {
     struct MonolithToolCursorPos cursorPos;
     struct Actor *actor;
@@ -1836,7 +1833,7 @@ struct Actor *func_021B7118(MonolithToolWork *work, int x, int y, int animSeq)
 /*
  * ARM9 tail call followed by an empty function.
  */
-void func_021B7168(void *p)
+void MONOLITH_TOOL_DeleteActorAt(void *p)
 {
     CLACT_DeleteActor(p);
 }
@@ -1846,7 +1843,7 @@ void func_021B7168(void *p)
 
 
 
-void func_021B7170(void *a)
+void MONOLITH_TOOL_Noop(void *a)
 {
 }
 
@@ -1855,7 +1852,7 @@ void func_021B7170(void *a)
 
 
 
-struct R *func_021B7174(u32 *p, int a, u16 heap)
+struct R *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap)
 {
     return APP_TASKMENU_RES_Create((u8)a, 14, p[3], p[2], heap);
 }
@@ -1865,7 +1862,7 @@ struct R *func_021B7174(u32 *p, int a, u16 heap)
 /*
  * Tail call to APP_TASKMENU_RES_Delete.
  */
-void func_021B718C(void *p)
+void MONOLITH_TOOL_DeleteTaskMenuRes(void *p)
 {
     APP_TASKMENU_RES_Delete(p);
 }
@@ -1875,36 +1872,29 @@ void func_021B718C(void *p)
 
 
 
-void *func_021B7194(int *p, void *arg1, u32 heap)
+void *MONOLITH_TOOL_OpenTaskMenu(int *p, void *arg1, u32 heap)
 {
     Item it[2];
-    struct {
-        u32 heapId;
-        u8 count;
-        u8 pad05[3];
-        Item *items;
-        u32 unk0c;
-        u8 b0, b1, b2, b3;
-    } t;
+    struct TaskMenuTmpl t;
     void *r;
 
-    it[0].s = func_02045EC0((void *)p[0x28 / 4], 0x1e);
-    it[1].s = func_02045EC0((void *)p[0x28 / 4], 0x1f);
-    it[0].h = 0x39E0;
-    it[1].h = 0x39E0;
-    it[0].z = 0;
-    it[1].z = 0;
+    it[0].text = func_02045EC0((void *)p[0x28 / 4], 0x1e);
+    it[1].text = func_02045EC0((void *)p[0x28 / 4], 0x1f);
+    it[0].color = 0x39E0;
+    it[1].color = 0x39E0;
+    it[0].flags = 0;
+    it[1].flags = 0;
     t.heapId = heap;
-    t.count = 2;
+    t.itemNum = 2;
     t.items = it;
-    t.unk0c = 0;
-    t.b0 = 0x18;
-    t.b1 = 0xc;
-    t.b2 = 8;
-    t.b3 = 3;
+    t.posType = 0;
+    t.charPosX = 0x18;
+    t.charPosY = 0xc;
+    t.width = 8;
+    t.height = 3;
     r = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), arg1);
-    STRBUF_Delete(it[0].s);
-    STRBUF_Delete(it[1].s);
+    STRBUF_Delete(it[0].text);
+    STRBUF_Delete(it[1].text);
     return r;
 }
 
@@ -1913,7 +1903,7 @@ void *func_021B7194(int *p, void *arg1, u32 heap)
 /*
  * Tail call to APP_TASKMENU_CloseMenu.
  */
-void func_021B71FC(void *p)
+void MONOLITH_TOOL_CloseTaskMenu(void *p)
 {
     APP_TASKMENU_CloseMenu(p);
 }
@@ -1922,14 +1912,14 @@ void func_021B71FC(void *p)
 
 
 
-int func_021B7204(MonolithToolWork *work, int unused, void *p, int *q) { APP_TASKMENU_UpdateMenu(p); if(APP_TASKMENU_IsFinish(p)==1) { *q=APP_TASKMENU_GetCursorPos(p)==0 ? 1 : 0;return 1;} return 0; }
+int MONOLITH_TOOL_UpdateTaskMenu(MonolithToolWork *work, int unused, void *p, int *q) { APP_TASKMENU_UpdateMenu(p); if(APP_TASKMENU_IsFinish(p)==1) { *q=APP_TASKMENU_GetCursorPos(p)==0 ? 1 : 0;return 1;} return 0; }
 
 
 
 
 
 
-void func_021B7234(void *a, int flag, int bg)
+void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg)
 {
     MonolithCounts *c;
     u16 *buf;
@@ -2002,7 +1992,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Init(void *ctx, int *state, MonolithToolProcArgs *
         MONOLITH_TOOL_SLOT_SELECT_CreateSlotIcons(screen, args);
         MONOLITH_TOOL_SLOT_SELECT_CreateButtons(args, screen);
         MONOLITH_TOOL_SLOT_SELECT_CreateCursor(args, screen);
-        screen->cursorActor = (void *)func_021B7014(args->work, (const int *)&d_021BA8A0[args->param->slot], 1);
+        screen->cursorActor = (void *)MONOLITH_TOOL_CreateCursor(args->work, (const int *)&d_021BA8A0[args->param->slot], 1);
         state[0]++;
         break;
     case 1:
@@ -2053,14 +2043,14 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
   if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(args->work,screen)!=1) break;
   if(TOUCHPANEL_GetTrg()==0 && (KEY_GetTrg()&3)==0) break;
   MONOLITH_TOOL_SLOT_SELECT_HideMessage(screen);GFL_USE_PlaySeDefaultVolume(0x547);
-  if(TOUCHPANEL_GetTrg()!=0) {screen->buttonHighlight=1;func_021B6B98(args,&screen->button[0],1,0xff,3);}
-  else {screen->buttonHighlight=0;func_021B6B98(args,&screen->button[0],1,0,3);}
+  if(TOUCHPANEL_GetTrg()!=0) {screen->buttonHighlight=1;MONOLITH_TOOL_HighlightButtonPulse(args,&screen->button[0],1,0xff,3);}
+  else {screen->buttonHighlight=0;MONOLITH_TOOL_HighlightButtonPulse(args,&screen->button[0],1,0,3);}
   if(screen->backMode==0) *state=3;else *state=4;
   break;
  case 3:
   keyState=KEY_GetTrg();touchResult=TOUCHPANEL_HitTrg(d_021BA87C);
   if(intrude!=0 && INTRUDE_COMM_IsSessionActive(intrude+0x1ac)==1) {MONOLITH_TOOL_SLOT_SELECT_SetMode(args,screen,1);screen->linkLost=1;*state=4;break;}
-  if(keyState>0 && screen->buttonHighlight==1) {screen->buttonHighlight=0;func_021B6B98(args,&screen->button[0],1,0,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
+  if(keyState>0 && screen->buttonHighlight==1) {screen->buttonHighlight=0;MONOLITH_TOOL_HighlightButtonPulse(args,&screen->button[0],1,0,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(keyState&0xf0) {
    nextSlot=0xff;
    for(slot=0;(slot<6)?1:0;slot++) if(d_021BA85C[slot]==args->param->slot) break;
@@ -2072,16 +2062,16 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
    if(nextSlot!=0xff) slot=nextSlot;
    args->param->slot=slot;GFL_USE_PlaySeDefaultVolume(0x548);
   }
-  if(touchResult>=0 && touchResult<6) {args->param->slot=touchResult;screen->buttonHighlight=1;func_021B6B98(args,&screen->button[0],1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
+  if(touchResult>=0 && touchResult<6) {args->param->slot=touchResult;screen->buttonHighlight=1;MONOLITH_TOOL_HighlightButtonPulse(args,&screen->button[0],1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(touchResult==6 || (keyState&1)) {
    func_020355D8(touchResult==6);
    if(INTRUDE_COMM_HasUnlockFlags(ICA_ANIME_GetField1C(args->setup->gameCtx))==0) {
     result=d_021BAA4C[args->param->slot];
     if(result!=2 && result!=1) {*state=9;break;}
    }
-   func_021B6BEC(args,&screen->button[0],1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
+   MONOLITH_TOOL_HighlightButtonFlash(args,&screen->button[0],1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
   } else if(touchResult==7 || (keyState&2)) {
-   func_021B7108(&screen->cursorBlink);func_020355D8(touchResult==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
+   MONOLITH_TOOL_StartBlink(&screen->cursorBlink);func_020355D8(touchResult==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
   }
   break;
  case 4: {
@@ -2122,8 +2112,8 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
   if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(args->work,screen)==1 && (TOUCHPANEL_GetTrg()!=0 || (KEY_GetTrg()&3)!=0)) {MONOLITH_TOOL_SLOT_SELECT_HideMessage(screen);*state=3;}
   break;
  case 11:
-  if(func_021B6C74(args,3)==2) break;
-  if(func_021B7114(&screen->cursorBlink)!=0) break;
+  if(MONOLITH_TOOL_GetHighlightMode(args,3)==2) break;
+  if(MONOLITH_TOOL_IsBlinkActive(&screen->cursorBlink)!=0) break;
   if(screen->joined==1) args->requestedScreen=4;else args->requestedScreen=0;
   return 1;
  }
@@ -2156,7 +2146,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Exit(void *proc, void *unused, MonolithToolProcArg
         PRINTSYS_PrintStreamDelete(screen->msgPrinter);
     if (screen->msgString != 0)
         STRBUF_Delete(screen->msgString);
-    func_021B7068(screen->cursorActor);
+    MONOLITH_TOOL_DeleteCursor(screen->cursorActor);
     MONOLITH_TOOL_SLOT_SELECT_FreeCursor(screen);
     MONOLITH_TOOL_SLOT_SELECT_FreeButtons(screen);
     MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons(screen);
@@ -2184,13 +2174,13 @@ void MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds(void)
 
 
 
-void MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds(void) { func_02040588(5,0); func_02040588(6,0); func_020403F4(5); func_020403F4(6); }
+void MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds(void) { func_02040588(5,0); func_02040588(6,0); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(6); }
 
 
 
 
 
-void MONOLITH_TOOL_SLOT_SELECT_LoadGraphics(MonolithToolProcArgs *args, MonolithToolWork *work) {func_020498F4(work->archive,6,6,0,0,1,0x61);func_021B7234(args,1,6);func_020409B4(6);}
+void MONOLITH_TOOL_SLOT_SELECT_LoadGraphics(MonolithToolProcArgs *args, MonolithToolWork *work) {func_020498F4(work->archive,6,6,0,0,1,0x61);MONOLITH_TOOL_DrawSlotCounts(args,1,6);BG_SYS_PushTile(6);}
 
 
 
@@ -2265,7 +2255,7 @@ void MONOLITH_TOOL_SLOT_SELECT_CreateSlotIcons(MonolithToolSlotSelect *screen, M
     for (i = 0; i < 6; i++) {
         int icon;
         unsigned recordIndex = d_021BAA4C[i];
-        icon = func_021B6F54(args->work, counts, i, (const int *)&d_021BA8A0[recordIndex], 1);
+        icon = MONOLITH_TOOL_CreateSlotIcon(args->work, counts, i, (const int *)&d_021BA8A0[recordIndex], 1);
         screen->slotIcon[i] = (void *)icon;
     }
 }
@@ -2279,7 +2269,7 @@ void MONOLITH_TOOL_SLOT_SELECT_CreateSlotIcons(MonolithToolSlotSelect *screen, M
 
 
 
-void MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons(MonolithToolSlotSelect *screen) { int i; for(i=0;i<6;i++) func_021B6FD8(screen->slotIcon[i]); }
+void MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons(MonolithToolSlotSelect *screen) { int i; for(i=0;i<6;i++) MONOLITH_TOOL_DeleteSlotIcon(screen->slotIcon[i]); }
 
 
 
@@ -2290,7 +2280,7 @@ void MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons(MonolithToolSlotSelect *screen) { i
 
 
 
-void MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons(MonolithToolSlotSelect *screen, MonolithToolProcArgs *args) { MonolithCounts *counts;int i;counts=MONOLITH_TOOL_GetSlotIconStates(args);for(i=0;i<6;i++)func_021B6FE0(screen->slotIcon[i],counts,i);}
+void MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons(MonolithToolSlotSelect *screen, MonolithToolProcArgs *args) { MonolithCounts *counts;int i;counts=MONOLITH_TOOL_GetSlotIconStates(args);for(i=0;i<6;i++)MONOLITH_TOOL_UpdateSlotIconState(screen->slotIcon[i],counts,i);}
 
 
 
@@ -2315,16 +2305,16 @@ void MONOLITH_TOOL_SLOT_SELECT_MoveCursor(MonolithToolSlotSelect *screen,int slo
 
 void MONOLITH_TOOL_SLOT_SELECT_CreateButtons(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
-    func_021B6C54(args);
+    MONOLITH_TOOL_ResetHighlights(args);
     MONOLITH_TOOL_CreateButton(args->work, &screen->button[0], 1, 1, 0x80, 0x90, 14, 0);
     if (func_020355C4() == 0) {
-        func_021B6B98(args, &screen->button[0], 1, 0, 3);
+        MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], 1, 0, 3);
     } else {
-        func_021B6B98(args, &screen->button[0], 1, 0xff, 3);
+        MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], 1, 0xff, 3);
         screen->buttonHighlight = 1;
     }
     MONOLITH_TOOL_CreateButton(args->work, &screen->button[1], 1, 1, 0x80, 0x90, 15, 0);
-    func_021B6B58(&screen->button[1], 0);
+    MONOLITH_TOOL_SetButtonVisible(&screen->button[1], 0);
 }
 
 
@@ -2336,7 +2326,7 @@ void MONOLITH_TOOL_SLOT_SELECT_CreateButtons(MonolithToolProcArgs *args, Monolit
 
 
 
-void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(MonolithToolSlotSelect *screen) { int i; for (i=0;i<2;i++) func_021B6B38(&screen->button[i]); }
+void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(MonolithToolSlotSelect *screen) { int i; for (i=0;i<2;i++) MONOLITH_TOOL_FreeButton(&screen->button[i]); }
 
 
 
@@ -2347,7 +2337,7 @@ void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(MonolithToolSlotSelect *screen) { int
 
 
 
-void MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(MonolithToolProcArgs *args,MonolithToolSlotSelect *screen) { int i; func_021B6C7C(args,3); for(i=0;i<2;i++) func_021B6B70(args->work,&screen->button[i]); }
+void MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(MonolithToolProcArgs *args,MonolithToolSlotSelect *screen) { int i; MONOLITH_TOOL_UpdateHighlight(args,3); for(i=0;i<2;i++) MONOLITH_TOOL_IsButtonUploaded(args->work,&screen->button[i]); }
 
 
 
@@ -2357,11 +2347,11 @@ void MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(MonolithToolProcArgs *args,Monolith
 
 
 /*
- * Tail call to func_021B7070(word at 0x4, a + 0x24).
+ * Tail call to MONOLITH_TOOL_CreateBlink(word at 0x4, a + 0x24).
  */
 void MONOLITH_TOOL_SLOT_SELECT_CreateCursor(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
-    func_021B7070(args->work, &screen->cursorBlink);
+    MONOLITH_TOOL_CreateBlink(args->work, &screen->cursorBlink);
 }
 
 
@@ -2372,14 +2362,14 @@ void MONOLITH_TOOL_SLOT_SELECT_CreateCursor(MonolithToolProcArgs *args, Monolith
 
 
 /*
- * Tail call to func_021B70B8 with the pointer advanced by 0x24.  The callee
+ * Tail call to MONOLITH_TOOL_DeleteBlink with the pointer advanced by 0x24.  The callee
  * is an unlabelled leaf in this overlay; it is reproduced in
  * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  */
 void MONOLITH_TOOL_SLOT_SELECT_FreeCursor(MonolithToolSlotSelect *screen)
 {
-    func_021B70B8(&screen->cursorBlink);
+    MONOLITH_TOOL_DeleteBlink(&screen->cursorBlink);
 }
 
 
@@ -2410,12 +2400,12 @@ void MONOLITH_TOOL_SLOT_SELECT_UpdateCursor(MonolithToolSlotSelect *screen)
 void MONOLITH_TOOL_SLOT_SELECT_SetMode(MonolithToolProcArgs *args, MonolithToolSlotSelect *screen, unsigned char mode)
 {
     if (mode == 0) {
-        func_021B6B58(&screen->button[0], 1);
-        func_021B6B58(&screen->button[1], 0);
+        MONOLITH_TOOL_SetButtonVisible(&screen->button[0], 1);
+        MONOLITH_TOOL_SetButtonVisible(&screen->button[1], 0);
     } else {
         args->param->slot = 6;
-        func_021B6B58(&screen->button[0], 0);
-        func_021B6B58(&screen->button[1], 1);
+        MONOLITH_TOOL_SetButtonVisible(&screen->button[0], 0);
+        MONOLITH_TOOL_SetButtonVisible(&screen->button[1], 1);
     }
     screen->backMode = mode;
 }
@@ -2496,7 +2486,7 @@ void MONOLITH_TOOL_TITLE_InitBackgrounds(void) { BG_SYS_InitBgLayer(2,(const str
 
 
 
-void MONOLITH_TOOL_TITLE_FreeBackgrounds(void) { func_02040588(2, 0); func_020403F4(2); }
+void MONOLITH_TOOL_TITLE_FreeBackgrounds(void) { func_02040588(2, 0); BG_SYS_FreeLayerBuf(2); }
 
 
 
@@ -2506,7 +2496,7 @@ void MONOLITH_TOOL_TITLE_FreeBackgrounds(void) { func_02040588(2, 0); func_02040
 
 
 
-void MONOLITH_TOOL_TITLE_LoadGraphics(MonolithToolProcArgs *args,MonolithToolWork *work) { func_020498F4(work->archive,11,2,0,0,1,0x61); func_021B7234(args,0,2); func_020409B4(2); }
+void MONOLITH_TOOL_TITLE_LoadGraphics(MonolithToolProcArgs *args,MonolithToolWork *work) { func_020498F4(work->archive,11,2,0,0,1,0x61); MONOLITH_TOOL_DrawSlotCounts(args,0,2); BG_SYS_PushTile(2); }
 
 
 
@@ -2522,7 +2512,7 @@ void MONOLITH_TOOL_TITLE_CreateSlotIcons(MonolithToolTitle *screen, MonolithTool
     for (i = 0; i < 6; i++) {
         int icon;
         unsigned recordIndex = d_021BAA4C[i];
-        icon = func_021B6F54(args->work, counts, i, (const int *)(d_021BA948 + recordIndex * 8), 0);
+        icon = MONOLITH_TOOL_CreateSlotIcon(args->work, counts, i, (const int *)(d_021BA948 + recordIndex * 8), 0);
         screen->slotIcon[i] = (void *)icon;
     }
 }
@@ -2535,7 +2525,7 @@ void MONOLITH_TOOL_TITLE_CreateSlotIcons(MonolithToolTitle *screen, MonolithTool
 
 
 
-void MONOLITH_TOOL_TITLE_FreeSlotIcons(MonolithToolTitle *screen) { int i; for(i=0;i<6;i++) func_021B6FD8(screen->slotIcon[i]); }
+void MONOLITH_TOOL_TITLE_FreeSlotIcons(MonolithToolTitle *screen) { int i; for(i=0;i<6;i++) MONOLITH_TOOL_DeleteSlotIcon(screen->slotIcon[i]); }
 
 
 
@@ -2545,7 +2535,7 @@ void MONOLITH_TOOL_TITLE_FreeSlotIcons(MonolithToolTitle *screen) { int i; for(i
 
 
 
-void MONOLITH_TOOL_TITLE_UpdateSlotIcons(MonolithToolTitle *screen,MonolithToolProcArgs *args) { int i; MonolithCounts *counts; counts=MONOLITH_TOOL_GetSlotIconStates(args); for(i=0;i<6;i++) func_021B6FE0(screen->slotIcon[i],counts,i); }
+void MONOLITH_TOOL_TITLE_UpdateSlotIcons(MonolithToolTitle *screen,MonolithToolProcArgs *args) { int i; MonolithCounts *counts; counts=MONOLITH_TOOL_GetSlotIconStates(args); for(i=0;i<6;i++) MONOLITH_TOOL_UpdateSlotIconState(screen->slotIcon[i],counts,i); }
 
 
 
@@ -2567,10 +2557,10 @@ int MONOLITH_TOOL_MENU_Create(struct Proc *ctx, int unused, MonolithToolProcArgs
     } else {
         screen->kind = 0;
     }
-    func_021B8308();
-    func_021B8350(screen, args->work);
-    func_021B81A0(args, screen);
-    func_021B82E4(args, screen);
+    MONOLITH_TOOL_MENU_InitBackgrounds();
+    MONOLITH_TOOL_MENU_CreateWindow(screen, args->work);
+    MONOLITH_TOOL_MENU_CreateButtons(args, screen);
+    MONOLITH_TOOL_MENU_CreateCursor(args, screen);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     return 1;
 }
@@ -2592,8 +2582,8 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
     int touch;
 
     saveData = (u8 *)INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(args->setup->gameCtx));
-    func_021B82A4(args, screen);
-    func_021B82FC(screen);
+    MONOLITH_TOOL_MENU_UpdateButtons(args, screen);
+    MONOLITH_TOOL_MENU_UpdateCursor(screen);
     if (args->abortRequested == 1) {
         return 1;
     }
@@ -2613,7 +2603,7 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
         if (touch > 0 && screen->touchArmed == 1) {
             func_020355D8(0);
             screen->touchArmed = 0;
-            func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
+            MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         }
@@ -2628,14 +2618,14 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
             if (screen->selected >= d_021BA978[screen->kind]) {
                 screen->selected = 0;
             }
-            func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
+            MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
         } else if (keys & 0x40) {
             screen->selected--;
             if (screen->selected < 0) {
                 screen->selected = d_021BA978[screen->kind] - 1;
             }
-            func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
+            MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
         }
         break;
@@ -2647,37 +2637,37 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
             }
             if (saveData != 0 && INTRUDE_COMM_IsSessionActive(saveData + 0x1ac) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                func_021B83CC(screen, args->work, 4);
+                MONOLITH_TOOL_MENU_ShowMessage(screen, args->work, 4);
                 *state = 3;
                 break;
             }
         }
         if (screen->result != 3) {
-            func_021B6BEC(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
+            MONOLITH_TOOL_HighlightButtonFlash(args, &screen->button[0], d_021BA978[screen->kind], screen->selected, 3);
             GFL_USE_PlaySeDefaultVolume(0x54c);
         } else {
-            func_021B7108(&screen->cursorBlink);
+            MONOLITH_TOOL_StartBlink(&screen->cursorBlink);
             GFL_USE_PlaySeDefaultVolume(0x551);
         }
         (*state)++;
         break;
     case 2:
         if (screen->result != 3) {
-            if (func_021B6C74(args, 3) != 2) {
+            if (MONOLITH_TOOL_GetHighlightMode(args, 3) != 2) {
                 args->requestedScreen = screen->result + 1;
                 return 1;
             }
         } else {
-            if (func_021B7114(&screen->cursorBlink) == 0) {
+            if (MONOLITH_TOOL_IsBlinkActive(&screen->cursorBlink) == 0) {
                 args->requestedScreen = screen->result + 1;
                 return 1;
             }
         }
         break;
     case 3:
-        if (func_021B8434(args->work, screen) == 1) {
+        if (MONOLITH_TOOL_MENU_IsMessageDone(args->work, screen) == 1) {
             if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 3) != 0) {
-                func_021B8440(screen);
+                MONOLITH_TOOL_MENU_HideMessage(screen);
                 GFL_USE_PlaySeDefaultVolume(0x547);
                 *state = 0;
             }
@@ -2707,10 +2697,10 @@ int MONOLITH_TOOL_MENU_Destroy(void *proc, int unused, MonolithToolProcArgs *arg
     if (screen->messageText != 0) {
         STRBUF_Delete(screen->messageText);
     }
-    func_021B8270(screen);
-    func_021B82F0(screen);
-    func_021B83C0(screen);
-    func_021B833C();
+    MONOLITH_TOOL_MENU_FreeButtons(screen);
+    MONOLITH_TOOL_MENU_FreeCursor(screen);
+    MONOLITH_TOOL_MENU_FreeWindow(screen);
+    MONOLITH_TOOL_MENU_FreeBackgrounds();
     func_020315D4(proc);
     return 1;
 }
@@ -2723,12 +2713,12 @@ int MONOLITH_TOOL_MENU_Destroy(void *proc, int unused, MonolithToolProcArgs *arg
 
 
 
-void func_021B81A0(MonolithToolProcArgs *args, MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_CreateButtons(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
     unsigned i;
     unsigned kind;
 
-    func_021B6C54(args);
+    MONOLITH_TOOL_ResetHighlights(args);
     for (i = 0; i < d_021BA978[screen->kind]; i++) {
         kind = screen->kind;
         if (kind == 1) {
@@ -2740,7 +2730,7 @@ void func_021B81A0(MonolithToolProcArgs *args, MonolithToolMenu *screen)
         }
     }
     if (func_020355C4() == 0) {
-        func_021B6B98(args, &screen->button[0], d_021BA978[screen->kind], 0, 3);
+        MONOLITH_TOOL_HighlightButtonPulse(args, &screen->button[0], d_021BA978[screen->kind], 0, 3);
         screen->touchArmed = 0;
     } else {
         screen->touchArmed = 1;
@@ -2754,7 +2744,7 @@ void func_021B81A0(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 
 
 
-void func_021B8270(MonolithToolMenu *screen) { unsigned i; for(i=0;i<d_021BA978[screen->kind];i++) func_021B6B38(&screen->button[i]); }
+void MONOLITH_TOOL_MENU_FreeButtons(MonolithToolMenu *screen) { unsigned i; for(i=0;i<d_021BA978[screen->kind];i++) MONOLITH_TOOL_FreeButton(&screen->button[i]); }
 
 
 
@@ -2762,13 +2752,13 @@ void func_021B8270(MonolithToolMenu *screen) { unsigned i; for(i=0;i<d_021BA978[
 
 
 
-void func_021B82A4(MonolithToolProcArgs *args, MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_UpdateButtons(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
     unsigned i;
 
-    func_021B6C7C(args, 3);
+    MONOLITH_TOOL_UpdateHighlight(args, 3);
     for (i = 0; i < d_021BA978[screen->kind]; i++) {
-        func_021B6B70(args->work, &screen->button[i]);
+        MONOLITH_TOOL_IsButtonUploaded(args->work, &screen->button[i]);
     }
 }
 
@@ -2779,11 +2769,11 @@ void func_021B82A4(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 
 
 /*
- * Tail call to func_021B7070(word at 0x4, a + 0x34).
+ * Tail call to MONOLITH_TOOL_CreateBlink(word at 0x4, a + 0x34).
  */
-void func_021B82E4(MonolithToolProcArgs *args, MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_CreateCursor(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
-    func_021B7070(args->work, &screen->cursorBlink);
+    MONOLITH_TOOL_CreateBlink(args->work, &screen->cursorBlink);
 }
 
 
@@ -2792,9 +2782,9 @@ void func_021B82E4(MonolithToolProcArgs *args, MonolithToolMenu *screen)
 
 
 
-void func_021B82F0(MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_FreeCursor(MonolithToolMenu *screen)
 {
-    func_021B70B8(&screen->cursorBlink);
+    MONOLITH_TOOL_DeleteBlink(&screen->cursorBlink);
 }
 
 
@@ -2803,7 +2793,7 @@ void func_021B82F0(MonolithToolMenu *screen)
 
 
 
-void func_021B82FC(MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_UpdateCursor(MonolithToolMenu *screen)
 {
     MONOLITH_TOOL_UpdateBlink(&screen->cursorBlink);
 }
@@ -2815,7 +2805,7 @@ void func_021B82FC(MonolithToolMenu *screen)
 
 
 
-void func_021B8308(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021BA984,0); BG_SYS_SetTileEntry(5,0,0,0,0x20,0x20,0x11); func_02040588(5,0); }
+void MONOLITH_TOOL_MENU_InitBackgrounds(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021BA984,0); BG_SYS_SetTileEntry(5,0,0,0,0x20,0x20,0x11); func_02040588(5,0); }
 
 
 
@@ -2824,7 +2814,7 @@ void func_021B8308(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021
 
 
 
-void func_021B833C(void) { func_02040588(5, 0); func_020403F4(5); }
+void MONOLITH_TOOL_MENU_FreeBackgrounds(void) { func_02040588(5, 0); BG_SYS_FreeLayerBuf(5); }
 
 
 
@@ -2832,7 +2822,7 @@ void func_021B833C(void) { func_02040588(5, 0); func_020403F4(5); }
 
 
 
-void func_021B8350(MonolithToolMenu *screen, MonolithToolWork *work)
+void MONOLITH_TOOL_MENU_CreateWindow(MonolithToolMenu *screen, MonolithToolWork *work)
 {
 
     BMP_MENUWORK_LoadChar(5, 1, 0, 0x61);
@@ -2851,7 +2841,7 @@ void func_021B8350(MonolithToolMenu *screen, MonolithToolWork *work)
 /*
  * Tail call to BMP_WIN_Delete on the pointer loaded from offset 0x3c.
  */
-void func_021B83C0(MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_FreeWindow(MonolithToolMenu *screen)
 {
     BMP_WIN_Delete(screen->window);
 }
@@ -2861,7 +2851,7 @@ void func_021B83C0(MonolithToolMenu *screen)
 
 
 
-void func_021B83CC(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId)
+void MONOLITH_TOOL_MENU_ShowMessage(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId)
 {
     if (screen->messageBox != 0) {
         func_02034714(d_021BABF8, 0, d_021BABF8);
@@ -2880,7 +2870,7 @@ void func_021B83CC(MonolithToolMenu *screen, MonolithToolWork *work, unsigned ms
 
 
 
-int func_021B8434(MonolithToolWork *work, MonolithToolMenu *screen)
+int MONOLITH_TOOL_MENU_IsMessageDone(MonolithToolWork *work, MonolithToolMenu *screen)
 {
     return PRINTSYS_CTRL_Update((struct Blk *)work->scratchList, screen->messageBox);
 }
@@ -2890,7 +2880,7 @@ int func_021B8434(MonolithToolWork *work, MonolithToolMenu *screen)
 
 
 
-void func_021B8440(MonolithToolMenu *screen)
+void MONOLITH_TOOL_MENU_HideMessage(MonolithToolMenu *screen)
 {
     unsigned r = (unsigned)BMP_WIN_GetBmp(screen->window);
 
@@ -2922,10 +2912,10 @@ int MONOLITH_TOOL_SUMMARY_Create(struct Proc *ctx, int *state, MonolithToolProcA
     case 0:
         created = PROCSYS_AllocProcWork(ctx, sizeof(MonolithToolSummary), 0x61);
         MI_CpuFill8(created, 0, sizeof(MonolithToolSummary));
-        func_021B8650();
-        func_021B86BC(args->work);
-        func_021B86E8((int)args->work, created);
-        func_021B8764(args->work, created);
+        MONOLITH_TOOL_SUMMARY_InitBackgrounds();
+        MONOLITH_TOOL_SUMMARY_LoadGraphics(args->work);
+        MONOLITH_TOOL_SUMMARY_CreateWindows((int)args->work, created);
+        MONOLITH_TOOL_SUMMARY_CreateLabel(args->work, created);
         created->shownSlot = 0xff;
         *state = *state + 1;
         break;
@@ -2990,7 +2980,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int unused, int *state, MonolithToolProcArgs *a
     if (idleCount == 2) {
         unsigned slot = args->param->slot;
         if (screen->shownSlot != slot) {
-            func_021B8798(args, args->work, screen, (u8 *)saveData, slot);
+            MONOLITH_TOOL_SUMMARY_Draw(args, args->work, screen, (u8 *)saveData, slot);
             screen->shownSlot = args->param->slot;
         }
     }
@@ -3012,9 +3002,9 @@ int MONOLITH_TOOL_SUMMARY_Destroy(void *proc, int unused, MonolithToolProcArgs *
 {
     if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0) return 0;
     BG_SYS_SetMainVisiblePlanes(8);
-    func_021B8750(screen);
-    func_021B869C();
-    func_021B878C(screen);
+    MONOLITH_TOOL_SUMMARY_DeleteWindows(screen);
+    MONOLITH_TOOL_SUMMARY_FreeBackgrounds();
+    MONOLITH_TOOL_SUMMARY_FreeLabel(screen);
     func_020315D4(proc);
     return 1;
 }
@@ -3024,7 +3014,7 @@ int MONOLITH_TOOL_SUMMARY_Destroy(void *proc, int unused, MonolithToolProcArgs *
 
 
 
-void func_021B8650(void)
+void MONOLITH_TOOL_SUMMARY_InitBackgrounds(void)
 {
 
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)d_021BAA64, 0);
@@ -3039,20 +3029,20 @@ void func_021B8650(void)
 
 
 
-void func_021B869C(void) { func_02040588(0,0); func_02040588(2,0); func_020403F4(0); func_020403F4(2); }
+void MONOLITH_TOOL_SUMMARY_FreeBackgrounds(void) { func_02040588(0,0); func_02040588(2,0); BG_SYS_FreeLayerBuf(0); BG_SYS_FreeLayerBuf(2); }
 
 
 
 
 
 
-void func_021B86BC(MonolithToolWork *work) { func_020498F4(work->archive,12,2,0,0,1,0x61); func_020409B4(0); func_020409B4(2); }
+void MONOLITH_TOOL_SUMMARY_LoadGraphics(MonolithToolWork *work) { func_020498F4(work->archive,12,2,0,0,1,0x61); BG_SYS_PushTile(0); BG_SYS_PushTile(2); }
 
 
 
 
 
-void func_021B86E8(int unused, MonolithToolSummary *screen)
+void MONOLITH_TOOL_SUMMARY_CreateWindows(int unused, MonolithToolSummary *screen)
 {
     int i;
 
@@ -3066,7 +3056,7 @@ void func_021B86E8(int unused, MonolithToolSummary *screen)
         screen->text[i].window = screen->window[i];
         screen->text[i].on = 0;
     }
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 }
 
 
@@ -3074,14 +3064,14 @@ void func_021B86E8(int unused, MonolithToolSummary *screen)
 
 
 
-void func_021B8750(MonolithToolSummary *screen) { BMP_WIN_Delete(screen->window[0]); BMP_WIN_Delete(screen->window[1]); }
+void MONOLITH_TOOL_SUMMARY_DeleteWindows(MonolithToolSummary *screen) { BMP_WIN_Delete(screen->window[0]); BMP_WIN_Delete(screen->window[1]); }
 
 
 
 
 
 
-void func_021B8764(MonolithToolWork *work, MonolithToolSummary *screen) { MONOLITH_TOOL_CreateLabel(work, &screen->nameLabel, 1, 0x80, 0xb4, 0x1c, 2, 0x13, 0); }
+void MONOLITH_TOOL_SUMMARY_CreateLabel(MonolithToolWork *work, MonolithToolSummary *screen) { MONOLITH_TOOL_CreateLabel(work, &screen->nameLabel, 1, 0x80, 0xb4, 0x1c, 2, 0x13, 0); }
 
 
 
@@ -3090,7 +3080,7 @@ void func_021B8764(MonolithToolWork *work, MonolithToolSummary *screen) { MONOLI
 /*
  * Tail call to MONOLITH_TOOL_FreeLabel((char *)p + 0x18).
  */
-void func_021B878C(MonolithToolSummary *screen)
+void MONOLITH_TOOL_SUMMARY_FreeLabel(MonolithToolSummary *screen)
 {
     MONOLITH_TOOL_FreeLabel(&screen->nameLabel);
 }
@@ -3105,7 +3095,7 @@ void func_021B878C(MonolithToolSummary *screen)
  * first call, and `q->f8` goes through a local reassigned before each
  * draw call so it loads ahead of the nested call.
  */
-void func_021B8798(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolSummary *screen, u8 *saveData, unsigned slot)
+void MONOLITH_TOOL_SUMMARY_Draw(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolSummary *screen, u8 *saveData, unsigned slot)
 {
     void *numberText;
     u8 *src;
@@ -3161,11 +3151,11 @@ int MONOLITH_TOOL_STATS_Create(struct Proc *ctx, int *state, MonolithToolProcArg
     case 0:
         created = PROCSYS_AllocProcWork(ctx, sizeof(MonolithToolStats), 0x61);
         MI_CpuFill8(created, 0, sizeof(MonolithToolStats));
-        func_021B8A70();
-        func_021B8ADC(args->work);
-        func_021B8B08((int)args->work, created);
-        func_021B8EC4(args, created);
-        func_021B8C0C(args, args->work, created);
+        MONOLITH_TOOL_STATS_InitBackgrounds();
+        MONOLITH_TOOL_STATS_LoadGraphics(args->work);
+        MONOLITH_TOOL_STATS_CreateWindows((int)args->work, created);
+        MONOLITH_TOOL_STATS_CreateCursor(args, created);
+        MONOLITH_TOOL_STATS_Draw(args, args->work, created);
         *state = *state + 1;
         break;
     case 1:
@@ -3220,12 +3210,12 @@ int MONOLITH_TOOL_STATS_Update(int unused, int *state, MonolithToolProcArgs *arg
             }
         }
     }
-    func_021B8EDC(screen);
+    MONOLITH_TOOL_STATS_UpdateCursor(screen);
     switch (*state) {
     case 0:
         touch = KEY_GetTrg();
         if (TOUCHPANEL_HitTrg(d_021BAAA4) != -1 || (touch & 2) != 0) {
-            func_021B7108(&screen->cursorBlink);
+            MONOLITH_TOOL_StartBlink(&screen->cursorBlink);
             if (touch & 2) {
                 func_020355D8(0);
             } else {
@@ -3236,7 +3226,7 @@ int MONOLITH_TOOL_STATS_Update(int unused, int *state, MonolithToolProcArgs *arg
         }
         break;
     case 1:
-        if (func_021B7114(&screen->cursorBlink) == 0) {
+        if (MONOLITH_TOOL_IsBlinkActive(&screen->cursorBlink) == 0) {
             args->requestedScreen = 0;
             return 1;
         }
@@ -3254,9 +3244,9 @@ int MONOLITH_TOOL_STATS_Destroy(void *proc, int unused, MonolithToolProcArgs *ar
 {
     if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0) return 0;
     BG_SYS_SetSubVisiblePlanes(8);
-    func_021B8ED0(screen);
-    func_021B8BF4(screen);
-    func_021B8ABC();
+    MONOLITH_TOOL_STATS_FreeCursor(screen);
+    MONOLITH_TOOL_STATS_DeleteWindows(screen);
+    MONOLITH_TOOL_STATS_FreeBackgrounds();
     func_020315D4(proc);
     return 1;
 }
@@ -3267,7 +3257,7 @@ int MONOLITH_TOOL_STATS_Destroy(void *proc, int unused, MonolithToolProcArgs *ar
 
 
 
-void func_021B8A70(void)
+void MONOLITH_TOOL_STATS_InitBackgrounds(void)
 {
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021BAAB8, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021BAAD8, 0);
@@ -3280,22 +3270,22 @@ void func_021B8A70(void)
 
 
 
-void func_021B8ABC(void) { func_02040588(4,0); func_02040588(6,0); func_020403F4(4); func_020403F4(6); }
+void MONOLITH_TOOL_STATS_FreeBackgrounds(void) { func_02040588(4,0); func_02040588(6,0); BG_SYS_FreeLayerBuf(4); BG_SYS_FreeLayerBuf(6); }
 
 
 
 
 
 
-void func_021B8ADC(MonolithToolWork *work) { func_020498F4(work->archive,5,6,0,0,1,0x61); func_020409B4(6); func_020409B4(4); }
+void MONOLITH_TOOL_STATS_LoadGraphics(MonolithToolWork *work) { func_020498F4(work->archive,5,6,0,0,1,0x61); BG_SYS_PushTile(6); BG_SYS_PushTile(4); }
 
 
 
 
 /*
- * Six-window twin of func_021B86E8.
+ * Six-window twin of MONOLITH_TOOL_SUMMARY_CreateWindows.
  */
-void func_021B8B08(int unused, MonolithToolStats *screen)
+void MONOLITH_TOOL_STATS_CreateWindows(int unused, MonolithToolStats *screen)
 {
     int i;
 
@@ -3321,7 +3311,7 @@ void func_021B8B08(int unused, MonolithToolStats *screen)
         screen->text[i].window = screen->window[i];
         screen->text[i].on = 0;
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }
 
 
@@ -3329,7 +3319,7 @@ void func_021B8B08(int unused, MonolithToolStats *screen)
 
 
 
-void func_021B8BF4(MonolithToolStats *screen) { int i; for (i=0;i<6;i++) BMP_WIN_Delete(screen->window[i]); }
+void MONOLITH_TOOL_STATS_DeleteWindows(MonolithToolStats *screen) { int i; for (i=0;i<6;i++) BMP_WIN_Delete(screen->window[i]); }
 
 
 
@@ -3353,7 +3343,7 @@ static inline void drawText(MonolithToolWork *work, void *window, u32 x, u32 y, 
  * Each window draw is a `static inline` (drawText) whose `printSys` local gets its own
  * spill slot per inlined copy (seven slots, 0x24 down to 0xc).
  */
-void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolStats *screen)
+void MONOLITH_TOOL_STATS_Draw(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithToolStats *screen)
 {
     MonolithCounts *counts;
     s64 seconds;
@@ -3417,25 +3407,25 @@ void func_021B8C0C(MonolithToolProcArgs *args, MonolithToolWork *work, MonolithT
 
 
 /*
- * Tail call to func_021B7070(word at 0x4, a + 0x48).
+ * Tail call to MONOLITH_TOOL_CreateBlink(word at 0x4, a + 0x48).
  */
-void func_021B8EC4(MonolithToolProcArgs *args, MonolithToolStats *screen)
+void MONOLITH_TOOL_STATS_CreateCursor(MonolithToolProcArgs *args, MonolithToolStats *screen)
 {
-    func_021B7070(args->work, &screen->cursorBlink);
+    MONOLITH_TOOL_CreateBlink(args->work, &screen->cursorBlink);
 }
 
 
 
 
 /*
- * Tail call to func_021B70B8 with the pointer advanced by 0x48.  The callee
+ * Tail call to MONOLITH_TOOL_DeleteBlink with the pointer advanced by 0x48.  The callee
  * is an unlabelled leaf in this overlay; it is reproduced in
  * src/matched/ov071_func_021B70B8.c, whose EXACT entry attests this pool-word
  * site (`matched`).
  */
-void func_021B8ED0(MonolithToolStats *screen)
+void MONOLITH_TOOL_STATS_FreeCursor(MonolithToolStats *screen)
 {
-    func_021B70B8(&screen->cursorBlink);
+    MONOLITH_TOOL_DeleteBlink(&screen->cursorBlink);
 }
 
 
@@ -3444,7 +3434,7 @@ void func_021B8ED0(MonolithToolStats *screen)
 /*
  * Tail call to MONOLITH_TOOL_UpdateBlink((char *)p + 0x48).
  */
-void func_021B8EDC(MonolithToolStats *screen)
+void MONOLITH_TOOL_STATS_UpdateCursor(MonolithToolStats *screen)
 {
     MONOLITH_TOOL_UpdateBlink(&screen->cursorBlink);
 }
@@ -3469,7 +3459,7 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
         work->chosenEntry = MONOLITH_CURSOR_NONE;
         work->prevCursor = MONOLITH_CURSOR_NONE;
         work->lastCursor = MONOLITH_CURSOR_NONE;
-        func_021B6C54(args);
+        MONOLITH_TOOL_ResetHighlights(args);
         work->entryNameBank = func_02045B38(0, 2, 0xa0, 0x61);
         MONOLITH_TOOL_LIST_InitBackgrounds();
         MONOLITH_TOOL_LIST_LoadGraphics(work, args->work);
@@ -3480,7 +3470,7 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
         MONOLITH_TOOL_CreateBackButton(args, work);
         MONOLITH_TOOL_CreateScrollArrows(args, work);
         MONOLITH_TOOL_LIST_DrawTitle(args, work);
-        work->taskMenuUnit = func_021B7174((u32 *)args->work, 4, 0x61);
+        work->taskMenuUnit = MONOLITH_TOOL_CreateTaskMenuRes((u32 *)args->work, 4, 0x61);
         args->param->selected = MONOLITH_ENTRY_NONE;
         work->task = func_020056A0((void (*)(void))MONOLITH_TOOL_TaskUploadRows, work, 3);
         MONOLITH_TOOL_LIST_BuildEntryList(args, work, args->work);
@@ -3540,10 +3530,10 @@ int MONOLITH_TOOL_LIST_Main(int unused, int *state, MonolithToolProcArgs *args, 
     struct PrintSys *printSys;
 
     initial = INTRUDE_COMM_GetWorkIfRunning(ICA_ANIME_GetField24(args->setup->gameCtx));
-    func_021B6C7C(args, 1);
-    func_021B6C7C(args, 3);
+    MONOLITH_TOOL_UpdateHighlight(args, 1);
+    MONOLITH_TOOL_UpdateHighlight(args, 3);
     MONOLITH_TOOL_UpdateMarker(work);
-    func_021B9BAC(args->work, work);
+    MONOLITH_TOOL_LIST_UpdateBackButton(args->work, work);
     printSys = args->work->printSys;
     if (work->statusPending != 0 && PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->statusWindow)) == 0) {
         BMP_WIN_TransferChars(work->statusWindow);
@@ -3574,7 +3564,7 @@ int MONOLITH_TOOL_LIST_Main(int unused, int *state, MonolithToolProcArgs *args, 
         mask = KEY_GetTrg();
         active = TOUCHPANEL_HitTrg(d_021BAAFC);
         if (active == 0 || (mask & 2)) {
-            func_021B7108(&work->marker);
+            MONOLITH_TOOL_StartBlink(&work->marker);
             if (active == 0) func_020355D8(TRUE);
             else func_020355D8(FALSE);
             GFL_USE_PlaySeDefaultVolume(0x551);
@@ -3595,11 +3585,11 @@ int MONOLITH_TOOL_LIST_Main(int unused, int *state, MonolithToolProcArgs *args, 
             args->param->selected = work->entryIds[work->cursor];
             args->param->mode = work->entryDisabled[work->cursor];
             if (work->entryDisabled[work->cursor] == 0) {
-                func_021B6B58(&work->backButton, 1);
+                MONOLITH_TOOL_SetButtonVisible(&work->backButton, 1);
                 goto selected;
             }
         }
-        func_021B6B58(&work->backButton, 0);
+        MONOLITH_TOOL_SetButtonVisible(&work->backButton, 0);
 selected:
         if (work->chosenEntry != MONOLITH_CURSOR_NONE) {
             GFL_USE_PlaySeDefaultVolume(MONOLITH_SE_CONFIRM);
@@ -3607,7 +3597,7 @@ selected:
         }
         break;
     case 5:
-        if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2) {
+        if (MONOLITH_TOOL_GetHighlightMode(args, 1) != 2 && MONOLITH_TOOL_GetHighlightMode(args, 3) != 2) {
             MONOLITH_TOOL_LIST_ShowMessage(work, args->work, 0x20);
             ++*state;
         }
@@ -3615,26 +3605,26 @@ selected:
     case 6:
         if (MONOLITH_TOOL_LIST_IsMessageDone(args->work, work) == 1) {
             if (work->yesNoMenu != 0) func_02034714((const char *)d_021BABFC, 0, (const char *)d_021BABFC);
-            work->yesNoMenu = func_021B7194((int *)args->work, work->taskMenuUnit, 0x61);
+            work->yesNoMenu = MONOLITH_TOOL_OpenTaskMenu((int *)args->work, work->taskMenuUnit, 0x61);
             ++*state;
         }
         break;
     case 7:
-        if (func_021B7204(args->work, 4, work->yesNoMenu, &result) == 1) {
-            func_021B71FC(work->yesNoMenu);
+        if (MONOLITH_TOOL_UpdateTaskMenu(args->work, 4, work->yesNoMenu, &result) == 1) {
+            MONOLITH_TOOL_CloseTaskMenu(work->yesNoMenu);
             work->yesNoMenu = 0;
             MONOLITH_TOOL_LIST_HideMessage(work);
             if (result == 1) *state = 8;
             else {
                 work->chosenEntry = MONOLITH_CURSOR_NONE;
-                func_021B6C30(args, 1, 1);
-                func_021B6B98(args, &work->backButton, 1, 0xff, 3);
+                MONOLITH_TOOL_SetButtonPulse(args, 1, 1);
+                MONOLITH_TOOL_HighlightButtonPulse(args, &work->backButton, 1, 0xff, 3);
                 *state = 4;
             }
         }
         break;
     case 8:
-        if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2) {
+        if (MONOLITH_TOOL_GetHighlightMode(args, 1) != 2 && MONOLITH_TOOL_GetHighlightMode(args, 3) != 2) {
             WORDSET_SetSlotFromMsgA0(args->work->wordSet, 0, work->entryIds[work->chosenEntry]);
             MONOLITH_TOOL_LIST_ShowFormattedMessage(work, args->work, 0x23);
             *state = 9;
@@ -3685,8 +3675,8 @@ write10:
             save = ICA_ANIME_GetField24(args->setup->gameCtx);
             GAME_COMM_PushPairMessage(save, GAME_DATA_GetOwnNetId(ICA_ANIME_GetField1C(args->setup->gameCtx)), args->setup->areaId);
             work->chosenEntry = MONOLITH_CURSOR_NONE;
-            func_021B6C30(args, 1, 1);
-            func_021B6B98(args, &work->backButton, 1, 0xff, 3);
+            MONOLITH_TOOL_SetButtonPulse(args, 1, 1);
+            MONOLITH_TOOL_HighlightButtonPulse(args, &work->backButton, 1, 0xff, 3);
             if (TOUCHPANEL_GetTrg() != 0) *state = 16;
             else *state = 17;
         }
@@ -3695,7 +3685,7 @@ write10:
         if (TOUCHPANEL_GetCont() == 0) *state = 17;
         break;
     case 17:
-        if (func_021B6C74(args, 1) != 2 && func_021B6C74(args, 3) != 2 && func_021B7114(&work->marker) == 0) {
+        if (MONOLITH_TOOL_GetHighlightMode(args, 1) != 2 && MONOLITH_TOOL_GetHighlightMode(args, 3) != 2 && MONOLITH_TOOL_IsBlinkActive(&work->marker) == 0) {
             args->requestedScreen = 0;
             return 1;
         }
@@ -3723,9 +3713,9 @@ int MONOLITH_TOOL_LIST_Exit(void *proc, void *unused, MonolithToolProcArgs *args
         STRBUF_Delete(work->messageText);
     MONOLITH_TOOL_LIST_FreeEntryBitmaps(work);
     if (work->yesNoMenu != 0)
-        func_021B71FC(work->yesNoMenu);
-    func_021B718C(work->taskMenuUnit);
-    func_021B9BA0(work);
+        MONOLITH_TOOL_CloseTaskMenu(work->yesNoMenu);
+    MONOLITH_TOOL_DeleteTaskMenuRes(work->taskMenuUnit);
+    MONOLITH_TOOL_LIST_FreeBackButton(work);
     MONOLITH_TOOL_DeleteRowGrids(work);
     MONOLITH_TOOL_DeleteMarker(work);
     MONOLITH_TOOL_DeleteScrollArrows(work);
@@ -3758,7 +3748,7 @@ void MONOLITH_TOOL_LIST_InitBackgrounds(void)
 
 
 
-void MONOLITH_TOOL_LIST_FreeBackgrounds(void) { func_02040588(4,0); func_02040588(5,0); func_02040588(6,0); func_020403F4(4); func_020403F4(5); func_020403F4(6); }
+void MONOLITH_TOOL_LIST_FreeBackgrounds(void) { func_02040588(4,0); func_02040588(5,0); func_02040588(6,0); BG_SYS_FreeLayerBuf(4); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(6); }
 
 
 
@@ -3778,8 +3768,8 @@ void MONOLITH_TOOL_LIST_LoadGraphics(MonolithListWork *work, MonolithToolWork *t
     func_02049658(res, 0x1c, 5, work->bgCharOffset, 0x80, 0, 0x61);
     APP_ICON_LoadTouchBar(res, 5, 0x61, work->bgCharOffset, 0xc);
     ARC_TOOL_DeleteHandle(res);
-    func_020409B4(5);
-    func_020409B4(6);
+    BG_SYS_PushTile(5);
+    BG_SYS_PushTile(6);
 }
 
 
@@ -3803,7 +3793,7 @@ void MONOLITH_TOOL_LIST_InitWindows(MonolithListWork *work, MonolithToolWork *to
     BMP_Clear(BMP_WIN_GetBmp(work->messageWindow), 0xff);
     work->titleWindow = BMP_WIN_Create(4, 0, 0, 0x20, 3, 0xd, 1);
     BMP_WIN_MakeScreen(work->titleWindow);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     work->statusWindow = work->titleWindow;
     work->statusPending = 0;
 }
@@ -3913,7 +3903,7 @@ void MONOLITH_TOOL_LIST_FitBackground(MonolithListWork *work)
     if (count - 2 < 7) {
         offset = (count - 1) * 32 / 8;
         BG_SYS_SetTileEntry(6, 0, 0, (u8)offset, 0x20, 0x20 - offset, 0x11);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
     }
 }
 
@@ -4014,27 +4004,27 @@ void MONOLITH_TOOL_CreateBackButton(MonolithToolProcArgs *args, MonolithListWork
 {
     MONOLITH_TOOL_CreateButton(args->work, &work->backButton, 1, 2, 0x40, 0xb4, 0x24, 0);
     if (func_020355C4() == 1)
-        func_021B6B58(&work->backButton, 0);
+        MONOLITH_TOOL_SetButtonVisible(&work->backButton, 0);
 }
 
-void func_021B9BA0(MonolithListWork *work)
+void MONOLITH_TOOL_LIST_FreeBackButton(MonolithListWork *work)
 {
-    func_021B6B38(&work->backButton);
+    MONOLITH_TOOL_FreeButton(&work->backButton);
 }
 
-void func_021B9BAC(MonolithToolWork *toolWork, MonolithListWork *work)
+void MONOLITH_TOOL_LIST_UpdateBackButton(MonolithToolWork *toolWork, MonolithListWork *work)
 {
-    func_021B6B70(toolWork, &work->backButton);
+    MONOLITH_TOOL_IsButtonUploaded(toolWork, &work->backButton);
 }
 
 void MONOLITH_TOOL_CreateMarker(MonolithToolProcArgs *args, MonolithListWork *work)
 {
-    func_021B7070(args->work, &work->marker);
+    MONOLITH_TOOL_CreateBlink(args->work, &work->marker);
 }
 
 void MONOLITH_TOOL_DeleteMarker(MonolithListWork *work)
 {
-    func_021B70B8(&work->marker);
+    MONOLITH_TOOL_DeleteBlink(&work->marker);
 }
 
 void MONOLITH_TOOL_UpdateMarker(MonolithListWork *work)
@@ -4044,16 +4034,16 @@ void MONOLITH_TOOL_UpdateMarker(MonolithListWork *work)
 
 void MONOLITH_TOOL_CreateScrollArrows(MonolithToolProcArgs *args, MonolithListWork *work)
 {
-    work->scrollUpArrow = func_021B7118(args->work, 0x80, 0x1c, 9);
-    work->scrollDownArrow = func_021B7118(args->work, 0x80, 0xa4, 10);
+    work->scrollUpArrow = MONOLITH_TOOL_CreateActorAt(args->work, 0x80, 0x1c, 9);
+    work->scrollDownArrow = MONOLITH_TOOL_CreateActorAt(args->work, 0x80, 0xa4, 10);
     CLACT_SetActorDrawEnable(work->scrollUpArrow, 0);
     CLACT_SetActorDrawEnable(work->scrollDownArrow, 0);
 }
 
 void MONOLITH_TOOL_DeleteScrollArrows(MonolithListWork *work)
 {
-    func_021B7168(work->scrollUpArrow);
-    func_021B7168(work->scrollDownArrow);
+    MONOLITH_TOOL_DeleteActorAt(work->scrollUpArrow);
+    MONOLITH_TOOL_DeleteActorAt(work->scrollDownArrow);
 }
 
 void MONOLITH_TOOL_UpdateScrollArrows(MonolithListWork *work)
@@ -4066,8 +4056,8 @@ void MONOLITH_TOOL_UpdateScrollArrows(MonolithListWork *work)
         CLACT_SetActorDrawEnable(work->scrollDownArrow, 0);
     else
         CLACT_SetActorDrawEnable(work->scrollDownArrow, 1);
-    func_021B7170(work->scrollUpArrow);
-    func_021B7170(work->scrollDownArrow);
+    MONOLITH_TOOL_Noop(work->scrollUpArrow);
+    MONOLITH_TOOL_Noop(work->scrollDownArrow);
 }
 
 /*
@@ -4254,12 +4244,12 @@ void MONOLITH_TOOL_SetRowHighlight(MonolithListWork *work, int index, int palett
 /*
  * Two thunks passing a constant third argument.
  */
-void func_021B9FEC(MonolithListWork *work, int index)
+void MONOLITH_TOOL_SetRowHighlightSelected(MonolithListWork *work, int index)
 {
     MONOLITH_TOOL_SetRowHighlight(work, index, 3);
 }
 
-void func_021B9FF8(MonolithListWork *work, int index)
+void MONOLITH_TOOL_SetRowHighlightNormal(MonolithListWork *work, int index)
 {
     MONOLITH_TOOL_SetRowHighlight(work, index, 0);
 }
@@ -4267,7 +4257,7 @@ void func_021B9FF8(MonolithListWork *work, int index)
 void MONOLITH_TOOL_ClearPrevHighlight(MonolithListWork *work)
 {
     if (work->cursorChanged == 1)
-        func_021B9FF8(work, work->prevCursor);
+        MONOLITH_TOOL_SetRowHighlightNormal(work, work->prevCursor);
 }
 
 void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWork *work)
@@ -4276,10 +4266,10 @@ void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWor
     int inputMode;
 
     if (work->cursorChanged == 1) {
-        func_021B9FEC(work, work->cursor);
+        MONOLITH_TOOL_SetRowHighlightSelected(work, work->cursor);
         cursor = work->cursor;
         if (cursor == MONOLITH_CURSOR_NONE) {
-            func_021B6C30(args, 0, 1);
+            MONOLITH_TOOL_SetButtonPulse(args, 0, 1);
         } else {
             inputMode = work->inputMode;
             if ((inputMode == MONOLITH_INPUT_TOUCH && cursor == work->lastCursor)
@@ -4287,15 +4277,15 @@ void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWor
                 if (work->entryDisabled[cursor] == 0) {
                     work->chosenEntry = cursor;
                     if (work->inputMode == MONOLITH_INPUT_KEY) {
-                        func_021B6C48(args, 1);
+                        MONOLITH_TOOL_SetButtonFlash(args, 1);
                     } else {
-                        func_021B6BEC(args, &work->backButton, 1, 0, 3);
+                        MONOLITH_TOOL_HighlightButtonFlash(args, &work->backButton, 1, 0, 3);
                     }
                 } else if (inputMode == MONOLITH_INPUT_TOUCH) {
-                    func_021B6C30(args, 1, 1);
+                    MONOLITH_TOOL_SetButtonPulse(args, 1, 1);
                 }
             } else {
-                func_021B6C30(args, 1, 1);
+                MONOLITH_TOOL_SetButtonPulse(args, 1, 1);
             }
         }
         func_02041B6C(6);
@@ -4467,15 +4457,15 @@ void MONOLITH_TOOL_HideInfoBgs(void)
 {
     func_02040588(0, 0);
     func_02040588(2, 0);
-    func_020403F4(0);
-    func_020403F4(2);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(2);
 }
 
 void MONOLITH_TOOL_LoadInfoPalette(MonolithToolWork *toolWork)
 {
     func_020498F4(toolWork->archive, 13, 2, 0, 0, 1, 0x61);
-    func_020409B4(0);
-    func_020409B4(2);
+    BG_SYS_PushTile(0);
+    BG_SYS_PushTile(2);
 }
 
 void MONOLITH_TOOL_CreateInfoWindows(MonolithToolWork *toolWork, MonolithInfoWork *work)
@@ -4495,7 +4485,7 @@ void MONOLITH_TOOL_CreateInfoWindows(MonolithToolWork *toolWork, MonolithInfoWor
         work->slots[i].window = work->windows[i];
         work->slots[i].pending = 0;
     }
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 }
 
 void MONOLITH_TOOL_DeleteInfoWindows(MonolithInfoWork *work)

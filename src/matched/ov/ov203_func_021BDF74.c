@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF74
+ * function: DEMO3D_GRAPHIC_SetLightSlot
  * address: 0x021BDF74
  * packet: pkt_ov203_021BDF74
  * region: ov203
@@ -18,4 +18,4 @@
  */
 struct LightSlot;
 extern void G3D_LIGHT_SetSlotFlags(struct LightSlot *,unsigned,unsigned short *);
-void func_021BDF74(char *p,unsigned i,unsigned short val){G3D_LIGHT_SetSlotFlags(*(struct LightSlot **)(p+12),i,&val);}
+void DEMO3D_GRAPHIC_SetLightSlot(char *p,unsigned i,unsigned short val){G3D_LIGHT_SetSlotFlags(*(struct LightSlot **)(p+12),i,&val);}

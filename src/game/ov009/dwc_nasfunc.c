@@ -14,9 +14,9 @@
  *   RTC_GetDateTime  0x020889C0  arm
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
- *   g_021AA834     0x021AA834  data
- *   g_021AA838     0x021AA838  data
- *   g_021AA840     0x021AA840  data
+ *   gDwcNasTimeDiff     0x021AA834  data
+ *   gDwcNasTimeBase     0x021AA838  data
+ *   gDwcNasTimeOffset     0x021AA840  data
  *   DWC_Auth_GetId  0x02058FB4  arm
  *   DWC_Svl_Init  0x0217C070  arm  ov009
  *   strlen  0x0209477C  arm
@@ -24,15 +24,15 @@
  *   DWC_Svl_Cleanup  0x0217C104  arm  ov009
  *   DWC_Alloc      0x0205A16C  arm
  *   DWC_Free       0x0205A1B0  arm
- *   g_021A1F6C     0x021A1F6C  data
+ *   gDwcNasTokenInitial     0x021A1F6C  data
  *   DWC_Svl_Process  0x0217C384  arm  ov009
  *   OS_Terminate   0x02088234  arm
  *   DWCi_SetError  0x02059F54  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   DWC_Auth_Create  0x02177EE8  arm  ov009
- *   g_021AA830     0x021AA830  data
- *   g_021A1F74     0x021A1F74  data
+ *   gDwcNasCnt     0x021AA830  data
+ *   gDwcNasInitialId     0x021A1F74  data
  *   DWC_Auth_GetError  0x021781DC  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   DWC_Auth_GetResult  0x02178224  arm  ov009
@@ -103,12 +103,12 @@ extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
 extern int DWC_Auth_GetError(void);
 extern void DWC_Auth_GetResult(int *result);
 extern void DWC_Auth_Destroy(void);
-extern NasTimeDiff g_021AA834;
-extern long long g_021AA838;
-extern long long g_021AA840;
-extern char g_021A1F6C[];
-extern char g_021A1F74[];
-extern NalCnt *g_021AA830;
+extern NasTimeDiff gDwcNasTimeDiff;
+extern long long gDwcNasTimeBase;
+extern long long gDwcNasTimeOffset;
+extern char gDwcNasTokenInitial[];
+extern char gDwcNasInitialId[];
+extern NalCnt *gDwcNasCnt;
 int DWC_GetDateTime(void *date, void *time);
 int DWC_SVLGetTokenAsync(char *svl, void *result);
 int DWC_SVLProcess(void);
@@ -122,16 +122,16 @@ int DWC_GetDateTime(void *date, void *time)
 {
     long long localsec;
 
-    if ((*(int *)&g_021AA834) == 0)
+    if ((*(int *)&gDwcNasTimeDiff) == 0)
         return 0;
     if (RTC_GetDateTime(date, time) != 0)
         return 0;
     localsec = RTC_ConvertDateTimeToSecond(date, time);
     if (localsec == -1LL)
         return 0;
-    if (localsec < g_021AA838)
+    if (localsec < gDwcNasTimeBase)
         localsec += 3155760000LL;
-    localsec -= g_021AA840;
+    localsec -= gDwcNasTimeOffset;
     if (localsec < 0 || localsec > 3155759999LL)
         return 0;
     RTC_ConvertSecondToDateTime(date, time, localsec);
@@ -154,7 +154,7 @@ int DWC_SVLGetTokenAsync(char *svl, void *result)
     if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
         return 0;
     if (strlen((const u8 *)svl) == 0)
-        flag = DWC_Svl_GetTokenAsync(g_021A1F6C, result);
+        flag = DWC_Svl_GetTokenAsync(gDwcNasTokenInitial, result);
     else
         flag = DWC_Svl_GetTokenAsync(svl, result);
     if (flag != 0)
@@ -180,18 +180,18 @@ int DWC_SVLProcess(void)
  */
 int DWC_NASLoginAsync(void)
 {
-    if (g_021AA830 != 0)
+    if (gDwcNasCnt != 0)
         OS_Terminate();
-    g_021AA830 = DWC_Alloc(4, 0x1E5C);
-    if (g_021AA830 == 0) {
+    gDwcNasCnt = DWC_Alloc(4, 0x1E5C);
+    if (gDwcNasCnt == 0) {
         DWCi_SetError(9, -20100);
         return 0;
     }
-    MI_CpuFill8(g_021AA830, 0, 0x1E5C);
-    MI_CpuCopy8(g_021A1F74, g_021AA830->id, 9);
-    g_021AA830->alloc = DWC_Alloc;
-    g_021AA830->free = DWC_Free;
-    DWC_Auth_Create((struct DWCAuthParam *)g_021AA830->auth, g_021AA830);
+    MI_CpuFill8(gDwcNasCnt, 0, 0x1E5C);
+    MI_CpuCopy8(gDwcNasInitialId, gDwcNasCnt->id, 9);
+    gDwcNasCnt->alloc = DWC_Alloc;
+    gDwcNasCnt->free = DWC_Free;
+    DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, gDwcNasCnt);
     return 1;
 }
 
@@ -203,7 +203,7 @@ int DWC_NASLoginProcess(void)
 {
     AuthResult result;
 
-    if (g_021AA830 == 0)
+    if (gDwcNasCnt == 0)
         return 0;
     switch (DWC_Auth_GetError()) {
     case 0:
@@ -213,22 +213,22 @@ int DWC_NASLoginProcess(void)
         DWC_Auth_GetResult((int *)(&result));
         DWC_Auth_Destroy();
         if (result.returncode == 20002) {
-            DWC_Auth_Create((struct DWCAuthParam *)g_021AA830->auth, g_021AA830->http);
+            DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, gDwcNasCnt->http);
             return 2;
         }
-        DWC_Free(4, g_021AA830, 7772);
-        g_021AA830 = 0;
+        DWC_Free(4, gDwcNasCnt, 7772);
+        gDwcNasCnt = 0;
         return 3;
     case 0x14:
         DWC_Auth_Destroy();
-        DWC_Free(4, g_021AA830, 7772);
-        g_021AA830 = 0;
+        DWC_Free(4, gDwcNasCnt, 7772);
+        gDwcNasCnt = 0;
         return 5;
     default:
         DWC_Auth_GetResult((int *)(&result));
         DWC_Auth_Destroy();
-        DWC_Free(4, g_021AA830, 7772);
-        g_021AA830 = 0;
+        DWC_Free(4, gDwcNasCnt, 7772);
+        gDwcNasCnt = 0;
         DWCi_SetError(2, result.returncode);
         return 4;
     }

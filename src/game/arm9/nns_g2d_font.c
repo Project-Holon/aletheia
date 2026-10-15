@@ -175,32 +175,32 @@ struct Surface {
     int   stride; /* +0x10 */
 };
 
-struct Surface_02068AE8 {
-    char *base;   /* +0x00 */
-    int   w;      /* +0x04 */
-    int   h;      /* +0x08 */
-    u8    bpp;    /* +0x0C */
-    int   f10;    /* +0x10 stride in tiles */
+struct SurfaceTiled {
+    char *base;        /* +0x00 */
+    int   w;           /* +0x04 */
+    int   h;           /* +0x08 */
+    u8    bpp;         /* +0x0C */
+    int   strideTiles; /* +0x10 characters per row, in tiles */
 };
 
-struct Swz { u32 x : 8; u32 y : 8; u32 rest : 16; };
+struct SurfaceSwzBase { u32 x : 8; u32 y : 8; u32 rest : 16; };
 
-struct Surface_02068C84 {
-    char *base;   /* +0x00 */
-    int   w;      /* +0x04 */
-    int   h;      /* +0x08 */
-    u8    bpp;    /* +0x0C */
-    struct Swz f10; /* +0x10 */
+struct SurfaceSwizzled {
+    char *base;                /* +0x00 */
+    int   w;                   /* +0x04 */
+    int   h;                   /* +0x08 */
+    u8    bpp;                 /* +0x0C */
+    struct SurfaceSwzBase swz; /* +0x10 base tile coordinate */
 };
 
 struct Pen {
-    void *f00;
-    int  f04;
-    int  f08;
-    u8   f0c;
+    void *charBase;     /* +0x00 */
+    int  areaWidth;     /* +0x04 */
+    int  areaHeight;    /* +0x08 */
+    u8   dstBpp;        /* +0x0C */
     u8   pad0d[3];
-    int  f10;
-    const void *f14;
+    int  param;         /* +0x10 */
+    const void *vtable; /* +0x14 */
 };
 
 struct Ctx { u8 pad[0x14]; void **vt; };
@@ -302,8 +302,8 @@ void NNSi_G2dCharCanvasDrawText(const NNSG2dCharCanvas * pCC, const NNSG2dFont *
 void NNSi_G2dCharCanvasDrawTextForVRAM(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph);
 void NNSi_G2dSurfaceFill(struct Surface *s, u32 arg);
 void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg);
-void NNSi_G2dSurfaceFillRect(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int h);
-void NNSi_G2dSurfaceFillRectSwizzled(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int h);
+void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int w, int h);
+void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h);
 void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7);
 s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int a6, u16 code);
 void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
@@ -1323,7 +1323,7 @@ void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg)
  *     permuter's reorder(+2) from the old order reached 412/72, and only
  *     xe-ye-first orders are exact).
  */
-void NNSi_G2dSurfaceFillRect(struct Surface_02068AE8 *s, u32 arg, int x, int y, int w, int h)
+void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int w, int h)
 {
     int cy;
     int x1;
@@ -1350,8 +1350,8 @@ void NNSi_G2dSurfaceFillRect(struct Surface_02068AE8 *s, u32 arg, int x, int y, 
     x0 = x & ~7;
     xe = (x1 + 7) & ~7;
     ye = (y1 + 7) & ~7;
-    row = s->base + tilesz * ((cy / 8) * s->f10 + (x0 / 8));
-    rowadv = s->f10 * tilesz;
+    row = s->base + tilesz * ((cy / 8) * s->strideTiles + (x0 / 8));
+    rowadv = s->strideTiles * tilesz;
     if (cy >= ye)
         return;
     do {
@@ -1404,9 +1404,9 @@ void NNSi_G2dSurfaceFillRect(struct Surface_02068AE8 *s, u32 arg, int x, int y, 
  *     re-read is the reading kept.)  The permuter (hill 800 + anneal 2000,
  *     --types) never moved this residue.
  */
-void NNSi_G2dSurfaceFillRectSwizzled(struct Surface_02068C84 *s, u32 arg, int x, int y, int w, int h)
+void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h)
 {
-    struct Swz f10;
+    struct SurfaceSwzBase f10;
     int cy;
     int x1;
     int y1;
@@ -1436,7 +1436,7 @@ void NNSi_G2dSurfaceFillRectSwizzled(struct Surface_02068C84 *s, u32 arg, int x,
     ye = (y1 + 7) & ~7;
     tilesz = (s->bpp << 6) / 8;
     tx0 = x0 / 8;
-    f10 = s->f10;
+    f10 = s->swz;
     ty = cy / 8;
     xe = (x1 + 7) & ~7;
     sw = s->w;
@@ -1529,12 +1529,12 @@ void NNSi_G2dSurfaceFillRectSwizzled(struct Surface_02068C84 *s, u32 arg, int x,
  */
 void NNSi_G2dInitPen(struct Pen *p, void *a1, int a2, int a3, int a5, const void *a6, int a7)
 {
-    p->f04 = a2;
-    p->f08 = a3;
-    p->f0c = (u8)a5;
-    p->f00 = a1;
-    p->f14 = a6;
-    p->f10 = a7;
+    p->areaWidth = a2;
+    p->areaHeight = a3;
+    p->dstBpp = (u8)a5;
+    p->charBase = a1;
+    p->vtable = a6;
+    p->param = a7;
 }
 
 

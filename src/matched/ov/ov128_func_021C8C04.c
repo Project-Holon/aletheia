@@ -21,9 +21,9 @@
  *   Wf2dmapFriend_SetState 0x021C6438 thumb ov128
  *   Wf2dmapFriend_CopyText 0x021C6440 thumb ov128
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
- *   id67 0x00000043 data
- *   id194 0x000000C2 data
- *   id129 0x00000081 data
+ *   gWf2dmapTouchbarOverlayId 0x00000043 data
+ *   gWf2dmapNameEntryOverlayId 0x000000C2 data
+ *   gWf2dmapNameInOverlayId 0x00000081 data
  *   gNameInProcData 0x021F5580 data ov194 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   CODEIN_PARAM_Create  0x0202E4EC  thumb  arm9
@@ -57,26 +57,26 @@ extern void Wf2dmapFriend_Setup(char *p, int heap);
 extern void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
 extern void Wf2dmapFriend_CopyText(u8 *p, void *a, void *b);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
-extern char id67[], id194[], id129[];
+extern char gWf2dmapTouchbarOverlayId[], gWf2dmapNameEntryOverlayId[], gWf2dmapNameInOverlayId[];
 extern char gNameInProcData[], d_021DA62C[];
 int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, int heap)
 {
     u32 sizes[3];
     switch (b[8]) {
     case 0:
-        func_02034A5C((u32)id67);
+        func_02034A5C((u32)gWf2dmapTouchbarOverlayId);
         p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 1, heap);
         sizes[0] = 4; sizes[1] = 4; sizes[2] = 4;
         p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
         Wf2dmapFriend_Teardown(a);
         p[0] = PROCSYS_Create(heap);
-        PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
+        PROCSYS_Push(p[0], (u32)gWf2dmapNameEntryOverlayId, gNameInProcData, p[1]);
         b[8] = 1;
         break;
     case 1:
         if (PROCSYS_Main(p[0]) == 0) {
             if (((struct Obj23097 *)((u8 *)p[1]))->f1C == 0) {
-                PROCSYS_Push(p[0], (u32)id129, d_021DA62C, p[2]);
+                PROCSYS_Push(p[0], (u32)gWf2dmapNameInOverlayId, d_021DA62C, p[2]);
                 b[8] = 2;
             } else {
                 func_0203133C(p[0]);
@@ -96,15 +96,15 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, int heap)
     case 3:
         NAMEIN_SETUP_FreeArgs((int)p[1]);
         func_0202E54C(p[2]);
-        func_02034AC4((u32)id67);
+        func_02034AC4((u32)gWf2dmapTouchbarOverlayId);
         Wf2dmapFriend_Setup((char *)a, heap);
         return 1;
     case 4:
-        func_02034A5C((u32)id67);
+        func_02034A5C((u32)gWf2dmapTouchbarOverlayId);
         p[1] = WF2DMAP_TOUCH_CreateNameEntry(p, (char *)b, 0, heap);
         Wf2dmapFriend_Teardown(a);
         p[0] = PROCSYS_Create(heap);
-        PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
+        PROCSYS_Push(p[0], (u32)gWf2dmapNameEntryOverlayId, gNameInProcData, p[1]);
         b[8] = 5;
         break;
     case 5:
@@ -123,7 +123,7 @@ int Wf2dmapFriend_NameEntryMain(void **p, u8 *a, u8 *b, void *unused, int heap)
         break;
     case 6:
         NAMEIN_SETUP_FreeArgs((int)p[1]);
-        func_02034AC4((u32)id67);
+        func_02034AC4((u32)gWf2dmapTouchbarOverlayId);
         Wf2dmapFriend_Setup((char *)a, heap);
         return 1;
     }

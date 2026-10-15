@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B718C",
+   "name": "MONOLITH_TOOL_DeleteTaskMenuRes",
    "address": "0x021B718C",
    "kind": "game",
    "region": "ov071",

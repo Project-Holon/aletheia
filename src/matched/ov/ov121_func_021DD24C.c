@@ -1,5 +1,5 @@
 /*
- * function: func_021DD24C
+ * function: MYSTERY_ALBUM_CreateAlbumView
  * address: 0x021DD24C
  * packet: pkt_ov121_021DD24C
  * region: ov121
@@ -25,16 +25,16 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021DBDF4 0x021DBDF4 thumb ov121
+ *   MYSTERY_ALBUM_SetupEntry 0x021DBDF4 thumb ov121
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   func_021DA338 0x021DA338 thumb ov121
- *   func_021DA3EC 0x021DA3EC thumb ov121
- *   func_021DC024 0x021DC024 thumb ov121
+ *   MYSTERY_UTIL_CreateBmpList 0x021DA338 thumb ov121
+ *   MYSTERY_UTIL_DrawBmpList 0x021DA3EC thumb ov121
+ *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
  *   func_020056EC 0x020056EC thumb
  *   func_02012944 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
@@ -173,7 +173,7 @@ extern void *gMsgBank;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, int);
-extern void func_021DBDF4(void *out, const Record *src, void *p, u16 heap);
+extern void MYSTERY_ALBUM_SetupEntry(void *out, const Record *src, void *p, u16 heap);
 struct Mon;
 struct MsgBank;
 struct Strbuf;
@@ -186,9 +186,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void *func_021DA338(char *p, u16 heap);
-extern void func_021DA3EC(char *p, char *desc, void *dst);
-extern int func_021DC024(void *p);
+extern void *MYSTERY_UTIL_CreateBmpList(char *p, u16 heap);
+extern void MYSTERY_UTIL_DrawBmpList(char *p, char *desc, void *dst);
+extern int MYSTERY_ALBUM_GetEntryKind(void *p);
 extern u32 func_020056EC(u32 range);
 extern u8 *func_02012944(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -217,7 +217,7 @@ extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 extern void ARC_TOOL_DeleteHandle(void *p);
 
-struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
+struct Out *MYSTERY_ALBUM_CreateAlbumView(Record *a, struct CtxB *b, void *c, u16 heap)
 {
     struct Out *out;
     struct Ctx ctx;
@@ -256,7 +256,7 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
     ctx.f18 = b->fCC;
     ctx.f1C = b->fC0;
     ctx.f20 = (u32)c;
-    func_021DBDF4(out, a, &ctx, heap);
+    MYSTERY_ALBUM_SetupEntry(out, a, &ctx, heap);
     desc = d_021DFA14;
     id16 = (heap & 0x7fff) | 0x8000;
     desc.e[1].f8 = STRBUF_Create(0x25, (u16)id16);
@@ -274,13 +274,13 @@ struct Out *func_021DD24C(Record *a, struct CtxB *b, void *c, u16 heap)
     WORDSET_SetSlotNumber((void *)b->fCC, 1, (u8)(flags >> 8), 2, 0, 1);
     WORDSET_SetSlotNumber((void *)b->fCC, 2, (u8)flags, 2, 0, 1);
     WORDSET_CopyTaggedText((void *)b->fCC, desc.e[4].f8, t4);
-    out->f144 = func_021DA338(*(void **)b, heap);
-    func_021DA3EC(out->f144, (char *)(&desc), (void *)b->fC8);
+    out->f144 = MYSTERY_UTIL_CreateBmpList(*(void **)b, heap);
+    MYSTERY_UTIL_DrawBmpList(out->f144, (char *)(&desc), (void *)b->fC8);
     STRBUF_Delete(desc.e[1].f8);
     STRBUF_Delete(desc.e[2].f8);
     STRBUF_Delete(desc.e[4].f8);
     STRBUF_Delete(t4);
-    if (func_021DC024(out) == 1) {
+    if (MYSTERY_ALBUM_GetEntryKind(out) == 1) {
         struct Rec *r = out->a;
         u16 mv[4];
         u8 iv[6];

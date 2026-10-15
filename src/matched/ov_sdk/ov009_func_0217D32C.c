@@ -14,12 +14,12 @@
  * symbols:
  *   HexEncode16                  0x0217D280  arm ov009
  *   gsDebugFormat                  0x0217D254  arm ov009
- *   g_021A3718                     0x021A3718  data
+ *   gGsDebugMsgFmt                     0x021A3718  data
  */
 
 extern void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern char g_021A3718[];
+extern char gGsDebugMsgFmt[];
 
 void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength)
 {
@@ -35,7 +35,7 @@ void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuf
         if (n >= 16)
             n = 16;
         HexEncode16(aReadPos, aHexStr, n);
-        gsDebugFormat(theCat, (char *)theType, theLevel, g_021A3718, aHexStr);
+        gsDebugFormat(theCat, (char *)theType, theLevel, gGsDebugMsgFmt, aHexStr);
         aBytesLeft -= n;
         aReadPos += n;
     }

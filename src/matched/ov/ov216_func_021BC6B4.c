@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6B4
+ * function: BEACON_DETAIL_GRA_DeleteDetailActors
  * address:  0x021BC6B4
  * packet:   pkt_021BC6B4
  * region:   ov216
@@ -25,7 +25,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021BC6B4(struct S021BC6B4 *p)
+void BEACON_DETAIL_GRA_DeleteDetailActors(struct S021BC6B4 *p)
 {
     int i;
     for (i = 0; i < 2; i++)

@@ -32,7 +32,7 @@
  *   TCBL_Create 0x0203101C arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056A0 0x020056A0 thumb
@@ -93,7 +93,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_02049F78 0x02049F78 arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -109,7 +109,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -182,11 +182,11 @@ typedef void (*Cb)(void);
 
 struct State { u32 enable; u32 index; int counter; u32 spare; u8 *object; };
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 
 extern u32 func_020307B0(void *p);
 
@@ -206,7 +206,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 
 extern void BG_SYS_Create(u16);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -356,7 +356,7 @@ extern const u32 gGuru2LobbyVramBanks[];
  * TCBL_Create 0x0203101C arm
  * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
- * GF_FONT_Create_EC64 0x0201EC64 thumb
+ * WORDSET_CreateDefault 0x0201EC64 thumb
  * GF_FONT_Create 0x0201D7EC thumb
  * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
@@ -387,7 +387,7 @@ int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
         BG_SYS_Create(114);
-        *(void **)(p+60)=GF_FONT_Create_EC64(114);
+        *(void **)(p+60)=WORDSET_CreateDefault(114);
         *(void **)(p+64)=func_02045B38(0,2,42,114);
         *(void **)(p+56)=GF_FONT_Create(23,0,0,0,114);
         GURU2_RECEIPT_SetVramBanks(); GURU2_RECEIPT_InitBg();
@@ -586,7 +586,7 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 
 extern void BG_SYS_Delete(void);
 
@@ -660,7 +660,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 
@@ -893,7 +893,7 @@ void GURU2_RECEIPT_InitStrings(u8 *p,void *q)
 
 void GURU2_RECEIPT_FreeStrings(u8 *p) {int i;GURU2_RECEIPT_FreeCharBuffer(p);func_020307B0(((struct Guru2MainCtx *)p)->f24);for(i=0;i<5;i++)STRBUF_Delete(*(void **)((u32)p+i*4+68));STRBUF_Delete(((struct Guru2MainCtx *)p)->f60);STRBUF_Delete(((struct Guru2MainCtx *)p)->f5C);}
 
-void GURU2_RECEIPT_ExitBg(u32 a0) {func_020403F4(6);func_020403F4(5);func_020403F4(4);func_020403F4(1);func_020403F4(0);BG_SYS_Delete();}
+void GURU2_RECEIPT_ExitBg(u32 a0) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(4);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(0);BG_SYS_Delete();}
 
 /*
  * single-function C below is EXACT (52 bytes) at fixed flags, blocker49624.log.
@@ -1024,7 +1024,7 @@ void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font) {
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p), (208-width)/2, 1, text, font, 0x480);
     BMP_WIN_TransferChars(p);
     BMP_WIN_MakeScreen(p);
-    func_020409B4((u32)BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile((u32)BMP_WIN_GetBgLayer(p));
 }
 
 void GURU2_RECEIPT_DeleteWindows(u8 *p) {if(((struct Guru2MainCtx *)p)->fE8!=0)BMP_MENU_DeleteYesNo(((struct Guru2MainCtx *)p)->fE8);BMP_WIN_Delete(((struct Guru2MainCtx *)p)->fD0);BMP_WIN_Delete(((struct Guru2MainCtx *)p)->fDC);BMP_WIN_Delete(((struct Guru2MainCtx *)p)->fD8);BMP_WIN_Delete(((struct Guru2MainCtx *)p)->fD4);BMP_WIN_Exit();}
@@ -1433,7 +1433,7 @@ int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,Context *p) 
     }
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
     return 1;
 }
 
@@ -1495,7 +1495,7 @@ void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     window = ((struct Guru2MainCtx *)p)->fD4;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }
 
 int GURU2_RECEIPT_IsMessageDone(char *p) {

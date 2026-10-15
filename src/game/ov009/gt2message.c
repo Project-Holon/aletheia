@@ -54,7 +54,7 @@
  *   gti2DumpCallback  0x02195408  arm  ov009
  *   gti2UnrecognizedMessageCallback  0x021954F4  arm  ov009
  *   func_021955C0  0x021955C0  arm  ov009
- *   g_021A5948     0x021A5948  data
+ *   gGti2PacketMagic     0x021A5948  data
  *   gti2SocketFindConnection  0x02197D5C  arm  ov009
  *   gti2DumpCallback          0x02195408  arm  ov009
  *   CanReceiveOnSocket               0x0217ef50 arm
@@ -232,7 +232,6 @@ int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len);
 int gti2SendClosedOnSocket(GTI2Socket *sock, unsigned int ip, unsigned short port);
 void gti2Send(int a, int b, int c, int d);
 extern unsigned char gGti2TimeKey[];
-extern const char g_021A5948[];
 extern unsigned char gGti2PacketMagic[];
 
 
@@ -972,7 +971,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
             return 0;
     }
 
-    magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)g_021A5948, 2);
+    magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)gGti2PacketMagic, 2);
 
     if (!connection) {
         if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
@@ -1007,7 +1006,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
         return 1;
     }
 
-    if (magicString && actualLength >= 4 && !func_020923F0(actualMessage + 2, (const u8 *)g_021A5948, 2)) {
+    if (magicString && actualLength >= 4 && !func_020923F0(actualMessage + 2, (const u8 *)gGti2PacketMagic, 2)) {
         message[3] = message[1];
         message[2] = message[0];
         message += 2;
@@ -1507,7 +1506,7 @@ int gti2SendNack(GTI2Connection *connection, unsigned short SNMin, unsigned shor
 		memcpy(buffer + pos, &dataLength, 2);
 		pos += 2;
 	}
-	memcpy(buffer + pos, g_021A5948, 2);
+	memcpy(buffer + pos, gGti2PacketMagic, 2);
 	pos += 2;
 	buffer[pos] = 0x65;
 	pos++;

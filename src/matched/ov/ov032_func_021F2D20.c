@@ -1,5 +1,5 @@
 /*
- * function: func_021F2D20
+ * function: BEACON_VIEW_LoadGraphics
  * address:  0x021F2D20
  * packet:   pkt_ov032_021F2D20
  * region:   ov032
@@ -13,8 +13,8 @@
  *           frame comes out 0x10 bytes short.
  *
  * symbols:
- *   func_021F2D20  0x021F2D20  thumb
- *   func_021F30D4  0x021F30D4  thumb  ov032
+ *   BEACON_VIEW_LoadGraphics  0x021F2D20  thumb
+ *   BEACON_VIEW_LoadResList  0x021F30D4  thumb  ov032
  *   func_020490F4  0x020490F4  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
@@ -80,7 +80,7 @@ extern const ResSpec3 d_021F35BC;
 extern const ResSpec3 d_021F35C8;
 extern const ResSpec3 d_021F35D4;
 
-extern void func_021F30D4(Work *p, ResList *out, const ResSpec *spec, void *arc);
+extern void BEACON_VIEW_LoadResList(Work *p, ResList *out, const ResSpec *spec, void *arc);
 extern void *func_020490F4(u32 id, u32 heap);
 struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
@@ -94,7 +94,7 @@ extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **
 extern void DC_FlushAll(void);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_021F2D20(Work *p, void *h)
+void BEACON_VIEW_LoadGraphics(Work *p, void *h)
 {
     void *h2;
     ResSpec3 a;
@@ -104,11 +104,11 @@ void func_021F2D20(Work *p, void *h)
 
     h2 = func_020490F4(0x20, p->heap);
     a = d_021F35BC;
-    func_021F30D4(p, p->l134, a.s, h);
+    BEACON_VIEW_LoadResList(p, p->l134, a.s, h);
     b = d_021F35D4;
-    func_021F30D4(p, p->l164, b.s, h);
+    BEACON_VIEW_LoadResList(p, p->l164, b.s, h);
     c = d_021F35C8;
-    func_021F30D4(p, p->l14c, c.s, h2);
+    BEACON_VIEW_LoadResList(p, p->l14c, c.s, h2);
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
     p->r3c4.res = ARC_TOOL_LoadHandleMember(h, 4, p->heap2);

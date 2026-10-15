@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B94
+ * function: BEACON_VIEW_PowerAnimTaskA
  * address:  0x021F1B94
  * packet:   pkt_ov032_021F1B94
  * region:   ov032
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F1B94 0x021F1B94 thumb
+ *   BEACON_VIEW_PowerAnimTaskA 0x021F1B94 thumb
  *   d_021F352C 0x021F352C data ov032 a1
- *   func_021F0A98 0x021F0A98 thumb ov032
- *   func_021F0B80 0x021F0B80 thumb ov032
- *   func_021F178C 0x021F178C thumb ov032
+ *   BEACON_VIEW_SetupMessageText 0x021F0A98 thumb ov032
+ *   BEACON_VIEW_ShowWindowText 0x021F0B80 thumb ov032
+ *   BEACON_VIEW_StartScrollStep 0x021F178C thumb ov032
  *   BEACON_VIEW_SetPrintQueueLimit 0x021F029C thumb ov032
- *   func_021F0C04 0x021F0C04 thumb ov032
- *   func_021F0B64 0x021F0B64 thumb ov032
- *   func_021F0E04 0x021F0E04 thumb ov032
- *   func_021F0C70 0x021F0C70 thumb ov032
+ *   BEACON_VIEW_CreateTaskMenuButtons 0x021F0C04 thumb ov032
+ *   BEACON_VIEW_ClearWindow 0x021F0B64 thumb ov032
+ *   BEACON_VIEW_SetActorVisible 0x021F0E04 thumb ov032
+ *   BEACON_VIEW_UpdateTaskMenuButtons 0x021F0C70 thumb ov032
  *   BEACON_VIEW_RequestTransition 0x021F253C thumb ov032
- *   func_021F0D38 0x021F0D38 thumb ov032
- *   func_021F0CF8 0x021F0CF8 thumb ov032
- *   func_021F0B10 0x021F0B10 thumb ov032
+ *   BEACON_VIEW_DeleteTaskMenuButtons 0x021F0D38 thumb ov032
+ *   BEACON_VIEW_FinishTaskMenuButtons 0x021F0CF8 thumb ov032
+ *   BEACON_VIEW_ShowPlayTime 0x021F0B10 thumb ov032
  *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
  *   TCBL_DeleteTask 0x02031194 arm
  */
@@ -36,22 +36,22 @@ typedef unsigned int u32;
 
 extern u8 d_021F352C[];
 struct TcblNode;
-extern void func_021F0A98(char *p, unsigned a);
-extern void func_021F0B80(char *p, void *t, unsigned a);
-extern void func_021F178C(char *p, u8 a, int *s);
+extern void BEACON_VIEW_SetupMessageText(char *p, unsigned a);
+extern void BEACON_VIEW_ShowWindowText(char *p, void *t, unsigned a);
+extern void BEACON_VIEW_StartScrollStep(char *p, u8 a, int *s);
 extern void BEACON_VIEW_SetPrintQueueLimit(char *p, int a);
-extern void func_021F0C04(char *p, int flag);
-extern void func_021F0B64(char *p);
-extern void func_021F0E04(char *p, unsigned a);
-extern int func_021F0C70(char *p, int flag);
+extern void BEACON_VIEW_CreateTaskMenuButtons(char *p, int flag);
+extern void BEACON_VIEW_ClearWindow(char *p);
+extern void BEACON_VIEW_SetActorVisible(char *p, unsigned a);
+extern int BEACON_VIEW_UpdateTaskMenuButtons(char *p, int flag);
 extern void BEACON_VIEW_RequestTransition(char *p, int v);
-extern void func_021F0D38(char *p);
-extern int func_021F0CF8(char *p, int i);
-extern void func_021F0B10(char *p, int a, int b);
+extern void BEACON_VIEW_DeleteTaskMenuButtons(char *p);
+extern int BEACON_VIEW_FinishTaskMenuButtons(char *p, int i);
+extern void BEACON_VIEW_ShowPlayTime(char *p, int a, int b);
 extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021F1B94(void *h, u8 *t)
+void BEACON_VIEW_PowerAnimTaskA(void *h, u8 *t)
 {
     char *p;
     int r;
@@ -61,23 +61,23 @@ void func_021F1B94(void *h, u8 *t)
         return;
     switch (t[0]) {
     case 0:
-        func_021F0A98(p, d_021F352C[t[3]]);
-        func_021F0B80(p, (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (unsigned int)((int *)(t + 8)));
+        BEACON_VIEW_SetupMessageText(p, d_021F352C[t[3]]);
+        BEACON_VIEW_ShowWindowText(p, (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (unsigned int)((int *)(t + 8)));
         t[0]++;
         break;
     case 1:
-        func_021F178C(p, 0, (int *)(t + 8));
+        BEACON_VIEW_StartScrollStep(p, 0, (int *)(t + 8));
         t[0]++;
         break;
     case 2:
         BEACON_VIEW_SetPrintQueueLimit(p, 1);
-        func_021F0C04(p, 0);
-        func_021F0B64(p);
-        func_021F0E04(p, 0);
+        BEACON_VIEW_CreateTaskMenuButtons(p, 0);
+        BEACON_VIEW_ClearWindow(p);
+        BEACON_VIEW_SetActorVisible(p, 0);
         t[0]++;
         break;
     case 3:
-        r = func_021F0C70(p, 0);
+        r = BEACON_VIEW_UpdateTaskMenuButtons(p, 0);
         if (r < 0)
             break;
         t[5] = r;
@@ -102,18 +102,18 @@ void func_021F1B94(void *h, u8 *t)
             t[0] = 3;
             break;
         }
-        func_021F0D38(p);
+        BEACON_VIEW_DeleteTaskMenuButtons(p);
         t[0] = 6;
         break;
     case 5:
-        if (func_021F0CF8(p, t[5]) == 0)
+        if (BEACON_VIEW_FinishTaskMenuButtons(p, t[5]) == 0)
             break;
         t[0]++;
         break;
     case 6:
-        func_021F0B10(p, 1, (int)((int *)(t + 8)));
-        func_021F0E04(p, 1);
-        func_021F178C(p, 1, (int *)(t + 8));
+        BEACON_VIEW_ShowPlayTime(p, 1, (int)((int *)(t + 8)));
+        BEACON_VIEW_SetActorVisible(p, 1);
+        BEACON_VIEW_StartScrollStep(p, 1, (int *)(t + 8));
         t[0]++;
         break;
     default:

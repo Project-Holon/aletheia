@@ -14,7 +14,7 @@
  * symbols:
  *   FIELD_MSGBG_MsgPrintPrintMsg  0x02190550  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12066.h"
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_020409B4(u32);
+extern u32 BG_SYS_PushTile(u32);
 struct Descriptor;
 struct Slot;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
@@ -33,6 +33,6 @@ extern void FIELD_MSGBG_MsgPrintPrintMsg(struct Slot *s, int x, int y, u32 z);
 int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_MSGBG_MsgPrintPrintMsg((struct Slot *)(((struct Obj12066 *)((u8 *)(a)))->f4), b, c, d);
-return func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj12066 *)((u8 *)(a)))->f0)));
+return BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj12066 *)((u8 *)(a)))->f0)));
 }
 

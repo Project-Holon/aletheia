@@ -1,5 +1,5 @@
 /*
- * function: func_021E64C8
+ * function: WIFIBATTLEMATCH_VIEW_StepMainWindow
  * address: 0x021E64C8
  * packet: pkt_ov177_021E64C8
  * region: ov177
@@ -35,7 +35,7 @@ extern unsigned func_0209C2B0(unsigned, unsigned);
 typedef unsigned int   u32;
 extern u32 func_020407E8(u32 layer);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-int func_021E64C8(Work *w)
+int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w)
 {
     int ret;
     int level;

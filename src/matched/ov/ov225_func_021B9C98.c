@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C98
+ * function: MANUAL_COMMON_GetSaveValue
  * address:  0x021B9C98
  * packet:   pkt_021B9C98
  * region:   ov225
@@ -30,7 +30,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *p);
 extern int func_0200EDEC(char *obj, int i);
 
-int func_021B9C98(void *unused, int b, int c)
+int MANUAL_COMMON_GetSaveValue(void *unused, int b, int c)
 {
     return func_0200EDEC(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)c)), b);
 }

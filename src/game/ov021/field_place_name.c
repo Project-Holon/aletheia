@@ -17,11 +17,11 @@
  *   func_020307B0  0x020307B0  arm
  *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -89,7 +89,7 @@
  *   CLACT_SetUnitDrawEnable  0x0204B22C  arm  arm9
  *   CLACT_SetUnitRenderer  0x0204B258  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   BG_SYS_CreateRun  0x0203FA08  arm  arm9
  *   BG_SYS_DeleteHalf  0x0203FB44  arm  arm9
@@ -135,11 +135,11 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 extern u32 func_020307B0(void *p);
 extern GfFont *FIELD_MSGBG_GetFont(struct FieldMsgContext *msgContext);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
-extern void func_020409B4(unsigned int bgLayer);
+extern void BG_SYS_PushTile(unsigned int bgLayer);
 extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
 extern void func_02040588(unsigned char bgId, unsigned char enable);
 extern void func_0207D63C(int regAddr, int plane1, int plane2, int evA, int evB);
@@ -187,7 +187,7 @@ extern void BG_SYS_InitSlot(u32 bgId);
 extern void BG_SYS_ClearSlot(u32 bgId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void *ICA_ANIME_GetField1C(const GameSystem *gameSystem);
-extern WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern WordSet *WORDSET_CreateDefault(u32 heapId);
 extern MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern BmpWin *BMP_WIN_Create(u32 bgId, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -353,7 +353,7 @@ void FIELD_PLACE_NAME_Delete(FieldPlaceName *placeName)
     FIELD_PLACE_NAME_DeleteBmpWin(placeName);
     FIELD_PLACE_NAME_FreeBgChars(placeName);
     FIELD_PLACE_NAME_DeleteArcHandle(placeName);
-    func_020403F4(FIELD_PLACE_NAME_BG_LAYER);
+    BG_SYS_FreeLayerBuf(FIELD_PLACE_NAME_BG_LAYER);
     FIELD_PLACE_NAME_FreeWork(placeName);
 }
 
@@ -469,7 +469,7 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
     bmpWin = placeName->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
     BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
     func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
     func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
@@ -932,7 +932,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         bmpWin = placeName->bmpWin;
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
-        func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
         BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
         func_02040588(FIELD_PLACE_NAME_BG_LAYER, 0);
         func_0207D63C(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
@@ -1115,7 +1115,7 @@ void FIELD_PLACE_NAME_FreeWork(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName)
 {
-    placeName->wordSet = GF_FONT_Create_EC64(FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->wordSet = WORDSET_CreateDefault(FIELD_PLACE_NAME_GetHeapId(placeName));
 }
 
 void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName)

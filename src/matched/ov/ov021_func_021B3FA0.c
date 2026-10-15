@@ -21,7 +21,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00037.h"
 
@@ -56,7 +56,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 
 void SCRCMD_PROC_FLD_InitShopWindows(char *w)
 {
@@ -84,15 +84,15 @@ void SCRCMD_PROC_FLD_InitShopWindows(char *w)
         bg = ((struct Obj00037 *)w)->f168;
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     } else {
         bg = ((struct Obj00037 *)w)->f164;
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
         bg = ((struct Obj00037 *)w)->f168;
         BMP_WIN_TransferChars((struct Descriptor *)bg);
         BMP_WIN_MakeScreen((struct Cfg *)bg);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     }
 }

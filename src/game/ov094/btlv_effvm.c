@@ -79,7 +79,7 @@
  *   VM_Return  0x020113C4  thumb
  *   func_02011290 0x02011290 thumb
  *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
@@ -381,7 +381,7 @@ extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 
 extern void BTLV_SCU_ReloadGraphics(const u8 *a);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern int BTLV_BG_IsScrolling(void *);
 
@@ -573,7 +573,7 @@ void BTLV_EFFVM_ClearBlockedFlag(void *vm);
 
 int BTLV_EFFVM_GetFallbackScriptFlag(void *vm);
 
-void BTLV_EFFVM_InitParams(S9844 *params);
+void BTLV_EFFVM_InitParams(BtlvEffVmParams *params);
 
 void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, int slot, u32 pan, int pitch, u32 volume, int modDepth, int modSpeed, int delay);
 
@@ -1133,15 +1133,15 @@ int BTLV_EFFVM_GetFallbackScriptFlag(void *vm)
     return result;
 }
 
-void BTLV_EFFVM_InitParams(S9844 *params)
+void BTLV_EFFVM_InitParams(BtlvEffVmParams *params)
 {
-    params->b0 = 0;
-    params->b1 = 0;
-    params->b2 = 0;
-    params->b3 = 0;
-    params->w1 = 0;
-    params->w2 = 0;
-    params->h1 = 0;
+    params->kind = 0;
+    params->variant = 0;
+    params->option = 0;
+    params->side = 0;
+    params->argA = 0;
+    params->argB = 0;
+    params->typeCode = 0;
 }
 
 void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, int slot, u32 pan, int pitch, u32 volume, int modDepth, int modSpeed, int delay)
@@ -3232,8 +3232,8 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
             BTLV_SCU_ReloadGraphics(scu);
         BG_SYS_SetVisibleLayer(3, 0);
         work->flags.bit.gfxReloadPending = 0;
-        func_02040618(3, 0, work->bg3ScrollX);
-        func_02040618(3, 3, work->bg3ScrollY);
+        BG_SYS_FillScrollArea(3, 0, work->bg3ScrollX);
+        BG_SYS_FillScrollArea(3, 3, work->bg3ScrollY);
     }
     if (work->flags.bit.blendActive) {
         func_0207D63C(0x04000050, 2, 0x3d, 0x1f, 7);

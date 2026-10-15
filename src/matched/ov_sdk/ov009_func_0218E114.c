@@ -14,7 +14,7 @@
  * symbols:
  *   gsimalloc          0x0217EAB0  arm
  *   gpiSetErrorString  0x02193734  arm
- *   g_021A4DF8         0x021A4DF8  data
+ *   gGpiOperationErrorOutOfMemory         0x021A4DF8  data
  */
 
 typedef unsigned long u32;
@@ -44,7 +44,7 @@ struct GPIConnection {
 
 extern void *gsimalloc(u32 size);
 extern void gpiSetErrorString(void **connection, char *errorString);
-extern char g_021A4DF8[];
+extern char gGpiOperationErrorOutOfMemory[];
 
 int gpiAddOperation(void **connection, int type, void *data,
                     struct GPIOperation_s **op, int blocking,
@@ -55,7 +55,7 @@ int gpiAddOperation(void **connection, int type, void *data,
 
     operation = (struct GPIOperation_s *)gsimalloc(0x24);
     if (operation == 0) {
-        gpiSetErrorString(connection, g_021A4DF8);
+        gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
         return 1;
     }
     operation->type = type;

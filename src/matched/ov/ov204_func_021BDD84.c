@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD84
+ * function: INTRO_GRAPHIC_VBlank
  * address:  0x021BDD84
  * packet:   pkt_021BDD84
  * region:   ov204
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BDE28  0x021BDE28  thumb  ov204
- *   func_021BDF98  0x021BDF98  thumb  ov204
+ *   INTRO_GRAPHIC_UpdateBg  0x021BDE28  thumb  ov204
+ *   INTRO_GRAPHIC_VBlankClact  0x021BDF98  thumb  ov204
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021BDE28(void *a0);
-extern void func_021BDF98(void *a0);
+extern void INTRO_GRAPHIC_UpdateBg(void *a0);
+extern void INTRO_GRAPHIC_VBlankClact(void *a0);
 
-void func_021BDD84(u32 a, u8 *b)
+void INTRO_GRAPHIC_VBlank(u32 a, u8 *b)
 {
-    func_021BDE28(b);
-    func_021BDF98(b + 4);
+    INTRO_GRAPHIC_UpdateBg(b);
+    INTRO_GRAPHIC_VBlankClact(b + 4);
 }
 

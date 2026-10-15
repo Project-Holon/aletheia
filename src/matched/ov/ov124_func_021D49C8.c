@@ -15,7 +15,7 @@
  *   func_02030734 0x02030734 arm
  *   BG_SYS_DrawTile 0x02041090 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorAnimIndex 0x0204B908 arm
@@ -42,7 +42,7 @@ extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 extern u32 func_020307B0(void *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -69,7 +69,7 @@ void CG_HELP_UpdatePageGraphics(char *p, u32 n)
         BG_SYS_DrawTile(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     delta = gCgHelpActorOffset;
     CLACT_AddActorSurfacePos(((struct Obj00122 *)p)->f5C, (const struct Vec2 *)(&delta), 1);
     if (n == 10) {

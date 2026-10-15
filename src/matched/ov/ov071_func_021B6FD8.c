@@ -1,5 +1,5 @@
 /*
- * function: func_021B6FD8
+ * function: MONOLITH_TOOL_DeleteSlotIcon
  * address:  0x021B6FD8
  * packet:   pkt_ov071_021B6FD8
  * region:   ov071
@@ -16,7 +16,7 @@
  */
 
 struct Obj;
-void func_021B6FD8(void *p)
+void MONOLITH_TOOL_DeleteSlotIcon(void *p)
 {
     void CLACT_DeleteActor(struct Obj *p);
     CLACT_DeleteActor(p);

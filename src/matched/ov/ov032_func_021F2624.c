@@ -1,5 +1,5 @@
 /*
- * function: func_021F2624
+ * function: BEACON_VIEW_TaskStateTaskMenu
  * address:  0x021F2624
  * packet:   pkt_ov032_021F2624
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F2624 0x021F2624 thumb
+ *   BEACON_VIEW_TaskStateTaskMenu 0x021F2624 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
@@ -25,7 +25,7 @@ extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 
-int func_021F2624(int a0, int *st)
+int BEACON_VIEW_TaskStateTaskMenu(int a0, int *st)
 {
     int h = st[6];
 

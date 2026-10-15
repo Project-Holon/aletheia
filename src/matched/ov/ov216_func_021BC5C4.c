@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5C4
+ * function: BEACON_DETAIL_GRA_CreateWindow
  * address: 0x021BC5C4
  * packet: pkt_ov216_021BC5C4
  * region: ov216
@@ -14,7 +14,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 struct Descriptor;
 struct Cfg;
@@ -26,8 +26,8 @@ extern void BMP_Clear(struct CharBuf *,unsigned char);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void func_020409B4(unsigned);
-void func_021BC5C4(Window *p,unsigned layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height)
+extern void BG_SYS_PushTile(unsigned);
+void BEACON_DETAIL_GRA_CreateWindow(Window *p,unsigned layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height)
 {
     struct Descriptor *window;
     p->window=(struct Descriptor *)BMP_WIN_Create(layer,x,y,width,height,palette,1);
@@ -38,5 +38,5 @@ void func_021BC5C4(Window *p,unsigned layer,unsigned char palette,unsigned x,uns
     window=p->window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }

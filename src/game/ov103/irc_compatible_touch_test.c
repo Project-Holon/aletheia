@@ -57,7 +57,7 @@
  *   IRC_COMPATIBLE_TOUCH_TEST_BgTemplates 0x021B9310 data ov103 a4
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -119,7 +119,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -129,7 +129,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045CAC 0x02045CAC arm
@@ -374,7 +374,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0207D63C(int, int, int, int, int);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(int, int, int);
-extern void func_020403F4(u8);
+extern void BG_SYS_FreeLayerBuf(u8);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -433,7 +433,7 @@ extern void GF_FONT_InitTextColor(void);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create_EC64(u32 heap);
+extern void *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
 extern void PRINTSYS_QUE_Delete(void *printQueue);
@@ -444,7 +444,7 @@ extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void BMP_WIN_TransferChars(void *bmpWin);
 extern void BMP_WIN_MakeScreen(void *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
-extern void func_020409B4(u8 index);
+extern void BG_SYS_PushTile(u8 index);
 extern void *BMP_WIN_GetBmp(void *bmpWin);
 extern void BMP_Clear(void *bmp, u8 value);
 extern void func_02045CAC(void *msgData, u32 msgId, void *dest);
@@ -778,7 +778,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(u32 *charRange)
     REG_BLDCNT_MAIN = 0;
     BG_SYS_DeleteHalf(5, (u16)(*charRange), (u16)(*charRange >> 16));
     BG_SYS_SetTileUnit(5, 1, 0);
-    for (i = 0; i < 7; i++) func_020403F4(IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i]);
+    for (i = 0; i < 7; i++) BG_SYS_FreeLayerBuf(IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i]);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -979,7 +979,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitText(IrcTextSystem *text, int skipFont, u32 h
         text->font = GF_FONT_Create(23, 0, 0, 0, heapId);
     text->printQueue = PRINTSYS_QUE_Create(heapId);
     text->msgData = func_02045B38(0, 2, 47, heapId);
-    text->wordSet = GF_FONT_Create_EC64(heapId);
+    text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitText(IrcTextSystem *text)
@@ -1029,7 +1029,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(IrcWindow *win, int bgLayer, int 
     bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /*
@@ -1048,7 +1048,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitWindow(IrcWindow *win, int bgLayer, int x, u8
     bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitWindow(IrcWindow *win)
@@ -1607,7 +1607,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(void *arc, int memberId, int bgLa
     if (BG_SYS_GetBuf((u8)bgLayer)) {
         BG_SYS_DrawTileEx((u8)bgLayer, dstX, dstY, dstWidth, dstHeight, (u32)(data + 12), srcX, srcY, srcWidth, srcHeight);
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, palette);
-        func_020409B4(bgLayer);
+        BG_SYS_PushTile(bgLayer);
     }
     func_020307B0(file);
 }

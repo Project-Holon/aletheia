@@ -1,5 +1,5 @@
 /*
- * function: func_021E8628
+ * function: WIFIBATTLEMATCH_UTIL_Delete
  * address: 0x021E8628
  * packet: pkt_ov177_021E8628
  * region: ov177
@@ -34,7 +34,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021E8628(char *p)
+void WIFIBATTLEMATCH_UTIL_Delete(char *p)
 {
     if (((struct Obj01960 *)p)->f8 != 0) {
         PRINTSYS_PrintStreamDelete(((struct Obj01960 *)p)->f8);

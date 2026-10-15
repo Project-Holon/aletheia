@@ -19,7 +19,7 @@
  *   dns_skipname                    0x0215c508 arm ov009
  *   MI_CpuCopy                       0x02082ea4 arm
  *   CPS_SocConsume                    0x0215b064 arm ov009
- *   g_021A826C                       0x021a826c data
+ *   gCpsNetVars                       0x021a826c data
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct CPSVars {
     int (*link_is_on)(void);
 };
 
-extern struct CPSVars g_021A826C;
+extern struct CPSVars gCpsNetVars;
 extern u32 CPS_SocWrite(u8 *buf, u32 len);
 extern unsigned long long OS_GetTick(void);
 extern long CPS_SocGetLength(void);
@@ -96,7 +96,7 @@ u32 resolve_common(u8 *name, u32 type, u16 id, u8 *rname, u32 rname_max)
     d[4] = 1;
     CPS_SocWrite(outbuf, d + 5 - outbuf);
     start = TICK();
-    while (g_021A826C.link_is_on() && ip == 0 && (int)(TICK() - start) < 0xf) {
+    while (gCpsNetVars.link_is_on() && ip == 0 && (int)(TICK() - start) < 0xf) {
         if (CPS_SocGetLength() == 0) {
             OS_Sleep(10);
             continue;

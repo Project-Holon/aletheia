@@ -1,5 +1,5 @@
 /*
- * function: func_021BE970
+ * function: INTRO_CMD_CmdUpdateAnimFrame
  * address: 0x021BE970
  * packet: pkt_ov204_021BE970
  * region: ov204
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int INTRO_G3D_UpdateAnimFrame(int *p);
-int func_021BE970(u8*p){if(INTRO_G3D_UpdateAnimFrame((int *)(*(char* *)&((struct Obj25376 *)p)->fC)))return 1;return 0;}
+int INTRO_CMD_CmdUpdateAnimFrame(u8*p){if(INTRO_G3D_UpdateAnimFrame((int *)(*(char* *)&((struct Obj25376 *)p)->fC)))return 1;return 0;}

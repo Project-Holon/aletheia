@@ -13,8 +13,8 @@
  *
  * symbols:
  *   WCMi_GetSystemWork  0x021657C8  arm  ov009
- *   g_021AA814  0x021AA814  data ov009
- *   g_021AA815  0x021AA815  data ov009
+ *   gWcmUtilLength  0x021AA814  data ov009
+ *   gWcmUtilData  0x021AA815  data ov009
  *
  * Stores an RSSI sample into the ring buffer, converting the raw value first for device 1.
  */
@@ -24,8 +24,8 @@ typedef struct WCMWork {
     unsigned char deviceId;
 } WCMWork;
 
-extern unsigned char g_021AA814;
-extern unsigned char g_021AA815[16];
+extern unsigned char gWcmUtilLength;
+extern unsigned char gWcmUtilData[16];
 extern int WCMi_GetSystemWork(void);
 
 void WCMi_ShelterRssi(unsigned char rssi)
@@ -47,10 +47,10 @@ void WCMi_ShelterRssi(unsigned char rssi)
     case 2:
         break;
     }
-    g_021AA815[g_021AA814 % 16] = rssi;
-    if (g_021AA814 < 16) {
-        g_021AA814 = (unsigned char)(g_021AA814 + 1);
+    gWcmUtilData[gWcmUtilLength % 16] = rssi;
+    if (gWcmUtilLength < 16) {
+        gWcmUtilLength = (unsigned char)(gWcmUtilLength + 1);
     } else {
-        g_021AA814 = (unsigned char)((g_021AA814 + 1) % 16 + 16);
+        gWcmUtilLength = (unsigned char)((gWcmUtilLength + 1) % 16 + 16);
     }
 }

@@ -12,7 +12,7 @@
  * sdk:      send_ip (libcps.TWL.HYB.a network.o)
  * symbols:
  *   send_ip_frag                    0x02158204 arm ov009
- *   g_021A826C                       0x021a826c data
+ *   gCpsNetVars                       0x021a826c data
  */
 
 typedef unsigned char u8;
@@ -25,12 +25,12 @@ struct CPSVars {
     u8 pad1[0x50 - 4];
     u32 myip;
 };
-extern struct CPSVars g_021A826C;
+extern struct CPSVars gCpsNetVars;
 extern void send_ip_frag(u8 *hdr, u32 hdr_len, u8 *body, u32 body_len, u32 ip_to, u32 offset);
 
 #define HTONS(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
-#define IPID g_021A826C.ipid
-#define MYIP g_021A826C.myip
+#define IPID gCpsNetVars.ipid
+#define MYIP gCpsNetVars.myip
 
 void send_ip(u8 *hdr, u32 hdr_len, u8 *body, u32 body_len, u32 ip_to, u8 proto)
 {

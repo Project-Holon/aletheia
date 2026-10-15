@@ -34,7 +34,7 @@
  *   func_02045B38 0x02045B38 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056A0 0x020056A0 thumb
@@ -65,7 +65,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045CAC 0x02045CAC arm
  *   STRBUF_Delete 0x02045808 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -79,7 +79,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -233,11 +233,11 @@
 #include "guru2_types.h"
 #include "guru2_receipt_shared_types.h"
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 
 extern u32 func_020307B0(void *p);
 
@@ -259,7 +259,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 
 extern void BG_SYS_Create(u16);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -461,7 +461,7 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 
 extern void BG_SYS_Delete(void);
 
@@ -507,7 +507,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
@@ -709,7 +709,7 @@ extern int GFL_USE_PopBgm(void);
 
 int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q);
 
-int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, struct Guru2Game *p);
+int GURU2_MAIN_ProcExit(struct Proc *a, int b, int c, struct Guru2Game *p);
 
 int GURU2_MAIN_ProcMain(int a, int b, int c, struct Guru2Game *p);
 
@@ -1156,7 +1156,7 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q)
     return 1;
 }
 
-int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, struct Guru2Game *p)
+int GURU2_MAIN_ProcExit(struct Proc *a, int b, int c, struct Guru2Game *p)
 {
     PRINTSYS_QUE_Clear(p->windows.printQueue);
     PRINTSYS_QUE_Delete(p->windows.printQueue);
@@ -1901,29 +1901,29 @@ void GURU2_MAIN_LoadBgPalette(struct Guru2Game *p)
     NNS_G2dGetUnpackedScreenData(buf,&p->res5C);
     data=(u8 *)p->res5C;
     BG_SYS_DecodeTile(2,data+12,*(u32 *)(data+8));
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_020307B0(buf);
     buf=GURU2_MAIN_LoadArcMember(p,18,0);
     NNS_G2dGetUnpackedScreenData(buf,&p->res5C);
     data=(u8 *)p->res5C;
     BG_SYS_DecodeTile(3,data+12,*(u32 *)(data+8));
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_020307B0(buf);
     buf=GURU2_MAIN_LoadArcMember(p,24,0);
     NNS_G2dGetUnpackedScreenData(buf,&p->res5C);
     data=(u8 *)p->res5C;
     BG_SYS_DecodeTile(6,data+12,*(u32 *)(data+8));
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_020307B0(buf);
     buf=GURU2_MAIN_LoadArcMember(p,23,0);
     NNS_G2dGetUnpackedScreenData(buf,&p->res5C);
     data=(u8 *)p->res5C;
     BG_SYS_DecodeTile(7,data+12,*(u32 *)(data+8));
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_020307B0(buf);
 }
 
-void GURU2_MAIN_ExitBg(struct Guru2Game *p){BMP_WIN_Exit();func_020403F4(1);func_020403F4(2);func_020403F4(3);func_020403F4(6);func_020403F4(7);BG_SYS_Delete();}
+void GURU2_MAIN_ExitBg(struct Guru2Game *p){BMP_WIN_Exit();BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(7);BG_SYS_Delete();}
 
 /*
  * followers: 021DFEA0,021DFEAC,021DFEB8 are pooled tail-call stubs; parent cleared ownership.
@@ -1936,7 +1936,7 @@ void GURU2_MAIN_LoadScreen(struct Guru2Game *p,int file)
     NNS_G2dGetUnpackedScreenData(buf,&p->res5C);
     screen=(u8 *)p->res5C;
     BG_SYS_DecodeTile(6,screen+12,*(int *)(screen+8));
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_020307B0(buf);
 }
 
@@ -1979,7 +1979,7 @@ void GURU2_MAIN_CreateWindows(struct Guru2Game *p)
     PALANM_LoadArcPaletteToSlot(p->palAnm,23,5,114,0,32,240);
     s->font=GF_FONT_Create(23,0,0,0,114);
     s->msgData=func_02045B38(0,2,41,114);
-    s->wordSet=GF_FONT_Create_EC64(114);
+    s->wordSet=WORDSET_CreateDefault(114);
     s->mainWindow=(void *)BMP_WIN_Create(1,2,19,26,4,15,1);
     s->textBuf=STRBUF_Create(256,114);
     for(i=0;i<5;i++) {p->nameBuf[i]=STRBUF_Create(8,114);}
@@ -1999,7 +1999,7 @@ void GURU2_MAIN_DeleteWindows(struct Guru2Game *p)
     int i;
     obj=s->mainWindow;
     BMP_WIN_ClearScreen(obj);
-    func_020409B4(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
     BMP_WIN_Delete(s->mainWindow);
     GURU2_MAIN_DeleteNameWindows(p);
     MSGDATA_Delete(s->msgData);
@@ -2100,7 +2100,7 @@ void GURU2_MAIN_CreateNameWindows(struct Guru2Game *p,int count)
     }
 }
 
-void GURU2_MAIN_DeleteNameWindows(struct Guru2Game *p){int i;struct Guru2Windows *s=&p->windows;for(i=0;i<s->count;i++){struct Descriptor *w=(struct Descriptor *)s->window[i];BMP_WIN_ClearScreen(w);func_020409B4(BMP_WIN_GetBgLayer(w));BMP_WIN_Delete((struct Descriptor *)s->window[i]);}}
+void GURU2_MAIN_DeleteNameWindows(struct Guru2Game *p){int i;struct Guru2Windows *s=&p->windows;for(i=0;i<s->count;i++){struct Descriptor *w=(struct Descriptor *)s->window[i];BMP_WIN_ClearScreen(w);BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));BMP_WIN_Delete((struct Descriptor *)s->window[i]);}}
 
 void GURU2_MAIN_PrintNameWindow(struct Guru2Game *p,void *text,int index,int color)
 {

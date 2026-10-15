@@ -42,8 +42,8 @@ struct Sub02005A98Hdr;
 struct Sub02007084Ctrl;
 struct Sub020071E4Ctrl;
 extern struct Sub02007084Ctrl *func_020070A4(void);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *SAVE_CONTROL_INTR_Create(int a, int b);
 extern void *func_02007220(struct Sub020071E4Ctrl *ctrl);
 extern void *MYSTATUS_Create(int a0);
@@ -61,7 +61,7 @@ extern u32 gNameInWaveArcIds[];
 extern u32 gIntroWaveArcCount;
 extern u32 gIntroWaveArcIds[];
 
-int STARTMENU_NewGameIntroInit(struct Obj0203159C *a0)
+int STARTMENU_NewGameIntroInit(struct Proc *a0)
 {
     u32 buf[30];
     void *sys;

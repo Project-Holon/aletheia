@@ -1,5 +1,5 @@
 /*
- * function: func_021E5D68
+ * function: WIFIBATTLEMATCH_VIEW_CreateStatusWindow
  * address: 0x021E5D68
  * packet: pkt_ov177_021E5D68
  * region: ov177
@@ -14,12 +14,12 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0207D63C 0x0207D63C arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   func_021E6940 0x021E6940 thumb ov177
- *   func_021E6F20 0x021E6F20 thumb ov177
- *   func_021E72FC 0x021E72FC thumb ov177
- *   func_021E73E4 0x021E73E4 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_SetupDateWindow 0x021E6940 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreatePokeActors 0x021E6F20 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreatePokeActor 0x021E72FC thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateActorFromTable 0x021E73E4 thumb ov177
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -41,13 +41,13 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void BG_SYS_FillTileMap(u8, u8, u8, u8, u8, u8);
-extern void func_020409B4(u32);
-extern void func_021E6940(Work *, u32, const Info *, void *, int, void *, void *, void *, u16);
-extern void func_021E6F20(Work *, void *, void *, u16);
-extern void func_021E72FC(u8 *, unsigned, unsigned, unsigned);
-extern void func_021E73E4(char *, unsigned, void *, unsigned);
+extern void BG_SYS_PushTile(u32);
+extern void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *, u32, const Info *, void *, int, void *, void *, void *, u16);
+extern void WIFIBATTLEMATCH_VIEW_CreatePokeActors(Work *, void *, void *, u16);
+extern void WIFIBATTLEMATCH_VIEW_CreatePokeActor(u8 *, unsigned, unsigned, unsigned);
+extern void WIFIBATTLEMATCH_VIEW_CreateActorFromTable(char *, unsigned, void *, unsigned);
 extern void CLACT_AddActorSurfacePos(void *, const Pt *, u16);
-char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap)
+char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap)
 {
   char *w;
   Layer layer;
@@ -84,24 +84,24 @@ char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c,
     case 0:
       BG_SYS_FillTileMap(layer, 0, 0, 32, 5, 1);
       BG_SYS_FillTileMap(layer, 0, 5, 32, 18, 3);
-      func_020409B4((u8) layer);
+      BG_SYS_PushTile((u8) layer);
       break;
 
     case 1:
       BG_SYS_FillTileMap(layer, 0, 0, 32, 5, 1);
       BG_SYS_FillTileMap(layer, 0, 5, 32, 18, 7);
-      func_020409B4((u8) layer);
+      BG_SYS_PushTile((u8) layer);
       break;
 
   }
 
-  func_021E6940((Work *) w, a, tmp, b, c, d, e, f, heap);
-  func_021E6F20((Work *) w, owner, record, heap);
+  WIFIBATTLEMATCH_VIEW_SetupDateWindow((Work *) w, a, tmp, b, c, d, e, f, heap);
+  WIFIBATTLEMATCH_VIEW_CreatePokeActors((Work *) w, owner, record, heap);
   info += 0x9c;
-  func_021E72FC((u8 *) w, *((u32 *) info), (u32) owner, heap);
+  WIFIBATTLEMATCH_VIEW_CreatePokeActor((u8 *) w, *((u32 *) info), (u32) owner, heap);
   pos.x = 0x120;
   pos.y = 0x6e;
   CLACT_AddActorSurfacePos(*((void **) (w + 0x188)), &pos, *((u32 *) (w + 0x234)));
-  func_021E73E4(w, (u32) owner, table, heap);
+  WIFIBATTLEMATCH_VIEW_CreateActorFromTable(w, (u32) owner, table, heap);
   return w;
 }

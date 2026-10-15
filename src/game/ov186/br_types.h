@@ -314,7 +314,6 @@ struct Big;
 struct RecGet;
 struct U16Vec;
 struct Bmp;
-struct Obj020437AC;
 struct Node;
 struct Cfg;
 struct Grid;

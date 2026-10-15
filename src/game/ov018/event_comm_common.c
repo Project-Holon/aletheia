@@ -55,7 +55,7 @@
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -400,7 +400,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 ZONEDATA_IsZone117(u32 zoneId);
 extern int INTRUDE_COMM_HasResult(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *strbuf);
 extern unsigned int WORDSET_DeleteStrbufED04(void *wordSet);
@@ -1004,7 +1004,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         fieldMsgbg = FIELDMAP_GetMsgBg(fieldMap);
         work->msgData = FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x2D);
         work->window = FIELD_MSGBG_CreateBottomMsgWin(fieldMsgbg, work->msgData);
-        work->wordSet = GF_FONT_Create_EC64(4);
+        work->wordSet = WORDSET_CreateDefault(4);
         GFL_USE_PlaySeDefaultVolume(0x547);
         if (sys == 0 || GAME_DATA_GetIntrudeIdByte(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
             FIELD_MSGBG_MsgWinPrintMsg(work->window, 0, 0, 0x49);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9CC
+ * function: MYSTERY_ALBUM_MoveHandler
  * address: 0x021DC9CC
  * packet: pkt_ov121_021DC9CC
  * region: ov121
@@ -12,34 +12,34 @@
  * note: 2026-10-05 recoup P23L5: 8 B DIFF first form (asrs for lsrs and row/col slots swapped), then EXACT. Real extent 792 B, not the 46 B of the lane list.
  * volatile: display control 04000000, window registers 04000040..4A.
  * symbols:
- *   func_021D9E04 0x021D9E04 thumb ov121
- *   func_021DA8B0 0x021DA8B0 thumb ov121
- *   func_021DC08C 0x021DC08C thumb ov121
+ *   MYSTERY_UTIL_DeleteMenuWindow 0x021D9E04 thumb ov121
+ *   MYSTERY_UTIL_SetTaskHandler 0x021DA8B0 thumb ov121
+ *   MYSTERY_ALBUM_SelectHandler 0x021DC08C thumb ov121
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_0207D658 0x0207D658 arm
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021DBCC8 0x021DBCC8 thumb ov121
+ *   MYSTERY_ALBUM_SwapCards 0x021DBCC8 thumb ov121
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021DB938 0x021DB938 thumb ov121
- *   func_021DB54C 0x021DB54C thumb ov121
- *   func_020409B4 0x020409B4 arm
+ *   MYSTERY_ALBUM_DeleteSlotActor 0x021DB938 thumb ov121
+ *   MYSTERY_ALBUM_SetupSlot 0x021DB54C thumb ov121
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021DF86E 0x021DF86E data a1
  *   d_021DF86F 0x021DF86F data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021D9E04(u8 *);
-extern void func_021DA8B0(u32 *,u32);
-extern void func_021DC08C(void *,u32 *,char *);
+extern void MYSTERY_UTIL_DeleteMenuWindow(u8 *);
+extern void MYSTERY_UTIL_SetTaskHandler(u32 *,u32);
+extern void MYSTERY_ALBUM_SelectHandler(void *,u32 *,char *);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_0207D658(u32,int,int);
-extern void func_021DBCC8(struct Obj *o, u32 a, u32 b);
+extern void MYSTERY_ALBUM_SwapCards(struct Obj *o, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_021DB938(char *,int,u16);
-extern void func_021DB54C(char *,int,int,int,u16,u16);
-extern void func_020409B4(u32);
+extern void MYSTERY_ALBUM_DeleteSlotActor(char *,int,u16);
+extern void MYSTERY_ALBUM_SetupSlot(char *,int,int,int,u16,u16);
+extern void BG_SYS_PushTile(u32);
 extern u8 d_021DF86E[],d_021DF86F[];
 typedef struct { u8 pad[0xAC8]; u32 row; u32 col; } Cur;
 #define W(k) (*(u32 *)(p+(k)))
@@ -73,7 +73,7 @@ static inline void outside(int planes,int effect)
     if(effect) v|=32;
     *(volatile u16 *)0x0400004a=v;
 }
-void func_021DC9CC(void *task,u32 *state,char *p)
+void MYSTERY_ALBUM_MoveHandler(void *task,u32 *state,char *p)
 {
     u32 index=((Cur *)p)->col+((Cur *)p)->row*4;
     int here,there,mask;
@@ -82,11 +82,11 @@ void func_021DC9CC(void *task,u32 *state,char *p)
     int col,row;
     switch(*state) {
     case 0:
-        if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
+        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
         W(0xae0)=0;
         if(index==H(0xade)) {
             CLACT_SetActorDrawEnable((struct Obj *)P(0xaf0),0);
-            func_021DA8B0(task,(u32)func_021DC08C);
+            MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);
             return;
         }
         *state=1;break;
@@ -110,26 +110,26 @@ void func_021DC9CC(void *task,u32 *state,char *p)
         func_0207D658(0x04000050,30,W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=3;}break;
     case 3:
-        func_021DBCC8((struct Obj *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
+        MYSTERY_ALBUM_SwapCards((struct Obj *)p,index,H(0xade));GFL_USE_PlaySeDefaultVolume(0x670);
         row=(u32)H(0xade)>>2;col=H(0xade)%4;
         there=((*(int *)(p+0xac8))==row);
         here=((*(int *)(p+0xac8))==(index>>2));
         if(here) {
-            func_021DB938(p,1,W(0xacc));
-            func_021DB54C(p,1,0,(*(int *)(p+0xac8)),W(0xacc),H(36));
+            MYSTERY_ALBUM_DeleteSlotActor(p,1,W(0xacc));
+            MYSTERY_ALBUM_SetupSlot(p,1,0,(*(int *)(p+0xac8)),W(0xacc),H(36));
         }
         if(there) {
-            func_021DB938(p,1,col);
-            func_021DB54C(p,1,0,row,col,H(36));
+            MYSTERY_ALBUM_DeleteSlotActor(p,1,col);
+            MYSTERY_ALBUM_SetupSlot(p,1,0,row,col,H(36));
         }
-        func_020409B4(3);W(0xa78)=1;*state=4;break;
+        BG_SYS_PushTile(3);W(0xa78)=1;*state=4;break;
     case 4:
         func_0207D658(0x04000050,30,16-W(0xae8)*16/30);
         if(W(0xae8)++>30) {W(0xae8)=0;*state=5;}break;
     case 5:*(volatile u32 *)0x04000000 &=~0xe000;*state=6;break;
     case 6:
         W(0xae0)=0;CLACT_SetActorDrawEnable((struct Obj *)P(0xaf0),0);
-        if(P(0xabc)) {func_021D9E04(P(0xabc));P(0xabc)=0;}
-        func_021DA8B0(task,(u32)func_021DC08C);break;
+        if(P(0xabc)) {MYSTERY_UTIL_DeleteMenuWindow(P(0xabc));P(0xabc)=0;}
+        MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_ALBUM_SelectHandler);break;
     }
 }

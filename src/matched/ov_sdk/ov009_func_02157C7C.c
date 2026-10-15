@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_SleepThread  0x020857B0  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  *   gMslRefToken  0x02150FEC  data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
@@ -40,7 +40,7 @@ struct ThreadInfo {
 extern unsigned long OS_DisableInterrupts(void);
 extern void OS_SleepThread(void *queue);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct NetVars g_021A826C;
+extern struct NetVars gCpsNetVars;
 extern struct ThreadInfo gMslRefToken;
 
 static inline void *cur_thread(void)
@@ -56,20 +56,20 @@ unsigned char *receive_packet(unsigned long *len)
 	unsigned char *buf;
 
 	enable = OS_DisableInterrupts();
-	while (g_021A826C.head == g_021A826C.tail) {
-		g_021A826C.waiter = cur_thread();
+	while (gCpsNetVars.head == gCpsNetVars.tail) {
+		gCpsNetVars.waiter = cur_thread();
 		OS_SleepThread(0);
-		g_021A826C.waiter = 0;
+		gCpsNetVars.waiter = 0;
 	}
 	OS_RestoreInterrupts(enable);
-	buf = g_021A826C.rcvbuf;
+	buf = gCpsNetVars.rcvbuf;
 	do {
-		if (g_021A826C.rcvsize - g_021A826C.head < 2)
-			g_021A826C.head = 0;
-		blocklen = *(unsigned short *)(buf + g_021A826C.head);
+		if (gCpsNetVars.rcvsize - gCpsNetVars.head < 2)
+			gCpsNetVars.head = 0;
+		blocklen = *(unsigned short *)(buf + gCpsNetVars.head);
 		if (blocklen == 0)
-			g_021A826C.head = 0;
+			gCpsNetVars.head = 0;
 	} while (blocklen == 0);
 	*len = blocklen - 2;
-	return g_021A826C.rcvbuf + g_021A826C.head + 2;
+	return gCpsNetVars.rcvbuf + gCpsNetVars.head + 2;
 }

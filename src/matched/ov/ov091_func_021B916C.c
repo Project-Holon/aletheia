@@ -47,7 +47,7 @@
  *   func_02009050 0x02009050 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0200902C 0x0200902C thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020307B0 0x020307B0 arm
  *   POKELIST_EnterMenuPhase 0x021B907C thumb ov091
  *   POKELIST_OpenContextMenu 0x021B8180 thumb ov091
@@ -88,7 +88,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 struct Sub02008F80Obj;
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
@@ -185,12 +185,12 @@ void POKELIST_DispatchMenuChoice(u8 *p)
         L.a=d_021BEC0C;
         POKELIST_EnterMenuPhase(p); PLIST_MESSAGE_OpenWindow(p,(u32 *)W(0x150),2);
         PLIST_MESSAGE_PrintText(p,(u32 *)W(0x150),19);
-        PLIST_MENU_Open(p,(u8 *)W(0x154),L.a.v); func_020409B4(0); return;
+        PLIST_MENU_Open(p,(u8 *)W(0x154),L.a.v); BG_SYS_PushTile(0); return;
     case 5:
         L.b=d_021BEC1C;
         POKELIST_EnterMenuPhase(p); PLIST_MESSAGE_OpenWindow(p,(u32 *)W(0x150),2);
         PLIST_MESSAGE_PrintText(p,(u32 *)W(0x150),19);
-        PLIST_MENU_Open(p,(u8 *)W(0x154),L.b.v); func_020409B4(0); return;
+        PLIST_MENU_Open(p,(u8 *)W(0x154),L.b.v); BG_SYS_PushTile(0); return;
     case 0:
         p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=1; return;
     case 20:
@@ -257,7 +257,7 @@ void POKELIST_DispatchMenuChoice(u8 *p)
         if (T(0x34)==5) {
             if (PLIST_DEMO_CheckItemUsable((void *)W(0x38),H(0x44),(u16)(W(0x3c)-16),*(u16 *)p)==1) {
                 old=POKE_TOOL_GetPartyValue((void *)W(0x38),W(0x3c)+0x26,0);
-                func_020409B4(0); PLIST_MENU_StartItemUse(p,old);
+                BG_SYS_PushTile(0); PLIST_MENU_StartItemUse(p,old);
                 PLIST_DEMO_UseItemOnMon((void *)W(0x38),H(0x44),(u16)(W(0x3c)-16),H(0x30),*(u16 *)p);
                 PLIST_PLATE_Redraw(p,(u8 *)((u32)A)); POKELIST_RemoveBagItem(p,H(0x44)); GFL_USE_PlaySeDefaultVolume(0x56f);
             } else PLIST_MENU_ShowItemUsedThenContinue((int)p);

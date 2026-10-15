@@ -83,7 +83,7 @@
  *   d_02212154 0x02212154 data a4
  *   d_02212194 0x02212194 data a4
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   func_02049EF4 0x02049EF4 arm
@@ -97,7 +97,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -314,7 +314,7 @@ extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_SetFlagField06(u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_02049EF4(void *,u32,u32,void **,u16);
@@ -328,7 +328,7 @@ extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -1444,10 +1444,10 @@ void B_PLIST_MAIN_InitBg(u8 *p)
 void B_PLIST_MAIN_ExitBg(void)
 {
     BG_SYS_SetSubPlaneVisible(0x1f, 0);
-    func_020403F4(4);
-    func_020403F4(5);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
 }
 
 
@@ -1480,7 +1480,7 @@ void B_PLIST_MAIN_CreateTextResources(char *p)
 {
     ((struct B_PlistWork *)p)->msgBank=func_02045B38(0,2,0x12,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1E9C.fontSmall=GF_FONT_Create(0x17,3,0,0,((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->font=GF_FONT_Create_EC64(((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->font=WORDSET_CreateDefault(((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1EAC.printQue=PRINTSYS_QUE_CreateEx(0x800,((struct B_PlistWork *)p)->owner->heapId);
     ((struct B_PlistWork *)p)->u1EA8.wordSet=STRBUF_Create(0x200,((struct B_PlistWork *)p)->owner->heapId);
 }

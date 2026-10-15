@@ -17,7 +17,7 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   FIELD_MSGBG_ExitCursor  0x021927E8  thumb  ov021
  *   BMP_Delete  0x020437AC  arm
  *   BMP_WIN_Delete  0x020452E8  arm
@@ -38,7 +38,7 @@ extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void BG_SYS_SetTileEntry(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void FIELD_MSGBG_ExitCursor(u32 *p);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -58,7 +58,7 @@ void FIELD_MSGBG_DeleteSpWin(u32 *a)
     h = BMP_WIN_GetHeight((struct Descriptor *)a[0]);
     BG_SYS_SetTileEntry((u8)((u16 *)a[2])[1], 0, x, y, w, h, 0x11);
     BMP_WIN_TransferChars((struct Descriptor *)a[0]);
-    func_020409B4((u8)((u16 *)a[2])[1]);
+    BG_SYS_PushTile((u8)((u16 *)a[2])[1]);
     FIELD_MSGBG_ExitCursor(a + 4);
     BMP_Delete((struct Obj020437AC *)a[3]);
     BMP_WIN_Delete((struct Descriptor *)a[0]);

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gpiSetErrorString  0x02193734  arm   ov009
- *   g_021A4A98     0x021A4A98  data  ov009
+ *   gGpiInfoErrorInvalidDate     0x021A4A98  data  ov009
  *   strzcpy  0x0219327C  arm   ov009
  *   gpiCheckForError  0x0219329C  arm   ov009
  *   strncmp  0x020949F4  arm
@@ -31,42 +31,42 @@
  *   gsimalloc  0x0217EAB0  arm   ov009
  *   gpiAddCallback  0x02189DFC  arm   ov009
  *   gpiRemoveOperation  0x0218E240  arm   ov009
- *   g_021A4AA8     0x021A4AA8  data
- *   g_021A4AB0     0x021A4AB0  data
- *   g_021A4AE0     0x021A4AE0  data
- *   g_021A4AEC     0x021A4AEC  data
- *   g_021A4AF4     0x021A4AF4  data
- *   g_021A4B04     0x021A4B04  data
- *   g_021A4B0C     0x021A4B0C  data
- *   g_021A4B18     0x021A4B18  data
- *   g_021A4B24     0x021A4B24  data
- *   g_021A4B30     0x021A4B30  data
- *   g_021A4B3C     0x021A4B3C  data
- *   g_021A4B48     0x021A4B48  data
- *   g_021A4B58     0x021A4B58  data
- *   g_021A4B60     0x021A4B60  data
- *   g_021A4B68     0x021A4B68  data
- *   g_021A4B70     0x021A4B70  data
- *   g_021A4B7C     0x021A4B7C  data
- *   g_021A4B84     0x021A4B84  data
- *   g_021A4B8C     0x021A4B8C  data
- *   g_021A4B94     0x021A4B94  data
- *   g_021A4B9C     0x021A4B9C  data
- *   g_021A4BA4     0x021A4BA4  data
- *   g_021A4BAC     0x021A4BAC  data
- *   g_021A4BB4     0x021A4BB4  data
- *   g_021A4BBC     0x021A4BBC  data
- *   g_021A4BC4     0x021A4BC4  data
- *   g_021A4BCC     0x021A4BCC  data
- *   g_021A4BD4     0x021A4BD4  data
- *   g_021A4BDC     0x021A4BDC  data
- *   g_021A4BE4     0x021A4BE4  data
+ *   gGpiInfoResponsePi     0x021A4AA8  data
+ *   gGpiInfoErrorUnexpectedData     0x021A4AB0  data
+ *   gGpiInfoKeyProfileId     0x021A4AE0  data
+ *   gGpiInfoKeyNick     0x021A4AEC  data
+ *   gGpiInfoKeyUniqueNick     0x021A4AF4  data
+ *   gGpiInfoKeyEmail     0x021A4B04  data
+ *   gGpiInfoKeyFirstName     0x021A4B0C  data
+ *   gGpiInfoKeyLastName     0x021A4B18  data
+ *   gGpiInfoKeyIcqUin     0x021A4B24  data
+ *   gGpiInfoKeyHomepage     0x021A4B30  data
+ *   gGpiInfoKeyZipCode     0x021A4B3C  data
+ *   gGpiInfoKeyCountryCode     0x021A4B48  data
+ *   gGpiInfoKeyLon     0x021A4B58  data
+ *   gGpiInfoKeyLat     0x021A4B60  data
+ *   gGpiInfoKeyLoc     0x021A4B68  data
+ *   gGpiInfoKeyBirthday     0x021A4B70  data
+ *   gGpiInfoKeySex     0x021A4B7C  data
+ *   gGpiInfoKeyPmask     0x021A4B84  data
+ *   gGpiInfoKeyAim     0x021A4B8C  data
+ *   gGpiInfoKeyPic     0x021A4B94  data
+ *   gGpiInfoKeyOcc     0x021A4B9C  data
+ *   gGpiInfoKeyInd     0x021A4BA4  data
+ *   gGpiInfoKeyInc     0x021A4BAC  data
+ *   gGpiInfoKeyMar     0x021A4BB4  data
+ *   gGpiInfoKeyChc     0x021A4BBC  data
+ *   gGpiInfoKeyI1     0x021A4BC4  data
+ *   gGpiInfoKeyO1     0x021A4BCC  data
+ *   gGpiInfoKeyConn     0x021A4BD4  data
+ *   gGpiInfoKeySig     0x021A4BDC  data
+ *   gGpiInfoErrorOutOfMemory     0x021A4BE4  data
  *   gpiAppendStringToBuffer  0x0218946C  arm  ov009
  *   gpiAppendIntToBuffer  0x0218949C  arm  ov009
- *   g_021A4BF4  0x021A4BF4  data
- *   g_021A4C0C  0x021A4C0C  data
- *   g_021A4C18  0x021A4C18  data
- *   g_021A4C20  0x021A4C20  data
+ *   gGpiInfoKeyUpdateProSessKey  0x021A4BF4  data
+ *   gGpiInfoKeyPartnerId  0x021A4C0C  data
+ *   gGpiInfoKeyFinal  0x021A4C18  data
+ *   gGpiInfoKeyUpdateUiSessKey  0x021A4C20  data
  *   gpiSetErrorString  0x02193734  arm
  *   OS_SPrintf         0x02084F40  arm
  *   gpiSendLocalInfo   0x0218C6E4  arm  ov009
@@ -119,8 +119,8 @@
  *   str15093           0x021A4B8C  data
  *   gpiAppendStringToBuffer  0x0218946C  arm
  *   gpiAppendIntToBuffer     0x0218949C  arm
- *   g_021A4D60               0x021A4D60  data
- *   g_021A4D78               0x021A4D78  data
+ *   gGpiInfoKeyGetProfileSessKey               0x021A4D60  data
+ *   gGpiInfoKeyId               0x021A4D78  data
  *   func_0218E114  0x0218E114  arm   ov009
  *   func_0218D40C  0x0218D40C  arm   ov009
  *   func_02186E9C  0x02186E9C  arm   ov009
@@ -372,41 +372,41 @@ int gpiSendGetInfo(void **connection, int profileid, int operationid);
 int gpiGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 int gpiSetInfoCache(void **connection, GPIProfile *profile, GPIInfoCache *cache);
 void gpiFreeInfoCache(GPIProfile *profile);
-extern char g_021A4A98[];
-extern char g_021A4AA8[];
-extern char g_021A4AB0[];
-extern char g_021A4AE0[];
-extern char g_021A4AEC[];
-extern char g_021A4AF4[];
-extern char g_021A4B04[];
-extern char g_021A4B0C[];
-extern char g_021A4B18[];
-extern char g_021A4B24[];
-extern char g_021A4B30[];
-extern char g_021A4B3C[];
-extern char g_021A4B48[];
-extern char g_021A4B58[];
-extern char g_021A4B60[];
-extern char g_021A4B68[];
-extern char g_021A4B70[];
-extern char g_021A4B7C[];
-extern char g_021A4B84[];
-extern char g_021A4B8C[];
-extern char g_021A4B94[];
-extern char g_021A4B9C[];
-extern char g_021A4BA4[];
-extern char g_021A4BAC[];
-extern char g_021A4BB4[];
-extern char g_021A4BBC[];
-extern char g_021A4BC4[];
-extern char g_021A4BCC[];
-extern char g_021A4BD4[];
-extern char g_021A4BDC[];
-extern char g_021A4BE4[];
-extern char g_021A4BF4[];
-extern char g_021A4C0C[];
-extern char g_021A4C18[];
-extern char g_021A4C20[];
+extern char gGpiInfoErrorInvalidDate[];
+extern char gGpiInfoResponsePi[];
+extern char gGpiInfoErrorUnexpectedData[];
+extern char gGpiInfoKeyProfileId[];
+extern char gGpiInfoKeyNick[];
+extern char gGpiInfoKeyUniqueNick[];
+extern char gGpiInfoKeyEmail[];
+extern char gGpiInfoKeyFirstName[];
+extern char gGpiInfoKeyLastName[];
+extern char gGpiInfoKeyIcqUin[];
+extern char gGpiInfoKeyHomepage[];
+extern char gGpiInfoKeyZipCode[];
+extern char gGpiInfoKeyCountryCode[];
+extern char gGpiInfoKeyLon[];
+extern char gGpiInfoKeyLat[];
+extern char gGpiInfoKeyLoc[];
+extern char gGpiInfoKeyBirthday[];
+extern char gGpiInfoKeySex[];
+extern char gGpiInfoKeyPmask[];
+extern char gGpiInfoKeyAim[];
+extern char gGpiInfoKeyPic[];
+extern char gGpiInfoKeyOcc[];
+extern char gGpiInfoKeyInd[];
+extern char gGpiInfoKeyInc[];
+extern char gGpiInfoKeyMar[];
+extern char gGpiInfoKeyChc[];
+extern char gGpiInfoKeyI1[];
+extern char gGpiInfoKeyO1[];
+extern char gGpiInfoKeyConn[];
+extern char gGpiInfoKeySig[];
+extern char gGpiInfoErrorOutOfMemory[];
+extern char gGpiInfoKeyUpdateProSessKey[];
+extern char gGpiInfoKeyPartnerId[];
+extern char gGpiInfoKeyFinal[];
+extern char gGpiInfoKeyUpdateUiSessKey[];
 extern char str15081[];
 extern char str15083[];
 extern char str15091[];
@@ -447,8 +447,8 @@ extern char str15344[];
 extern char str15345[];
 extern char str15346[];
 extern char str15093[];
-extern char g_021A4D60[];
-extern char g_021A4D78[];
+extern char gGpiInfoKeyGetProfileSessKey[];
+extern char gGpiInfoKeyId[];
 
 
 
@@ -518,7 +518,7 @@ int gpiIntToDate(void **connection, int date, int *day, int *month, int *year)
     m = (date >> 16) & 0xFF;
     y = date & 0xFFFF;
     if (!gpiIsValidDate(d, m, y)) {
-        gpiSetErrorString((int *)connection, (int)g_021A4A98);
+        gpiSetErrorString((int *)connection, (int)gGpiInfoErrorInvalidDate);
         return 2;
     }
     *day = d;
@@ -624,15 +624,15 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
     if (gpiCheckForError(connection, input, 1))
         return 4;
 
-    if (strncmp(input, g_021A4AA8, 4) != 0) {
-        gpiSetError(connection, 1, g_021A4AB0);
+    if (strncmp(input, gGpiInfoResponsePi, 4) != 0) {
+        gpiSetError(connection, 1, gGpiInfoErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback(connection, __result__, 1);
         return __result__;
     }
 
-    if (!gpiValueForKey(input, g_021A4AE0, buffer, sizeof(buffer))) {
-        gpiSetError(connection, 1, g_021A4AB0);
+    if (!gpiValueForKey(input, gGpiInfoKeyProfileId, buffer, sizeof(buffer))) {
+        gpiSetError(connection, 1, gGpiInfoErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback(connection, __result__, 1);
         return __result__;
@@ -650,37 +650,37 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
     infoCache.homepage = homepage;
     infoCache.aimname = aimname;
 
-    if (!gpiValueForKey(input, g_021A4AEC, infoCache.nick, 31))
+    if (!gpiValueForKey(input, gGpiInfoKeyNick, infoCache.nick, 31))
         infoCache.nick[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4AF4, infoCache.uniquenick, 21))
+    if (!gpiValueForKey(input, gGpiInfoKeyUniqueNick, infoCache.uniquenick, 21))
         infoCache.uniquenick[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B04, infoCache.email, 51))
+    if (!gpiValueForKey(input, gGpiInfoKeyEmail, infoCache.email, 51))
         infoCache.email[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B0C, infoCache.firstname, 31))
+    if (!gpiValueForKey(input, gGpiInfoKeyFirstName, infoCache.firstname, 31))
         infoCache.firstname[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B18, infoCache.lastname, 31))
+    if (!gpiValueForKey(input, gGpiInfoKeyLastName, infoCache.lastname, 31))
         infoCache.lastname[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B24, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyIcqUin, buffer, sizeof(buffer)))
         infoCache.icquin = -1;
     else
         infoCache.icquin = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4B30, infoCache.homepage, 76))
+    if (!gpiValueForKey(input, gGpiInfoKeyHomepage, infoCache.homepage, 76))
         infoCache.homepage[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B3C, infoCache.zipcode, sizeof(infoCache.zipcode)))
+    if (!gpiValueForKey(input, gGpiInfoKeyZipCode, infoCache.zipcode, sizeof(infoCache.zipcode)))
         infoCache.zipcode[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B48, infoCache.countrycode, sizeof(infoCache.countrycode)))
+    if (!gpiValueForKey(input, gGpiInfoKeyCountryCode, infoCache.countrycode, sizeof(infoCache.countrycode)))
         infoCache.countrycode[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B58, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyLon, buffer, sizeof(buffer)))
         infoCache.longitude = 0;
     else
         infoCache.longitude = func_0209B64C(atof(buffer));
-    if (!gpiValueForKey(input, g_021A4B60, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyLat, buffer, sizeof(buffer)))
         infoCache.latitude = 0;
     else
         infoCache.latitude = func_0209B64C(atof(buffer));
-    if (!gpiValueForKey(input, g_021A4B68, infoCache.place, 128))
+    if (!gpiValueForKey(input, gGpiInfoKeyLoc, infoCache.place, 128))
         infoCache.place[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B70, buffer, sizeof(buffer))) {
+    if (!gpiValueForKey(input, gGpiInfoKeyBirthday, buffer, sizeof(buffer))) {
         infoCache.birthday = 0;
         infoCache.birthmonth = 0;
         infoCache.birthyear = 0;
@@ -690,7 +690,7 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
         if (__result__ != 0)
             return __result__;
     }
-    if (!gpiValueForKey(input, g_021A4B7C, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeySex, buffer, sizeof(buffer)))
         infoCache.sex = 0x502;
     else if (buffer[0] == '0')
         infoCache.sex = 0x500;
@@ -698,51 +698,51 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
         infoCache.sex = 0x501;
     else
         infoCache.sex = 0x502;
-    if (!gpiValueForKey(input, g_021A4B84, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyPmask, buffer, sizeof(buffer)))
         infoCache.publicmask = 0xFFFFFFFF;
     else
         infoCache.publicmask = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4B8C, infoCache.aimname, 51))
+    if (!gpiValueForKey(input, gGpiInfoKeyAim, infoCache.aimname, 51))
         infoCache.aimname[0] = '\0';
-    if (!gpiValueForKey(input, g_021A4B94, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyPic, buffer, sizeof(buffer)))
         infoCache.pic = 0;
     else
         infoCache.pic = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4B9C, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyOcc, buffer, sizeof(buffer)))
         infoCache.occupationid = 0;
     else
         infoCache.occupationid = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BA4, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyInd, buffer, sizeof(buffer)))
         infoCache.industryid = 0;
     else
         infoCache.industryid = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BAC, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyInc, buffer, sizeof(buffer)))
         infoCache.incomeid = 0;
     else
         infoCache.incomeid = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BB4, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyMar, buffer, sizeof(buffer)))
         infoCache.marriedid = 0;
     else
         infoCache.marriedid = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BBC, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyChc, buffer, sizeof(buffer)))
         infoCache.childcount = 0;
     else
         infoCache.childcount = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BC4, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyI1, buffer, sizeof(buffer)))
         infoCache.interests1 = 0;
     else
         infoCache.interests1 = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BCC, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyO1, buffer, sizeof(buffer)))
         infoCache.ownership1 = 0;
     else
         infoCache.ownership1 = atoi(buffer);
-    if (!gpiValueForKey(input, g_021A4BD4, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiInfoKeyConn, buffer, sizeof(buffer)))
         infoCache.conntypeid = 0;
     else
         infoCache.conntypeid = atoi(buffer);
 
-    if (!gpiValueForKey(input, g_021A4BDC, buffer, sizeof(buffer))) {
-        gpiSetError(connection, 1, g_021A4AB0);
+    if (!gpiValueForKey(input, gGpiInfoKeySig, buffer, sizeof(buffer))) {
+        gpiSetError(connection, 1, gGpiInfoErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback(connection, __result__, 1);
         return __result__;
@@ -778,7 +778,7 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
         GPGetInfoResponseArg *arg;
         arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
         if (arg == 0) {
-            gpiSetErrorString((int *)connection, (int)g_021A4BE4);
+            gpiSetErrorString((int *)connection, (int)gGpiInfoErrorOutOfMemory);
             return 1;
         }
         gpiInfoCacheToArg(&infoCache, arg);
@@ -805,19 +805,19 @@ int gpiAddLocalInfo(void **connection, void *buffer)
     struct GPIConnection_0218C5FC *iconnection = (struct GPIConnection_0218C5FC *)*connection;
 
     if (iconnection->nickPending > 0) {
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4BF4);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateProSessKey);
         gpiAppendIntToBuffer((int *)connection, buffer, iconnection->profileid);
         gpiAppendStringToBuffer((int *)connection, buffer, iconnection->nick);
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C0C);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyPartnerId);
         gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessionKey);
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C18);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
         iconnection->nickPending = 0;
     }
     if (iconnection->emailPending > 0) {
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C20);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateUiSessKey);
         gpiAppendIntToBuffer((int *)connection, buffer, iconnection->profileid);
         gpiAppendStringToBuffer((int *)connection, buffer, iconnection->email);
-        gpiAppendStringToBuffer((int *)connection, buffer, g_021A4C18);
+        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
         iconnection->emailPending = 0;
     }
     return 0;
@@ -1235,13 +1235,13 @@ int gpiSendGetInfo(void **connection, int profileid, int operationid)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
 
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4D60);
+    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyGetProfileSessKey);
     gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, iconnection->sessKey);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4AE0);
+    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyProfileId);
     gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, profileid);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4D78);
+    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyId);
     gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, operationid);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4C18);
+    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyFinal);
     return 0;
 }
 
@@ -1271,7 +1271,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
 
             arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                gpiSetErrorString((int *)connection, (int)g_021A4BE4);
+                gpiSetErrorString((int *)connection, (int)gGpiInfoErrorOutOfMemory);
                 return 1;
             }
             gpiInfoCacheToArg(pProfile->cache, arg);

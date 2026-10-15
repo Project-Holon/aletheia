@@ -1,5 +1,5 @@
 /*
- * function: func_0217E0A8
+ * function: LIVEBATTLEMATCH_IRC_InitState
  * address: 0x0217E0A8
  * packet: pkt_ov176_0217E0A8
  * region: ov176
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_0217E0A8(int *p){*p=0;return 1;}
+int LIVEBATTLEMATCH_IRC_InitState(int *p){*p=0;return 1;}

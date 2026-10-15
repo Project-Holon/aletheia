@@ -48,7 +48,7 @@
  *   strncmp                          0x020949F4 arm
  *   __ctype_mapC                     0x020A61DC data
  *   func_02181E28  0x02181e28  arm   ov009
- *   g_020A61DC     0x020a61dc  data
+ *   gCtypeMap     0x020a61dc  data
  *   gsiXmlUtilDecodeString    0x0218263C arm ov009
  *   strncmp                    0x020949f4 arm
  *   strchr                    0x02094a28 arm
@@ -101,7 +101,7 @@
  */
 #include "../../matched/arm9_sdk/libc/strncmp/string.h"
 
-#define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (g_020A61DC[c] & 0x8))
+#define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x8))
 
 typedef unsigned char  u8;
 
@@ -253,7 +253,7 @@ extern char gGsXmlOomElementArrayFormat[];
 extern char gGsXmlSoapEnvelopeEnd[];
 extern char gGsXmlWhiteSpaceChars[];
 extern const unsigned short __ctype_mapC[];
-extern const unsigned short g_020A61DC[];
+extern const unsigned short gCtypeMap[];
 extern char gGsXmlIntFormat[];
 extern char gGsXmlFloatFormat[];
 extern char gGsXmlHex2Format[];
@@ -709,7 +709,7 @@ static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int 
 
 #undef isalnum
 
-#define isalnum(c) (((c) < 0 || (c) >= 0x80) ? 0 : (g_020A61DC[c] & 0x9))
+#define isalnum(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x9))
 
 
 

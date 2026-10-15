@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEF20",
+   "name": "INTRO_CMD_Create",
    "address": "0x021BEF20",
    "kind": "game",
    "region": "ov204",

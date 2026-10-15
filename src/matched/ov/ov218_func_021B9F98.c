@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F98
+ * function: UN_SELECT_SetMode
  * address:  0x021B9F98
  * packet:   pkt_ov218_021B9F98
  * region:   ov218
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int tbl_021BAC80[];
-void func_021B9F98(u8 *p, int mode)
+void UN_SELECT_SetMode(u8 *p, int mode)
 {
     switch (mode) {
     case 0: {

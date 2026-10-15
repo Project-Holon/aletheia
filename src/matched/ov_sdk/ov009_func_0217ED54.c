@@ -12,13 +12,13 @@
  * The word at +4 of the module state block.
  *
  * symbols:
- *   g_021AD0F4  0x021AD0F4  data
+ *   gGsSocketError  0x021AD0F4  data
  */
 
-extern char g_021AD0F4[];
+extern char gGsSocketError[];
 
 int GOAGetLastError(int sock)
 {
-    return *(int *)(g_021AD0F4 + 4);
+    return *(int *)(gGsSocketError + 4);
 }
 

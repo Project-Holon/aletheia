@@ -47,8 +47,8 @@ typedef struct { s16 x,y; u16 flags; u8 a,b; } Pos;
 #define SLOT(p,i) (*(u8 **)((u8 *)((u32 *)(p)+(i))+0x62c))
 extern const Entry gIrcRankingLabelDefs[];
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void fill(void *,int,u32);
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);

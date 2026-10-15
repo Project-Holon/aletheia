@@ -14,7 +14,7 @@
  * symbols:
  *   _send_tcp  0x02158714  arm  ov009
  *   OS_YieldThread  0x020858D8  arm
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 struct Soc {
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 struct _CPSSoc;
 extern u32 _send_tcp(u8 *data, u32 len, struct _CPSSoc *soc, u8 flag);
 extern void OS_YieldThread(void);
-extern struct NetVars g_021A826C;
+extern struct NetVars gCpsNetVars;
 
 unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct Soc *soc, int need_probe)
 {
@@ -58,8 +58,8 @@ unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct Soc *so
 		thislen = soc->remote_mss;
 		if (thislen >= remote_win)
 			thislen = remote_win;
-		if (g_021A826C.send_win < thislen)
-			thislen = g_021A826C.send_win;
+		if (gCpsNetVars.send_win < thislen)
+			thislen = gCpsNetVars.send_win;
 		if (!need_probe)
 			thislen &= ~1;
 		if (len < thislen)

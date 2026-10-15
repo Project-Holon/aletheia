@@ -16,7 +16,7 @@
  *   NAMEIN_GRAPHIC_DrawCellTips 0x021F26F0 thumb ov194
  *   BG_SYS_DecodeTile 0x02040AE0 arm
  *   func_02040588 0x02040588 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   NAMEIN_GRAPHIC_ConvertCellMode 0x021F2884 thumb ov194
  */
 #include "../include/Obj01773.h"
@@ -28,7 +28,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);extern void BMP_Clear(int,unsigned);
 typedef unsigned short u16;
 extern void NAMEIN_GRAPHIC_DrawCellTips(char *p, char *target, void *window, void *font, u16 heap);
-extern void BG_SYS_DecodeTile(unsigned,const void *,unsigned);extern void func_02040588(unsigned,unsigned);extern void func_020409B4(unsigned);
+extern void BG_SYS_DecodeTile(unsigned,const void *,unsigned);extern void func_02040588(unsigned,unsigned);extern void BG_SYS_PushTile(unsigned);
 extern void NAMEIN_GRAPHIC_ConvertCellMode(int *,int,int);
 void NAMEIN_GRAPHIC_SwitchGridMode(char *p, u32 mode) {
  int index;
@@ -40,7 +40,7 @@ void NAMEIN_GRAPHIC_SwitchGridMode(char *p, u32 mode) {
  NAMEIN_GRAPHIC_DrawCellTips(p,p+0xEC,(void *)(((struct Obj01773 *)p)->fF8),(void *)(((struct Obj01773 *)p)->fF4),((struct Obj01773 *)p)->fFE);
  if(mode==3) {BG_SYS_DecodeTile(1,*(char * *)&((struct Obj01773 *)p)->f124+12,2048);func_02040588(2,0);}
  else BG_SYS_DecodeTile(1,*(char * *)&((struct Obj01773 *)p)->f128+12,2048);
- func_020409B4(1);
+ BG_SYS_PushTile(1);
  if(mode==3 || ((struct Obj01773 *)p)->f100==3)NAMEIN_GRAPHIC_ConvertCellMode((int *)(p+0xD8),((struct Obj01773 *)p)->f100,mode);
  ((struct Obj01773 *)p)->f100=mode;
 }

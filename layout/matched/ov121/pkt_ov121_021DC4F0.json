@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC4F0",
+   "name": "MYSTERY_ALBUM_ConfirmHandler",
    "address": "0x021DC4F0",
    "kind": "game",
    "region": "ov121",

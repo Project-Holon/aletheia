@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   AREAMAN_Delete  0x02033C9C  arm
  *   func_020307B0  0x020307B0  arm
  *
@@ -49,7 +49,7 @@ struct BgSys {
 
 extern struct BgSys *g_02146A44;
 
-extern void func_020403F4(u32 layer);
+extern void BG_SYS_FreeLayerBuf(u32 layer);
 extern u32 AREAMAN_Delete(void *a);
 extern u32 func_020307B0(void *p);
 
@@ -58,7 +58,7 @@ void BG_SYS_Delete(void)
     u8 i;
 
     for (i = 0; i < 8; i++) {
-        func_020403F4(i);
+        BG_SYS_FreeLayerBuf(i);
     }
     AREAMAN_Delete(g_02146A44->unk_168);
     AREAMAN_Delete(g_02146A44->unk_16c);

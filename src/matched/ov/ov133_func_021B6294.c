@@ -28,7 +28,7 @@
  *   BILLBOARD_Delete 0x0204ED24 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
@@ -57,7 +57,7 @@ extern void func_02030EAC(struct Node *);
 extern void BILLBOARD_Delete(void *);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern u32 func_020307B0(void *p);
@@ -85,8 +85,8 @@ void DUP_FITTING_Delete(char *p)
     BILLBOARD_Delete(((struct Obj01941 *)p)->f188C);
     G3D_CAMERA_Delete(((struct Obj01941 *)p)->f1888);
     G3D_SYSTEM_Exit();
-    func_020403F4(0);func_020403F4(1);func_020403F4(2);func_020403F4(3);
-    func_020403F4(4);func_020403F4(6);func_020403F4(5);func_020403F4(7);
+    BG_SYS_FreeLayerBuf(0);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(4);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     func_020307B0(p);

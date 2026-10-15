@@ -1,5 +1,5 @@
 /*
- * function: func_021DA6D0
+ * function: MYSTERY_UTIL_SetVoice
  * address: 0x021DA6D0
  * packet: pkt_ov121_021DA6D0
  * region: ov121
@@ -15,7 +15,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021DAAA4 0x021DAAA4 thumb ov121
+ *   MYSTERY_UTIL_BlendPalette 0x021DAAA4 thumb ov121
  *   d_021DF76C 0x021DF76C data a4
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
@@ -38,8 +38,8 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef signed int     s32;
-extern s32 func_021DAAA4(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
-int func_021DA6D0(u8 *p)
+extern s32 MYSTERY_UTIL_BlendPalette(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
+int MYSTERY_UTIL_SetVoice(u8 *p)
 {
     u32 keys=KEY_GetTrg();
     u32 repeat=KEY_GetRepeat();
@@ -86,7 +86,7 @@ int func_021DA6D0(u8 *p)
         if(((struct Obj06450 *)v)->f4C!=((struct Obj06450 *)v)->f3C && ((struct Obj00360 *)p)->f24>=0x7dff && ((struct Obj00360 *)p)->f24<=0x81ff)
             ((struct Obj06450 *)v)->f3C=((struct Obj06450 *)v)->f4C;
         if(((struct Obj06450 *)v)->f3C)
-            func_021DAAA4((int)((void *)15),(u16 *)(p+0x1a+i*2),((struct Obj00360 *)p)->f24,(u8)(((struct Obj00360 *)p)->f2C),(u8)(i+10),*(u16 *)(p+0x12+i*2),((struct Obj00360 *)p)->f22);
+            MYSTERY_UTIL_BlendPalette((int)((void *)15),(u16 *)(p+0x1a+i*2),((struct Obj00360 *)p)->f24,(u8)(((struct Obj00360 *)p)->f2C),(u8)(i+10),*(u16 *)(p+0x12+i*2),((struct Obj00360 *)p)->f22);
     }
     return -1;
 }

@@ -17,8 +17,8 @@
  *   strstr  0x02094B20  arm
  *   memmove  0x02092364  arm
  *   OS_SNPrintf  0x02084F80  arm
- *   g_021A267C     0x021A267C  data
- *   g_021A25D4     0x021A25D4  data
+ *   gDwcHttpHeaderFmt     0x021A267C  data
+ *   gDwcHttpHeaderTerminator     0x021A25D4  data
  */
 
 typedef struct {
@@ -27,8 +27,8 @@ typedef struct {
     char *end;
     int cap;
 } Buf;
-extern char g_021A267C[];
-extern char g_021A25D4[];
+extern char gDwcHttpHeaderFmt[];
+extern char gDwcHttpHeaderTerminator[];
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size);
@@ -46,17 +46,17 @@ int DWC_Http_Add_HeaderItem(char *http, char *label, char *data)
 
     temp_buffer = (Buf *)(http + 0x1a34);
     result_len = strlen((const u8 *)data) +
-                 (strlen((const u8 *)g_021A267C) - 4 + strlen((const u8 *)label));
+                 (strlen((const u8 *)gDwcHttpHeaderFmt) - 4 + strlen((const u8 *)label));
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len + 1 > buf_remain) {
         if (DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1) == 0) {
             return 1;
         }
     }
-    temp_index = strstr(temp_buffer->base, g_021A25D4) + 2;
+    temp_index = strstr(temp_buffer->base, gDwcHttpHeaderTerminator) + 2;
     temp = *temp_index;
     memmove(temp_index + result_len, temp_index, strlen((const u8 *)temp_index) + 1);
-    temp_index[OS_SNPrintf(temp_index, result_len + 1, g_021A267C, label, data)] = temp;
+    temp_index[OS_SNPrintf(temp_index, result_len + 1, gDwcHttpHeaderFmt, label, data)] = temp;
     temp_buffer->cur += result_len;
     return 0;
 }

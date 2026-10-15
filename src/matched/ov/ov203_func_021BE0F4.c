@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0F4
+ * function: DEMO3D_GRAPHIC_InitG3d
  * address: 0x021BE0F4
  * packet: pkt_ov203_021BE0F4
  * region: ov203
@@ -28,7 +28,7 @@ extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 hea
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void DEMO3D_SetupGx(void);
 extern const struct LightSet d_021BFB48;
-void func_021BE0F4(char *p, u8 heap)
+void DEMO3D_GRAPHIC_InitG3d(char *p, u8 heap)
 {
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, heap, DEMO3D_SetupGx);
     *(struct LightSlot **)(p + 4) = G3D_LIGHT_CreateSlots(&d_021BFB48, heap);

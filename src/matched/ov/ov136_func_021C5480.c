@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MIi_CpuClearFast(int,void *,int);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);

@@ -10,12 +10,12 @@
  * status: EXACT
  * Unlabelled blocker leaf for WIFIBATTLEMATCH_NET_TaskStepL; parent confirmed unowned.
  * symbols:
- *   func_021E777C 0x021E777C thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_StepRecordWindow 0x021E777C thumb ov177
  */
 #include "../include/Obj00171.h"
 struct Work;
-extern int func_021E777C(struct Work *);
+extern int WIFIBATTLEMATCH_VIEW_StepRecordWindow(struct Work *);
 int WIFIBATTLEMATCH_NET_IsRegCardReady(char *p)
 {
-    return func_021E777C(*(struct Work * *)&((struct Obj00171 *)p)->f1C);
+    return WIFIBATTLEMATCH_VIEW_StepRecordWindow(*(struct Work * *)&((struct Obj00171 *)p)->f1C);
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BABA4",
-    "func_021BABB8"
+    "BTL_REC_SEL_DeleteActor",
+    "BTL_REC_SEL_SetMode"
+   ],
+   "addresses": [
+    "0x021BABA4",
+    "0x021BABB8"
    ],
    "evidence": {
     "sole-ref": [

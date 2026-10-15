@@ -1,5 +1,5 @@
 /*
- * function: func_021F0F74
+ * function: BEACON_VIEW_LoadEntryPanel
  * address:  0x021F0F74
  * packet:   pkt_ov032_021F0F74
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0F74  0x021F0F74  thumb
+ *   BEACON_VIEW_LoadEntryPanel  0x021F0F74  thumb
  *   GAME_BEACON_ACCESSOR_GetTrainerAppearance  0x02165CE8  thumb  ov010
  *   CLACT_TransferCharacter  0x0204A9D0  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
@@ -30,7 +30,7 @@ extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u8 d_021F3541[];
 
-void func_021F0F74(char *p, u8 *q, void *r)
+void BEACON_VIEW_LoadEntryPanel(char *p, u8 *q, void *r)
 {
     int x;
 

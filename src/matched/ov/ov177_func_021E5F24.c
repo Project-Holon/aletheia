@@ -1,5 +1,5 @@
 /*
- * function: func_021E5F24
+ * function: WIFIBATTLEMATCH_VIEW_DrawStatusWindow
  * address: 0x021E5F24
  * packet: pkt_ov177_021E5F24
  * region: ov177
@@ -18,8 +18,8 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_021E7270 0x021E7270 thumb ov177
- *   func_021E6F20 0x021E6F20 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_DeletePokeActors 0x021E7270 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreatePokeActors 0x021E6F20 thumb ov177
  *   func_020407E8 0x020407E8 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -41,15 +41,15 @@ struct Obj;
 struct U16Vec;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021E7270(char *);
-extern void func_021E6F20(Work *,void *,void *,u16);
+extern void WIFIBATTLEMATCH_VIEW_DeletePokeActors(char *);
+extern void WIFIBATTLEMATCH_VIEW_CreatePokeActors(Work *,void *,void *,u16);
 extern u32 func_020407E8(u32 layer);
 extern void CLACT_AddActorSurfacePos(void *,const Pt *,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
+void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *print, int font, u16 a5)
 {
     int i;
     void *s;
@@ -58,9 +58,9 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
     Pt pos;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00133 *)p)->f20),0);
     i=0;
-    func_021E7270(p);
+    WIFIBATTLEMATCH_VIEW_DeletePokeActors(p);
     base=0x240;
-    func_021E6F20((Work *)p,*(void **)(p+base),*(void **)(p+base-8),*(u16 *)(p+base-4));
+    WIFIBATTLEMATCH_VIEW_CreatePokeActors((Work *)p,*(void **)(p+base),*(void **)(p+base-8),*(u16 *)(p+base-4));
     x=32-func_020407E8(*(u8 *)(p+base-16));
     layer1=0x234;
     layer2=0x234;

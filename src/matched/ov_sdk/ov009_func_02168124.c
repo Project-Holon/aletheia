@@ -19,7 +19,7 @@
  *   DWC_Auth_Create  0x02177EE8  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_02059F54  0x02059F54  arm
- *   g_021AA830  0x021AA830  data
+ *   gDwcNasCnt  0x021AA830  data
  */
 
 typedef struct {
@@ -46,13 +46,13 @@ extern void DWC_Auth_Destroy(void);
 extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
 extern void func_0205A1B0(int name, void *ptr, unsigned long size);
 extern void func_02059F54(int error, int errorCode);
-extern NalCnt *g_021AA830;
+extern NalCnt *gDwcNasCnt;
 
 int DWC_NASLoginProcess(void)
 {
     AuthResult result;
 
-    if (g_021AA830 == 0)
+    if (gDwcNasCnt == 0)
         return 0;
     switch (DWC_Auth_GetError()) {
     case 0:
@@ -62,22 +62,22 @@ int DWC_NASLoginProcess(void)
         DWC_Auth_GetResult((int *)(&result));
         DWC_Auth_Destroy();
         if (result.returncode == 20002) {
-            DWC_Auth_Create((struct DWCAuthParam *)g_021AA830->authparam, g_021AA830->http);
+            DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->authparam, gDwcNasCnt->http);
             return 2;
         }
-        func_0205A1B0(4, g_021AA830, 7772);
-        g_021AA830 = 0;
+        func_0205A1B0(4, gDwcNasCnt, 7772);
+        gDwcNasCnt = 0;
         return 3;
     case 0x14:
         DWC_Auth_Destroy();
-        func_0205A1B0(4, g_021AA830, 7772);
-        g_021AA830 = 0;
+        func_0205A1B0(4, gDwcNasCnt, 7772);
+        gDwcNasCnt = 0;
         return 5;
     default:
         DWC_Auth_GetResult((int *)(&result));
         DWC_Auth_Destroy();
-        func_0205A1B0(4, g_021AA830, 7772);
-        g_021AA830 = 0;
+        func_0205A1B0(4, gDwcNasCnt, 7772);
+        gDwcNasCnt = 0;
         func_02059F54(2, result.returncode);
         return 4;
     }

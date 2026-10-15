@@ -14,7 +14,7 @@
  *   GURU2_MAIN_LoadArcMember 0x021E1634 thumb ov137
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DecodeTile 0x02040AE0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj23769.h"
@@ -24,7 +24,7 @@ extern void *GURU2_MAIN_LoadArcMember(char *p, unsigned int member, int flag);
 extern int NNS_G2dGetUnpackedScreenData(void *,void **);
 typedef unsigned int   u32;
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 func_020307B0(void *p);
 void GURU2_MAIN_LoadScreen(u8 *p,int file)
 {
@@ -34,7 +34,7 @@ void GURU2_MAIN_LoadScreen(u8 *p,int file)
     NNS_G2dGetUnpackedScreenData(buf,(void **)(p+3420));
     screen=*(u8 * *)&((struct Obj23769 *)p)->fD5C;
     BG_SYS_DecodeTile(6,screen+12,((struct Obj23770 *)screen)->f8);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_020307B0(buf);
 }
 void GURU2_MAIN_LoadScreen26(u8 *p) { GURU2_MAIN_LoadScreen(p,26); }

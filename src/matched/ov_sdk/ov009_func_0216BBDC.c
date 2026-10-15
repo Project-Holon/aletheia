@@ -12,12 +12,12 @@
  * DWCi_GetGT2ConnectionByProfileID: the connection slot whose peer profile id matches, or null.
  *
  * symbols:
- *   g_021AA8A0  0x021AA8A0  data
+ *   gDwcConnectionArray  0x021AA8A0  data
  *   gt2GetConnectionData  0x02195E78  arm  ov009
  *   DWCi_GetGT2ConnectionByIdx  0x0216BBCC  arm  ov009
  */
 
-extern int g_021AA8A0[];
+extern int gDwcConnectionArray[];
 extern int gt2GetConnectionData(const int *p);
 extern int *DWCi_GetGT2ConnectionByIdx(int i);
 
@@ -26,7 +26,7 @@ int *DWCi_GetGT2ConnectionByProfileID(int pid, int flag)
     int i;
 
     for (i = 0; i < 0x20; i++) {
-        if (g_021AA8A0[i] != 0 && pid == *(int *)(gt2GetConnectionData((const int *)g_021AA8A0[i]) + 4)) {
+        if (gDwcConnectionArray[i] != 0 && pid == *(int *)(gt2GetConnectionData((const int *)gDwcConnectionArray[i]) + 4)) {
             return DWCi_GetGT2ConnectionByIdx(i);
         }
     }

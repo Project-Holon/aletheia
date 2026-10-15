@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_scene.c
  * unit:     yes
- * function: WF2DMAP_SCENE_Create, WF2DMAP_SCENE_Draw, WF2DMAP_SCENE_Delete, WF2DMAP_SCENE_InitBg, WF2DMAP_SCENE_VBlank, WF2DMAP_SCENE_SetSlot, WF2DMAP_SCENE_BuildGrid, WF2DMAP_SCENE_ResetState, WF2DMAP_SCENE_Start, WF2DMAP_SCENE_StepWipeIn, WF2DMAP_SCENE_StepWaitInput, WF2DMAP_SCENE_StepUpdate, WF2DMAP_SCENE_StepAnimate, WF2DMAP_SCENE_Dispatch, WF2DMAP_SCENE_HandleInput, func_021D92E4, func_021D9320, func_021D9348, func_021D93D4, func_021D9490, func_021D9564, func_021D958C, func_021D9760, func_021D97B8, func_021D97CC, func_021D97FC, func_021D9838, func_021D9890, func_021D99F0, func_021D9AB0, func_021D9BEC, func_021D9D44, func_021D9E48, func_021D9E60, func_021D9E98, func_021D9EE8, func_021D9F40, func_021D9FF0, func_021DA004, func_021DA158, func_021DA164, func_021DA1A8, func_021DA320, func_021DA3B8, func_021DA3D0, func_021DA3FC, func_021DA42C, func_021DA454, func_021DA524, func_021DA578, func_021DA610
+ * function: WF2DMAP_SCENE_Create, WF2DMAP_SCENE_Draw, WF2DMAP_SCENE_Delete, WF2DMAP_SCENE_InitBg, WF2DMAP_SCENE_VBlank, WF2DMAP_SCENE_SetSlot, WF2DMAP_SCENE_BuildGrid, WF2DMAP_SCENE_ResetState, WF2DMAP_SCENE_Start, WF2DMAP_SCENE_StepWipeIn, WF2DMAP_SCENE_StepWaitInput, WF2DMAP_SCENE_StepUpdate, WF2DMAP_SCENE_StepAnimate, WF2DMAP_SCENE_Dispatch, WF2DMAP_SCENE_HandleInput, WF2DMAP_SCENE_GetGridNumber, WF2DMAP_SCENE_CheckGridNumber, WF2DMAP_SCENE_BuildNumberList, WF2DMAP_SCENE_ClearSelection, WF2DMAP_SCENE_CreateButtons, WF2DMAP_SCENE_SetButtonCursor, WF2DMAP_SCENE_HandleButton, WF2DMAP_SCENE_ProcessPending, WF2DMAP_SCENE_ClearPending, WF2DMAP_SCENE_FindCellByValue, WF2DMAP_SCENE_FindLastCellByValue, WF2DMAP_SCENE_InitClact, WF2DMAP_SCENE_LoadActorAssets, WF2DMAP_SCENE_DeleteActors, WF2DMAP_SCENE_CreateCellActors, WF2DMAP_SCENE_CreateCursorActors, WF2DMAP_SCENE_CreateExtraActors, WF2DMAP_SCENE_SetCursorVisible, WF2DMAP_SCENE_MoveCursor, WF2DMAP_SCENE_SetCursorPos, WF2DMAP_SCENE_SetCursorPosBySlot, WF2DMAP_SCENE_UpdateCursorAnim, WF2DMAP_SCENE_SetOamPos, WF2DMAP_SCENE_UpdateOam, WF2DMAP_SCENE_GetCellAnim, WF2DMAP_SCENE_SetCellFlags, WF2DMAP_SCENE_LayoutCells, WF2DMAP_SCENE_UpdateCellRects, WF2DMAP_SCENE_CreateOam, WF2DMAP_SCENE_DeleteOam, WF2DMAP_SCENE_RegisterCompressedPalette, WF2DMAP_SCENE_CreateTextOams, WF2DMAP_SCENE_CreateTextOam, WF2DMAP_SCENE_CreateWindow, WF2DMAP_SCENE_DrawMessage, WF2DMAP_SCENE_ShowMessage
  * address:  0x021D85C0
  * region:   ov129
  * compiler: dsi/1.1p1
@@ -37,7 +37,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
@@ -122,7 +122,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -130,54 +130,16 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
-#include "../../matched/include/Obj04506.h"
-#include "../../matched/include/Obj23114.h"
-#include "../../matched/include/Obj01937.h"
-#include "../../matched/include/Obj01938.h"
-#include "../../matched/include/Obj08136.h"
-#include "../../matched/include/Obj10498.h"
-#include "../../matched/include/Obj10499.h"
-#include "../../matched/include/Obj02843.h"
-#include "../../matched/include/Obj00361.h"
-#include "../../matched/include/Obj00411.h"
-#include "../../matched/include/Obj14053.h"
-#include "../../matched/include/Obj06479.h"
-#include "../../matched/include/Obj08137.h"
-#include "../../matched/include/Obj00912.h"
-#include "../../matched/include/Obj14055.h"
-#include "../../matched/include/Obj14056.h"
-#include "../../matched/include/Obj23117.h"
-#include "../../matched/include/Obj14057.h"
-#include "../../matched/include/Obj02483.h"
-#include "../../matched/include/Obj06480.h"
-#include "../../matched/include/Obj10500.h"
-#include "../../matched/include/Obj02185.h"
-#include "../../matched/include/Obj06481.h"
-#include "../../matched/include/Obj00501.h"
-#include "../../matched/include/Obj00913.h"
-#include "../../matched/include/Obj14058.h"
-#include "../../matched/include/Obj14059.h"
-#include "../../matched/include/Obj14060.h"
-#include "../../matched/include/Obj02186.h"
-#include "../../matched/include/Obj04507.h"
-#include "../../matched/include/Obj10501.h"
-#include "../../matched/include/Obj02187.h"
-#include "../../matched/include/Obj03283.h"
-#include "../../matched/include/Obj10502.h"
-#include "../../matched/include/Obj14061.h"
-#include "../../matched/include/Obj08140.h"
-#include "../../matched/include/Obj23118.h"
-#include "../../matched/include/Obj08141.h"
 
 struct GfFont;
 struct Obj02021EE4;
 struct PalAnmSlot;
 struct Param;
-struct Obj0203159C;
+struct Proc;
 struct Node;
-struct S020315D4;
+struct Proc;
 struct U16Vec;
 struct BgTemplate;
 struct DispVram;
@@ -200,6 +162,131 @@ struct StrObj;
 struct Sys;
 struct CharBuf;
 struct WordSet;
+
+union Wf2dmapHandle { void *handle; int handleRaw; };
+
+typedef struct {
+    int state;
+    int value;
+    int flag;
+    union Wf2dmapHandle actor;
+    unsigned char pad_10[4];
+    short stepX;
+    short stepY;
+    unsigned char stepFrames;
+    unsigned char stepIndex;
+    unsigned char pad_1A[310];
+    int group0End;
+    unsigned char pad_154[8];
+    union Wf2dmapHandle extraActor;
+    unsigned char pad_160[4];
+    short extraStepX;
+    short extraStepY;
+    unsigned char extraStepFrames;
+    unsigned char pad_169[15];
+    int extraActor1;
+    unsigned char pad_17C[12];
+    int cursorIndex;
+    unsigned char pad_18C[8];
+    union Wf2dmapHandle cursorActor;
+    unsigned char pad_198[12];
+    int cursorMode;
+    unsigned char pad_1A8[8];
+    int cursorActor2;
+    unsigned char pad_1B4[4];
+    unsigned short cursorCol;
+    unsigned short cursorRow;
+    unsigned char pad_1BC[4];
+    int cursorActor3;
+    unsigned char pad_1C4[8];
+    int cursorActor4;
+    unsigned char pad_1D0[4];
+    unsigned short cursorValue0;
+    unsigned short cursorValue1;
+    unsigned char pad_1D8[4];
+    int cursorState;
+    unsigned char pad_1E0[8];
+    int cursorAnimActor;
+    unsigned char pad_1EC[8];
+    unsigned char cursorAnimFrame;
+    unsigned char pad_1F5[3];
+    int listActive;
+    unsigned char pad_1FC[8];
+    int cursorAnimActor2;
+    unsigned char pad_208[8];
+    unsigned char listTimer;
+    unsigned char pad_211[11];
+    unsigned short range0Start;
+    unsigned short range0End;
+    unsigned short range1Start;
+    unsigned short range1End;
+    unsigned short range2Start;
+    unsigned short range2End;
+    unsigned char pad_228[4];
+    int stateId;
+    int stateTimer;
+    int step;
+    int stepTimer;
+    int cellCount;
+    int groupIndex;
+    int prevGroupIndex;
+    int mainStart;
+    int mainEnd;
+    int subStart;
+    int subEnd;
+    void * arcHandle;
+    union Wf2dmapHandle unit;
+    int paletteA;
+    int paletteB;
+    int paletteC;
+    int charA;
+    int charB;
+    int charC;
+    unsigned char pad_278[12];
+    int cellAnimA;
+    int cellAnimB;
+    int cellAnimC;
+    union Wf2dmapHandle palAnm;
+    void * buttonMan;
+    unsigned char pad_298[88];
+    unsigned char selY0;
+    unsigned char selY1;
+    unsigned char selX0;
+    unsigned char selX1;
+    unsigned char sel2Y0;
+    unsigned char sel2Y1;
+    unsigned char sel2X0;
+    unsigned char sel2X1;
+    unsigned char buttonCount;
+    unsigned char pad_2F9[3];
+    int gridActive;
+    void * oamSys;
+    void * oamA;
+    void * oamB;
+    unsigned int oamPalette;
+    int windowHandle;
+    union Wf2dmapHandle font;
+    void * vblankTask;
+    int pendingCmd;
+    int pendingArg;
+    int pendingFlag;
+    int paramId;
+    unsigned char pad_32C[4];
+    int group0Size;
+    int group1Size;
+    int group2Size;
+    unsigned char pad_33C[8];
+    int paramSize;
+    union Wf2dmapHandle strbuf;
+} Wf2dmapScene;
+
+typedef struct {
+    int state;
+    int value;
+    int flag;
+    void *handle;
+    unsigned char pad_10[12];
+} Wf2dmapCell;
 
 typedef unsigned short u16;
 
@@ -234,14 +321,6 @@ typedef unsigned int   u32;
 
 typedef struct { int v[3][5]; } Tbl;
 
-typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } SceneSlot;
-
-typedef struct  {
-    int state, value, flag, handle;
-    char tail[12];
-}
-SlotRecord;
-
 typedef short s16;
 
 typedef struct { s16 a,b,c,d; } Rect;
@@ -251,7 +330,6 @@ typedef struct { Rect rows[12]; } Rects;
 typedef struct { u8 a,b; } Entry;
 
 
-typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Record;
 
 
 
@@ -277,11 +355,10 @@ typedef struct {
 } L;
 
 
-typedef struct { short x,y; } PairS16;
+typedef struct { short x,y; } Wf2dmapPairS16;
 
-typedef struct { u16 x,y; } PairU16;
+typedef struct { u16 x,y; } Wf2dmapPairU16;
 
-typedef struct { u16 x,y; } PairU16B;
 
 
 
@@ -289,7 +366,6 @@ typedef struct { u16 x,y; } PairU16B;
 typedef struct { short x,y,z,w; } Position;
 
 
-typedef struct { short x,y; } PairS16B;
 
 
 
@@ -299,7 +375,7 @@ struct Param { void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 
 
 extern void GFL_HEAP_CreateChildHeap(unsigned a, unsigned b, unsigned c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned size, unsigned heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned size, unsigned heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern struct Param *CODEIN_PARAM_Create(unsigned heap, unsigned a1, unsigned a2, unsigned a3, unsigned *src);
 extern unsigned func_020307B0(void *p);
@@ -319,14 +395,14 @@ extern unsigned GF_FONT_Delete(void *ptr);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 extern void BG_SYS_Delete(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, unsigned idx);
 extern unsigned PALANM_Delete(void *a0);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BUTTON_MAN_Delete(void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned heap);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -394,7 +470,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -402,7 +478,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg);
 int WF2DMAP_SCENE_Draw(int a, int b, int c, int d);
 int WF2DMAP_SCENE_Delete(void *a,int b,int c,char *p);
@@ -418,42 +494,42 @@ int WF2DMAP_SCENE_StepUpdate(char *p);
 int WF2DMAP_SCENE_StepAnimate(char *p);
 int WF2DMAP_SCENE_Dispatch(char *p);
 void WF2DMAP_SCENE_HandleInput(char *p);
-int func_021D92E4(u8 *p);
-int func_021D9320(u8 *p);
-void func_021D9348(char *p);
-void func_021D93D4(const SlotRecord *p);
-void func_021D9490(char *p);
-void func_021D9564(u8 *p,int n);
-void func_021D958C(u32 n, int touch, char *p);
-void func_021D9760(char *p);
-void func_021D97B8(char *p);
-int func_021D97CC(u8 *p,int value);
-int func_021D97FC(u8 *p,int value);
-void func_021D9838(char *p,unsigned a);
-void func_021D9890(char *p);
-void func_021D99F0(char *p);
-void func_021D9AB0(char *p);
-void func_021D9BEC(char *p);
-void func_021D9D44(char *p);
-void func_021D9E48(char *p, int i, int a);
-void func_021D9E60(u8 *p,int n);
-void func_021D9E98(char *p,int i);
-void func_021D9EE8(char *p,int i,int j);
-void func_021D9F40(char *p);
-void func_021D9FF0(char *p, int a, int b);
-void func_021DA004(char *p);
-int func_021DA158(int x,int flag);
-void func_021DA164(void *p);
-void func_021DA1A8(char *p,int animate);
-void func_021DA320(char *p);
-void func_021DA3B8(char *p);
-void func_021DA3D0(u8 *p);
-void func_021DA3FC(u8 *p);
-void func_021DA42C(u8 *p);
-void func_021DA454(u8 *p, int i, int a2, int a3, int a4);
-void func_021DA524(void **p,int a,int b,int c,int d,int e,int f,int g,int h);
-void func_021DA578(void *p,int a,void *b,u32 c);
-void func_021DA610(void *p, int sel, void *b, unsigned int c);
+int WF2DMAP_SCENE_GetGridNumber(u8 *p);
+int WF2DMAP_SCENE_CheckGridNumber(u8 *p);
+void WF2DMAP_SCENE_BuildNumberList(char *p);
+void WF2DMAP_SCENE_ClearSelection(const Wf2dmapCell *p);
+void WF2DMAP_SCENE_CreateButtons(char *p);
+void WF2DMAP_SCENE_SetButtonCursor(u8 *p,int n);
+void WF2DMAP_SCENE_HandleButton(u32 n, int touch, char *p);
+void WF2DMAP_SCENE_ProcessPending(char *p);
+void WF2DMAP_SCENE_ClearPending(char *p);
+int WF2DMAP_SCENE_FindCellByValue(u8 *p,int value);
+int WF2DMAP_SCENE_FindLastCellByValue(u8 *p,int value);
+void WF2DMAP_SCENE_InitClact(char *p,unsigned a);
+void WF2DMAP_SCENE_LoadActorAssets(char *p);
+void WF2DMAP_SCENE_DeleteActors(char *p);
+void WF2DMAP_SCENE_CreateCellActors(char *p);
+void WF2DMAP_SCENE_CreateCursorActors(char *p);
+void WF2DMAP_SCENE_CreateExtraActors(char *p);
+void WF2DMAP_SCENE_SetCursorVisible(char *p, int i, int a);
+void WF2DMAP_SCENE_MoveCursor(u8 *p,int n);
+void WF2DMAP_SCENE_SetCursorPos(char *p,int i);
+void WF2DMAP_SCENE_SetCursorPosBySlot(char *p,int i,int j);
+void WF2DMAP_SCENE_UpdateCursorAnim(char *p);
+void WF2DMAP_SCENE_SetOamPos(char *p, int a, int b);
+void WF2DMAP_SCENE_UpdateOam(char *p);
+int WF2DMAP_SCENE_GetCellAnim(int x,int flag);
+void WF2DMAP_SCENE_SetCellFlags(void *p);
+void WF2DMAP_SCENE_LayoutCells(char *p,int animate);
+void WF2DMAP_SCENE_UpdateCellRects(char *p);
+void WF2DMAP_SCENE_CreateOam(char *p);
+void WF2DMAP_SCENE_DeleteOam(u8 *p);
+void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *p);
+void WF2DMAP_SCENE_CreateTextOams(u8 *p);
+void WF2DMAP_SCENE_CreateTextOam(u8 *p, int i, int a2, int a3, int a4);
+void WF2DMAP_SCENE_CreateWindow(void **p,int a,int b,int c,int d,int e,int f,int g,int h);
+void WF2DMAP_SCENE_DrawMessage(void *p,int a,void *b,u32 c);
+void WF2DMAP_SCENE_ShowMessage(void *p, int sel, void *b, unsigned int c);
 extern const unsigned d_021DA800[];
 extern const MainTemplates d_021DA638;
 extern const SubTemplates d_021DA698;
@@ -485,31 +561,31 @@ static inline void GXS_SetVisiblePlane(int plane) { *(volatile unsigned *)0x0400
 
 int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
 {
-    u8 *p;
+    u8 *scene;
     unsigned sizes[3];
-    Param *q;
+    Param *param;
     GFL_HEAP_CreateChildHeap((unsigned)((void *)1),50,0x40000);
-    p=PROCSYS_AllocProcWork(obj,0x34C,50);
-    MI_CpuFill8(p,0,0x34C);
+    scene=PROCSYS_AllocProcWork(obj,0x34C,50);
+    MI_CpuFill8(scene,0,0x34C);
     if(cfg==0) {
         sizes[0]=4; sizes[1]=4; sizes[2]=4;
-        q=(Param *)CODEIN_PARAM_Create(50,0,0,12,sizes);
-        *(Param *)(p+0x328)=*q;
-        func_020307B0(q);
-    } else *(Param *)(p+0x328)=*cfg;
+        param=(Param *)CODEIN_PARAM_Create(50,0,0,12,sizes);
+        *(Param *)(scene+0x328)=*param;
+        func_020307B0(param);
+    } else *(Param *)(scene+0x328)=*cfg;
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
-    *(void **)(p+0x258)=func_020490F4(59,50);
+    ((Wf2dmapScene *)scene)->arcHandle=func_020490F4(59,50);
     BG_SYS_Create(50); BMP_WIN_Init(50);
-    *(void **)(p+0x290)=PALANM_Create(50);
-    *(void **)(p+0x314)=GF_FONT_Create(23,0,0,0,50);
-    PALANM_SetAutoTransfer(*(void **)(p+0x290),1);
-    PALANM_AllocSlotBuffers(*(void **)(p+0x290),0,512,50);
+    ((Wf2dmapScene *)scene)->palAnm.handle=PALANM_Create(50);
+    ((Wf2dmapScene *)scene)->font.handle=GF_FONT_Create(23,0,0,0,50);
+    PALANM_SetAutoTransfer(((Wf2dmapScene *)scene)->palAnm.handle,1);
+    PALANM_AllocSlotBuffers(((Wf2dmapScene *)scene)->palAnm.handle,0,512,50);
     WF2DMAP_SCENE_InitBg();
-    func_021D9838((char *)p,(unsigned int)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)p); func_021D9490((char *)p);
+    WF2DMAP_SCENE_InitClact((char *)scene,(unsigned int)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)scene); WF2DMAP_SCENE_CreateButtons((char *)scene);
     func_0207D63C((void *)0x04000050,0,6,15,7);
     func_0207D63C((void *)0x04001050,0,14,7,8);
-    *(void **)(p+0x318)=func_020056A0((unsigned)WF2DMAP_SCENE_VBlank,(unsigned)p,16);
+    ((Wf2dmapScene *)scene)->vblankTask=func_020056A0((unsigned)WF2DMAP_SCENE_VBlank,(unsigned)scene,16);
     GFL_NET_RestartWithDefaultTimeout(1,50);
     return 1;
 }
@@ -523,12 +599,12 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
 /*
  * Addresses are Black-image addresses.
  */
-int WF2DMAP_SCENE_Draw(int a, int b, int c, int d)
+int WF2DMAP_SCENE_Draw(int a, int b, int c, int scene)
 {
-    void *r = (void *)WF2DMAP_SCENE_Dispatch((char *)d);
+    void *drawResult = (void *)WF2DMAP_SCENE_Dispatch((char *)scene);
 
-    CLACT_DrawSystem(r);
-    return r != 0;
+    CLACT_DrawSystem(drawResult);
+    return drawResult != 0;
 }
 
 
@@ -539,23 +615,23 @@ int WF2DMAP_SCENE_Draw(int a, int b, int c, int d)
 /*
  * The caller supplies the pointer through the legacy argless 02021540 thunk.
  */
-int WF2DMAP_SCENE_Delete(void *a,int b,int c,char *p)
+int WF2DMAP_SCENE_Delete(void *procWork,int b,int c,char *scene)
 {
-    func_02030EAC(((struct Obj04506 *)p)->f318);
-    GF_FONT_Delete(((struct Obj04506 *)p)->f314);
-    func_021D99F0(p);
+    func_02030EAC(((Wf2dmapScene *)scene)->vblankTask);
+    GF_FONT_Delete(((Wf2dmapScene *)scene)->font.handle);
+    WF2DMAP_SCENE_DeleteActors(scene);
     BMP_WIN_Exit();
     BG_SYS_SetMainPlaneVisible(1,0); BG_SYS_SetMainPlaneVisible(2,0); BG_SYS_SetMainPlaneVisible(4,0); BG_SYS_SetMainPlaneVisible(8,0);
     BG_SYS_SetSubPlaneVisible(1,0); BG_SYS_SetSubPlaneVisible(2,0); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
-    func_020403F4(1); func_020403F4(2); func_020403F4(3); func_020403F4(4);
-    func_020403F4(5); func_020403F4(6); func_020403F4(7);
+    BG_SYS_FreeLayerBuf(1); BG_SYS_FreeLayerBuf(2); BG_SYS_FreeLayerBuf(3); BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(6); BG_SYS_FreeLayerBuf(7);
     BG_SYS_Delete();
-    PALANM_FreeSlotBuffers(((struct Obj04506 *)p)->f290,0);
-    PALANM_Delete(((struct Obj04506 *)p)->f290);
-    ARC_TOOL_DeleteHandle(((struct Obj04506 *)p)->f258);
-    BUTTON_MAN_Delete(((struct Obj04506 *)p)->f294);
-    if(c==0) STRBUF_Delete(((struct Obj04506 *)p)->f348);
-    func_020315D4(a);
+    PALANM_FreeSlotBuffers(((Wf2dmapScene *)scene)->palAnm.handle,0);
+    PALANM_Delete(((Wf2dmapScene *)scene)->palAnm.handle);
+    ARC_TOOL_DeleteHandle(((Wf2dmapScene *)scene)->arcHandle);
+    BUTTON_MAN_Delete(((Wf2dmapScene *)scene)->buttonMan);
+    if(c==0) STRBUF_Delete(((Wf2dmapScene *)scene)->strbuf.handle);
+    func_020315D4(procWork);
     GFL_HEAP_DeleteChecked(50);
     return 1;
 }
@@ -567,25 +643,25 @@ int WF2DMAP_SCENE_Delete(void *a,int b,int c,char *p)
 
 void WF2DMAP_SCENE_InitBg(void)
 {
-    MainTemplates main;
-    SubTemplates sub;
+    MainTemplates mainTmpl;
+    SubTemplates subTmpl;
     BG_SYS_ClearMainPlanes();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA800);
     func_02082A7C(0,(void *)0x06000000,0x80000);
     func_02082A7C(0,(void *)0x06200000,0x20000);
     func_02082A7C(0,(void *)0x06400000,0x40000);
     func_02082A7C(0,(void *)0x06600000,0x20000);
-    main=d_021DA638;
-    BG_SYS_InitBgLayer(1,(const struct BgTemplate *)(&main.rows[0]),0);
-    BG_SYS_InitBgLayer(2,(const struct BgTemplate *)(&main.rows[1]),0);
-    BG_SYS_InitBgLayer(3,(const struct BgTemplate *)(&main.rows[2]),0);
+    mainTmpl=d_021DA638;
+    BG_SYS_InitBgLayer(1,(const struct BgTemplate *)(&mainTmpl.rows[0]),0);
+    BG_SYS_InitBgLayer(2,(const struct BgTemplate *)(&mainTmpl.rows[1]),0);
+    BG_SYS_InitBgLayer(3,(const struct BgTemplate *)(&mainTmpl.rows[2]),0);
     BG_SYS_ClearSlot(1); BG_SYS_ClearSlot(2); BG_SYS_ClearSlot(3);
     BG_SYS_SetMainPlaneVisible(1,0); BG_SYS_SetMainPlaneVisible(2,1); BG_SYS_SetMainPlaneVisible(4,0); BG_SYS_SetMainPlaneVisible(8,0);
-    sub=d_021DA698;
-    BG_SYS_InitBgLayer(4,(const struct BgTemplate *)(&sub.rows[0]),0);
-    BG_SYS_InitBgLayer(5,(const struct BgTemplate *)(&sub.rows[1]),0);
-    BG_SYS_InitBgLayer(6,(const struct BgTemplate *)(&sub.rows[2]),0);
-    BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&sub.rows[3]),0);
+    subTmpl=d_021DA698;
+    BG_SYS_InitBgLayer(4,(const struct BgTemplate *)(&subTmpl.rows[0]),0);
+    BG_SYS_InitBgLayer(5,(const struct BgTemplate *)(&subTmpl.rows[1]),0);
+    BG_SYS_InitBgLayer(6,(const struct BgTemplate *)(&subTmpl.rows[2]),0);
+    BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&subTmpl.rows[3]),0);
     BG_SYS_ClearSlot(4); BG_SYS_ClearSlot(5); BG_SYS_ClearSlot(6); BG_SYS_ClearSlot(7);
     BG_SYS_SetSubPlaneVisible(1,1); BG_SYS_SetSubPlaneVisible(2,1); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
     BMP_SetDisplaySwap(0);
@@ -598,9 +674,9 @@ void WF2DMAP_SCENE_InitBg(void)
 
 
 
-void WF2DMAP_SCENE_VBlank(int a, char *p)
+void WF2DMAP_SCENE_VBlank(int a, char *scene)
 {
-    PALANM_TransferPalettes((struct S02021D50 *)(((struct Obj23114 *)p)->f290));
+    PALANM_TransferPalettes((struct S02021D50 *)(((Wf2dmapScene *)scene)->palAnm.handleRaw));
     CLACT_VBlankSystem();
 }
 
@@ -613,21 +689,21 @@ void WF2DMAP_SCENE_VBlank(int a, char *p)
 /*
  * Extent ends with two bytes of zero alignment padding.
  */
-void WF2DMAP_SCENE_SetSlot(char *p,int v)  {
-    ((struct Obj01937 *)p)->f244=((struct Obj01937 *)p)->f240;
-    ((struct Obj01937 *)p)->f240=v;
-    ((struct Obj01937 *)p)->f248=0;
-    ((struct Obj01937 *)p)->f24C=0;
-    ((struct Obj01937 *)p)->f250=0;
-    ((struct Obj01937 *)p)->f254=0;
-    if(v)  {
-        ((struct Obj01937 *)p)->f248=*(unsigned short *)(p+(v-1)*4+0x21c);
-        ((struct Obj01937 *)p)->f24C=*(unsigned short *)(p+(v-1)*4+0x21e);
+void WF2DMAP_SCENE_SetSlot(char *scene,int slotId)  {
+    ((Wf2dmapScene *)scene)->prevGroupIndex=((Wf2dmapScene *)scene)->groupIndex;
+    ((Wf2dmapScene *)scene)->groupIndex=slotId;
+    ((Wf2dmapScene *)scene)->mainStart=0;
+    ((Wf2dmapScene *)scene)->mainEnd=0;
+    ((Wf2dmapScene *)scene)->subStart=0;
+    ((Wf2dmapScene *)scene)->subEnd=0;
+    if(slotId)  {
+        ((Wf2dmapScene *)scene)->mainStart=*(unsigned short *)(scene+(slotId-1)*4+0x21c);
+        ((Wf2dmapScene *)scene)->mainEnd=*(unsigned short *)(scene+(slotId-1)*4+0x21e);
     }
-    if(((struct Obj01937 *)p)->f244)  {
-        v=((struct Obj01937 *)p)->f244;
-        ((struct Obj01937 *)p)->f250=*(unsigned short *)(p+(v-1)*4+0x21c);
-        ((struct Obj01937 *)p)->f254=*(unsigned short *)(p+(v-1)*4+0x21e);
+    if(((Wf2dmapScene *)scene)->prevGroupIndex)  {
+        slotId=((Wf2dmapScene *)scene)->prevGroupIndex;
+        ((Wf2dmapScene *)scene)->subStart=*(unsigned short *)(scene+(slotId-1)*4+0x21c);
+        ((Wf2dmapScene *)scene)->subEnd=*(unsigned short *)(scene+(slotId-1)*4+0x21e);
     }
 }
 
@@ -640,45 +716,45 @@ void WF2DMAP_SCENE_SetSlot(char *p,int v)  {
  * Lever: copy the table through a second aggregate, retain its indexed read,
  * and initialize i before selecting q. The copy folds into the existing slot.
  */
-void WF2DMAP_SCENE_BuildGrid(char *p)
+void WF2DMAP_SCENE_BuildGrid(char *scene)
 {
-    int i,j,n,sum;
-    Table t;
-    Table copy;
-    const int *q;
-    ((struct Obj01938 *)p)->f2FC=1;
-    ((struct Obj01938 *)p)->f21C=0;
-    n=((struct Obj01938 *)p)->f330;
-    ((struct Obj01938 *)p)->f21E=n;
-    ((struct Obj01938 *)p)->f220=n;
-    n+=((struct Obj01938 *)p)->f334;
-    ((struct Obj01938 *)p)->f222=n;
-    ((struct Obj01938 *)p)->f224=n;
-    ((struct Obj01938 *)p)->f226=((struct Obj01938 *)p)->f338+n;
-    WF2DMAP_SCENE_SetSlot(p,1);
-    for(i=0;i<3;i++) ((struct Obj01938 *)p)->f23C+=*(int *)(p+i*4+0x330);
-    t=d_021DA744;
-    n=0;
-    copy=t;
-    if(((struct Obj01938 *)p)->f330!=4) n=1;
-    i=0;
-    q=copy.rows[n];
-    for(;i<3;i++) *(u16 *)(p+i*2+0x214)=copy.rows[n][i];
-    *(u16 *)(p+i*2+0x214)=q[i-1];
+    int row,col,count,sum;
+    Table tbl;
+    Table tblCopy;
+    const int *rowPtr;
+    ((Wf2dmapScene *)scene)->gridActive=1;
+    ((Wf2dmapScene *)scene)->range0Start=0;
+    count=((Wf2dmapScene *)scene)->group0Size;
+    ((Wf2dmapScene *)scene)->range0End=count;
+    ((Wf2dmapScene *)scene)->range1Start=count;
+    count+=((Wf2dmapScene *)scene)->group1Size;
+    ((Wf2dmapScene *)scene)->range1End=count;
+    ((Wf2dmapScene *)scene)->range2Start=count;
+    ((Wf2dmapScene *)scene)->range2End=((Wf2dmapScene *)scene)->group2Size+count;
+    WF2DMAP_SCENE_SetSlot(scene,1);
+    for(row=0;row<3;row++) ((Wf2dmapScene *)scene)->cellCount+=*(int *)(scene+row*4+0x330);
+    tbl=d_021DA744;
+    count=0;
+    tblCopy=tbl;
+    if(((Wf2dmapScene *)scene)->group0Size!=4) count=1;
+    row=0;
+    rowPtr=tblCopy.rows[count];
+    for(;row<3;row++) *(u16 *)(scene+row*2+0x214)=tblCopy.rows[count][row];
+    *(u16 *)(scene+row*2+0x214)=rowPtr[row-1];
     sum=0;
-    for(i=0;i<2;i++) {
-        sum+=*(int *)(p+i*4+0x330);
-        *(int *)(p+i*28+0x150)=sum-1;
+    for(row=0;row<2;row++) {
+        sum+=*(int *)(scene+row*4+0x330);
+        *(int *)(scene+row*28+0x150)=sum-1;
     }
-    i=0;
-    n=0;
+    row=0;
+    count=0;
     do {
-        for(j=0;j<*(int *)(p+i*4+0x330);j++) {
-            *(int *)(p+n*28+4)=i+1;
-            n++;
+        for(col=0;col<*(int *)(scene+row*4+0x330);col++) {
+            *(int *)(scene+count*28+4)=row+1;
+            count++;
         }
-        i++;
-    } while(n<((struct Obj01938 *)p)->f23C);
+        row++;
+    } while(count<((Wf2dmapScene *)scene)->cellCount);
 }
 
 
@@ -687,12 +763,12 @@ void WF2DMAP_SCENE_BuildGrid(char *p)
 
 
 
-void WF2DMAP_SCENE_ResetState(char *p, int v)
+void WF2DMAP_SCENE_ResetState(char *scene, int state)
 {
-    ((struct Obj08136 *)p)->f22C = v;
-    ((struct Obj08136 *)p)->f230 = 0;
-    ((struct Obj08136 *)p)->f234 = 0;
-    ((struct Obj08136 *)p)->f238 = 0;
+    ((Wf2dmapScene *)scene)->stateId = state;
+    ((Wf2dmapScene *)scene)->stateTimer = 0;
+    ((Wf2dmapScene *)scene)->step = 0;
+    ((Wf2dmapScene *)scene)->stepTimer = 0;
 }
 
 
@@ -700,18 +776,18 @@ void WF2DMAP_SCENE_ResetState(char *p, int v)
 
 
 
-int WF2DMAP_SCENE_Start(char *p)  {
-    func_021D9890(p);
-    func_021DA164(p);
-    func_021D9AB0(p);
-    func_021DA1A8(p,0);
-    func_021D9BEC(p);
-    func_021D9D44(p);
-    func_021DA320(p);
-    func_021DA3B8(p);
-    func_021DA42C((u8 *)p);
-    func_021DA524((void **)(p+0x310),((struct Obj10498 *)p)->f328,4,2,19,27,4,((struct Obj10498 *)p)->f314,((struct Obj10498 *)p)->f344);
-    WF2DMAP_SCENE_ResetState(p,1);
+int WF2DMAP_SCENE_Start(char *scene)  {
+    WF2DMAP_SCENE_LoadActorAssets(scene);
+    WF2DMAP_SCENE_SetCellFlags(scene);
+    WF2DMAP_SCENE_CreateCellActors(scene);
+    WF2DMAP_SCENE_LayoutCells(scene,0);
+    WF2DMAP_SCENE_CreateCursorActors(scene);
+    WF2DMAP_SCENE_CreateExtraActors(scene);
+    WF2DMAP_SCENE_UpdateCellRects(scene);
+    WF2DMAP_SCENE_CreateOam(scene);
+    WF2DMAP_SCENE_CreateTextOams((u8 *)scene);
+    WF2DMAP_SCENE_CreateWindow((void **)(scene+0x310),((Wf2dmapScene *)scene)->paramId,4,2,19,27,4,((Wf2dmapScene *)scene)->font.handleRaw,((Wf2dmapScene *)scene)->paramSize);
+    WF2DMAP_SCENE_ResetState(scene,1);
     WIPE_SYS_Start(0,1,1,0,6,1,50);
     return 0;
 }
@@ -721,12 +797,12 @@ int WF2DMAP_SCENE_Start(char *p)  {
 
 
 
-int WF2DMAP_SCENE_StepWipeIn(char *p)  {
-    switch(((struct Obj10499 *)p)->f234)  {
+int WF2DMAP_SCENE_StepWipeIn(char *scene)  {
+    switch(((Wf2dmapScene *)scene)->step)  {
         case 0: WIPE_SYS_Start(0,0,0,0,6,1,50);
-        ((struct Obj10499 *)p)->f234+=1;
+        ((Wf2dmapScene *)scene)->step+=1;
         break;
-        case 1: if(WIPE_SYS_EndCheck()==1) ((struct Obj10499 *)p)->f234+=1;
+        case 1: if(WIPE_SYS_EndCheck()==1) ((Wf2dmapScene *)scene)->step+=1;
         break;
         default: return 1;
     }
@@ -738,14 +814,14 @@ int WF2DMAP_SCENE_StepWipeIn(char *p)  {
 
 
 
-int WF2DMAP_SCENE_StepWaitInput(char *p)  {
-    switch(((struct Obj02843 *)p)->f234)  {
-        case 0: func_021DA610((void *)(((struct Obj02843 *)p)->f310),((struct Obj02843 *)p)->f328,(void *)(((struct Obj02843 *)p)->f314),((struct Obj02843 *)p)->f344);
-        ((struct Obj02843 *)p)->f234+=1;
+int WF2DMAP_SCENE_StepWaitInput(char *scene)  {
+    switch(((Wf2dmapScene *)scene)->step)  {
+        case 0: WF2DMAP_SCENE_ShowMessage((void *)(((Wf2dmapScene *)scene)->windowHandle),((Wf2dmapScene *)scene)->paramId,(void *)(((Wf2dmapScene *)scene)->font.handleRaw),((Wf2dmapScene *)scene)->paramSize);
+        ((Wf2dmapScene *)scene)->step+=1;
         break;
         case 1: if((KEY_GetTrg() & 2) || (KEY_GetTrg() & 1) || TOUCHPANEL_GetTrg())  {
-            func_021DA578((void *)(((struct Obj02843 *)p)->f310),((struct Obj02843 *)p)->f328,(void *)(((struct Obj02843 *)p)->f314),((struct Obj02843 *)p)->f344);
-            WF2DMAP_SCENE_ResetState(p,1);
+            WF2DMAP_SCENE_DrawMessage((void *)(((Wf2dmapScene *)scene)->windowHandle),((Wf2dmapScene *)scene)->paramId,(void *)(((Wf2dmapScene *)scene)->font.handleRaw),((Wf2dmapScene *)scene)->paramSize);
+            WF2DMAP_SCENE_ResetState(scene,1);
         }
         break;
     }
@@ -757,97 +833,97 @@ int WF2DMAP_SCENE_StepWaitInput(char *p)  {
 
 
 
-int WF2DMAP_SCENE_StepUpdate(char *p) {if(((struct Obj00361 *)p)->f234==0){if(WIPE_SYS_EndCheck()==1)((struct Obj00361 *)p)->f234+=1;}else {func_021D9760(p);BUTTON_MAN_UpdateSlots(((struct Obj00361 *)p)->f294);WF2DMAP_SCENE_HandleInput(p);}return 0;}
+int WF2DMAP_SCENE_StepUpdate(char *scene) {if(((Wf2dmapScene *)scene)->step==0){if(WIPE_SYS_EndCheck()==1)((Wf2dmapScene *)scene)->step+=1;}else {WF2DMAP_SCENE_ProcessPending(scene);BUTTON_MAN_UpdateSlots(((Wf2dmapScene *)scene)->buttonMan);WF2DMAP_SCENE_HandleInput(scene);}return 0;}
 
 
 
 
 
 
-int WF2DMAP_SCENE_StepAnimate(char *p)
+int WF2DMAP_SCENE_StepAnimate(char *scene)
 {
-    int i,n;
-    char *q;
+    int cellIdx,animSeq;
+    char *cell;
     Scale scale;
     Pair first,second;
-    switch(((struct Obj00361 *)p)->f234) {
+    switch(((Wf2dmapScene *)scene)->step) {
     case 0:
-        func_021D9E48(p,0,0);
-        for(i=0;i<((struct Obj00361 *)p)->f23C;i++) {
-            q=p+i*28;
-            if(((struct Obj00411 *)q)->f18) {
-                CLACT_GetActorSurfacePos(((struct Obj00411 *)q)->fC,(struct PtS *)&first,0);
-                first.x+=((struct Obj00411 *)q)->f14;
-                first.y+=((struct Obj00411 *)q)->f16;
-                CLACT_AddActorSurfacePos(((struct Obj00411 *)q)->fC,(const struct Vec2 *)(&first),0);
-                (((struct Obj00411 *)q)->f18)--;
-                if(i>=((struct Obj00361 *)p)->f248 && i<((struct Obj00361 *)p)->f24C) {
-                    scale.x=d_021DA830[((struct Obj00411 *)q)->f19];
+        WF2DMAP_SCENE_SetCursorVisible(scene,0,0);
+        for(cellIdx=0;cellIdx<((Wf2dmapScene *)scene)->cellCount;cellIdx++) {
+            cell=scene+cellIdx*28;
+            if(((Wf2dmapScene *)cell)->stepFrames) {
+                CLACT_GetActorSurfacePos(((Wf2dmapScene *)cell)->actor.handle,(struct PtS *)&first,0);
+                first.x+=((Wf2dmapScene *)cell)->stepX;
+                first.y+=((Wf2dmapScene *)cell)->stepY;
+                CLACT_AddActorSurfacePos(((Wf2dmapScene *)cell)->actor.handle,(const struct Vec2 *)(&first),0);
+                (((Wf2dmapScene *)cell)->stepFrames)--;
+                if(cellIdx>=((Wf2dmapScene *)scene)->mainStart && cellIdx<((Wf2dmapScene *)scene)->mainEnd) {
+                    scale.x=d_021DA830[((Wf2dmapScene *)cell)->stepIndex];
                     scale.y=scale.x;
-                    CLACT_SetActorScale(((struct Obj00411 *)q)->fC,(struct Pair *)(&scale));
-                    (((struct Obj00411 *)q)->f19)++;
+                    CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                    (((Wf2dmapScene *)cell)->stepIndex)++;
                 }
-                if(i>=((struct Obj00361 *)p)->f250 && i<((struct Obj00361 *)p)->f254) {
-                    scale.x=d_021DA84C[((struct Obj00411 *)q)->f19];
+                if(cellIdx>=((Wf2dmapScene *)scene)->subStart && cellIdx<((Wf2dmapScene *)scene)->subEnd) {
+                    scale.x=d_021DA84C[((Wf2dmapScene *)cell)->stepIndex];
                     scale.y=scale.x;
-                    CLACT_SetActorScale(((struct Obj00411 *)q)->fC,(struct Pair *)(&scale));
-                    (((struct Obj00411 *)q)->f19)++;
+                    CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                    (((Wf2dmapScene *)cell)->stepIndex)++;
                 }
             }
         }
-        for(i=0;i<2;i++) {
-            q=p+i*28;
-            if(((struct Obj00411 *)q)->f168) {
-                CLACT_GetActorSurfacePos(((struct Obj00411 *)q)->f15C,(struct PtS *)&second,0);
-                second.x+=((struct Obj00411 *)q)->f164;
-                second.y+=((struct Obj00411 *)q)->f166;
-                CLACT_AddActorSurfacePos(((struct Obj00411 *)q)->f15C,(const struct Vec2 *)(&second),0);
-                (((struct Obj00411 *)q)->f168)--;
+        for(cellIdx=0;cellIdx<2;cellIdx++) {
+            cell=scene+cellIdx*28;
+            if(((Wf2dmapScene *)cell)->extraStepFrames) {
+                CLACT_GetActorSurfacePos(((Wf2dmapScene *)cell)->extraActor.handle,(struct PtS *)&second,0);
+                second.x+=((Wf2dmapScene *)cell)->extraStepX;
+                second.y+=((Wf2dmapScene *)cell)->extraStepY;
+                CLACT_AddActorSurfacePos(((Wf2dmapScene *)cell)->extraActor.handle,(const struct Vec2 *)(&second),0);
+                (((Wf2dmapScene *)cell)->extraStepFrames)--;
             }
         }
-        if(((struct Obj00361 *)p)->f18==0) {
-            for(i=((struct Obj00361 *)p)->f248;i<((struct Obj00361 *)p)->f24C;i++) {
-                q=p+i*28;
-                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
+        if(((Wf2dmapScene *)scene)->stepFrames==0) {
+            for(cellIdx=((Wf2dmapScene *)scene)->mainStart;cellIdx<((Wf2dmapScene *)scene)->mainEnd;cellIdx++) {
+                cell=scene+cellIdx*28;
+                CLACT_SetActorAnimSeq(((Wf2dmapScene *)cell)->actor.handle,WF2DMAP_SCENE_GetCellAnim(((Wf2dmapScene *)cell)->state,((Wf2dmapScene *)cell)->flag));
             }
-            for(i=((struct Obj00361 *)p)->f250;i<((struct Obj00361 *)p)->f254;i++) {
-                q=p+i*28;
-                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
+            for(cellIdx=((Wf2dmapScene *)scene)->subStart;cellIdx<((Wf2dmapScene *)scene)->subEnd;cellIdx++) {
+                cell=scene+cellIdx*28;
+                CLACT_SetActorAnimSeq(((Wf2dmapScene *)cell)->actor.handle,WF2DMAP_SCENE_GetCellAnim(((Wf2dmapScene *)cell)->state,((Wf2dmapScene *)cell)->flag));
             }
-            (((struct Obj00361 *)p)->f234)++;
+            (((Wf2dmapScene *)scene)->step)++;
         }
-        (((struct Obj00361 *)p)->f238)++;
+        (((Wf2dmapScene *)scene)->stepTimer)++;
         break;
     case 1:
-        for(i=((struct Obj00361 *)p)->f248;i<((struct Obj00361 *)p)->f24C;i++) {
-            q=p+i*28;
-            if(((struct Obj00411 *)q)->f19!=6) {
-                scale.x=d_021DA830[((struct Obj00411 *)q)->f19];
+        for(cellIdx=((Wf2dmapScene *)scene)->mainStart;cellIdx<((Wf2dmapScene *)scene)->mainEnd;cellIdx++) {
+            cell=scene+cellIdx*28;
+            if(((Wf2dmapScene *)cell)->stepIndex!=6) {
+                scale.x=d_021DA830[((Wf2dmapScene *)cell)->stepIndex];
                 scale.y=scale.x;
-                CLACT_SetActorScale(((struct Obj00411 *)q)->fC,(struct Pair *)(&scale));
-                (((struct Obj00411 *)q)->f19)++;
+                CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                (((Wf2dmapScene *)cell)->stepIndex)++;
             }
         }
-        for(i=((struct Obj00361 *)p)->f250;i<((struct Obj00361 *)p)->f254;i++) {
-            q=p+i*28;
-            if(((struct Obj00411 *)q)->f19!=6) {
-                scale.x=d_021DA84C[((struct Obj00411 *)q)->f19];
+        for(cellIdx=((Wf2dmapScene *)scene)->subStart;cellIdx<((Wf2dmapScene *)scene)->subEnd;cellIdx++) {
+            cell=scene+cellIdx*28;
+            if(((Wf2dmapScene *)cell)->stepIndex!=6) {
+                scale.x=d_021DA84C[((Wf2dmapScene *)cell)->stepIndex];
                 scale.y=scale.x;
-                CLACT_SetActorScale(((struct Obj00411 *)q)->fC,(struct Pair *)(&scale));
-                (((struct Obj00411 *)q)->f19)++;
+                CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                (((Wf2dmapScene *)cell)->stepIndex)++;
             }
         }
-        (((struct Obj00361 *)p)->f238)++;
-        if(((struct Obj00361 *)p)->f238==6) (((struct Obj00361 *)p)->f234)++;
+        (((Wf2dmapScene *)scene)->stepTimer)++;
+        if(((Wf2dmapScene *)scene)->stepTimer==6) (((Wf2dmapScene *)scene)->step)++;
         break;
     default:
-        func_021DA320(p);
-        if(((struct Obj00361 *)p)->f324==0) n=func_021D97CC((u8 *)p,((struct Obj00361 *)p)->f320);
-        else n=func_021D97FC((u8 *)p,((struct Obj00361 *)p)->f320);
-        func_021D9E60((u8 *)p,n);
-        if(((struct Obj00361 *)p)->f240) func_021D9E48(p,0,1);
-        func_021D97B8(p);
-        WF2DMAP_SCENE_ResetState(p,1);
+        WF2DMAP_SCENE_UpdateCellRects(scene);
+        if(((Wf2dmapScene *)scene)->pendingFlag==0) animSeq=WF2DMAP_SCENE_FindCellByValue((u8 *)scene,((Wf2dmapScene *)scene)->pendingArg);
+        else animSeq=WF2DMAP_SCENE_FindLastCellByValue((u8 *)scene,((Wf2dmapScene *)scene)->pendingArg);
+        WF2DMAP_SCENE_MoveCursor((u8 *)scene,animSeq);
+        if(((Wf2dmapScene *)scene)->groupIndex) WF2DMAP_SCENE_SetCursorVisible(scene,0,1);
+        WF2DMAP_SCENE_ClearPending(scene);
+        WF2DMAP_SCENE_ResetState(scene,1);
         break;
     }
     return 0;
@@ -865,7 +941,7 @@ extern int (*d_021DA718[])(char *);
 
 
 
-int WF2DMAP_SCENE_Dispatch(char *p) { int v; v=d_021DA718[*(u32 *)(p+0x22c)](p); func_021D9F40(p); func_021DA004(p); return v; }
+int WF2DMAP_SCENE_Dispatch(char *scene) { int result; result=d_021DA718[*(u32 *)(scene+0x22c)](scene); WF2DMAP_SCENE_UpdateCursorAnim(scene); WF2DMAP_SCENE_UpdateOam(scene); return result; }
 
 
 
@@ -876,7 +952,7 @@ int WF2DMAP_SCENE_Dispatch(char *p) { int v; v=d_021DA718[*(u32 *)(p+0x22c)](p);
 /*
  * 2026-10-05 (wave P2 lane Q4, pengy share, user-approved for this function only): first draft, no twin found.
  * Earlier (824 B): the flag at [sp+4] is a member of a local struct with the table (struct { int flag; Tbl t; } L);
- * rec[idx] reads go through a const SceneSlot pointer; up and left write the store in each arm.
+ * rec[idx] reads go through a const Wf2dmapCell pointer; up and left write the store in each arm.
  * 2026-10-05 (wave P2 lane Q4b, 25-compile cap): 836 bytes now, same size as the original, 21 bytes differ, all in
  * the head (first 0x34 bytes). Closed this lane: (b) the L-button block is EXACT: the store of idx - 1 is written in each
  * arm (if (idx == 0) { idx = n; p->188 = idx - 1; } else { p->188 = idx - 1; }); cross-jumping keeps the shared subs/str
@@ -895,142 +971,142 @@ int WF2DMAP_SCENE_Dispatch(char *p) { int v; v=d_021DA718[*(u32 *)(p+0x22c)](p);
  * row is read into a local, then flag = 0, then cur = T.v[row][col] (IR order puts the zero store right after the row load).
  * d_021DA75C resolves with the data hint without the ov129 token (data a4).
  */
-void WF2DMAP_SCENE_HandleInput(char *p)
+void WF2DMAP_SCENE_HandleInput(char *scene)
 {
     Tbl T = d_021DA75C;
-    int flag;
+    int changed;
     int row;
-    int cur;
-    int idx, n, k;
-    const SceneSlot *r = (const SceneSlot *)p;
+    int cellType;
+    int index, cellValue, nextValue;
+    const Wf2dmapCell *cells = (const Wf2dmapCell *)scene;
 
-    row = *(short *)(p + 0x1BA);
-    flag = 0;
-    cur = T.v[row][*(short *)(p + 0x1B8)];
+    row = *(short *)(scene + 0x1BA);
+    changed = 0;
+    cellType = T.v[row][*(short *)(scene + 0x1B8)];
 
-    if (*(int *)(p + 0x2FC) == 1 && KEY_GetTrg() != 0) {
-        *(int *)(p + 0x2FC) = flag;
-        func_021D9E98(p, cur);
-        if (cur == 10 || cur == 11) {
-            if (*(int *)(p + 0x1A4) == 2) return;
-            *(int *)(p + 0x1A4) = 2;
+    if (((Wf2dmapScene *)scene)->gridActive == 1 && KEY_GetTrg() != 0) {
+        ((Wf2dmapScene *)scene)->gridActive = changed;
+        WF2DMAP_SCENE_SetCursorPos(scene, cellType);
+        if (cellType == 10 || cellType == 11) {
+            if (((Wf2dmapScene *)scene)->cursorMode == 2) return;
+            ((Wf2dmapScene *)scene)->cursorMode = 2;
             return;
         }
-        if (*(int *)(p + 0x1A4) == 1) return;
-        *(int *)(p + 0x1A4) = 1;
+        if (((Wf2dmapScene *)scene)->cursorMode == 1) return;
+        ((Wf2dmapScene *)scene)->cursorMode = 1;
         return;
     }
     if (KEY_GetRepeat() & 0x40) {
-        int v = *(short *)(p + 0x1BA);
-        if (v > 0) *(short *)(p + 0x1BA) = v - 1; else *(short *)(p + 0x1BA) = 2;
-        flag = 1;
+        int rowValue = *(short *)(scene + 0x1BA);
+        if (rowValue > 0) *(short *)(scene + 0x1BA) = rowValue - 1; else *(short *)(scene + 0x1BA) = 2;
+        changed = 1;
     } else if (KEY_GetRepeat() & 0x80) {
-        *(short *)(p + 0x1BA) += 1;
-        *(short *)(p + 0x1BA) %= 3;
-        flag = 1;
+        *(short *)(scene + 0x1BA) += 1;
+        *(short *)(scene + 0x1BA) %= 3;
+        changed = 1;
     } else if (KEY_GetRepeat() & 0x10) {
-        if (cur == 10) *(short *)(p + 0x1B8) = 3;
-        else if (cur == 11) *(short *)(p + 0x1B8) = 0;
+        if (cellType == 10) *(short *)(scene + 0x1B8) = 3;
+        else if (cellType == 11) *(short *)(scene + 0x1B8) = 0;
         else {
-            *(short *)(p + 0x1B8) += 1;
-            *(short *)(p + 0x1B8) %= 5;
+            *(short *)(scene + 0x1B8) += 1;
+            *(short *)(scene + 0x1B8) %= 5;
         }
-        flag = 1;
+        changed = 1;
     } else if (KEY_GetRepeat() & 0x20) {
-        if (cur == 10) *(short *)(p + 0x1B8) = 3;
-        else if (cur == 11) *(short *)(p + 0x1B8) = 0;
+        if (cellType == 10) *(short *)(scene + 0x1B8) = 3;
+        else if (cellType == 11) *(short *)(scene + 0x1B8) = 0;
         else {
-            int v = *(short *)(p + 0x1B8);
-            if (v > 0) *(short *)(p + 0x1B8) = v - 1; else *(short *)(p + 0x1B8) = 4;
+            int rowValue = *(short *)(scene + 0x1B8);
+            if (rowValue > 0) *(short *)(scene + 0x1B8) = rowValue - 1; else *(short *)(scene + 0x1B8) = 4;
         }
-        flag = 1;
+        changed = 1;
     } else if (KEY_GetTrg() & 1) {
-        if (cur == 10) {
-            func_021D93D4((const SlotRecord *)p);
+        if (cellType == 10) {
+            WF2DMAP_SCENE_ClearSelection((const Wf2dmapCell *)scene);
             GFL_USE_PlaySeDefaultVolume(1363);
-        } else if (cur == 11) {
-            if (func_021D9320((u8 *)p)) {
-                func_021D9348(p);
+        } else if (cellType == 11) {
+            if (WF2DMAP_SCENE_CheckGridNumber((u8 *)scene)) {
+                WF2DMAP_SCENE_BuildNumberList(scene);
                 GFL_USE_PlaySeDefaultVolume(1357);
             } else {
-                WF2DMAP_SCENE_ResetState(p, 4);
+                WF2DMAP_SCENE_ResetState(scene, 4);
             }
         } else {
-            if (*(int *)(p + 0x240) == 0) return;
-            idx = *(int *)(p + 0x188);
-            ((SceneSlot *)p)[idx].state = cur + 1;
-            func_021D9E48(p, 1, 0);
-            func_021D9E48(p, 2, 1);
-            func_021D9EE8(p, cur, 2);
-            CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
-            CLACT_SetActorAnimSeq(*(struct Obj **)(p + 0x1CC), 3);
-            n = r[idx].value;
-            if (idx + 1 == *(int *)(p + 0x23C)) {
-                *(int *)(p + 0x31C) = 1;
-                *(int *)(p + 0x320) = 0;
-                *(short *)(p + 0x1B8) = 3;
-                *(short *)(p + 0x1BA) = 2;
-                flag = 1;
+            if (((Wf2dmapScene *)scene)->groupIndex == 0) return;
+            index = ((Wf2dmapScene *)scene)->cursorIndex;
+            ((Wf2dmapCell *)scene)[index].state = cellType + 1;
+            WF2DMAP_SCENE_SetCursorVisible(scene, 1, 0);
+            WF2DMAP_SCENE_SetCursorVisible(scene, 2, 1);
+            WF2DMAP_SCENE_SetCursorPosBySlot(scene, cellType, 2);
+            CLACT_SetActorAnimSeq(cells[index].handle, WF2DMAP_SCENE_GetCellAnim(cells[index].state, cells[index].flag));
+            CLACT_SetActorAnimSeq(*(struct Obj **)(scene + 0x1CC), 3);
+            cellValue = cells[index].value;
+            if (index + 1 == ((Wf2dmapScene *)scene)->cellCount) {
+                ((Wf2dmapScene *)scene)->pendingCmd = 1;
+                ((Wf2dmapScene *)scene)->pendingArg = 0;
+                *(short *)(scene + 0x1B8) = 3;
+                *(short *)(scene + 0x1BA) = 2;
+                changed = 1;
             } else {
-                k = r[idx + 1].value;
-                if (n != k) {
-                    *(int *)(p + 0x31C) = 1;
-                    *(int *)(p + 0x320) = k;
+                nextValue = cells[index + 1].value;
+                if (cellValue != nextValue) {
+                    ((Wf2dmapScene *)scene)->pendingCmd = 1;
+                    ((Wf2dmapScene *)scene)->pendingArg = nextValue;
                 } else {
-                    *(int *)(p + 0x31C) = 2;
-                    *(int *)(p + 0x320) = idx + 1;
+                    ((Wf2dmapScene *)scene)->pendingCmd = 2;
+                    ((Wf2dmapScene *)scene)->pendingArg = index + 1;
                 }
                 GFL_USE_PlaySeDefaultVolume(1356);
             }
         }
     } else if (KEY_GetTrg() & 2) {
-        func_021D93D4((const SlotRecord *)p);
+        WF2DMAP_SCENE_ClearSelection((const Wf2dmapCell *)scene);
         GFL_USE_PlaySeDefaultVolume(1363);
     } else if (KEY_GetRepeat() & 0x200) {
-        idx = *(int *)(p + 0x188);
-        if (idx == 0) {
-            idx = *(int *)(p + 0x23C);
-            *(int *)(p + 0x188) = idx - 1;
+        index = ((Wf2dmapScene *)scene)->cursorIndex;
+        if (index == 0) {
+            index = ((Wf2dmapScene *)scene)->cellCount;
+            ((Wf2dmapScene *)scene)->cursorIndex = index - 1;
         } else {
-            *(int *)(p + 0x188) = idx - 1;
+            ((Wf2dmapScene *)scene)->cursorIndex = index - 1;
         }
-        idx = *(int *)(p + 0x188);
-        if (r[idx].flag == 1) {
-            *(int *)(p + 0x31C) = 2;
-            *(int *)(p + 0x320) = idx;
+        index = ((Wf2dmapScene *)scene)->cursorIndex;
+        if (cells[index].flag == 1) {
+            ((Wf2dmapScene *)scene)->pendingCmd = 2;
+            ((Wf2dmapScene *)scene)->pendingArg = index;
         } else {
-            *(int *)(p + 0x31C) = 1;
-            *(int *)(p + 0x320) = r[idx].value;
-            *(int *)(p + 0x324) = 1;
+            ((Wf2dmapScene *)scene)->pendingCmd = 1;
+            ((Wf2dmapScene *)scene)->pendingArg = cells[index].value;
+            ((Wf2dmapScene *)scene)->pendingFlag = 1;
         }
         GFL_USE_PlaySeDefaultVolume(1352);
     } else if (KEY_GetRepeat() & 0x100) {
-        idx = *(int *)(p + 0x188);
-        if (idx == *(int *)(p + 0x23C) - 1) {
-            *(int *)(p + 0x188) = 0;
+        index = ((Wf2dmapScene *)scene)->cursorIndex;
+        if (index == ((Wf2dmapScene *)scene)->cellCount - 1) {
+            ((Wf2dmapScene *)scene)->cursorIndex = 0;
         } else {
-            *(int *)(p + 0x188) = idx + 1;
+            ((Wf2dmapScene *)scene)->cursorIndex = index + 1;
         }
-        idx = *(int *)(p + 0x188);
-        if (r[idx].flag == 1) {
-            *(int *)(p + 0x31C) = 2;
-            *(int *)(p + 0x320) = idx;
+        index = ((Wf2dmapScene *)scene)->cursorIndex;
+        if (cells[index].flag == 1) {
+            ((Wf2dmapScene *)scene)->pendingCmd = 2;
+            ((Wf2dmapScene *)scene)->pendingArg = index;
         } else {
-            *(int *)(p + 0x31C) = 1;
-            *(int *)(p + 0x320) = r[idx].value;
+            ((Wf2dmapScene *)scene)->pendingCmd = 1;
+            ((Wf2dmapScene *)scene)->pendingArg = cells[index].value;
         }
         GFL_USE_PlaySeDefaultVolume(1352);
     }
-    if (flag == 1) {
+    if (changed == 1) {
         GFL_USE_PlaySeDefaultVolume(1352);
-        cur = T.v[*(short *)(p + 0x1BA)][*(short *)(p + 0x1B8)];
-        func_021D9E98(p, cur);
-        if (cur == 10 || cur == 11) {
-            if (*(int *)(p + 0x1A4) == 2) return;
-            *(int *)(p + 0x1A4) = 2;
+        cellType = T.v[*(short *)(scene + 0x1BA)][*(short *)(scene + 0x1B8)];
+        WF2DMAP_SCENE_SetCursorPos(scene, cellType);
+        if (cellType == 10 || cellType == 11) {
+            if (((Wf2dmapScene *)scene)->cursorMode == 2) return;
+            ((Wf2dmapScene *)scene)->cursorMode = 2;
             return;
         }
-        if (*(int *)(p + 0x1A4) != 1) *(int *)(p + 0x1A4) = 1;
+        if (((Wf2dmapScene *)scene)->cursorMode != 1) ((Wf2dmapScene *)scene)->cursorMode = 1;
     }
 }
 
@@ -1044,21 +1120,21 @@ void WF2DMAP_SCENE_HandleInput(char *p)
  * Permuter found this spelling after38 candidates; baseline DIFF30 bytes; intermediate expand-v DIFF5.
  * trailing: Two zero alignment bytes.
  */
-int func_021D92E4(u8 *p)
+int WF2DMAP_SCENE_GetGridNumber(u8 *scene)
 {
-  int n;
+  int cellIdx;
   int sum;
   u32 mul;
-  u32 v;
-  int tmp;
+  u32 state;
+  int offset;
   sum = 0;
   mul = 1;
-  for (n = (*((int *) (p + 0x23c))) - 1; n > (-1); n--)
+  for (cellIdx = (*((int *) (scene + 0x23c))) - 1; cellIdx > (-1); cellIdx--)
   {
-    v = *((int *) (p + (n * 28)));
-    tmp = n * 28;
-    if (*((int *) (p + tmp)))
-      sum += ((*((int *) (p + (n * 28)))) - 1) * mul;
+    state = *((int *) (scene + (cellIdx * 28)));
+    offset = cellIdx * 28;
+    if (*((int *) (scene + offset)))
+      sum += ((*((int *) (scene + (cellIdx * 28)))) - 1) * mul;
     mul *= 10;
   }
 
@@ -1073,72 +1149,72 @@ int func_021D92E4(u8 *p)
 /*
  * trailing: Two zero alignment bytes.
  */
-int func_021D9320(u8 *p) { if(!((struct Obj14053 *)p)->f328) return 1; if(func_021D92E4(p)<=((struct Obj14053 *)p)->f344) return 1; return 0; }
+int WF2DMAP_SCENE_CheckGridNumber(u8 *scene) { if(!((Wf2dmapScene *)scene)->paramId) return 1; if(WF2DMAP_SCENE_GetGridNumber(scene)<=((Wf2dmapScene *)scene)->paramSize) return 1; return 0; }
 
 
 
 
 
 
-void func_021D9348(char *p)  {
-    int i;
-    char *q;
-    void *v=STRBUF_Create(100,50);
-    ((struct Obj08137 *)p)->f1F8=1;
-    ((struct Obj08137 *)p)->f210=0;
-    for(i=0;i<((struct Obj08137 *)p)->f23C;i++)  {
-        q=p+i*28;
-        if(((struct Obj06479 *)q)->f0==0)  {
-            ((struct Obj06479 *)q)->f0=1;
-            CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj06479 *)q)->fC),func_021DA158(1,((struct Obj06479 *)q)->f8));
+void WF2DMAP_SCENE_BuildNumberList(char *scene)  {
+    int cellIdx;
+    char *cell;
+    void *strbuf=STRBUF_Create(100,50);
+    ((Wf2dmapScene *)scene)->listActive=1;
+    ((Wf2dmapScene *)scene)->listTimer=0;
+    for(cellIdx=0;cellIdx<((Wf2dmapScene *)scene)->cellCount;cellIdx++)  {
+        cell=scene+cellIdx*28;
+        if(((Wf2dmapScene *)cell)->state==0)  {
+            ((Wf2dmapScene *)cell)->state=1;
+            CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->actor.handleRaw),WF2DMAP_SCENE_GetCellAnim(1,((Wf2dmapScene *)cell)->flag));
         }
-        WORDSET_FormatNumber(v,((struct Obj06479 *)q)->f0-1,1,1,1);
-        STRBUF_Append((struct U16Vec *)(((struct Obj08137 *)p)->f348),v);
+        WORDSET_FormatNumber(strbuf,((Wf2dmapScene *)cell)->state-1,1,1,1);
+        STRBUF_Append((struct U16Vec *)(((Wf2dmapScene *)scene)->strbuf.handleRaw),strbuf);
     }
-    STRBUF_Delete(v);
-    WF2DMAP_SCENE_ResetState(p,3);
+    STRBUF_Delete(strbuf);
+    WF2DMAP_SCENE_ResetState(scene,3);
 }
 
 
 
 
 
-static inline unsigned clear_record(SlotRecord *q)  {
-    q->state=0;
-    return func_021DA158(0,q->flag);
+static inline unsigned clear_record(Wf2dmapCell *cell)  {
+    cell->state=0;
+    return WF2DMAP_SCENE_GetCellAnim(0,cell->flag);
 }
 
 
 
 
 
-void func_021D93D4(const SlotRecord *p)  {
-    int i, v, next;
-    ((struct Obj00912 *)p)->f1DC=1;
-    ((struct Obj00912 *)p)->f1F4=0;
-    if(((struct Obj00912 *)p)->f240==0)  {
-        i=((struct Obj00912 *)p)->f23C-1;
-        ((struct Obj00912 *)p)->f188=i;
-        next=p[i].value;
-        ((struct Obj00912 *)p)->f31C=1;
-        ((struct Obj00912 *)p)->f320=next;
-        ((struct Obj00912 *)p)->f324=1;
+void WF2DMAP_SCENE_ClearSelection(const Wf2dmapCell *cells)  {
+    int index, value, nextValue;
+    ((Wf2dmapScene *)cells)->cursorState=1;
+    ((Wf2dmapScene *)cells)->cursorAnimFrame=0;
+    if(((Wf2dmapScene *)cells)->groupIndex==0)  {
+        index=((Wf2dmapScene *)cells)->cellCount-1;
+        ((Wf2dmapScene *)cells)->cursorIndex=index;
+        nextValue=cells[index].value;
+        ((Wf2dmapScene *)cells)->pendingCmd=1;
+        ((Wf2dmapScene *)cells)->pendingArg=nextValue;
+        ((Wf2dmapScene *)cells)->pendingFlag=1;
         return;
     }
-    i=((struct Obj00912 *)p)->f188;
-    CLACT_SetActorAnimSeq((struct Obj *)p[i].handle,clear_record(&((SlotRecord *)p)[i]));
-    v=p[i].value;
-    if(i>0)  {
-        CLACT_SetActorAnimSeq((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
-        next=p[i-1].value;
-        if(v!=next)  {
-            ((struct Obj00912 *)p)->f31C=1;
-            ((struct Obj00912 *)p)->f320=next;
-            ((struct Obj00912 *)p)->f324=1;
+    index=((Wf2dmapScene *)cells)->cursorIndex;
+    CLACT_SetActorAnimSeq((struct Obj *)cells[index].handle,clear_record(&((Wf2dmapCell *)cells)[index]));
+    value=cells[index].value;
+    if(index>0)  {
+        CLACT_SetActorAnimSeq((struct Obj *)cells[index-1].handle,WF2DMAP_SCENE_GetCellAnim(cells[index-1].state,cells[index-1].flag));
+        nextValue=cells[index-1].value;
+        if(value!=nextValue)  {
+            ((Wf2dmapScene *)cells)->pendingCmd=1;
+            ((Wf2dmapScene *)cells)->pendingArg=nextValue;
+            ((Wf2dmapScene *)cells)->pendingFlag=1;
             return;
         }
-        ((struct Obj00912 *)p)->f31C=2;
-        ((struct Obj00912 *)p)->f320=i-1;
+        ((Wf2dmapScene *)cells)->pendingCmd=2;
+        ((Wf2dmapScene *)cells)->pendingArg=index-1;
     }
 }
 
@@ -1146,20 +1222,20 @@ void func_021D93D4(const SlotRecord *p)  {
 
 
 
-void func_021D9490(char *p)
+void WF2DMAP_SCENE_CreateButtons(char *scene)
 {
-    int i;
-    Rects t;
-    for(i=0;i<12;i++) *(void **)(p+i*28+16)=p+0x298+i*4;
-    t=d_021DA798;
-    for(;i<24;i++) {
-        *(u8 *)(p+i*4+0x298)=t.rows[i-12].b-t.rows[i-12].d;
-        *(u8 *)(p+i*4+0x29a)=t.rows[i-12].a-t.rows[i-12].c;
-        *(u8 *)(p+i*4+0x299)=t.rows[i-12].b+t.rows[i-12].d;
-        *(u8 *)(p+i*4+0x29b)=t.rows[i-12].a+t.rows[i-12].c;
+    int index;
+    Rects rects;
+    for(index=0;index<12;index++) *(void **)(scene+index*28+16)=scene+0x298+index*4;
+    rects=d_021DA798;
+    for(;index<24;index++) {
+        *(u8 *)(scene+index*4+0x298)=rects.rows[index-12].b-rects.rows[index-12].d;
+        *(u8 *)(scene+index*4+0x29a)=rects.rows[index-12].a-rects.rows[index-12].c;
+        *(u8 *)(scene+index*4+0x299)=rects.rows[index-12].b+rects.rows[index-12].d;
+        *(u8 *)(scene+index*4+0x29b)=rects.rows[index-12].a+rects.rows[index-12].c;
     }
-    ((struct Obj14055 *)p)->f2F8=255;
-    ((struct Obj14055 *)p)->f294=BUTTON_MAN_Create((u8 *)(p+0x298),(int)func_021D958C,(int)p,50);
+    ((Wf2dmapScene *)scene)->buttonCount=255;
+    ((Wf2dmapScene *)scene)->buttonMan=BUTTON_MAN_Create((u8 *)(scene+0x298),(int)WF2DMAP_SCENE_HandleButton,(int)scene,50);
 }
 
 
@@ -1169,77 +1245,77 @@ void func_021D9490(char *p)
 /*
  * lever: The two-byte table record has byte fields a and b; both pool words reference that record.
  */
-void func_021D9564(u8 *p,int n) { if(n>=12 && n<24) { ((struct Obj14056 *)p)->f1B8=d_021DA72C[n-12].a; ((struct Obj14056 *)p)->f1BA=d_021DA72C[n-12].b; } }
+void WF2DMAP_SCENE_SetButtonCursor(u8 *scene,int buttonIdx) { if(buttonIdx>=12 && buttonIdx<24) { ((Wf2dmapScene *)scene)->cursorCol=d_021DA72C[buttonIdx-12].a; ((Wf2dmapScene *)scene)->cursorRow=d_021DA72C[buttonIdx-12].b; } }
 
 
 
 
 
-void func_021D958C(u32 n, int touch, char *p)
+void WF2DMAP_SCENE_HandleButton(u32 buttonIdx, int isRelease, char *scene)
 {
-    Record *r = (Record *)p;
-    int idx, v, k;
-    int m;
-    if (*(int *)(p + 0x22C) != 1) return;
-    if (*(int *)(p + 0x2FC) != 1) *(int *)(p + 0x2FC) = 1;
-    if (touch == 0) {
+    Wf2dmapCell *cells = (Wf2dmapCell *)scene;
+    int index, value, nextValue;
+    int cellType;
+    if (*(int *)(scene + 0x22C) != 1) return;
+    if (((Wf2dmapScene *)scene)->gridActive != 1) ((Wf2dmapScene *)scene)->gridActive = 1;
+    if (isRelease == 0) {
         {
-            if (n <= 11) {
-                if (r[n].flag == 1) {
-                    *(int *)(p + 0x31C) = 2;
-                    *(int *)(p + 0x320) = n;
+            if (buttonIdx <= 11) {
+                if (cells[buttonIdx].flag == 1) {
+                    ((Wf2dmapScene *)scene)->pendingCmd = 2;
+                    ((Wf2dmapScene *)scene)->pendingArg = buttonIdx;
                 } else {
-                    *(int *)(p + 0x31C) = 1;
-                    *(int *)(p + 0x320) = r[n].value;
+                    ((Wf2dmapScene *)scene)->pendingCmd = 1;
+                    ((Wf2dmapScene *)scene)->pendingArg = cells[buttonIdx].value;
                 }
                 GFL_USE_PlaySeDefaultVolume(1352);
-            } else if (n == 22) {
-                *(short *)(p + 0x1B8) = 0;
-                *(short *)(p + 0x1BA) = 2;
+            } else if (buttonIdx == 22) {
+                *(short *)(scene + 0x1B8) = 0;
+                *(short *)(scene + 0x1BA) = 2;
                 GFL_USE_PlaySeDefaultVolume(1363);
-                func_021D93D4((const SlotRecord *)p);
-            } else if (n == 23) {
-                *(short *)(p + 0x1B8) = 3;
-                *(short *)(p + 0x1BA) = 2;
-                if (func_021D9320((u8 *)p)) {
-                    func_021D9348(p);
+                WF2DMAP_SCENE_ClearSelection((const Wf2dmapCell *)scene);
+            } else if (buttonIdx == 23) {
+                *(short *)(scene + 0x1B8) = 3;
+                *(short *)(scene + 0x1BA) = 2;
+                if (WF2DMAP_SCENE_CheckGridNumber((u8 *)scene)) {
+                    WF2DMAP_SCENE_BuildNumberList(scene);
                     GFL_USE_PlaySeDefaultVolume(1357);
                 } else {
-                    WF2DMAP_SCENE_ResetState(p, 4);
+                    WF2DMAP_SCENE_ResetState(scene, 4);
                 }
-            } else if (n >= 12 && n <= 21) {
-                if (*(int *)(p + 0x240) == 0) return;
+            } else if (buttonIdx >= 12 && buttonIdx <= 21) {
+                if (((Wf2dmapScene *)scene)->groupIndex == 0) return;
                 GFL_USE_PlaySeDefaultVolume(1356);
-                idx = *(int *)(p + 0x188);
-                r[idx].state = n - 11;
-                CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
-                func_021D9E48(p, 1, 1);
-                m = n - 12;
-                func_021D9E98(p, m);
-                func_021D9E48(p, 1, 0);
-                func_021D9E48(p, 2, 1);
-                func_021D9EE8(p, m, 2);
-                CLACT_SetActorAnimSeq(*(struct Obj **)(p + 0x1CC), 3);
-                v = r[idx].value;
-                if (idx + 1 == *(int *)(p + 0x23C)) {
-                    *(int *)(p + 0x31C) = 1;
-                    *(int *)(p + 0x320) = 0;
-                    *(int *)(p + 0x324) = 0;
+                index = ((Wf2dmapScene *)scene)->cursorIndex;
+                cells[index].state = buttonIdx - 11;
+                CLACT_SetActorAnimSeq(cells[index].handle, WF2DMAP_SCENE_GetCellAnim(cells[index].state, cells[index].flag));
+                WF2DMAP_SCENE_SetCursorVisible(scene, 1, 1);
+                cellType = buttonIdx - 12;
+                WF2DMAP_SCENE_SetCursorPos(scene, cellType);
+                WF2DMAP_SCENE_SetCursorVisible(scene, 1, 0);
+                WF2DMAP_SCENE_SetCursorVisible(scene, 2, 1);
+                WF2DMAP_SCENE_SetCursorPosBySlot(scene, cellType, 2);
+                CLACT_SetActorAnimSeq(*(struct Obj **)(scene + 0x1CC), 3);
+                value = cells[index].value;
+                if (index + 1 == ((Wf2dmapScene *)scene)->cellCount) {
+                    ((Wf2dmapScene *)scene)->pendingCmd = 1;
+                    ((Wf2dmapScene *)scene)->pendingArg = 0;
+                    ((Wf2dmapScene *)scene)->pendingFlag = 0;
                 } else {
-                    k = r[idx + 1].value;
-                    if (v != k) {
-                        *(int *)(p + 0x31C) = 1;
-                        *(int *)(p + 0x320) = k;
-                        *(int *)(p + 0x324) = 0;
+                    nextValue = cells[index + 1].value;
+                    if (value != nextValue) {
+                        ((Wf2dmapScene *)scene)->pendingCmd = 1;
+                        ((Wf2dmapScene *)scene)->pendingArg = nextValue;
+                        ((Wf2dmapScene *)scene)->pendingFlag = 0;
                     } else {
-                        *(int *)(p + 0x31C) = 2;
-                        *(int *)(p + 0x320) = idx + 1;
+                        ((Wf2dmapScene *)scene)->pendingCmd = 2;
+                        ((Wf2dmapScene *)scene)->pendingArg = index + 1;
                     }
                 }
-                func_021D9564((u8 *)p, n);
+                WF2DMAP_SCENE_SetButtonCursor((u8 *)scene, buttonIdx);
             } else {
-                *(short *)(p + 0x1B8) = (n - 12) % 5;
-                *(short *)(p + 0x1BA) = (n - 12) / 5;
+                *(short *)(scene + 0x1B8) = (buttonIdx - 12) % 5;
+                *(short *)(scene + 0x1BA) = (buttonIdx - 12) / 5;
             }
         }
     }
@@ -1248,17 +1324,17 @@ void func_021D958C(u32 n, int touch, char *p)
 
 
 
-void func_021D9760(char *p)  {
-    switch(((struct Obj00361 *)p)->f31C)  {
+void WF2DMAP_SCENE_ProcessPending(char *scene)  {
+    switch(((Wf2dmapScene *)scene)->pendingCmd)  {
         case 0: break;
-        case 1: WF2DMAP_SCENE_SetSlot(p,((struct Obj00361 *)p)->f320);
-        func_021DA164(p);
-        func_021DA1A8(p,1);
-        WF2DMAP_SCENE_ResetState(p,2);
-        ((struct Obj00361 *)p)->f31C=255;
+        case 1: WF2DMAP_SCENE_SetSlot(scene,((Wf2dmapScene *)scene)->pendingArg);
+        WF2DMAP_SCENE_SetCellFlags(scene);
+        WF2DMAP_SCENE_LayoutCells(scene,1);
+        WF2DMAP_SCENE_ResetState(scene,2);
+        ((Wf2dmapScene *)scene)->pendingCmd=255;
         break;
-        case 2: func_021D9E60((u8 *)p,((struct Obj00361 *)p)->f320);
-        func_021D97B8(p);
+        case 2: WF2DMAP_SCENE_MoveCursor((u8 *)scene,((Wf2dmapScene *)scene)->pendingArg);
+        WF2DMAP_SCENE_ClearPending(scene);
         break;
         case 255: break;
     }
@@ -1268,17 +1344,17 @@ void func_021D9760(char *p)  {
 
 
 
-void func_021D97B8(char *p)
+void WF2DMAP_SCENE_ClearPending(char *scene)
 {
-    ((struct Obj00361 *)p)->f31C = 0;
-    ((struct Obj00361 *)p)->f320 = 0;
-    ((struct Obj00361 *)p)->f324 = 0;
+    ((Wf2dmapScene *)scene)->pendingCmd = 0;
+    ((Wf2dmapScene *)scene)->pendingArg = 0;
+    ((Wf2dmapScene *)scene)->pendingFlag = 0;
 }
 
 
 
 
-int func_021D97CC(u8 *p,int value) { int i; int count; count=((struct Obj23117 *)p)->f23C; for(i=0;i<count;i++) if(value==*(int *)(p+i*28+4)) return i; return 0; }
+int WF2DMAP_SCENE_FindCellByValue(u8 *scene,int value) { int index; int count; count=((Wf2dmapScene *)scene)->cellCount; for(index=0;index<count;index++) if(value==*(int *)(scene+index*28+4)) return index; return 0; }
 
 
 
@@ -1286,158 +1362,158 @@ int func_021D97CC(u8 *p,int value) { int i; int count; count=((struct Obj23117 *
  * trailing: Two zero alignment bytes.
  * note: 2026-10-05 the count field is read in the loop condition and again at the return (as written by hand); this closed the count/flag register swap.
  */
-int func_021D97FC(u8 *p,int value) { int i; int flag=0; for(i=0;i<*(int *)(p+0x23C);i++) { if(value==*(int *)(p+i*28+4)) flag=1; else if(flag==1) return i-1; } return *(int *)(p+0x23C)-1; }
+int WF2DMAP_SCENE_FindLastCellByValue(u8 *scene,int value) { int index; int found=0; for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) { if(value==*(int *)(scene+index*28+4)) found=1; else if(found==1) return index-1; } return ((Wf2dmapScene *)scene)->cellCount-1; }
 
 
 
-void func_021D9838(char *p,unsigned a)  {
-    Config c = gClActorInitParam;
-    ((unsigned char *)&c)[8] = 16;
-    ((unsigned char *)&c)[9] = 112;
-    CLACT_InitSystem((const struct Cfg *)(&c),a,50);
+void WF2DMAP_SCENE_InitClact(char *scene,unsigned heapId)  {
+    Config cfg = gClActorInitParam;
+    ((unsigned char *)&cfg)[8] = 16;
+    ((unsigned char *)&cfg)[9] = 112;
+    CLACT_InitSystem((const struct Cfg *)(&cfg),heapId,50);
     BG_SYS_SetMainPlaneVisible(16,1);
-    ((struct Obj14057 *)p)->f25C=CLACT_CreateUnit(64,0,50);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14057 *)p)->f25C);
+    ((Wf2dmapScene *)scene)->unit.handle=CLACT_CreateUnit(64,0,50);
+    CLACT_SetUnitDefaultRenderer(((Wf2dmapScene *)scene)->unit.handle);
 }
 
 
 
-void func_021D9890(char *p)
+void WF2DMAP_SCENE_LoadActorAssets(char *scene)
 {
-    void *pal=((struct Obj02483 *)p)->f290;
-    void *arc=((struct Obj02483 *)p)->f258;
+    void *palAnm=((Wf2dmapScene *)scene)->palAnm.handle;
+    void *arc=((Wf2dmapScene *)scene)->arcHandle;
     func_02049658(arc,6,1,0,0,0,50);
     func_020498F4(arc,10,1,0,0,0,50);
-    PALANM_LoadArcPaletteToSlot(pal,59,1,50,0,64,0);
+    PALANM_LoadArcPaletteToSlot(palAnm,59,1,50,0,64,0);
     func_02049658(arc,7,5,0,0,0,50);
     func_020498F4(arc,11,5,0,0,0,50);
     func_02049B68(arc,2,4,0,0,50);
-    ((struct Obj02483 *)p)->f260=CLACT_RegisterPalette(arc,0,0,0,50);
-    ((struct Obj02483 *)p)->f26C=CLACT_RegisterCharacter(arc,5,0,0,50);
-    ((struct Obj02483 *)p)->f284=CLACT_RegisterCellAnim(arc,12,15,50);
-    ((struct Obj02483 *)p)->f268=CLACT_RegisterPalette(arc,4,0,32,50);
-    ((struct Obj02483 *)p)->f274=CLACT_RegisterCharacter(arc,9,0,0,50);
-    ((struct Obj02483 *)p)->f28C=CLACT_RegisterCellAnim(arc,14,17,50);
-    ((struct Obj02483 *)p)->f264=CLACT_RegisterPalette(arc,3,0,64,50);
-    ((struct Obj02483 *)p)->f270=CLACT_RegisterCharacter(arc,8,0,0,50);
-    ((struct Obj02483 *)p)->f288=CLACT_RegisterCellAnim(arc,13,16,50);
+    ((Wf2dmapScene *)scene)->paletteA=CLACT_RegisterPalette(arc,0,0,0,50);
+    ((Wf2dmapScene *)scene)->charA=CLACT_RegisterCharacter(arc,5,0,0,50);
+    ((Wf2dmapScene *)scene)->cellAnimA=CLACT_RegisterCellAnim(arc,12,15,50);
+    ((Wf2dmapScene *)scene)->paletteC=CLACT_RegisterPalette(arc,4,0,32,50);
+    ((Wf2dmapScene *)scene)->charC=CLACT_RegisterCharacter(arc,9,0,0,50);
+    ((Wf2dmapScene *)scene)->cellAnimC=CLACT_RegisterCellAnim(arc,14,17,50);
+    ((Wf2dmapScene *)scene)->paletteB=CLACT_RegisterPalette(arc,3,0,64,50);
+    ((Wf2dmapScene *)scene)->charB=CLACT_RegisterCharacter(arc,8,0,0,50);
+    ((Wf2dmapScene *)scene)->cellAnimB=CLACT_RegisterCellAnim(arc,13,16,50);
     BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,50);
     func_02049B40(23,5,4,384,32,50);
 }
 
 
 
-void func_021D99F0(char *p)  {
-    int i;
-    char *q;
-    for(i=0;i<((struct Obj10500 *)p)->f23C;i++) CLACT_DeleteActor((struct Obj *)(*(int *)(p+i*28+12)));
-    for(i=0;i<2;i++)  {
-        q=p+i*28;
-        CLACT_DeleteActor((struct Obj *)(((struct Obj06480 *)q)->f15C));
-        CLACT_DeleteActor((struct Obj *)(((struct Obj06480 *)q)->f1E8));
+void WF2DMAP_SCENE_DeleteActors(char *scene)  {
+    int index;
+    char *cell;
+    for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) CLACT_DeleteActor((struct Obj *)(*(int *)(scene+index*28+12)));
+    for(index=0;index<2;index++)  {
+        cell=scene+index*28;
+        CLACT_DeleteActor((struct Obj *)(((Wf2dmapScene *)cell)->extraActor.handleRaw));
+        CLACT_DeleteActor((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor));
     }
-    for(i=0;i<3;i++) CLACT_DeleteActor((struct Obj *)(*(int *)(p+i*28+0x194)));
-    func_021DA3D0((u8 *)p);
-    BMP_WIN_Delete((struct Descriptor *)(((struct Obj10500 *)p)->f310));
-    for(i=0;i<3;i++)  {
-        q=p+i*4;
-        CLACT_ReleasePalette(((struct Obj06480 *)q)->f260);
-        CLACT_ReleaseCharacter(((struct Obj06480 *)q)->f26C);
-        CLACT_ReleaseCellAnim(((struct Obj06480 *)q)->f284);
+    for(index=0;index<3;index++) CLACT_DeleteActor((struct Obj *)(*(int *)(scene+index*28+0x194)));
+    WF2DMAP_SCENE_DeleteOam((u8 *)scene);
+    BMP_WIN_Delete((struct Descriptor *)(((Wf2dmapScene *)scene)->windowHandle));
+    for(index=0;index<3;index++)  {
+        cell=scene+index*4;
+        CLACT_ReleasePalette(((Wf2dmapScene *)cell)->paletteA);
+        CLACT_ReleaseCharacter(((Wf2dmapScene *)cell)->charA);
+        CLACT_ReleaseCellAnim(((Wf2dmapScene *)cell)->cellAnimA);
     }
-    CLACT_DeleteUnit((struct Bank *)(((struct Obj10500 *)p)->f25C));
+    CLACT_DeleteUnit((struct Bank *)(((Wf2dmapScene *)scene)->unit.handleRaw));
     CLACT_ExitSystem();
 }
 
 
 
-void func_021D9AB0(char *p)
+void WF2DMAP_SCENE_CreateCellActors(char *scene)
 {
-    Params s;
-    int j=0;
-    int h=((struct Obj02185 *)p)->f25C;
-    int i,k=0;
-    unsigned q;
-    s.x=0; s.y=0; s.frame=0; s.speed=10; s.flag=0;
-    for(i=0;i<(int)((unsigned)((struct Obj02185 *)p)->f23C+2);i++) {
-        q=(unsigned)p+(unsigned)k*28;
-        if(i==(int)((unsigned)k+(unsigned)((struct Obj06481 *)q)->f150+1)) {
-            s.x=76+(unsigned)i*8; s.y=24; s.frame=22;
-            ((struct Obj06481 *)q)->f15C=(int)CLACT_CreateActor((void *)h,((struct Obj02185 *)p)->f26C,((struct Obj02185 *)p)->f260,((struct Obj02185 *)p)->f284,&s,0,50);
-            k++;
+    Params param;
+    int cellIdx=0;
+    int unit=((Wf2dmapScene *)scene)->unit.handleRaw;
+    int index,extraIdx=0;
+    unsigned cell;
+    param.x=0; param.y=0; param.frame=0; param.speed=10; param.flag=0;
+    for(index=0;index<(int)((unsigned)((Wf2dmapScene *)scene)->cellCount+2);index++) {
+        cell=(unsigned)scene+(unsigned)extraIdx*28;
+        if(index==(int)((unsigned)extraIdx+(unsigned)((Wf2dmapScene *)cell)->group0End+1)) {
+            param.x=76+(unsigned)index*8; param.y=24; param.frame=22;
+            ((Wf2dmapScene *)cell)->extraActor.handleRaw=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charA,((Wf2dmapScene *)scene)->paletteA,((Wf2dmapScene *)scene)->cellAnimA,&param,0,50);
+            extraIdx++;
         } else {
-            s.x=76+(unsigned)i*8; s.y=24;
-            q=(unsigned)p+(unsigned)j*28;
-            s.frame=func_021DA158(((struct Obj06481 *)q)->f0,((struct Obj06481 *)q)->f8);
-            ((struct Obj06481 *)q)->fC=(int)CLACT_CreateActor((void *)h,((struct Obj02185 *)p)->f26C,((struct Obj02185 *)p)->f260,((struct Obj02185 *)p)->f284,&s,0,50);
-            j++;
+            param.x=76+(unsigned)index*8; param.y=24;
+            cell=(unsigned)scene+(unsigned)cellIdx*28;
+            param.frame=WF2DMAP_SCENE_GetCellAnim(((Wf2dmapScene *)cell)->state,((Wf2dmapScene *)cell)->flag);
+            ((Wf2dmapScene *)cell)->actor.handleRaw=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charA,((Wf2dmapScene *)scene)->paletteA,((Wf2dmapScene *)scene)->cellAnimA,&param,0,50);
+            cellIdx++;
         }
     }
-    if(((struct Obj02185 *)p)->f334==0 && ((struct Obj02185 *)p)->f338==0) {
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02185 *)p)->f15C,0);
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj02185 *)p)->f178,0);
+    if(((Wf2dmapScene *)scene)->group1Size==0 && ((Wf2dmapScene *)scene)->group2Size==0) {
+        CLACT_SetActorDrawEnable((struct Obj *)((Wf2dmapScene *)scene)->extraActor.handleRaw,0);
+        CLACT_SetActorDrawEnable((struct Obj *)((Wf2dmapScene *)scene)->extraActor1,0);
     }
 }
 
 
 
-void func_021D9BEC(char *p)
+void WF2DMAP_SCENE_CreateCursorActors(char *scene)
 {
-    Params s;
-    int h=((struct Obj00501 *)p)->f25C;
-    s.x=0; s.y=0; s.frame=0; s.speed=0; s.flag=0;
-    ((struct Obj00501 *)p)->f194=(int)CLACT_CreateActor((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
-    ((struct Obj00501 *)p)->f1B0=(int)CLACT_CreateActor((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
-    ((struct Obj00501 *)p)->f1CC=(int)CLACT_CreateActor((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
-    func_021D9E60((u8 *)p,0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00501 *)p)->f194),0);
-    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00501 *)p)->f194,1);
-    ((struct Obj00501 *)p)->f1B8=0; ((struct Obj00501 *)p)->f1BA=0;
-    ((struct Obj00501 *)p)->f1A4=1;
-    func_021D9E98(p,0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00501 *)p)->f1B0),((struct Obj00501 *)p)->f1A4);
-    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00501 *)p)->f1B0,1);
-    CLACT_SetActorObjMode((struct Actor *)(((struct Obj00501 *)p)->f1B0),1);
-    ((struct Obj00501 *)p)->f1D4=0; ((struct Obj00501 *)p)->f1D6=0;
-    ((struct Obj00501 *)p)->f1C0=1;
-    func_021D9E98(p,0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00501 *)p)->f1CC),((struct Obj00501 *)p)->f1C0);
-    CLACT_SetActorObjMode((struct Actor *)(((struct Obj00501 *)p)->f1CC),1);
-    CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00501 *)p)->f1CC,1);
-    func_021D9E48(p,1,0);
-    func_021D9E48(p,2,0);
+    Params param;
+    int unit=((Wf2dmapScene *)scene)->unit.handleRaw;
+    param.x=0; param.y=0; param.frame=0; param.speed=0; param.flag=0;
+    ((Wf2dmapScene *)scene)->cursorActor.handleRaw=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,&param,0,50);
+    ((Wf2dmapScene *)scene)->cursorActor2=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,&param,0,50);
+    ((Wf2dmapScene *)scene)->cursorActor4=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,&param,0,50);
+    WF2DMAP_SCENE_MoveCursor((u8 *)scene,0);
+    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor.handleRaw),0);
+    CLACT_SetActorAutoAnim((struct Obj *)((Wf2dmapScene *)scene)->cursorActor.handleRaw,1);
+    ((Wf2dmapScene *)scene)->cursorCol=0; ((Wf2dmapScene *)scene)->cursorRow=0;
+    ((Wf2dmapScene *)scene)->cursorMode=1;
+    WF2DMAP_SCENE_SetCursorPos(scene,0);
+    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor2),((Wf2dmapScene *)scene)->cursorMode);
+    CLACT_SetActorAutoAnim((struct Obj *)((Wf2dmapScene *)scene)->cursorActor2,1);
+    CLACT_SetActorObjMode((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor2),1);
+    ((Wf2dmapScene *)scene)->cursorValue0=0; ((Wf2dmapScene *)scene)->cursorValue1=0;
+    ((Wf2dmapScene *)scene)->cursorActor3=1;
+    WF2DMAP_SCENE_SetCursorPos(scene,0);
+    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor4),((Wf2dmapScene *)scene)->cursorActor3);
+    CLACT_SetActorObjMode((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor4),1);
+    CLACT_SetActorAutoAnim((struct Obj *)((Wf2dmapScene *)scene)->cursorActor4,1);
+    WF2DMAP_SCENE_SetCursorVisible(scene,1,0);
+    WF2DMAP_SCENE_SetCursorVisible(scene,2,0);
 }
 
 
 
 
-void func_021D9D44(char *p)
+void WF2DMAP_SCENE_CreateExtraActors(char *scene)
 {
-    L s;
-    int h = ((struct Obj00913 *)p)->f25C;
-    s.a = 0;
-    s.b = 0;
-    s.c = 0;
-    s.d = 10;
-    s.e = 0;
-    ((struct Obj00913 *)p)->f1E8 = (int)CLACT_CreateActor((void *)h, ((struct Obj00913 *)p)->f270, ((struct Obj00913 *)p)->f264, ((struct Obj00913 *)p)->f288, &s.a, 0, 0x32);
-    ((struct Obj00913 *)p)->f204 = (int)CLACT_CreateActor((void *)h, ((struct Obj00913 *)p)->f270, ((struct Obj00913 *)p)->f264, ((struct Obj00913 *)p)->f288, &s.a, 0, 0x32);
-    s.x = (((struct Obj00913 *)p)->f2F2 + ((struct Obj00913 *)p)->f2F3) / 2;
-    s.y = (((struct Obj00913 *)p)->f2F0 + ((struct Obj00913 *)p)->f2F1) / 2;
-    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj00913 *)p)->f1E8), (const struct Vec2 *)(&s), 0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00913 *)p)->f1E8), 0);
-    s.x = (((struct Obj00913 *)p)->f2F6 + ((struct Obj00913 *)p)->f2F7) / 2;
-    s.y = (((struct Obj00913 *)p)->f2F4 + ((struct Obj00913 *)p)->f2F5) / 2;
-    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj00913 *)p)->f204), (const struct Vec2 *)(&s), 0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00913 *)p)->f204), 0);
+    L param;
+    int unit = ((Wf2dmapScene *)scene)->unit.handleRaw;
+    param.a = 0;
+    param.b = 0;
+    param.c = 0;
+    param.d = 10;
+    param.e = 0;
+    ((Wf2dmapScene *)scene)->cursorAnimActor = (int)CLACT_CreateActor((void *)unit, ((Wf2dmapScene *)scene)->charB, ((Wf2dmapScene *)scene)->paletteB, ((Wf2dmapScene *)scene)->cellAnimB, &param.a, 0, 0x32);
+    ((Wf2dmapScene *)scene)->cursorAnimActor2 = (int)CLACT_CreateActor((void *)unit, ((Wf2dmapScene *)scene)->charB, ((Wf2dmapScene *)scene)->paletteB, ((Wf2dmapScene *)scene)->cellAnimB, &param.a, 0, 0x32);
+    param.x = (((Wf2dmapScene *)scene)->selX0 + ((Wf2dmapScene *)scene)->selX1) / 2;
+    param.y = (((Wf2dmapScene *)scene)->selY0 + ((Wf2dmapScene *)scene)->selY1) / 2;
+    CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor), (const struct Vec2 *)(&param), 0);
+    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor), 0);
+    param.x = (((Wf2dmapScene *)scene)->sel2X0 + ((Wf2dmapScene *)scene)->sel2X1) / 2;
+    param.y = (((Wf2dmapScene *)scene)->sel2Y0 + ((Wf2dmapScene *)scene)->sel2Y1) / 2;
+    CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor2), (const struct Vec2 *)(&param), 0);
+    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor2), 0);
 }
 
 
 
 
-void func_021D9E48(char *p, int i, int a)
+void WF2DMAP_SCENE_SetCursorVisible(char *scene, int cursorIdx, int visible)
 {
-    CLACT_SetActorDrawEnable(*(void **)(p + i * 0x1c + 0x194), a);
+    CLACT_SetActorDrawEnable(*(void **)(scene + cursorIdx * 0x1c + 0x194), visible);
 }
 
 
@@ -1445,51 +1521,51 @@ void func_021D9E48(char *p, int i, int a)
 /*
  * lever: Load actor into a local before the current-index store.
  */
-void func_021D9E60(u8 *p,int n) { PairS16 s; void *actor; actor=*(void **)(p+n*28+12); ((struct Obj14058 *)p)->f188=n; CLACT_GetActorSurfacePos(actor,(struct PtS *)&s,0); s.y+=16; CLACT_AddActorSurfacePos(((struct Obj14058 *)p)->f194,(const struct Vec2 *)(&s),0); }
+void WF2DMAP_SCENE_MoveCursor(u8 *scene,int cellIdx) { Wf2dmapPairS16 pos; void *actor; actor=*(void **)(scene+cellIdx*28+12); ((Wf2dmapScene *)scene)->cursorIndex=cellIdx; CLACT_GetActorSurfacePos(actor,(struct PtS *)&pos,0); pos.y+=16; CLACT_AddActorSurfacePos(((Wf2dmapScene *)scene)->cursorActor.handle,(const struct Vec2 *)(&pos),0); }
 
 
 
-void func_021D9E98(char *p,int i)
+void WF2DMAP_SCENE_SetCursorPos(char *scene,int cellIdx)
 {
-    PairU16 s;
-    unsigned char *q = (unsigned char *)p + (i+12)*4;
-    s.x = (q[0x29a] + q[0x29b])/2;
-    s.y = (q[0x298] + q[0x299])/2;
-    CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj14059 *)p)->f1B0),(const struct Vec2 *)(&s),0);
-    CLACT_SetActorAnimFrame((struct Obj *)(((struct Obj14059 *)p)->f1B0),0);
+    Wf2dmapPairU16 pos;
+    unsigned char *rect = (unsigned char *)scene + (cellIdx+12)*4;
+    pos.x = (rect[0x29a] + rect[0x29b])/2;
+    pos.y = (rect[0x298] + rect[0x299])/2;
+    CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor2),(const struct Vec2 *)(&pos),0);
+    CLACT_SetActorAnimFrame((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor2),0);
 }
 
 
 
-void func_021D9EE8(char *p,int i,int j)
+void WF2DMAP_SCENE_SetCursorPosBySlot(char *scene,int cellIdx,int cursorIdx)
 {
-    PairU16B s;
-    unsigned char *q = (unsigned char *)p + (i+12)*4;
-    s.x = (q[0x29a] + q[0x29b])/2;
-    s.y = (q[0x298] + q[0x299])/2;
-    CLACT_AddActorSurfacePos((struct Obj *)(*(int *)((p+0x194)+j*0x1c)),(const struct Vec2 *)(&s),0);
-    CLACT_SetActorAnimFrame((struct Obj *)(*(int *)((p+0x194)+j*0x1c)),0);
+    Wf2dmapPairU16 pos;
+    unsigned char *rect = (unsigned char *)scene + (cellIdx+12)*4;
+    pos.x = (rect[0x29a] + rect[0x29b])/2;
+    pos.y = (rect[0x298] + rect[0x299])/2;
+    CLACT_AddActorSurfacePos((struct Obj *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),(const struct Vec2 *)(&pos),0);
+    CLACT_SetActorAnimFrame((struct Obj *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),0);
 }
 
 
 
-void func_021D9F40(char *p)
+void WF2DMAP_SCENE_UpdateCursorAnim(char *scene)
 {
-    int i;
-    for(i=1;i<3;i++){
-        int a=CLACT_GetActorAnimSeq(*(void **)(p+i*0x1c+0x194));
-        if(a==3){
-            if(CLACT_IsActorAnimActive(*(void **)(p+i*0x1c+0x194))==0){
-                CLACT_SetActorAnimSeq(*(void **)(p+i*0x1c+0x194),*(int *)(p+i*0x1c+0x188));
-                if(((struct Obj14060 *)p)->f2FC==1) func_021D9E48(p,1,0);
-                else func_021D9E48(p,1,1);
-                func_021D9E48(p,2,0);
+    int cursorIdx;
+    for(cursorIdx=1;cursorIdx<3;cursorIdx++){
+        int animSeq=CLACT_GetActorAnimSeq(*(void **)(scene+cursorIdx*0x1c+0x194));
+        if(animSeq==3){
+            if(CLACT_IsActorAnimActive(*(void **)(scene+cursorIdx*0x1c+0x194))==0){
+                CLACT_SetActorAnimSeq(*(void **)(scene+cursorIdx*0x1c+0x194),*(int *)(scene+cursorIdx*0x1c+0x188));
+                if(((Wf2dmapScene *)scene)->gridActive==1) WF2DMAP_SCENE_SetCursorVisible(scene,1,0);
+                else WF2DMAP_SCENE_SetCursorVisible(scene,1,1);
+                WF2DMAP_SCENE_SetCursorVisible(scene,2,0);
             }
         }else{
-            if(a!=*(int *)(p+i*0x1c+0x188)) CLACT_SetActorAnimSeq(*(void **)(p+i*0x1c+0x194),*(int *)(p+i*0x1c+0x188));
-            if(CLACT_GetActorAnimSeq(*(void **)(p+i*0x1c+0x194))!=3){
-                if(((struct Obj14060 *)p)->f2FC==1) func_021D9E48(p,1,0);
-                else func_021D9E48(p,1,1);
+            if(animSeq!=*(int *)(scene+cursorIdx*0x1c+0x188)) CLACT_SetActorAnimSeq(*(void **)(scene+cursorIdx*0x1c+0x194),*(int *)(scene+cursorIdx*0x1c+0x188));
+            if(CLACT_GetActorAnimSeq(*(void **)(scene+cursorIdx*0x1c+0x194))!=3){
+                if(((Wf2dmapScene *)scene)->gridActive==1) WF2DMAP_SCENE_SetCursorVisible(scene,1,0);
+                else WF2DMAP_SCENE_SetCursorVisible(scene,1,1);
             }
         }
     }
@@ -1498,10 +1574,10 @@ void func_021D9F40(char *p)
 
 
 
-void func_021D9FF0(char *p, int a, int b)
+void WF2DMAP_SCENE_SetOamPos(char *oam, int x, int y)
 {
-    if (p != 0)
-        BMP_OAM_SetPos((struct Grid *)p, (short)a, (short)b);
+    if (oam != 0)
+        BMP_OAM_SetPos((struct Grid *)oam, (short)x, (short)y);
 }
 
 
@@ -1510,39 +1586,39 @@ void func_021D9FF0(char *p, int a, int b)
  * Extent ends with two bytes of zero alignment padding.
  * Lever: declare the 4-byte-stride pointer before the 28-byte-stride pointer.
  */
-void func_021DA004(char *p)
+void WF2DMAP_SCENE_UpdateOam(char *scene)
 {
-    int i;
-    char *r,*q;
+    int cursorIdx;
+    char *byteRow,*cell;
     short x,y;
-    for(i=0;i<2;i++) {
-        r=p+i*4;
-        x=((struct Obj04507 *)r)->f2F2+20;
-        y=(((struct Obj04507 *)r)->f2F0+((struct Obj04507 *)r)->f2F1)/2;
+    for(cursorIdx=0;cursorIdx<2;cursorIdx++) {
+        byteRow=scene+cursorIdx*4;
+        x=((Wf2dmapScene *)byteRow)->selX0+20;
+        y=(((Wf2dmapScene *)byteRow)->selY0+((Wf2dmapScene *)byteRow)->selY1)/2;
         y-=7;
-        q=p+i*28;
-        switch(((struct Obj02186 *)q)->f1DC) {
+        cell=scene+cursorIdx*28;
+        switch(((Wf2dmapScene *)cell)->cursorState) {
         case 0:
-            ((struct Obj02186 *)q)->f1F4=0;
+            ((Wf2dmapScene *)cell)->cursorAnimFrame=0;
             break;
         case 1:
-            ((struct Obj02186 *)q)->f1F4+=1;
-            if(((struct Obj02186 *)q)->f1F4==1) {
-                CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),1);
-                func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
-            } else if(((struct Obj02186 *)q)->f1F4==2) {
-                CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),2);
-                func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
-            } else if(((struct Obj02186 *)q)->f1F4==10) {
-                CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
-                func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
-                ((struct Obj02186 *)q)->f1DC+=1;
+            ((Wf2dmapScene *)cell)->cursorAnimFrame+=1;
+            if(((Wf2dmapScene *)cell)->cursorAnimFrame==1) {
+                CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),1);
+                WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
+            } else if(((Wf2dmapScene *)cell)->cursorAnimFrame==2) {
+                CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),2);
+                WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
+            } else if(((Wf2dmapScene *)cell)->cursorAnimFrame==10) {
+                CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),0);
+                WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
+                ((Wf2dmapScene *)cell)->cursorState+=1;
             }
             break;
         default:
-            CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
-            func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
-            ((struct Obj02186 *)q)->f1DC=0;
+            CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),0);
+            WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
+            ((Wf2dmapScene *)cell)->cursorState=0;
             break;
         }
     }
@@ -1550,22 +1626,22 @@ void func_021DA004(char *p)
 
 
 
-int func_021DA158(int x,int flag) { int n; n=0; if(!flag) n=11; return n+x; }
+int WF2DMAP_SCENE_GetCellAnim(int state,int flag) { int base; base=0; if(!flag) base=11; return base+state; }
 
 
 
 
-void func_021DA164(void *p)
+void WF2DMAP_SCENE_SetCellFlags(void *scene)
 {
-    unsigned char *b = (unsigned char *)p;
-    int i;
+    unsigned char *sceneBytes = (unsigned char *)scene;
+    int cellIdx;
 
-    for (i = 0; i < ((struct Obj10501 *)b)->f23C; i++)
+    for (cellIdx = 0; cellIdx < ((Wf2dmapScene *)sceneBytes)->cellCount; cellIdx++)
     {
-        if (i >= ((struct Obj10501 *)b)->f248 && i < ((struct Obj10501 *)b)->f24C)
-            *(int *)(b + i * 0x1c + 8) = 1;
+        if (cellIdx >= ((Wf2dmapScene *)sceneBytes)->mainStart && cellIdx < ((Wf2dmapScene *)sceneBytes)->mainEnd)
+            *(int *)(sceneBytes + cellIdx * 0x1c + 8) = 1;
         else
-            *(int *)(b + i * 0x1c + 8) = 0;
+            *(int *)(sceneBytes + cellIdx * 0x1c + 8) = 0;
     }
 }
 
@@ -1574,100 +1650,100 @@ void func_021DA164(void *p)
 /*
  * Lever: declare i before y, initialise j after loading y, and keep the equality arm separate.
  */
-void func_021DA1A8(char *p,int animate)
+void WF2DMAP_SCENE_LayoutCells(char *scene,int animate)
 {
-    Position s;
-    int i,j;
-    short y=*(short *)((unsigned)p+(unsigned)((struct Obj03283 *)p)->f240*2+0x214);
-    unsigned q;
-    j=0;
-    for(i=0;i<((struct Obj03283 *)p)->f23C;i++) {
-        if(i>=((struct Obj03283 *)p)->f248 && i<((struct Obj03283 *)p)->f24C) {
-            if(i==((struct Obj03283 *)p)->f248) y+=20;
-            else y+=32;
+    Position pos;
+    int cellIdx,extraIdx;
+    short yPos=*(short *)((unsigned)scene+(unsigned)((Wf2dmapScene *)scene)->groupIndex*2+0x214);
+    unsigned cell;
+    extraIdx=0;
+    for(cellIdx=0;cellIdx<((Wf2dmapScene *)scene)->cellCount;cellIdx++) {
+        if(cellIdx>=((Wf2dmapScene *)scene)->mainStart && cellIdx<((Wf2dmapScene *)scene)->mainEnd) {
+            if(cellIdx==((Wf2dmapScene *)scene)->mainStart) yPos+=20;
+            else yPos+=32;
         } else {
-            if(i==0) y+=20;
-            else y+=8;
+            if(cellIdx==0) yPos+=20;
+            else yPos+=8;
         }
-        q=(unsigned)p+(unsigned)i*28;
-        CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02187 *)q)->fC,(struct PtS *)&s.z,0);
+        cell=(unsigned)scene+(unsigned)cellIdx*28;
+        CLACT_GetActorSurfacePos((struct Actor *)((Wf2dmapScene *)cell)->actor.handleRaw,(struct PtS *)&pos.z,0);
         if(animate==0) {
-            s.z=y;
-            CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj02187 *)q)->fC),(const struct Vec2 *)(&s.z),0);
+            pos.z=yPos;
+            CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)cell)->actor.handleRaw),(const struct Vec2 *)(&pos.z),0);
         } else {
-            ((struct Obj02187 *)q)->f14=(y-s.z)/4;
-            ((struct Obj02187 *)q)->f16=0;
-            ((struct Obj02187 *)q)->f18=4;
-            ((struct Obj02187 *)q)->f19=0;
+            ((Wf2dmapScene *)cell)->stepX=(yPos-pos.z)/4;
+            ((Wf2dmapScene *)cell)->stepY=0;
+            ((Wf2dmapScene *)cell)->stepFrames=4;
+            ((Wf2dmapScene *)cell)->stepIndex=0;
         }
-        q=(unsigned)p+(unsigned)j*28;
-        if(i==((struct Obj02187 *)q)->f150 && j!=2) {
-            CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02187 *)q)->f15C,(struct PtS *)&s,0);
-            if(((struct Obj03283 *)p)->f248==((struct Obj03283 *)p)->f24C) y+=8;
+        cell=(unsigned)scene+(unsigned)extraIdx*28;
+        if(cellIdx==((Wf2dmapScene *)cell)->group0End && extraIdx!=2) {
+            CLACT_GetActorSurfacePos((struct Actor *)((Wf2dmapScene *)cell)->extraActor.handleRaw,(struct PtS *)&pos,0);
+            if(((Wf2dmapScene *)scene)->mainStart==((Wf2dmapScene *)scene)->mainEnd) yPos+=8;
             else {
-                if(i>((struct Obj03283 *)p)->f248 && i<((struct Obj03283 *)p)->f24C) y+=20;
-                else y+=8;
+                if(cellIdx>((Wf2dmapScene *)scene)->mainStart && cellIdx<((Wf2dmapScene *)scene)->mainEnd) yPos+=20;
+                else yPos+=8;
             }
             if(animate==0) {
-                s.x=y;
-                CLACT_AddActorSurfacePos((struct Obj *)(((struct Obj02187 *)q)->f15C),(const struct Vec2 *)(&s),0);
+                pos.x=yPos;
+                CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)cell)->extraActor.handleRaw),(const struct Vec2 *)(&pos),0);
             } else {
-                ((struct Obj02187 *)q)->f164=(y-s.x)/4;
-                ((struct Obj02187 *)q)->f166=0;
-                ((struct Obj02187 *)q)->f168=4;
+                ((Wf2dmapScene *)cell)->extraStepX=(yPos-pos.x)/4;
+                ((Wf2dmapScene *)cell)->extraStepY=0;
+                ((Wf2dmapScene *)cell)->extraStepFrames=4;
             }
-            j++;
+            extraIdx++;
         }
     }
 }
 
 
 
-void func_021DA320(char *p)
+void WF2DMAP_SCENE_UpdateCellRects(char *scene)
 {
-    int i;
-    int x,y;
-    PairS16B s;
-    for(i=0;i<((struct Obj10502 *)p)->f23C;i++){
-        if(i>=((struct Obj10502 *)p)->f248 && i<((struct Obj10502 *)p)->f24C){
-            x=16;
-            y=16;
+    int cellIdx;
+    int halfW,halfH;
+    Wf2dmapPairS16 pos;
+    for(cellIdx=0;cellIdx<((Wf2dmapScene *)scene)->cellCount;cellIdx++){
+        if(cellIdx>=((Wf2dmapScene *)scene)->mainStart && cellIdx<((Wf2dmapScene *)scene)->mainEnd){
+            halfW=16;
+            halfH=16;
         }else{
-            x=4;
-            y=8;
+            halfW=4;
+            halfH=8;
         }
-        CLACT_GetActorSurfacePos(*(void **)(p+i*0x1c+12),(struct PtS *)&s,0);
-        (*(u8 **)(p+i*0x1c+16))[0]=s.y-y;
-        (*(u8 **)(p+i*0x1c+16))[2]=s.x-x;
-        (*(u8 **)(p+i*0x1c+16))[1]=s.y+y;
-        (*(u8 **)(p+i*0x1c+16))[3]=s.x+x;
+        CLACT_GetActorSurfacePos(*(void **)(scene+cellIdx*0x1c+12),(struct PtS *)&pos,0);
+        (*(u8 **)(scene+cellIdx*0x1c+16))[0]=pos.y-halfH;
+        (*(u8 **)(scene+cellIdx*0x1c+16))[2]=pos.x-halfW;
+        (*(u8 **)(scene+cellIdx*0x1c+16))[1]=pos.y+halfH;
+        (*(u8 **)(scene+cellIdx*0x1c+16))[3]=pos.x+halfW;
     }
 }
 
 
 
 
-void func_021DA3B8(char *p)
+void WF2DMAP_SCENE_CreateOam(char *scene)
 {
-    void *x = BMP_OAM_CreateSys(0x32, ((struct Obj14061 *)p)->f25C);
+    void *oamSys = BMP_OAM_CreateSys(0x32, ((Wf2dmapScene *)scene)->unit.handle);
 
-    ((struct Obj14061 *)p)->f300 = x;
+    ((Wf2dmapScene *)scene)->oamSys = oamSys;
 }
 
 
 
-void func_021DA3D0(u8 *p) { CLACT_ReleasePalette(((struct Obj08140 *)p)->f30C); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08140 *)p)->f300); }
+void WF2DMAP_SCENE_DeleteOam(u8 *scene) { CLACT_ReleasePalette(((Wf2dmapScene *)scene)->oamPalette); BMP_OAM_Delete(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamA); BMP_OAM_Delete(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamB); BMP_OAM_DeleteSys(((Wf2dmapScene *)scene)->oamSys); }
 
 
 
-void func_021DA3FC(u8 *p) { void *f; f=func_020490F4(23,50); ((struct Obj23118 *)p)->f30C=CLACT_RegisterPaletteCompressed(f,5,0,128,50); ARC_TOOL_DeleteHandle(f); }
+void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *scene) { void *arc; arc=func_020490F4(23,50); ((Wf2dmapScene *)scene)->oamPalette=CLACT_RegisterPaletteCompressed(arc,5,0,128,50); ARC_TOOL_DeleteHandle(arc); }
 
 
 
 /*
  * prototype: Original calls visibly load r2/r3 and outgoing stack zero; retain those arguments despite the matched callee declaring only two.
  */
-void func_021DA42C(u8 *p) { int zero; func_021DA3FC(p); zero=0; func_021DA454(p,0,78,165,zero); func_021DA454(p,1,172,165,zero); }
+void WF2DMAP_SCENE_CreateTextOams(u8 *scene) { int zero; WF2DMAP_SCENE_RegisterCompressedPalette(scene); zero=0; WF2DMAP_SCENE_CreateTextOam(scene,0,78,165,zero); WF2DMAP_SCENE_CreateTextOam(scene,1,172,165,zero); }
 
 
 
@@ -1675,30 +1751,30 @@ void func_021DA42C(u8 *p) { int zero; func_021DA3FC(p); zero=0; func_021DA454(p,
  * lever: Expand each coordinate base at its read; binding the base to a
  * pointer local swaps r2/r3 and leaves six bytes different.
  */
-void func_021DA454(u8 *p, int i, int a2, int a3, int a4)
+void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int unused)
 {
     void *bank,*msg,*bmp;
-    struct Param q;
-    short y;
-    u16 x;
+    struct Param param;
+    short yPos;
+    u16 xPos;
     int zero=0;
     bank=func_02045B38(0,2,25,50);
-    msg=func_02045EC0(bank,i+3);
+    msg=func_02045EC0(bank,index+3);
     bmp=BMP_Create(10,2,32,50);
-    PRINTSYS_PrintColor(bmp,(80-(int)func_0201D304(msg,*(u32 *)&((struct Obj08141 *)p)->f314,0))/2,0,msg,((struct Obj08141 *)p)->f314,0x3dc0);
-    x=(p+(i+22)*4)[0x29a]+20;
-    y=((p+(i+22)*4)[0x298]+(p+(i+22)*4)[0x299])/2;
-    q.bmp=bmp;
-    q.x=x;
-    q.y=y-7;
-    q.f8=((struct Obj08141 *)p)->f264;
-    q.fc=zero;
-    q.f10=zero;
-    q.f11=zero;
-    q.f12=zero;
-    q.f14=zero;
-    *(void **)(p+0x304+i*4)=BMP_OAM_Create(((struct Obj08141 *)p)->f300,&q);
-    BMP_OAM_UploadChars(*(void **)(p+0x304+i*4));
+    PRINTSYS_PrintColor(bmp,(80-(int)func_0201D304(msg,*(u32 *)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
+    xPos=(scene+(index+22)*4)[0x29a]+20;
+    yPos=((scene+(index+22)*4)[0x298]+(scene+(index+22)*4)[0x299])/2;
+    param.bmp=bmp;
+    param.x=xPos;
+    param.y=yPos-7;
+    param.f8=((Wf2dmapScene *)scene)->paletteB;
+    param.fc=zero;
+    param.f10=zero;
+    param.f11=zero;
+    param.f12=zero;
+    param.f14=zero;
+    *(void **)(scene+0x304+index*4)=BMP_OAM_Create(((Wf2dmapScene *)scene)->oamSys,&param);
+    BMP_OAM_UploadChars(*(void **)(scene+0x304+index*4));
     BMP_Delete(bmp);
     STRBUF_Delete(msg);
     MSGDATA_Delete(bank);
@@ -1709,41 +1785,41 @@ void func_021DA454(u8 *p, int i, int a2, int a3, int a4)
 /*
  * extent: Two zero alignment bytes at 0x021DA576; next labelled function is 0x021DA578.
  */
-void func_021DA524(void **p,int a,int b,int c,int d,int e,int f,int g,int h)
+void WF2DMAP_SCENE_CreateWindow(void **windowOut,int msgId,int x,int y,int w,int tiles,int palette,int msgBank,int number)
 {
-    *p=(void *)BMP_WIN_Create((u8)b,(u8)c,(u8)d,(u8)e,f,12,1);
-    BMP_MENUWORK_DrawWindow(*p,2,1,11);
-    BMP_WIN_MakeScreen(*p);
-    func_021DA578(*p,a,(void *)g,h);
+    *windowOut=(void *)BMP_WIN_Create((u8)x,(u8)y,(u8)w,(u8)tiles,palette,12,1);
+    BMP_MENUWORK_DrawWindow(*windowOut,2,1,11);
+    BMP_WIN_MakeScreen(*windowOut);
+    WF2DMAP_SCENE_DrawMessage(*windowOut,msgId,(void *)msgBank,number);
 }
 
 
 
-void func_021DA578(void *p,int a,void *b,u32 c)
+void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number)
 {
-    void *ws=GF_FONT_Create_EC64(50);
+    void *ws=WORDSET_CreateDefault(50);
     void *bank=func_02045B38(0,2,25,50);
-    void *msg=func_02045EC0(bank,a);
+    void *msg=func_02045EC0(bank,msgId);
     void *out=STRBUF_Create(88,50);
-    WORDSET_SetSlotNumber(ws,0,c,2,2,1);
+    WORDSET_SetSlotNumber(ws,0,number,2,2,1);
     WORDSET_CopyTaggedText(ws,out,msg);
-    BMP_Clear(BMP_WIN_GetBmp(p),15);
-    PRINTSYS_Print(BMP_WIN_GetBmp(p),0,0,out,b);
+    BMP_Clear(BMP_WIN_GetBmp(window),15);
+    PRINTSYS_Print(BMP_WIN_GetBmp(window),0,0,out,msgBank);
     STRBUF_Delete(out);
     STRBUF_Delete(msg);
     MSGDATA_Delete(bank);
     WORDSET_DeleteStrbufED04(ws);
-    BMP_WIN_TransferChars(p);
-    func_020409B4(4);
+    BMP_WIN_TransferChars(window);
+    BG_SYS_PushTile(4);
 }
 
 
-void func_021DA610(void *p, int sel, void *b, unsigned int c)
+void WF2DMAP_SCENE_ShowMessage(void *window, int sel, void *msgBank, unsigned int number)
 {
     if (sel == 1) {
-        func_021DA578(p, 5, b, c);
+        WF2DMAP_SCENE_DrawMessage(window, 5, msgBank, number);
         return;
     }
     if (sel == 2)
-        func_021DA578(p, 6, b, c);
+        WF2DMAP_SCENE_DrawMessage(window, 6, msgBank, number);
 }

@@ -12,7 +12,7 @@
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   APP_TASKMENU_WIN_ChangePalette 0x020282AC thumb
  *   PMSIV_MENU_UpdateEntryPalettes 0x021BCD80 thumb ov110
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void APP_TASKMENU_WIN_ChangePalette(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
 extern void PMSIV_MENU_UpdateEntryPalettes(u8 *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void PMSIV_MENU_ShowListEntries(Object *p) {
     int i;
     for(i=0;i<3;i++) {
@@ -36,5 +36,5 @@ void PMSIV_MENU_ShowListEntries(Object *p) {
         APP_TASKMENU_WIN_ChangePalette(p->windows[i],p->a[i],8,0x3545,0x7b2c);
     }
     PMSIV_MENU_UpdateEntryPalettes((u8 *)p);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 }

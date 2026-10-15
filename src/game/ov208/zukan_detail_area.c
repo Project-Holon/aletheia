@@ -26,7 +26,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040804 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
@@ -53,7 +53,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_AddActorSurfacePos        0x0204B404  arm
  *   func_02049B68        0x02049B68  arm
@@ -185,7 +185,7 @@
  *   ov208_func_021C20C0  0x021C20C0  thumb  ov208
  *   ov208_func_021C21D0  0x021C21D0  thumb  ov208
  *   func_021BDBAC  0x021BDBAC  thumb  ov208
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -317,7 +317,7 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
@@ -479,7 +479,7 @@ extern void BG_SYS_FreeSlot(u8);
 
 extern void func_02040588(u8,u8);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -719,7 +719,7 @@ extern void ov208_func_021C21D0(u16 *heap, u8 *p, int key);
 
 extern void func_021BDBAC(void *s, u32 on);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -1036,15 +1036,15 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         *seq = 1;
         GX_SetGraphicsMode(1, 5, 0);
         for (j = 0; j < 2; j++) {
-            func_020403F4((u8)data_021C85C0[j].bg);
+            BG_SYS_FreeLayerBuf((u8)data_021C85C0[j].bg);
             BG_SYS_InitBgLayer(data_021C85C0[j].bg, &data_021C85C0[j].tmpl, data_021C85C0[j].type);
             BG_SYS_FreeSlot(data_021C85C0[j].bg);
             func_02040588(data_021C85C0[j].bg, data_021C85C0[j].on);
         }
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                func_02040618(i, 0, 0);
-                func_02040618(i, 3, 0);
+                BG_SYS_FillScrollArea(i, 0, 0);
+                BG_SYS_FillScrollArea(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
@@ -1153,7 +1153,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ZUKAN_DETAIL_AREA_NoOpLoad(heap, p, key);
         GX_SetGraphicsMode(1, 0, 0);
         for (k = 0; k < 2; k++) {
-            func_020403F4((u8)data_021C8618[k].bg);
+            BG_SYS_FreeLayerBuf((u8)data_021C8618[k].bg);
             BG_SYS_InitBgLayer(data_021C8618[k].bg, &data_021C8618[k].tmpl, data_021C8618[k].type);
             BG_SYS_FreeSlot(data_021C8618[k].bg);
             func_02040588(data_021C8618[k].bg, data_021C8618[k].on);
@@ -2331,7 +2331,7 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     W(0x24) = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)W(0x34));
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0);
-    win = GF_FONT_Create_EC64(*heap);
+    win = WORDSET_CreateDefault(*heap);
     str = func_02045EC0((struct MsgBank *)W(0xc), 0xbd);
     buf = STRBUF_Create(0x40, *heap);
     WORDSET_Callback(win, 0, id);

@@ -67,7 +67,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02030734 0x02030734 arm
@@ -120,7 +120,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
@@ -292,15 +292,15 @@ extern void func_02034714(const char *,u32,const char *);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -366,7 +366,7 @@ extern void GX_LoadBGPltt(void *, int, int);
 
 extern void func_0207E468(void *, int, int);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -790,7 +790,7 @@ int WIFILOGIN_DISP_Create(void *ctx,int unused,u8 *q)
 
 int WIFILOGIN_DISP_Update(int a,int b,int c,u8 *p) { int r=1; void (*cb)(u8 *); WIFILOGIN_DISP_Draw(((struct WifiloginWork *)p)->disp); WIFILOGIN_MSG_Run((u8 *)(((struct WifiloginWork *)p)->message)); cb=*(void (**)(u8 *))p; if(cb) { cb(p); r=0; } if(((struct WifiloginWork *)p)->task) WIFILOGIN_MSG_UpdateTask((u8 *)(((struct WifiloginWork *)p)->task)); return r; }
 
-int WIFILOGIN_DISP_Delete(u32 a,int b,int c,u8 *p) { func_020403F4(7); WIFILOGIN_MSG_Delete(*(u8 * *)&((struct WifiloginWork *)p)->message); WIFILOGIN_DISP_DeleteDisplay(*(u8 * *)&((struct WifiloginWork *)p)->disp); func_020315D4((struct S020315D4 *)a); GFL_HEAP_DeleteChecked(120); return 1; }
+int WIFILOGIN_DISP_Delete(u32 a,int b,int c,u8 *p) { BG_SYS_FreeLayerBuf(7); WIFILOGIN_MSG_Delete(*(u8 * *)&((struct WifiloginWork *)p)->message); WIFILOGIN_DISP_DeleteDisplay(*(u8 * *)&((struct WifiloginWork *)p)->disp); func_020315D4((struct Proc *)a); GFL_HEAP_DeleteChecked(120); return 1; }
 
 /*
  * volatile: hardware reads/writes 021D4D66, 021D4D70, 021D4D74.
@@ -841,8 +841,8 @@ void WIFILOGIN_DISP_DeleteDisplay(u8 *p) {
     }
     BG_SYS_SetTileUnit(5, 1, 0);
     BG_SYS_SetTileUnit(6, 1, 0);
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     func_02040588(5, 0);
     BG_SYS_Delete();
     func_020307B0(p);
@@ -1047,7 +1047,7 @@ void WIFILOGIN_DISP_UpdatePalette(void *unused, u8 *p) {
     func_0207E468(p + 0x1f0 + ((struct WifiloginDisp *)p)->palIndex * 32, 40, 14);
     ++((struct WifiloginDisp *)p)->palIndex;
     if (((struct WifiloginDisp *)p)->palIndex >= 60) ((struct WifiloginDisp *)p)->palIndex = 0;
-    func_02040618(((struct WifiloginDisp *)p)->palLayer, 2, 7);
+    BG_SYS_FillScrollArea(((struct WifiloginDisp *)p)->palLayer, 2, 7);
 }
 
 /*
@@ -1136,7 +1136,7 @@ void WIFILOGIN_DISP_ScanlineEffect(void *unused, u8 *p) {
     }
 }
 
-void WIFILOGIN_DISP_VBlank(void *task,u8 *p) { if(((struct WifiloginDisp *)p)->frameTimer>0) { func_02040618(7,0,((struct WifiloginDisp *)p)->frameTimer-1); func_02040618(2,0,((struct WifiloginDisp *)p)->frameTimer-1); } CLACT_VBlankSystem(); }
+void WIFILOGIN_DISP_VBlank(void *task,u8 *p) { if(((struct WifiloginDisp *)p)->frameTimer>0) { BG_SYS_FillScrollArea(7,0,((struct WifiloginDisp *)p)->frameTimer-1); BG_SYS_FillScrollArea(2,0,((struct WifiloginDisp *)p)->frameTimer-1); } CLACT_VBlankSystem(); }
 
 void WIFILOGIN_DISP_SetPaletteFlag(u8 *p) { ((struct WifiloginDisp *)p)->palFlag = 1; }
 

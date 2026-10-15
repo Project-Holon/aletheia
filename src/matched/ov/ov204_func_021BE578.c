@@ -1,5 +1,5 @@
 /*
- * function: func_021BE578
+ * function: INTRO_CMD_CmdSlotAlpha
  * address: 0x021BE578
  * packet: pkt_ov204_021BE578
  * region: ov204
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
 extern void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index);
-int func_021BE578(char *p, int *state, unsigned *q)
+int INTRO_CMD_CmdSlotAlpha(char *p, int *state, unsigned *q)
 {
     switch (*state) {
     case 0:

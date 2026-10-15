@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B70B8 0x021B70B8 thumb ov071
+ *   MONOLITH_TOOL_DeleteBlink 0x021B70B8 thumb ov071
  */
 
-extern void func_021B70B8(void **);
-void MONOLITH_TOOL_DeleteMarker(char *p) { func_021B70B8((void **)(p + 0x298)); }
+extern void MONOLITH_TOOL_DeleteBlink(void **);
+void MONOLITH_TOOL_DeleteMarker(char *p) { MONOLITH_TOOL_DeleteBlink((void **)(p + 0x298)); }

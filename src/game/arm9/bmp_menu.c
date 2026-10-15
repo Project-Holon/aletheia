@@ -14,7 +14,7 @@
  *
  * symbols:
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02030734        0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   sBmpMenuFile    0x020A7384  data
@@ -108,7 +108,7 @@ typedef struct {
 
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -587,7 +587,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     menu = BMP_MENU_Add(&header, 0xE, 0, startPos, heapId, 2);
     BMP_WIN_MakeScreen(header.win);
     BMP_MENUWORK_DrawWindow(header.win, 0, tileBase, palette);
-    func_020409B4(BMP_WIN_GetBgLayer(header.win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(header.win));
     BMP_WIN_TransferChars(header.win);
     return menu;
 }

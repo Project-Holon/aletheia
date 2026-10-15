@@ -27,8 +27,8 @@ extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(int *);
 extern void func_02034A5C(int);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern char ov177_id[];
 extern char ov67_id[];
@@ -41,7 +41,7 @@ int BATTLE_CHAMPIONSHIP_FLOW_Delete(int a, int b, int c, int *p)
     BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(p);
     func_02034A5C((int)ov177_id);
     func_02034A5C((int)ov67_id);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x4e);
     return 1;
 }

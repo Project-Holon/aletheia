@@ -12,13 +12,13 @@
  * Address of the i-th entry of the eight-byte table.
  *
  * symbols:
- *   g_021AA920  0x021AA920  data
+ *   gDwcNodeInfoBuffer  0x021AA920  data
  */
 
-extern char g_021AA920[];
+extern char gDwcNodeInfoBuffer[];
 
 void *DWCi_GetConnectionInfoByIdx(int i)
 {
-    return g_021AA920 + i * 8;
+    return gDwcNodeInfoBuffer + i * 8;
 }
 

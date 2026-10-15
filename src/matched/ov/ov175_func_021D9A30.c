@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8A80  0x021E8A80  thumb  ov177
- *   func_021E8A90  0x021E8A90  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_InvokeCallback  0x021E8A80  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull  0x021E8A90  thumb  ov177
  *
  * Reads back the +0x3c stream: 0x021E8A80 for pending data, 0x021E8A90
  *     for a byte read, returning the +0x40 word or the 0xFFFF sentinel.
@@ -21,13 +21,13 @@
 
 typedef unsigned long u32;
 
-extern void func_021E8A80(u32 h);
-extern int func_021E8A90(int **p);
+extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(u32 h);
+extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **p);
 
 u32 WIFIBATTLEMATCH_NET_GetCompWaitResult(char *obj)
 {
-    func_021E8A80(((struct Obj00013 *)obj)->f3C);
-    if (func_021E8A90((int **)(((struct Obj00013 *)obj)->f3C)) != 0)
+    WIFIBATTLEMATCH_UTIL_InvokeCallback(((struct Obj00013 *)obj)->f3C);
+    if (WIFIBATTLEMATCH_UTIL_IsCallbackNull((int **)(((struct Obj00013 *)obj)->f3C)) != 0)
         return ((struct Obj00013 *)obj)->f40;
     return 0xFFFF;
 }

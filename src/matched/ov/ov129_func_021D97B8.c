@@ -1,5 +1,5 @@
 /*
- * function: func_021D97B8
+ * function: WF2DMAP_SCENE_ClearPending
  * address:  0x021D97B8
  * packet:   pkt_ov129_021D97B8
  * region:   ov129
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021D97B8(char *p)
+void WF2DMAP_SCENE_ClearPending(char *p)
 {
     ((struct Obj00361 *)p)->f31C = 0;
     ((struct Obj00361 *)p)->f320 = 0;

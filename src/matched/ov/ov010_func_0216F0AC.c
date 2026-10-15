@@ -37,8 +37,8 @@ typedef struct {
 extern char d_02172B64[];
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Profile;

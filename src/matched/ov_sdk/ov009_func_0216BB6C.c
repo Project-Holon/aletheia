@@ -13,18 +13,18 @@
  * -1 when the whole table is occupied.
  *
  * symbols:
- *   g_021AA8A0  0x021AA8A0  data
+ *   gDwcConnectionArray  0x021AA8A0  data
 
  */
 
-extern char g_021AA8A0[];
+extern char gDwcConnectionArray[];
 
 int DWCi_GT2GetConnectionListIdx(void)
 {
     int i;
 
     for (i = 0; i < 0x20; i++)
-        if (*(int *)(g_021AA8A0 + i * 4) == 0) return i;
+        if (*(int *)(gDwcConnectionArray + i * 4) == 0) return i;
     return -1;
 }
 

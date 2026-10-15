@@ -1,5 +1,5 @@
 /*
- * function: func_021E8AC0
+ * function: WIFIBATTLEMATCH_UTIL_SetSaveState
  * address:  0x021E8AC0
  * packet:   pkt_021E8AC0
  * region:   ov177
@@ -22,7 +22,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-void func_021E8AC0(int a, int b)
+void WIFIBATTLEMATCH_UTIL_SetSaveState(int a, int b)
 {
     int x;
 

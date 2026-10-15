@@ -29,7 +29,7 @@ typedef unsigned short u16;
 extern int WIFICLUB_UpdateBgmFade(char *);
 typedef unsigned int   u32;
 struct Reg;
-struct S020315D4;
+struct Proc;
 extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_NET_GetRunState(void);
 extern void WIFICLUBACTOR_RemoveNetCommands(char *);
@@ -40,7 +40,7 @@ extern void WIFICLUB_ExitScreen(char *);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void WIFICLUB_FreeRegulation(void *);
 extern void WIFICLUB_DeleteTextBuffers(char *);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 int WIFICLUB_ProcExit(void *task, int unused, char *output, char *p)
 {

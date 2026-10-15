@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021BA2B8
+ * function: BTL_REC_SEL_IsEntryShown
  * address: 0x021BA2B8
  * packet: pkt_ov214_021BA2B8
  * region: ov214
@@ -20,4 +20,4 @@
 #include "../include/Obj01082.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct Cfg;struct PrintSys;extern void *BMP_WIN_GetBmp(struct Descriptor *);extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *,void *);extern void BMP_WIN_TransferChars(struct Descriptor *);extern void BMP_WIN_MakeScreen(struct Cfg *);extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);extern void func_02041B6C(u32);
-u32 func_021BA2B8(int unused,u8 *p){struct Descriptor *d;if(((struct Obj01082 *)p)->f7C==0){if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj01082 *)p)->fC,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj01082 *)p)->f6C))==0){d=*(struct Descriptor * *)&((struct Obj01082 *)p)->f6C;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));((struct Obj01082 *)p)->f7C=1;}}return ((struct Obj01082 *)p)->f7C;}
+u32 BTL_REC_SEL_IsEntryShown(int unused,u8 *p){struct Descriptor *d;if(((struct Obj01082 *)p)->f7C==0){if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj01082 *)p)->fC,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj01082 *)p)->f6C))==0){d=*(struct Descriptor * *)&((struct Obj01082 *)p)->f6C;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));((struct Obj01082 *)p)->f7C=1;}}return ((struct Obj01082 *)p)->f7C;}

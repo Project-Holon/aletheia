@@ -1,5 +1,5 @@
 /*
- * function: func_021D9890
+ * function: WF2DMAP_SCENE_LoadActorAssets
  * address: 0x021D9890
  * packet: pkt_ov129_021D9890
  * region: ov129
@@ -33,7 +33,7 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-void func_021D9890(char *p)
+void WF2DMAP_SCENE_LoadActorAssets(char *p)
 {
     void *pal=((struct Obj02483 *)p)->f290;
     void *arc=((struct Obj02483 *)p)->f258;

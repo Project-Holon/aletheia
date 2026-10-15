@@ -1,5 +1,5 @@
 /*
- * function: func_021D9490
+ * function: WF2DMAP_SCENE_CreateButtons
  * address: 0x021D9490
  * packet: pkt_ov129_021D9490
  * region: ov129
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021DA798 0x021DA798 data a2
- *   func_021D958C 0x021D958C thumb ov129
+ *   WF2DMAP_SCENE_HandleButton 0x021D958C thumb ov129
  *   BUTTON_MAN_Create 0x02051B84 arm
  */
 #include "../include/Obj14055.h"
@@ -19,9 +19,9 @@ typedef struct { s16 a,b,c,d; } Rect;
 typedef struct { Rect rows[12]; } Rects;
 extern const Rects d_021DA798;
 typedef unsigned int   u32;
-extern void func_021D958C(u32 n, int touch, char *p);
+extern void WF2DMAP_SCENE_HandleButton(u32 n, int touch, char *p);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
-void func_021D9490(char *p)
+void WF2DMAP_SCENE_CreateButtons(char *p)
 {
     int i;
     Rects t;
@@ -34,5 +34,5 @@ void func_021D9490(char *p)
         *(u8 *)(p+i*4+0x29b)=t.rows[i-12].a+t.rows[i-12].c;
     }
     ((struct Obj14055 *)p)->f2F8=255;
-    ((struct Obj14055 *)p)->f294=BUTTON_MAN_Create((u8 *)(p+0x298),(int)func_021D958C,(int)p,50);
+    ((struct Obj14055 *)p)->f294=BUTTON_MAN_Create((u8 *)(p+0x298),(int)WF2DMAP_SCENE_HandleButton,(int)p,50);
 }

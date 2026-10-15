@@ -1,5 +1,5 @@
 /*
- * function: func_021BB088
+ * function: MANUAL_COMMON_RebuildListWindows
  * address: 0x021BB088
  * packet: pkt_ov225_021BB088
  * region: ov225
@@ -12,7 +12,7 @@
  * symbols:
  *   APP_TASKMENU_WIN_ClearScreen 0x0202843C thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BB044 0x021BB044 thumb ov225
+ *   MANUAL_COMMON_GetLastVisible 0x021BB044 thumb ov225
  *   APP_TASKMENU_WIN_DeleteNoClear 0x0202815C thumb
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_WIN_CreateExNoScreen 0x0202804C thumb
@@ -39,14 +39,14 @@ struct Entry {void *resource;u16 tag,pad;u32 flags;};
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern u16 func_021BB044(u16 **);
+extern u16 MANUAL_COMMON_GetLastVisible(u16 **);
 extern void APP_TASKMENU_WIN_DeleteNoClear(void);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern u32 *APP_TASKMENU_WIN_CreateExNoScreen(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void APP_TASKMENU_WIN_Update(u8 *);
 extern void STRBUF_Delete(struct U16Vec *);
-void func_021BB088(char *p)
+void MANUAL_COMMON_RebuildListWindows(char *p)
 {
     struct Entry e;
     u8 first,last,i;
@@ -62,7 +62,7 @@ void func_021BB088(char *p)
         first=1;
         CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f60,0);
     }
-    end=(u16)(func_021BB044((u16 **)p)+1);
+    end=(u16)(MANUAL_COMMON_GetLastVisible((u16 **)p)+1);
     if (end>=((struct Obj26220 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f4) end--;
     last=(u8)(first+end-index);
     for(i=last+1;i<=7;i++) {

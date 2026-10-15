@@ -1,5 +1,5 @@
 /*
- * function: func_021BD7D4
+ * function: BEACON_DETAIL_GRA_AddSlideTask
  * address: 0x021BD7D4
  * packet: pkt_ov216_021BD7D4
  * region: ov216
@@ -12,9 +12,9 @@
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BD854 0x021BD854 thumb ov216
- *   func_021BD13C 0x021BD13C thumb ov216
- *   func_021BD0E4 0x021BD0E4 thumb ov216
+ *   BEACON_DETAIL_GRA_SlideCallback 0x021BD854 thumb ov216
+ *   BEACON_DETAIL_GRA_MoveActor 0x021BD13C thumb ov216
+ *   BEACON_DETAIL_GRA_SetSlotVisible 0x021BD0E4 thumb ov216
  */
 #include "../include/Obj00051.h"
 #include "../include/Obj02553.h"
@@ -27,13 +27,13 @@ struct S02030FB4;
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
-extern void func_021BD854(struct TcblNode *, char *);
-extern void func_021BD13C(u8 *p, int a);
-extern void func_021BD0E4(char *p, u8 index, u32 enable);
-void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *counter)
+extern void BEACON_DETAIL_GRA_SlideCallback(struct TcblNode *, char *);
+extern void BEACON_DETAIL_GRA_MoveActor(u8 *p, int a);
+extern void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable);
+void BEACON_DETAIL_GRA_AddSlideTask(char *owner, u8 index, int position, u8 direction, int *counter)
 {
     char *work;
-    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));
+    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))BEACON_DETAIL_GRA_SlideCallback, 24, 0));
     MI_CpuFill8(work, 0, 24);
     *(char * *)&((struct Obj02553 *)work)->fC = owner + 0x15c + index * 128;
     ((struct Obj02553 *)work)->f0 = index;
@@ -43,9 +43,9 @@ void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *count
     else
         ((struct Obj02553 *)work)->f6 += 8;
     ((struct Obj02553 *)work)->f1 = 24;
-    func_021BD13C(((struct Obj02553 *)work)->fC, ((struct Obj02553 *)work)->f4);
+    BEACON_DETAIL_GRA_MoveActor(((struct Obj02553 *)work)->fC, ((struct Obj02553 *)work)->f4);
     if (position != 1)
-        func_021BD0E4(owner, ((struct Obj02553 *)work)->f0, 1);
+        BEACON_DETAIL_GRA_SetSlotVisible(owner, ((struct Obj02553 *)work)->f0, 1);
     *(char * *)&((struct Obj02553 *)work)->f10 = owner;
     *(int * *)&((struct Obj02553 *)work)->f14 = counter;
     ++*counter;

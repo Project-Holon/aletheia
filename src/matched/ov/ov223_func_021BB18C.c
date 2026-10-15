@@ -1,5 +1,5 @@
 /*
- * function: PSEL_UpdateB18C
+ * function: PSEL_PrintSubWindow
  * address: 0x021BB18C
  * packet: pkt_ov223_021BB18C
  * region: ov223
@@ -15,7 +15,7 @@
  *   store. The k/off locals and the enum type of earlier drafts are gone.
  *
  * symbols:
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_Callback 0x0201EE60 thumb
@@ -29,7 +29,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   PSEL_CheckAF48 0x021BAF48 thumb ov223
+ *   PSEL_UpdateWindows 0x021BAF48 thumb ov223
  *   d_021BC730 0x021BC730 data a4
  *   d_021BC710 0x021BC710 data a2
  */
@@ -46,7 +46,7 @@ struct U16Vec;
 struct Bmp;
 struct CharBuf;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
@@ -60,8 +60,8 @@ extern unsigned func_0201D42C(struct StrObj *, void *);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern int PSEL_CheckAF48(char *);
-void PSEL_UpdateB18C(char *p, int idx)
+extern int PSEL_UpdateWindows(char *);
+void PSEL_PrintSubWindow(char *p, int idx)
 {
     struct Descriptor *desc;
     u16 x;
@@ -74,7 +74,7 @@ void PSEL_UpdateB18C(char *p, int idx)
     desc = *(struct Descriptor **)(p + 0x240);
     flag = (u32 *)(p + 0x24C);
     x = 0;
-    words = GF_FONT_Create_EC64(*(u16 *)p);
+    words = WORDSET_CreateDefault(*(u16 *)p);
     text = func_02045EC0(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
     WORDSET_Callback(words, 1, d_021BC710[idx]);
@@ -91,5 +91,5 @@ void PSEL_UpdateB18C(char *p, int idx)
     PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (unsigned)BMP_WIN_GetBmp(desc), 0, (s16)x, (unsigned)buf, *(unsigned *)(p + 0x18), 0x3C40);
     STRBUF_Delete((struct U16Vec *)buf);
     *flag = 0;
-    PSEL_CheckAF48(p);
+    PSEL_UpdateWindows(p);
 }

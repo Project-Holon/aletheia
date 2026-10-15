@@ -1,5 +1,5 @@
 /*
- * function: func_021E6F20
+ * function: WIFIBATTLEMATCH_VIEW_CreatePokeActors
  * address: 0x021E6F20
  * packet: pkt_ov177_021E6F20
  * region: ov177
@@ -68,7 +68,7 @@ extern void MI_CpuFill8(void *, u32, u32);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern u32 POKE_TOOL_CalcIconPalette(u32, u32, u32, u32);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
+void WIFIBATTLEMATCH_VIEW_CreatePokeActors(Work *w, void *owner, void *rec, u16 heap)
 {
     u8 form;
     u8 shown;

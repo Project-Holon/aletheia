@@ -18,7 +18,7 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
 
@@ -33,7 +33,7 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_SetTileEntry(u32 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 void FIELD_MSGBG_DrawSysWindowFrame(u32 win)
 {
@@ -56,5 +56,5 @@ void FIELD_MSGBG_DrawSysWindowFrame(u32 win)
     BG_SYS_SetTileEntry(bg, 0x2b, x - 1, y + h, 1, 1, 13);
     BG_SYS_SetTileEntry(bg, 0x2d, x, y + h, w, 1, 13);
     BG_SYS_SetTileEntry(bg, 0x30, x + w, y + h, 1, 1, 13);
-    func_020409B4(bg);
+    BG_SYS_PushTile(bg);
 }

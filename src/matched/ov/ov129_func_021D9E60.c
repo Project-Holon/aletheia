@@ -1,5 +1,5 @@
 /*
- * function: func_021D9E60
+ * function: WF2DMAP_SCENE_MoveCursor
  * address: 0x021D9E60
  * packet: pkt_ov129_021D9E60
  * region: ov129
@@ -25,4 +25,4 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021D9E60(u8 *p,int n) { Pair s; void *actor; actor=*(void **)(p+n*28+12); ((struct Obj14058 *)p)->f188=n; CLACT_GetActorSurfacePos(actor,(struct PtS *)&s,0); s.y+=16; CLACT_AddActorSurfacePos(((struct Obj14058 *)p)->f194,(const struct Vec2 *)(&s),0); }
+void WF2DMAP_SCENE_MoveCursor(u8 *p,int n) { Pair s; void *actor; actor=*(void **)(p+n*28+12); ((struct Obj14058 *)p)->f188=n; CLACT_GetActorSurfacePos(actor,(struct PtS *)&s,0); s.y+=16; CLACT_AddActorSurfacePos(((struct Obj14058 *)p)->f194,(const struct Vec2 *)(&s),0); }

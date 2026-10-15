@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DAFCC",
-    "func_021DB008"
+    "MYSTERY_ALBUM_UpdateWindows",
+    "MYSTERY_ALBUM_GetWindowState"
+   ],
+   "addresses": [
+    "0x021DAFCC",
+    "0x021DB008"
    ]
   }
  ]

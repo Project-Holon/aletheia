@@ -35,8 +35,8 @@ extern u32 func_020307B0(void *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
 extern int GFL_NET_GetRunState(void);
 extern void DWC_RAP_SetErrorCallback(int a, int b);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void func_02034A5C(int handle);
 extern unsigned char ov114_id[];
 
@@ -56,7 +56,7 @@ int PDWACC_STATE_ProcExit(int a, int b, int c, char *obj)
     }
     if (GFL_NET_GetRunState())
         DWC_RAP_SetErrorCallback(0, 0);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     func_02034A5C((int)ov114_id);
     return 1;
 }

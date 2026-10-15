@@ -28,8 +28,8 @@
  *   CPS_SocRead                    0x0215aeb0 arm ov009
  *   maccmp                    0x021579bc arm ov009
  *   CPS_SocConsume                    0x0215b064 arm ov009
- *   g_021A1C9C                       0x021a1c9c data
- *   g_021A82D4                       0x021a82d4 data
+ *   gCpsRetryCounts                       0x021a1c9c data
+ *   CPSMyMac                       0x021a82d4 data
  *   wfailed                          0x021a826c data
  *   ip_conflict                      0x021a826d data
  *   ipid                             0x021a826e data
@@ -62,8 +62,8 @@ struct CPSBss {
     u32 dns[2];              /* 0x60 CPSDnsIp */
 };
 
-extern u8 g_021A1C9C[];
-extern u8 g_021A82D4[];
+extern u8 gCpsRetryCounts[];
+extern u8 CPSMyMac[];
 static u8 ip_conflict = 0;
 static u8 wfailed = 0;
 static u16 eport = 0;
@@ -96,7 +96,7 @@ int dhcp_analyze_response(u32 id, int retry)
     u8 c;
     long timeout;
 
-    timeout = g_021A1C9C[retry] * 7;
+    timeout = gCpsRetryCounts[retry] * 7;
     start = TICK();
     result = 0;
     while (cps.link_is_on() && result == 0 && (long)(TICK() - start) < timeout) {
@@ -105,7 +105,7 @@ int dhcp_analyze_response(u32 id, int retry)
             continue;
         }
         s = CPS_SocRead(&len);
-        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && maccmp((short unsigned int *)(s + 0x1c), (short unsigned int *)g_021A82D4) == 0) {
+        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && maccmp((short unsigned int *)(s + 0x1c), (short unsigned int *)CPSMyMac) == 0) {
             myip_tmp = G32(s + 0x10);
             end = s + len;
             result = 3;

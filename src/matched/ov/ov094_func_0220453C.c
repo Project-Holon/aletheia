@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
 typedef struct Ctx {
@@ -23,19 +23,19 @@ typedef struct Ctx {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
 void BTLV_INPUT_BgWipeTaskMain(int a0, Ctx *c)
 {
     if (c->state == 0) {
-        func_02040618(4, 0, c->a8);
-        func_02040618(4, 3, c->ac);
+        BG_SYS_FillScrollArea(4, 0, c->a8);
+        BG_SYS_FillScrollArea(4, 3, c->ac);
         c->state = c->state + 1;
         return;
     }
     c->ac = c->ac + c->d10;
-    func_02040618(4, 3, c->ac);
+    BG_SYS_FillScrollArea(4, 3, c->ac);
     c->cnt = c->cnt - 1;
     if (c->cnt == 0)
         BTLV_INPUT_DeleteTask(c->main, (void *)a0);

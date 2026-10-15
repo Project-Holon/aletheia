@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8A8
+ * function: BEACON_DETAIL_GRA_DeleteListWindows
  * address: 0x021BC8A8
  * packet: pkt_ov216_021BC8A8
  * region: ov216
@@ -22,7 +22,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void PMS_DRAW_Delete(struct Obj *p);
-void func_021BC8A8(char *p)
+void BEACON_DETAIL_GRA_DeleteListWindows(char *p)
 {
     int i=0,j;
     char *base=p+0x15c;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0F0
+ * function: DEMO3D_GRAPHIC_GetClactUnit
  * address: 0x021BE0F0
  * packet: pkt_ov203_021BE0F0
  * region: ov203
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj25313.h"
 
-int func_021BE0F0(void *p){return ((struct Obj25313 *)p)->f0;}
+int DEMO3D_GRAPHIC_GetClactUnit(void *p){return ((struct Obj25313 *)p)->f0;}

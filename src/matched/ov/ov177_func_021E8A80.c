@@ -1,5 +1,5 @@
 /*
- * function: func_021E8A80
+ * function: WIFIBATTLEMATCH_UTIL_InvokeCallback
  * address:  0x021E8A80
  * packet:   pkt_ov177_021E8A80
  * region:   ov177
@@ -18,7 +18,7 @@ typedef struct {
     int b;
 } CB;
 
-void func_021E8A80(CB *p)
+void WIFIBATTLEMATCH_UTIL_InvokeCallback(CB *p)
 {
     void (*fn)(void *, int *, int) = p->fn;
 

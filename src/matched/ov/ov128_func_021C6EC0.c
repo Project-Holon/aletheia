@@ -48,7 +48,7 @@
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_020355C4 0x020355C4 arm
- *   d_021CA4F9 0x021CA4F9 data a1
+ *   gWf2dmapFriendKeyErrorMsgIds 0x021CA4F9 data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -88,7 +88,7 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_020307B0(void *p);
 extern u8 func_020355C4(void);
 extern void Wf2dmapFriend_Exit(u8 *,u8 *,u8 *);
-extern const u8 d_021CA4F9[];
+extern const u8 gWf2dmapFriendKeyErrorMsgIds[];
 int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
 {
     int result;
@@ -193,7 +193,7 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
                 WF2DMAP_TOUCH_UpdateTopBar((unsigned int *)p);
                 q[8]=3;
             } else {
-                Wf2dmapFriend_PrintMessage(p,ctx,d_021CA4F9[submission],heap);
+                Wf2dmapFriend_PrintMessage(p,ctx,gWf2dmapFriendKeyErrorMsgIds[submission],heap);
                 q[8]=11;
             }
             }

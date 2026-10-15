@@ -44,7 +44,7 @@
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   gTouchBarButtonLooks     0x021B942C  data  ov067  a4
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -60,7 +60,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201D304  0x0201D304  thumb
@@ -124,7 +124,7 @@ extern u8 BG_SYS_GetField16(int bgLayer);
 extern u32 BG_SYS_GetBuf(int bgLayer);
 extern void BG_SYS_DrawTileEx(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
-extern void func_020409B4(u8 bgLayer);
+extern void BG_SYS_PushTile(u8 bgLayer);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
@@ -139,7 +139,7 @@ extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int bgPriority);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create_EC64(u16 heapId);
+extern void *WORDSET_CreateDefault(u16 heapId);
 extern void *STRBUF_Create(u32 size, u16 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *str, u32 fontId, u32 spacing);
@@ -485,7 +485,7 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
     if ((int)BG_SYS_GetBuf((u8)bgLayer)) {
         BG_SYS_DrawTileEx(bgLayer, dstX, dstY, dstWidth, dstHeight, (u32)(data + 0xc), srcX, srcY, srcWidth, srcHeight);
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, plttSlot);
-        func_020409B4(bgLayer);
+        BG_SYS_PushTile(bgLayer);
     }
     func_020307B0(file);
 }
@@ -742,7 +742,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     u16 strWidth;
 
     msgBank = func_02045B38(0, 2, 0xa3, heapId);
-    wordSet = GF_FONT_Create_EC64(heapId);
+    wordSet = WORDSET_CreateDefault(heapId);
     buf = STRBUF_Create(0xa, heapId);
     str = func_02045EC0(msgBank, 0);
     strWidth = func_0201D304(str, fontId, 0);

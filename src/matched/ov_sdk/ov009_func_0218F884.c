@@ -13,8 +13,8 @@
  *
  * symbols:
  *   gsDebugFormat  0x0217D254  arm
- *   g_021A513C     0x021A513C  data
- *   g_021A5158     0x021A5158  data
+ *   gGpiPeerDebugOpNotAdded     0x021A513C  data
+ *   gGpiPeerDebugOpAdded     0x021A5158  data
  */
 
 struct _GPIPeerOp {
@@ -39,13 +39,13 @@ struct GPIPeer_s {
 
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
                           char *theTokenStr, ...);
-extern char g_021A513C[];
-extern char g_021A5158[];
+extern char gGpiPeerDebugOpNotAdded[];
+extern char gGpiPeerDebugOpAdded[];
 
 void gpiPeerAddOp(struct GPIPeer_s *peer, struct _GPIPeerOp *operation)
 {
     if (peer == 0 || operation == 0) {
-        gsDebugFormat(1, 4, 2, g_021A513C);
+        gsDebugFormat(1, 4, 2, gGpiPeerDebugOpNotAdded);
         return;
     }
     if (peer->peerOpQueue.first == 0) {
@@ -61,5 +61,5 @@ void gpiPeerAddOp(struct GPIPeer_s *peer, struct _GPIPeerOp *operation)
             peer->peerOpQueue.cur = operation;
         }
     }
-    gsDebugFormat(1, 4, 8, g_021A5158);
+    gsDebugFormat(1, 4, 8, gGpiPeerDebugOpAdded);
 }

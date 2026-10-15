@@ -1,5 +1,5 @@
 /*
- * function: func_021BE3CC
+ * function: INTRO_CMD_CmdBgmFadeOut
  * address:  0x021BE3CC
  * packet:   pkt_021BE3CC
  * region:   ov204
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-int func_021BE3CC(int a, int b, int *p)
+int INTRO_CMD_CmdBgmFadeOut(int a, int b, int *p)
 {
     GFL_USE_FadeOutBgm((unsigned short)*p);
     return 1;

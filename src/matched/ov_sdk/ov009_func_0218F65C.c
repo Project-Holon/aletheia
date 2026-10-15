@@ -21,9 +21,9 @@
  *   gpiSetErrorString  0x02193734  arm   ov009
  *   gpiCallErrorCallback  0x02189d78  arm   ov009
  *   memcpy         0x02092344  arm
- *   g_021A5028     0x021a5028  data
- *   g_021A5070     0x021a5070  data
- *   g_021A4F1C     0x021a4f1c  data
+ *   gGpiPeerDebugOomAlloc     0x021a5028  data
+ *   gGpiPeerDebugOomRealloc     0x021a5070  data
+ *   gGpiPeerErrorOutOfMemory     0x021a4f1c  data
  */
 
 struct SOCInAddr {
@@ -50,9 +50,9 @@ extern void gsifree(void *ptr);
 extern void gpiSetErrorString(int *p, int b);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
 extern void *memcpy(void *, const void *, unsigned int);
-extern char g_021A5028[];
-extern char g_021A5070[];
-extern char g_021A4F1C[];
+extern char gGpiPeerDebugOomAlloc[];
+extern char gGpiPeerDebugOomRealloc[];
+extern char gGpiPeerErrorOutOfMemory[];
 
 void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message,
                    int messageLength, int unused, void *userData)
@@ -75,7 +75,7 @@ void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char 
             aPeer->ip = ip;
             aPeer->port = port;
         } else {
-            gsDebugFormat(1, (char *)2, 1, g_021A5028, func_0215FA9C(anAddr), port);
+            gsDebugFormat(1, (char *)2, 1, gGpiPeerDebugOomAlloc, func_0215FA9C(anAddr), port);
             return;
         }
     }
@@ -86,9 +86,9 @@ void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char 
         size = writePos + (messageLength < 0x4000 ? 0x4000 : messageLength);
         reallocedBuff = gsirealloc(buff, size + 1);
         if (reallocedBuff == 0) {
-            gsDebugFormat(1, (char *)2, 1, g_021A5070, func_0215FA9C(anAddr), port);
+            gsDebugFormat(1, (char *)2, 1, gGpiPeerDebugOomRealloc, func_0215FA9C(anAddr), port);
             gsifree(buff);
-            gpiSetErrorString((int *)connection, (int)g_021A4F1C);
+            gpiSetErrorString((int *)connection, (int)gGpiPeerErrorOutOfMemory);
             gpiCallErrorCallback((int *)connection, 1, 0);
             return;
         }

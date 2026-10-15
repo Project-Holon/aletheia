@@ -16,9 +16,9 @@
  *   SOCL_SocketIsInvalid     0x0215f3d0 arm
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_0215D5F8  0x0215D5F8  arm  ov009
- *   g_021A82BC     0x021A82BC  data
- *   g_021A827C     0x021A827C  data
- *   g_021A1CE0     0x021A1CE0  data
+ *   gCpsMyIp     0x021A82BC  data
+ *   gCpsNetMask     0x021A827C  data
+ *   gSoclBindConst     0x021A1CE0  data
  *   SOCLi_CreateCommandPacket           0x0215ce3c arm
  *   SOCLi_ExecCommandPacketInRecvPipe   0x0215cf88 arm
  *   SOCLi_BindCallBack                  0x0215d650 arm
@@ -108,9 +108,9 @@ extern unsigned long CPS_TcpConnect(void);
 int SOCL_Bind(int s, unsigned short local_port);
 int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip);
 int SOCLi_BindCallBack(void *arg);
-extern unsigned long g_021A82BC;
-extern unsigned long g_021A827C;
-extern int g_021A1CE0;
+extern unsigned long gCpsMyIp;
+extern unsigned long gCpsNetMask;
+extern int gSoclBindConst;
 
 
 int SOCL_Bind(int s, unsigned short local_port)
@@ -166,10 +166,10 @@ int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip)
 
 		if ((remote_ip & 0xf0000000) == 0xe0000000)
 			goto invalid;
-		if ((g_021A827C & (g_021A82BC ^ remote_ip)) != 0)
+		if ((gCpsNetMask & (gCpsMyIp ^ remote_ip)) != 0)
 			bcast = remote_ip == 0xffffffff;
 		else
-			bcast = (~g_021A827C & remote_ip) == ~g_021A827C;
+			bcast = (~gCpsNetMask & remote_ip) == ~gCpsNetMask;
 		if (bcast) {
 invalid:
 			return -0x1c;
@@ -182,7 +182,7 @@ invalid:
 		if (socket->state & 2) {
 			if (socket->state & 0x40)
 				return socket->result;
-			return g_021A1CE0;
+			return gSoclBindConst;
 		}
 		socket->remote_port = remote_port;
 		socket->remote_ip = remote_ip;

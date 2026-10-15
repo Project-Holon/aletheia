@@ -1,5 +1,5 @@
 /*
- * function: func_02212988
+ * function: WIFIBATTLEMATCH_SYS_BuildRegulationRecord
  * address: 0x02212988
  * packet: pkt_ov199_02212988
  * region: ov199
@@ -51,7 +51,7 @@ extern void *func_020084F4(void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D04[], d_02213D00[];
-u8 *func_02212988(int unused, unsigned heap, u8 *p)
+u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
 {
     u8 *out;
     u8 *row;

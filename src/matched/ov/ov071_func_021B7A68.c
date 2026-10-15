@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MONOLITH_TOOL_GetSlotIconStates  0x021B6F40  thumb  ov071
- *   func_021B6F54  0x021B6F54  thumb  ov071
+ *   MONOLITH_TOOL_CreateSlotIcon  0x021B6F54  thumb  ov071
  *   d_021BAA4C     0x021BAA4C  data  a4
  *   d_021BA8A0     0x021BA8A0  data  a4
  */
@@ -29,14 +29,14 @@ struct P;
 void MONOLITH_TOOL_SLOT_SELECT_CreateSlotIcons(S *a, int *b)
 {
     void *MONOLITH_TOOL_GetSlotIconStates(u8 **p);
-    int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e);
+    int MONOLITH_TOOL_CreateSlotIcon(struct P *p, u8 *q, int c, const int *d, int e);
     int i;
     int t = (int)MONOLITH_TOOL_GetSlotIconStates((u8 **)b);
 
     for (i = 0; i < 6; i++) {
         int r;
         unsigned u = d_021BAA4C[i];
-        r = func_021B6F54((struct P *)b[1], (u8 *)t, i, (const int *)(d_021BA8A0 + u * 8), 1);
+        r = MONOLITH_TOOL_CreateSlotIcon((struct P *)b[1], (u8 *)t, i, (const int *)(d_021BA8A0 + u * 8), 1);
         a->v[i] = r;
     }
 }

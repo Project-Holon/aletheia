@@ -18,7 +18,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -48,7 +48,7 @@ struct Descriptor;
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(void *, u32, u32, u32, u32);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -80,8 +80,8 @@ void CTVT_TALK_Init(void *a, char *p)
     func_02049658(g, 0xB, 5, 0, 0x5000, 0, h);
     func_020498F4(g, 0xF, 5, 0, 0, 0, h);
     func_0207D63C((void *)0x04001050, 2, 0x14, 5, 0xF);
-    func_020409B4(6);
-    func_020409B4(5);
+    BG_SYS_PushTile(6);
+    BG_SYS_PushTile(5);
     rc.x = 0x80;
     rc.y = 0x60;
     rc.z = *(u8 *)(p + 0xD) + 0x19;
@@ -121,7 +121,7 @@ void CTVT_TALK_Init(void *a, char *p)
     *(u32 *)(p + 0x80) = 0;
     *(u32 *)(p + 0x84) = 0;
     *(u32 *)(p + 0x28) = 0;
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     *(u8 *)(p + 0x38) = 0;
     *(u32 *)(p + 0x34) = 0;
     *(u32 *)(p + 0x8C) = 0;

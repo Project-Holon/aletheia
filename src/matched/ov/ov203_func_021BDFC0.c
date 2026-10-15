@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFC0
+ * function: DEMO3D_GRAPHIC_InitBg
  * address: 0x021BDFC0
  * packet: pkt_ov203_021BDFC0
  * region: ov203
@@ -33,7 +33,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void BG_SYS_Init(unsigned, unsigned, unsigned, unsigned);
-void func_021BDFC0(void *ctx, unsigned heap)
+void DEMO3D_GRAPHIC_InitBg(void *ctx, unsigned heap)
 {
     unsigned i = 0;
     const Descriptor *descriptor;

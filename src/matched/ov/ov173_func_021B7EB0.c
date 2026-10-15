@@ -13,7 +13,7 @@
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   CURSOR_MOVE_SetSkipBit 0x0202614C thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00362.h"
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ struct Sound;
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void CURSOR_MOVE_ClearSkipBit(struct Sound *obj, u32 idx);
 extern void CURSOR_MOVE_SetSkipBit(struct Sound *obj, u32 idx);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag)
 {
     if (flag == 1) {
@@ -39,7 +39,7 @@ void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag)
         if (*(u32 *)&((struct Obj00362 *)p)->f220 != 0) {
             APP_TASKMENU_WIN_Delete(((struct Obj00362 *)p)->f220);
             APP_TASKMENU_WIN_Delete(((struct Obj00362 *)p)->f224);
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             *(u32 *)&((struct Obj00362 *)p)->f220 = 0;
             *(u32 *)&((struct Obj00362 *)p)->f224 = 0;
         }

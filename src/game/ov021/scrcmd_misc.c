@@ -101,7 +101,7 @@
  *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -480,7 +480,7 @@ extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
 extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, MsgData *msgData);
-extern WordSet *GF_FONT_Create_EC64(u16 heapId);
+extern WordSet *WORDSET_CreateDefault(u16 heapId);
 extern int func_02007B50(PerapVoice *perapVoice);
 extern void FIELD_MSGBG_SysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
 extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
@@ -1178,7 +1178,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 1:
         work->msgData = msgData = FIELD_MSGBG_CreateMsgData(work->msgBg, 88);
         work->sysWin = FIELD_MSGBG_CreateBottomSysWin(work->msgBg, msgData);
-        work->wordSet = GF_FONT_Create_EC64(21);
+        work->wordSet = WORDSET_CreateDefault(21);
         work->msgBuf = STRBUF_Create(0x400, 21);
         EVENT_PERAP_RECORD_SetupWindow(work);
         if (func_02007B50(work->perapVoice) == 1) {

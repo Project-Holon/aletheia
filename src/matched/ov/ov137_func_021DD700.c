@@ -15,7 +15,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned short u16;
 typedef signed short s16;
@@ -32,7 +32,7 @@ extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font) {
     int width;
     width = func_0201D304(text, (u32)font, 0);
@@ -40,5 +40,5 @@ void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font) {
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p), (208-width)/2, 1, text, font, 0x480);
     BMP_WIN_TransferChars(p);
     BMP_WIN_MakeScreen(p);
-    func_020409B4((u32)BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile((u32)BMP_WIN_GetBgLayer(p));
 }

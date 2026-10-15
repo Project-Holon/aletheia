@@ -24,9 +24,9 @@ extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTextWin(void *, int);
 extern void BMP_OAM_DeleteSys(void *);
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 int BR_CODEIN_CodeDestroy(void *p, int unused, char *q, char *data)
 {
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0E8
+ * function: DEMO3D_GRAPHIC_VBlankClact
  * address: 0x021BE0E8
  * packet: pkt_ov203_021BE0E8
  * region: ov203
@@ -17,4 +17,4 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 extern void CLACT_VBlankSystem(void);
-void func_021BE0E8(u8 *a0) { CLACT_VBlankSystem(); }
+void DEMO3D_GRAPHIC_VBlankClact(u8 *a0) { CLACT_VBlankSystem(); }

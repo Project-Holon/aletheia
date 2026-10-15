@@ -1,5 +1,5 @@
 /*
- * function: func_021E8870
+ * function: WIFIBATTLEMATCH_UTIL_ClearBmp
  * address:  0x021E8870
  * packet:   pkt_021E8870
  * region:   ov177
@@ -29,7 +29,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-void func_021E8870(S *p)
+void WIFIBATTLEMATCH_UTIL_ClearBmp(S *p)
 {
     int r = (int)BMP_WIN_GetBmp((struct Descriptor *)p->f14);
 

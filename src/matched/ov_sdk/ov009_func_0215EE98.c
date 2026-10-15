@@ -15,10 +15,10 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   CPS_Resolve  0x0215C910  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A82DC     0x021A82DC  data
+ *   gCpsDnsIp     0x021A82DC  data
  */
 
-extern unsigned long g_021A82DC[2];
+extern unsigned long gCpsDnsIp[2];
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long CPS_Resolve(char *name);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -31,13 +31,13 @@ unsigned long SOCL_InetAtoH(char *hostname)
     unsigned long dns1;
 
     enable = OS_DisableInterrupts();
-    dns0 = g_021A82DC[0];
-    dns1 = g_021A82DC[1];
-    g_021A82DC[0] = 0;
-    g_021A82DC[1] = 0;
+    dns0 = gCpsDnsIp[0];
+    dns1 = gCpsDnsIp[1];
+    gCpsDnsIp[0] = 0;
+    gCpsDnsIp[1] = 0;
     hostip = CPS_Resolve(hostname);
-    g_021A82DC[0] = dns0;
-    g_021A82DC[1] = dns1;
+    gCpsDnsIp[0] = dns0;
+    gCpsDnsIp[1] = dns1;
     OS_RestoreInterrupts(enable);
     return hostip;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9E50
+ * function: MYSTERY_UTIL_UpdateMenuWindow
  * address: 0x021D9E50
  * packet: pkt_ov121_021D9E50
  * region: ov121
@@ -31,7 +31,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
-void func_021D9E50(u8 *p)
+void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
 {
     u32 q;
     switch (((struct Obj00909 *)p)->f28) {

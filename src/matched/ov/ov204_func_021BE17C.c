@@ -1,5 +1,5 @@
 /*
- * function: func_021BE17C
+ * function: INTRO_GRAPHIC_CmdMenu
  * address: 0x021BE17C
  * packet: pkt_ov204_021BE17C
  * region: ov204
@@ -12,7 +12,7 @@
  *   INTRO_MSG_CreateMenuList 0x021BF384 thumb ov204
  *   INTRO_MSG_MainMenuList 0x021BF528 thumb ov204
  *   INTRO_MSG_GetMenuChoice 0x021BF538 thumb ov204
- *   func_021BE138 0x021BE138 thumb ov204
+ *   INTRO_GRAPHIC_DrawMenuEntry 0x021BE138 thumb ov204
  */
 #include "../include/Obj04608.h"
 typedef struct { int a, b; } Pair;
@@ -22,8 +22,8 @@ typedef unsigned char  u8;
 extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag);
 extern void INTRO_MSG_MainMenuList(u8 *p);
 extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
-extern void func_021BE138(char *, int);
-int func_021BE17C(char *p, int *state, int *values)
+extern void INTRO_GRAPHIC_DrawMenuEntry(char *, int);
+int INTRO_GRAPHIC_CmdMenu(char *p, int *state, int *values)
 {
     Request request;
     int result, choice;
@@ -39,8 +39,8 @@ int func_021BE17C(char *p, int *state, int *values)
     case 1:
         INTRO_MSG_MainMenuList((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18));
         result = INTRO_MSG_GetMenuChoice((u8 *)(*(char * *)&((struct Obj04608 *)p)->f18), &choice);
-        if (result == 1) { func_021BE138(p, choice); return 1; }
-        if (result == 2) { func_021BE138(p, 1); return 1; }
+        if (result == 1) { INTRO_GRAPHIC_DrawMenuEntry(p, choice); return 1; }
+        if (result == 2) { INTRO_GRAPHIC_DrawMenuEntry(p, 1); return 1; }
         break;
     }
     return 0;

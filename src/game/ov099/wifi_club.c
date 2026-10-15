@@ -62,7 +62,7 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
@@ -181,7 +181,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -439,7 +439,7 @@ extern u8 func_02008550(const struct PlayerProfile *obj);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void STRBUF_Delete(StrBuf *);
 extern int DWC_RAP_GetTargetFriendIndex(void);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *cursorPos, u16 *listPos);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BMP_MENU_DeleteYesNo(void *menu);
@@ -538,7 +538,7 @@ extern void GFL_NET_SetWaitMode(int);
 extern void func_02030EAC(struct Task *n);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
-extern WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archive, int fileId, int type, int flags, u32 heapId);
 extern void BMP_SetDisplaySwap(u32);
@@ -1352,7 +1352,7 @@ void WIFICLUB_DrawPlayerInfoWindow(WifiClubWork *work)
     BMP_WIN_ClearScreen(work->playerInfoWin);
     BMP_WIN_MakeScreen(work->playerInfoWin);
     BMP_WIN_TransferChars(work->playerInfoWin);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
 }
 
 
@@ -3752,7 +3752,7 @@ void WIFICLUB_InitScreen(WifiClubWork *work)
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
     archive = func_020490F4(0x21, 0x21);
-    work->wordSet = GF_FONT_Create_EC64(0x21);
+    work->wordSet = WORDSET_CreateDefault(0x21);
     work->msgBank = func_02045B38(0, 2, 0xd1, 0x21);
     work->msgBankAlt = func_02045B38(0, 2, 0xe8, 0x21);
     work->textFont = GF_FONT_Create(0x17, 0, 0, 0, 0x21);
@@ -3822,20 +3822,20 @@ void WIFICLUB_InitBackgrounds(u16 heapId)
     i = 0;
     BG_SYS_InitBgLayer(0, &bg0, 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     bg1 = d_021C382C;
     BG_SYS_InitBgLayer(1, &bg1, 0);
     BG_SYS_FreeSlot(1);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     bg2 = d_021C384C;
     BG_SYS_InitBgLayer(2, &bg2, 0);
     BG_SYS_Init(2, 0, 1, 0);
     BG_SYS_FreeSlot(2);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     bg3 = d_021C386C;
     BG_SYS_InitBgLayer(3, &bg3, 0);
     BG_SYS_FreeSlot(3);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     bg4 = d_021C38AC;
     BG_SYS_InitBgLayer(4, &bg4, 0);
     BG_SYS_FreeSlot(4);
@@ -7033,7 +7033,7 @@ void WIFICLUB_OpenSlotPanel(WifiClubWork *work, int narc, int heapId)
     BG_SYS_SetSubPlaneVisible(7, 1);
     BG_SYS_SetSubPlaneVisible(8, 0);
     work->buttonMan = BUTTON_MAN_Create(d_021C377C, WIFICLUB_OnSlotButtonEvent, work, heapId);
-    work->detailWordSet = GF_FONT_Create_EC64((u16)heapId);
+    work->detailWordSet = WORDSET_CreateDefault((u16)heapId);
     WIFICLUB_CreateSlotPanelWindows(work, (void *)narc, heapId);
     work->touchDirty = 1;
     WIFICLUB_EmptyHook(work);
@@ -7246,8 +7246,8 @@ void WIFICLUB_CreateSlotPanelWindows(WifiClubWork *work, void *narc, int heapId)
     BMP_Clear(BMP_WIN_GetBmp(work->statWin), 0);
     BMP_WIN_MakeScreen(work->statWin);
     BMP_WIN_TransferChars(work->statWin);
-    func_020409B4(4);
-    func_020409B4(7);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(7);
 }
 
 

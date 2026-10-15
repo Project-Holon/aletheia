@@ -1,5 +1,5 @@
 /*
- * function: func_021BA290
+ * function: UN_SELECT_LoadActors
  * address: 0x021BA290
  * packet: pkt_ov218_021BA290
  * region: ov218
@@ -25,7 +25,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BA290(char *ctx)
+void UN_SELECT_LoadActors(char *ctx)
 {
     unsigned short heap = ((struct Obj00243 *)ctx)->f0;
     void *archive;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B83C0
+ * function: MONOLITH_TOOL_MENU_FreeWindow
  * address:  0x021B83C0
  * packet:   pkt_ov071_021B83C0
  * region:   ov071
@@ -18,7 +18,7 @@
 
 struct Descriptor;
 typedef unsigned int   u32;
-void func_021B83C0(void *p)
+void MONOLITH_TOOL_MENU_FreeWindow(void *p)
 {
     u32 BMP_WIN_Delete(struct Descriptor *d);
     BMP_WIN_Delete(((struct Obj20724 *)p)->f3C);

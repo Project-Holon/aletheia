@@ -13,7 +13,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02049B40 0x02049B40 arm
  *   TCBL_Create 0x0203101C arm
@@ -33,7 +33,7 @@ struct GfFont;
 struct MsgBank;
 struct Tcbl;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -47,7 +47,7 @@ void MUSICAL_MCSS_InitWindows(u8 *p)
     ((struct Obj01147 *)p)->f1C=BMP_WIN_Create(4,1,1,30,4,10,1);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01147 *)p)->f1C);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj01147 *)p)->f1C));
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     zero=0;
     ((struct Obj01147 *)p)->f20=(u32)GF_FONT_Create(23,0,0,0,((struct Obj01147 *)p)->f0);
     ((struct Obj01147 *)p)->f28=(u32)func_02045B38(0,2,78,((struct Obj01147 *)p)->f0);

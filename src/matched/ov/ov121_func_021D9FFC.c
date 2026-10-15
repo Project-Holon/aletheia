@@ -1,5 +1,5 @@
 /*
- * function: func_021D9FFC
+ * function: MYSTERY_UTIL_DrawMenuWindow
  * address:  0x021D9FFC
  * packet:   pkt_021D9FFC
  * region:   ov121
@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
-void func_021D9FFC(u8 *p, int a, int b)
+void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b)
 {
     BMP_MENUWORK_DrawWindow(((struct Obj22878 *)p)->f10, 0, a, b);
 }

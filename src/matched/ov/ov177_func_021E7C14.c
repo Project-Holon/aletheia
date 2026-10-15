@@ -1,5 +1,5 @@
 /*
- * function: func_021E7C14
+ * function: WIFIBATTLEMATCH_VIEW_DeleteRecordActor
  * address: 0x021E7C14
  * packet: pkt_ov177_021E7C14
  * region: ov177
@@ -20,7 +20,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
-void func_021E7C14(char *p)
+void WIFIBATTLEMATCH_VIEW_DeleteRecordActor(char *p)
 {
     CLACT_DeleteActor(((struct Obj08288 *)p)->f64);
     CLACT_ReleaseCharacter(((struct Obj08288 *)p)->f82);

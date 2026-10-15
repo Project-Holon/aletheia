@@ -26,8 +26,8 @@
  *   gpiHandleTransferMessage  0x02192FD0  arm  ov009
  *   gpiClipBufferToPosition  0x02189D28  arm  ov009
  *   gsUdpEngineGetPeerState  0x02181010  arm  ov009
- *   g_021A4F1C     0x021A4F1C  data
- *   g_021A4F2C     0x021A4F2C  data
+ *   gGpiPeerErrorOutOfMemory     0x021A4F1C  data
+ *   gGpiPeerStatusChar     0x021A4F2C  data
  */
 
 typedef struct GPIBuffer {
@@ -109,8 +109,8 @@ typedef struct GPRecvBuddyUTMArg {
     char *message;
 } GPRecvBuddyUTMArg;
 
-extern char g_021A4F1C[];
-extern char g_021A4F2C[];
+extern char gGpiPeerErrorOutOfMemory[];
+extern char gGpiPeerStatusChar[];
 
 extern int gpiSendBufferToPeer(void **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer,
                          int *closed, int mustSend);
@@ -179,7 +179,7 @@ int gpiProcessPeerConnected(void **connection, GPIPeer *peer)
                     GPRecvBuddyMessageArg *arg;
                     arg = (GPRecvBuddyMessageArg *)gsimalloc(sizeof(GPRecvBuddyMessageArg));
                     if (arg == 0) {
-                        gpiSetErrorString((int *)connection, (int)g_021A4F1C);
+                        gpiSetErrorString((int *)connection, (int)gGpiPeerErrorOutOfMemory);
                         return 1;
                     }
                     arg->profile = peer->profile;
@@ -199,7 +199,7 @@ int gpiProcessPeerConnected(void **connection, GPIPeer *peer)
                     GPRecvBuddyUTMArg *arg;
                     arg = (GPRecvBuddyUTMArg *)gsimalloc(sizeof(GPRecvBuddyUTMArg));
                     if (arg == 0) {
-                        gpiSetErrorString((int *)connection, (int)g_021A4F1C);
+                        gpiSetErrorString((int *)connection, (int)gGpiPeerErrorOutOfMemory);
                         return 1;
                     }
                     arg->profile = peer->profile;
@@ -214,7 +214,7 @@ int gpiProcessPeerConnected(void **connection, GPIPeer *peer)
                 break;
 
             case 0x66:
-                gpiSendBuddyMessage(connection, peer->profile, 0x67, g_021A4F2C, 0, 0);
+                gpiSendBuddyMessage(connection, peer->profile, 0x67, gGpiPeerStatusChar, 0, 0);
                 break;
 
             case 0x68:

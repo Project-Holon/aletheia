@@ -79,7 +79,7 @@
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   CURSOR_MOVE_SetSkipBit 0x0202614C thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
@@ -172,7 +172,7 @@ extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void CURSOR_MOVE_SetSkipBit(struct Sound *obj, u32 idx);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void APP_TASKMENU_WIN_SetDecide(char *,int);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
@@ -570,7 +570,7 @@ void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag)
         if (*(u32 *)&((struct PokeSummaryWork *)p)->taskMenuWindows[0] != 0) {
             APP_TASKMENU_WIN_Delete(((struct PokeSummaryWork *)p)->taskMenuWindows[0]);
             APP_TASKMENU_WIN_Delete(((struct PokeSummaryWork *)p)->taskMenuWindows[1]);
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             *(u32 *)&((struct PokeSummaryWork *)p)->taskMenuWindows[0] = 0;
             *(u32 *)&((struct PokeSummaryWork *)p)->taskMenuWindows[1] = 0;
         }

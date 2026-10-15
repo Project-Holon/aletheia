@@ -1,5 +1,5 @@
 /*
- * function: func_021F28DC
+ * function: BEACON_VIEW_FreeWorkResources
  * address: 0x021F28DC
  * packet: pkt_ov032_021F28DC
  * region: ov032
@@ -19,7 +19,7 @@ extern void GAME_BEACON_ACCESSOR_TableMarkLogsNew(unsigned char *p);
 extern void GPOWER_FreePowerTable(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F28DC(char *p)
+void BEACON_VIEW_FreeWorkResources(char *p)
 {
     GAME_BEACON_ACCESSOR_TableMarkLogsNew(((struct Obj05123 *)p)->f38);
     GPOWER_FreePowerTable(((struct Obj05123 *)p)->f24);

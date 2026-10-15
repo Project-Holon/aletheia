@@ -24,7 +24,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,7 +44,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 #define H (*(u16 *)p)
 #define W(o) (*(u32 *)(p + (o)))
 void DUP_FITTING_InitModels(u8 *p)
@@ -83,7 +83,7 @@ void DUP_FITTING_InitModels(u8 *p)
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x1850), 1);
     CLACT_SetActorDrawEnable(*(struct Obj **)(p + 0x1854), 0);
     ARC_TOOL_DeleteHandle(g);
-    func_020409B4(3);
-    func_020409B4(2);
-    func_020409B4(7);
+    BG_SYS_PushTile(3);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(7);
 }

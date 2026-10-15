@@ -1,5 +1,5 @@
 /*
- * function: func_021BA650
+ * function: BTL_REC_SEL_ClearList
  * address: 0x021BA650
  * packet: pkt_ov214_021BA650
  * region: ov214
@@ -31,7 +31,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
-void func_021BA650(int unused,char*p)
+void BTL_REC_SEL_ClearList(int unused,char*p)
 {
     u8 i;
     void*h;

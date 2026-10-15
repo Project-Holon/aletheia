@@ -25,7 +25,7 @@
  *   BEACON_STATUS_GetViewFlags  0x020275D0  thumb
  *   BEACON_STATUS_GetMessage  0x020275C4  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
- *   func_021F18C4  0x021F18C4  thumb  ov032
+ *   BEACON_VIEW_ShowFormatMessage  0x021F18C4  thumb  ov032
  */
 
 typedef unsigned char  u8;
@@ -37,7 +37,7 @@ extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern int BEACON_STATUS_GetMessage(void *p);
 struct WordSet;
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_021F18C4(char *p, int b);
+extern void BEACON_VIEW_ShowFormatMessage(char *p, int b);
 
 int BEACON_VIEW_ShowViewFlagMessage(char *p)
 {
@@ -49,6 +49,6 @@ int BEACON_VIEW_ShowViewFlagMessage(char *p)
     *f = 0;
     WORDSET_SetSlotTag(*(void **)(p + 0x110), 0, (void *)BEACON_STATUS_GetMessage((void *)(*(int *)(p + 0x34))),
                   *(u8 *)(p + 0x30), 1, 2);
-    func_021F18C4(p, 0xB);
+    BEACON_VIEW_ShowFormatMessage(p, 0xB);
     return 1;
 }

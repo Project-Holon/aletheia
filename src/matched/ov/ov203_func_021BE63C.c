@@ -1,5 +1,5 @@
 /*
- * function: func_021BE63C
+ * function: DEMO3D_ENGINE_SetupLighting
  * address: 0x021BE63C
  * packet: pkt_ov203_021BE63C
  * region: ov203
@@ -14,7 +14,7 @@
  * volatile: 0x04000060, 0x04000340, 0x04000358
  * symbols:
  *   ZONEDATA_GetTimeLightColors 0x0201493C thumb
- *   func_021BDF3C 0x021BDF3C thumb
+ *   DEMO3D_GRAPHIC_SetupLightBlock 0x021BDF3C thumb
  *   func_0207DCF8 0x0207DCF8 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   G3X_SetFogTable 0x0207DD10 arm
@@ -45,7 +45,7 @@ struct Context { void *owner; u8 pad04[0x70]; struct Record *record; };
 struct Config { u8 pad[0xd],hour,minute; u8 second:7,spare:1; };
 extern void ZONEDATA_GetTimeLightColors(u32,u32,u32,u32,u32,u16 *,u16);
 struct Obj;
-extern void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2);
+extern void DEMO3D_GRAPHIC_SetupLightBlock(struct Obj *obj, unsigned short *a, int a2);
 extern void func_0207DCF8(const u16 *);
 extern void G3X_SetFog(BOOL,GXFogBlend,GXFogSlope,int);
 extern void G3X_SetFogTable(const u32 *);
@@ -69,13 +69,13 @@ static inline void Edge(BOOL enable) {
     if(enable) DISP=(u16)((DISP & ~0x3000)|32);
     else DISP &= (u16)~0x3020;
 }
-void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *record,u16 heap)
+void DEMO3D_ENGINE_SetupLighting(struct Context *ctx,struct Config *cfg,const struct Record *record,u16 heap)
 {
     u16 colors[10];
     u32 fogtable[8];
     u32 i;
     ZONEDATA_GetTimeLightColors(record->id,cfg->hour,cfg->minute,0,cfg->second,colors,heap);
-    func_021BDF3C(ctx->owner,colors,0);
+    DEMO3D_GRAPHIC_SetupLightBlock(ctx->owner,colors,0);
     Anti(record->anti);
     Test(record->test,ctx->record->ref);
     Blend(record->blend);

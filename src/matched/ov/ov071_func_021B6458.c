@@ -24,8 +24,8 @@
  *   MONOLITH_TOOL_FreeSubBgChar  0x021B677C  thumb  ov071
  *   MONOLITH_TOOL_FreeBackgrounds  0x021B6624  thumb  ov071
  *   MONOLITH_TOOL_FreePalAnm  0x021B6588  thumb  ov071
- *   func_021B6538  0x021B6538  thumb  ov071
- *   func_021B6524  0x021B6524  thumb  ov071
+ *   MONOLITH_TOOL_ExitBmpWin  0x021B6538  thumb  ov071
+ *   MONOLITH_TOOL_DeleteBg  0x021B6524  thumb  ov071
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020315D4  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 struct Node;
 struct PalAnmSlot;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 int MONOLITH_TOOL_Exit(int a, int b, int c, int *w)
 {
     void func_0203133C(struct S020314B8 *p);
@@ -47,10 +47,10 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, int *w)
     void MONOLITH_TOOL_FreeSubBgChar(u32 *p);
     void MONOLITH_TOOL_FreeBackgrounds(void);
     void MONOLITH_TOOL_FreePalAnm(struct PalAnmSlot **p);
-    void func_021B6538(void);
-    void func_021B6524(void);
+    void MONOLITH_TOOL_ExitBmpWin(void);
+    void MONOLITH_TOOL_DeleteBg(void);
     void ARC_TOOL_DeleteHandle(int);
-    void func_020315D4(struct S020315D4 *p);
+    void func_020315D4(struct Proc *p);
     void GFL_HEAP_DeleteChecked(u32 heap);
 
     func_0203133C((struct S020314B8 *)w[0x12c / 4]);
@@ -63,12 +63,12 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, int *w)
     MONOLITH_TOOL_FreeSubBgChar((u32 *)w);
     MONOLITH_TOOL_FreeBackgrounds();
     MONOLITH_TOOL_FreePalAnm((struct PalAnmSlot **)w);
-    func_021B6538();
-    func_021B6524();
+    MONOLITH_TOOL_ExitBmpWin();
+    MONOLITH_TOOL_DeleteBg();
     ARC_TOOL_DeleteHandle(w[0x30 / 4]);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x61);
     return 1;
 }

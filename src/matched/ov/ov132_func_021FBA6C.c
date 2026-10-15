@@ -48,7 +48,7 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   d_021FDC16 0x021FDC16 data a2
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   d_021FDCD8 0x021FDCD8 data a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -500,7 +500,7 @@ extern void STA_ACT_LIGHT_ElemOpA(void *unused, u32 *p, u32 *q);
 extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
-extern void func_02040618(unsigned, unsigned, unsigned);
+extern void BG_SYS_FillScrollArea(unsigned, unsigned, unsigned);
 extern void CLACT_DeleteActor(struct Obj_021F9E40 *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);

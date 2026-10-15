@@ -19,12 +19,12 @@
  *   invert_checksum  0x02157808  arm  ov009
  *   send_ip  0x0215832C  arm  ov009
  *   gMslRefToken     0x02150FEC  data
- *   g_021A86A4     0x021A86A4  data
- *   g_021A8328     0x021A8328  data
- *   g_021A826C     0x021A826C  data
+ *   gCpsTcpipThread     0x021A86A4  data
+ *   gCpsSendHeader     0x021A8328  data
+ *   gCpsNetVars     0x021A826C  data
  *
- * g_021A8328 is tmpbuf (90 bytes); the object addresses tmpbuf + 0x22.
- * g_021A826C is network.o's block of file statics (first symbol wfailed).
+ * gCpsSendHeader is tmpbuf (90 bytes); the object addresses tmpbuf + 0x22.
+ * gCpsNetVars is network.o's block of file statics (first symbol wfailed).
  *
  * The checksum goes through a u16 local: HTONS names its operand twice, and
  * with the calls inline the checksum is computed twice and len takes the
@@ -96,9 +96,9 @@ struct thread_info {
 };
 
 extern struct thread_info gMslRefToken;
-extern struct G_021A86A4 g_021A86A4;
-extern u8 g_021A8328[90];
-extern struct net_vars g_021A826C;
+extern struct G_021A86A4 gCpsTcpipThread;
+extern u8 gCpsSendHeader[90];
+extern struct net_vars gCpsNetVars;
 
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
@@ -120,8 +120,8 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     if ((flag & 5) == 0 && soc->state == 0)
         return len;
 
-    if (gMslRefToken.current == ((u8 *)&g_021A86A4))
-        hdr = g_021A8328 + 0x22;
+    if (gMslRefToken.current == ((u8 *)&gCpsTcpipThread))
+        hdr = gCpsSendHeader + 0x22;
     else
         hdr = soc->sndbuf.data + 0x22;
 
@@ -162,8 +162,8 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
         SET32(hdr + 20, 0x01010500 | (sack_count * 8 + 2));
         this_tcp_size = 24 + sack_count * 8;
         mss = soc->remote_mss;
-        if (mss >= g_021A826C.mymss)
-            mss = g_021A826C.mymss;
+        if (mss >= gCpsNetVars.mymss)
+            mss = gCpsNetVars.mymss;
         if (len > mss - 4 - sack_count * 8)
             len = (mss - 4 - sack_count * 8) & ~1;
     }
@@ -172,7 +172,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
         this_tcp_size = 20;
     }
 
-    SET32(hdr - 12, g_021A826C.myip);
+    SET32(hdr - 12, gCpsNetVars.myip);
     SET32(hdr - 8, soc->remote_ip);
     *(u16 *)(hdr - 4) = HTONS(6);
     *(u16 *)(hdr - 2) = HTONS(this_tcp_size + len);
@@ -188,7 +188,7 @@ u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
     *(u16 *)(hdr + 18) = 0;
     if (flag & 2)
     {
-        SET32(hdr + 20, 0x02040000u + g_021A826C.mymss);
+        SET32(hdr + 20, 0x02040000u + gCpsNetVars.mymss);
         SET32(hdr + 24, 0x01010402);
     }
     if (flag & 0x10)

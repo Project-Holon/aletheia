@@ -38,7 +38,7 @@
  * symbols:
  *   SOCLi_InitCommandPipe  0x0215D3C8  arm  ov009
  *   SOCLi_InitSocketBuffer  0x0215D3A0  arm  ov009
- *   g_021AA44C  0x021AA44C  data
+ *   SOCLiUDPSendSocket  0x021AA44C  data
  */
 
 typedef struct {
@@ -95,7 +95,7 @@ typedef struct Sock {
 
 extern unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, void *pipe, const void *param);
 extern unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned long size);
-extern Sock *g_021AA44C;
+extern Sock *SOCLiUDPSendSocket;
 
 unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 {
@@ -117,7 +117,7 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 		spipe->f10c = 0;
 	}
 	if (param->recv == 0) {
-		socket->pipe_recv = g_021AA44C->pipe_recv;
+		socket->pipe_recv = SOCLiUDPSendSocket->pipe_recv;
 	} else {
 		RecvPipe *rpipe;
 

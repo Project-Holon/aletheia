@@ -1,5 +1,5 @@
 /*
- * function: func_021B8798
+ * function: MONOLITH_TOOL_SUMMARY_Draw
  * address:  0x021B8798
  * packet:   pkt_ov071_021B8798
  * region:   ov071
@@ -67,7 +67,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 struct PrintSys;
-void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
+void MONOLITH_TOOL_SUMMARY_Draw(u8 **c, Q *q, P *d, u8 *r, unsigned v)
 {
     extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
     extern void *BMP_WIN_GetBmp(struct Descriptor *p);

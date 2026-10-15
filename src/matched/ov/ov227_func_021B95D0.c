@@ -18,8 +18,8 @@
 #include "../include/Obj04655.h"
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -27,7 +27,7 @@ extern void *PROCSYS_Create(int a0);
 
 struct s { char pad[0x38]; };
 
-int EVENT_PDC_RETURN_Init(struct Obj0203159C *a)
+int EVENT_PDC_RETURN_Init(struct Proc *a)
 {
     struct s *p;
 

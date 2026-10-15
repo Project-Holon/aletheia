@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB90
+ * function: BEACON_DETAIL_GRA_DrawClact
  * address: 0x021BCB90
  * packet: pkt_ov216_021BCB90
  * region: ov216
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_DrawSystem(void);
-void func_021BCB90(void *a0){CLACT_DrawSystem();}
+void BEACON_DETAIL_GRA_DrawClact(void *a0){CLACT_DrawSystem();}

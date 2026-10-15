@@ -18,7 +18,7 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_02034A5C 0x02034A5C arm
@@ -42,7 +42,7 @@ extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Delete(void);
 extern void func_02034A5C(int);
@@ -62,7 +62,7 @@ void GSYNC_DISP_Exit(u8 *p)
     CLACT_DeleteUnit(((struct Obj04499 *)p)->fC);
     CLACT_ExitSystem();
     BG_SYS_SetTileUnit(1,1,0); BG_SYS_SetTileUnit(6,1,0);
-    func_020403F4(5); func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4);
     func_02040588(5,0); BG_SYS_Delete(); func_020307B0(p);
     func_02034A5C((int)ov_id);
 }

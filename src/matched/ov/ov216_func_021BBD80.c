@@ -15,39 +15,39 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BEACON_DETAIL_GRA_Create 0x021BC930 thumb ov216
- *   func_021BBFEC 0x021BBFEC thumb ov216
- *   func_021BC0C8 0x021BC0C8 thumb ov216
- *   func_021BC1E4 0x021BC1E4 thumb ov216
- *   func_021BC6D8 0x021BC6D8 thumb ov216
- *   func_021BC454 0x021BC454 thumb ov216
- *   func_021BC650 0x021BC650 thumb ov216
- *   func_021BC70C 0x021BC70C thumb ov216
- *   func_021BCA38 0x021BCA38 thumb ov216
- *   func_021BC398 0x021BC398 thumb ov216
+ *   BEACON_DETAIL_GRA_LoadBeaconInfo 0x021BBFEC thumb ov216
+ *   BEACON_DETAIL_GRA_CreateObjects 0x021BC0C8 thumb ov216
+ *   BEACON_DETAIL_GRA_LoadBackground 0x021BC1E4 thumb ov216
+ *   BEACON_DETAIL_GRA_CreateInfoWindow 0x021BC6D8 thumb ov216
+ *   BEACON_DETAIL_GRA_LoadTrainerGfx 0x021BC454 thumb ov216
+ *   BEACON_DETAIL_GRA_CreateDetailActors 0x021BC650 thumb ov216
+ *   BEACON_DETAIL_GRA_CreateListWindows 0x021BC70C thumb ov216
+ *   BEACON_DETAIL_GRA_GetClactUnit 0x021BCA38 thumb ov216
+ *   BEACON_DETAIL_GRA_CreateTouchBar 0x021BC398 thumb ov216
  *   ov067_id 0x00000043 data
  *   ov072_id 0x00000048 data
  */
 #include "../include/Obj00366.h"
-struct Obj0203159C;
+struct Proc;
 extern unsigned char ov067_id[],ov072_id[];
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *,int,int);
 extern void *BEACON_DETAIL_GRA_Create(int,int);
 typedef unsigned char  u8;
-extern void func_021BBFEC(u8 *p);
-extern void func_021BC0C8(char *);
+extern void BEACON_DETAIL_GRA_LoadBeaconInfo(u8 *p);
+extern void BEACON_DETAIL_GRA_CreateObjects(char *);
 typedef unsigned short u16;
-extern void func_021BC1E4(char *p, u16 heap);
-extern void func_021BC6D8(char *);
+extern void BEACON_DETAIL_GRA_LoadBackground(char *p, u16 heap);
+extern void BEACON_DETAIL_GRA_CreateInfoWindow(char *);
 typedef unsigned int   u32;
-extern void func_021BC454(char *p, u32 handle);
-extern void func_021BC650(char *);
-extern void func_021BC70C(char *);
-extern void *func_021BCA38(char *p);
-extern void *func_021BC398(void *,unsigned);
-int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config)
+extern void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p, u32 handle);
+extern void BEACON_DETAIL_GRA_CreateDetailActors(char *);
+extern void BEACON_DETAIL_GRA_CreateListWindows(char *);
+extern void *BEACON_DETAIL_GRA_GetClactUnit(char *p);
+extern void *BEACON_DETAIL_GRA_CreateTouchBar(void *,unsigned);
+int BEACON_DETAIL_GRA_Init(struct Proc *obj,int unused1,void *config)
 {
     char *p;
     func_02034AC4((int)ov067_id);
@@ -59,13 +59,13 @@ int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config)
     ((struct Obj00366 *)p)->f0=119;
     ((struct Obj00366 *)p)->f2=0x8077;
     ((struct Obj00366 *)p)->f50=BEACON_DETAIL_GRA_Create(0,((struct Obj00366 *)p)->f0);
-    func_021BBFEC((u8 *)p);
-    func_021BC0C8(p);
-    func_021BC1E4(p,((struct Obj00366 *)p)->f0);
-    func_021BC6D8(p);
-    func_021BC454(p,(u32)(((struct Obj00366 *)p)->f54));
-    func_021BC650(p);
-    func_021BC70C(p);
-    ((struct Obj00366 *)p)->f124=func_021BC398(func_021BCA38(((struct Obj00366 *)p)->f50),((struct Obj00366 *)p)->f0);
+    BEACON_DETAIL_GRA_LoadBeaconInfo((u8 *)p);
+    BEACON_DETAIL_GRA_CreateObjects(p);
+    BEACON_DETAIL_GRA_LoadBackground(p,((struct Obj00366 *)p)->f0);
+    BEACON_DETAIL_GRA_CreateInfoWindow(p);
+    BEACON_DETAIL_GRA_LoadTrainerGfx(p,(u32)(((struct Obj00366 *)p)->f54));
+    BEACON_DETAIL_GRA_CreateDetailActors(p);
+    BEACON_DETAIL_GRA_CreateListWindows(p);
+    ((struct Obj00366 *)p)->f124=BEACON_DETAIL_GRA_CreateTouchBar(BEACON_DETAIL_GRA_GetClactUnit(((struct Obj00366 *)p)->f50),((struct Obj00366 *)p)->f0);
     return 1;
 }

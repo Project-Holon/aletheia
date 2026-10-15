@@ -14,7 +14,7 @@
  * symbols:
  *   func_0219B660  0x0219B660  arm  ov009
  *   g_021A76CC     0x021A76CC  data
- *   g_021A7C90     0x021A7C90  data
+ *   gQr2RegKeys     0x021A7C90  data
  *   g_021A76D4     0x021A76D4  data
  */
 
@@ -82,7 +82,7 @@ typedef struct QRSplitQueryProgress {
 extern int func_0219B660(qr2_buffer_t outbuf, const char *value);
 
 extern char g_021A76CC[];
-extern const char *g_021A7C90[];
+extern const char *gQr2RegKeys[];
 extern char g_021A76D4[];
 
 void qr_build_partial_query_reply(qr2_t qrec, qr2_buffer_t buf, int keytype, int keycount, unsigned char *keys)
@@ -113,7 +113,7 @@ void qr_build_partial_query_reply(qr2_t qrec, qr2_buffer_t buf, int keytype, int
     if (keycount == 0xFF) {
         qrec->key_list_callback(keytype, &kb, qrec->udata);
         for (i = 0; i < kb.numkeys; i++) {
-            k = g_021A7C90[kb.keys[i]];
+            k = gQr2RegKeys[kb.keys[i]];
             if (k == 0)
                 k = g_021A76CC;
             func_0219B660(buf, k);

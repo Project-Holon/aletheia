@@ -1,5 +1,5 @@
 /*
- * function: func_021F2CC4
+ * function: BEACON_VIEW_DeleteTaskMenuRes
  * address:  0x021F2CC4
  * packet:   pkt_ov032_021F2CC4
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F2CC4 0x021F2CC4 thumb
+ *   BEACON_VIEW_DeleteTaskMenuRes 0x021F2CC4 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern int APP_KEYCURSOR_Delete(int a0);
 
-void func_021F2CC4(char *p)
+void BEACON_VIEW_DeleteTaskMenuRes(char *p)
 {
     int i;
 

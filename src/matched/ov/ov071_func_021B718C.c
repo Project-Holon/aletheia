@@ -1,5 +1,5 @@
 /*
- * function: func_021B718C
+ * function: MONOLITH_TOOL_DeleteTaskMenuRes
  * address:  0x021B718C
  * packet:   pkt_ov071_021B718C
  * region:   ov071
@@ -17,7 +17,7 @@
 
 struct TaskMenuState;
 typedef unsigned int   u32;
-void func_021B718C(void *p)
+void MONOLITH_TOOL_DeleteTaskMenuRes(void *p)
 {
     u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
     APP_TASKMENU_RES_Delete(p);

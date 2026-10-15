@@ -70,13 +70,13 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   gIrcRankingDispConfig 0x021B94A8 data
  *   gIrcRankingBgEntries 0x021B9524 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   gIrcRankingClactSysInit 0x021B94B8 data a4
@@ -96,9 +96,9 @@
  *   func_020056A0 0x020056A0 thumb
  *   gIrcRankingVramConfig 0x021B94F4 data a4
  *   func_02030EAC 0x02030EAC arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_0201BC3C 0x0201BC3C thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -474,11 +474,11 @@ extern void *func_02012944(struct GameData *gameData);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -499,9 +499,9 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 extern void *func_020056A0(void (*taskFunc)(void *task, void *taskWork), void *taskWork, int priority);
 extern void func_02030EAC(void *task);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern int func_0201BC3C(void);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
@@ -868,7 +868,7 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heap
     MSGDATA_Delete(msg);
     BMP_WIN_TransferChars(gfx->titleWin);
     BMP_WIN_MakeScreen(gfx->titleWin);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 }
 
 void IRC_RANKING_GfxExit(IrcRankingGfx *gfx) {
@@ -878,7 +878,7 @@ void IRC_RANKING_GfxExit(IrcRankingGfx *gfx) {
     BG_SYS_DeleteHalf(5, (u16)gfx->charRegionSub, (u16)(gfx->charRegionSub >> 16));
     BG_SYS_SetTileUnit(5, 1, 0);
     BG_SYS_SetTileUnit(1, 1, 0);
-    for (i = 0; i < BG_COUNT; i++) func_020403F4((u8)gIrcRankingBgEntries[i].bg);
+    for (i = 0; i < BG_COUNT; i++) BG_SYS_FreeLayerBuf((u8)gIrcRankingBgEntries[i].bg);
     BMP_WIN_Exit(); BG_SYS_Delete();
     MI_CpuFill8(gfx, 0, sizeof(IrcRankingGfx));
 }
@@ -999,7 +999,7 @@ void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8
     list->rowCount = IRC_RANKING_DataGetCount(data);
     list->font = GF_FONT_Create(23, 0, 0, 1, heapId);
     list->msgBank = msgBank;
-    list->wordSet = GF_FONT_Create_EC64(heapId);
+    list->wordSet = WORDSET_CreateDefault(heapId);
     IRC_RANKING_LoadRowScreens(list->rowScreenMain, &display->gfx, heapId);
     arc = func_020490F4(7, heapId);
     list->iconPaletteMain = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x20, heapId);
@@ -1012,10 +1012,10 @@ void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8
     list->textWin[1] = BMP_WIN_Create(textBgSub, 0, 0, 0x20, 0x20, 14, 1);
     list->bgScrollMain = -40;
     list->bgScrollSub = 24;
-    func_02040618(list->rowBgMain, 3, list->bgScrollMain);
-    func_02040618(list->textBgMain, 3, list->bgScrollMain);
-    func_02040618(list->rowBgSub, 3, list->bgScrollSub);
-    func_02040618(list->textBgSub, 3, list->bgScrollSub);
+    BG_SYS_FillScrollArea(list->rowBgMain, 3, list->bgScrollMain);
+    BG_SYS_FillScrollArea(list->textBgMain, 3, list->bgScrollMain);
+    BG_SYS_FillScrollArea(list->rowBgSub, 3, list->bgScrollSub);
+    BG_SYS_FillScrollArea(list->textBgSub, 3, list->bgScrollSub);
     list->scrollPos = 0;
     list->scrollMin = 0;
     m = 0;
@@ -1134,10 +1134,10 @@ void IRC_RANKING_ListTransferWindows(IrcRankingList *list) {
         BMP_WIN_TransferChars(list->textWin[i]);
         BMP_WIN_MakeScreen(list->textWin[i]);
     }
-    func_020409B4(list->rowBgMain);
-    func_020409B4(list->rowBgSub);
-    func_020409B4(list->textBgMain);
-    func_020409B4(list->textBgSub);
+    BG_SYS_PushTile(list->rowBgMain);
+    BG_SYS_PushTile(list->rowBgSub);
+    BG_SYS_PushTile(list->textBgMain);
+    BG_SYS_PushTile(list->textBgSub);
 }
 
 /*
@@ -1187,10 +1187,10 @@ void IRC_RANKING_ListScrollTask(void *task, void *taskWork)
                 }
             }
         }
-        func_02040618(list->rowBgMain, 3, x);
-        func_02040618(list->textBgMain, 3, x);
-        func_02040618(list->rowBgSub, 3, y);
-        func_02040618(list->textBgSub, 3, y);
+        BG_SYS_FillScrollArea(list->rowBgMain, 3, x);
+        BG_SYS_FillScrollArea(list->textBgMain, 3, x);
+        BG_SYS_FillScrollArea(list->rowBgSub, 3, y);
+        BG_SYS_FillScrollArea(list->textBgSub, 3, y);
         list->needScrollApply = 0;
     }
 }
@@ -1547,7 +1547,7 @@ void IRC_RANKING_PrintCentered(struct BmpWin *win, struct Strbuf *text, void *my
         y -= (u16)(func_0201D42C(text, font) >> 1);
         PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)x, (s16)y, text, font);
     } else {
-        wordSet = GF_FONT_Create_EC64(0x8043);
+        wordSet = WORDSET_CreateDefault(0x8043);
         expanded = STRBUF_Create(128, 0x8043);
         WORDSET_SetSlotMyStatus(wordSet, 0, myStatus);
         WORDSET_CopyTaggedText(wordSet, expanded, text);

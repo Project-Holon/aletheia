@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_02042360  0x02042360  arm
+ *   BG_SYS_SetScrollField  0x02042360  arm
  *   BG_SYS_RotScale  0x020423D4  arm
  *   GFL_NET_SetIrcParams  0x0203D814  arm
  *
@@ -34,7 +34,7 @@ struct BgLayer {
 extern struct BgLayer *g_02146A44;
 
 struct Obj;
-extern void func_02042360(struct Obj *p, u32 op, u32 value);
+extern void BG_SYS_SetScrollField(struct Obj *p, u32 op, u32 value);
 extern void BG_SYS_RotScale(u32 layer);
 extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 
@@ -46,7 +46,7 @@ void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
     u32 hmask = mask << 16;
     u32 x, y;
 
-    func_02042360((struct Obj *)((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer)), a, b);
+    BG_SYS_SetScrollField((struct Obj *)((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer)), a, b);
 
     x = g_02146A44[layer].scrollX;
     y = g_02146A44[layer].scrollY;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA058",
+   "name": "BTL_REC_SEL_MainTcbl",
    "address": "0x021BA058",
    "kind": "game",
    "region": "ov214",

@@ -152,13 +152,13 @@
  *   d_0220DF20 0x0220DF20 data a4
  *   d_0220DF00 0x0220DF00 data a4
  *   d_0220DEC0 0x0220DEC0 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_02045B38 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -429,13 +429,13 @@ extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
-extern struct WordSet *GF_FONT_Create_EC64(unsigned);
+extern struct WordSet *WORDSET_CreateDefault(unsigned);
 extern unsigned PRINTSYS_QUE_Create(void *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -2299,10 +2299,10 @@ void B_BAG_MAIN_InitBg(char *p)
 void B_BAG_MAIN_ExitBg(void)
 {
     BG_SYS_SetSubPlaneVisible(0x1f, 0);
-    func_020403F4(4);
-    func_020403F4(5);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
 }
 
 
@@ -2324,7 +2324,7 @@ void B_BAG_MAIN_LoadBgGraphics(char *p)
 
 
 
-void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=func_02045B38(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=GF_FONT_Create_EC64(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((void *)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=STRBUF_Create(512,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);}
+void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=func_02045B38(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((void *)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=STRBUF_Create(512,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);}
 
 
 

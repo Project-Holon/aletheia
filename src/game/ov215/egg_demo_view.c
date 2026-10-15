@@ -87,7 +87,7 @@
  *   G3D_SYSTEM_LoopObjectAnimeFrame    0x02047910  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame    0x020478B8  arm
  */
-#include "egg_demo_graphic_shared_types.h"
+#include "egg_demo_types.h"
 
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
 
@@ -119,11 +119,9 @@ typedef struct { unsigned short tag; unsigned short pad2; int x,y,z,sx,sy,sz,mat
 
 typedef signed int     s32;
 
-typedef struct {int x,y,z;} Vec_021F63CC;
+typedef struct {int x,y,z;} EggDemoVec3;
 
 typedef struct {u32 species;float x,y;} Entry;
-
-typedef struct { int x,y,z; } Vec_021F6D7C;
 
 /* The egg demo view work, 96 bytes, allocated by EGG_DEMO_VIEW_Create. */
 struct EggDemoView {
@@ -382,7 +380,7 @@ extern const Entry table_021F7384[];
 
 extern const unsigned long long d_021F7300;
 
-extern const Vec_021F6D7C d_021F73B4;
+extern const EggDemoVec3 d_021F73B4;
 
 extern const struct Setup d_021F7330;
 
@@ -562,7 +560,7 @@ void EGG_DEMO_VIEW_DeleteMcss(char *work){MCSS_Exit(*(u8 * *)&((struct EggDemoVi
  */
 void EGG_DEMO_VIEW_AddPokeMcss(char *work)
 {
-    Vec_021F63CC trans,scale,delta;
+    EggDemoVec3 trans,scale,delta;
     u32 species;
     u8 i=0;
     float angle,y,x;
@@ -669,7 +667,7 @@ void EGG_DEMO_VIEW_DeleteParticles(char *work)
 void EGG_DEMO_VIEW_UpdateParticles(char *work)
 {
     if (((struct EggDemoParticles *)work)->active) {
-        Vec_021F6D7C v=d_021F73B4;
+        EggDemoVec3 v=d_021F73B4;
         while (((struct EggDemoParticles *)work)->index<((struct EggDemoParticles *)work)->count) {
             const char *table=*(const char * *)&((struct EggDemoParticles *)work)->table;
             unsigned index=((struct EggDemoParticles *)work)->index;

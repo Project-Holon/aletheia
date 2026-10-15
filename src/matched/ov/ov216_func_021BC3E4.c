@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3E4
+ * function: BEACON_DETAIL_GRA_RegisterActorGfx
  * address: 0x021BC3E4
  * packet: pkt_ov216_021BC3E4
  * region: ov216
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-void func_021BC3E4(unsigned short *p,int *out,const Config *cfg,void *handle)
+void BEACON_DETAIL_GRA_RegisterActorGfx(unsigned short *p,int *out,const Config *cfg,void *handle)
 {
     MI_CpuFill8(out,0,12);
     out[0]=CLACT_RegisterPaletteEx(handle,cfg->first,cfg->a,(unsigned short)(cfg->b<<5),0,cfg->c,*p);

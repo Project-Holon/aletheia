@@ -1,5 +1,5 @@
 /*
- * function: func_021DA158
+ * function: WF2DMAP_SCENE_GetCellAnim
  * address: 0x021DA158
  * packet: pkt_ov129_021DA158
  * region: ov129
@@ -10,4 +10,4 @@
  * status: EXACT
  * lever: n+x gives the original adds operand order.
  */
-int func_021DA158(int x,int flag) { int n; n=0; if(!flag) n=11; return n+x; }
+int WF2DMAP_SCENE_GetCellAnim(int x,int flag) { int n; n=0; if(!flag) n=11; return n+x; }

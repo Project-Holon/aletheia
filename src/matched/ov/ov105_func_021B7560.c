@@ -45,8 +45,8 @@ typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; u8 low:4; u8
 typedef struct {u32 objects[3]; u16 current[3]; u16 bound[3]; int step[3]; u8 pad[12]; u8 digits[3];u8 pad1;int state[3];} Display;
 struct Task;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 struct Ctx;
 extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
@@ -78,7 +78,7 @@ int IRC_RESULT_Init(struct Task *a,void *b,u8 *context)
     u32 handle;
     int tag,font;
     GFL_HEAP_CreateChildHeap(1,60,0x20000);
-    p=PROCSYS_AllocProcWork((struct Obj0203159C *)a,0x1a8,60);
+    p=PROCSYS_AllocProcWork((struct Proc *)a,0x1a8,60);
     MI_CpuFill8(p,0,0x1a8);
     *(u8 * *)&((struct Obj03234 *)p)->f1A4=context;
     IRC_RESULT_InitScreen(p,60);

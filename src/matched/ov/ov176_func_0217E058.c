@@ -1,5 +1,5 @@
 /*
- * function: func_0217E058
+ * function: LIVEBATTLEMATCH_IRC_Delete
  * address:  0x0217E058
  * packet:   pkt_0217E058
  * region:   ov176
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern u32 func_020307B0(void *p);
 
-void func_0217E058(int *p)
+void LIVEBATTLEMATCH_IRC_Delete(int *p)
 {
     if (GFL_NET_GetRunState())
         GFL_NET_COMMAND_DeleteCommandTable(0x1f00);

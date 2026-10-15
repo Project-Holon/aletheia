@@ -1,5 +1,5 @@
 /*
- * function: func_021BA65C
+ * function: MANUAL_COMMON_CreateListWork
  * address: 0x021BA65C
  * packet: pkt_ov225_021BA65C
  * region: ov225
@@ -10,17 +10,17 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021BC028 0x021BC028 data ov225 a1
- *   func_021BA898 0x021BA898 thumb ov225
- *   func_021BAA44 0x021BAA44 thumb ov225
+ *   gManualCommonListWorkAllocFile 0x021BC028 data ov225 a1
+ *   MANUAL_COMMON_LoadListWorkAssets 0x021BA898 thumb ov225
+ *   MANUAL_COMMON_SetListWorkBgMode 0x021BAA44 thumb ov225
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BB074 0x021BB074 thumb ov225
- *   func_021BB258 0x021BB258 thumb ov225
+ *   MANUAL_COMMON_GetScrollTop 0x021BB074 thumb ov225
+ *   MANUAL_COMMON_IndexToY 0x021BB258 thumb ov225
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021BA894 0x021BA894 thumb ov225
- *   func_021BA068 0x021BA068 thumb ov225
+ *   MANUAL_COMMON_ListWorkTaskNoop 0x021BA894 thumb ov225
+ *   MANUAL_COMMON_SetTouchbarState 0x021BA068 thumb ov225
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -60,19 +60,19 @@ struct Work
   u8 pad91[3];
   u32 field94;
 };
-extern const char d_021BC028[];
+extern const char gManualCommonListWorkAllocFile[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_021BA898(char *);
-extern void func_021BAA44(struct Work *);
+extern void MANUAL_COMMON_LoadListWorkAssets(char *);
+extern void MANUAL_COMMON_SetListWorkBgMode(struct Work *);
 extern void BG_SYS_ResetSlot(u32, u32, u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
-extern u16 func_021BB074(u16 **);
-extern u16 func_021BB258(void *, u16, u16);
+extern u16 MANUAL_COMMON_GetScrollTop(u16 **);
+extern u16 MANUAL_COMMON_IndexToY(void *, u16, u16);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, u32);
 extern void *func_020056A0(u32, u32, u32);
-extern void func_021BA894(void);
-extern void func_021BA068(char *, unsigned);
-void *func_021BA65C(char *owner, struct Data *data)
+extern void MANUAL_COMMON_ListWorkTaskNoop(void);
+extern void MANUAL_COMMON_SetTouchbarState(char *, unsigned);
+void *MANUAL_COMMON_CreateListWork(char *owner, struct Data *data)
 {
   struct Work *p;
   struct Vec2 v;
@@ -82,7 +82,7 @@ void *func_021BA65C(char *owner, struct Data *data)
   int n;
   s16 y;
   int mode;
-  p = func_02030734(data->heap, 0x98, 1, d_021BC028, 0xdf);
+  p = func_02030734(data->heap, 0x98, 1, gManualCommonListWorkAllocFile, 0xdf);
   p->owner = owner;
   *((u32 *) (owner + 0x10)) = 0;
   p->data = data;
@@ -95,20 +95,20 @@ void *func_021BA65C(char *owner, struct Data *data)
   }
   while (i < 8);
   p->field94 = 0;
-  func_021BA898((char *)p);
-  func_021BAA44(p);
+  MANUAL_COMMON_LoadListWorkAssets((char *)p);
+  MANUAL_COMMON_SetListWorkBgMode(p);
   BG_SYS_ResetSlot(5, 3, 12);
   flag = 0;
   if ((*((u16 *) (p->owner + 4))) > 6)
     flag = 1;
   CLACT_SetActorDrawEnable(p->obj, flag);
-  n = func_021BB074((u16 **) p);
+  n = MANUAL_COMMON_GetScrollTop((u16 **) p);
   n = n + 1;
-  y = func_021BB258(p, n, *((u16 *) (p->owner + 0xc)));
+  y = MANUAL_COMMON_IndexToY(p, n, *((u16 *) (p->owner + 0xc)));
   v.x = 240;
   v.y = y;
   CLACT_AddActorSurfacePos(p->obj, &v, 1);
-  p->task = func_020056A0((u32) func_021BA894, (u32) p, 1);
+  p->task = func_020056A0((u32) MANUAL_COMMON_ListWorkTaskNoop, (u32) p, 1);
   p->field84 = 0;
   p->field88 = 0;
   p->field8c = 0;
@@ -120,6 +120,6 @@ void *func_021BA65C(char *owner, struct Data *data)
   else
     if (mode == 1)
     state = 2;
-  func_021BA068(*((char **) (((char *) p->data) + 0x34)), state);
+  MANUAL_COMMON_SetTouchbarState(*((char **) (((char *) p->data) + 0x34)), state);
   return p;
 }

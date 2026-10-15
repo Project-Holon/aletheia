@@ -32,7 +32,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   STRBUF_Delete 0x02045808 arm
@@ -105,7 +105,7 @@ extern void *func_020124E8(struct GameEvent *event);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern struct FldMmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void FLDMMDL_SysPauseMove(struct FldMmdlSys *mmdlSys);
 extern void STRBUF_Delete(struct Strbuf *str);
@@ -229,7 +229,7 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
     work->mmdlSys = FIELDMAP_GetMmdlSys(work->fieldMap);
     work->powerTable = GPOWER_LoadPowerTable(work->heapId);
     work->msgData = func_02045B38(0, 3, 0x108, work->heapId);
-    work->wordSet = GF_FONT_Create_EC64(work->heapId);
+    work->wordSet = WORDSET_CreateDefault(work->heapId);
     work->templateStr = STRBUF_Create(0x81, work->heapId);
     work->lineStr = STRBUF_Create(0x81, work->heapId);
     FLDMMDL_SysPauseMove(work->mmdlSys);

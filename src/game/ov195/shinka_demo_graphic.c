@@ -34,7 +34,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_02040588 0x02040588 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
@@ -134,7 +134,7 @@ extern void BG_SYS_FreeSlot(u8);
 
 extern void func_02040588(u8, u8);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BG_SYS_Create(void *);
 
@@ -335,7 +335,7 @@ void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0)
         unsigned int v = d_02208D1C[i].id;
         if (v >= 4)
         {
-            func_020403F4(v & 0xff);
+            BG_SYS_FreeLayerBuf(v & 0xff);
         }
     }
 }
@@ -369,7 +369,7 @@ void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b)
     }
 }
 
-void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)func_020403F4((u8)id);}BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p) {u32 i;for(i=0;i<6;i++){u32 id=d_02208D1C[i].id;if(id<=3)BG_SYS_FreeLayerBuf((u8)id);}BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 /*
  * extent: two trailing bytes of zero alignment padding.

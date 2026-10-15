@@ -23,23 +23,23 @@
  *   SOCL_Resolve  0x0215EDD0  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   STD_CopyLString  0x0208CB10  arm
- *   g_021AA544     0x021AA544  data
- *   g_021AA4BC     0x021AA4BC  data
+ *   gSocHostName     0x021AA544  data
+ *   gSocStatics     0x021AA4BC  data
  *   g_021AA4BC_ip  0x021AA4BC  data
- *   g_021AA4D4     0x021AA4D4  data
- *   g_021AA4DC     0x021AA4DC  data
+ *   gSocHostAddrList     0x021AA4D4  data
+ *   gSocHostEnt     0x021AA4DC  data
  *   SOCL_GetHostID   0x0215ef48 arm
  *   SOCL_SetResolver  0x0215EEE0  arm  ov009
  *   SOCL_Startup  0x0215CA8C  arm  ov009
  *   func_0215F8A4  0x0215F8A4  arm  ov009
  *   func_0215F8D0  0x0215F8D0  arm  ov009
- *   g_021AA50C     0x021AA50C  data
+ *   gSoclStartupConfig     0x021AA50C  data
  *   SOCL_Cleanup  0x0215EBF0  arm  ov009
  *   _ZZ12SOC_InetNtoA9SOCInAddrE6buffer   0x021aa4ec data
  *   SOCL_InetAtoH  0x0215EE98  arm  ov009
  *   MI_CpuCopy8      0x02082d44 arm
  *   OS_SNPrintf      0x02084f80 arm
- *   g_021A1D2C       0x021a1d2c data
+ *   gSoclIpv4Format       0x021a1d2c data
  *   SOCL_GetStatus  0x0215EFB0  arm  ov009
  *   OS_Sleep  0x02085A38  arm
  *   SOCL_Close  0x0215E84C  arm
@@ -181,14 +181,14 @@ void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout);
 extern struct SOCLSocketParam SOCLSocketParamTCP;
 extern struct SOCLSocketParam SOCLSocketParamUDP;
-extern SOCStatics g_021AA4BC;
+extern SOCStatics gSocStatics;
 extern u32 g_021AA4BC_ip;
-extern unsigned char *g_021AA4D4[2];
-extern HostEnt g_021AA4DC;
-extern char g_021AA544[0x101];
-extern SOCLConfig g_021AA50C;
+extern unsigned char *gSocHostAddrList[2];
+extern HostEnt gSocHostEnt;
+extern char gSocHostName[0x101];
+extern SOCLConfig gSoclStartupConfig;
 extern char _ZZ12SOC_InetNtoA9SOCInAddrE6buffer[16];
-extern char g_021A1D2C[];
+extern char gSoclIpv4Format[];
 
 
 
@@ -331,17 +331,17 @@ HostEnt *SOC_GetHostByName(const char *name)
 	if (ipAddr == 0) {
 		return 0;
 	}
-	MI_CpuFill8(g_021AA544, 0, 0x101);
-	STD_CopyLString(g_021AA544, name, 0x101);
-	g_021AA4BC.hostent_name = g_021AA544;
-	g_021AA4BC.hostent_aliases = 0;
-	g_021AA4BC.hostent_addrType = 2;
-	g_021AA4BC.hostent_length = 4;
-	g_021AA4BC.hostent_addrList = g_021AA4D4;
-	g_021AA4BC.addrList[0] = (unsigned char *)&g_021AA4BC_ip;
-	g_021AA4BC.addrList[1] = 0;
-	g_021AA4BC.hostip = SWAP32(ipAddr);
-	return &g_021AA4DC;
+	MI_CpuFill8(gSocHostName, 0, 0x101);
+	STD_CopyLString(gSocHostName, name, 0x101);
+	gSocStatics.hostent_name = gSocHostName;
+	gSocStatics.hostent_aliases = 0;
+	gSocStatics.hostent_addrType = 2;
+	gSocStatics.hostent_length = 4;
+	gSocStatics.hostent_addrList = gSocHostAddrList;
+	gSocStatics.addrList[0] = (unsigned char *)&g_021AA4BC_ip;
+	gSocStatics.addrList[1] = 0;
+	gSocStatics.hostip = SWAP32(ipAddr);
+	return &gSocHostEnt;
 }
 
 
@@ -430,7 +430,7 @@ static void *AllocFunc_SOCL(u32 size)
     unsigned long *m;
     unsigned long msize = size + 4;
 
-    m = (unsigned long *)g_021AA4BC.AllocFunc_SOC(0, msize);
+    m = (unsigned long *)gSocStatics.AllocFunc_SOC(0, msize);
     if (m != 0)
         *m++ = msize;
     return m;
@@ -445,7 +445,7 @@ static void FreeFunc_SOCL(void *ptr)
     if (ptr == 0)
         return;
     m = (unsigned long *)((char *)ptr - 4);
-    g_021AA4BC.FreeFunc_SOC(0, m, *m);
+    gSocStatics.FreeFunc_SOC(0, m, *m);
 }
 
 
@@ -461,20 +461,20 @@ static void FreeFunc_SOCL(void *ptr)
  */
 int SOC_Startup(const SOCConfig *config)
 {
-    g_021AA4BC.soclConfig.use_dhcp = (config->flag == 1);
-    g_021AA4BC.soclConfig.my_ip = SWAP32(config->addr);
-    g_021AA4BC.soclConfig.net_mask = SWAP32(config->netmask);
-    g_021AA4BC.soclConfig.gateway_ip = SWAP32(config->router);
-    g_021AA4BC.soclConfig.dns_ip0 = SWAP32(config->dns1);
-    g_021AA4BC.soclConfig.dns_ip1 = SWAP32(config->dns2);
-    g_021AA4BC.soclConfig.alloc = AllocFunc_SOCL;
-    g_021AA4BC.soclConfig.free = FreeFunc_SOCL;
-    g_021AA4BC.AllocFunc_SOC = config->alloc;
-    g_021AA4BC.FreeFunc_SOC = config->free;
-    g_021AA4BC.soclConfig.cmd_packet_max = 0x40;
-    g_021AA4BC.soclConfig.mtu = config->mtu;
-    g_021AA4BC.soclConfig.rwin = config->rwin;
-    return SOCL_Startup(&g_021AA50C);
+    gSocStatics.soclConfig.use_dhcp = (config->flag == 1);
+    gSocStatics.soclConfig.my_ip = SWAP32(config->addr);
+    gSocStatics.soclConfig.net_mask = SWAP32(config->netmask);
+    gSocStatics.soclConfig.gateway_ip = SWAP32(config->router);
+    gSocStatics.soclConfig.dns_ip0 = SWAP32(config->dns1);
+    gSocStatics.soclConfig.dns_ip1 = SWAP32(config->dns2);
+    gSocStatics.soclConfig.alloc = AllocFunc_SOCL;
+    gSocStatics.soclConfig.free = FreeFunc_SOCL;
+    gSocStatics.AllocFunc_SOC = config->alloc;
+    gSocStatics.FreeFunc_SOC = config->free;
+    gSocStatics.soclConfig.cmd_packet_max = 0x40;
+    gSocStatics.soclConfig.mtu = config->mtu;
+    gSocStatics.soclConfig.rwin = config->rwin;
+    return SOCL_Startup(&gSoclStartupConfig);
 }
 
 
@@ -529,7 +529,7 @@ char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len)
         return 0;
     MI_CpuCopy8(src, &addr32, 4);
     SOC_U32to4U8(addr32, addr);
-    OS_SNPrintf(dst, 16, g_021A1D2C, addr[3], addr[2], addr[1], addr[0]);
+    OS_SNPrintf(dst, 16, gSoclIpv4Format, addr[3], addr[2], addr[1], addr[0]);
     return dst;
 }
 

@@ -15,8 +15,8 @@
  * symbols:
  *   GSMD5Transform                   0x02184ab4 arm
  *   Encode        0x02185798 arm ov009
- *   g_021A3FC0    0x021A3FC0 data
- *   g_021A1A40  0x021A1A40 data
+ *   gMd5cPad    0x021A3FC0 data
+ *   gMd5cHexDigits  0x021A1A40 data
  *   GSMD5Init    0x02184938 arm ov009
  *   GSMD5Final   0x02184A34 arm ov009
  *   GSMD5Print   0x02185854 arm ov009
@@ -91,8 +91,8 @@ void *GSMD5_memcpy(void *dest, const void *src, unsigned int n);
 void *GSMD5_memset(void *p, int c, u32 n);
 void GSMD5Print(unsigned char * digest, char * output);
 void GSMD5Digest(unsigned char * input, unsigned int len, char * output);
-extern unsigned char g_021A3FC0[64];
-extern char g_021A1A40[];
+extern unsigned char gMd5cPad[64];
+extern char gMd5cHexDigits[];
 
 
 
@@ -147,7 +147,7 @@ void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context)
     Encode(bits, context->count, 8);
     index = (unsigned int)((context->count[0] >> 3) & 0x3f);
     padLen = (index < 56) ? (56 - index) : (120 - index);
-    GSMD5Update(context, g_021A3FC0, padLen);
+    GSMD5Update(context, gMd5cPad, padLen);
     GSMD5Update(context, bits, 8);
     Encode(digest, context->state, 16);
     GSMD5_memset((unsigned char *)context, 0, sizeof(*context));
@@ -306,8 +306,8 @@ void GSMD5Print(unsigned char * digest, char * output)
 
     for (i = 0; i < 16; i++)
     {
-        output[i * 2] = g_021A1A40[digest[i] / 16];
-        output[i * 2 + 1] = g_021A1A40[digest[i] % 16];
+        output[i * 2] = gMd5cHexDigits[digest[i] / 16];
+        output[i * 2 + 1] = gMd5cHexDigits[digest[i] % 16];
     }
     output[32] = 0;
 }

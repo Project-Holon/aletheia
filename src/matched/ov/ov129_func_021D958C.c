@@ -1,5 +1,5 @@
 /*
- * function: func_021D958C
+ * function: WF2DMAP_SCENE_HandleButton
  * address: 0x021D958C
  * packet: pkt_ov129_021D958C
  * region: ov129
@@ -14,20 +14,20 @@
  * `Record *r = (Record *)p;` the plain store `r[idx].state = n - 11;` gets `adds r1,r4,r7` before the store (the
  * store can alias the later field loads, so the address is built first). The pos_of() accessor and roff() were not
  * needed: plain `m = n - 12;` is also EXACT. Also EXACT: the sibling ov183 021E19EC form
- * `func_021DA158(r[idx].state = n - 11, r[idx].flag)`. Earlier tries: unsigned n (blo/bhi); early `if (x != 1) return;`;
+ * `WF2DMAP_SCENE_GetCellAnim(r[idx].state = n - 11, r[idx].flag)`. Earlier tries: unsigned n (blo/bhi); early `if (x != 1) return;`;
  * `if (touch == 0)` shape.
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021D9E98 0x021D9E98 thumb ov129
- *   func_021D93D4 0x021D93D4 thumb ov129
- *   func_021D9320 0x021D9320 thumb ov129
- *   func_021D9348 0x021D9348 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorPos 0x021D9E98 thumb ov129
+ *   WF2DMAP_SCENE_ClearSelection 0x021D93D4 thumb ov129
+ *   WF2DMAP_SCENE_CheckGridNumber 0x021D9320 thumb ov129
+ *   WF2DMAP_SCENE_BuildNumberList 0x021D9348 thumb ov129
  *   WF2DMAP_SCENE_ResetState 0x021D8AF4 thumb ov129
- *   func_021D9E48 0x021D9E48 thumb ov129
- *   func_021D9EE8 0x021D9EE8 thumb ov129
- *   func_021D9564 0x021D9564 thumb ov129
- *   func_021DA158 0x021DA158 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorVisible 0x021D9E48 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorPosBySlot 0x021D9EE8 thumb ov129
+ *   WF2DMAP_SCENE_SetButtonCursor 0x021D9564 thumb ov129
+ *   WF2DMAP_SCENE_GetCellAnim 0x021DA158 thumb ov129
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef unsigned int u32;
@@ -38,17 +38,17 @@ typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Re
 typedef unsigned char  u8;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021D9E98(char *p, int i);
-extern void func_021D93D4(char *p);
-extern int func_021D9320(u8 *p);
-extern void func_021D9348(char *p);
+extern void WF2DMAP_SCENE_SetCursorPos(char *p, int i);
+extern void WF2DMAP_SCENE_ClearSelection(char *p);
+extern int WF2DMAP_SCENE_CheckGridNumber(u8 *p);
+extern void WF2DMAP_SCENE_BuildNumberList(char *p);
 extern void WF2DMAP_SCENE_ResetState(char *p, int v);
-extern void func_021D9E48(char *p, int i, int a);
-extern void func_021D9EE8(char *p, int i, int j);
-extern void func_021D9564(u8 *p, int n);
-extern int func_021DA158(int x, int flag);
+extern void WF2DMAP_SCENE_SetCursorVisible(char *p, int i, int a);
+extern void WF2DMAP_SCENE_SetCursorPosBySlot(char *p, int i, int j);
+extern void WF2DMAP_SCENE_SetButtonCursor(u8 *p, int n);
+extern int WF2DMAP_SCENE_GetCellAnim(int x, int flag);
 
-void func_021D958C(u32 n, int touch, char *p)
+void WF2DMAP_SCENE_HandleButton(u32 n, int touch, char *p)
 {
     Record *r = (Record *)p;
     int idx, v, k;
@@ -70,12 +70,12 @@ void func_021D958C(u32 n, int touch, char *p)
                 *(s16 *)(p + 0x1B8) = 0;
                 *(s16 *)(p + 0x1BA) = 2;
                 GFL_USE_PlaySeDefaultVolume(1363);
-                func_021D93D4(p);
+                WF2DMAP_SCENE_ClearSelection(p);
             } else if (n == 23) {
                 *(s16 *)(p + 0x1B8) = 3;
                 *(s16 *)(p + 0x1BA) = 2;
-                if (func_021D9320((u8 *)p)) {
-                    func_021D9348(p);
+                if (WF2DMAP_SCENE_CheckGridNumber((u8 *)p)) {
+                    WF2DMAP_SCENE_BuildNumberList(p);
                     GFL_USE_PlaySeDefaultVolume(1357);
                 } else {
                     WF2DMAP_SCENE_ResetState(p, 4);
@@ -85,13 +85,13 @@ void func_021D958C(u32 n, int touch, char *p)
                 GFL_USE_PlaySeDefaultVolume(1356);
                 idx = *(int *)(p + 0x188);
                 r[idx].state = n - 11;
-                CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
-                func_021D9E48(p, 1, 1);
+                CLACT_SetActorAnimSeq(r[idx].handle, WF2DMAP_SCENE_GetCellAnim(r[idx].state, r[idx].flag));
+                WF2DMAP_SCENE_SetCursorVisible(p, 1, 1);
                 m = n - 12;
-                func_021D9E98(p, m);
-                func_021D9E48(p, 1, 0);
-                func_021D9E48(p, 2, 1);
-                func_021D9EE8(p, m, 2);
+                WF2DMAP_SCENE_SetCursorPos(p, m);
+                WF2DMAP_SCENE_SetCursorVisible(p, 1, 0);
+                WF2DMAP_SCENE_SetCursorVisible(p, 2, 1);
+                WF2DMAP_SCENE_SetCursorPosBySlot(p, m, 2);
                 CLACT_SetActorAnimSeq(*(struct Obj **)(p + 0x1CC), 3);
                 v = r[idx].value;
                 if (idx + 1 == *(int *)(p + 0x23C)) {
@@ -109,7 +109,7 @@ void func_021D958C(u32 n, int touch, char *p)
                         *(int *)(p + 0x320) = idx + 1;
                     }
                 }
-                func_021D9564((u8 *)p, n);
+                WF2DMAP_SCENE_SetButtonCursor((u8 *)p, n);
             } else {
                 *(s16 *)(p + 0x1B8) = (n - 12) % 5;
                 *(s16 *)(p + 0x1BA) = (n - 12) / 5;

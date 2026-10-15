@@ -12,7 +12,7 @@
  *   BTLV_INPUT_SetActionUnitVisible 0x02205B80 thumb ov094
  *   func_020498F4 0x020498F4 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   CLACT_SetUnitDrawEnable 0x0204B22C arm
  *   BTLV_INPUT_StartBgWipeTask 0x022044C0 thumb ov094
@@ -55,7 +55,7 @@ struct Bank;
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void BTLV_INPUT_StartBgWipeTask(Main *, int, int, int, int);
@@ -76,7 +76,7 @@ void BTLV_INPUT_ActionScreenOpenInstantTask(void *task, Ctx *c)
         func_020498F4((void *)c->main->f48, 0x68, 5, 0, 0, 0, c->main->h240);
         BMP_WIN_MakeScreen(c->main->obj230);
         BTLV_INPUT_BlendWindowPalette((char *)c->main);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgScrollOffsetTask(c->main, 5, 0, 0xc0, 1, 1, 2, 0);
         c->state++;
         break;

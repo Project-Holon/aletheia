@@ -1,5 +1,5 @@
 /*
- * function: func_021B8EC4
+ * function: MONOLITH_TOOL_STATS_CreateCursor
  * address:  0x021B8EC4
  * packet:   pkt_ov071_021B8EC4
  * region:   ov071
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B7070(word at 0x4, a + 0x48).
+ * Tail call to MONOLITH_TOOL_CreateBlink(word at 0x4, a + 0x48).
  *
  * symbols:
- *   func_021B7070  0x021B7070  thumb  ov071
+ *   MONOLITH_TOOL_CreateBlink  0x021B7070  thumb  ov071
  */
 #include "../include/Obj06188.h"
 
-void func_021B8EC4(void *p, int a)
+void MONOLITH_TOOL_STATS_CreateCursor(void *p, int a)
 {
-    void func_021B7070(int *p, int *out);
-    func_021B7070(((struct Obj06188 *)p)->f4, (int *)(a + 0x48));
+    void MONOLITH_TOOL_CreateBlink(int *p, int *out);
+    MONOLITH_TOOL_CreateBlink(((struct Obj06188 *)p)->f4, (int *)(a + 0x48));
 }

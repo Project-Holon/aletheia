@@ -18,7 +18,7 @@
  *   closesocket  0x0217EB2C  arm  ov009
  *   current_time  0x0217F264  arm  ov009
  *   func_0217C704  0x0217C704  arm  ov009
- *   g_021ACF7C  0x021ACF7C  data
+ *   gGsAvailableCheck  0x021ACF7C  data
  *   gGsAvailabilityState  0x021ACEF8  data
  */
 
@@ -49,7 +49,7 @@ extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, in
 extern int closesocket(int sock);
 extern unsigned int current_time(void);
 extern void func_0217C704(void);
-extern AvailableCheck g_021ACF7C;
+extern AvailableCheck gGsAvailableCheck;
 extern int gGsAvailabilityState;
 
 int GSIAvailableCheckThink(void)
@@ -60,14 +60,14 @@ int GSIAvailableCheckThink(void)
     int rcode;
     int disabledservices;
 
-    if (g_021ACF7C.sock == -1) {
+    if (gGsAvailableCheck.sock == -1) {
         gGsAvailabilityState = 1;
         return 1;
     }
-    if (func_0217EF50(g_021ACF7C.sock)) {
-        rcode = func_0217EC60(g_021ACF7C.sock, packet, 64, 0, &address, &len);
+    if (func_0217EF50(gGsAvailableCheck.sock)) {
+        rcode = func_0217EC60(gGsAvailableCheck.sock, packet, 64, 0, &address, &len);
         if (HandlePacket(packet, rcode, (struct SOCSockAddrIn *)(&address), &disabledservices) == 0) {
-            closesocket(g_021ACF7C.sock);
+            closesocket(gGsAvailableCheck.sock);
             if (disabledservices & 1) {
                 gGsAvailabilityState = 2;
                 return 2;
@@ -80,14 +80,14 @@ int GSIAvailableCheckThink(void)
             }
         }
     }
-    if (current_time() > g_021ACF7C.sendTime + 2000) {
-        if (g_021ACF7C.retryCount == 1) {
-            closesocket(g_021ACF7C.sock);
+    if (current_time() > gGsAvailableCheck.sendTime + 2000) {
+        if (gGsAvailableCheck.retryCount == 1) {
+            closesocket(gGsAvailableCheck.sock);
             gGsAvailabilityState = 1;
             return 1;
         }
         func_0217C704();
-        g_021ACF7C.retryCount++;
+        gGsAvailableCheck.retryCount++;
     }
     return 0;
 }

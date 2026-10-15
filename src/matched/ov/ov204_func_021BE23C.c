@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BE23C, func_021BE308, func_021BE314
+ * function: INTRO_GRAPHIC_CmdLoadPalette, INTRO_GRAPHIC_CmdSetArg, INTRO_GRAPHIC_CmdWaitFrame
  * address: 0x021BE23C
  * packet: pkt_ov204_021BE23C
  * region: ov204
@@ -32,7 +32,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-int func_021BE23C(char *p,void *unused,int *state)
+int INTRO_GRAPHIC_CmdLoadPalette(char *p,void *unused,int *state)
 {
     u16 heap;
     void *arc,*out,*buf;
@@ -53,12 +53,12 @@ int func_021BE23C(char *p,void *unused,int *state)
     ARC_TOOL_DeleteHandle(arc);
     return 1;
 }
-int func_021BE308(char *p,void *unused,u32 *r)
+int INTRO_GRAPHIC_CmdSetArg(char *p,void *unused,u32 *r)
 {
     ((struct Obj25343 *)(*(char * *)&((struct Obj25341 *)p)->f4))->f14=*r;
     return 1;
 }
-int func_021BE314(void *unused,int *q,int *r)
+int INTRO_GRAPHIC_CmdWaitFrame(void *unused,int *q,int *r)
 {
     if (q[1]>*r) return 1;
     q[1]++;

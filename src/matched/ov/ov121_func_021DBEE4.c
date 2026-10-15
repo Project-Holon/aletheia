@@ -1,5 +1,5 @@
 /*
- * function: func_021DBEE4
+ * function: MYSTERY_ALBUM_ClearEntry
  * address: 0x021DBEE4
  * packet: pkt_ov121_021DBEE4
  * region: ov121
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj020437AC; extern void BMP_Delete(struct Obj020437AC *);
 extern void MI_CpuFill8(void *,int,int);
-void func_021DBEE4(u32 p) { if (((struct Obj13958 *)p)->f0) { BMP_Delete(*(struct Obj020437AC * *)&((struct Obj13958 *)p)->fD0); MI_CpuFill8((void *)p,0,220); } }
+void MYSTERY_ALBUM_ClearEntry(u32 p) { if (((struct Obj13958 *)p)->f0) { BMP_Delete(*(struct Obj020437AC * *)&((struct Obj13958 *)p)->fD0); MI_CpuFill8((void *)p,0,220); } }

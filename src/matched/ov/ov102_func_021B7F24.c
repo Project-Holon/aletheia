@@ -34,7 +34,7 @@
  * IRC_COMPATIBLE_MENU_HandleFinish 0x021B82DC thumb ov102
  * IRC_COMPATIBLE_MENU_HandleCheckLink 0x021B83E0 thumb ov102
  * GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- * func_020409B4 0x020409B4 arm
+ * BG_SYS_PushTile 0x020409B4 arm
  * GAMESYSTEM_GetGameData 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
@@ -79,7 +79,7 @@ extern void IRC_COMPATIBLE_MENU_HandleOpen(u8 *,u16 *);
 extern void IRC_COMPATIBLE_MENU_HandleFinish(u8 *,u16 *);
 extern void IRC_COMPATIBLE_MENU_HandleCheckLink(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MISC_SAVEDATA_GetBlock44(void *);
@@ -93,7 +93,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(u8 *p,u16 *state)
         IRC_COMPATIBLE_MENU_SetHandler((unsigned int)p,(unsigned int)IRC_COMPATIBLE_MENU_HandleOpen);
         IRC_APPBAR_Reset((int)((void *)W(0x468)));
         IRC_APPBAR_SetLabel((void *)W(0x468),0);
-        func_020409B4(0);
+        BG_SYS_PushTile(0);
         IRC_COMPATIBLE_MENU_PrintMessage(p+0xac,p+0x9c,5,0,0);
         IRC_COMPATIBLE_MENU_ResetButtonPalettes(p+0xc0);
         return;

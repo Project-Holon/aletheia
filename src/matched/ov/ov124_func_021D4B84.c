@@ -18,9 +18,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct S020315D4;
+struct Proc;
 extern void CG_HELP_Teardown(char *);
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
-int CG_HELP_ProcExit(struct S020315D4 *task,int b,int keep,char *p) {CG_HELP_Teardown(p);if(keep==0){func_020307B0(**(void ** *)&((struct Obj00991 *)p)->f4);func_020307B0(((struct Obj00991 *)p)->f4);}func_020315D4(task);GFL_HEAP_DeleteChecked(0x8a);return 1;}
+int CG_HELP_ProcExit(struct Proc *task,int b,int keep,char *p) {CG_HELP_Teardown(p);if(keep==0){func_020307B0(**(void ** *)&((struct Obj00991 *)p)->f4);func_020307B0(((struct Obj00991 *)p)->f4);}func_020315D4(task);GFL_HEAP_DeleteChecked(0x8a);return 1;}

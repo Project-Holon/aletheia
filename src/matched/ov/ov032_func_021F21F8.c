@@ -1,5 +1,5 @@
 /*
- * function: func_021F21F8
+ * function: BEACON_VIEW_WindowCTask
  * address: 0x021F21F8
  * packet: pkt_ov032_021F21F8
  * region: ov032
@@ -24,7 +24,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_OAM_UploadChars(struct Obj *o);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
-void func_021F21F8(void *task, char *q)
+void BEACON_VIEW_WindowCTask(void *task, char *q)
 {
     int *r;
     if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj20455 *)(*(char * *)&((struct Obj07638 *)q)->f8))->fB4), (void *)((*(u32 **)(q + 4))[1])) == 0) {

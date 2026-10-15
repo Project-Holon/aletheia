@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021A1E28     0x021A1E28  data ov009
- *   g_021A1DA8     0x021A1DA8  data ov009
+ *   gMd5TTable     0x021A1E28  data ov009
+ *   gMd5Permutation     0x021A1DA8  data ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   CPSi_md5_block 0x02162FF0  arm
@@ -29,7 +29,7 @@
 #define H(x, y, z)  ((x) ^ (y) ^ (z))
 #define I(x, y, z)  ((y) ^ ((x) | ~(z)))
 #define STEP(f, a, b, c, d, k, s) \
-    a += f(b, c, d) + x[g_021A1DA8[k]] + g_021A1E28[k]; \
+    a += f(b, c, d) + x[gMd5Permutation[k]] + gMd5TTable[k]; \
     a = ROTL(a, s) + b
 
 extern void MI_CpuCopy8(void *a, void *b, int n);
@@ -41,8 +41,8 @@ void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m);
 void CPSi_md5_init(CPSMd5Ctx *ctx);
 void CPSi_md5_calc(CPSMd5Ctx *ctx, void *data0, int datalen);
 void CPSi_md5_result(CPSMd5Ctx *ctx, unsigned char *digest);
-extern unsigned long g_021A1E28[64];
-extern unsigned char g_021A1DA8[64];
+extern unsigned long gMd5TTable[64];
+extern unsigned char gMd5Permutation[64];
 extern unsigned char padding[64];
 
 

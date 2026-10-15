@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   sDowsingBgSetup 0x021F0DF0 data ov033 a4
  */
 #include "../include/Obj20474.h"
@@ -19,5 +19,5 @@ extern struct G_ov033_021F0DF0 sDowsingBgSetup[];
 struct Bank;
 extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 typedef unsigned int   u32;
-extern void func_020403F4(u32 i);
-void DOWSING_ExitBgsAndActorUnit(char *p) { unsigned i; CLACT_DeleteUnit((struct Bank *)(((struct Obj20474 *)p)->fC)); for(i=0;i<2;i++) func_020403F4((unsigned char)sDowsingBgSetup[i].f00); }
+extern void BG_SYS_FreeLayerBuf(u32 i);
+void DOWSING_ExitBgsAndActorUnit(char *p) { unsigned i; CLACT_DeleteUnit((struct Bank *)(((struct Obj20474 *)p)->fC)); for(i=0;i<2;i++) BG_SYS_FreeLayerBuf((unsigned char)sDowsingBgSetup[i].f00); }

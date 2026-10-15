@@ -34,7 +34,7 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   KEY_GetTrg  0x020362DC  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021BD944     0x021BD944  data  a4
  *   d_021BD8F4     0x021BD8F4  data  a4
@@ -89,7 +89,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_Delete(void);
 
 extern const u8 d_021BD944[];
@@ -174,8 +174,8 @@ int STARTMENU_LogoScreenMain(int a0, int a1, int *mode, St *st)
         ARC_UTIL_UploadBgCharFromArchive((void *)0xa4, (void *)3, (void *)5, 0, 0x8000, 0, 0x16);
         func_0204989C(0xa4, 4, 5, 0, 0, 0, 0x16);
         func_02049B40(0xa4, 0, 4, 0, 0, 0x16);
-        func_020409B4(1);
-        func_020409B4(5);
+        BG_SYS_PushTile(1);
+        BG_SYS_PushTile(5);
         func_02040588(1, 1);
         func_02040588(5, 1);
         BG_SYS_SetLcdSwap(1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0884
+ * function: BEACON_VIEW_Sub2D
  * address: 0x021F0884
  * packet: pkt_ov032_021F0884
  * region: ov032
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021F0884(int *a, int *b, int *c) { c[0]=a[0]-b[0]; c[1]=a[1]-b[1]; }
+void BEACON_VIEW_Sub2D(int *a, int *b, int *c) { c[0]=a[0]-b[0]; c[1]=a[1]-b[1]; }

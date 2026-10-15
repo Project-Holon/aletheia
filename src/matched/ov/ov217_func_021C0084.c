@@ -14,6 +14,7 @@
  * symbols:
  *   RESEARCH_GRAPH_ExitOverlayBackgrounds  0x021C0084  thumb  ov217
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,15 +26,15 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_020403F4();
+extern u32 BG_SYS_FreeLayerBuf();
 extern void BMP_WIN_Exit(void);
 u32 RESEARCH_GRAPH_ExitOverlayBackgrounds(void)
 {
     BMP_WIN_Exit();
-    func_020403F4(0);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(7);
-    return func_020403F4(6);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(7);
+    return BG_SYS_FreeLayerBuf(6);
 }
 

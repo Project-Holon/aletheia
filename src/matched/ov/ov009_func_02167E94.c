@@ -12,13 +12,13 @@
  * Address of the module state object.
  *
  * symbols:
- *   g_021A1F68  0x021A1F68  data
+ *   gDwcNonportPlatformName  0x021A1F68  data
  */
 
-extern char g_021A1F68[];
+extern char gDwcNonportPlatformName[];
 
 void *DWCi_Np_GetConsoleIdPrefix(void)
 {
-    return g_021A1F68;
+    return gDwcNonportPlatformName;
 }
 

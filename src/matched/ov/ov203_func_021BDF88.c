@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF88
+ * function: DEMO3D_GRAPHIC_SetLightVector
  * address:  0x021BDF88
  * packet:   pkt_021BDF88
  * region:   ov203
@@ -21,7 +21,7 @@ struct LightSlot;
 struct Rgb555;
 extern void G3D_LIGHT_SetSlotColor(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
-void func_021BDF88(char *p, int a, int b)
+void DEMO3D_GRAPHIC_SetLightVector(char *p, int a, int b)
 {
     int buf[2];
     VEC_Fx16Normalize(b, buf);

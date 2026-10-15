@@ -1,5 +1,5 @@
 /*
- * function: func_021E8568
+ * function: WIFIBATTLEMATCH_UTIL_Create
  * address:  0x021E8568
  * packet:   pkt_ov177_021E8568
  * region:   ov177
@@ -60,7 +60,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   TCBL_Create  0x0203101C  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   d_021E8DD4     0x021E8DD4  data
@@ -103,11 +103,11 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
-S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f, unsigned short heap)
+S *WIFIBATTLEMATCH_UTIL_Create(int a, int b, unsigned short c, unsigned short d, int e, int f, unsigned short heap)
 {
     S *w;
     int h;
@@ -127,7 +127,7 @@ S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f,
     h = w->f14;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     w->fc = (int)TCBL_Create(heap, heap, 1, 0x20);
     BMP_MENUWORK_DrawWindow((void *)w->f14, 0, d, (unsigned char)c);
     return w;

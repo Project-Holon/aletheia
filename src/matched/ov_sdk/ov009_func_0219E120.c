@@ -17,7 +17,7 @@
  *   SBServerGetStringValueA  0x0219E0C0  arm  ov009
  *   atoi  0x020964E0  arm
  *   g_021A8158  0x021A8158  data
- *   g_020A61DC  0x020A61DC  data
+ *   gCtypeMap  0x020A61DC  data
  */
 
 struct SBServer;
@@ -29,9 +29,9 @@ extern char *SBServerGetStringValueA(struct _SBServer *server, char *keyname, ch
 typedef unsigned int   u32;
 extern int atoi(u32 a0);
 extern char g_021A8158[];
-extern const unsigned short g_020A61DC[];
+extern const unsigned short gCtypeMap[];
 
-static inline int isdigit(unsigned int c) { return (c >= 0x80) ? 0 : (g_020A61DC[c] & 8); }
+static inline int isdigit(unsigned int c) { return (c >= 0x80) ? 0 : (gCtypeMap[c] & 8); }
 
 int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault)
 {

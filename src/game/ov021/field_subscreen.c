@@ -78,7 +78,7 @@
  *   d_021D8708     0x021D8708  data  a4
  *   INFOWIN_Exit  0x02024DCC  thumb
  *   FIELD_MENU_Delete  0x021A84BC  thumb  ov021
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   FIELD_MENU_Update  0x021A85B4  thumb  ov021
  *   INFOWIN_Update  0x02024ABC  thumb
  *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
@@ -101,8 +101,8 @@
  *   abs_id_20      0x00000020  data
  *   func_022022FC  0x021F22FC  thumb  ov032
  *   BEACON_VIEW_Update 0x021F2344 thumb ov032
- *   func_021F23F8 0x021F23F8 thumb ov032
- *   func_021F2404 0x021F2404 thumb ov032
+ *   BEACON_VIEW_MainPrintQueue 0x021F23F8 thumb ov032
+ *   BEACON_VIEW_CreateLeaveEvent 0x021F2404 thumb ov032
  *   DOWSING_Create  0x021F000C  thumb  ov033
  *   abs_id_21      0x00000021  data
  *   func_02210124  0x021F0124  thumb  ov033
@@ -189,7 +189,7 @@ extern void INFOWIN_Init(u8 bgId, u8 paletteId, void *gameData, u16 heapId);
 extern void FIELD_MENU_LoadFrameBg(int heapId, int slideIn);
 extern int INFOWIN_Exit(void);
 extern void FIELD_MENU_Delete(struct FieldMenu *menu);
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern u32 FIELD_MENU_Update(struct FieldMenu *menu);
 extern void INFOWIN_Update(u32 value);
 extern void FIELD_MENU_ApplyBgScroll(struct FieldMenu *menu);
@@ -237,8 +237,8 @@ void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode);
 extern void *BEACON_VIEW_Create(void *gameSystem, void *work);
 extern void func_022022FC(void *beaconView);
 extern int BEACON_VIEW_Update(void *beaconView);
-extern int func_021F23F8(void *beaconView);
-extern int func_021F2404(void *beaconView);
+extern int BEACON_VIEW_MainPrintQueue(void *beaconView);
+extern int BEACON_VIEW_CreateLeaveEvent(void *beaconView);
 extern void *DOWSING_Create(u32 heapId, u32 owner, void *work, void *fieldSystem);
 extern void func_02210124(void *dowsing);
 extern int DOWSING_Update(void *dowsing);
@@ -638,7 +638,7 @@ void FIELD_SUBSCREEN_ExitMenu(FieldSubscreen *work)
     if (FIELD_MENU_GetLayoutType(gameData, GAME_DATA_GetEventWork(gameData), zoneId) != 1)
         INFOWIN_Exit();
     FIELD_MENU_Delete((struct FieldMenu *)work->cgear);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(4);
 }
 
 /* Mode 1 update. */
@@ -778,10 +778,10 @@ void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work)
 int FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work) { return BEACON_VIEW_Update(work->cgear); }
 
 /* Mode 4 update outside transitions. */
-int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work) { return func_021F23F8(work->cgear); }
+int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work) { return BEACON_VIEW_MainPrintQueue(work->cgear); }
 
 /* Mode 4 request check. */
-int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work) { return func_021F2404(work->cgear); }
+int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work) { return BEACON_VIEW_CreateLeaveEvent(work->cgear); }
 
 /* Mode 6 (dowsing, overlay 0x21) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)

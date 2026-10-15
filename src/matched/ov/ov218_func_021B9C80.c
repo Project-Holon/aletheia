@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C80
+ * function: UN_SELECT_GetMsgData
  * address: 0x021B9C80
  * packet: pkt_ov218_021B9C80
  * region: ov218
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj26041.h"
 typedef unsigned char u8;
-void *func_021B9C80(u8 *p)
+void *UN_SELECT_GetMsgData(u8 *p)
 {
     return ((struct Obj26041 *)p)->fC;
 }

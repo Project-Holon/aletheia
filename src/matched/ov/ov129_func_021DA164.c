@@ -1,5 +1,5 @@
 /*
- * function: func_021DA164
+ * function: WF2DMAP_SCENE_SetCellFlags
  * address:  0x021DA164
  * packet:   pkt_021DA164
  * region:   ov129
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj10501.h"
 
-void func_021DA164(void *p)
+void WF2DMAP_SCENE_SetCellFlags(void *p)
 {
     unsigned char *b = (unsigned char *)p;
     int i;

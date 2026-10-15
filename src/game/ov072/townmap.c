@@ -23,7 +23,7 @@
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_020056A0  0x020056A0  thumb
@@ -171,7 +171,7 @@ struct Ctx;
 struct MsgBank;
 struct Node;
 struct Rec;
-struct S020315D4;
+struct Proc;
 struct Actor;
 struct PtS;
 struct Vec2;
@@ -253,14 +253,14 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void func_02040618(u32 a, u32 b, u32 c);
+extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern u32 func_020056A0(void (*cb)(void *, void *), void *arg, int pri);
 extern void func_02030EAC(struct Node *n);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(s32 handle);
 void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -473,7 +473,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     }
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
-    func_02040618(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
+    BG_SYS_FillScrollArea(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
     TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)ICA_ANIME_GetField1C((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);

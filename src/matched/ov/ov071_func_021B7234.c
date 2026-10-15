@@ -1,5 +1,5 @@
 /*
- * function: func_021B7234
+ * function: MONOLITH_TOOL_DrawSlotCounts
  * address:  0x021B7234
  * packet:   pkt_ov071_021B7234
  * region:   ov071
@@ -34,7 +34,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void BG_SYS_DrawTile(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern u32 func_020307B0(void *p);
 
-void func_021B7234(void *a, int flag, int bg)
+void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg)
 {
     Counts *c;
     u16 *buf;

@@ -21,7 +21,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 
 typedef unsigned char u8;
@@ -69,7 +69,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 
 void OEKAKI_RefreshNamePlates(u32 *win, u16 color, W *p)
 {
@@ -106,6 +106,6 @@ void OEKAKI_RefreshNamePlates(u32 *win, u16 color, W *p)
         w = win[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     }
 }

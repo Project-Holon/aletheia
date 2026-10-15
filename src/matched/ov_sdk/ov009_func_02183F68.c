@@ -14,18 +14,18 @@
  * symbols:
  *   MIi_CpuCopyFast   0x02082B0C arm
  *   MIi_CpuClearFast  0x02082AC0 arm
- *   g_021AD1C8        0x021AD1C8 data
+ *   gScreenScrollBuffer        0x021AD1C8 data
  */
 
 extern void MIi_CpuCopyFast(void * srcp, void * destp, unsigned long size);
 extern void MIi_CpuClearFast(unsigned long data, void * destp, unsigned long size);
-extern unsigned short g_021AD1C8[768];
+extern unsigned short gScreenScrollBuffer[768];
 
 void ScrollTopScreen(void)
 {
     int i;
 
     for (i = 0; i < 23; i++)
-        MIi_CpuCopyFast(&g_021AD1C8[(i + 1) * 32], &g_021AD1C8[i * 32], 64);
-    MIi_CpuClearFast(0, &g_021AD1C8[23 * 32], 64);
+        MIi_CpuCopyFast(&gScreenScrollBuffer[(i + 1) * 32], &gScreenScrollBuffer[i * 32], 64);
+    MIi_CpuClearFast(0, &gScreenScrollBuffer[23 * 32], 64);
 }

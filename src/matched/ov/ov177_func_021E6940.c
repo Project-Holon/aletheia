@@ -1,5 +1,5 @@
 /*
- * function: func_021E6940
+ * function: WIFIBATTLEMATCH_VIEW_SetupDateWindow
  * address: 0x021E6940
  * packet: pkt_ov177_021E6940
  * region: ov177
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021E8CCE 0x021E8CCE data a1
- *   func_021E5ADC 0x021E5ADC thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_DrawTaggedText 0x021E5ADC thumb ov177
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   BMP_WIN_Create  0x020450F0  arm  arm9
@@ -24,6 +24,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_SetSlotMonth  0x0201F230  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -62,7 +63,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct Strbuf;
@@ -73,9 +74,9 @@ extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *, void *, s16, s16, void *, int, int);
 struct PrintSys;
-extern void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
+extern void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021E6940(Work *w, unsigned a1, const Info *info, void *a3, int a4, void *a5, void *a6, void *a7, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned a1, const Info *info, void *a3, int a4, void *a5, void *a6, void *a7, u16 heap)
 {
     unsigned i;
     void *s1, *s2;
@@ -90,7 +91,7 @@ void func_021E6940(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
         win = w->wins[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
         if (w->wins[i] != 0) {
             w->slots[i].win = w->wins[i];
             w->slots[i].shown = 0;
@@ -137,7 +138,7 @@ void func_021E6940(Work *w, unsigned a1, const Info *info, void *a3, int a4, voi
             break;
         case 6:
             if (a1) {
-                func_021E5ADC((u32 *)(&w->slots[j]), a5, a4, info->uA4, info->hA8, heap);
+                WIFIBATTLEMATCH_VIEW_DrawTaggedText((u32 *)(&w->slots[j]), a5, a4, info->uA4, info->hA8, heap);
                 draw = 0;
             } else {
                 MSGDATA_ReadString(a6, 11, s1);

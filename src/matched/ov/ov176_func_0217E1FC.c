@@ -1,5 +1,5 @@
 /*
- * function: func_0217E1FC
+ * function: LIVEBATTLEMATCH_IRC_SendRegulation
  * address: 0x0217E1FC
  * packet: pkt_ov176_0217E1FC
  * region: ov176
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: remaining code is the separate leaf func_0217E23C
+ * extent: remaining code is the separate leaf LIVEBATTLEMATCH_IRC_GetRegulation
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -21,7 +21,7 @@ struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_0217E1FC(int unused, int arg)
+int LIVEBATTLEMATCH_IRC_SendRegulation(int unused, int arg)
 {
     int flag;
     int obj;

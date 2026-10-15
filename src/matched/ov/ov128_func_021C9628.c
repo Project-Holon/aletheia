@@ -18,18 +18,18 @@
  *   Wf2dmapFriend_CreateWindow 0x021C63AC thumb ov128
  *   WF2DMAP_TOUCH_InitTileRecord 0x021C9ED0 thumb ov128
  *   WF2DMAP_TOUCH_SetTileRecordField 0x021C9EF4 thumb ov128
- *   d_021CA564 0x021CA564 data a2
- *   d_021CA538 0x021CA538 data a4
- *   d_021CA7E0 0x021CA7E0 data a4
- *   d_021CA521 0x021CA521 data a1
+ *   gWf2dmapEntryPositions 0x021CA564 data a2
+ *   gWf2dmapTileValues 0x021CA538 data a4
+ *   gWf2dmapTileItemValues 0x021CA7E0 data a4
+ *   gWf2dmapTileItemIds 0x021CA521 data a1
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned char u8;
-extern const s16 d_021CA564[][3];
-extern const u32 d_021CA538[], d_021CA7E0[];
-extern const u8 d_021CA521[];
+extern const s16 gWf2dmapEntryPositions[][3];
+extern const u32 gWf2dmapTileValues[], gWf2dmapTileItemValues[];
+extern const u8 gWf2dmapTileItemIds[];
 extern void WF2DMAP_TOUCH_CreateWidgetHandles(u8 *, u8 *, u16);
 extern void WF2DMAP_TOUCH_CreateTileWidgets(u8 *, void *);
 extern void Wf2dmapFriend_CreateWindow(void *p, u32 *out, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u32 unused, u8 g);
@@ -43,15 +43,15 @@ void WF2DMAP_TOUCH_CreateEditWidgets(u8 *p, void *unused, u8 *q, u16 heap)
     WF2DMAP_TOUCH_CreateWidgetHandles(p + 0xf8, q, heap);
     WF2DMAP_TOUCH_CreateTileWidgets(p, q);
     for (k = 0; k < 2; k++) {
-        row = d_021CA564[k];
+        row = gWf2dmapEntryPositions[k];
         y = absolute(row[1]);
         x = absolute(row[0]);
         Wf2dmapFriend_CreateWindow(q, (u32 *)(p + 0x118 + k * 8), 3, (u8)(x + 2), y + 1, 26, 18, 10, 0, 0);
     }
     for (i = 0; i < 3; i++) {
-        WF2DMAP_TOUCH_InitTileRecord((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)d_021CA564[i], d_021CA538[i], heap);
+        WF2DMAP_TOUCH_InitTileRecord((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)gWf2dmapEntryPositions[i], gWf2dmapTileValues[i], heap);
         for (j = 0; j < 8; j++) {
-            WF2DMAP_TOUCH_SetTileRecordField((u32)(p + 20 + i * 0x4c), (int)q, j, d_021CA521[j], d_021CA7E0[j], heap);
+            WF2DMAP_TOUCH_SetTileRecordField((u32)(p + 20 + i * 0x4c), (int)q, j, gWf2dmapTileItemIds[j], gWf2dmapTileItemValues[j], heap);
             *(void **)(p + 0x20 + j * 4) = p + 0x118;
             *(void **)(p + 0x6c + j * 4) = p + 0x120;
             *(void **)(p + 0xb8 + j * 4) = p + 0x120;

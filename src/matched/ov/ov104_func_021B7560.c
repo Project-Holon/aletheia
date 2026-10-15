@@ -44,10 +44,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-struct Obj0203159C;
+struct Proc;
 struct Ctx;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
+extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
 extern void MI_CpuFill8(void *,int,int);
 extern void IRC_RHYTHM_InitScreen(u8 *,int);
 extern void IRC_RHYTHM_InitTextSystem(unsigned *p, int mode, u16 heap);
@@ -76,7 +76,7 @@ extern void IRC_RHYTHM_ClearBlendTask(void *,u8 *);
 extern void IRC_RHYTHM_SetState(char *p, u32 v);
 extern void IRC_RHYTHM_StateIntro(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
-int IRC_RHYTHM_Init(struct Obj0203159C *obj,void *state,u8 *context) {
+int IRC_RHYTHM_Init(struct Proc *obj,void *state,u8 *context) {
  u8 *p; u32 bank; int tag; int font;
  GFL_HEAP_CreateChildHeap(1,0x38,0x20000);
  p=PROCSYS_AllocProcWork(obj,0x8b4,0x38);

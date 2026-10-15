@@ -1,5 +1,5 @@
 /*
- * function: func_0217DC28
+ * function: DIGITALCARDCHECK_InitRecord
  * address: 0x0217DC28
  * packet: pkt_ov176_0217DC28
  * region: ov176
@@ -34,12 +34,12 @@
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
  *   func_02008554 0x02008554 thumb
  *   REGULATION_Card_GetValue 0x0200B078 thumb
- *   func_021E5D68 0x021E5D68 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateStatusWindow 0x021E5D68 thumb ov177
  *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   func_0200E918 0x0200E918 thumb
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
- *   func_021E6118 0x021E6118 thumb ov177
- *   func_0217DFF0 0x0217DFF0 thumb ov176
+ *   WIFIBATTLEMATCH_VIEW_CreateDateWindow 0x021E6118 thumb ov177
+ *   LIVEBATTLEMATCH_IRC_ToggleSe 0x0217DFF0 thumb ov176
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -69,13 +69,13 @@ extern int MISC_SAVEDATA_GetStatsBase(int p);
 extern u16 BSUBWAY_SAVEDATA_GetStat(Row *, int, int);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int REGULATION_Card_GetValue(struct Reg2 *, u32);
-extern char *func_021E5D68(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
+extern char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 extern int MISC_SAVEDATA_GetRecordBase(int p);
 extern u8 func_0200E918(const u8 *, u32);
 extern u32 REGULATION_GetRuleValue(struct Reg *, u32);
-extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
-extern int func_0217DFF0(int, int);
-void func_0217DC28(int *p)
+extern char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
+extern int LIVEBATTLEMATCH_IRC_ToggleSe(int, int);
+void DIGITALCARDCHECK_InitRecord(int *p)
 {
     void *save, *stats;
     struct Rec160 *base;
@@ -109,7 +109,7 @@ void func_0217DC28(int *p)
             a = REGULATION_Card_GetValue(obj, 9); b = REGULATION_Card_GetValue(obj, 8); d = REGULATION_Card_GetValue(obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.aa = REGULATION_Card_GetValue(obj, 11);
-            p[2] = (int)func_021E5D68((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         } else {
             Rec rec;
             const u8 *table;
@@ -126,8 +126,8 @@ void func_0217DC28(int *p)
             a = REGULATION_Card_GetValue(obj, 9); b = REGULATION_Card_GetValue(obj, 8); d = REGULATION_Card_GetValue(obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.a8 = REGULATION_Card_GetValue(obj, 11);
-            p[2] = (int)func_021E6118((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         }
-        func_0217DFF0((int)p, 0);
+        LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 0);
     }
 }

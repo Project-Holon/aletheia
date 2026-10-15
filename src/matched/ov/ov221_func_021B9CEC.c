@@ -14,7 +14,7 @@
  *   initialiser, inline setter, int y temp, short x/y locals, d[0] array extern, struct pointer local, u16 local struct.
  *   Idiom: a pool word reloaded before every field access (u32 gb = (u32)&d_X, read through a cast) from the wave brief.
  * symbols:
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BA140 0x021BA140 data a2
  */
@@ -24,15 +24,15 @@
 struct Obj;
 extern struct Vec2 d_021BA140;
 typedef unsigned int   u32;
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
 {
     if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
         struct Vec2 v;
         short *t;
-        func_02040618(1,3,0x40);
-        func_02040618(2,3,0x40);
+        BG_SYS_FillScrollArea(1,3,0x40);
+        BG_SYS_FillScrollArea(2,3,0x40);
         t=(short *)&d_021BA140;
         v.x=t[0];
         v.y=t[1]-64;

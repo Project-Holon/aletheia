@@ -30,7 +30,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -242,7 +242,7 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern void func_0207D63C(void *, u32, u32, u32, u32);
 
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 
@@ -522,8 +522,8 @@ void CTVT_TALK_Init(void *a, char *p)
     func_02049658(g, 0xB, 5, 0, 0x5000, 0, h);
     func_020498F4(g, 0xF, 5, 0, 0, 0, h);
     func_0207D63C((void *)0x04001050, 2, 0x14, 5, 0xF);
-    func_020409B4(6);
-    func_020409B4(5);
+    BG_SYS_PushTile(6);
+    BG_SYS_PushTile(5);
     rc.x = 0x80;
     rc.y = 0x60;
     rc.z = *(u8 *)(p + 0xD) + 0x19;
@@ -563,7 +563,7 @@ void CTVT_TALK_Init(void *a, char *p)
     *(u32 *)(p + 0x80) = 0;
     *(u32 *)(p + 0x84) = 0;
     *(u32 *)(p + 0x28) = 0;
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     *(u8 *)(p + 0x38) = 0;
     *(u32 *)(p + 0x34) = 0;
     *(u32 *)(p + 0x8C) = 0;
@@ -588,11 +588,11 @@ void CTVT_TALK_Exit(void *a0, char *a1)
 
     p = ((struct Obj02505 *)a1)->f2C;
     BMP_WIN_ClearScreen(p);
-    func_020409B4(BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
     p = ((struct Obj02505 *)a1)->f7C;
     BMP_WIN_ClearScreen(p);
-    func_020409B4(BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
     BMP_WIN_Delete(((struct Obj02505 *)a1)->f2C);
     BMP_WIN_Delete(((struct Obj02505 *)a1)->f7C);
@@ -602,7 +602,7 @@ void CTVT_TALK_Exit(void *a0, char *a1)
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f94);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f90);
     BG_SYS_ClearSlot(6);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     *(u16 *)0x04001050 = 0;
 }
 
@@ -778,7 +778,7 @@ u32 CTVT_TALK_Main(void *p, S *s)
         if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(s->f7C)) == 0) {
             BMP_WIN_TransferChars(s->f7C);
             BMP_WIN_MakeScreen(s->f7C);
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             s->f28 = 0;
             if (s->f84 == 1) {
                 s->f84 = 0;
@@ -1225,7 +1225,7 @@ void CTVT_TALK_UpdateConfirmMenu(int self, int *q)
         BMP_MENUWORK_DrawWindowBorder((void *)q[0x1F], 1);
         BMP_WIN_ClearScreen((struct Descriptor *)q[0x1F]);
         BMP_WIN_MakeScreen((struct Cfg *)q[0xB]);
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         CLACT_SetActorAnimSeq((struct Obj *)q[0x26], 1);
     }
     APP_TASKMENU_CloseMenu((void *)q[0x20]);

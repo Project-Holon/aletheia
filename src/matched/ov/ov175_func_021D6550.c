@@ -9,12 +9,12 @@
  * status: EXACT*
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021E888C 0x021E888C thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ShowMenu 0x021E888C thumb ov177
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void MI_CpuFill8(void *,int,u32);
-extern u32 func_021E888C(void *,u32);
+extern u32 WIFIBATTLEMATCH_UTIL_ShowMenu(void *,u32);
 void WIFIBATTLEMATCH_NET_SetupSprite(u32 *p,int mode)
 {
     struct { u32 x0,x1,x2,x3,x4,x5,x6,x7; u16 a,b,c,d; int enabled; u16 kind,pad; } desc;
@@ -33,6 +33,6 @@ void WIFIBATTLEMATCH_NET_SetupSprite(u32 *p,int mode)
             break;
         }
         p[11]=mode;
-        p[10]=func_021E888C(&desc,87);
+        p[10]=WIFIBATTLEMATCH_UTIL_ShowMenu(&desc,87);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217CFE8
+ * function: DIGITALCARDCHECK_UpdateMenu
  * address:  0x0217CFE8
  * packet:   pkt_ov176_0217CFE8
  * region:   ov176
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E8738  0x021E8738  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_PrintMessage  0x021E8738  thumb  ov177
  */
 #include "../include/Obj14364.h"
 
-extern void func_021E8738(int *p, int a, int b, int c);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 
-void func_0217CFE8(void *obj, int a, int b)
+void DIGITALCARDCHECK_UpdateMenu(void *obj, int a, int b)
 {
-    func_021E8738((int *)(((struct Obj14364 *)obj)->f1A4), ((struct Obj14364 *)obj)->f20, a, b);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(((struct Obj14364 *)obj)->f1A4), ((struct Obj14364 *)obj)->f20, a, b);
 }
 

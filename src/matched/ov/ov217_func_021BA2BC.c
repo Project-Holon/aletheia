@@ -11,11 +11,12 @@
  *
  * symbols:
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 
 extern void BG_SYS_FillTileMap(int, int, int, int, int, int);
 typedef unsigned int   u32;
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void RESEARCH_TOP_DrawSelectorIdle(int sel)
 {
@@ -31,5 +32,5 @@ void RESEARCH_TOP_DrawSelectorIdle(int sel)
         return;
     }
     BG_SYS_FillTileMap(a, b, c, d, e, f);
-    func_020409B4(a);
+    BG_SYS_PushTile(a);
 }

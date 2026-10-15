@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CFC
+ * function: MANUAL_COMMON_GetEntry
  * address:  0x021B9CFC
  * packet:   pkt_021B9CFC
  * region:   ov225
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9D0C  0x021B9D0C  thumb  ov225
+ *   MANUAL_COMMON_GetEntryOffset  0x021B9D0C  thumb  ov225
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj26142.h"
 
-extern unsigned short func_021B9D0C(char *p, unsigned i);
+extern unsigned short MANUAL_COMMON_GetEntryOffset(char *p, unsigned i);
 
-int func_021B9CFC(char *p, int idx)
+int MANUAL_COMMON_GetEntry(char *p, int idx)
 {
-    return func_021B9D0C(p, idx) + ((struct Obj26142 *)p)->f8;
+    return MANUAL_COMMON_GetEntryOffset(p, idx) + ((struct Obj26142 *)p)->f8;
 }

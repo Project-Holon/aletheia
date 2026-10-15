@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217D964",
+   "name": "DIGITALCARDCHECK_Phase3",
    "address": "0x0217D964",
    "kind": "game",
    "region": "ov176",

@@ -15,7 +15,7 @@
  *   func_02049740 0x02049740 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00162.h"
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p)
 {
     void *r;
@@ -40,5 +40,5 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(unsigned *p)
     p[12]=func_02049740(r,17,1,2048,0,((struct Obj00162 *)p)->f0);
     func_020498F4(r,(int)39,(int)1,(u16)p[12],(int)1536,(int)0,(unsigned)(((struct Obj00162 *)p)->f0));
     ARC_TOOL_DeleteHandle(r);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }

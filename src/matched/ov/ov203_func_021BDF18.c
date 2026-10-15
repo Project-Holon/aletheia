@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF18
+ * function: DEMO3D_GRAPHIC_UpdateLookAt
  * address: 0x021BDF18
  * packet: pkt_ov203_021BDF18
  * region: ov203
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE13C 0x021BE13C thumb ov203
+ *   DEMO3D_GRAPHIC_ApplyLookAt 0x021BE13C thumb ov203
  */
-extern void func_021BE13C(void *);
-void func_021BDF18(char *p){func_021BE13C(p+8);}
+extern void DEMO3D_GRAPHIC_ApplyLookAt(void *);
+void DEMO3D_GRAPHIC_UpdateLookAt(char *p){DEMO3D_GRAPHIC_ApplyLookAt(p+8);}

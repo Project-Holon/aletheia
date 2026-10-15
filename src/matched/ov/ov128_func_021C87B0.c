@@ -14,7 +14,7 @@
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   d_021CA6C8 0x021CA6C8 data a2
+ *   gWf2dmapEntrySlotPos 0x021CA6C8 data a2
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj00179.h"
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct Point {s16 x,y;} Point;
 typedef struct Entry {s16 x,y; s16 rest[3];} Entry;
-extern const Entry d_021CA6C8[];
+extern const Entry gWf2dmapEntrySlotPos[];
 struct Actor;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -48,8 +48,8 @@ void Wf2dmapFriend_ShowEntryActor(u8 *p, u8 *a1)
     CLACT_RestartActorAnim(((struct Obj00179 *)p)->f1A0);
     *(int *)&((struct Obj00179 *)p)->f1A8=0;
     CLACT_SetActorAutoAnim(((struct Obj00179 *)p)->f1A0,1);
-    pos.x=d_021CA6C8[*(s16 *)(p + 4)].x * 8;
-    pos.y=d_021CA6C8[*(s16 *)(p + 4)].y * 8 - 4;
+    pos.x=gWf2dmapEntrySlotPos[*(s16 *)(p + 4)].x * 8;
+    pos.y=gWf2dmapEntrySlotPos[*(s16 *)(p + 4)].y * 8 - 4;
     CLACT_AddActorSurfacePos(((struct Obj00179 *)p)->f1A0,(const struct Vec2 *)(&pos),0);
     *(volatile u16 *)0x0400004A=(u16)((*(volatile u16 *)0x0400004A & ~0x3F00) | 0x700);
     Outside(31,1);

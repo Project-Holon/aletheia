@@ -44,7 +44,7 @@
  *   SHORTCUT_MENU_InitList  0x021C53A0  thumb  ov021
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   func_02040588  0x02040588  arm
  *   gShortcutMenuFileName     0x021DE498  data  ov021  a1
  *   gShortcutMenuBgTemplate     0x021DAA60  data  a4
@@ -96,7 +96,7 @@ extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
 extern void SHORTCUT_MENU_InitList(int *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, int *g, u16 h);
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 char *SHORTCUT_MENU_Create(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
@@ -148,12 +148,12 @@ char *SHORTCUT_MENU_Create(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
     func_0207D63C(0x04000050, 2, 1, 12, 4);
     switch (mode) {
     case 0:
-        func_02040618(1, 3, -0xC0);
+        BG_SYS_FillScrollArea(1, 3, -0xC0);
         func_02040588(1, 0);
         ((struct Obj00960 *)p)->f70 = 0;
         break;
     case 1:
-        func_02040618(1, 3, 0);
+        BG_SYS_FillScrollArea(1, 3, 0);
         func_02040588(1, 1);
         ((struct Obj00960 *)p)->f70 = 3;
         break;

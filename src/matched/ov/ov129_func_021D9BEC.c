@@ -1,5 +1,5 @@
 /*
- * function: func_021D9BEC
+ * function: WF2DMAP_SCENE_CreateCursorActors
  * address: 0x021D9BEC
  * packet: pkt_ov129_021D9BEC
  * region: ov129
@@ -14,9 +14,9 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   func_021D9E60 0x021D9E60 thumb ov129
- *   func_021D9E98 0x021D9E98 thumb ov129
- *   func_021D9E48 0x021D9E48 thumb ov129
+ *   WF2DMAP_SCENE_MoveCursor 0x021D9E60 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorPos 0x021D9E98 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorVisible 0x021D9E48 thumb ov129
  */
 #include "../include/Obj00501.h"
 typedef unsigned short u16;
@@ -30,10 +30,10 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void func_021D9E60(u8 *p, int n);
-extern void func_021D9E98(char *,int);
-extern void func_021D9E48(char *,int,int);
-void func_021D9BEC(char *p)
+extern void WF2DMAP_SCENE_MoveCursor(u8 *p, int n);
+extern void WF2DMAP_SCENE_SetCursorPos(char *,int);
+extern void WF2DMAP_SCENE_SetCursorVisible(char *,int,int);
+void WF2DMAP_SCENE_CreateCursorActors(char *p)
 {
     Params s;
     int h=((struct Obj00501 *)p)->f25C;
@@ -41,21 +41,21 @@ void func_021D9BEC(char *p)
     ((struct Obj00501 *)p)->f194=(int)CLACT_CreateActor((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
     ((struct Obj00501 *)p)->f1B0=(int)CLACT_CreateActor((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
     ((struct Obj00501 *)p)->f1CC=(int)CLACT_CreateActor((void *)h,((struct Obj00501 *)p)->f274,((struct Obj00501 *)p)->f268,((struct Obj00501 *)p)->f28C,&s,0,50);
-    func_021D9E60((u8 *)p,0);
+    WF2DMAP_SCENE_MoveCursor((u8 *)p,0);
     CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00501 *)p)->f194),0);
     CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00501 *)p)->f194,1);
     ((struct Obj00501 *)p)->f1B8=0; ((struct Obj00501 *)p)->f1BA=0;
     ((struct Obj00501 *)p)->f1A4=1;
-    func_021D9E98(p,0);
+    WF2DMAP_SCENE_SetCursorPos(p,0);
     CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00501 *)p)->f1B0),((struct Obj00501 *)p)->f1A4);
     CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00501 *)p)->f1B0,1);
     CLACT_SetActorObjMode((struct Actor *)(((struct Obj00501 *)p)->f1B0),1);
     ((struct Obj00501 *)p)->f1D4=0; ((struct Obj00501 *)p)->f1D6=0;
     ((struct Obj00501 *)p)->f1C0=1;
-    func_021D9E98(p,0);
+    WF2DMAP_SCENE_SetCursorPos(p,0);
     CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00501 *)p)->f1CC),((struct Obj00501 *)p)->f1C0);
     CLACT_SetActorObjMode((struct Actor *)(((struct Obj00501 *)p)->f1CC),1);
     CLACT_SetActorAutoAnim((struct Obj *)((struct Obj00501 *)p)->f1CC,1);
-    func_021D9E48(p,1,0);
-    func_021D9E48(p,2,0);
+    WF2DMAP_SCENE_SetCursorVisible(p,1,0);
+    WF2DMAP_SCENE_SetCursorVisible(p,2,0);
 }

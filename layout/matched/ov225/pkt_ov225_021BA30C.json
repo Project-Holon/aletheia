@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA30C",
+   "name": "MANUAL_COMMON_DrawTouchbarEnd",
    "address": "0x021BA30C",
    "kind": "game",
    "region": "ov225",

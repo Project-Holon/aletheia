@@ -21,7 +21,7 @@
  *   STA_ACT_LIGHT_ElemOpA 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   STA_ACT_AUDIENCE_SetBgScroll 0x021FA57C thumb ov132
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   STA_ACT_AUDIENCE_SetSlotValue 0x021FA558 thumb ov132
  *   STA_ACT_AUDIENCE_SetHighlight 0x021FA56C thumb ov132
  *   func_02005728 0x02005728 thumb
@@ -70,7 +70,7 @@ extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 
 extern void func_02041B6C(u32);
 
-extern void func_02040618(unsigned, unsigned, unsigned);
+extern void BG_SYS_FillScrollArea(unsigned, unsigned, unsigned);
 
 char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b);
 
@@ -348,7 +348,7 @@ void STA_ACT_AUDIENCE_SetHighlight(char *p, u8 v)
 void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x)
 {
     u16 v = ((x << 7) / 256) + 64;
-    func_02040618(4, 0, v);
-    func_02040618(6, 0, v);
-    func_02040618(5, 0, v);
+    BG_SYS_FillScrollArea(4, 0, v);
+    BG_SYS_FillScrollArea(6, 0, v);
+    BG_SYS_FillScrollArea(5, 0, v);
 }

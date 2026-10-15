@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDFA4",
+   "name": "INTRO_GRAPHIC_InitCamera",
    "address": "0x021BDFA4",
    "kind": "game",
    "region": "ov204",

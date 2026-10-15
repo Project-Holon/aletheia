@@ -21,9 +21,9 @@
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021B9D18 0x021B9D18 thumb ov225
+ *   MANUAL_COMMON_CreateData 0x021B9D18 thumb ov225
  *   MANUAL_GRAPHIC_TaskNoop 0x021B98FC thumb ov225
- *   func_021BB2B4 0x021BB2B4 thumb ov225
+ *   MANUAL_COMMON_CreateDialog 0x021BB2B4 thumb ov225
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,16 +37,16 @@ struct Work {
     u8 rest[40];
 };
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void *func_021B9D18(void *,u16);
+extern void *MANUAL_COMMON_CreateData(void *,u16);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void MANUAL_GRAPHIC_TaskNoop(void *,char *);
 extern void *func_020056A0(void (*)(void *,char *),void *,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern char *func_021BB2B4(char *,char *);
+extern char *MANUAL_COMMON_CreateDialog(char *,char *);
 int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
 {
     struct Work *p;
@@ -56,7 +56,7 @@ int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
     p->heap = 0x90;
     p->args = args;
     args->flag = 1;
-    p->data = func_021B9D18(p->args->data,p->heap);
+    p->data = MANUAL_COMMON_CreateData(p->args->data,p->heap);
     BG_SYS_SetVisibleLayer(4,3);
     BG_SYS_SetVisibleLayer(5,2);
     BG_SYS_SetVisibleLayer(6,1);
@@ -76,6 +76,6 @@ int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
     p->record4c = 0xffff;
     p->record4e = 0;
     p->state = 0;
-    p->record1c = func_021BB2B4((char *)p->record14,p->data);
+    p->record1c = MANUAL_COMMON_CreateDialog((char *)p->record14,p->data);
     return 1;
 }

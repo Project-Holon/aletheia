@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0DF4  0x021F0DF4  thumb  ov032
+ *   BEACON_VIEW_SetActorAnim  0x021F0DF4  thumb  ov032
  */
 #include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021F0DF4(void *p, unsigned short v);
+extern void BEACON_VIEW_SetActorAnim(void *p, unsigned short v);
 
 void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b)
 {
@@ -28,11 +28,11 @@ void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b)
     else
         m = 1 << a;
     if ((1 & m) && ((struct Obj00007 *)p)->f28 != 0x30)
-        func_021F0DF4((void *)(*(u32 *)&((struct Obj00007 *)p)->f2BC), (u8)(b + 1));
+        BEACON_VIEW_SetActorAnim((void *)(*(u32 *)&((struct Obj00007 *)p)->f2BC), (u8)(b + 1));
     if (2 & m)
-        func_021F0DF4((void *)(((struct Obj00007 *)p)->f2C0), (u8)(b + 4));
+        BEACON_VIEW_SetActorAnim((void *)(((struct Obj00007 *)p)->f2C0), (u8)(b + 4));
     if ((4 & m) && p[0x7b] != 0)
-        func_021F0DF4((void *)(*(u32 *)&((struct Obj00007 *)p)->f2C4), (u8)(b + 7));
+        BEACON_VIEW_SetActorAnim((void *)(*(u32 *)&((struct Obj00007 *)p)->f2C4), (u8)(b + 7));
     if (8 & m)
-        func_021F0DF4((void *)(((struct Obj00007 *)p)->f2C8), (u8)(b + 10));
+        BEACON_VIEW_SetActorAnim((void *)(((struct Obj00007 *)p)->f2C8), (u8)(b + 10));
 }

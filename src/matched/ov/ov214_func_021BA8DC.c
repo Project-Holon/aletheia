@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8DC
+ * function: BTL_REC_SEL_InitCells
  * address: 0x021BA8DC
  * packet: pkt_ov214_021BA8DC
  * region: ov214
@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   BTL_REC_SEL_GRAPHIC_GetCamera 0x021BB2A8 thumb ov214
- *   func_021BAB0C 0x021BAB0C thumb ov214
+ *   BTL_REC_SEL_CreateActor 0x021BAB0C thumb ov214
  * layout: two rows of six 0x28-byte cells, observed nested-loop bounds.
  * prototypes: BAB0C owning matched source; B2A8 own same-region getter.
  * extent: 466-byte function followed by two zero alignment bytes at 021BAAAE.
@@ -22,8 +22,8 @@ typedef unsigned int u32;
 struct Cell { u32 a,b,c,d,out0,out1,out2,out3,actor; u8 x,y,flag,order; };
 struct S { u16 heap,pad2; u8 *owner; u8 pad8[0xBC]; struct Cell cells[2][6]; u32 spare,mode; };
 extern u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *);
-extern int func_021BAB0C(int,u16,int,u8,u32,u32,u32,u32,void *,u8,u8,u8,u8,u8);
-void func_021BA8DC(void *unused,struct S *p)
+extern int BTL_REC_SEL_CreateActor(int,u16,int,u8,u32,u32,u32,u32,void *,u8,u8,u8,u8,u8);
+void BTL_REC_SEL_InitCells(void *unused,struct S *p)
 {
     int handle=BTL_REC_SEL_GRAPHIC_GetCamera(p->owner);
     u8 i,j;
@@ -47,7 +47,7 @@ void func_021BA8DC(void *unused,struct S *p)
     }
     for(i=0;i<2;i++) for(j=0;j<6;j++) {
         if(p->cells[i][j].a) {
-            p->cells[i][j].actor=func_021BAB0C(handle,p->heap,0,0,
+            p->cells[i][j].actor=BTL_REC_SEL_CreateActor(handle,p->heap,0,0,
                 p->cells[i][j].a,p->cells[i][j].b,p->cells[i][j].c,p->cells[i][j].d,
                 &p->cells[i][j].out0,p->cells[i][j].x,p->cells[i][j].y,
                 p->cells[i][j].flag,1,p->cells[i][j].order);

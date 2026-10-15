@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4E8
+ * function: BTL_REC_SEL_ShowWindows
  * address: 0x021BA4E8
  * packet: pkt_ov214_021BA4E8
  * region: ov214
@@ -30,7 +30,7 @@ struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(u32);
-void func_021BA4E8(void *unused,struct S *p)
+void BTL_REC_SEL_ShowWindows(void *unused,struct S *p)
 {
     u8 i;
     struct Descriptor *d;

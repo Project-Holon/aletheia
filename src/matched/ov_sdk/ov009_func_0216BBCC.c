@@ -12,13 +12,13 @@
  * Address of the i-th word of the table.
  *
  * symbols:
- *   g_021AA8A0  0x021AA8A0  data
+ *   gDwcConnectionArray  0x021AA8A0  data
  */
 
-extern int g_021AA8A0[];
+extern int gDwcConnectionArray[];
 
 int *DWCi_GetGT2ConnectionByIdx(int i)
 {
-    return &g_021AA8A0[i];
+    return &gDwcConnectionArray[i];
 }
 

@@ -15,7 +15,7 @@
  * screen border (x == 0, x + w == 32, y == 0, y + h == 24) are skipped.
  *
  * symbols:
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetDispWidth  0x02045748  arm
@@ -45,7 +45,7 @@ extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void TALKMSGWIN_DrawSimpleFrame(struct FrameStyle *style, void *win, int deco)
 {
@@ -149,5 +149,5 @@ void TALKMSGWIN_DrawSimpleFrame(struct FrameStyle *style, void *win, int deco)
         }
         break;
     }
-    func_020409B4(bg);
+    BG_SYS_PushTile(bg);
 }

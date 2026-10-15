@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3C4
+ * function: BTL_REC_SEL_CreateWindows
  * address: 0x021BA3C4
  * packet: pkt_ov214_021BA3C4
  * region: ov214
@@ -23,7 +23,7 @@ struct CharBuf;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-void func_021BA3C4(int unused,char*p)
+void BTL_REC_SEL_CreateWindows(int unused,char*p)
 {
     Table t=d_021BB480;
     u8 i;

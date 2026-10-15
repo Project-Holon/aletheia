@@ -23,7 +23,7 @@
  *   FIELD_PLACE_NAME_DeleteBmpWin  0x021BD07C  thumb  ov021
  *   FIELD_PLACE_NAME_FreeBgChars  0x021BC704  thumb  ov021
  *   FIELD_PLACE_NAME_DeleteArcHandle  0x021BC824  thumb  ov021
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   FIELD_PLACE_NAME_FreeWork  0x021BCFD8  thumb  ov021
  */
 
@@ -42,7 +42,7 @@ extern void FIELD_PLACE_NAME_DeleteMsgData(u8 *p);
 extern void FIELD_PLACE_NAME_DeleteBmpWin(int a);
 extern void FIELD_PLACE_NAME_FreeBgChars(int a);
 extern void FIELD_PLACE_NAME_DeleteArcHandle(u8 *p);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void FIELD_PLACE_NAME_FreeWork(int a);
 
 void FIELD_PLACE_NAME_Delete(u32 a)
@@ -60,6 +60,6 @@ void FIELD_PLACE_NAME_Delete(u32 a)
     FIELD_PLACE_NAME_DeleteBmpWin(a);
     FIELD_PLACE_NAME_FreeBgChars(a);
     FIELD_PLACE_NAME_DeleteArcHandle((u8 *)a);
-    func_020403F4(3);
+    BG_SYS_FreeLayerBuf(3);
     FIELD_PLACE_NAME_FreeWork(a);
 }

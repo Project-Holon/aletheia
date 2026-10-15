@@ -1,5 +1,5 @@
 /*
- * function: func_0217E4FC
+ * function: LIVEBATTLEMATCH_IRC_RecvHandler4
  * address:  0x0217E4FC
  * packet:   pkt_ov176_0217E4FC
  * region:   ov176
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_0217E64C[];
 
-int func_0217E4FC(int a, int b)
+int LIVEBATTLEMATCH_IRC_RecvHandler4(int a, int b)
 {
     if (a == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
         func_02034714(d_0217E64C, 0, d_0217E64C);

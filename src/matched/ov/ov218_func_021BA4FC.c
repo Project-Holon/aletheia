@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4FC
+ * function: UN_SELECT_SetActorVisible
  * address: 0x021BA4FC
  * packet: pkt_ov218_021BA4FC
  * region: ov218
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BA4FC(char *ctx)
+void UN_SELECT_SetActorVisible(char *ctx)
 {
     int i;
     void *item;

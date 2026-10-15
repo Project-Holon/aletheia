@@ -12,7 +12,7 @@
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   TCBL_Main 0x020310C4 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb  arm9
@@ -32,7 +32,7 @@ struct Tcbl;
 extern u32 WIH_DWC_PollStatus(void *key);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_DrawSystem(void);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -52,7 +52,7 @@ int GSYNC_MENU_ProcMain(int a,int b,int c,char *p)
     }
     TCBL_Main(((struct Obj01733 *)p)->f230);
     PRINTSYS_QUE_Main(((struct Obj01733 *)p)->f234);
-    func_02040618(4,3,((struct Obj01733 *)p)->f268);
+    BG_SYS_FillScrollArea(4,3,((struct Obj01733 *)p)->f268);
     --((struct Obj01733 *)p)->f268;
     CLACT_DrawSystem();
     if (!((struct Obj01733 *)p)->f28C) GAMESYSTEM_TryStartAutoComm(((struct Obj01733 *)p)->f264);

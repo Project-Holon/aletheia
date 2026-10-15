@@ -1,5 +1,5 @@
 /*
- * function: func_021BE884
+ * function: INTRO_CMD_CmdUpdateIntro
  * address: 0x021BE884
  * packet: pkt_ov204_021BE884
  * region: ov204
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int INTRO_G3D_UpdateIntro(char*);
-int func_021BE884(u8*p){if(INTRO_G3D_UpdateIntro(*(char* *)&((struct Obj25374 *)p)->fC))return 1;return 0;}
+int INTRO_CMD_CmdUpdateIntro(u8*p){if(INTRO_G3D_UpdateIntro(*(char* *)&((struct Obj25374 *)p)->fC))return 1;return 0;}

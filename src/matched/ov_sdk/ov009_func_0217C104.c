@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
- *   g_021ACEF4     0x021ACEF4  data
+ *   gDwcSvlWorkarea     0x021ACEF4  data
  */
 
 #include "../include/G_Svl.h"
@@ -22,15 +22,15 @@ typedef struct {
     int unk0;
     void (*free)(unsigned long, void *, long);
 } Svl;
-extern struct Svl *g_021ACEF4;
+extern struct Svl *gDwcSvlWorkarea;
 extern void DWC_Http_Destroy(char *http);
 
 void DWC_Svl_Cleanup(void)
 {
-    if (g_021ACEF4 == 0) {
+    if (gDwcSvlWorkarea == 0) {
         return;
     }
-    DWC_Http_Destroy((char *)g_021ACEF4 + 8);
-    g_021ACEF4->free(0, g_021ACEF4, 0);
-    g_021ACEF4 = 0;
+    DWC_Http_Destroy((char *)gDwcSvlWorkarea + 8);
+    gDwcSvlWorkarea->free(0, gDwcSvlWorkarea, 0);
+    gDwcSvlWorkarea = 0;
 }

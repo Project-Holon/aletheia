@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_Check1FF4
+ * function: BG_SYS_CheckPixelColor
  * address:  0x02041FF4
  * packet:   pkt_02041FF4
  * region:   arm9
@@ -67,7 +67,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_AllocTileBuf(u16 flags, u8 *buf, u32 page);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
-u32 BG_SYS_Check1FF4(u32 layer, u16 x, u16 y, u16 *flags)
+u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
 {
   u8 px;
   u8 py;

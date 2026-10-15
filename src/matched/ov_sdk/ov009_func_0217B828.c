@@ -31,17 +31,17 @@
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   func_0217C050  0x0217C050  arm  ov009
  *   func_0217C060  0x0217C060  arm  ov009
- *   g_021ACEF0     0x021ACEF0  data ov009
- *   g_021A2358     0x021A2358  data ov009
- *   g_021A27D8     0x021A27D8  data ov009
- *   g_021A27E0     0x021A27E0  data ov009
- *   g_021ACE70     0x021ACE70  data ov009
- *   g_021A27E4     0x021A27E4  data ov009
- *   g_021A27EC     0x021A27EC  data ov009
- *   g_021A27F4     0x021A27F4  data ov009
- *   g_021A2800     0x021A2800  data ov009
- *   g_021A2808     0x021A2808  data ov009
- *   g_021A2810     0x021A2810  data ov009
+ *   gDwcProfWorkarea     0x021ACEF0  data ov009
+ *   gDwcHttpParamArg     0x021A2358  data ov009
+ *   gDwcProfPathAc     0x021A27D8  data ov009
+ *   gDwcProfPathPr     0x021A27E0  data ov009
+ *   gDwcAuthAllowEssId     0x021ACE70  data ov009
+ *   gDwcProfPostLabelWregion     0x021A27E4  data ov009
+ *   gDwcProfPostLabelWenc     0x021A27EC  data ov009
+ *   gDwcProfPostValueUtf16le     0x021A27F4  data ov009
+ *   gDwcProfPostLabelWtype     0x021A2800  data ov009
+ *   gDwcProfBodyWtype     0x021A2808  data ov009
+ *   gDwcProfPostLabelWords     0x021A2810  data ov009
  *   gMslRefToken     0x02150FEC  data
  *
  * The object is stamped 4.0.0.1025; built with dsi/1.1p1.
@@ -134,17 +134,17 @@ extern void DWC_Http_Destroy(char *http);
 extern void *func_0217C050(unsigned long name, long size);
 extern void func_0217C060(unsigned long name, void *ptr, long size);
 
-extern DWCProfWorkarea *g_021ACEF0;
-extern DWCAuthHttpParam g_021A2358;
-extern char g_021A27D8[];
-extern char g_021A27E0[];
-extern int g_021ACE70;
-extern char g_021A27E4[];
-extern char g_021A27EC[];
-extern char g_021A27F4[];
-extern char g_021A2800[];
-extern char g_021A2808[];
-extern char g_021A2810[];
+extern DWCProfWorkarea *gDwcProfWorkarea;
+extern DWCAuthHttpParam gDwcHttpParamArg;
+extern char gDwcProfPathAc[];
+extern char gDwcProfPathPr[];
+extern int gDwcAuthAllowEssId;
+extern char gDwcProfPostLabelWregion[];
+extern char gDwcProfPostLabelWenc[];
+extern char gDwcProfPostValueUtf16le[];
+extern char gDwcProfPostLabelWtype[];
+extern char gDwcProfBodyWtype[];
+extern char gDwcProfPostLabelWords[];
 extern OSThreadInfo gMslRefToken;
 
 int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout,
@@ -167,28 +167,28 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     if (totalnum_wchar - 1 <= 0 || totalnum_wchar - 1 > 500)
         return 0;
 
-    if (g_021ACEF0 != 0)
+    if (gDwcProfWorkarea != 0)
         return 0;
 
     MI_CpuFill8(result, 0, wordsnum);
-    g_021ACEF0 = func_0205A16C(0, sizeof(DWCProfWorkarea));
-    if (g_021ACEF0 == 0)
+    gDwcProfWorkarea = func_0205A16C(0, sizeof(DWCProfWorkarea));
+    if (gDwcProfWorkarea == 0)
         goto error;
-    MI_CpuFill8(g_021ACEF0, 0, sizeof(DWCProfWorkarea));
-    g_021ACEF0->http_initialized = 0;
+    MI_CpuFill8(gDwcProfWorkarea, 0, sizeof(DWCProfWorkarea));
+    gDwcProfWorkarea->http_initialized = 0;
     MI_CpuFill8(&calinfo, 0, sizeof(DWCCalInfo));
 
-    g_021ACEF0->result = result;
-    g_021ACEF0->badwordsnum = badwordsnum;
-    g_021ACEF0->wordsnum = wordsnum;
-    strncpy((u8 *)g_021ACEF0->url, (const u8 *)g_021A2358.url, 256);
-    g_021ACEF0->url[256] = '\0';
-    pos = strstr(g_021ACEF0->url, g_021A27D8);
+    gDwcProfWorkarea->result = result;
+    gDwcProfWorkarea->badwordsnum = badwordsnum;
+    gDwcProfWorkarea->wordsnum = wordsnum;
+    strncpy((u8 *)gDwcProfWorkarea->url, (const u8 *)gDwcHttpParamArg.url, 256);
+    gDwcProfWorkarea->url[256] = '\0';
+    pos = strstr(gDwcProfWorkarea->url, gDwcProfPathAc);
     if (pos == 0)
         goto error;
-    MI_CpuCopy8(g_021A27E0, pos, 4);
+    MI_CpuCopy8(gDwcProfPathPr, pos, 4);
 
-    httpparam.url = g_021ACEF0->url;
+    httpparam.url = gDwcProfWorkarea->url;
     httpparam.action = 0;
     httpparam.len_recvbuf = 0x400;
     httpparam.alloc = func_0217C050;
@@ -199,23 +199,23 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     else
         httpparam.timeout = timeout;
 
-    if (DWC_Http_Create(&g_021ACEF0->http, &httpparam) != 0)
+    if (DWC_Http_Create(&gDwcProfWorkarea->http, &httpparam) != 0)
         goto error;
-    g_021ACEF0->http_initialized = 1;
+    gDwcProfWorkarea->http_initialized = 1;
 
     if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo))
         goto error;
-    if (!DWC_Auth_SetCalInfoToHttp(&g_021ACEF0->http, &calinfo, g_021ACE70))
+    if (!DWC_Auth_SetCalInfoToHttp(&gDwcProfWorkarea->http, &calinfo, gDwcAuthAllowEssId))
         goto error;
-    if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A27E4, region, 1) != 0)
+    if (DWC_Http_Add_PostBase64Item(&gDwcProfWorkarea->http, gDwcProfPostLabelWregion, region, 1) != 0)
         goto error;
-    if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A27EC, g_021A27F4, 8) != 0)
+    if (DWC_Http_Add_PostBase64Item(&gDwcProfWorkarea->http, gDwcProfPostLabelWenc, gDwcProfPostValueUtf16le, 8) != 0)
         goto error;
     if (reserved != 0) {
-        if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A2800, reserved, 4) != 0)
+        if (DWC_Http_Add_PostBase64Item(&gDwcProfWorkarea->http, gDwcProfPostLabelWtype, reserved, 4) != 0)
             goto error;
     }
-    if (DWC_Http_Add_Body((char *)(&g_021ACEF0->http), g_021A2808) != 0)
+    if (DWC_Http_Add_Body((char *)(&gDwcProfWorkarea->http), gDwcProfBodyWtype) != 0)
         goto error;
 
     sendstring = func_0205A16C(0, totalnum_wchar * sizeof(unsigned short));
@@ -230,26 +230,26 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
         sendstring[wchar_index++] = L'\t';
     }
 
-    if (DWC_Http_Add_PostBase64Item(&g_021ACEF0->http, g_021A2810, (char *)sendstring,
+    if (DWC_Http_Add_PostBase64Item(&gDwcProfWorkarea->http, gDwcProfPostLabelWords, (char *)sendstring,
                       (totalnum_wchar - 1) * sizeof(unsigned short)) != 0)
         goto error;
     func_0205A1B0(0, sendstring, 0);
     sendstring = 0;
 
-    if (DWC_Http_FinishHeader((char *)(&g_021ACEF0->http)) != 0)
+    if (DWC_Http_FinishHeader((char *)(&gDwcProfWorkarea->http)) != 0)
         goto error;
-    DWC_Http_StartThread((char *)(&g_021ACEF0->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
-    if (g_021ACEF0->http.thread.id != 0)
+    DWC_Http_StartThread((char *)(&gDwcProfWorkarea->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
+    if (gDwcProfWorkarea->http.thread.id != 0)
         return 1;
 
 error:
     if (sendstring != 0)
         func_0205A1B0(0, sendstring, 0);
-    if (g_021ACEF0 != 0) {
-        if (g_021ACEF0->http_initialized == 1)
-            DWC_Http_Destroy((char *)(&g_021ACEF0->http));
-        func_0205A1B0(0, g_021ACEF0, 0);
-        g_021ACEF0 = 0;
+    if (gDwcProfWorkarea != 0) {
+        if (gDwcProfWorkarea->http_initialized == 1)
+            DWC_Http_Destroy((char *)(&gDwcProfWorkarea->http));
+        func_0205A1B0(0, gDwcProfWorkarea, 0);
+        gDwcProfWorkarea = 0;
     }
     return 0;
 }

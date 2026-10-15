@@ -148,7 +148,8 @@ def placed_functions(path, region):
         raw = open(path, encoding='latin1').read()
         h, st = gv.settings_of(raw)
         addr = int(h.get('address', '0'), 16)
-        if addr and gv.runtime_kind(path, (h.get('region') or region).strip()) is None:
+        if addr and gv.runtime_kind(path, (h.get('region') or region).strip()) is None \
+                and gv.piece_kind(path, (h.get('region') or region).strip()) is None:
             flags = st['flags'].split() if st['flags'] else ['-O4,p']
             obj, _c, _l, _r = match.compile_tu(path, st['compiler'], flags, st['isa'] == 'thumb',
                                                st['lang'] or None, work)

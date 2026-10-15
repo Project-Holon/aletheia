@@ -10,11 +10,11 @@
  * status: EXACT
  * leaf: sole blocker of owned 0217B0C8 MATCH; no prior source/unit/shard, parent claim accepted.
  * symbols:
- *   func_021E8A80 0x021E8A80 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_InvokeCallback 0x021E8A80 thumb ov177
  */
 typedef struct {void (*fn)(void *,int *,int);int a;int b;} CB;
-extern void func_021E8A80(CB *);
+extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(CB *);
 void BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback(CB **p)
 {
-    func_021E8A80(*p);
+    WIFIBATTLEMATCH_UTIL_InvokeCallback(*p);
 }

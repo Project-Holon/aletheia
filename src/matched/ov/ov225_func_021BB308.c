@@ -1,5 +1,5 @@
 /*
- * function: func_021BB308
+ * function: MANUAL_COMMON_DeleteDialog
  * address:  0x021BB308
  * packet:   pkt_021BB308
  * region:   ov225
@@ -22,7 +22,7 @@ extern void func_02030EAC(struct Node *n);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BB308(char *p)
+void MANUAL_COMMON_DeleteDialog(char *p)
 {
     func_02030EAC((struct Node *)(((struct Obj26230 *)p)->f14));
     func_020307B0(p);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDAA0",
+   "name": "BEACON_DETAIL_GRA_AddPrintWaitTask",
    "address": "0x021BDAA0",
    "kind": "game",
    "region": "ov216",

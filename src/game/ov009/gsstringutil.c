@@ -18,7 +18,7 @@
  *   strlen                  0x0209477C  arm
  *   gsimalloc                  0x0217EAB0  arm ov009
  *   func_02092344  0x02092344  arm
- *   g_021AD188  0x021AD188  data
+ *   gGsUdpEngineContext  0x021AD188  data
  */
 typedef unsigned char  u8;
 
@@ -35,7 +35,7 @@ unsigned short *UTF8ToUCS2StringAllocLen(char *theUTF8String, int theUTF8StringL
 int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max);
 int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
 void *gsUdpEngineContext(void);
-extern char g_021AD188[];
+extern char gGsUdpEngineContext[];
 
 
 /*
@@ -217,5 +217,5 @@ int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
 
 void *gsUdpEngineContext(void)
 {
-    return g_021AD188;
+    return gGsUdpEngineContext;
 }

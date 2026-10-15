@@ -41,7 +41,7 @@
  *   func_02040588 0x02040588 arm
  *   d_02200900 0x02200900 data a4
  *   d_0220099C 0x0220099C data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -124,7 +124,7 @@ extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -245,7 +245,7 @@ void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId)
     }
 }
 
-void BR_GRAPHIC_ExitBgWindows(void *bgState){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgState,0,4);}
+void BR_GRAPHIC_ExitBgWindows(void *bgState){u32 i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf((u8)d_0220099C[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgState,0,4);}
 
 void BR_GRAPHIC_DrawBg(void *bgState){}
 
@@ -274,7 +274,7 @@ void BR_GRAPHIC_VBlankActors(void *actorSys){CLACT_VBlankSystem();}
 
 u32 BR_GRAPHIC_GetUnitFromActorSys(u32 *actorSys){return *actorSys;}
 
-void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}GX_SetGraphicsMode(1,0,1);}
+void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)BG_SYS_FreeLayerBuf((u8)id);}GX_SetGraphicsMode(1,0,1);}
 
 /*
  * volatile: hardware BLDCNT 04000050 and DISPCNT 04000000, read-modify-write at 021FC64A..021FC650.

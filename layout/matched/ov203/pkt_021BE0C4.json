@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE0C4",
+   "name": "DEMO3D_GRAPHIC_DeleteClact",
    "address": "0x021BE0C4",
    "kind": "game",
    "region": "ov203",

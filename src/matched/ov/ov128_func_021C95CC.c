@@ -12,7 +12,7 @@
  *   WF2DMAP_TOUCH_SetValue 0x021C9BEC thumb ov128
  *   Wf2dmapFriend_SetActorAutoAnim 0x021C6DF8 thumb ov128
  *   WF2DMAP_TOUCH_DrawSlider 0x021C9BF8 thumb ov128
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  */
 #include "../include/Obj02842.h"
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ extern void WF2DMAP_TOUCH_SetValue(u16 *p, void *b, void *c, int flag, int value
 typedef unsigned int   u32;
 extern void Wf2dmapFriend_SetActorAutoAnim(u8 *p, u32 a);
 extern void WF2DMAP_TOUCH_DrawSlider(u8 *p, u8 *q, int idx);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 int WF2DMAP_TOUCH_StepSlideIn(u8 *p,void *a,void *b,int c)
 {
     int value=((struct Obj02842 *)p)->f4;
@@ -35,7 +35,7 @@ int WF2DMAP_TOUCH_StepSlideIn(u8 *p,void *a,void *b,int c)
     }
     offset=(value*256)/8;
     if(((struct Obj02842 *)p)->f8==2) offset=-offset;
-    func_02040618(3,0,offset);
+    BG_SYS_FillScrollArea(3,0,offset);
     ((struct Obj02842 *)p)->f4=((struct Obj02842 *)p)->f4+1;
     return 0;
 }

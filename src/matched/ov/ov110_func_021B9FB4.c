@@ -13,7 +13,7 @@
  *   PMSIV_EDIT_Delete 0x021BBCF0 thumb ov110
  *   PMSIV_CATEGORY_Delete 0x021BB2CC thumb ov110
  *   PMSIV_WORDWIN_Delete 0x021BF8BC thumb ov110
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   PMS_INPUT_VIEW_EndTask 0x021B9CBC thumb ov110
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -41,7 +41,7 @@ extern void PMSIV_WORDWIN_Delete(u8 *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void PMS_INPUT_VIEW_EndTask(u8 *);
 void PMS_INPUT_VIEW_TaskExit(int unused, u8 *p) {
     u8 *q = *(u8 * *)&((struct Obj04441 *)p)->f0;
@@ -60,13 +60,13 @@ void PMS_INPUT_VIEW_TaskExit(int unused, u8 *p) {
             PRINTSYS_QUE_Clear(((struct Obj07997 *)q)->f7C);
             PRINTSYS_QUE_Delete(((struct Obj07997 *)q)->f7C);
             ((struct Obj07997 *)q)->f7C = 0;
-            func_020403F4(0);
-            func_020403F4(1);
-            func_020403F4(2);
-            func_020403F4(3);
-            func_020403F4(4);
-            func_020403F4(5);
-            func_020403F4(6);
+            BG_SYS_FreeLayerBuf(0);
+            BG_SYS_FreeLayerBuf(1);
+            BG_SYS_FreeLayerBuf(2);
+            BG_SYS_FreeLayerBuf(3);
+            BG_SYS_FreeLayerBuf(4);
+            BG_SYS_FreeLayerBuf(5);
+            BG_SYS_FreeLayerBuf(6);
             *(volatile u16 *)0x04000304 |= 0x8000;
             PMS_INPUT_VIEW_EndTask(p);
         }

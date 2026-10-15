@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   GIMMICK_OBJ_ELBOARD_AddDateMessage  0x021F3E6C  thumb  ov048
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   RTC_GetDate  0x02088864  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotMonth  0x0201F230  thumb
@@ -29,7 +29,7 @@ struct Rec { u16 h; u32 f4, f8, fc, f10, f14, f18; };
 struct Tab { u16 pad[2]; u16 h4; };
 extern struct T gElboardLayout;
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 struct RTCDate;
 extern int RTC_GetDate(struct RTCDate *date);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -42,7 +42,7 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(int *p)
     struct { struct Date d; struct Rec r; } L;
     struct WordSet *w;
 
-    w = GF_FONT_Create_EC64(*(u16 *)p);
+    w = WORDSET_CreateDefault(*(u16 *)p);
     RTC_GetDate((struct RTCDate *)(&L.d));
     WORDSET_SetSlotNumber(w, 2, L.d.a, 2, 2, 1);
     WORDSET_SetSlotMonth(w, 0, L.d.b);

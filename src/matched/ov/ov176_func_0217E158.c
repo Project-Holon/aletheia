@@ -1,5 +1,5 @@
 /*
- * function: func_0217E158
+ * function: LIVEBATTLEMATCH_IRC_Exit
  * address: 0x0217E158
  * packet: pkt_ov176_0217E158
  * region: ov176
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern void IRCNET_SetFilter(int);
-void func_0217E158(u32 *p) {int n;if(*p>=2)GFL_NET_COMMAND_DeleteCommandTable(0x1f00);n=0;IRCNET_SetFilter(0);*p=n;}
+void LIVEBATTLEMATCH_IRC_Exit(u32 *p) {int n;if(*p>=2)GFL_NET_COMMAND_DeleteCommandTable(0x1f00);n=0;IRCNET_SetFilter(0);*p=n;}

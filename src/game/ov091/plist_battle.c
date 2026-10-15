@@ -45,7 +45,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
@@ -140,7 +140,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
@@ -314,7 +314,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     xShift = xOffset;
     cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, 6, 1, 14, 1);
     if (isEgg == 0) {
-        wordSet = (u32)GF_FONT_Create_EC64(work->heapId);
+        wordSet = (u32)WORDSET_CreateDefault(work->heapId);
         WORDSET_SetSlotNumber((struct WordSet *)wordSet, 0, level, 3, 0, 1);
         POKELIST_PrintExpandedTextSub(work, cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
         WORDSET_DeleteStrbufED04((struct WordSet *)wordSet);
@@ -421,7 +421,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
         minute = (u8)(timer / 60);
         second = (u8)(timer % 60);
         buf = STRBUF_Create(32, work->heapId);
-        words = GF_FONT_Create_EC64(work->heapId);
+        words = WORDSET_CreateDefault(work->heapId);
         if (minute == 0) {
             text = func_02045EC0(work->msgBank, 175);
             WORDSET_SetSlotNumber(words, 1, second, 2, 1, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1F9C
+ * function: BEACON_VIEW_WindowATask
  * address:  0x021F1F9C
  * packet:   pkt_ov032_021F1F9C
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F1F9C 0x021F1F9C thumb
+ *   BEACON_VIEW_WindowATask 0x021F1F9C thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   TCBL_DeleteTask 0x02031194 arm
  */
@@ -27,7 +27,7 @@ extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 coun
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021F1F9C(void *task, u8 *s)
+void BEACON_VIEW_WindowATask(void *task, u8 *s)
 {
     u8 c = s[0];
 

@@ -14,8 +14,8 @@
  *   BG_SYS_ResetSlot 0x02041EE4 arm
  *   Wf2dmapFriend_DeleteEntryActors 0x021C8A50 thumb ov128
  *   Wf2dmapFriend_DrawEntryOpen 0x021C860C thumb ov128
- *   d_021CA7C0 0x021CA7C0 data a4
- *   cb_021CA7C0 0x021CA7C0 data a4
+ *   gWf2dmapOpenAnimConfig 0x021CA7C0 data a4
+ *   gWf2dmapOpenAnimCallbacks 0x021CA7C0 data a4
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb  arm9
  */
 #include "../include/Obj00179.h"
@@ -26,8 +26,8 @@ typedef signed short s16;
 typedef struct { s16 x, y; } Pair;
 typedef void (*Callback)(u8 *, u8 *, int, int);
 typedef struct { Callback cb[4]; Pair pos; } Config;
-extern Config d_021CA7C0;
-extern Callback cb_021CA7C0[];
+extern Config gWf2dmapOpenAnimConfig;
+extern Callback gWf2dmapOpenAnimCallbacks[];
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
@@ -43,8 +43,8 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
     int mode;
     if (PRINTSYS_QUE_IsFinished(((struct Obj10484 *)b)->f34) == 0) return 0;
     if (((struct Obj00179 *)p)->f100 > 24) {
-        pos.x = d_021CA7C0.pos.x;
-        pos.y = d_021CA7C0.pos.y;
+        pos.x = gWf2dmapOpenAnimConfig.pos.x;
+        pos.y = gWf2dmapOpenAnimConfig.pos.y;
         CLACT_SetSurfacePos(((struct Obj10484 *)b)->f140, 0, &pos);
         mode = ((struct Obj00179 *)p)->f102 == 2 ? 2 : 1;
         Wf2dmapFriend_DeleteEntryActors((char *)(p + 12 + mode * 76), (int)b);
@@ -55,13 +55,13 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
     if (((struct Obj00179 *)p)->f102 == 2) delta = -delta;
     BG_SYS_ResetSlot(2, 0, delta);
     BG_SYS_ResetSlot(3, 0, delta);
-    pos.x = d_021CA7C0.pos.x;
-    pos.y = d_021CA7C0.pos.y;
+    pos.x = gWf2dmapOpenAnimConfig.pos.x;
+    pos.y = gWf2dmapOpenAnimConfig.pos.y;
     pos.x += (s16)delta;
     CLACT_SetSurfacePos(((struct Obj10484 *)b)->f140, 0, &pos);
     mode = ((struct Obj00179 *)p)->f100;
     if (mode % 6 != 0) {
-        cb = cb_021CA7C0[mode / 6];
+        cb = gWf2dmapOpenAnimCallbacks[mode / 6];
         if (cb != 0) cb(p, b, ((struct Obj00179 *)p)->f0, *(s16 *)&((struct Obj00179 *)p)->f2);
     }
     (((struct Obj00179 *)p)->f100)++;

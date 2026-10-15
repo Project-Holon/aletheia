@@ -1,5 +1,5 @@
 /*
- * function: func_0217DEDC
+ * function: LIVEBATTLEMATCH_IRC_CreateWindow
  * address: 0x0217DEDC
  * packet: pkt_ov176_0217DEDC
  * region: ov176
@@ -11,7 +11,7 @@
  * E88B0 returns its allocated record; original call truncates four coordinates to bytes.
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021E88B0 0x021E88B0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateMenu 0x021E88B0 thumb ov177
  */
 #include "../include/Obj00348.h"
 typedef unsigned int u32;
@@ -24,8 +24,8 @@ typedef struct {
     u16 f2c, f2e;
 } Menu;
 extern void MI_CpuFill8(void *, int, u32);
-extern void *func_021E88B0(Menu *, u8, u8, u8, u8, int);
-void func_0217DEDC(char *p, int mode)
+extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(Menu *, u8, u8, u8, u8, int);
+void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode)
 {
     Menu rec;
     int layout, x, y, width, height;
@@ -50,6 +50,6 @@ void func_0217DEDC(char *p, int mode)
         case 0: height = rec.count * 2; width = 12; x = 19; y = 17 - height; break;
         case 1: height = rec.count * 2; width = 15; x = 16; y = 17 - height; break;
         }
-        ((struct Obj00348 *)p)->fC = func_021E88B0(&rec, x, y, width, height, ((struct Obj00348 *)p)->f34);
+        ((struct Obj00348 *)p)->fC = WIFIBATTLEMATCH_UTIL_CreateMenu(&rec, x, y, width, height, ((struct Obj00348 *)p)->f34);
     }
 }

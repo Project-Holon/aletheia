@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE560",
+   "name": "INTRO_CMD_CmdMoveSlot",
    "address": "0x021BE560",
    "kind": "game",
    "region": "ov204",

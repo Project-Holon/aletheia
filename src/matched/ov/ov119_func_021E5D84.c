@@ -10,7 +10,7 @@
  * lever: byte-pointer base keeps counter in r4, element base in r5.
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -20,7 +20,7 @@
 #include "../include/Obj00001.h"
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Descriptor;
@@ -32,8 +32,8 @@ void POKETRADE_2D_ClearSubScreen(char *p)
 {
     unsigned i;
     func_02040588(4, 0);
-    func_02040618(4, 0, 0);
-    func_02040618(6, 0, 0);
+    BG_SYS_FillScrollArea(4, 0, 0);
+    BG_SYS_FillScrollArea(6, 0, 0);
     if (*(int *)&((struct Obj00001 *)p)->fF04) CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04, 1);
     if (((struct Obj00001 *)p)->fF18) CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00001 *)p)->fF18, 1);
     for (i = 0; i < 26; i++) {

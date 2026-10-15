@@ -30,15 +30,15 @@ typedef unsigned int u32;
 
 struct IcaAnime;
 extern void GAMESYSTEM_Delete(struct IcaAnime *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void OS_ResetSystem(u32 v);
 
 u32 GAMESYSTEM_ProcEnd(u32 a0, u32 a1, u32 a2, u32 a3)
 {
     GAMESYSTEM_Delete((struct IcaAnime *)a3);
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     GFL_HEAP_DeleteChecked(3);
     GFL_HEAP_DeleteChecked(4);
     GFL_HEAP_DeleteChecked(5);

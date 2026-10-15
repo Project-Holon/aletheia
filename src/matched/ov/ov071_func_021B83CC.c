@@ -1,5 +1,5 @@
 /*
- * function: func_021B83CC
+ * function: MONOLITH_TOOL_MENU_ShowMessage
  * address:  0x021B83CC
  * packet:   pkt_ov071_021B83CC
  * region:   ov071
@@ -39,7 +39,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct MsgBank;
-void func_021B83CC(W *w, X *x, unsigned y)
+void MONOLITH_TOOL_MENU_ShowMessage(W *w, X *x, unsigned y)
 {
     extern void func_02034714(const char *expr, u32 line, const char *file);
     extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);

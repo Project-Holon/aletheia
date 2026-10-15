@@ -16,7 +16,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   BG_SYS_SetLcdSwap 0x0204363C arm
@@ -42,7 +42,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void BG_SYS_SetLcdSwap(u32);
@@ -64,7 +64,7 @@ void WIFICLUB_InitScreen(char *p)
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
     h = func_020490F4(0x21, 0x21);
-    ((struct Obj03222 *)p)->fDC = GF_FONT_Create_EC64(0x21);
+    ((struct Obj03222 *)p)->fDC = WORDSET_CreateDefault(0x21);
     ((struct Obj03222 *)p)->fE0 = func_02045B38(0, 2, 0xd1, 0x21);
     ((struct Obj03222 *)p)->fE4 = func_02045B38(0, 2, 0xe8, 0x21);
     ((struct Obj03222 *)p)->fE8 = GF_FONT_Create(0x17, 0, 0, 0, 0x21);

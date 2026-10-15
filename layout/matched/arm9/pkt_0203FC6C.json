@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_Delete_03F4",
+   "name": "BG_SYS_FreeLayerBuf",
    "address": "0x020403F4",
    "kind": "game",
    "region": "arm9",

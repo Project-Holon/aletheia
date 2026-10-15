@@ -1,5 +1,5 @@
 /*
- * function: func_021F2A8C
+ * function: BEACON_VIEW_InitBackgrounds
  * address:  0x021F2A8C
  * packet:   pkt_ov032_021F2A8C
  * region:   ov032
@@ -11,7 +11,7 @@
  * volatile: 0x021F2ACE ldr / 0x021F2AD6 str of 0x04001000 (REG_DB_DISPCNT_SUB read-modify-write); 0x021F2ADC strh to 0x04001050 (hardware registers)
  *
  * symbols:
- *   func_021F2A8C  0x021F2A8C  thumb
+ *   BEACON_VIEW_InitBackgrounds  0x021F2A8C  thumb
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02082A7C  0x02082A7C  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
@@ -50,7 +50,7 @@ extern const u8 d_021F3668[];
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
-void func_021F2A8C(u8 *p, void *h)
+void BEACON_VIEW_InitBackgrounds(u8 *p, void *h)
 {
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)d_021F3608, 0);
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021F3628, 0);

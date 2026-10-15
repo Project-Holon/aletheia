@@ -36,8 +36,8 @@
  *   func_021BBC38 0x021BBC38 thumb ov206
  *   func_021BB13C 0x021BB13C thumb ov206
  *   func_0207D658 0x0207D658 arm
- *   func_02040618 0x02040618 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BC220 0x021BC220 data
  */
 #include "../include/Obj00022.h"
@@ -79,8 +79,8 @@ extern void func_021BA890(char *p);
 extern void func_021BBC38(struct S *p);
 extern void func_021BB13C(void *a0, void *a1, void *a2, void *a3);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_PushTile(u32 layer);
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)
 {
     *(volatile u16 *)0x04000040 = (u16)(((x1 << 8) & 0xff00) | (x2 & 0xff));
@@ -234,10 +234,10 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         G2_SetWndOutsidePlane(0x1f, 0);
         func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
     }
-    func_02040618(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
-    func_02040618(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);
-    func_02040618(((struct Obj00022 *)p)->f4C, 3, -((struct Obj00022 *)p)->f1B4);
-    func_020409B4(((struct Obj00022 *)p)->f4D);
-    func_020409B4(((struct Obj00022 *)p)->f4E);
+    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4C, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_PushTile(((struct Obj00022 *)p)->f4D);
+    BG_SYS_PushTile(((struct Obj00022 *)p)->f4E);
     return p;
 }

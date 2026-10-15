@@ -19,7 +19,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_02184888 0x02184888 data a1
  *   d_02184868 0x02184868 data a2
  */
@@ -45,7 +45,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern const u8 d_02184888[];
 extern u16 d_02184868[];
 void func_021842BC(void **p, int heap)
@@ -68,6 +68,6 @@ void func_021842BC(void **p, int heap)
         s = p[i];
         BMP_WIN_TransferChars(s);
         BMP_WIN_MakeScreen(s);
-        func_020409B4(BMP_WIN_GetBgLayer(s));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(s));
     }
 }

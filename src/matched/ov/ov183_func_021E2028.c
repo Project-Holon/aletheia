@@ -27,15 +27,15 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Obj24810;
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern void BR_CODEIN_SaveStepFadeIn(int *task, int *state, char *p);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void BR_CODEIN_SaveSetupText(char *,char *);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
-int BR_CODEIN_SaveCreate(struct Obj0203159C *obj,int unused,char *arg)
+int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg)
 {
     char *p;
     int i;

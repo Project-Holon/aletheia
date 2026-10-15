@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_021D83F0  0x021D83F0  data
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern u8 g_021D83F0[];
 
-void func_020403F4(u32 i);
+void BG_SYS_FreeLayerBuf(u32 i);
 void BMP_WIN_Exit(void);
 void BG_SYS_Delete(void);
 void MI_CpuFill8(void *dst, int c, int n);
@@ -32,7 +32,7 @@ void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *a0)
     unsigned int i;
 
     for (i = 0; i < 8; i++) {
-        func_020403F4((u8)*(u32 *)(g_021D83F0 + i * 0x2c));
+        BG_SYS_FreeLayerBuf((u8)*(u32 *)(g_021D83F0 + i * 0x2c));
     }
     BMP_WIN_Exit();
     BG_SYS_Delete();

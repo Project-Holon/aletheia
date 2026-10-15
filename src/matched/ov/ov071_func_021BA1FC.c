@@ -31,8 +31,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void MONOLITH_TOOL_SetupInfoBgs(void);
 extern void MONOLITH_TOOL_LoadInfoPalette(char *p);
@@ -47,7 +47,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-int MONOLITH_TOOL_InitInfoScreen(struct Obj0203159C *a, int *b, u8 *o, u8 *c)
+int MONOLITH_TOOL_InitInfoScreen(struct Proc *a, int *b, u8 *o, u8 *c)
 {
     u8 *m;
     int busy;

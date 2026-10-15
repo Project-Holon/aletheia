@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB3FC",
+   "name": "MANUAL_COMMON_DialogTaskNoop",
    "address": "0x021BB3FC",
    "kind": "game",
    "region": "ov225",

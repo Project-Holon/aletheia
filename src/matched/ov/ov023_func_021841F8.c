@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   OEKAKI_SendCanvasChunk  0x021844D8  thumb  ov023
  *   OEKAKI_QueueCommand  0x02186860  thumb  ov023
  * Addresses are Black-image addresses.
@@ -38,7 +38,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 OEKAKI_SendCanvasChunk(char *p, int x, int y);
 extern void OEKAKI_QueueCommand(char *p, int x, int y);
 
@@ -61,7 +61,7 @@ void OEKAKI_RecvCanvasChunk(int a, int b, u8 *c, u8 *d, int e)
         t = ((struct Obj01674 *)d)->f118;
         BMP_WIN_TransferChars((struct Descriptor *)t);
         BMP_WIN_MakeScreen((struct Cfg *)t);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)t));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)t));
     } else {
         n = ((struct Obj01674 *)d)->f428C;
         if (n * 1000 < 0x3840) {

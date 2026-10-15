@@ -766,7 +766,6 @@ typedef unsigned long long u64;
 #include "btl_client_types.h"
 #include "btl_main_types.h"
 #include "btl_pokeparam_types.h"
-#include "../../matched/include/Obj13430.h"
 #include "btl_net_types.h"
 #include "btl_field_types.h"
 

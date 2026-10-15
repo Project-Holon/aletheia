@@ -18,7 +18,7 @@
  *   gpiSendServerBuddyMessage  0x021888C0  arm  ov009
  *   ArrayDeleteAt  0x0218437C  arm  ov009
  *   func_0218EEC0  0x0218EEC0  arm  ov009
- *   g_021A4F4C  0x021A4F4C  data
+ *   gGpiPeerDebugRemoveNotInList  0x021A4F4C  data
  */
 
 struct GPIMessage {
@@ -53,7 +53,7 @@ extern void *func_02184208(void *array, int n);
 extern int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message);
 extern void ArrayDeleteAt(int a, int b);
 extern void func_0218EEC0(void **connection, struct GPIPeer *peer);
-extern char g_021A4F4C[];
+extern char gGpiPeerDebugRemoveNotInList[];
 
 void gpiRemovePeer(void **connection, struct GPIPeer *peer)
 {
@@ -69,7 +69,7 @@ void gpiRemovePeer(void **connection, struct GPIPeer *peer)
     } else {
         while (pprev->pnext != peer) {
             if (pprev->pnext == 0) {
-                gsDebugFormat(1, (char *)4, 1, g_021A4F4C);
+                gsDebugFormat(1, (char *)4, 1, gGpiPeerDebugRemoveNotInList);
                 return;
             }
             pprev = pprev->pnext;

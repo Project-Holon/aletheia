@@ -1,5 +1,5 @@
 /*
- * function: func_021BE160
+ * function: DEMO3D_ENGINE_Create
  * address: 0x021BE160
  * packet: pkt_ov203_021BE160
  * region: ov203
@@ -11,7 +11,7 @@
  * 2026-10-05 (integrator): the angle divisor is the plain literal 360 and the alloc size the literal 0x88; mwcc derives 0x168 from the live 0x88 itself (`adds r7,#0xE0`), so the earlier `sz` local was not needed. EXACT in c99 and c.
  * note: 2026-10-05 wave P2 lane Q3 (pengy share, user-approved). Levers: heap is a u16
  *   parameter (entry spill of r2 first, raw reload at every use); cam written as
- *   `cam = ctx->f74 = func_021BE7A8(...)` (store to ctx first, then the local slot sp+0x24);
+ *   `cam = ctx->f74 = DEMO3D_ENGINE_GetAnimeId(...)` (store to ctx first, then the local slot sp+0x24);
  *   cnt is a signed int (ble guard); ortho bounds as in ov088 021B9C2C (FX_Mul/FX_Div,
  *   top = FX_Div(t, c), bottom = -FX_Div(t, c)). The angle divisor is written sz + 0xE0:
  *   the original keeps 0x88 live in r7 (alloc size) and derives 0x168 from it with
@@ -19,31 +19,31 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
- *   func_021BE7A8 0x021BE7A8 thumb ov203
+ *   DEMO3D_ENGINE_GetAnimeId 0x021BE7A8 thumb ov203
  *   FX_Div 0x0207C768 arm
  *   _ll_mul 0x0209C054 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_GetNearClipAlt 0x02048B9C arm
  *   G3D_CAMERA_GetFarClipAlt 0x02048BB0 arm
- *   func_021BE63C 0x021BE63C thumb ov203
- *   func_021BE920 0x021BE920 thumb ov203
- *   func_021BE938 0x021BE938 thumb ov203
+ *   DEMO3D_ENGINE_SetupLighting 0x021BE63C thumb ov203
+ *   DEMO3D_DATA_GetAnimId 0x021BE920 thumb ov203
+ *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
  *   DOUBLE3DDISP_Init 0x0204E8C0 arm
  *   func_02005654 0x02005654 thumb
- *   func_021BE150 0x021BE150 thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteDouble3d 0x021BE150 thumb ov203
  *   MTX_Identity33_ 0x0207ADC4 arm
- *   func_021BE7D8 0x021BE7D8 thumb ov203
- *   func_021BE7BC 0x021BE7BC thumb ov203
+ *   DEMO3D_ENGINE_GetAnimeKind 0x021BE7D8 thumb ov203
+ *   DEMO3D_ENGINE_CreateAnimeStream 0x021BE7BC thumb ov203
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   ICA_ANIME_SetFrame 0x020115EC thumb
  *   G3D_UTIL_Create 0x02047CFC arm
- *   func_021BE7F0 0x021BE7F0 thumb ov203
- *   func_021BE874 0x021BE874 thumb ov203
+ *   DEMO3D_DATA_Create 0x021BE7F0 thumb ov203
+ *   DEMO3D_DATA_BuildTable 0x021BE874 thumb ov203
  *   G3D_UTIL_AddUnit 0x02047E88 arm
- *   func_021BE85C 0x021BE85C thumb ov203
+ *   DEMO3D_DATA_Delete 0x021BE85C thumb ov203
  *   func_02048A18 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
@@ -100,20 +100,20 @@ struct G3dSys;
 struct Light;
 struct Record;
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
-extern u32 func_021BE7A8(u32 id);
+extern u32 DEMO3D_ENGINE_GetAnimeId(u32 id);
 extern fx32 FX_Div(fx32, fx32);
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
 extern void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out);
 extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
-extern void func_021BE63C(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
-extern u32 func_021BE920(u32);
-extern int func_021BE938(void *a);
+extern void DEMO3D_ENGINE_SetupLighting(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
+extern u32 DEMO3D_DATA_GetAnimId(u32);
+extern int DEMO3D_DATA_GetAnimCount(void *a);
 extern void DOUBLE3DDISP_Init(u32);
 extern int func_02005654(int a, int b);
-extern void func_021BE150(void);
+extern void DEMO3D_GRAPHIC_DeleteDouble3d(void);
 extern void MTX_Identity33_(void *);
-extern u8 func_021BE7D8(unsigned x);
-extern u32 func_021BE7BC(u32, u32, int);
+extern u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x);
+extern u32 DEMO3D_ENGINE_CreateAnimeStream(u32, u32, int);
 extern int _ffltu(u32);
 extern int _fadd(int, int);
 extern int _fsub(int, int);
@@ -121,10 +121,10 @@ extern int _ffix(int);
 struct IcaAnime;
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, signed int v);
 extern u32 G3D_UTIL_Create(u16, u16, u32);
-extern void *func_021BE7F0(u32);
-extern void func_021BE874(char *ctx, const char *config, u8 type);
+extern void *DEMO3D_DATA_Create(u32);
+extern void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type);
 extern u16 G3D_UTIL_AddUnit(u32, void *);
-extern void func_021BE85C(char *a);
+extern void DEMO3D_DATA_Delete(char *a);
 extern u32 func_02048A18(u8 *a0, int i);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
@@ -138,7 +138,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
     return (fx32)(((s64)a * b + 0x800LL) >> 12);
 }
 
-struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
+struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
 {
     struct Ctx *ctx;
 
@@ -162,7 +162,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->b83 = cfg->fd;
     ctx->b84 = cfg->fe;
     ctx->b85 = cfg->sec;
-    cam = ctx->f74 = (struct Cam *)func_021BE7A8(ctx->id);
+    cam = ctx->f74 = (struct Cam *)DEMO3D_ENGINE_GetAnimeId(ctx->id);
     q = (((cam->fc >> 12) / 2) << 16) / 360;
     c = FX_SinCosTable_[(q >> 4) * 2 + 1];
     far = cam->f1c;
@@ -181,12 +181,12 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
                              &d_021BFCE0, &d_021BFCD4, &d_021BFCEC, heap);
     G3D_CAMERA_GetNearClipAlt(ctx->f20, &ctx->f24);
     G3D_CAMERA_GetFarClipAlt(ctx->f20, &ctx->f28);
-    func_021BE63C((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
-    ctx->f14 = func_021BE920(ctx->id);
-    ctx->f10 = func_021BE938((void *)ctx->id);
+    DEMO3D_ENGINE_SetupLighting((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
+    ctx->f14 = DEMO3D_DATA_GetAnimId(ctx->id);
+    ctx->f10 = DEMO3D_DATA_GetAnimCount((void *)ctx->id);
     if (ctx->f10) {
         DOUBLE3DDISP_Init(heap);
-        func_02005654((int)func_021BE150, 0);
+        func_02005654((int)DEMO3D_GRAPHIC_DeleteDouble3d, 0);
     }
     ctx->z30[0] = 0;
     ctx->z30[1] = 0;
@@ -195,9 +195,9 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ctx->z30[4] = 0x1000;
     ctx->z30[5] = 0x1000;
     MTX_Identity33_(ctx->mtx);
-    ctx->f2c = func_021BE7D8(ctx->id);
+    ctx->f2c = DEMO3D_ENGINE_GetAnimeKind(ctx->id);
     ctx->f70 = func_02030734(heap, ctx->f2c * 2, 1, d_021C3CE0, 0xB7);
-    ctx->f18 = func_021BE7BC(ctx->id, heap, 10);
+    ctx->f18 = DEMO3D_ENGINE_CreateAnimeStream(ctx->id, heap, 10);
     if (ctx->f7c)
         r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
     else
@@ -205,12 +205,12 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     ICA_ANIME_SetFrame((struct IcaAnime *)ctx->f18, _ffix(r));
     n = ctx->f2c * 6;
     ctx->f1c = G3D_UTIL_Create((u16)n, (u16)n, heap);
-    e = func_021BE7F0(heap);
+    e = DEMO3D_DATA_Create(heap);
     for (i = 0; i < ctx->f2c; i++) {
-        func_021BE874(e, (const char *)(&ctx->f78), i);
+        DEMO3D_DATA_BuildTable(e, (const char *)(&ctx->f78), i);
         ctx->f70[i] = G3D_UTIL_AddUnit(ctx->f1c, e);
     }
-    func_021BE85C(e);
+    DEMO3D_DATA_Delete(e);
     for (j = 0; j < ctx->f2c; j++) {
         h = func_02048A18((u8 *)ctx->f1c, (u16)ctx->f70[j]);
         cnt = G3D_SYSTEM_GetObjectAnimeCount((int *)h);

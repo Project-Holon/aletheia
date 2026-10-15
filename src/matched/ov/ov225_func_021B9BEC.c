@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BEC
+ * function: MANUAL_COMMON_GetEntryValue3
  * address: 0x021B9BEC
  * packet: pkt_ov225_021B9BEC
  * region: ov225
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B9CE0 0x021B9CE0 thumb ov225
+ *   MANUAL_COMMON_GetGroupEntry 0x021B9CE0 thumb ov225
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9CE0(char *,int);
-u16 func_021B9BEC(char *p,int index) {return *(u16 *)(func_021B9CE0(p,index)+12);}
+extern int MANUAL_COMMON_GetGroupEntry(char *,int);
+u16 MANUAL_COMMON_GetEntryValue3(char *p,int index) {return *(u16 *)(MANUAL_COMMON_GetGroupEntry(p,index)+12);}

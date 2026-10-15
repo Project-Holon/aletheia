@@ -14,7 +14,7 @@
  * symbols:
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -35,12 +35,12 @@ typedef struct {
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 void PARTY_SELECT_LIST_InitMessageResources(Work *w)
 {
     void *o = (void *)FIELDMAP_GetMsgBg(w->f0);
     w->fA8 = (void *)FIELD_MSGBG_CreateMsgData((u32)o, 0x54);
     w->fA4 = o;
-    w->fA0 = GF_FONT_Create_EC64(w->hC);
+    w->fA0 = WORDSET_CreateDefault(w->hC);
 }

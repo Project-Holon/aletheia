@@ -1,5 +1,5 @@
 /*
- * function: func_021BB044
+ * function: MANUAL_COMMON_GetLastVisible
  * address:  0x021BB044
  * packet:   pkt_021BB044
  * region:   ov225
@@ -14,7 +14,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021BB044(u16 **p)
+u16 MANUAL_COMMON_GetLastVisible(u16 **p)
 {
     u16 *q = *p;
     u16 a = (u16)(q[6] + 5);

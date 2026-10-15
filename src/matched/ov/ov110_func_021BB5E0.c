@@ -10,12 +10,12 @@
  * symbols:
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  */
 #include "../include/Obj22360.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8); extern void BMP_WIN_MakeScreen(u32); extern void func_020409B4(u32); extern void func_02040618(u32,u32,u32);
-void PMSIV_CATEGORY_MakeListWindow(u8 *p) { u32 win; win=BMP_WIN_Create(6,1,1,30,22,0,1); BMP_WIN_MakeScreen(win); func_020409B4(6); func_02040618(6,3,-192); ((struct Obj22360 *)p)->f98=win; }
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8); extern void BMP_WIN_MakeScreen(u32); extern void BG_SYS_PushTile(u32); extern void BG_SYS_FillScrollArea(u32,u32,u32);
+void PMSIV_CATEGORY_MakeListWindow(u8 *p) { u32 win; win=BMP_WIN_Create(6,1,1,30,22,0,1); BMP_WIN_MakeScreen(win); BG_SYS_PushTile(6); BG_SYS_FillScrollArea(6,3,-192); ((struct Obj22360 *)p)->f98=win; }

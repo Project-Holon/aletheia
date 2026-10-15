@@ -1,5 +1,5 @@
 /*
- * function: func_021F1080
+ * function: BEACON_VIEW_PrintEntryFrames
  * address:  0x021F1080
  * packet:   pkt_ov032_021F1080
  * region:   ov032
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F1080  0x021F1080  thumb
+ *   BEACON_VIEW_PrintEntryFrames  0x021F1080  thumb
  *   GAME_BEACON_GetReceivedFramesByTrainerId  0x02026D48  thumb
- *   func_021F2144  0x021F2144  thumb  ov032
+ *   BEACON_VIEW_DrawEntryText  0x021F2144  thumb  ov032
  */
 #include "../include/Obj00225.h"
 
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 v);
-extern void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4);
+extern void BEACON_VIEW_DrawEntryText(char *p, char *q, void *text, u16 col, u32 a4);
 
-void func_021F1080(char *p, char *q, int r, int t)
+void BEACON_VIEW_PrintEntryFrames(char *p, char *q, int r, int t)
 {
     u8 c;
 
@@ -33,8 +33,8 @@ void func_021F1080(char *p, char *q, int r, int t)
     }
     ((struct Obj00225 *)q)->f5 = c;
     if (c != 0) {
-        func_021F2144(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0xca0, t);
+        BEACON_VIEW_DrawEntryText(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0xca0, t);
     } else {
-        func_021F2144(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0x3c60, t);
+        BEACON_VIEW_DrawEntryText(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0x3c60, t);
     }
 }

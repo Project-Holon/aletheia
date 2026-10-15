@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA4FC",
+   "name": "UN_SELECT_SetActorVisible",
    "address": "0x021BA4FC",
    "kind": "game",
    "region": "ov218",

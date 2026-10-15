@@ -20,14 +20,14 @@
  */
 extern void BR_UTIL_DeleteTextWin(void *p, int a1);
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void BR_CODEIN_ProfileDestroy(char *p);
 extern void BR_CODEIN_ProfileDestroyObject(char *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BR_UTIL_DeleteHandles(char *r5);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 int BR_CODEIN_CodeDestroy2(void *a, int unused, int *q, void **p)
 {
     BR_UTIL_DeleteTextWin((void *)((int)p[2]), q[2]);

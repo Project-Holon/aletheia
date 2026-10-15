@@ -18,7 +18,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -56,7 +56,7 @@ struct Obj;
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -104,11 +104,11 @@ void CTVT_CALL_InitGraphics(u8 *p)
     z = 0;
     func_02049658(BG, 0xb, 7, 0, z, z, HEAP);
     func_020498F4(BG, 0xe, 7, 0, z, z, HEAP);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02049B68(BG, 0, 0, 0x20, 0x20, HEAP);
     func_02049658(BG, 8, 1, 0, z, z, HEAP);
     func_020498F4(BG, 0xd, 1, 0, z, z, HEAP);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     W(0x180) = CLACT_RegisterPaletteCompressed(BG, 3, 0, 0, HEAP);
     W(0x190) = CLACT_RegisterCharacter(BG, 0x18, 0, 0, HEAP);
     W(0x1a0) = CLACT_RegisterCellAnim(BG, 0x14, 0x16, HEAP);
@@ -122,7 +122,7 @@ void CTVT_CALL_InitGraphics(u8 *p)
     func_02049658(dev, APP_ICON_GetStatusFrameFileId(), 5, z, z, z, HEAP);
     func_020498F4(dev, APP_ICON_GetStatusDataFileId(), 5, z, z, z, HEAP);
     BG_SYS_FillTileMap(5, z, 0x15, 0x20, 3, 6);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     W(0x18c) = CLACT_RegisterPaletteEx(dev, APP_ICON_GetMoveKindPaletteFileId(), z, 0xe0, z, 3, HEAP);
     W(0x19c) = CLACT_RegisterCharacter(dev, APP_ICON_GetMoveKindAnimFileId(), z, z, HEAP);
     W(0x188) = CLACT_RegisterPaletteEx(dev, APP_ICON_GetMoveKindPaletteFileId(), 1, 0xe0, z, 3, HEAP);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD00
+ * function: BEACON_DETAIL_GRA_PlaySe
  * address: 0x021BCD00
  * packet: pkt_ov216_021BCD00
  * region: ov216
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021BCD00(int a){GFL_USE_PlaySeDefaultVolume(a);}
+void BEACON_DETAIL_GRA_PlaySe(int a){GFL_USE_PlaySeDefaultVolume(a);}

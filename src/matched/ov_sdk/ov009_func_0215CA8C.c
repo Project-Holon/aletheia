@@ -17,7 +17,7 @@
  *   func_0215CB24  0x0215CB24  arm  ov009
  *   SOCLi_StartupSOCL  0x0215CAE4  arm  ov009
  *   SOCLi_CleanupCPS  0x0215EC90  arm  ov009
- *   g_020050C4  0x020050C4  data
+ *   gSoclStartupSdkRef  0x020050C4  data
  *   gSoclConfig  0x021A1CD8  data
  */
 
@@ -28,14 +28,14 @@ extern void SOCLi_InitResource(void);
 extern void func_0215CB24(void);
 extern int SOCLi_StartupSOCL(void);
 extern void SOCLi_CleanupCPS(void);
-extern char g_020050C4[42];
+extern char gSoclStartupSdkRef[42];
 extern struct G_021A1CD8 *gSoclConfig;
 
 int SOCL_Startup(void *socl_config)
 {
 	int result;
 
-	OSi_ReferSymbol(g_020050C4);
+	OSi_ReferSymbol(gSoclStartupSdkRef);
 	if (gSoclConfig != 0) {
 		return 0;
 	}

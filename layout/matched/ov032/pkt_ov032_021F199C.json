@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F199C",
+   "name": "BEACON_VIEW_HandlePowerRecord",
    "address": "0x021F199C",
    "kind": "game",
    "region": "ov032",

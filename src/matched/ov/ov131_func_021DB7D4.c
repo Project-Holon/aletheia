@@ -24,7 +24,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   P_STATUS_PrintMsg 0x021D614C thumb ov131
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   P_STATUS_PrintWordSetMsgRight 0x021D6244 thumb ov131
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -59,7 +59,7 @@ extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void P_STATUS_PrintMsg(u8 *,int,int,int,s16,u16);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void P_STATUS_PrintWordSetMsgRight(u8 *,int,void *,int,u16,s16,u16);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -91,12 +91,12 @@ void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
     MSGDATA_Delete((struct Rec *)bank);
     if(id!=0) {
         P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,135,13,17,1088);
-        first=GF_FONT_Create_EC64(((struct Obj02846 *)p)->f0);
+        first=WORDSET_CreateDefault(((struct Obj02846 *)p)->f0);
         WORDSET_SetSlotNumber(first,0,count,3,1,1);
         P_STATUS_PrintWordSetMsgRight(p,*(int *)&((struct Obj01409 *)entry)->f10,first,136,57,17,1088);
         WORDSET_DeleteStrbufED04(first);
         P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,117,57,17,1088);
-        second=GF_FONT_Create_EC64(((struct Obj02846 *)p)->f0);
+        second=WORDSET_CreateDefault(((struct Obj02846 *)p)->f0);
         WORDSET_SetSlotNumber(second,0,value,3,1,1);
         P_STATUS_PrintWordSetMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,second,141,61,17,1088);
         WORDSET_DeleteStrbufED04(second);

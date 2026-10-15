@@ -18,7 +18,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -55,7 +55,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *s);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 size, u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -89,7 +89,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Menu *p, int key
     p->active[0] = 1;
     STRBUF_Delete((struct U16Vec *)text);
     bmp2 = BMP_WIN_GetBmp(p->win[1]);
-    ws = GF_FONT_Create_EC64(*heap);
+    ws = WORDSET_CreateDefault(*heap);
     src = ((struct Obj01179 *)p)->f59C;
     str = STRBUF_Create(8, *heap);
     WORDSET_SetSlotNumber(ws, 0, ((struct Obj01179 *)p)->f54A, 2, 1, 1);
@@ -97,7 +97,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Menu *p, int key
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
     WORDSET_DeleteStrbufED04(ws);
-    ws2 = GF_FONT_Create_EC64(*heap);
+    ws2 = WORDSET_CreateDefault(*heap);
     src2 = ((struct Obj01179 *)p)->f5A0;
     str = STRBUF_Create(8, *heap);
     WORDSET_SetSlotNumber(ws2, 0, ((struct Obj01179 *)p)->f54C, 2, 1, 1);

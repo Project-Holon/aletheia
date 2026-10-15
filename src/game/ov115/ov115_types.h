@@ -18,8 +18,8 @@ typedef unsigned short u16;
 typedef short s16;
 
 struct Obj;
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 struct Cfg;
 
 /* Login session/config object, pointed to by WifiloginWork.state (0x40) and

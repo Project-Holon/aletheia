@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB00
+ * function: INTRO_CMD_CmdSetTile
  * address: 0x021BEB00
  * packet: pkt_ov204_021BEB00
  * region: ov204
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 extern void func_02041B6C(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-int func_021BEB00(void *p,u32 *q)
+int INTRO_CMD_CmdSetTile(void *p,u32 *q)
 {
     switch (*q) {
     case 0:

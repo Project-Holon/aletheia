@@ -1,5 +1,5 @@
 /*
- * function: func_021BE85C
+ * function: DEMO3D_DATA_Delete
  * address:  0x021BE85C
  * packet:   pkt_021BE85C
  * region:   ov203
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BE85C(char *a)
+void DEMO3D_DATA_Delete(char *a)
 {
     func_020307B0((void *)((struct Obj14590 *)a)->f8);
     func_020307B0((void *)((struct Obj14590 *)a)->f0);

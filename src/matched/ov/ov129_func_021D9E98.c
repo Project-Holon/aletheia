@@ -1,5 +1,5 @@
 /*
- * function: func_021D9E98
+ * function: WF2DMAP_SCENE_SetCursorPos
  * address: 0x021D9E98
  * packet: pkt_ov129_021D9E98
  * region: ov129
@@ -19,7 +19,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-void func_021D9E98(char *p,int i)
+void WF2DMAP_SCENE_SetCursorPos(char *p,int i)
 {
     Pair s;
     unsigned char *q = (unsigned char *)p + (i+12)*4;

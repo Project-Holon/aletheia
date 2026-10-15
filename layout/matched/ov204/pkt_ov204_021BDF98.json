@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BDF98",
-    "func_021BDFA0"
+    "INTRO_GRAPHIC_VBlankClact",
+    "INTRO_GRAPHIC_GetClactBank"
+   ],
+   "addresses": [
+    "0x021BDF98",
+    "0x021BDFA0"
    ]
   }
  ]

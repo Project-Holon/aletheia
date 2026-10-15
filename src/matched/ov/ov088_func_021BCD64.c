@@ -17,8 +17,8 @@
  *   ov088_id       0x00000058  data  a1
  */
 
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 typedef unsigned int   u32;
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
@@ -27,7 +27,7 @@ extern char ov088_id[];
 
 int STARTMENU_SaveEraseEnd(int a0)
 {
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     GFL_HEAP_DeleteChecked(0x81);
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;

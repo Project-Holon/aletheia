@@ -23,7 +23,6 @@ struct Big;
 struct Vec2;
 struct S02021D50;
 struct Bmp;
-struct Obj020437AC;
 struct Sys;
 struct Grid;
 struct PalAnmSlot;

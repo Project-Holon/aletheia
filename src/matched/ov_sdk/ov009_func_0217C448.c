@@ -18,14 +18,14 @@
  *   func_02168250  0x02168250  arm  ov009
  *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
- *   g_021ACEF4     0x021ACEF4  data ov009
- *   g_021A2874     0x021A2874  data ov009
- *   g_021A287C     0x021A287C  data ov009
+ *   gDwcSvlWorkarea     0x021ACEF4  data ov009
+ *   gDwcSvlLabelDate     0x021A2874  data ov009
+ *   gDwcSvlLabelHttpResult     0x021A287C  data ov009
  *   errno     0x02153FAC  data
- *   g_021A2888     0x021A2888  data ov009
- *   g_021A2894     0x021A2894  data ov009
- *   g_021A289C     0x021A289C  data ov009
- *   g_021A28AC     0x021A28AC  data ov009
+ *   gDwcSvlLabelReturnCd     0x021A2888  data ov009
+ *   gDwcSvlLabelSvcHost     0x021A2894  data ov009
+ *   gDwcSvlLabelServiceToken     0x021A289C  data ov009
+ *   gDwcSvlLabelStatusData     0x021A28AC  data ov009
  */
 
 typedef struct DWCHttp {
@@ -53,32 +53,32 @@ typedef unsigned int   u32;
 extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 
-extern DWCSvlIntWorkarea *g_021ACEF4;
-extern char g_021A2874[];
-extern char g_021A287C[];
+extern DWCSvlIntWorkarea *gDwcSvlWorkarea;
+extern char gDwcSvlLabelDate[];
+extern char gDwcSvlLabelHttpResult[];
 extern int errno;
-extern char g_021A2888[];
-extern char g_021A2894[];
-extern char g_021A289C[];
-extern char g_021A28AC[];
+extern char gDwcSvlLabelReturnCd[];
+extern char gDwcSvlLabelSvcHost[];
+extern char gDwcSvlLabelServiceToken[];
+extern char gDwcSvlLabelStatusData[];
 
 int DWCi_Svl_ParseHttp(void)
 {
     char *strp;
     int httpretcode;
     char retcode[4];
-    DWCHttp *DWChttp = &g_021ACEF4->http;
+    DWCHttp *DWChttp = &gDwcSvlWorkarea->http;
 
     if (!DWC_Http_ParseResult(DWChttp, 0)) {
         func_02059F54(15, -25101);
         return 0;
     }
 
-    strp = func_0217A728(DWChttp, g_021A2874);
+    strp = func_0217A728(DWChttp, gDwcSvlLabelDate);
     if (strp != 0)
         func_02168250(strp);
 
-    strp = func_0217A728(DWChttp, g_021A287C);
+    strp = func_0217A728(DWChttp, gDwcSvlLabelHttpResult);
     if (strp == 0) {
         func_02059F54(15, -25101);
         return 0;
@@ -93,7 +93,7 @@ int DWCi_Svl_ParseHttp(void)
         return 0;
     }
 
-    if (func_0217A77C(DWChttp, g_021A2888, retcode, 4) <= 0) {
+    if (func_0217A77C(DWChttp, gDwcSvlLabelReturnCd, retcode, 4) <= 0) {
         func_02059F54(15, -25101);
         return 0;
     }
@@ -107,13 +107,13 @@ int DWCi_Svl_ParseHttp(void)
         return 0;
     }
 
-    if (func_0217A77C(DWChttp, g_021A2894, g_021ACEF4->result->svlhost, 64) < 0
-        || func_0217A77C(DWChttp, g_021A289C, g_021ACEF4->result->svltoken, 300) < 0
-        || func_0217A77C(DWChttp, g_021A28AC, retcode, 1) < 0) {
+    if (func_0217A77C(DWChttp, gDwcSvlLabelSvcHost, gDwcSvlWorkarea->result->svlhost, 64) < 0
+        || func_0217A77C(DWChttp, gDwcSvlLabelServiceToken, gDwcSvlWorkarea->result->svltoken, 300) < 0
+        || func_0217A77C(DWChttp, gDwcSvlLabelStatusData, retcode, 1) < 0) {
         func_02059F54(15, -25101);
         return 0;
     }
 
-    g_021ACEF4->result->status = (retcode[0] == 'Y') ? 1 : 0;
+    gDwcSvlWorkarea->result->status = (retcode[0] == 'Y') ? 1 : 0;
     return 1;
 }

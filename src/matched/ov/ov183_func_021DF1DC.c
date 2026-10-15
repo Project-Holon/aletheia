@@ -12,7 +12,7 @@
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   BR_RES_GetMsgData 0x021FC214 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
@@ -52,7 +52,7 @@ struct WordSet;
 extern unsigned BR_RES_GetFont(char *);
 extern int BR_RES_GetMsgData(char *p);
 extern void MI_CpuFill8(void *,u32,u32);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern Slot *BMP_MENUWORK_Create(u32,u32);
 extern void *BR_UTIL_CreateListMenu(const Config *,u16);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -80,7 +80,7 @@ void BR_CODEIN_SearchCreateList(Menu *p,char *base,char *res,u32 mgr,u32 a5,u32 
     second=BR_RES_GetMsgData(res);
     MI_CpuFill8(p,0,0xd4);
     p->base=base;
-    p->words=GF_FONT_Create_EC64(heap);
+    p->words=WORDSET_CreateDefault(heap);
     p->c=a5;
     p->d=a6;
     p->list=BMP_MENUWORK_Create(*(u32 *)(base+0x1718),heap);

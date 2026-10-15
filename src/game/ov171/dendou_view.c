@@ -44,7 +44,7 @@
  *   sBgTemplateMain3 0x021DEA60 data a4
  *   d_021DEA80 0x021DEA80 data a4
  *   d_021DEAE0 0x021DEAE0 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
@@ -64,7 +64,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -221,7 +221,7 @@ extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetGraphicsMode(BgDispConfig *);
 extern void BG_SYS_InitBgLayer(u32 layer, const BgTemplate *, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32), BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void func_020403F4(unsigned), BG_SYS_Delete(void);
+extern void BG_SYS_FreeLayerBuf(unsigned), BG_SYS_Delete(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -240,7 +240,7 @@ extern u32 PALANM_GetFadeRequestBits(struct PalAnm *palAnm);
 extern void func_0207D63C(int, int, int, int, int);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *str);
@@ -528,12 +528,12 @@ void DENDOU_VIEW_ExitBgs(void)
 {
     BG_SYS_SetMainPlaneVisible(15, 0);
     BG_SYS_SetSubPlaneVisible(3, 0);
-    func_020403F4(5);
-    func_020403F4(4);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -595,7 +595,7 @@ void DENDOU_VIEW_InitText(DendouViewWork *work)
     work->msgData = func_02045B38(0, 2, 0x55, DENDOU_VIEW_HEAP);
     work->fontBody = GF_FONT_Create(0x17, 0, 0, 0, DENDOU_VIEW_HEAP);
     work->fontLevelLabel = GF_FONT_Create(0x17, 3, 0, 0, DENDOU_VIEW_HEAP);
-    work->wordSet = GF_FONT_Create_EC64(DENDOU_VIEW_HEAP);
+    work->wordSet = WORDSET_CreateDefault(DENDOU_VIEW_HEAP);
     work->printQueue = PRINTSYS_QUE_Create(DENDOU_VIEW_HEAP);
     work->textBuf = STRBUF_Create(0x400, DENDOU_VIEW_HEAP);
 }

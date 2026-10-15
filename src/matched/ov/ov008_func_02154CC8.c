@@ -21,12 +21,12 @@
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-struct S020315D4;
+struct Proc;
 extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 
 int EVENT_BATTLE_REC_SAVE_ProcExit(void *a0, int a1, char *a2, int *a3)

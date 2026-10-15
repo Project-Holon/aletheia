@@ -1,5 +1,5 @@
 /*
- * function: func_021D9F24
+ * function: MYSTERY_UTIL_SetMenuMode
  * address: 0x021D9F24
  * packet: pkt_ov121_021D9F24
  * region: ov121
@@ -13,7 +13,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_021DA010 0x021DA010 thumb ov121
+ *   MYSTERY_UTIL_ResetMenuWindow 0x021DA010 thumb ov121
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
  *   TIME_ICON_Create  0x0202EE30  thumb  arm9
@@ -35,7 +35,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 struct PrintSys;
 extern int APP_KEYCURSOR_Delete(int a0);
-extern void func_021DA010(u8 *);
+extern void MYSTERY_UTIL_ResetMenuWindow(u8 *);
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
@@ -43,7 +43,7 @@ extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,u32,u32,u32,u32,int,void *,u32,u16,u16);
-void func_021D9F24(u8 *p,int mode)
+void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
 {
     u32 q;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00236 *)p)->f10),((struct Obj00236 *)p)->f18);
@@ -55,7 +55,7 @@ void func_021D9F24(u8 *p,int mode)
         APP_KEYCURSOR_Delete((int)(((struct Obj00236 *)p)->f30));
         ((struct Obj00236 *)p)->f30=0;
     }
-    func_021DA010(p);
+    MYSTERY_UTIL_ResetMenuWindow(p);
     switch(mode) {
     case 2:
         ((struct Obj00236 *)p)->f3C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj00236 *)p)->f10,((struct Obj00236 *)p)->f18,16,((struct Obj00236 *)p)->f1A);

@@ -19,9 +19,9 @@
  *   gpiAppendCharToBuffer  0x0218934c  arm   ov009
  *   ArrayAppend  0x02184234  arm   ov009
  *   gsiTimeNitro  0x02184098  arm   ov009
- *   g_021A4FC4     0x021a4fc4  data
- *   g_021A4FC8     0x021a4fc8  data
- *   g_021A4FD0     0x021a4fd0  data
+ *   gGpiPeerKeyM     0x021a4fc4  data
+ *   gGpiPeerKeyLen     0x021a4fc8  data
+ *   gGpiPeerKeyMsgCont     0x021a4fd0  data
  */
 
 typedef struct {
@@ -50,9 +50,9 @@ extern int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int
 extern int gpiAppendCharToBuffer(int *connection, int *buffer, int c);
 extern void ArrayAppend(void *array, void *elem);
 extern int gsiTimeNitro(int *timer);
-extern char g_021A4FC4[];
-extern char g_021A4FC8[];
-extern char g_021A4FD0[];
+extern char gGpiPeerKeyM[];
+extern char gGpiPeerKeyLen[];
+extern char gGpiPeerKeyMsgCont[];
 
 int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message)
 {
@@ -67,7 +67,7 @@ int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message)
         GPIMessage gpiMessage = {0};
         gpiMessage.type = type;
         {
-            int __result__ = gpiAppendStringToBuffer((int *)connection, (int *)(&gpiMessage.buffer), g_021A4FC4);
+            int __result__ = gpiAppendStringToBuffer((int *)connection, (int *)(&gpiMessage.buffer), gGpiPeerKeyM);
             if (__result__ != 0)
                 return __result__;
         }
@@ -77,7 +77,7 @@ int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message)
                 return __result__;
         }
         {
-            int __result__ = gpiAppendStringToBuffer((int *)connection, (int *)(&gpiMessage.buffer), g_021A4FC8);
+            int __result__ = gpiAppendStringToBuffer((int *)connection, (int *)(&gpiMessage.buffer), gGpiPeerKeyLen);
             if (__result__ != 0)
                 return __result__;
         }
@@ -87,7 +87,7 @@ int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message)
                 return __result__;
         }
         {
-            int __result__ = gpiAppendStringToBuffer((int *)connection, (int *)(&gpiMessage.buffer), g_021A4FD0);
+            int __result__ = gpiAppendStringToBuffer((int *)connection, (int *)(&gpiMessage.buffer), gGpiPeerKeyMsgCont);
             if (__result__ != 0)
                 return __result__;
         }

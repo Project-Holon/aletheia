@@ -1,5 +1,5 @@
 /*
- * function: func_021BE620
+ * function: DEMO3D_ENGINE_GetFrame
  * address: 0x021BE620
  * packet: pkt_ov203_021BE620
  * region: ov203
@@ -19,4 +19,4 @@ struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 struct Obj11245;
 extern u32 ICA_ANIME_GetFrame(struct Obj11245 *p);
-int func_021BE620(char *p) { return ICA_ANIME_GetFrame(((struct Obj25315 *)p)->f18); }
+int DEMO3D_ENGINE_GetFrame(char *p) { return ICA_ANIME_GetFrame(((struct Obj25315 *)p)->f18); }

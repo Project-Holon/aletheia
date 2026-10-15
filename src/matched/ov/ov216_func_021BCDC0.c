@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDC0
+ * function: BEACON_DETAIL_GRA_GetPmVersionClass
  * address:  0x021BCDC0
  * packet:   pkt_021BCDC0
  * region:   ov216
@@ -26,7 +26,7 @@
 
 extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *a0);
 
-int func_021BCDC0(void *a0)
+int BEACON_DETAIL_GRA_GetPmVersionClass(void *a0)
 {
     switch (GAME_BEACON_ACCESSOR_GetPmVersion(a0)) {
     case 0x15:

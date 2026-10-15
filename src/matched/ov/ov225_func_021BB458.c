@@ -1,5 +1,5 @@
 /*
- * function: func_021BB458
+ * function: MANUAL_COMMON_CreateDialogWindows
  * address: 0x021BB458
  * packet: pkt_ov225_021BB458
  * region: ov225
@@ -36,7 +36,7 @@ extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5
 extern void STRBUF_Delete(struct U16Vec *);
 extern u8 func_020355C4(void);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
-void func_021BB458(char *p)
+void MANUAL_COMMON_CreateDialogWindows(char *p)
 {
     struct Entry entries[2];
     u8 i;

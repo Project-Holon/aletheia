@@ -40,8 +40,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void GAME_BEACON_RegisterClearCallback(void);
 extern void STARTMENU_ReplaceWithBattleFlagProcNoSave(void);
@@ -72,7 +72,7 @@ int STARTMENU_MenuExit(int a0, int a1, int a2, char *a3)
     u8 flag = ((struct Obj13231 *)a3)->f12C;
     char *w;
 
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     GFL_HEAP_DeleteChecked(0xb);
     switch (sel) {
     case 0:

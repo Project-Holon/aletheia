@@ -15,7 +15,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   SAVE_SCREEN_DeleteBackground 0x021B99D8 thumb ov205
  */
@@ -33,7 +33,7 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void SAVE_SCREEN_DeleteBackground(void);
@@ -47,7 +47,7 @@ void SAVE_SCREEN_Delete(char *p)
     STRBUF_Delete(((struct Obj03359 *)p)->fC);
     WORDSET_DeleteStrbufED04(((struct Obj03359 *)p)->f18);
     MSGDATA_Delete(((struct Obj03359 *)p)->f14);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(0);
     GF_FONT_Delete(((struct Obj03359 *)p)->f10);
     SAVE_SCREEN_DeleteBackground();
 }

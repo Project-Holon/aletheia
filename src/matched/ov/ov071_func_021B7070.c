@@ -1,5 +1,5 @@
 /*
- * function: func_021B7070
+ * function: MONOLITH_TOOL_CreateBlink
  * address:  0x021B7070
  * packet:   pkt_ov071_021B7070
  * region:   ov071
@@ -26,7 +26,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern const Rect d_021BA84C;
 
-void func_021B7070(int *p, int *out)
+void MONOLITH_TOOL_CreateBlink(int *p, int *out)
 {
     Rect r;
     int h;

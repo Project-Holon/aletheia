@@ -30,7 +30,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
@@ -49,7 +49,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02049B40 0x02049B40 arm
  *   func_02045B38 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   TCBL_Create 0x0203101C arm
@@ -61,7 +61,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -158,7 +158,7 @@ struct CharBuf;
 struct Descriptor;
 struct Tcbl;
 struct Blk;
-struct S020315D4;
+struct Proc;
 struct GfFont;
 struct MsgBank;
 struct WordSet;
@@ -207,7 +207,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern int GAME_DATA_SaveStart(int);
 extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 extern int GAME_DATA_SaveMain(u8 *p);
@@ -217,7 +217,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
 extern void TIME_ICON_Update(u8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BMP_SetDisplaySwap(u32);
 extern void func_0208068C(u32);
@@ -226,7 +226,7 @@ extern void func_02080B98(void);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern struct Tcbl *TCBL_Create(u32,u16,u32,u32);
@@ -238,7 +238,7 @@ extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -346,7 +346,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
         if(p->hasSave!=0){ (*state)++; break; }
         {
             GFL_USE_PlaySeDefaultVolume(0x54c);SAVE_SCREEN_PrintEntry(p,3,0,0);
-            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
             p->resumeState=4;*state=13;GAME_DATA_SaveStart(*(int *)&p->ctx);
         }
         break;
@@ -376,11 +376,11 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
         TIME_ICON_Delete(p->timeIcon);
         if(p->hasSave==0 && p->saveResult!=0){
             SAVE_SCREEN_PrintEntry(p,4,0,0);
-            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
             p->resumeState=8;*state=13;GFL_USE_PlaySeDefaultVolume(0x558);
         }else{
             SAVE_SCREEN_PrintEntry(p,5,0,0);
-            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
             p->resumeState=8;*state=13;
         }
         break;
@@ -415,7 +415,7 @@ int SAVE_SCREEN_Exit(void *p)
 }
 
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=func_02045B38(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=GF_FONT_Create_EC64(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *a1) { BMP_SetDisplaySwap(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=func_02045B38(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
@@ -428,7 +428,7 @@ void SAVE_SCREEN_Delete(SaveScreenWork *p)
     STRBUF_Delete(p->textBuf);
     WORDSET_DeleteStrbufED04(p->wordset);
     MSGDATA_Delete(p->msgBank);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(0);
     GF_FONT_Delete(p->font);
     SAVE_SCREEN_DeleteBackground();
 }
@@ -522,12 +522,12 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
         SAVE_SCREEN_SetupNoticeBackground(p->heapId);
         p->font=GF_FONT_Create(23,0,0,0,p->heapId);
         p->msgBank=func_02045B38(0,2,37,p->heapId);
-        p->wordset=GF_FONT_Create_EC64(p->heapId);
+        p->wordset=WORDSET_CreateDefault(p->heapId);
         p->bmpWin=(void *)BMP_WIN_Create(0,2,7,27,15,13,1);
         if(p->mode==0)SAVE_SCREEN_PrintText(p,3,6,0);
         else SAVE_SCREEN_PrintText(p,2,6,0);
         obj=p->bmpWin;
-        BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+        BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
         GFL_NET_RestartWithDefaultTimeout(1,p->heapId);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
@@ -545,7 +545,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
     case 5:
         BMP_MENUWORK_DrawWindowBorder(p->bmpWin,0);BMP_WIN_Delete(p->bmpWin);
         WORDSET_DeleteStrbufED04(p->wordset);MSGDATA_Delete(p->msgBank);
-        func_020403F4(0);GF_FONT_Delete(p->font);SAVE_SCREEN_DeleteNoticeBackground();return 1;
+        BG_SYS_FreeLayerBuf(0);GF_FONT_Delete(p->font);SAVE_SCREEN_DeleteNoticeBackground();return 1;
     }
     return 0;
 }

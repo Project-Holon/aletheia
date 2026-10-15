@@ -30,12 +30,12 @@ struct W {
 extern char ov094_id[];
 extern int func_02034AC4(int id);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MIi_CpuClearFast(int v, void *p, u32 n);
 extern u32 PDC_MAIN_Create(int a, int b);
 
-int PDC_ProcInit(struct Obj0203159C *a, int b, int c)
+int PDC_ProcInit(struct Proc *a, int b, int c)
 {
     struct W *p;
 

@@ -66,8 +66,8 @@ extern void SAVE_OUTSIDE_CopyPayload(char *p, void *ctrl);
 extern void SAVE_OUTSIDE_Free(void *);
 extern void *GAMESYSTEM_SetupInitWork(u32 a0, u16 a1, struct Rec12 *a2, int a3);
 extern int NAMEIN_SETUP_FreeArgs(int);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern u8 ov228_id[];
 extern char d_0209DF9C[];
@@ -94,7 +94,7 @@ int STARTMENU_NewGameIntroEnd(int a, int b, int c, char *t)
     }
     r4 = GAMESYSTEM_SetupInitWork(0, 0, &z, 0);
     NAMEIN_SETUP_FreeArgs(((struct Obj03676 *)t)->f28);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)r4);
     return 1;
 }

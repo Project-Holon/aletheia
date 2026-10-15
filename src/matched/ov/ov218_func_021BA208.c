@@ -1,5 +1,5 @@
 /*
- * function: func_021BA208
+ * function: UN_SELECT_SceneStepMessageIdle
  * address:  0x021BA208
  * packet:   pkt_021BA208
  * region:   ov218
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9C00  0x021B9C00  thumb  ov218
+ *   UN_SELECT_UpdateMessage  0x021B9C00  thumb  ov218
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj26047.h"
 
-extern int func_021B9C00(char *p);
+extern int UN_SELECT_UpdateMessage(char *p);
 
-int func_021BA208(void *unused, char *p)
+int UN_SELECT_SceneStepMessageIdle(void *unused, char *p)
 {
-    return func_021B9C00((char *)(((struct Obj26047 *)p)->f28)) != 0;
+    return UN_SELECT_UpdateMessage((char *)(((struct Obj26047 *)p)->f28)) != 0;
 }

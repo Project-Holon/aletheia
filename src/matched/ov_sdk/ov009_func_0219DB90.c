@@ -20,7 +20,7 @@
  *   SBServerParseKeyVals     0x0219e33c  arm
  *   current_time             0x0217f264  arm
  *   FIFORemove               0x0219d544  arm
- *   g_021A8110               0x021a8110  data
+ *   gSbQueryFinal               0x021a8110  data
  */
 
 struct _SBServer {
@@ -62,12 +62,12 @@ extern char *strstr(const char *haystack, const char *needle);
 extern void SBServerParseKeyVals(struct _SBServer *server, char *keyvals);
 extern unsigned int current_time(void);
 extern int FIFORemove(struct _SBServerFIFO *fifo, struct _SBServer *server);
-extern char g_021A8110[];
+extern char gSbQueryFinal[];
 
 static void ParseSingleGOAReply(struct _SBQueryEngine *engine,
                                 struct _SBServer *server, char *data)
 {
-    int isfinal = strstr(data, g_021A8110) != 0;
+    int isfinal = strstr(data, gSbQueryFinal) != 0;
     unsigned char flags;
 
     SBServerParseKeyVals(server, data);

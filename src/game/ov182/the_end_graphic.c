@@ -24,7 +24,7 @@
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   func_0207E468 0x0207E468 arm
  *   d_021B9BAC 0x021B9BAC data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -40,7 +40,7 @@
  *   func_020498F4 0x020498F4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   FADE_Start  0x0204E720  arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -94,7 +94,7 @@ struct ProcSystem;
 struct GfFont;
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 struct DispVram;
 struct BgTemplate;
 struct DispConfig;
@@ -147,12 +147,12 @@ extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern unsigned GPOWER_GetSpecialPowerId(void);
 extern void func_0207E468(void *, int, int);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern int FADE_IsActive(void);
 extern unsigned KEY_GetTrg(void);
@@ -163,7 +163,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(unsigned char *);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -278,7 +278,7 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
 {
     int i;
     for (i = 0; i < sizeof(d_021B9BAC) / sizeof(d_021B9BAC[0]); i++)
-        func_020403F4((u8)d_021B9BAC[i].id);
+        BG_SYS_FreeLayerBuf((u8)d_021B9BAC[i].id);
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04001000 &= ~0xe000;
     THE_END_GRAPHIC_Dummy(p);
@@ -371,7 +371,7 @@ void THE_END_GRAPHIC_LoadGraphics(unsigned short *p)
     if (GPOWER_GetSpecialPowerId() == 0x14)
         BG_SYS_FillTileMap(1, 0, 0, 0x20, 0x18, 1);
     ARC_TOOL_DeleteHandle(q);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     func_02040588(1, 1);
     func_02040588(2, 0);
 }
@@ -540,7 +540,7 @@ void THE_END_GRAPHIC_InitWindows(void *p, int heap)
 
 
 
-void THE_END_GRAPHIC_ExitWindows(void *p){u32 i;for(i=0;i<2;i++)func_020403F4((u8)d_021B9C78[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void THE_END_GRAPHIC_ExitWindows(void *p){u32 i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf((u8)d_021B9C78[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 
 

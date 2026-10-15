@@ -48,8 +48,8 @@
 typedef unsigned int u32;
 struct Obj24810;
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 typedef unsigned char  u8;
 struct ObjC4;
@@ -68,7 +68,7 @@ int BR_CODEIN_RecordCreate(int *task,int *state,char *q)
 {
     char *p,*s;
     int i;
-    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14))));
+    p=PROCSYS_AllocProcWork((struct Proc *)task,0xe8,BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14))));
     MI_CpuFill8(p,0,0xe8);
     *(unsigned short *)(p+0xb4)=BR_PROC_SYS_GetSlotId((struct Obj24810 *)(*(char **)(q+0x14)));
     *(int *)(p+0xb0)=0;

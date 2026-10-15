@@ -1,5 +1,5 @@
 /*
- * function: func_021BA780
+ * function: UN_SELECT_FindTableIndex
  * address:  0x021BA780
  * packet:   pkt_021BA780
  * region:   ov218
@@ -15,7 +15,7 @@
 
 extern int tbl_021BAC80[];
 
-unsigned int func_021BA780(int v)
+unsigned int UN_SELECT_FindTableIndex(int v)
 {
     int i;
     for (i = 0; i < 0x82; i++)

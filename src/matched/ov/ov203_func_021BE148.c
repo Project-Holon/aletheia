@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BE148,func_021BE150,func_021BE158
+ * function: DEMO3D_GRAPHIC_DrawEnd,DEMO3D_GRAPHIC_DeleteDouble3d,DEMO3D_GRAPHIC_DeleteCamera
  * address: 0x021BE148
  * packet: pkt_ov203_021BE148
  * region: ov203
@@ -20,6 +20,6 @@ extern void G3D_SYSTEM_DrawEnd(void);
 extern void DOUBLE3DDISP_Delete(void);
 typedef unsigned int   u32;
 extern u32 G3D_CAMERA_Delete(void *ptr);
-void func_021BE148(void *p){G3D_SYSTEM_DrawEnd();}
-void func_021BE150(void){DOUBLE3DDISP_Delete();}
-void func_021BE158(void *p){G3D_CAMERA_Delete(p);}
+void DEMO3D_GRAPHIC_DrawEnd(void *p){G3D_SYSTEM_DrawEnd();}
+void DEMO3D_GRAPHIC_DeleteDouble3d(void){DOUBLE3DDISP_Delete();}
+void DEMO3D_GRAPHIC_DeleteCamera(void *p){G3D_CAMERA_Delete(p);}

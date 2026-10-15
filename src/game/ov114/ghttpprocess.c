@@ -84,7 +84,7 @@
  *   sGhttpWaiting     0x021CF204  data  ov114
  *   STD_TSScanf  0x0208CF34  arm
  *   sGhttpHttp4   0x021CF210  data
- *   g_020A61DC   0x020A61DC  data
+ *   gCtypeMap   0x020A61DC  data
  *   sGhttpReceivingStatus     0x021CF220  data
  *   sGhttpGotHttpContinue     0x021CF234  data
  *   sGhttpChunkSizeFormat   0x021CF248  data
@@ -228,7 +228,7 @@ extern char sGhttpContentType[];
 extern char sGhttpPosting[];
 extern char sGhttpWaiting[];
 extern char sGhttpHttp4[];
-extern const unsigned short g_020A61DC[];
+extern const unsigned short gCtypeMap[];
 extern char sGhttpReceivingStatus[];
 extern char sGhttpGotHttpContinue[];
 extern char sGhttpChunkSizeFormat[];
@@ -773,7 +773,7 @@ void ghiDoWaiting(GHIConnection *connection)
 
 
 
-static inline int isspace(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x100)); }
+static inline int isspace(int c) { return ((c < 0 || c >= 0x80) ? 0 : (gCtypeMap[c] & 0x100)); }
 
 
 

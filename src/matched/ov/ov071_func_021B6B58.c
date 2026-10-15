@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B58
+ * function: MONOLITH_TOOL_SetButtonVisible
  * address: 0x021B6B58
  * packet: pkt_ov071_021B6B58
  * region: ov071
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern void BMP_OAM_SetEnabled(u8 *, u32);
-void func_021B6B58(void **p, int v)
+void MONOLITH_TOOL_SetButtonVisible(void **p, int v)
 {
     CLACT_SetActorDrawEnable(p[0], v);
     BMP_OAM_SetEnabled(p[1], v);

@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E5868 0x021E5868 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_Delete 0x021E5868 thumb ov177
  */
 #include "../include/Obj03869.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021E5868(void *);
-void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *p) {func_021E5868(((struct Obj03869 *)p)->f20);}
+extern void WIFIBATTLEMATCH_VIEW_Delete(void *);
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *p) {WIFIBATTLEMATCH_VIEW_Delete(((struct Obj03869 *)p)->f20);}

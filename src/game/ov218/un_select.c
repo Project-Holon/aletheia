@@ -1,7 +1,7 @@
 /*
  * file:     un_select.c
  * unit:     yes
- * function: func_021B95A0, func_021B95D0, func_021B9674, func_021B96CC, func_021B9820, UN_SELECT_Delete, func_021B9890, func_021B9898, func_021B9914, func_021B991C, UN_SELECT_InitRecord, func_021B9944, func_021B9964, func_021B9A80, func_021B9AD0, func_021B9AE4, func_021B9B78, func_021B9C00, func_021B9C74, func_021B9C80, func_021B9C84, func_021B9C88, func_021B9C8C, func_021B9CDC, func_021B9D10, func_021B9D48, func_021B9E28, func_021B9E48, func_021B9F98, func_021B9FD4, func_021B9FD8, func_021BA0B0, func_021BA138, func_021BA1A0, func_021BA1C0, func_021BA208, func_021BA21C, func_021BA290, func_021BA2EC, func_021BA328, func_021BA4B4, func_021BA4D4, func_021BA4FC, UN_SELECT_Check, func_021BA61C, func_021BA680, func_021BA6BC, func_021BA6E8, func_021BA720, func_021BA75C, func_021BA780, func_021BA7A4
+ * function: UN_SELECT_SceneCreate, UN_SELECT_SceneDelete, UN_SELECT_SceneUpdate, UN_SELECT_LoadBg, UN_SELECT_CreateTouchBar, UN_SELECT_Delete, UN_SELECT_UpdateTouchBar, UN_SELECT_OpenTaskMenu, UN_SELECT_CloseTaskMenu, UN_SELECT_UpdateTaskMenu, UN_SELECT_InitRecord, UN_SELECT_RequestBrightness, UN_SELECT_Create, UN_SELECT_DeleteRecord, UN_SELECT_Main, func_021B9AE4, UN_SELECT_DrawMessage, UN_SELECT_UpdateMessage, UN_SELECT_DrawWindowBorder, UN_SELECT_GetMsgData, UN_SELECT_GetPrintQue, UN_SELECT_GetFont, UN_SELECT_UpdateFrameList, UN_SELECT_ScrollFrameList, UN_SELECT_ScrollFrameListDelta, UN_SELECT_CreateFrameList, UN_SELECT_DeleteFrameList, UN_SELECT_CreateSceneWork, UN_SELECT_SetMode, UN_SELECT_IsListDone, UN_SELECT_SceneStepList, UN_SELECT_SceneStepMessage, UN_SELECT_SceneStepMenu, UN_SELECT_IsFadeDone, UN_SELECT_SceneStepFade, UN_SELECT_SceneStepMessageIdle, UN_SELECT_SceneStepMenuOut, UN_SELECT_LoadActors, UN_SELECT_ReleaseActors, UN_SELECT_SetupActors, UN_SELECT_DeleteActor, UN_SELECT_CreateActor, UN_SELECT_SetActorVisible, UN_SELECT_Check, UN_SELECT_InitActorPositions, UN_SELECT_SetActorX, UN_SELECT_SetActorY, UN_SELECT_SetActorPos, UN_SELECT_SetActorPosEx, UN_SELECT_ContainsItem, UN_SELECT_FindTableIndex, UN_SELECT_SetupDisplay
  * address:  0x021B95A0
  * region:   ov218
  * compiler: dsi/1.1p1
@@ -52,7 +52,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02049B40 0x02049B40 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -125,8 +125,8 @@
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
  *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
- *   func_021B9B78 0x021B9B78 thumb ov218
- *   func_021B9C00 0x021B9C00 thumb ov218
+ *   UN_SELECT_DrawMessage 0x021B9B78 thumb ov218
+ *   UN_SELECT_UpdateMessage 0x021B9C00 thumb ov218
  *   BRIGHTNESS_IsFinished 0x02024004 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
@@ -184,7 +184,7 @@
 
 struct Node;
 struct TaskMenuState;
-struct S020315D4;
+struct Proc;
 struct S;
 struct MsgBank;
 struct U16Vec;
@@ -201,7 +201,7 @@ struct PrintSys;
 struct S02031140;
 struct StrObj;
 struct Tmpl;
-struct Obj0203159C;
+struct Proc;
 struct R;
 struct Obj;
 struct Actor;
@@ -257,7 +257,7 @@ extern void func_02030EAC(struct Node *);
 extern void UI_SCENE_Delete(void *);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void UN_SELECT_GRAPHIC_Delete(char *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 extern int UI_SCENE_Step(struct S *);
@@ -286,7 +286,7 @@ extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -327,8 +327,8 @@ extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 void func_021B9AE4();
-void func_021B9B78(char *p, u32 id);
-int func_021B9C00(char *p);
+void UN_SELECT_DrawMessage(char *p, u32 id);
+int UN_SELECT_UpdateMessage(char *p);
 extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern u32 FRAME_LIST_GetItemValue(char *p, int index);
 extern unsigned FRAME_LIST_GetPrinter(char *p);
@@ -342,7 +342,7 @@ extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void FRAME_LIST_Delete(struct S *);
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
 extern void *UI_SCENE_Create(u32,void *,u8,u16,void *);
@@ -380,57 +380,57 @@ extern void G3X_SetFog(int, FogMode, FogSlope, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
-int func_021B95A0(void *owner,int *state,char *input,u8 *p);
-int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p);
-int func_021B9674(void *ctx, int *state, void *unused, char *p);
-void func_021B96CC(u8 *p, u16 heap);
-R *func_021B9820(int heap, int id);
+int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p);
+int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p);
+int UN_SELECT_SceneUpdate(void *ctx, int *state, void *unused, char *p);
+void UN_SELECT_LoadBg(u8 *p, u16 heap);
+R *UN_SELECT_CreateTouchBar(int heap, int id);
 void UN_SELECT_Delete(u8 *p);
-void func_021B9890(S *p);
-struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap);
-void func_021B9914(struct TaskMenu *p);
-void func_021B991C(Obj *p);
+void UN_SELECT_UpdateTouchBar(S *p);
+struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 heap);
+void UN_SELECT_CloseTaskMenu(struct TaskMenu *p);
+void UN_SELECT_UpdateTaskMenu(Obj *p);
 int UN_SELECT_InitRecord(void);
-void func_021B9944(void);
-void *func_021B9964(u16 heap);
-void func_021B9A80(char *p);
-void func_021B9AD0(char *p);
-void func_021B9C74(u8 *p);
-void *func_021B9C80(u8 *p);
-void *func_021B9C84(u8 *p);
-u32 func_021B9C88(char *p);
-void func_021B9C8C(u8 *p, u32 a, u32 b, u8 *c, u32 d);
-void func_021B9CDC(u8 *p);
-void func_021B9D10(u8 *p,int delta);
-void func_021B9D48(char *p);
-void func_021B9E28(char *p);
-char *func_021B9E48(void *owner,char *input);
-void func_021B9F98(u8 *p, int mode);
-int func_021B9FD4(void);
-int func_021B9FD8(unsigned char *task,char *p);
-int func_021BA0AC(void);
-u32 func_021BA0B0(u8 *a, u8 *b);
-int func_021BA138(unsigned char *task, char *ctx);
-int func_021BA1A0(void);
-int func_021BA1C0(unsigned char *task, char *ctx);
-int func_021BA208(void *unused, char *p);
-int func_021BA21C(unsigned char *task, char *ctx);
+void UN_SELECT_RequestBrightness(void);
+void *UN_SELECT_Create(u16 heap);
+void UN_SELECT_DeleteRecord(char *p);
+void UN_SELECT_Main(char *p);
+void UN_SELECT_DrawWindowBorder(u8 *p);
+void *UN_SELECT_GetMsgData(u8 *p);
+void *UN_SELECT_GetPrintQue(u8 *p);
+u32 UN_SELECT_GetFont(char *p);
+void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d);
+void UN_SELECT_ScrollFrameList(u8 *p);
+void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta);
+void UN_SELECT_CreateFrameList(char *p);
+void UN_SELECT_DeleteFrameList(char *p);
+char *UN_SELECT_CreateSceneWork(void *owner,char *input);
+void UN_SELECT_SetMode(u8 *p, int mode);
+int UN_SELECT_IsListDone(void);
+int UN_SELECT_SceneStepList(unsigned char *task,char *p);
+int UN_SELECT_IsMessageDone(void);
+u32 UN_SELECT_SceneStepMessage(u8 *a, u8 *b);
+int UN_SELECT_SceneStepMenu(unsigned char *task, char *ctx);
+int UN_SELECT_IsFadeDone(void);
+int UN_SELECT_SceneStepFade(unsigned char *task, char *ctx);
+int UN_SELECT_SceneStepMessageIdle(void *unused, char *p);
+int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx);
 void UN_SELECT_Callback(void);
-void func_021BA290(char *ctx);
-void func_021BA2EC(char *p);
-void func_021BA328(char *p);
-void func_021BA4B4(char *p);
-struct Obj *func_021BA4D4(u32 owner,char *p);
-void func_021BA4FC(char *ctx);
+void UN_SELECT_LoadActors(char *ctx);
+void UN_SELECT_ReleaseActors(char *p);
+void UN_SELECT_SetupActors(char *p);
+void UN_SELECT_DeleteActor(char *p);
+struct Obj *UN_SELECT_CreateActor(u32 owner,char *p);
+void UN_SELECT_SetActorVisible(char *ctx);
 void UN_SELECT_Check(const char *p,int delta);
-void func_021BA61C(char *ctx);
-void func_021BA680(char *p,int v);
-void func_021BA6BC(char *p,int y);
-void func_021BA6E8(u32 p, int sel, u32 y);
-int func_021BA720(u32 base,u32 i,u32 space,int y);
-int func_021BA75C(char *p, int v);
-unsigned int func_021BA780(int v);
-void func_021BA7A4(void);
+void UN_SELECT_InitActorPositions(char *ctx);
+void UN_SELECT_SetActorX(char *p,int v);
+void UN_SELECT_SetActorY(char *p,int y);
+void UN_SELECT_SetActorPos(u32 p, int sel, u32 y);
+int UN_SELECT_SetActorPosEx(u32 base,u32 i,u32 space,int y);
+int UN_SELECT_ContainsItem(char *p, int v);
+unsigned int UN_SELECT_FindTableIndex(int v);
+void UN_SELECT_SetupDisplay(void);
 extern char ov067_id[];
 extern const Table d_021BAC20;
 extern char d_021BB088[];
@@ -446,10 +446,10 @@ extern const unsigned short d_021BAED8[];
 
 
 
-int func_021B95A0(void *owner,int *state,char *input,u8 *p)
+int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p)
 {
     switch(*state){
-    case 0:func_021B9E48(owner,input);++*state;break;
+    case 0:UN_SELECT_CreateSceneWork(owner,input);++*state;break;
     case 1:if(FRAME_LIST_UpdateInit(*(S * *)&((struct Obj26039 *)p)->f2C)==0)return 1;break;
     }
     return 0;
@@ -459,7 +459,7 @@ int func_021B95A0(void *owner,int *state,char *input,u8 *p)
 
 
 
-int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
+int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p)
 {
     switch (*state) {
     case 0:
@@ -475,11 +475,11 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         func_02030EAC(*(struct Node * *)&((struct Obj01983 *)p)->f23C);
         *(volatile u16 *)0x04000050 = 0;
         *(volatile u16 *)0x04001050 = 0;
-        func_021B9E28(p);
+        UN_SELECT_DeleteFrameList(p);
         UI_SCENE_Delete(((struct Obj01983 *)p)->f24);
-        func_021B9A80(*(char * *)&((struct Obj01983 *)p)->f28);
-        func_021BA4B4(p);
-        func_021BA2EC(p);
+        UN_SELECT_DeleteRecord(*(char * *)&((struct Obj01983 *)p)->f28);
+        UN_SELECT_DeleteActor(p);
+        UN_SELECT_ReleaseActors(p);
         APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj01983 *)p)->f18);
         UN_SELECT_Delete(((struct Obj01983 *)p)->f8);
         UN_SELECT_GRAPHIC_Delete(*(char * *)&((struct Obj01983 *)p)->f4);
@@ -497,7 +497,7 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
 
 
 
-int func_021B9674(void *ctx, int *state, void *unused, char *p)
+int UN_SELECT_SceneUpdate(void *ctx, int *state, void *unused, char *p)
 {
     int result = 0;
     switch (*state) {
@@ -514,7 +514,7 @@ int func_021B9674(void *ctx, int *state, void *unused, char *p)
             result = 1;
         break;
     }
-    func_021B9AD0(*(char * *)&((struct Obj10971 *)p)->f28);
+    UN_SELECT_Main(*(char * *)&((struct Obj10971 *)p)->f28);
     UN_SELECT_GRAPHIC_Update(*(char * *)&((struct Obj10971 *)p)->f4);
     return result != 0;
 }
@@ -523,7 +523,7 @@ int func_021B9674(void *ctx, int *state, void *unused, char *p)
 
 
 
-void func_021B96CC(u8 *p, u16 heap)
+void UN_SELECT_LoadBg(u8 *p, u16 heap)
 {
     void *h;
     void *w2;
@@ -571,7 +571,7 @@ void func_021B96CC(u8 *p, u16 heap)
 
 
 
-R *func_021B9820(int heap, int id)
+R *UN_SELECT_CreateTouchBar(int heap, int id)
 {
     Table table = d_021BAC20;
     A config;
@@ -604,7 +604,7 @@ void UN_SELECT_Delete(u8 *p)
 
 
 
-void func_021B9890(S *p)
+void UN_SELECT_UpdateTouchBar(S *p)
 {
     TOUCHBAR_Update(p);
 }
@@ -613,7 +613,7 @@ void func_021B9890(S *p)
 
 
 
-struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap)
+struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 heap)
 {
     struct TaskMenuTmpl config;
     struct Item items[2];
@@ -642,7 +642,7 @@ struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap)
 
 
 
-void func_021B9914(struct TaskMenu *p)
+void UN_SELECT_CloseTaskMenu(struct TaskMenu *p)
 {
     APP_TASKMENU_CloseMenu(p);
 }
@@ -651,7 +651,7 @@ void func_021B9914(struct TaskMenu *p)
 
 
 
-void func_021B991C(Obj *p)
+void UN_SELECT_UpdateTaskMenu(Obj *p)
 {
     APP_TASKMENU_UpdateMenu(p);
 }
@@ -664,7 +664,7 @@ void func_021B991C(Obj *p)
 /*
  * Initialises one record: enable flag 1 through 0x02023F98, then issue the
  * five-argument setup 0x02023EF4(8, -8, 0, 0x3c, 1) and return its result.
- * Blocker target of func_021BA0B0.
+ * Blocker target of UN_SELECT_SceneStepMessage.
  *
  * Addresses are Black-image addresses.
  */
@@ -677,7 +677,7 @@ int UN_SELECT_InitRecord(void)
 
 
 
-void func_021B9944(void)
+void UN_SELECT_RequestBrightness(void)
 {
     BRIGHTNESS_ChangeReset(1);
     BRIGHTNESS_ChangeRequest((int)((void *)8), 0, -8, 60, 1);
@@ -686,7 +686,7 @@ void func_021B9944(void)
 
 
 
-void *func_021B9964(u16 heap)
+void *UN_SELECT_Create(u16 heap)
 {
     char *p;
     void *window;
@@ -694,7 +694,7 @@ void *func_021B9964(u16 heap)
     *(u16 *)p=heap;
     func_02049B40(23,5,0,0x1c0,32,heap);
     BMP_MENUWORK_LoadCharAndPltt(0,1,15,0,heap);
-    *(void **)(p+0x14)=GF_FONT_Create_EC64(heap);
+    *(void **)(p+0x14)=WORDSET_CreateDefault(heap);
     *(void **)(p+8)=func_02045B38(0,2,229,heap);
     *(void **)(p+0x10)=(void *)PRINTSYS_QUE_Create((void *)heap);
     *(void **)(p+0xc)=GF_FONT_Create(23,0,0,0,heap);
@@ -715,7 +715,7 @@ void *func_021B9964(u16 heap)
 
 
 
-void func_021B9A80(char *p)
+void UN_SELECT_DeleteRecord(char *p)
 {
     if (*(struct Rec3 * *)&((struct Obj02264 *)p)->f20 != 0) {
         PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj02264 *)p)->f20);
@@ -736,7 +736,7 @@ void func_021B9A80(char *p)
 
 
 
-void func_021B9AD0(char *p)
+void UN_SELECT_Main(char *p)
 {
     PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj14771 *)p)->f10));
     TCBL_Main((struct Tcbl *)(((struct Obj14771 *)p)->f4));
@@ -767,7 +767,7 @@ void func_021B9AE4(p, a, b, cd)
 }
 
 
-void func_021B9B78(char *p, u32 id)
+void UN_SELECT_DrawMessage(char *p, u32 id)
 {
     int value = MSG_SPEED_GetWait();
     struct Descriptor *obj = *(struct Descriptor * *)&((struct Obj02265 *)p)->f24;
@@ -783,7 +783,7 @@ void func_021B9B78(char *p, u32 id)
 }
 
 
-int func_021B9C00(char *p)
+int UN_SELECT_UpdateMessage(char *p)
 {
     if (((struct Obj05563 *)p)->f20 != 0) {
         switch (PRINTSYS_PrintStreamGetState(((struct Obj05563 *)p)->f20)) {
@@ -811,7 +811,7 @@ int func_021B9C00(char *p)
 
 
 
-void func_021B9C74(u8 *p)
+void UN_SELECT_DrawWindowBorder(u8 *p)
 {
     BMP_MENUWORK_DrawWindowBorder(((struct Obj26040 *)p)->f24,1);
 }
@@ -820,7 +820,7 @@ void func_021B9C74(u8 *p)
 
 
 
-void *func_021B9C80(u8 *p)
+void *UN_SELECT_GetMsgData(u8 *p)
 {
     return ((struct Obj26041 *)p)->fC;
 }
@@ -829,7 +829,7 @@ void *func_021B9C80(u8 *p)
 
 
 
-void *func_021B9C84(u8 *p)
+void *UN_SELECT_GetPrintQue(u8 *p)
 {
     return ((struct Obj26042 *)p)->f10;
 }
@@ -842,9 +842,9 @@ void *func_021B9C84(u8 *p)
 /*
  * Unlabelled leaf in ov218, printed as a .word run right before the next
  * function at 0x021B9C8C; four-byte word getter.  Blocker target of
- * func_021BA0B0 (pkt_021BA0B0), whose ov218 hint then covers it.
+ * UN_SELECT_SceneStepMessage (pkt_021BA0B0), whose ov218 hint then covers it.
  */
-u32 func_021B9C88(char *p)
+u32 UN_SELECT_GetFont(char *p)
 {
     return ((struct Obj26043 *)p)->f8;
 }
@@ -853,15 +853,15 @@ u32 func_021B9C88(char *p)
 
 
 
-void func_021B9C8C(u8 *p, u32 a, u32 b, u8 *c, u32 d)
+void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d)
 {
     u32 t;
-    func_021BA4FC((char *)p);
+    UN_SELECT_SetActorVisible((char *)p);
     FRAME_LIST_GetItemValue((char *)(*(u8 **)(p + 0x2C)), a);
     t = FRAME_LIST_GetPrinter((char *)(*(u8 **)(p + 0x2C)));
-    func_021B9AE4(*(u8 **)(p + 0x28), b, t, func_021B9C80(*(u8 **)(p + 0x28)), a);
-    if (func_021BA75C((char *)p, a)) {
-        func_021BA6E8((u32)p, d, (u32)(c + 0x14));
+    func_021B9AE4(*(u8 **)(p + 0x28), b, t, UN_SELECT_GetMsgData(*(u8 **)(p + 0x28)), a);
+    if (UN_SELECT_ContainsItem((char *)p, a)) {
+        UN_SELECT_SetActorPos((u32)p, d, (u32)(c + 0x14));
     }
 }
 
@@ -869,36 +869,36 @@ void func_021B9C8C(u8 *p, u32 a, u32 b, u8 *c, u32 d)
 
 
 
-void func_021B9CDC(u8 *p)
+void UN_SELECT_ScrollFrameList(u8 *p)
 {
     int selected;
     s16 y;
     y=FRAME_LIST_GetScrollBarTop(*(u8 * *)&((struct Obj03959 *)p)->f2C);
-    func_021BA680((char *)p,y);
+    UN_SELECT_SetActorX((char *)p,y);
     selected=FRAME_LIST_GetSelectedIndex(*(char * *)&((struct Obj03959 *)p)->f2C);
-    func_021BA6BC((char *)p,(int)(((u32)selected-(u32)FRAME_LIST_GetCursor(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
+    UN_SELECT_SetActorY((char *)p,(int)(((u32)selected-(u32)FRAME_LIST_GetCursor(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
 }
 
 
 
 
 
-void func_021B9D10(u8 *p,int delta)
+void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta)
 {
     int selected;
     s16 y;
     UN_SELECT_Check((const char *)p,(int)(0u-(u32)delta));
     y=FRAME_LIST_GetScrollBarTop(*(u8 * *)&((struct Obj03959 *)p)->f2C);
-    func_021BA680((char *)p,y);
+    UN_SELECT_SetActorX((char *)p,y);
     selected=FRAME_LIST_GetSelectedIndex(*(char * *)&((struct Obj03959 *)p)->f2C);
-    func_021BA6BC((char *)p,(int)(((u32)selected-(u32)FRAME_LIST_GetCursor(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
+    UN_SELECT_SetActorY((char *)p,(int)(((u32)selected-(u32)FRAME_LIST_GetCursor(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
 }
 
 
 
 
 
-void func_021B9D48(char *p)
+void UN_SELECT_CreateFrameList(char *p)
 {
     int i,value;
     u32 offset;
@@ -939,13 +939,13 @@ void func_021B9D48(char *p)
 
 
 
-void func_021B9E28(char *p){int i;for(i=0;i<130;i++)STRBUF_Delete(*(struct U16Vec **)(((struct Obj14772 *)p)->f28+i*4+0x2c));FRAME_LIST_Delete(*(struct S * *)&((struct Obj14772 *)p)->f2C);}
+void UN_SELECT_DeleteFrameList(char *p){int i;for(i=0;i<130;i++)STRBUF_Delete(*(struct U16Vec **)(((struct Obj14772 *)p)->f28+i*4+0x2c));FRAME_LIST_Delete(*(struct S * *)&((struct Obj14772 *)p)->f2C);}
 
 
 
 
 
-char *func_021B9E48(void *owner,char *input)
+char *UN_SELECT_CreateSceneWork(void *owner,char *input)
 {
     char *p;
     int i,value;
@@ -962,7 +962,7 @@ char *func_021B9E48(void *owner,char *input)
     }
     for(i=0;i<20;i++) {
         value=*(u16 *)(input+8+i*2);
-        if(value!=0)value=func_021BA780(value);
+        if(value!=0)value=UN_SELECT_FindTableIndex(value);
         else value=65535;
         *(int *)(p+0x2dc+i*4)=value;
     }
@@ -970,16 +970,16 @@ char *func_021B9E48(void *owner,char *input)
     GXx_SetMasterBrightness_((u16 *)0x0400106c,-16);
     ((struct Obj00243 *)p)->f4=UN_SELECT_GRAPHIC_Create(0,((struct Obj00243 *)p)->f0);
     ((struct Obj00243 *)p)->f24=UI_SCENE_Create(((struct Obj00243 *)p)->f0,d_021BAB20,3,0,p);
-    func_021B96CC((u8 *)p,((struct Obj00243 *)p)->f0);
-    ((struct Obj00243 *)p)->f28=func_021B9964(((struct Obj00243 *)p)->f0);
-    ((struct Obj00243 *)p)->f8=func_021B9820(UN_SELECT_GRAPHIC_GetActor(((struct Obj00243 *)p)->f4),((struct Obj00243 *)p)->f0);
-    a=(u32)func_021B9C80(((struct Obj00243 *)p)->f28);
-    b=(u32)func_021B9C84(((struct Obj00243 *)p)->f28);
+    UN_SELECT_LoadBg((u8 *)p,((struct Obj00243 *)p)->f0);
+    ((struct Obj00243 *)p)->f28=UN_SELECT_Create(((struct Obj00243 *)p)->f0);
+    ((struct Obj00243 *)p)->f8=UN_SELECT_CreateTouchBar(UN_SELECT_GRAPHIC_GetActor(((struct Obj00243 *)p)->f4),((struct Obj00243 *)p)->f0);
+    a=(u32)UN_SELECT_GetMsgData(((struct Obj00243 *)p)->f28);
+    b=(u32)UN_SELECT_GetPrintQue(((struct Obj00243 *)p)->f28);
     ((struct Obj00243 *)p)->f18=APP_TASKMENU_RES_Create(1,11,a,b,((struct Obj00243 *)p)->f0);
-    func_021BA290(p);
-    func_021B9D48(p);
-    func_021BA328(p);
-    func_021BA61C(p);
+    UN_SELECT_LoadActors(p);
+    UN_SELECT_CreateFrameList(p);
+    UN_SELECT_SetupActors(p);
+    UN_SELECT_InitActorPositions(p);
     func_0207D63C((u32 *)0x04001050,4,8,6,10);
     ((struct Obj00243 *)p)->f23C=func_02005624((u32)UN_SELECT_Callback,(u32)p,0);
     GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00243 *)p)->f0);
@@ -990,7 +990,7 @@ char *func_021B9E48(void *owner,char *input)
 
 
 
-void func_021B9F98(u8 *p, int mode)
+void UN_SELECT_SetMode(u8 *p, int mode)
 {
     switch (mode) {
     case 0: {
@@ -1012,13 +1012,13 @@ void func_021B9F98(u8 *p, int mode)
 
 
 
-int func_021B9FD4(void) { return 1; }
+int UN_SELECT_IsListDone(void) { return 1; }
 
 
 
 
 
-int func_021B9FD8(unsigned char *task,char *p)
+int UN_SELECT_SceneStepList(unsigned char *task,char *p)
 {
     int active=0;
     int selected;
@@ -1036,11 +1036,11 @@ int func_021B9FD8(unsigned char *task,char *p)
             return 1;
         }
     }
-    func_021B9890(((struct Obj02931 *)p)->f8);
+    UN_SELECT_UpdateTouchBar(((struct Obj02931 *)p)->f8);
     switch(TOUCHBAR_GetPressedButtonIdIfDone(*(unsigned char * *)&((struct Obj02931 *)p)->f8)){
     case -1:case 0:case 2:case 3:case 4:case 5:break;
     case 1:
-        func_021B9F98((u8 *)p,1);
+        UN_SELECT_SetMode((u8 *)p,1);
         UI_SCENE_SetNextScene(task,65534);
         return 1;
     }
@@ -1051,13 +1051,13 @@ int func_021B9FD8(unsigned char *task,char *p)
 
 
 
-int func_021BA0AC(void) { return 1; }
+int UN_SELECT_IsMessageDone(void) { return 1; }
 
 
 
 
 
-u32 func_021BA0B0(u8 *a, u8 *b)
+u32 UN_SELECT_SceneStepMessage(u8 *a, u8 *b)
 {
     switch (UI_SCENE_GetPhaseFrame(a)) {
     case 0:
@@ -1069,13 +1069,13 @@ u32 func_021BA0B0(u8 *a, u8 *b)
         if (FADE_IsActive() == 1) break;
         if (BRIGHTNESS_IsFinished(1) == 0) break;
         WORDSET_SetSlotFromMsgE7((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
-        func_021B9B78((char *)(*(u8 **)(b + 0x28)), 0xEA);
+        UN_SELECT_DrawMessage((char *)(*(u8 **)(b + 0x28)), 0xEA);
         goto tail;
     case 2:
-        if (func_021B9C00((char *)(*(u8 **)(b + 0x28))) == 0) break;
+        if (UN_SELECT_UpdateMessage((char *)(*(u8 **)(b + 0x28))) == 0) break;
         goto tail;
     case 3:
-        *(u32 *)(b + 0x1C) = (u32)func_021B9898((void *)(*(u32 *)(b + 0x18)), (struct MsgBank *)func_021B9C88((char *)(*(u8 **)(b + 0x28))), *(u16 *)b);
+        *(u32 *)(b + 0x1C) = (u32)UN_SELECT_OpenTaskMenu((void *)(*(u32 *)(b + 0x18)), (struct MsgBank *)UN_SELECT_GetFont((char *)(*(u8 **)(b + 0x28))), *(u16 *)b);
         return 1;
     }
     return 0;
@@ -1085,22 +1085,22 @@ u32 func_021BA0B0(u8 *a, u8 *b)
 
 
 
-int func_021BA138(unsigned char *task, char *ctx)
+int UN_SELECT_SceneStepMenu(unsigned char *task, char *ctx)
 {
-    func_021B991C(((struct Obj04644 *)ctx)->f1C);
+    UN_SELECT_UpdateTaskMenu(((struct Obj04644 *)ctx)->f1C);
     if (APP_TASKMENU_IsFinish(((struct Obj04644 *)ctx)->f1C) != 0) {
         switch (APP_TASKMENU_GetCursorPos(((struct Obj04644 *)ctx)->f1C)) {
         case 0:
-            func_021B9F98((u8 *)ctx, 0);
-            func_021B9944();
-            func_021B9C74(((struct Obj04644 *)ctx)->f28);
-            func_021B9914(((struct Obj04644 *)ctx)->f1C);
+            UN_SELECT_SetMode((u8 *)ctx, 0);
+            UN_SELECT_RequestBrightness();
+            UN_SELECT_DrawWindowBorder(((struct Obj04644 *)ctx)->f28);
+            UN_SELECT_CloseTaskMenu(((struct Obj04644 *)ctx)->f1C);
             UI_SCENE_SetNextScene(task, 65534);
             break;
         case 1:
-            func_021B9944();
-            func_021B9C74(((struct Obj04644 *)ctx)->f28);
-            func_021B9914(((struct Obj04644 *)ctx)->f1C);
+            UN_SELECT_RequestBrightness();
+            UN_SELECT_DrawWindowBorder(((struct Obj04644 *)ctx)->f28);
+            UN_SELECT_CloseTaskMenu(((struct Obj04644 *)ctx)->f1C);
             UI_SCENE_SetNextScene(task, 0);
             break;
         }
@@ -1113,13 +1113,13 @@ int func_021BA138(unsigned char *task, char *ctx)
 
 
 
-int func_021BA1A0(void){if(FADE_IsActive()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}
+int UN_SELECT_IsFadeDone(void){if(FADE_IsActive()==1 || BRIGHTNESS_IsFinished(1)==0)return 0;return 1;}
 
 
 
 
 
-int func_021BA1C0(unsigned char *task, char *ctx)
+int UN_SELECT_SceneStepFade(unsigned char *task, char *ctx)
 {
     switch (UI_SCENE_GetPhaseFrame(task)) {
     case 0:
@@ -1132,7 +1132,7 @@ advance:
             break;
         if (BRIGHTNESS_IsFinished(1) == 0)
             break;
-        func_021B9B78(((struct Obj26046 *)ctx)->f28, 0xef);
+        UN_SELECT_DrawMessage(((struct Obj26046 *)ctx)->f28, 0xef);
         goto advance;
     case 2:
         return 1;
@@ -1145,19 +1145,19 @@ advance:
 
 
 
-int func_021BA208(void *unused, char *p)
+int UN_SELECT_SceneStepMessageIdle(void *unused, char *p)
 {
-    return func_021B9C00((char *)(((struct Obj26047 *)p)->f28)) != 0;
+    return UN_SELECT_UpdateMessage((char *)(((struct Obj26047 *)p)->f28)) != 0;
 }
 
 
 
 
 
-int func_021BA21C(unsigned char *task, char *ctx)
+int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx)
 {
-    func_021B9944();
-    func_021B9C74(((struct Obj26048 *)ctx)->f28);
+    UN_SELECT_RequestBrightness();
+    UN_SELECT_DrawWindowBorder(((struct Obj26048 *)ctx)->f28);
     UI_SCENE_SetNextScene(task, 0);
     return 1;
 }
@@ -1185,7 +1185,7 @@ void UN_SELECT_Callback(void)
 
 
 
-void func_021BA290(char *ctx)
+void UN_SELECT_LoadActors(char *ctx)
 {
     unsigned short heap = ((struct Obj00243 *)ctx)->f0;
     void *archive;
@@ -1203,13 +1203,13 @@ void func_021BA290(char *ctx)
 
 
 
-void func_021BA2EC(char *p){if(((struct Obj01983 *)p)->f2D0!=-1)CLACT_ReleaseCharacter(((struct Obj01983 *)p)->f2D0);if(((struct Obj01983 *)p)->f2D4!=-1)CLACT_ReleasePalette(((struct Obj01983 *)p)->f2D4);if(((struct Obj01983 *)p)->f2D8!=-1)CLACT_ReleaseCellAnim(((struct Obj01983 *)p)->f2D8);}
+void UN_SELECT_ReleaseActors(char *p){if(((struct Obj01983 *)p)->f2D0!=-1)CLACT_ReleaseCharacter(((struct Obj01983 *)p)->f2D0);if(((struct Obj01983 *)p)->f2D4!=-1)CLACT_ReleasePalette(((struct Obj01983 *)p)->f2D4);if(((struct Obj01983 *)p)->f2D8!=-1)CLACT_ReleaseCellAnim(((struct Obj01983 *)p)->f2D8);}
 
 
 
 
 
-void func_021BA328(char *p)
+void UN_SELECT_SetupActors(char *p)
 {
     Config a,b,c,d,e;
     void *manager,*item;
@@ -1218,28 +1218,28 @@ void func_021BA328(char *p)
     for(j=0;j<36;j++)*(u32 *)(p+0x240+j*4)=0;
     a=d_021BABC8;
     a.c=((struct Obj00243 *)p)->f2D0;a.d=((struct Obj00243 *)p)->f2D4;a.e=((struct Obj00243 *)p)->f2D8;
-    ((struct Obj00243 *)p)->f240=func_021BA4D4((u32)manager,(char *)(&a));
+    ((struct Obj00243 *)p)->f240=UN_SELECT_CreateActor((u32)manager,(char *)(&a));
     b=d_021BAB68;
     b.c=((struct Obj00243 *)p)->f2D0;b.d=((struct Obj00243 *)p)->f2D4;b.e=((struct Obj00243 *)p)->f2D8;
-    for(i=0;i<20;i++)*(void **)(p+0x244+i*4)=func_021BA4D4((u32)manager,(char *)(&b));
+    for(i=0;i<20;i++)*(void **)(p+0x244+i*4)=UN_SELECT_CreateActor((u32)manager,(char *)(&b));
     c=d_021BAB98;
     c.c=((struct Obj00243 *)p)->f2D0;c.d=((struct Obj00243 *)p)->f2D4;c.e=((struct Obj00243 *)p)->f2D8;
     for(j=0;j<7;j++) {
-        item=func_021BA4D4((u32)manager,(char *)(&c));
+        item=UN_SELECT_CreateActor((u32)manager,(char *)(&c));
         CLACT_SetActorDrawEnable(item,0);
         *(void **)(p+0x294+j*4)=item;
     }
     d=d_021BABB0;
     d.c=((struct Obj00243 *)p)->f2D0;d.d=((struct Obj00243 *)p)->f2D4;d.e=((struct Obj00243 *)p)->f2D8;
     for(i=0;i<7;i++) {
-        item=func_021BA4D4((u32)manager,(char *)(&d));
+        item=UN_SELECT_CreateActor((u32)manager,(char *)(&d));
         CLACT_SetActorObjMode(item,1);
         CLACT_SetActorDrawEnable(item,0);
         *(void **)(p+0x2b0+i*4)=item;
     }
     e=d_021BAB80;
     e.c=((struct Obj00243 *)p)->f2D0;e.d=((struct Obj00243 *)p)->f2D4;e.e=((struct Obj00243 *)p)->f2D8;
-    ((struct Obj00243 *)p)->f2CC=func_021BA4D4((u32)manager,(char *)(&e));
+    ((struct Obj00243 *)p)->f2CC=UN_SELECT_CreateActor((u32)manager,(char *)(&e));
 }
 
 
@@ -1247,7 +1247,7 @@ void func_021BA328(char *p)
 
 
 
-void func_021BA4B4(char *p)
+void UN_SELECT_DeleteActor(char *p)
 {
     int i;
     for (i = 0; i < 0x24; i++)
@@ -1264,13 +1264,13 @@ void func_021BA4B4(char *p)
 
 
 
-struct Obj *func_021BA4D4(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Obj08448 *)p)->f8,((struct Obj08448 *)p)->fC,((struct Obj08448 *)p)->f10,(u32)p,((struct Obj08448 *)p)->f16,122);CLACT_SetActorAutoAnim(r,1);return r;}
+struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Obj08448 *)p)->f8,((struct Obj08448 *)p)->fC,((struct Obj08448 *)p)->f10,(u32)p,((struct Obj08448 *)p)->f16,122);CLACT_SetActorAutoAnim(r,1);return r;}
 
 
 
 
 
-void func_021BA4FC(char *ctx)
+void UN_SELECT_SetActorVisible(char *ctx)
 {
     int i;
     void *item;
@@ -1363,7 +1363,7 @@ void UN_SELECT_Check(const char *p,int delta)
 /*
  * single-lever: row base retains ctx+i*4; fields at 244/2DC reproduce rematerialized id offset instead of hoisting a second array base.
  */
-void func_021BA61C(char *ctx)
+void UN_SELECT_InitActorPositions(char *ctx)
 {
     int i;
     void *item;
@@ -1389,21 +1389,21 @@ void func_021BA61C(char *ctx)
 /*
  * extent: 2 zero alignment bytes at 021BA6BA.
  */
-void func_021BA680(char *p,int v){PtS pos;s16 y;void *o;o=((struct Obj03959 *)p)->f2CC;y=(s16)v;if(y<16)y=16;else if(y>152)y=152;CLACT_GetActorSurfacePos(o,&pos,0);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,0);}
+void UN_SELECT_SetActorX(char *p,int v){PtS pos;s16 y;void *o;o=((struct Obj03959 *)p)->f2CC;y=(s16)v;if(y<16)y=16;else if(y>152)y=152;CLACT_GetActorSurfacePos(o,&pos,0);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,0);}
 
 
 
 
 
 
-void func_021BA6BC(char *p,int y){PtS pos;void *o=((struct Obj03959 *)p)->f240;CLACT_GetActorSurfacePos(o,&pos,65535);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,65535);}
+void UN_SELECT_SetActorY(char *p,int y){PtS pos;void *o=((struct Obj03959 *)p)->f240;CLACT_GetActorSurfacePos(o,&pos,65535);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,65535);}
 
 
 
 
 
 
-void func_021BA6E8(u32 p, int sel, u32 y)
+void UN_SELECT_SetActorPos(u32 p, int sel, u32 y)
 {
     u32 base;
     u32 space;
@@ -1419,7 +1419,7 @@ void func_021BA6E8(u32 p, int sel, u32 y)
         n = 7;
     }
     for (i = 0; i < n; i++) {
-        if (func_021BA720(base, i, space, y)) break;
+        if (UN_SELECT_SetActorPosEx(base, i, space, y)) break;
     }
 }
 
@@ -1427,13 +1427,13 @@ void func_021BA6E8(u32 p, int sel, u32 y)
 
 
 
-int func_021BA720(u32 base,u32 i,u32 space,int y){PtS pos;int r;void *o;o=*(void **)(base+i*4);r=0;if(CLACT_GetActorDrawEnable(o)==0){CLACT_SetActorDrawEnable(o,1);r=1;CLACT_GetActorSurfacePos(o,&pos,space);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,space);}return r;}
+int UN_SELECT_SetActorPosEx(u32 base,u32 i,u32 space,int y){PtS pos;int r;void *o;o=*(void **)(base+i*4);r=0;if(CLACT_GetActorDrawEnable(o)==0){CLACT_SetActorDrawEnable(o,1);r=1;CLACT_GetActorSurfacePos(o,&pos,space);pos.y=y;CLACT_AddActorSurfacePos(o,&pos,space);}return r;}
 
 
 
 
 
-int func_021BA75C(char *p, int v)
+int UN_SELECT_ContainsItem(char *p, int v)
 {
     int i;
     for (i = 0; i < 0x14; i++)
@@ -1451,7 +1451,7 @@ int func_021BA75C(char *p, int v)
 
 
 
-unsigned int func_021BA780(int v)
+unsigned int UN_SELECT_FindTableIndex(int v)
 {
     int i;
     for (i = 0; i < 0x82; i++)
@@ -1472,7 +1472,7 @@ unsigned int func_021BA780(int v)
 
 
 
-void func_021BA7A4(void)
+void UN_SELECT_SetupDisplay(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);

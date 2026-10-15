@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EE8
+ * function: MANUAL_COMMON_InitDisplay
  * address: 0x021B9EE8
  * packet: pkt_ov225_021B9EE8
  * region: ov225
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021B9EE8(void *a0){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}
+void MANUAL_COMMON_InitDisplay(void *a0){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;func_02040588(2,1);}

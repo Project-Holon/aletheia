@@ -16,13 +16,13 @@
  *
  * symbols:
  *   IRC_RANKING_ListTransferWindows 0x021B8648 thumb ov106
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  */
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void IRC_RANKING_ListTransferWindows(u8 *);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 #define H(o) (*(s16 *)(p + (o)))
 #define W(o) (*(u32 *)(p + (o)))
 void IRC_RANKING_ListScrollTask(void *unused, u8 *p)
@@ -65,10 +65,10 @@ void IRC_RANKING_ListScrollTask(void *unused, u8 *p)
                 }
             }
         }
-        func_02040618(p[0x548], 3, x);
-        func_02040618(p[0x549], 3, x);
-        func_02040618(p[0x54a], 3, y);
-        func_02040618(p[0x54b], 3, y);
+        BG_SYS_FillScrollArea(p[0x548], 3, x);
+        BG_SYS_FillScrollArea(p[0x549], 3, x);
+        BG_SYS_FillScrollArea(p[0x54a], 3, y);
+        BG_SYS_FillScrollArea(p[0x54b], 3, y);
         W(0x598) = 0;
     }
 }

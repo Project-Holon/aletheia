@@ -31,7 +31,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -39,7 +39,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   gSubwayMapGraphicSubBgLayerTable 0x021B9C04 data a4
  *   gSubwayMapGraphicChoiceAssets 0x021B9D40 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -95,10 +95,10 @@
  */
 #define DISP (*(volatile u16 *)0x04000060)
 struct GfFont;
-struct Obj0203159C;
+struct Proc;
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 struct DispVram;
 struct BgTemplate;
 struct DispConfig;
@@ -135,7 +135,7 @@ struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 typedef signed short s16;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);
+extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
@@ -153,15 +153,15 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
@@ -199,7 +199,7 @@ extern void G3D_SYSTEM_Init(u32,u32,u32,u32,unsigned short,u32,void(*)(void));
 extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,void *,void *,void *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(u32 x);
-int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args);
+int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args);
 int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p);
 int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p);
 void SUBWAY_MAP_GRAPHIC_TaskNoop(void);
@@ -240,7 +240,7 @@ static inline void GXS_SetMode(SubDisplayMode mode) {
 
 
 
-int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args)
+int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
 {
  struct SubwayMapWork *p;
  SubBgLayerIndex i;
@@ -280,7 +280,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args)
  func_02049658(arc,gSubwayMapGraphicChoiceAssets[choice].screen,4,0,0,0,heap);
  func_020498F4(arc,gSubwayMapGraphicChoiceAssets[choice].chars,4,0,0,0,heap);
  ARC_TOOL_DeleteHandle(arc);
- func_020409B4(4);
+ BG_SYS_PushTile(4);
  FADE_Start(3,16,0,0);
  GFL_NET_RestartWithDefaultTimeout(0,p->heap);
  return 1;
@@ -297,7 +297,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Obj0203159C *proc,void *unused,void **args)
 int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p)
 {
     SubBgLayerIndex i=SUB_BG_LAYER_FIRST;
-    do { func_020403F4((unsigned char)gSubwayMapGraphicSubBgLayerTable[i].id); i++; } while(i<1U);
+    do { BG_SYS_FreeLayerBuf((unsigned char)gSubwayMapGraphicSubBgLayerTable[i].id); i++; } while(i<1U);
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
     SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(p);
@@ -351,8 +351,8 @@ void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
     func_020498F4(narc, 2, 1, 0, 0, 0, *work);
     func_020498F4(narc, 3, 2, 0, 0, 0, *work);
     ARC_TOOL_DeleteHandle(narc);
-    func_020409B4(1);
-    func_020409B4(2);
+    BG_SYS_PushTile(1);
+    BG_SYS_PushTile(2);
 }
 
 
@@ -539,7 +539,7 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
 
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p) {
     u32 i;
-    for (i=0; i<2; i++) func_020403F4((u8)(*(const u32 *)((const u8 *)gSubwayMapGraphicMainBgLayerTable+i*44)));
+    for (i=0; i<2; i++) BG_SYS_FreeLayerBuf((u8)(*(const u32 *)((const u8 *)gSubwayMapGraphicMainBgLayerTable+i*44)));
     BMP_WIN_Exit();
     BG_SYS_Delete();
     MI_CpuFill8(p,0,4);

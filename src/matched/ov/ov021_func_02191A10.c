@@ -12,7 +12,7 @@
  * symbols:
  *   d_021DDA50     0x021DDA50  data  a4
  *   func_02030734  0x02030734  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_Create  0x02043678  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -25,7 +25,7 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   FIELD_MSGBG_DrawBgWinFrame  0x02191DC8  thumb  ov021
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   FIELD_MSGBG_InitCursor  0x021927C0  thumb  ov021
  *   FIELD_MSGBG_SetBlend  0x02193044  thumb  ov021
  * Addresses are Black-image addresses.
@@ -38,7 +38,7 @@ typedef unsigned int   u32;
 extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Bmp;
 struct Cfg;
@@ -56,7 +56,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern void FIELD_MSGBG_DrawBgWinFrame(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 pal);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 struct Fx;
 struct G;
 extern void FIELD_MSGBG_InitCursor(struct G *g, struct Fx *a);
@@ -74,8 +74,8 @@ u32 *FIELD_MSGBG_CreateBgWinFont(u16 *a, u32 b, u32 c)
     p[0] = (u32)a;
     p[12] = c;
     p[7] = -48;
-    func_02040618((u8)a[1], 0, 0);
-    func_02040618((u8)((u16 *)p[0])[1], 3, p[7]);
+    BG_SYS_FillScrollArea((u8)a[1], 0, 0);
+    BG_SYS_FillScrollArea((u8)((u16 *)p[0])[1], 3, p[7]);
     p[1] = BMP_WIN_Create((u8)a[1], 2, 0x13, 0x1c, 4, 9, 1);
     p[2] = (u32)BMP_Create(0x1c, 4, 0x20, a[0]);
     p[3] = (u32)BMP_Create(0x1c, 4, 0x20, a[0]);
@@ -88,7 +88,7 @@ u32 *FIELD_MSGBG_CreateBgWinFont(u16 *a, u32 b, u32 c)
     w = BMP_WIN_GetWidth((struct Descriptor *)p[1]);
     h = BMP_WIN_GetHeight((struct Descriptor *)p[1]);
     FIELD_MSGBG_DrawBgWinFrame((u8)a[1], x, y, w, h, 0x33, 9);
-    func_020409B4((u8)a[1]);
+    BG_SYS_PushTile((u8)a[1]);
     FIELD_MSGBG_InitCursor((struct G *)(p + 10), (struct Fx *)p[0]);
     a[3] = 11;
     FIELD_MSGBG_SetBlend(0);

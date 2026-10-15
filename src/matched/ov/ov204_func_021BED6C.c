@@ -1,5 +1,5 @@
 /*
- * function: func_021BED6C
+ * function: INTRO_CMD_DeleteActors
  * address: 0x021BED6C
  * packet: pkt_ov204_021BED6C
  * region: ov204
@@ -19,7 +19,7 @@ extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-int func_021BED6C(char *p)
+int INTRO_CMD_DeleteActors(char *p)
 {
     unsigned i;
     for (i = 0; i < 3; i++) {

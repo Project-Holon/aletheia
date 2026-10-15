@@ -15,7 +15,7 @@
  *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
  *   INTRUDE_COMM_VIEW_DeleteResources 0x021D4AD4 thumb ov122
  *   TCBL_Destroy 0x02031140 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -49,12 +49,12 @@ struct Obj;
 struct PrintSys;
 struct Rec3;
 struct S02031140;
-struct S020315D4;
+struct Proc;
 struct TaskMenu;
 struct TaskMenuState;
 struct WordSet;
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void CLACT_DeleteActor(struct Obj *p);
@@ -71,7 +71,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int INTRUDE_COMM_VIEW_Exit(void *a, void *b, char *out, char *p)
 {
@@ -81,7 +81,7 @@ int INTRUDE_COMM_VIEW_Exit(void *a, void *b, char *out, char *p)
     INTRUDE_COMM_VIEW_DeleteResources(p);
     ((struct Obj22936 *)out)->f20 = ((struct Obj00911 *)p)->f8;
     TCBL_Destroy(((struct Obj00911 *)p)->f31C);
-    func_020403F4(5);
+    BG_SYS_FreeLayerBuf(5);
     PRINTSYS_QUE_Clear(((struct Obj00911 *)p)->f320);
     PRINTSYS_QUE_Delete(((struct Obj00911 *)p)->f320);
     for (i = 0; i < 3; i++) CLACT_DeleteActor(*(void **)(p + i * 4 + 0x390));

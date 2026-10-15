@@ -1,5 +1,5 @@
 /*
- * function: func_021E867C
+ * function: WIFIBATTLEMATCH_UTIL_Main
  * address: 0x021E867C
  * packet: pkt_ov177_021E867C
  * region: ov177
@@ -31,7 +31,7 @@ typedef signed int     s32;
 struct Blk;
 extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 extern void TCBL_Main(struct Tcbl *p);
-void func_021E867C(char *p)
+void WIFIBATTLEMATCH_UTIL_Main(char *p)
 {
  void *q;
  PRINTSYS_QUE_Main(((struct Obj00842 *)p)->f28);

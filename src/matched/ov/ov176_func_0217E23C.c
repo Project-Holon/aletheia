@@ -1,5 +1,5 @@
 /*
- * function: func_0217E23C
+ * function: LIVEBATTLEMATCH_IRC_GetRegulation
  * address: 0x0217E23C
  * packet: pkt_ov176_0217E23C
  * region: ov176
@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * leaf: follower of func_0217E1FC
+ * leaf: follower of LIVEBATTLEMATCH_IRC_SendRegulation
  */
 #include "../include/Obj14368.h"
-int func_0217E23C(char *p, void **out)
+int LIVEBATTLEMATCH_IRC_GetRegulation(char *p, void **out)
 {
     int value = ((struct Obj14368 *)p)->f1008;
     if (value) {

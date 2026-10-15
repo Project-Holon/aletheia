@@ -17,7 +17,7 @@
  *   BTLV_INPUT_SetActionUnitVisible 0x02205B80 thumb ov094
  *   func_020498F4 0x020498F4 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   CLACT_SetUnitDrawEnable 0x0204B22C arm
  *   BTLV_INPUT_StartBgWipeTask 0x022044C0 thumb ov094
@@ -64,7 +64,7 @@ struct Cfg;
 struct Descriptor;
 struct Obj;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void BTLV_INPUT_StartBgWipeTask(Main *, int, int, int, int);
@@ -94,7 +94,7 @@ void BTLV_INPUT_ActionScreenOpenTask(void *task, Ctx *c)
         BTLV_INPUT_StartBgWipeTask(c->main, 0, 0x1c0, 8, 8);
         BTLV_INPUT_BlendWindowPalette((char *)c->main);
         BMP_WIN_MakeScreen(c->main->obj230);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         PALANM_RequestFadeOverwrite(c->main->pal, 2, 3, 1, 12, 0, 0x842, c->main->owner);
         c->state++;
         break;

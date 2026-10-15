@@ -15,8 +15,8 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern void CTVT_CALL_WorkDelete(u8 *p);
 extern u32 func_020307B0(void *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int h);
 int COMM_TVT_SYS_ProcExit(void *a, void *b, int c, u32 *p)
 {

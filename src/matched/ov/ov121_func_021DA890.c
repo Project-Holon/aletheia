@@ -1,5 +1,5 @@
 /*
- * function: func_021DA890
+ * function: MYSTERY_UTIL_DeleteTask
  * address: 0x021DA890
  * packet: pkt_ov121_021DA890
  * region: ov121
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-void func_021DA890(void *p) { func_020307B0(p); }
+void MYSTERY_UTIL_DeleteTask(void *p) { func_020307B0(p); }

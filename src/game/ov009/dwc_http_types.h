@@ -6,7 +6,7 @@
  * against every view the parts had.
  */
 
-/* Parameter block handed to DWC_Http_Create (g_021A2358 and its sibling
+/* Parameter block handed to DWC_Http_Create (gDwcHttpParamArg and its sibling
  * gDwcHttpParamArg). Field offsets: url 0x00, action 0x04, len_recvbuf 0x08,
  * alloc 0x0c, free 0x10, ignoreca 0x14, timeout 0x18. */
 typedef struct DWCHttpParam {

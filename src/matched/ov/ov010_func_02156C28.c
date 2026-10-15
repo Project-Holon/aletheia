@@ -17,8 +17,8 @@
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
 typedef signed int     s32;
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern char ov133_id[];

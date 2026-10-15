@@ -1,5 +1,5 @@
 /*
- * function: func_022132C4
+ * function: WIFIBATTLEMATCH_SYS_BuildSlotCommand
  * address: 0x022132C4
  * packet: pkt_ov199_022132C4
  * region: ov199
@@ -49,7 +49,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned short, int);
 extern const char d_02213D04[];
 extern const char ov093_id[];
-void *func_022132C4(void *unused, int heap, char *p)
+void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, int heap, char *p)
 {
     char *work = func_02030734(heap, 0xf0, 0, d_02213D04, 0x6f4);
     MI_CpuFill8(work, 0, 0xf0);

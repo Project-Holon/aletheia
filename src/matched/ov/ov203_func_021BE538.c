@@ -1,5 +1,5 @@
 /*
- * function: func_021BE538
+ * function: DEMO3D_ENGINE_Update
  * address: 0x021BE538
  * packet: pkt_ov203_021BE538
  * region: ov203
@@ -17,11 +17,11 @@
  *   G3D_UTIL_GetObject 0x02048A18 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
- *   func_021BE508 0x021BE508 thumb
+ *   DEMO3D_ENGINE_SetClipPlanes 0x021BE508 thumb
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_021BDF18 0x021BDF18 thumb
+ *   DEMO3D_GRAPHIC_UpdateLookAt 0x021BDF18 thumb
  *   G3D_SYSTEM_DrawObject 0x02047A60 arm
- *   func_021BDF24 0x021BDF24 thumb
+ *   DEMO3D_GRAPHIC_EndDraw 0x021BDF24 thumb
  *   DOUBLE3DDISP_SetDrawDone 0x0204EA4C arm
  */
 typedef unsigned int u32;
@@ -39,13 +39,13 @@ extern void ICA_ANIME_SetCameraStatus(void *,void *);
 extern u32 G3D_UTIL_GetObject(u8 *,int);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
-extern void func_021BE508(char *p, struct Light *q);
+extern void DEMO3D_ENGINE_SetClipPlanes(char *p, struct Light *q);
 extern void G3D_CAMERA_Reset(struct Light *);
-extern void func_021BDF18(char *p);
+extern void DEMO3D_GRAPHIC_UpdateLookAt(char *p);
 extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
-extern void func_021BDF24(char *p);
+extern void DEMO3D_GRAPHIC_EndDraw(char *p);
 extern void DOUBLE3DDISP_SetDrawDone(void);
-int func_021BE538(const struct Context *ctx, u32 frames)
+int DEMO3D_ENGINE_Update(const struct Context *ctx, u32 frames)
 {
     u32 done;
     long advance = 0;
@@ -63,13 +63,13 @@ int func_021BE538(const struct Context *ctx, u32 frames)
         int j, count=G3D_SYSTEM_GetObjectAnimeCount(obj);
         for(j=0;j<count;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,(u16)j,advance);
     }
-    if(ctx->a10 != 0) func_021BE508((char *)ctx,ctx->light);
+    if(ctx->a10 != 0) DEMO3D_ENGINE_SetClipPlanes((char *)ctx,ctx->light);
     G3D_CAMERA_Reset(ctx->light);
-    func_021BDF18(ctx->a0);
+    DEMO3D_GRAPHIC_UpdateLookAt(ctx->a0);
     for(i=0;i<ctx->count;i++) {
         G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(ctx->table,ctx->indices[i]),(struct Arg *)ctx->args);
     }
-    func_021BDF24(ctx->a0);
+    DEMO3D_GRAPHIC_EndDraw(ctx->a0);
     if(ctx->a10 != 0) DOUBLE3DDISP_SetDrawDone();
     return done;
 }

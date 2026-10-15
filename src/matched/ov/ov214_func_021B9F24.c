@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F24
+ * function: BTL_REC_SEL_InitWindows
  * address: 0x021B9F24
  * packet: pkt_ov214_021B9F24
  * region: ov214
@@ -48,7 +48,7 @@ static inline void init_palette(struct Palette *pal)
 {
     pal->a=0x294b; pal->b=0x5694; pal->c=0x7fff;
 }
-void func_021B9F24(void *unused, struct C *p)
+void BTL_REC_SEL_InitWindows(void *unused, struct C *p)
 {
     struct Palette *pal = func_02030734(p->heap,6,1,d_021BB658,0x5e9);
     init_palette(pal);

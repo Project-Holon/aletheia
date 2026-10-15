@@ -55,7 +55,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02061CA4 0x02061CA4 arm
  *   BMP_Clear 0x02043B5C arm
  *   _u32_div_f 0x0209C2B0 arm
@@ -147,7 +147,7 @@ extern u32 KEY_GetTrg(void);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -323,7 +323,7 @@ u32 CTVT_TALK_Main(void *p, S *s)
         if (PRINTSYS_QUE_IsExistTarget(h, BMP_WIN_GetBmp(s->f7C)) == 0) {
             BMP_WIN_TransferChars(s->f7C);
             BMP_WIN_MakeScreen(s->f7C);
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             s->f28 = 0;
             if (s->f84 == 1) {
                 s->f84 = 0;

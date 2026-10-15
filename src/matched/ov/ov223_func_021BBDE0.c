@@ -29,7 +29,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   PSEL_ShowTaskRes 0x021BB3BC thumb ov223
- *   PSEL_UpdateB414 0x021BB414 thumb ov223
+ *   PSEL_UpdateTaskResWin 0x021BB414 thumb ov223
  *   PSEL_SetTaskResActive 0x021BB424 thumb ov223
  *   PSEL_DeleteTaskRes 0x021BB404 thumb ov223
  *   func_02041B6C 0x02041B6C arm
@@ -44,11 +44,11 @@
  *   PSEL_GRAPHIC_GetMenuChoice 0x021BB508 thumb ov223
  *   PSEL_GRAPHIC_CloseMenu 0x021BB4D8 thumb ov223
  *   func_020355C4 0x020355C4 arm
- *   PSEL_UpdateB134 0x021BB134 thumb ov223
+ *   PSEL_UpdateSubWindow 0x021BB134 thumb ov223
  *   PSEL_SetAnimTargetIndex 0x021B9C00 thumb ov223
  *   PSEL_StepAnimIndex 0x021B9C58 thumb ov223
  *   PSEL_ClearWin 0x021BB274 thumb ov223
- *   PSEL_UpdateB18C 0x021BB18C thumb ov223
+ *   PSEL_PrintSubWindow 0x021BB18C thumb ov223
  *   PM_VOICE_Play 0x02006984 thumb
  *   d_021BC75C 0x021BC75C data a4
  *   d_021BC794 0x021BC794 data a2
@@ -76,7 +76,7 @@ extern void PSEL_GRAPHIC_SetFadeSource(unsigned char *p, int value);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void PSEL_ShowTaskRes(char *),PSEL_UpdateB414(char *),PSEL_SetTaskResActive(char *),PSEL_DeleteTaskRes(char *),func_02041B6C(u32);
+extern void PSEL_ShowTaskRes(char *),PSEL_UpdateTaskResWin(char *),PSEL_SetTaskResActive(char *),PSEL_DeleteTaskRes(char *),func_02041B6C(u32);
 extern u32 PSEL_IsTaskResFinished(char *);
 extern void PSEL_SetAnimTarget(char *,int,int),PSEL_StepAnim(char *);
 extern int PSEL_IsAnimTargetReached(char *);
@@ -84,11 +84,11 @@ extern void func_020355D8(u32);
 extern void PSEL_GRAPHIC_OpenMenu(char *);
 extern void PSEL_GRAPHIC_UpdateMenu(char *);
 extern void PSEL_GRAPHIC_CloseMenu(char *);
-extern void PSEL_UpdateB134(char *);
+extern void PSEL_UpdateSubWindow(char *);
 extern void PSEL_SetAnimTargetIndex(char *,u32);
 extern void PSEL_StepAnimIndex(char *);
 extern void PSEL_ClearWin(char *);
-extern void PSEL_UpdateB18C(char *p, int idx);
+extern void PSEL_PrintSubWindow(char *p, int idx);
 extern u32 PSEL_GRAPHIC_IsMenuFinished(char *);
 extern int PSEL_GRAPHIC_GetMenuChoice(int *);
 extern u8 func_020355C4(void);
@@ -128,14 +128,14 @@ int PSEL_GRAPHIC_Main(char *p,u32 *state)
         }break;
     case 5:PSEL_ShowTaskRes(p);*state=6;break;
     case 6:
-        PSEL_UpdateB414(p);
+        PSEL_UpdateTaskResWin(p);
         if(KEY_GetTrg()!=0){((struct Obj00084 *)p)->f8=0;if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(p);*state=7;}else{PSEL_DeleteTaskRes(p);func_02041B6C(3);*state=3;}}
         else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;PSEL_SelectUnit(p,choice);PSEL_SetUnitVisible(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)p,(u8)selected);dirty=1;}}break;
-    case 7:PSEL_UpdateB414(p);if(PSEL_IsTaskResFinished(p)){PSEL_DeleteTaskRes(p);func_02041B6C(3);*state=8;}break;
+    case 7:PSEL_UpdateTaskResWin(p);if(PSEL_IsTaskResFinished(p)){PSEL_DeleteTaskRes(p);func_02041B6C(3);*state=8;}break;
     case 8:PSEL_SetMode(p,(u32)20);PSEL_SetAnimTarget(p,*(int *)&((struct Obj00084 *)p)->f228,0);*state=9;break;
     case 9:PSEL_StepAnim(p);if(PSEL_IsModeDone(p)&&PSEL_IsAnimTargetReached(p))*state=10;break;
     case 10:func_020355D8(*(u32 *)&((struct Obj00084 *)p)->f8);PSEL_GRAPHIC_OpenMenu(p);*state=11;break;
-    case 11:PSEL_GRAPHIC_UpdateMenu(p);if(PSEL_GRAPHIC_IsMenuFinished(p)){choice=PSEL_GRAPHIC_GetMenuChoice((int *)p);PSEL_GRAPHIC_CloseMenu(p);*(u32 *)&((struct Obj00084 *)p)->f8=func_020355C4();if(choice){((struct Obj00084 *)p)->f24|=8;PSEL_UpdateB134(p);*state=14;}else{PSEL_SetMode(p,(u32)19);*state=12;}}break;
+    case 11:PSEL_GRAPHIC_UpdateMenu(p);if(PSEL_GRAPHIC_IsMenuFinished(p)){choice=PSEL_GRAPHIC_GetMenuChoice((int *)p);PSEL_GRAPHIC_CloseMenu(p);*(u32 *)&((struct Obj00084 *)p)->f8=func_020355C4();if(choice){((struct Obj00084 *)p)->f24|=8;PSEL_UpdateSubWindow(p);*state=14;}else{PSEL_SetMode(p,(u32)19);*state=12;}}break;
     case 12:PSEL_SetAnimTarget(p,*(int *)&((struct Obj00084 *)p)->f228,1);*state=13;break;
     case 13:PSEL_StepAnim(p);if(PSEL_IsAnimTargetReached(p))*state=3;break;
     case 14:PSEL_SetAnimTargetIndex(p,((struct Obj00084 *)p)->f228);GFL_USE_PlaySeDefaultVolume(1976);*state=15;break;
@@ -143,6 +143,6 @@ int PSEL_GRAPHIC_Main(char *p,u32 *state)
     case 16:PSEL_StepAnimIndex(p);*(int *)&((struct Obj00084 *)p)->f10=0;return 10;
     }
     if(dirty){((struct Obj00084 *)p)->f24|=32;PSEL_ClearWin(p);}
-    else if(((struct Obj00084 *)p)->f230!=0){((struct Obj00084 *)p)->f24|=16;PSEL_UpdateB18C(p,(u32)(((struct Obj00084 *)p)->f228));PM_VOICE_Play(d_021BC710[((struct Obj00084 *)p)->f228],0,64,0,0,0,0,0);}
+    else if(((struct Obj00084 *)p)->f230!=0){((struct Obj00084 *)p)->f24|=16;PSEL_PrintSubWindow(p,(u32)(((struct Obj00084 *)p)->f228));PM_VOICE_Play(d_021BC710[((struct Obj00084 *)p)->f228],0,64,0,0,0,0,0);}
     ((struct Obj00084 *)p)->f230=0;++((struct Obj00084 *)p)->f10;return 9;
 }

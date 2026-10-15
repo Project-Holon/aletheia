@@ -53,7 +53,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   PMS_INPUT_VIEW_GetUiRes 0x021BAC64 thumb ov110
  *   PMS_INPUT_VIEW_CreateActor 0x021BAC78 thumb ov110
@@ -138,7 +138,7 @@ extern void CLACT_ReleaseCellAnim(u32 id);
 extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *res);
 extern void APP_TASKMENU_WIN_Update(struct AppTaskMenuWin *win);
 extern void APP_TASKMENU_WIN_Delete(struct AppTaskMenuWin *win);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void *func_02045EC0(struct MsgData *msgData, u32 index);
 extern struct AppTaskMenuWin *APP_TASKMENU_WIN_Create(struct AppTaskMenuRes *res, const struct PmsivMenuEntry *entry, u32, u8, u8, u16 heapId);
 extern void APP_TASKMENU_WIN_ChangePalette(struct AppTaskMenuWin *win, struct AppTaskMenuRes *res, u32, u32, u16);
@@ -270,7 +270,7 @@ void PMSIV_MENU_HideAll(struct PmsivMenu *menu) {
     }
     for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_SetActorDrawEnable(menu->items[i], 0);
     for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_SetActorDrawEnable(menu->extraItems[i], 0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     CLACT_SetActorDrawEnable(menu->backButton, 0);
 }
 
@@ -299,7 +299,7 @@ void PMSIV_MENU_ShowEditEntries(struct PmsivMenu *menu)
         APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[i],menu->taskMenuRes[i],8,0x3545,0x7b2c);
     }
     PMSIV_MENU_UpdateEntryPalette(menu);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     if(PMS_INPUT_HasInitialSentence(menu->input)==0 && PMS_INPUT_GetInputMode(menu->input)==2) {
         CLACT_SetActorDrawEnable(menu->items[0], 1);
         CLACT_SetActorDrawEnable(menu->items[1], 1);
@@ -614,7 +614,7 @@ void PMSIV_MENU_ShowListEntries(struct PmsivMenu *menu) {
         APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[i],menu->taskMenuRes[i],8,0x3545,0x7b2c);
     }
     PMSIV_MENU_UpdateEntryPalettes(menu);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 }
 
 /*

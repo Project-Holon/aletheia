@@ -12,7 +12,7 @@
  *   WIFIBATTLEMATCH_NET_SetupPostData 0x021DCB58 thumb ov175
  *   WIFIBATTLEMATCH_NET_HttpRapPost 0x021DCC28 thumb ov175
  *   WIFIBATTLEMATCH_NET_CopyCompResponse 0x021D9B18 thumb ov175
- *   func_021E8AA8 0x021E8AA8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  */
 #include "../include/Obj03868.h"
 #include "../include/Obj24294.h"
@@ -22,7 +22,7 @@ extern void WIFIBATTLEMATCH_NET_SetupPostData(char *p, void *q, int mode);
 typedef unsigned char  u8;
 extern int WIFIBATTLEMATCH_NET_HttpRapPost(char *p, u8 *out);
 extern void WIFIBATTLEMATCH_NET_CopyCompResponse(char *save, char *response);
-extern void func_021E8AA8(int a);
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 void WIFIBATTLEMATCH_NET_CompStepO(u32 sys, int *state, char *ctx)
 {
     char *save;
@@ -51,6 +51,6 @@ void WIFIBATTLEMATCH_NET_CompStepO(u32 sys, int *state, char *ctx)
             *state = 4;
         }
         break;
-    case 4: func_021E8AA8(sys); break;
+    case 4: WIFIBATTLEMATCH_UTIL_ClearCallback(sys); break;
     }
 }

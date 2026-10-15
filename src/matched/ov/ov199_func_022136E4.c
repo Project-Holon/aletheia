@@ -1,5 +1,5 @@
 /*
- * function: func_022136E4
+ * function: WIFIBATTLEMATCH_SYS_CreateProcWork
  * address: 0x022136E4
  * packet: pkt_ov199_022136E4
  * region: ov199
@@ -20,7 +20,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *, int, unsigned int);
 extern void *PROCSYS_Create(int);
 extern const char d_02213D04[];
-void *func_022136E4(void *a, void *b, void *c, int heap)
+void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *a, void *b, void *c, int heap)
 {
     char *work = func_02030734(heap, 0x20, 0, d_02213D04, 0x846);
     MI_CpuFill8(work, 0, 0x20);

@@ -19,8 +19,8 @@
 typedef unsigned int u32;
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void *func_0203084C(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 int MB_SEQ_ProcExit(void *a, void *b, void *c, u32 *p)

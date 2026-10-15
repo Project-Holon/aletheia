@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAABC",
+   "name": "MANUAL_COMMON_UpdateListWorkInput",
    "address": "0x021BAABC",
    "kind": "game",
    "region": "ov225",

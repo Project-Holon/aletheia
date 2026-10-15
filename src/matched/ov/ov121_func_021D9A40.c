@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A40
+ * function: MYSTERY_UTIL_DeleteWindow
  * address:  0x021D9A40
  * packet:   pkt_021D9A40
  * region:   ov121
@@ -29,7 +29,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 
-void func_021D9A40(u8 *p)
+void MYSTERY_UTIL_DeleteWindow(u8 *p)
 {
     BMP_WIN_Delete(((struct Obj13950 *)p)->fC);
     STRBUF_Delete(((struct Obj13950 *)p)->f10);

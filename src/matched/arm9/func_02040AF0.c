@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_02040968  0x02040968  arm
+ *   BG_SYS_SetupMemory  0x02040968  arm
  *
  * Decode a tile source straight into slot `index`'s tile buffer at a tile
  * offset.  The offset scales by two, so the buffer is addressed in
@@ -36,9 +36,9 @@ struct Slot {
 
 extern struct Slot *g_02146A44;
 
-extern void func_02040968(const void *src, void *dst, u32 mode);
+extern void BG_SYS_SetupMemory(const void *src, void *dst, u32 mode);
 
 void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset)
 {
-    func_02040968(src, g_02146A44[index].tiles + offset, mode);
+    BG_SYS_SetupMemory(src, g_02146A44[index].tiles + offset, mode);
 }

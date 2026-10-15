@@ -1,5 +1,5 @@
 /*
- * function: func_0217DFF0
+ * function: LIVEBATTLEMATCH_IRC_ToggleSe
  * address:  0x0217DFF0
  * packet:   pkt_0217DFF0
  * region:   ov176
@@ -17,7 +17,7 @@
 
 extern int func_02040588(int, int);
 
-int func_0217DFF0(int a0, int b)
+int LIVEBATTLEMATCH_IRC_ToggleSe(int a0, int b)
 {
     return func_02040588(0, (unsigned char)b);
 }

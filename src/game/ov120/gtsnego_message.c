@@ -39,8 +39,8 @@
  *   gGtsnegoIconZ 0x021D893C data a2
  *   gGtsnegoIconW 0x021D8934 data a2
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_02040618 0x02040618 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   func_02008554 0x02008554 thumb
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
@@ -243,8 +243,8 @@ extern void func_02041B6C(u32 bit);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020409B4(u32);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_PushTile(u32);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -687,10 +687,10 @@ void GTSNEGO_MSG_ScrollAllRows(u8 *p, int flag)
 
 void GTSNEGO_MSG_SetupRowBg(void *a0)
 {
-    func_02040618(4, 3, 0);
-    func_02040618(6, 3, 0);
+    BG_SYS_FillScrollArea(4, 3, 0);
+    BG_SYS_FillScrollArea(6, 3, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 32, 32, 17);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }
 
 void GTSNEGO_MSG_CreateListActor(u8 *p, int n, int k)
@@ -850,7 +850,7 @@ void GTSNEGO_MSG_CreateIdleUi(u8 *p)
     ((struct GtsnegoMsgCtx *)p)->f114=1;
 }
 
-void GTSNEGO_MSG_StepIdleFade(struct GtsnegoMsgCtx *p) { if(p->f114) { func_02040618(2,3,p->f110); p->f110+=1; } }
+void GTSNEGO_MSG_StepIdleFade(struct GtsnegoMsgCtx *p) { if(p->f114) { BG_SYS_FillScrollArea(2,3,p->f110); p->f110+=1; } }
 
 /*
  * trailing: 2-byte zero alignment padding at 0x021D770E.

@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BE0EC",
-    "func_021BE100",
-    "func_021BE108"
+    "INTRO_GRAPHIC_DrawCamera",
+    "INTRO_GRAPHIC_DrawEnd",
+    "INTRO_GRAPHIC_NoOp"
+   ],
+   "addresses": [
+    "0x021BE0EC",
+    "0x021BE100",
+    "0x021BE108"
    ]
   }
  ]

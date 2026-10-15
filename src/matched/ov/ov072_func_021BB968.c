@@ -12,7 +12,7 @@
  * symbols:
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -28,7 +28,7 @@ extern struct Ent sTownMapGrhBgTable[];
 
 extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeSlot(u8 a);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *p, int v, int n);
@@ -42,7 +42,7 @@ void TOWNMAP_GRH_ExitBgLayers(void *p)
     for (i = 0; i < 7; i++) {
         id = sTownMapGrhBgTable[i].id;
         BG_SYS_FreeSlot(id);
-        func_020403F4((u8)id);
+        BG_SYS_FreeLayerBuf((u8)id);
     }
     BMP_WIN_Exit();
     BG_SYS_Delete();

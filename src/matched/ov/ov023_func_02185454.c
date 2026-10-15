@@ -14,7 +14,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
@@ -44,7 +44,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *a);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern void APP_TASKMENU_TransWinAfterPrint(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
@@ -85,7 +85,7 @@ int OEKAKI_StepQuitMenuResult(char *p, int x)
         w = ((struct Obj02741 *)p)->f118;
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         break;
     case 1:
         OEKAKI_SetNextScene(p, 4);
@@ -94,7 +94,7 @@ int OEKAKI_StepQuitMenuResult(char *p, int x)
         w = ((struct Obj02741 *)p)->f118;
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             OEKAKI_OpenGroup(p, 1);
             ((struct Obj02741 *)p)->f9E6C = 1;

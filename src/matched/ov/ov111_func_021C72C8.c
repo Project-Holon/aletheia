@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021C885C  0x021C885C  data
  *
@@ -41,7 +41,7 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_Delete(void);
 extern const u32 d_021C885C[];
 
@@ -50,7 +50,7 @@ void VIEWER_TEXT_ExitBg(void)
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        func_020403F4((u8)d_021C885C[i]);
+        BG_SYS_FreeLayerBuf((u8)d_021C885C[i]);
     }
     BG_SYS_Delete();
     *(volatile u16 *)0x04000050 = 0;

@@ -18,7 +18,7 @@
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DecodeTile 0x02040AE0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00835.h"
 #include "../include/Obj02870.h"
@@ -39,7 +39,7 @@ extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern int NNS_G2dGetUnpackedScreenData(void *,void **);
 extern void BG_SYS_DecodeTile(u32,const void *,u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 void GURU2_MAIN_LoadBgPalette(char *p)
 {
     void *buf;
@@ -72,24 +72,24 @@ void GURU2_MAIN_LoadBgPalette(char *p)
     NNS_G2dGetUnpackedScreenData(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     BG_SYS_DecodeTile(2,data+12,((struct Obj02870 *)data)->f8);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_020307B0(buf);
     buf=GURU2_MAIN_LoadArcMember(p,18,0);
     NNS_G2dGetUnpackedScreenData(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     BG_SYS_DecodeTile(3,data+12,((struct Obj02870 *)data)->f8);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_020307B0(buf);
     buf=GURU2_MAIN_LoadArcMember(p,24,0);
     NNS_G2dGetUnpackedScreenData(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     BG_SYS_DecodeTile(6,data+12,((struct Obj02870 *)data)->f8);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_020307B0(buf);
     buf=GURU2_MAIN_LoadArcMember(p,23,0);
     NNS_G2dGetUnpackedScreenData(buf,(void **)(p+0xd5c));
     data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
     BG_SYS_DecodeTile(7,data+12,((struct Obj02870 *)data)->f8);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_020307B0(buf);
 }

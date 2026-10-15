@@ -1,5 +1,5 @@
 /*
- * function: func_021BD668
+ * function: BEACON_DETAIL_GRA_AddFadeTask
  * address: 0x021BD668
  * packet: pkt_ov216_021BD668
  * region: ov216
@@ -13,7 +13,7 @@
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BEACON_DETAIL_GRA_Callback 0x021BD6BC thumb ov216
- *   func_021BCD00 0x021BCD00 thumb ov216
+ *   BEACON_DETAIL_GRA_PlaySe 0x021BCD00 thumb ov216
  */
 #include "../include/Obj03943.h"
 #include "../include/Obj25779.h"
@@ -27,8 +27,8 @@ extern struct TcblNode *TCBL_AddTask(struct Tcbl *, void (*)(struct TcblNode *, 
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
 extern void BEACON_DETAIL_GRA_Callback(struct TcblNode *task, u8 *p);
-extern void func_021BCD00(int);
-void func_021BD668(char *owner, int direction, int *counter)
+extern void BEACON_DETAIL_GRA_PlaySe(int);
+void BEACON_DETAIL_GRA_AddFadeTask(char *owner, int direction, int *counter)
 {
     char *work;
     work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))BEACON_DETAIL_GRA_Callback, 12, 0));
@@ -42,7 +42,7 @@ void func_021BD668(char *owner, int direction, int *counter)
         ((struct Obj03943 *)work)->f4 = -8;
     }
     ((struct Obj03943 *)work)->f1 = 8;
-    func_021BCD00(1357);
+    BEACON_DETAIL_GRA_PlaySe(1357);
     *(int * *)&((struct Obj03943 *)work)->f8 = counter;
     ++*counter;
 }

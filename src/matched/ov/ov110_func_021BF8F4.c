@@ -14,7 +14,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   PMSIV_WORDWIN_CreateActors 0x021BF94C thumb ov110
  *   func_02040588 0x02040588 arm
  */
@@ -31,7 +31,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void PMSIV_WORDWIN_CreateActors(u8 *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void PMSIV_WORDWIN_Setup(u8 *p) {
@@ -40,5 +40,5 @@ void PMSIV_WORDWIN_Setup(u8 *p) {
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01145 *)p)->fC),0);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj01145 *)p)->fC));
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01145 *)p)->fC);
-    func_020409B4(2); PMSIV_WORDWIN_CreateActors(p); func_02040588(2,0);
+    BG_SYS_PushTile(2); PMSIV_WORDWIN_CreateActors(p); func_02040588(2,0);
 }

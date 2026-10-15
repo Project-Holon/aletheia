@@ -1,5 +1,5 @@
 /*
- * function: func_021D93D4
+ * function: WF2DMAP_SCENE_ClearSelection
  * address: 0x021D93D4
  * packet: pkt_ov129_021D93D4
  * region: ov129
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DA158 0x021DA158 thumb ov129
+ *   WF2DMAP_SCENE_GetCellAnim 0x021DA158 thumb ov129
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  * Lever: subscript each record field; clear_record binds the element before its store.
  */
 #include "../include/Obj00912.h"
 
-extern int func_021DA158(int x, int flag);
+extern int WF2DMAP_SCENE_GetCellAnim(int x, int flag);
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -25,9 +25,9 @@ typedef struct  {
 Record;
 static inline unsigned clear_record(Record *q)  {
     q->state=0;
-    return func_021DA158(0,q->flag);
+    return WF2DMAP_SCENE_GetCellAnim(0,q->flag);
 }
-void func_021D93D4(const Record *p)  {
+void WF2DMAP_SCENE_ClearSelection(const Record *p)  {
     int i, v, next;
     ((struct Obj00912 *)p)->f1DC=1;
     ((struct Obj00912 *)p)->f1F4=0;
@@ -44,7 +44,7 @@ void func_021D93D4(const Record *p)  {
     CLACT_SetActorAnimSeq((struct Obj *)p[i].handle,clear_record(&((Record *)p)[i]));
     v=p[i].value;
     if(i>0)  {
-        CLACT_SetActorAnimSeq((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
+        CLACT_SetActorAnimSeq((struct Obj *)p[i-1].handle,WF2DMAP_SCENE_GetCellAnim(p[i-1].state,p[i-1].flag));
         next=p[i-1].value;
         if(v!=next)  {
             ((struct Obj00912 *)p)->f31C=1;

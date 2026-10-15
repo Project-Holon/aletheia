@@ -10,7 +10,7 @@
  * trailing: 2 zero alignment bytes at 0x021DD226
  * symbols:
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_UTIL_DeleteTextWin 0x021FD15C thumb ov186
  */
@@ -19,7 +19,7 @@
 #include "../include/Obj10731.h"
 typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
-extern void func_020409B4(unsigned int);
+extern void BG_SYS_PushTile(unsigned int);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_UTIL_DeleteTextWin(void *, int);
 void BR_CODEIN_RecordTeardownTextWin(char *p, char *q)
@@ -34,7 +34,7 @@ void BR_CODEIN_RecordTeardownTextWin(char *p, char *q)
                 *(int *)&((struct Obj10731 *)slot)->f28 = 0;
             }
         }
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
         BR_RES_ApplyBgSet(((struct Obj06598 *)q)->f10, 30);
         if (((struct Obj00050 *)p)->f18) {
             BR_UTIL_DeleteTextWin(((struct Obj00050 *)p)->f18, ((struct Obj06598 *)q)->f10);

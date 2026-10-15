@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021A1FF8  0x021A1FF8  data
+ *   gDwcCommonKvFormat  0x021A1FF8  data
  *   OS_SNPrintf  0x02084F80  arm
  *   strlen  0x0209477C  arm
  *   strchr  0x02094A28  arm
@@ -50,7 +50,7 @@ extern u64 OS_GetTick(void);
 int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
 /* * lane18 (2026-10-01): EXACT. dwc_common.o's stRandContext32 is a data-local static: * declared as a function-local static (non-aliasing in 1.1p1) with the SDK inlines * MATH_InitRand32/MATH_Rand32, the .bss pool word and the fresh x-store word both fall out. * * sdk: func_021685CC (libdwcmatch.TWL.HYB.a(dwc_common.o)) */ u32 func_021685CC(u32 max);
 /* * Returns the index of the first zero halfword in the array. */ int DWCi_WStrLen(unsigned short *p);
-extern char d_021A1FF8[];
+extern char gDwcCommonKvFormat[];
 
 
 
@@ -60,7 +60,7 @@ extern char d_021A1FF8[];
  */
 int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
-    OS_SNPrintf(string, 0x1000, d_021A1FF8, sep, key, sep, value);
+    OS_SNPrintf(string, 0x1000, gDwcCommonKvFormat, sep, key, sep, value);
     return strlen((const char *)string);
 }
 

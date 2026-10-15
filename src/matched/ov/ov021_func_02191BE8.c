@@ -15,8 +15,8 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   FIELD_MSGBG_PrintTwoLines  0x0219214C  thumb  ov021
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020409B4  0x020409B4  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   FIELD_MSGBG_IsLineMissing  0x02192138  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
  *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
@@ -39,8 +39,8 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern int FIELD_MSGBG_PrintTwoLines(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col);
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
-extern void func_020409B4(u32 layer);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_PushTile(u32 layer);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern int FIELD_MSGBG_IsLineMissing(u32 a, u32 b, u32 c);
 extern u32 KEY_GetTrg(void);
 struct Cur;
@@ -58,7 +58,7 @@ u32 FIELD_MSGBG_BgWinMain(u32 *p, u32 b)
         p[5] = (u32)STRBUF_Create(STRBUF_GetLength((struct U16Vec *)b) + 2, *(u16 *)p[0]);
         FIELD_MSGBG_PrintTwoLines((u32)BMP_WIN_GetBmp((struct Descriptor *)p[1]), p[12], p[4], p[5], p + 9, 15);
         BMP_WIN_TransferChars((struct Descriptor *)p[1]);
-        func_020409B4((u8)((u16 *)p[0])[1]);
+        BG_SYS_PushTile((u8)((u16 *)p[0])[1]);
         p[6]++;
         break;
     case 1:
@@ -67,7 +67,7 @@ u32 FIELD_MSGBG_BgWinMain(u32 *p, u32 b)
             p[7] = 0;
             p[6]++;
         }
-        func_02040618((u8)((u16 *)p[0])[1], 3, p[7]);
+        BG_SYS_FillScrollArea((u8)((u16 *)p[0])[1], 3, p[7]);
         break;
     case 2:
         if (FIELD_MSGBG_IsLineMissing(p[4], p[5], p[9]) == 1) {
@@ -94,7 +94,7 @@ u32 FIELD_MSGBG_BgWinMain(u32 *p, u32 b)
             p[8] += 4;
         }
         BMP_WIN_TransferChars((struct Descriptor *)p[1]);
-        func_020409B4((u8)((u16 *)p[0])[1]);
+        BG_SYS_PushTile((u8)((u16 *)p[0])[1]);
         break;
     case 5:
         if ((KEY_GetTrg() & 0xf3) == 0) {
@@ -106,7 +106,7 @@ u32 FIELD_MSGBG_BgWinMain(u32 *p, u32 b)
         if (*(int *)&p[7] <= -48) {
             p[7] = -48;
         }
-        func_02040618((u8)((u16 *)p[0])[1], 3, p[7]);
+        BG_SYS_FillScrollArea((u8)((u16 *)p[0])[1], 3, p[7]);
         if (*(int *)&p[7] == -48) {
             p[6]++;
             return 1;

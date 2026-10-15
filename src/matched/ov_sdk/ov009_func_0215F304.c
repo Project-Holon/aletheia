@@ -12,15 +12,15 @@
  * Tail call on the object at 0x021AA4B8 with the incoming argument.
  *
  * symbols:
- *   g_021AA4B8  0x021AA4B8  data
+ *   SOCLiTrashList  0x021AA4B8  data
  *   func_0215F2F4  0x0215F2F4  arm  ov009
  */
 
-extern char g_021AA4B8[];
+extern char SOCLiTrashList[];
 extern void func_0215F2F4(char *p, int a);
 
 void SOCLi_SocketRegisterTrash(int a)
 {
-    func_0215F2F4(g_021AA4B8, a);
+    func_0215F2F4(SOCLiTrashList, a);
 }
 

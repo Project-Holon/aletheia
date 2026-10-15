@@ -1,5 +1,5 @@
 /*
- * function: func_021F31A8
+ * function: BEACON_VIEW_FreeResSet
  * address:  0x021F31A8
  * packet:   pkt_ov032_021F31A8
  * region:   ov032
@@ -31,7 +31,7 @@ typedef struct {
     unsigned *a2;
 } T;
 
-void func_021F31A8(void *unused, T *p)
+void BEACON_VIEW_FreeResSet(void *unused, T *p)
 {
     unsigned i;
     int j;

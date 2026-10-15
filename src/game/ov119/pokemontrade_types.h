@@ -415,16 +415,6 @@ typedef struct {
     unsigned int c;
 } Cfg;
 
-typedef struct {
-    char pad0[0x5f4];
-    u16 heap;
-    char pad5f6[0x840 - 0x5f6];
-    void *res;
-    void *obj[4];
-    char pad854[0x118c - 0x854];
-    int mode;
-} Work_021E3004;
-
 /* shared with pokemontrade_3d */
 struct Personal;
 

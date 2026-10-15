@@ -72,9 +72,9 @@
  *   INTRUDE_COMM_AcceptSession 0x02175B4C thumb ov011
  *   INTRUDE_COMM_TakeJoinReply 0x021761EC thumb ov011
  *   INTRUDE_CMD_SendJoinRequest 0x02173E2C thumb ov011
- *   func_021B6B98 0x021B6B98 thumb ov071
- *   func_021B6BEC 0x021B6BEC thumb ov071
- *   func_021B6C74 0x021B6C74 thumb ov071
+ *   MONOLITH_TOOL_HighlightButtonPulse 0x021B6B98 thumb ov071
+ *   MONOLITH_TOOL_HighlightButtonFlash 0x021B6BEC thumb ov071
+ *   MONOLITH_TOOL_GetHighlightMode 0x021B6C74 thumb ov071
  *   MONOLITH_TOOL_StartBlink 0x021B7108 thumb ov071
  *   MONOLITH_TOOL_IsBlinking 0x021B7114 thumb ov071
  *   d_021BA87C 0x021BA87C data a4
@@ -111,9 +111,9 @@ extern int INTRUDE_COMM_IsSessionActive(u8 *);
 extern void INTRUDE_COMM_AcceptSession(u8 *,u8 *);
 extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
 extern int INTRUDE_CMD_SendJoinRequest(char *a, int b);
-extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
-extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
-extern u8 func_021B6C74(void *,int);
+extern void MONOLITH_TOOL_HighlightButtonPulse(void *p, int *tbl, int n, int sel, int c);
+extern void MONOLITH_TOOL_HighlightButtonFlash(void *p, int *tbl, int n, int sel, int c);
+extern u8 MONOLITH_TOOL_GetHighlightMode(void *,int);
 extern void MONOLITH_TOOL_StartBlink(void *);
 extern int MONOLITH_TOOL_IsBlinking(void *);
 extern const u32 d_021BA87C[];
@@ -145,14 +145,14 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
   if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)!=1) break;
   if(TOUCHPANEL_GetTrg()==0 && (KEY_GetTrg()&3)==0) break;
   MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);GFL_USE_PlaySeDefaultVolume(0x547);
-  if(TOUCHPANEL_GetTrg()!=0) {d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
-  else {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);}
+  if(TOUCHPANEL_GetTrg()!=0) {d->f83=1;MONOLITH_TOOL_HighlightButtonPulse(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
+  else {d->f83=0;MONOLITH_TOOL_HighlightButtonPulse(c,(int *)((u8 *)d+0x2c),1,0,3);}
   if(d->f82==0) *state=3;else *state=4;
   break;
  case 3:
   keys=KEY_GetTrg();res=TOUCHPANEL_HitTrg(d_021BA87C);
   if(r!=0 && INTRUDE_COMM_IsSessionActive(r+0x1ac)==1) {MONOLITH_TOOL_SLOT_SELECT_SetMode((int *)c,(char *)d,1);d->f80=1;*state=4;break;}
-  if(keys>0 && d->f83==1) {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
+  if(keys>0 && d->f83==1) {d->f83=0;MONOLITH_TOOL_HighlightButtonPulse(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(keys&0xf0) {
    next=0xff;
    for(i=0;(i<6)?1:0;i++) if(d_021BA85C[i]==*c->f8) break;
@@ -164,14 +164,14 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
    if(next!=0xff) i=next;
    *c->f8=i;GFL_USE_PlaySeDefaultVolume(0x548);
   }
-  if(res>=0 && res<6) {*c->f8=res;d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
+  if(res>=0 && res<6) {*c->f8=res;d->f83=1;MONOLITH_TOOL_HighlightButtonPulse(c,(int *)((u8 *)d+0x2c),1,0xff,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(res==6 || (keys&1)) {
    func_020355D8(res==6);
    if(INTRUDE_COMM_HasUnlockFlags(GAMESYSTEM_GetGameData(*c->f0))==0) {
     t=d_021BAA4C[*c->f8];
     if(t!=2 && t!=1) {*state=9;break;}
    }
-   func_021B6BEC(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
+   MONOLITH_TOOL_HighlightButtonFlash(c,(int *)((u8 *)d+0x2c),1,0,3);GFL_USE_PlaySeDefaultVolume(0x736);*state=5;
   } else if(res==7 || (keys&2)) {
    MONOLITH_TOOL_StartBlink((u8 *)d+0x24);func_020355D8(res==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;
   }
@@ -214,7 +214,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
   if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)==1 && (TOUCHPANEL_GetTrg()!=0 || (KEY_GetTrg()&3)!=0)) {MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);*state=3;}
   break;
  case 11:
-  if(func_021B6C74(c,3)==2) break;
+  if(MONOLITH_TOOL_GetHighlightMode(c,3)==2) break;
   if(MONOLITH_TOOL_IsBlinking((u8 *)d+0x24)!=0) break;
   if(d->f81==1) c->f2c=4;else c->f2c=0;
   return 1;

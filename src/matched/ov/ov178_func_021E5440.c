@@ -20,8 +20,8 @@
 #include "../include/Obj14378.h"
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern void *PROCSYS_Create(int a0);
 extern void PARTY_STATUS_SetupDisplay(void *,void *,void *);

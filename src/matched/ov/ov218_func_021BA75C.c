@@ -1,5 +1,5 @@
 /*
- * function: func_021BA75C
+ * function: UN_SELECT_ContainsItem
  * address:  0x021BA75C
  * packet:   pkt_021BA75C
  * region:   ov218
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BA75C(char *p, int v)
+int UN_SELECT_ContainsItem(char *p, int v)
 {
     int i;
     for (i = 0; i < 0x14; i++)

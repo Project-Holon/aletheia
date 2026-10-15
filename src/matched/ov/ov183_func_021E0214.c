@@ -12,7 +12,7 @@
  *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj04574.h"
 #include "../include/Obj24622.h"
@@ -22,7 +22,7 @@ extern void BR_BTN_DeleteObject(char *p);
 extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 int BR_CODEIN_CodeDeletePokeList(char *p, char *q)
 {
     if (((struct Obj04574 *)p)->fC) {
@@ -34,6 +34,6 @@ int BR_CODEIN_CodeDeletePokeList(char *p, char *q)
     BMP_MENUWORK_Delete(((struct Obj04574 *)p)->f14);
     ((struct Obj04574 *)p)->f14 = 0;
     BR_RES_ApplyBgSet(((struct Obj24622 *)q)->f8, 28);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     return 1;
 }

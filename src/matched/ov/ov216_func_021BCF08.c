@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF08
+ * function: BEACON_DETAIL_GRA_InitWindows
  * address: 0x021BCF08
  * packet: pkt_ov216_021BCF08
  * region: ov216
@@ -15,11 +15,11 @@
  * symbols:
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021BDA54 0x021BDA54 thumb ov216
+ *   BEACON_DETAIL_GRA_DrawRecord 0x021BDA54 thumb ov216
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BDD8A 0x021BDD8A data a2
  */
 struct Four { unsigned short a; unsigned char b, c; };
@@ -33,11 +33,11 @@ struct CharBuf;
 struct MsgBank;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
+extern void BEACON_DETAIL_GRA_DrawRecord(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned int);
+extern void BG_SYS_PushTile(unsigned int);
 
 struct Rec { void *d; int h; int u, v; };
 struct Rec32 { void *d; int h; char pad[24]; };
@@ -46,11 +46,11 @@ struct Win { struct Rec a[4]; struct Rec32 b; struct Rec32 c; };
 #define REC1(w, j, i) ((struct Rec *)((char *)(w) + (j) * 0x80 + (i) * 16))
 #define HANDLE(p, k) (*(int *)((p) + (k)))
 #define ARG(p, k) (*(int *)((p) + (k) + 0xC))
-#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); func_020409B4(BMP_WIN_GetBgLayer(d)); } while (0)
+#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); BG_SYS_PushTile(BMP_WIN_GetBgLayer(d)); } while (0)
 
 #pragma opt_lifetimes off
 #pragma opt_propagation off
-void func_021BCF08(char *p)
+void BEACON_DETAIL_GRA_InitWindows(char *p)
 {
     struct Win *w3;
     struct Win *w2;
@@ -74,7 +74,7 @@ void func_021BCF08(char *p)
         do {
             rec = (struct Rec *)(off + (u32)&w[j]);
             BMP_Clear((struct CharBuf *)rec->h, b);
-            func_021BDA54(p, (char *)rec, 0, 0, ARG(p, 0x130), a);
+            BEACON_DETAIL_GRA_DrawRecord(p, (char *)rec, 0, 0, ARG(p, 0x130), a);
             CALLS(rec);
             j++;
         } while (j < 2);
@@ -86,7 +86,7 @@ void func_021BCF08(char *p)
     x = 0;
     do {
         BMP_Clear((struct CharBuf *)w2[x].b.h, 3);
-        func_021BDA54(p, (char *)&w2[x].b, 0, 0, ARG(p, 0x130), 0x3DC3);
+        BEACON_DETAIL_GRA_DrawRecord(p, (char *)&w2[x].b, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w2[x].b);
         x++;
     } while (x < 2);
@@ -95,7 +95,7 @@ void func_021BCF08(char *p)
     j = 0;
     do {
         BMP_Clear((struct CharBuf *)w3[j].c.h, 3);
-        func_021BDA54(p, (char *)&w3[j].c, 0, 0, ARG(p, 0x130), 0x3DC3);
+        BEACON_DETAIL_GRA_DrawRecord(p, (char *)&w3[j].c, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w3[j].c);
         j++;
     } while (j < 2);

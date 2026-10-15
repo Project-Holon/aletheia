@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4B4
+ * function: DEMO3D_ENGINE_Delete
  * address: 0x021BE4B4
  * packet: pkt_ov203_021BE4B4
  * region: ov203
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
- *   func_021BE158 0x021BE158 thumb ov203
+ *   DEMO3D_GRAPHIC_DeleteCamera 0x021BE158 thumb ov203
  *   func_0200566C 0x0200566C thumb
  *   DOUBLE3DDISP_Exit 0x0204EA0C arm
  *   ICA_ANIME_Delete 0x02011558 thumb
@@ -23,18 +23,18 @@ struct Ctx;
 struct IcaAnime;
 struct Rec;
 extern void DEMO3D_CMDSYS_Delete(char *p);
-extern void func_021BE158(void *);
+extern void DEMO3D_GRAPHIC_DeleteCamera(void *);
 extern void func_0200566C(void);
 extern int DOUBLE3DDISP_Exit(void);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern u32 func_020307B0(void *p);
-void func_021BE4B4(char *ctx, int b, int c, u32 d)
+void DEMO3D_ENGINE_Delete(char *ctx, int b, int c, u32 d)
 {
     unsigned i;
     DEMO3D_CMDSYS_Delete(((struct Obj03354 *)ctx)->f6C);
-    func_021BE158(((struct Obj03354 *)ctx)->f20);
+    DEMO3D_GRAPHIC_DeleteCamera(((struct Obj03354 *)ctx)->f20);
     if (((struct Obj03354 *)ctx)->f10) {
         func_0200566C();
         DOUBLE3DDISP_Exit();

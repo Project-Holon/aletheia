@@ -118,7 +118,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_020127D0  0x020127D0  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
@@ -295,7 +295,7 @@ void *INTRUDE_COMM_GetReturnSlots(void *eventWork);
 struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
 void *func_020124E8(struct GameEvent *p);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-struct WordSet *GF_FONT_Create_EC64(u32 heap);
+struct WordSet *WORDSET_CreateDefault(u32 heap);
 WfbcData *func_020127D0(struct GameData *gameData, u32 index);
 void FLDMMDL_GetPos(const struct Mmdl *mmdl, struct VecFx32 *out);
 int EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(void *returnList);
@@ -1392,7 +1392,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     work->msgBuf = STRBUF_Create(0x100, heapId);
     work->tmpBuf = STRBUF_Create(0x100, heapId);
     work->msgData = func_02045B38(0, 3, 0x142, heapId);
-    work->wordSet = GF_FONT_Create_EC64(heapId);
+    work->wordSet = WORDSET_CreateDefault(heapId);
     work->msgBgSys = msgBgSys;
     work->returnList = returnList;
     work->firstTalk = 1;

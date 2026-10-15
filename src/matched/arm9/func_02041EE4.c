@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
- *   func_02042360  0x02042360  arm
+ *   BG_SYS_SetScrollField  0x02042360  arm
  *
  * Reset slot `index` of the module's 0x2C-byte slot array and mark it live
  * in the halfword bitmask at +4.  The slot address is one `mla`: the base
@@ -49,10 +49,10 @@ struct Mod02041EE4 {
 extern struct Mod02041EE4 *g_02146A44;
 
 struct Obj;
-extern void func_02042360(struct Obj *p, u32 op, u32 value);
+extern void BG_SYS_SetScrollField(struct Obj *p, u32 op, u32 value);
 
 void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
 {
-    func_02042360((struct Obj *)(&g_02146A44->slots[index]), a, b);
+    BG_SYS_SetScrollField((struct Obj *)(&g_02146A44->slots[index]), a, b);
     g_02146A44->live |= (u16)(1 << index);
 }

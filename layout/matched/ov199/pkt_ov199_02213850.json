@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02213850",
+   "name": "WIFIBATTLEMATCH_SYS_DestroySubWork",
    "address": "0x02213850",
    "kind": "game",
    "region": "ov199",

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   RESEARCH_LIST_GetRowOffset  0x021BBF04  thumb  ov217
- *   BG_SYS_GetScrollX_1648  0x02041648  arm
+ *   BG_SYS_GetChannelScrollX  0x02041648  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -19,10 +19,10 @@
 extern unsigned int RESEARCH_LIST_GetRowOffset(unsigned int p, unsigned int slot);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 BG_SYS_GetScrollX_1648(u8 channel);
+extern u32 BG_SYS_GetChannelScrollX(u8 channel);
 
 int RESEARCH_LIST_GetEntryScreenX(unsigned char *p, unsigned int slot)
 {
     int t = RESEARCH_LIST_GetRowOffset((unsigned int)p, slot) << 3;
-    return t - BG_SYS_GetScrollX_1648(2);
+    return t - BG_SYS_GetChannelScrollX(2);
 }

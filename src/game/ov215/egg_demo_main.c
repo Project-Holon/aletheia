@@ -91,7 +91,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -120,10 +120,9 @@
 
 #include "egg_demo_types.h"
 
-struct Obj0203159C;
+struct Proc;
 struct S020314B8;
-struct S020315D4;
-struct S021F5E68;
+struct Proc;
 struct SaveBlock;
 struct Rec44;
 struct Blk37;
@@ -131,7 +130,6 @@ struct Big;
 struct U16Vec;
 struct Sub02008C20Obj;
 struct PrintSys;
-struct Context;
 struct GfFont;
 struct Node;
 struct Obj;
@@ -142,29 +140,13 @@ typedef unsigned short u16;
 
 typedef unsigned char u8;
 
-struct Context {
-    unsigned short heap;
-    unsigned short pad2;
-    unsigned int owner;
-    char pad8[36];
-    unsigned int resource1, resource2, resource3;
-    unsigned int objects[6];
-    char tail[60];
-};
-
-struct S021F5E68
-{
-    char pad[0x38];
-    void *slots[6];
-};
-
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void *PROCSYS_Create(int a0);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
-extern void func_0203133C(struct S020314B8 *),func_020315D4(struct S020315D4 *),GFL_HEAP_DeleteChecked(u32);
+extern void func_0203133C(struct S020314B8 *),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(u32);
 extern u32 KEY_GetTrg(void),PROCSYS_Main(void *);
 extern int FADE_IsActive(void);
 extern void EGG_DEMO_VIEW_SetActive(char *);
@@ -218,7 +200,7 @@ extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsi
 extern unsigned int func_02049658(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 extern void func_020498F4(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern int CLACT_RegisterPaletteEx(void *, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
 extern int CLACT_RegisterCharacter(void *, unsigned int, unsigned int, unsigned int, unsigned short);
 extern int CLACT_RegisterCellAnim(void *, unsigned int, unsigned int, unsigned int);
@@ -242,17 +224,17 @@ extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 int EGG_DEMO_MAIN_Create(void *a,int unused,u32 c);
-int EGG_DEMO_MAIN_Delete(struct S020315D4 *task,int unused,u32 a,char *p);
+int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 a,char *p);
 int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *a,u32 *p);
 void EGG_DEMO_MAIN_OnVBlank(void *unused, char *p);
 void EGG_DEMO_MAIN_Init(int a,char *p);
 void EGG_DEMO_MAIN_DeleteResources(u32 a,char *p);
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *p);
 void EGG_DEMO_MAIN_Noop(int a0, char *a1);
-void EGG_DEMO_MAIN_InitActors(int unused, struct Context *p);
+void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *p);
 void EGG_DEMO_MAIN_DeleteActors(void *unused, char *p);
-void EGG_DEMO_MAIN_StartActorAnims(int unused, struct S021F5E68 *p);
-int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct S021F5E68 *p);
+void EGG_DEMO_MAIN_StartActorAnims(int unused, struct EggDemoWork *p);
+int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct EggDemoWork *p);
 int EGG_DEMO_MAIN_StartFadeOutBgm(int a, char *b);
 void EGG_DEMO_MAIN_NoopB(u32 a, char *p);
 void EGG_DEMO_MAIN_UpdateBgm(u8 *p, u8 *q);
@@ -295,7 +277,7 @@ int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
 }
 
 
-int EGG_DEMO_MAIN_Delete(struct S020315D4 *task,int unused,u32 args,char *work) { func_0203133C(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);func_020315D4(task);GFL_HEAP_DeleteChecked(143);return 1; }
+int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { func_0203133C(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);func_020315D4(task);GFL_HEAP_DeleteChecked(143);return 1; }
 
 
 /*
@@ -323,8 +305,8 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
         if(((struct EggDemoWork *)work)->fadeDelay==0){((struct EggDemoWork *)work)->state=1;FADE_Start(3,16,0,-16);}
         else (((struct EggDemoWork *)work)->fadeDelay)--;
         break;
-    case 1:if(!FADE_IsActive()){((struct EggDemoWork *)work)->state=2;EGG_DEMO_MAIN_StartActorAnims((int)args,(struct S021F5E68 *)work);}break;
-    case 2:if(!EGG_DEMO_MAIN_IsBgmFadeOut(args,(char *)work)&&EGG_DEMO_MAIN_AreActorAnimsDone((int)args,(struct S021F5E68 *)work)){((struct EggDemoWork *)work)->state=3;EGG_DEMO_MAIN_PlayBgm(args,(char *)work);}break;
+    case 1:if(!FADE_IsActive()){((struct EggDemoWork *)work)->state=2;EGG_DEMO_MAIN_StartActorAnims((int)args,(struct EggDemoWork *)work);}break;
+    case 2:if(!EGG_DEMO_MAIN_IsBgmFadeOut(args,(char *)work)&&EGG_DEMO_MAIN_AreActorAnimsDone((int)args,(struct EggDemoWork *)work)){((struct EggDemoWork *)work)->state=3;EGG_DEMO_MAIN_PlayBgm(args,(char *)work);}break;
     case 3:if(!EGG_DEMO_MAIN_IsBgmPlaying(args,(char *)work)){((struct EggDemoWork *)work)->state=4;EGG_DEMO_MAIN_LoadBgm1(args,(char *)work);}break;
     case 4:if(EGG_DEMO_MAIN_IsBgm1Loaded(args,(char *)work)){((struct EggDemoWork *)work)->state=5;EGG_DEMO_VIEW_SetActive((char *)((struct EggDemoWork *)work)->view);}break;
     case 5:if(EGG_DEMO_VIEW_GetActive((char *)((struct EggDemoWork *)work)->view)){((struct EggDemoWork *)work)->state=6;EGG_DEMO_MAIN_PushBgm(args,work);}break;
@@ -393,7 +375,7 @@ void EGG_DEMO_MAIN_Init(int args,char *work)
     ((struct EggDemoWork *)work)->printQue=PRINTSYS_QUE_Create((void *)(u32)((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->vblankTask=func_020056A0((u32)EGG_DEMO_MAIN_OnVBlank,(u32)work,1);
     EGG_DEMO_MAIN_LoadGraphics(args,work);
-    EGG_DEMO_MAIN_InitActors(args,(struct Context *)work);
+    EGG_DEMO_MAIN_InitActors(args,(struct EggDemoWork *)work);
     EGG_DEMO_MENU_Create(args,work);
     EGG_DEMO_MENU_InitDialog(args,(u8 *)work);
     BG_SYS_SetVisibleLayer(0,2);
@@ -433,7 +415,7 @@ void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work)
     func_02049658(h, 5, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
     func_020498F4(h, 4, 2, 0, 0, 0, ((struct EggDemoWork *)work)->heapId);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 }
 
 
@@ -449,29 +431,29 @@ void EGG_DEMO_MAIN_Noop(int a0, char *a1)
  * Return ABI: B294 original0204B314 calls CFDC then0204B318/31C returns without overwriting r0; CFDC0204D040 restores full object pointer. Caller021F5E20 stores this r0 and forwards it to B92C. Own B294 void declaration is superseded here by consumed return evidence.
  * Forwarding: 64FC adds4 to r0 and tails through6504 to662C;662C is ldr r0,[r0]; bx lr. All one full-word input/output.
  */
-void EGG_DEMO_MAIN_InitActors(int unused, struct Context *work)
+void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
 {
     unsigned char i;
-    void *h = func_020490F4(189, work->heap);
+    void *h = func_020490F4(189, work->heapId);
     char *tmp1;
     unsigned int tmp2;
     int tmp;
-    work->resource2 = CLACT_RegisterPaletteEx(h, 3, 0, 0, 0, 1, work->heap);
-    tmp = CLACT_RegisterCharacter(h, 2, 0, 0, work->heap);
+    work->paletteId = CLACT_RegisterPaletteEx(h, 3, 0, 0, 0, 1, work->heapId);
+    tmp = CLACT_RegisterCharacter(h, 2, 0, 0, work->heapId);
     if (unused) {
     }
-    work->resource1 = tmp;
-    work->resource3 = CLACT_RegisterCellAnim(h, 1, 0, work->heap);
+    work->charId = tmp;
+    work->cellAnimId = CLACT_RegisterCellAnim(h, 1, 0, work->heapId);
     ARC_TOOL_DeleteHandle(h);
     for (i = 0; i < 6; i++) {
-        struct Context *out;
+        struct EggDemoWork *out;
         unsigned int o;
         tmp1 = (char *)work;
         tmp1 = tmp1 + (i * 4);
-        out = (struct Context *)tmp1;
+        out = (struct EggDemoWork *)tmp1;
         tmp2 = (unsigned int)table[i];
-        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->owner), work->resource1, work->resource2, work->resource3, (const void *)tmp2, 0, work->heap);
-        out->objects[0] = o;
+        o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->graphic), work->charId, work->paletteId, work->cellAnimId, (const void *)tmp2, 0, work->heapId);
+        out->actors[0] = (void *)o;
         CLACT_SetActorAutoAnim((struct Obj *)o, 0);
     }
 }
@@ -488,25 +470,25 @@ void EGG_DEMO_MAIN_DeleteActors(void *unused, char *work)
 
 
 
-void EGG_DEMO_MAIN_StartActorAnims(int unused, struct S021F5E68 *work)
+void EGG_DEMO_MAIN_StartActorAnims(int unused, struct EggDemoWork *work)
 {
     unsigned char i;
     for (i = 0; i < 6; i++)
     {
-        CLACT_SetActorAnimIndex((int)work->slots[i], 0);
-        CLACT_SetActorAutoAnim(work->slots[i], 1);
+        CLACT_SetActorAnimIndex((int)work->actors[i], 0);
+        CLACT_SetActorAutoAnim(work->actors[i], 1);
     }
 }
 
 
 
-int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct S021F5E68 *work)
+int EGG_DEMO_MAIN_AreActorAnimsDone(int unused, struct EggDemoWork *work)
 {
     unsigned char i;
     int r = 1;
     for (i = 0; i < 6; i++)
     {
-        if (CLACT_IsActorAnimActive(work->slots[i]) != 0)
+        if (CLACT_IsActorAnimActive(work->actors[i]) != 0)
         {
             r = 0;
             break;

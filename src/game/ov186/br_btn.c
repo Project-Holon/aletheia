@@ -189,7 +189,7 @@ extern void BMP_OAM_SetObjMode(u8 *,u32);
 
 extern void BMP_OAM_Delete(struct Grid *);
 
-extern void BMP_Delete(struct Obj020437AC *);
+extern void BMP_Delete(struct Bmp *);
 
 extern void CLACT_DeleteActor(struct Actor *);
 
@@ -1216,7 +1216,7 @@ struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,u32 
     return p;
 }
 
-void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct BrButton *)p)->grid);BMP_Delete(*(struct Obj020437AC * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor(*(struct Actor * *)&((struct BrButton *)p)->actor);func_020307B0(p); }
+void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct BrButton *)p)->grid);BMP_Delete(*(struct Bmp * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor(*(struct Actor * *)&((struct BrButton *)p)->actor);func_020307B0(p); }
 
 int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y)
 {

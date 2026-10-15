@@ -23,9 +23,9 @@
  *
  * symbols:
  *   DWC_Auth_SetCustomNas  0x02177EC8  arm
- *   g_021A2424     0x021A2424  data
- *   g_021A244C     0x021A244C  data
- *   g_021A2470     0x021A2470  data
+ *   gDwcAuthNasUrlTest     0x021A2424  data
+ *   gDwcAuthNasUrlDev     0x021A244C  data
+ *   gDwcAuthNasUrlProd     0x021A2470  data
  *   gDwcAuthState     0x021AB1A4  data
  *   gDwcAuthResultBuf     0x021AB208  data
  *   MI_CpuFill8  0x02082BCC  arm
@@ -33,7 +33,7 @@
  *   func_020870D0  0x020870D0  arm
  *   DWC_Auth_Create  0x02177EE8  arm  ov009
  *   gDwcAuthParam     0x021AB1C0  data
- *   g_021AB1F4     0x021AB1F4  data
+ *   gDwcAuthGsbrcdBuffer     0x021AB1F4  data
  *   DWC_Auth_GetError  0x021781DC  arm  ov009
  *   DWC_Auth_GetResult  0x02178224  arm  ov009
  *   DWC_Auth_Destroy  0x02178144  arm  ov009
@@ -76,13 +76,13 @@ void DWCi_Auth_GetGameSpyToken(char *authtoken, char *partnerchallenge);
 void DWCi_Auth_ShutdownAuthentication(void);
 unsigned long long DWCi_Auth_GetConsoleUserId(void);
 int DWCi_Auth_IsConsoleUserIdAuthentic(void);
-extern char g_021A2424[];
-extern char g_021A244C[];
-extern char g_021A2470[];
+extern char gDwcAuthNasUrlTest[];
+extern char gDwcAuthNasUrlDev[];
+extern char gDwcAuthNasUrlProd[];
 extern struct DWCAuthState gDwcAuthState;
 extern unsigned char gDwcAuthResultBuf[];
 extern struct DWCAuthParam gDwcAuthParam;
-extern unsigned char g_021AB1F4[];
+extern unsigned char gDwcAuthGsbrcdBuffer[];
 
 
 
@@ -93,13 +93,13 @@ int DWCi_Auth_InitInterface(int authServer)
 {
 	switch (authServer) {
 	case 0:
-		DWC_Auth_SetCustomNas((int)g_021A2424);
+		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlTest);
 		break;
 	case 2:
-		DWC_Auth_SetCustomNas((int)g_021A244C);
+		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlDev);
 		break;
 	case 1:
-		DWC_Auth_SetCustomNas((int)g_021A2470);
+		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlProd);
 		break;
 	default:
 		return 0;
@@ -129,7 +129,7 @@ int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsign
 {
 	DWCi_Auth_InitAdapterParam();
 	MI_CpuCopy8(ingamesn, &gDwcAuthParam, 0x34);
-	MI_CpuCopy8(gsbrcd, g_021AB1F4, 0xc);
+	MI_CpuCopy8(gsbrcd, gDwcAuthGsbrcdBuffer, 0xc);
 	gDwcAuthParam.alloc = allocator;
 	gDwcAuthParam.free = deallocator;
 	gDwcAuthState.tick = func_020870D0();

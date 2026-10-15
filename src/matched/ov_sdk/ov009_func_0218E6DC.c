@@ -23,14 +23,14 @@
  *   strcmp  0x020948E0  arm
  *   gpiAppendStringToBuffer  0x0218946C  arm  ov009
  *   gpiSendBufferToPeer  0x02189A7C  arm  ov009
- *   g_021A4EB8     0x021A4EB8  data
- *   g_021A4E98     0x021A4E98  data
- *   g_021A4EA0     0x021A4EA0  data
- *   g_021A4EA8     0x021A4EA8  data
- *   g_021A4EB0     0x021A4EB0  data
- *   g_021A4F14     0x021A4F14  data
- *   g_021A4EC0     0x021A4EC0  data
- *   g_021A4EEC     0x021A4EEC  data
+ *   gGpiPeerKeyFinal     0x021A4EB8  data
+ *   gGpiPeerKeyAuth     0x021A4E98  data
+ *   gGpiPeerKeyPid     0x021A4EA0  data
+ *   gGpiPeerKeyNick     0x021A4EA8  data
+ *   gGpiPeerKeySig     0x021A4EB0  data
+ *   gGpiPeerSigFmt     0x021A4F14  data
+ *   gGpiPeerKeyANack     0x021A4EC0  data
+ *   gGpiPeerKeyAAck     0x021A4EEC  data
  */
 
 typedef struct GPIBuffer {
@@ -77,14 +77,14 @@ typedef struct GPIConnection {
     int partnerID;                   /* 0x1A4 */
 } GPIConnection;
 
-extern char g_021A4EB8[];
-extern char g_021A4E98[];
-extern char g_021A4EA0[];
-extern char g_021A4EA8[];
-extern char g_021A4EB0[];
-extern char g_021A4F14[];
-extern char g_021A4EC0[];
-extern char g_021A4EEC[];
+extern char gGpiPeerKeyFinal[];
+extern char gGpiPeerKeyAuth[];
+extern char gGpiPeerKeyPid[];
+extern char gGpiPeerKeyNick[];
+extern char gGpiPeerKeySig[];
+extern char gGpiPeerSigFmt[];
+extern char gGpiPeerKeyANack[];
+extern char gGpiPeerKeyAAck[];
 
 extern int gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, int *thePeerState);
 extern unsigned char *strstr(const unsigned char *s1, const unsigned char *s2);
@@ -123,41 +123,41 @@ int gpiProcessPeerAcceptingConnection(void **connection, GPIPeer *peer)
         return 0;
     }
 
-    str = (char *)strstr((const unsigned char *)peer->inputBuffer.buffer, (const unsigned char *)g_021A4EB8);
+    str = (char *)strstr((const unsigned char *)peer->inputBuffer.buffer, (const unsigned char *)gGpiPeerKeyFinal);
     if (str) {
         *str = '\0';
 
         str = peer->inputBuffer.buffer;
-        if (strncmp((const unsigned char *)str, (const unsigned char *)g_021A4E98, 6) == 0) {
-            if (!gpiValueForKey(str, g_021A4EA0, intValue, sizeof(intValue))) {
+        if (strncmp((const unsigned char *)str, (const unsigned char *)gGpiPeerKeyAuth, 6) == 0) {
+            if (!gpiValueForKey(str, gGpiPeerKeyPid, intValue, sizeof(intValue))) {
                 peer->state = 0x6A;
                 return 0;
             }
             pid = atoi((u32)intValue);
 
-            if (!gpiValueForKey(peer->inputBuffer.buffer, g_021A4EA8, nick, sizeof(nick))) {
+            if (!gpiValueForKey(peer->inputBuffer.buffer, gGpiPeerKeyNick, nick, sizeof(nick))) {
                 peer->state = 0x6A;
                 return 0;
             }
 
-            if (!gpiValueForKey(peer->inputBuffer.buffer, g_021A4EB0, sig, sizeof(sig))) {
+            if (!gpiValueForKey(peer->inputBuffer.buffer, gGpiPeerKeySig, sig, sizeof(sig))) {
                 peer->state = 0x6A;
                 return 0;
             }
 
-            OS_SPrintf(buffer, g_021A4F14, iconnection->password, iconnection->profileid, pid);
+            OS_SPrintf(buffer, gGpiPeerSigFmt, iconnection->password, iconnection->profileid, pid);
             GSMD5Digest((unsigned char *)buffer, strlen((const u8 *)buffer), sigCheck);
 
             if (strcmp(sig, sigCheck) != 0) {
-                gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EC0);
-                gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
+                gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyANack);
+                gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyFinal);
                 gpiSendBufferToPeer(connection, peer->ip, peer->port, &peer->outputBuffer, &connClosed, 1);
                 peer->state = 0x6A;
                 return 0;
             }
 
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EEC);
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyAAck);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyFinal);
 
             peer->state = 0x69;
             peer->profile = pid;

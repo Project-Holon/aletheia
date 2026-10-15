@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB30
+ * function: INTRO_GRAPHIC_Main
  * address:  0x021BDB30
  * packet:   pkt_ov204_021BDB30
  * region:   ov204
@@ -10,38 +10,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEF88  0x021BEF88  thumb  ov204
- *   func_021BDD4C  0x021BDD4C  thumb  ov204
- *   func_021BDD60  0x021BDD60  thumb  ov204
+ *   INTRO_CMD_Main  0x021BEF88  thumb  ov204
+ *   INTRO_GRAPHIC_UpdateDisplay  0x021BDD4C  thumb  ov204
+ *   INTRO_GRAPHIC_Draw3d  0x021BDD60  thumb  ov204
  *   INTRO_G3D_UpdateIdleAnim  0x021BF898  thumb  ov204
  *   INTRO_MCSS_Main  0x021BF610  thumb  ov204
  *   INTRO_PARTICLE_Main  0x021BFCE0  thumb  ov204
  *   INTRO_G3D_Draw  0x021BF9FC  thumb  ov204
- *   func_021BDD6C  0x021BDD6C  thumb  ov204
+ *   INTRO_GRAPHIC_Draw3dEnd  0x021BDD6C  thumb  ov204
  */
 #include "../include/Obj03919.h"
 
 typedef unsigned char  u8;
-extern int func_021BEF88(char *p);
-extern void func_021BDD4C(u8 *p);
-extern void func_021BDD60(char *p);
+extern int INTRO_CMD_Main(char *p);
+extern void INTRO_GRAPHIC_UpdateDisplay(u8 *p);
+extern void INTRO_GRAPHIC_Draw3d(char *p);
 extern void INTRO_G3D_UpdateIdleAnim(char *p);
 extern void INTRO_MCSS_Main(u8 *p);
 extern void INTRO_PARTICLE_Main(int);
 extern void INTRO_G3D_Draw(char *p);
-extern void func_021BDD6C(char *p);
+extern void INTRO_GRAPHIC_Draw3dEnd(char *p);
 
-int func_021BDB30(int a, int b, int c, void *p)
+int INTRO_GRAPHIC_Main(int a, int b, int c, void *p)
 {
-    if (func_021BEF88((char *)(((struct Obj03919 *)p)->f14)) == 0) {
+    if (INTRO_CMD_Main((char *)(((struct Obj03919 *)p)->f14)) == 0) {
         return 1;
     }
-    func_021BDD4C((u8 *)(((struct Obj03919 *)p)->f8));
-    func_021BDD60((char *)(((struct Obj03919 *)p)->f8));
+    INTRO_GRAPHIC_UpdateDisplay((u8 *)(((struct Obj03919 *)p)->f8));
+    INTRO_GRAPHIC_Draw3d((char *)(((struct Obj03919 *)p)->f8));
     INTRO_G3D_UpdateIdleAnim((char *)(((struct Obj03919 *)p)->f18));
     INTRO_MCSS_Main((u8 *)(((struct Obj03919 *)p)->f18));
     INTRO_PARTICLE_Main(((struct Obj03919 *)p)->f20);
     INTRO_G3D_Draw((char *)(((struct Obj03919 *)p)->f1C));
-    func_021BDD6C((char *)(((struct Obj03919 *)p)->f8));
+    INTRO_GRAPHIC_Draw3dEnd((char *)(((struct Obj03919 *)p)->f8));
     return 0;
 }

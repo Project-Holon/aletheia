@@ -1,5 +1,5 @@
 /*
- * function: func_021B96CC
+ * function: UN_SELECT_LoadBg
  * address:  0x021B96CC
  * packet:   pkt_ov218_021B96CC
  * region:   ov218
@@ -33,7 +33,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3,
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021B96CC(u8 *p, u16 heap)
+void UN_SELECT_LoadBg(u8 *p, u16 heap)
 {
     void *h;
     void *w2;

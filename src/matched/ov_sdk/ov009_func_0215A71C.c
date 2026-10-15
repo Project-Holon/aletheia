@@ -18,14 +18,14 @@
  *   dispatch_udp                    0x0215a23c arm ov009
  *   dispatch_icmp                    0x02158fe4 arm ov009
  *   dispatch_tcp                    0x0215a108 arm ov009
- *   g_021A826C                       0x021a826c data
+ *   gCpsNetVars                       0x021a826c data
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern u8 g_021A826C[];
+extern u8 gCpsNetVars[];
 extern u32 ip_isme(u32 ip);
 extern int calc_checksum(int a, int b);
 extern void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry);
@@ -57,7 +57,7 @@ void dispatch_ip(u8 *buf, u32 len)
             return;
         if (calc_checksum((int)buf, (buf[0] & 0xf) << 2) != 0xffff)
             return;
-        if (*(u32 *)(g_021A826C + 0x50) == NTOHL(buf + 0x10))
+        if (*(u32 *)(gCpsNetVars + 0x50) == NTOHL(buf + 0x10))
             reg_arpcache((u8 (*)[6])(buf - 8), NTOHL(buf + 0xc), 1);
     }
     buf = check_frag(buf, &fragmented);
@@ -69,12 +69,12 @@ void dispatch_ip(u8 *buf, u32 len)
     len = NTOHS(buf + 2) - header_len;
     if (type == 0x11) {
         dispatch_udp(buf, data, len);
-    } else if (*(u32 *)(g_021A826C + 0x50) != 0) {
+    } else if (*(u32 *)(gCpsNetVars + 0x50) != 0) {
         if (type == 1)
             dispatch_icmp(buf, data, len);
         else if (type == 6)
             dispatch_tcp(buf, data, len);
     }
     if (fragmented)
-        (*(void (**)(void *))(g_021A826C + 0x44))(buf - 14);
+        (*(void (**)(void *))(gCpsNetVars + 0x44))(buf - 14);
 }

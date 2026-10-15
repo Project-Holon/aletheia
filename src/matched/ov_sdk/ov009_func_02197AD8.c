@@ -14,7 +14,7 @@
  * symbols:
  *   gti2UShortToBuffer  0x02195EA0  arm  ov009
  *   func_02195750  0x02195750  arm  ov009
- *   g_021A5948  0x021A5948  data
+ *   gGti2PacketMagic  0x021A5948  data
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -31,7 +31,7 @@ typedef struct Conn {
 
 extern void gti2UShortToBuffer(unsigned char *buffer, int pos, unsigned short s);
 extern int func_02195750(Conn *c, unsigned char *message, int len);
-extern unsigned char g_021A5948[];
+extern unsigned char gGti2PacketMagic[];
 
 int gti2SendNack(Conn *connection, unsigned short SNMin, unsigned short SNMax)
 {
@@ -44,7 +44,7 @@ int gti2SendNack(Conn *connection, unsigned short SNMin, unsigned short SNMax)
 		memcpy(buffer + pos, &dataLength, 2);
 		pos += 2;
 	}
-	memcpy(buffer + pos, g_021A5948, 2);
+	memcpy(buffer + pos, gGti2PacketMagic, 2);
 	pos += 2;
 	buffer[pos] = 0x65;
 	pos++;

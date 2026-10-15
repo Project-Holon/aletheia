@@ -21,7 +21,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   GXx_GetMasterBrightness_ 0x0207D55C arm
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
@@ -33,7 +33,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
- *   BG_SYS_Delete_03F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
@@ -92,7 +92,7 @@
  *   WORLDTRADE_DEPOSIT_PrintBankString  0x021F7FD4  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabel  0x021F8104  thumb
  *   WORLDTRADE_DEPOSIT_PrintConditionLabel  0x021F8178  thumb
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   WORLDTRADE_DETAIL_PrintMonInfo 0x021FC8CC thumb ov135
  *   WORLDTRADE_DETAIL_PrintMonName 0x021FCA8C thumb ov135
  *   WORLDTRADE_DETAIL_LoadMonGraphics 0x021FCB54 thumb ov135
@@ -126,7 +126,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -173,7 +173,6 @@ extern void WORLDTRADE_ClearBusyFlag(Work *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_020409B4(u32 layer);
 
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 
@@ -264,7 +263,7 @@ extern void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, i
 
 extern void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u16 color, int alt, u32 g);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 
 void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g);
@@ -463,8 +462,8 @@ void WORLDTRADE_LIST_SetupBgPlanes(int y)
  */
 void WORLDTRADE_LIST_ExitBgPlanes(void)
 {
-    BG_SYS_Delete_03F4(1);
-    BG_SYS_Delete_03F4(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(2);
 }
 
 /*
@@ -759,7 +758,7 @@ void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
     v = ((struct Obj01063 *)p)->fD40;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
 }
 
 void WORLDTRADE_LIST_PrintLabel(void *bank, Pane *pane, u32 index, void *g, u16 color)
@@ -779,7 +778,7 @@ void WORLDTRADE_LIST_PrintHeader(void *bank, Pane *pane, u32 index, void *g)
     win = pane->win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     STRBUF_Delete(str);
 }
 
@@ -805,12 +804,12 @@ void WORLDTRADE_LIST_PrintNames(Pane2 *pane, void *s1, void *s2, void *g)
 
 void WORLDTRADE_LIST_VBlank(Work *p)
 {
-    func_02040618(0, 3, p->scroll);
-    func_02040618(1, 3, p->scroll);
-    func_02040618(2, 3, p->scroll);
-    func_02040618(3, 3, p->scroll);
-    func_02040618(4, 3, -p->scroll);
-    func_02040618(5, 3, -32 - p->scroll);
-    func_02040618(6, 3, -p->scroll);
-    func_02040618(7, 3, -p->scroll);
+    BG_SYS_FillScrollArea(0, 3, p->scroll);
+    BG_SYS_FillScrollArea(1, 3, p->scroll);
+    BG_SYS_FillScrollArea(2, 3, p->scroll);
+    BG_SYS_FillScrollArea(3, 3, p->scroll);
+    BG_SYS_FillScrollArea(4, 3, -p->scroll);
+    BG_SYS_FillScrollArea(5, 3, -32 - p->scroll);
+    BG_SYS_FillScrollArea(6, 3, -p->scroll);
+    BG_SYS_FillScrollArea(7, 3, -p->scroll);
 }

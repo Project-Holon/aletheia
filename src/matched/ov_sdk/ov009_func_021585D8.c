@@ -15,7 +15,7 @@
  *   calc_checksum_do            0x02157700  arm  ov009
  *   invert_checksum            0x02157808  arm  ov009
  *   send_ip            0x0215832C  arm  ov009
- *   g_021A826C               0x021A826C  data
+ *   gCpsNetVars               0x021A826C  data
  */
 
 struct _CPSSoc {
@@ -32,9 +32,9 @@ struct _CPSSoc {
 extern unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum);
 extern unsigned short invert_checksum(unsigned short sum);
 extern void send_ip(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
-extern unsigned char g_021A826C;
+extern unsigned char gCpsNetVars;
 
-#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
+#define NV(off, type) (*(type *)((char *)&gCpsNetVars + (off)))
 
 static inline unsigned short swap16(unsigned short x)
 {

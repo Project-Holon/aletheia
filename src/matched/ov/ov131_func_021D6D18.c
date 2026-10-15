@@ -19,7 +19,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
@@ -35,7 +35,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *,u32,u32);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -51,7 +51,7 @@ extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
 void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
 {
     void *ws,*buf,*name,*text;
-    ws=GF_FONT_Create_EC64(((struct Obj00436 *)p)->f0);
+    ws=WORDSET_CreateDefault(((struct Obj00436 *)p)->f0);
     buf=STRBUF_Create(32,((struct Obj00436 *)p)->f0);
     name=STRBUF_Create(32,((struct Obj00436 *)p)->f0);
     func_02017E88(mon,115,(u32)name);
@@ -74,7 +74,7 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
     }
     if(((struct Obj00436 *)p)->f38==0){
         void *text2;
-        ws=GF_FONT_Create_EC64(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
+        ws=WORDSET_CreateDefault(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
         WORDSET_SetSlotNumber(ws,0,POKE_TOOL_CalcBoxLevel(mon),3,0,1);
         text2=func_02045EC0(((struct Obj00436 *)p)->f7C,3);
         WORDSET_CopyTaggedText(ws,buf,text2);
@@ -86,7 +86,7 @@ void P_STA_SUB_PrintWindows(u8 *p,u8 *q,void *mon)
     STRBUF_Delete(buf);
     {
         void *text3;
-        ws=GF_FONT_Create_EC64(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
+        ws=WORDSET_CreateDefault(((struct Obj00436 *)p)->f0);buf=STRBUF_Create(16,((struct Obj00436 *)p)->f0);
         WORDSET_Callback_EF40(ws,0,func_02017E88(mon,6,0));
         text3=func_02045EC0(((struct Obj00436 *)p)->f7C,5);
         WORDSET_CopyTaggedText(ws,buf,text3);

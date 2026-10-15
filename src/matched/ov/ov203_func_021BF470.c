@@ -1,5 +1,5 @@
 /*
- * function: func_021BF470
+ * function: DEMO3D_DATA_DeleteMessageWindow
  * address: 0x021BF470
  * packet: pkt_ov203_021BF470
  * region: ov203
@@ -36,7 +36,7 @@ extern void BMP_MENUWORK_DeleteHalf(int a, u32 x);
 extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_SetVisibleLayer(int,unsigned short);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021BF470(char *p)
+void DEMO3D_DATA_DeleteMessageWindow(char *p)
 {
     if(*(void **)(p+0x20)) PRINTSYS_PrintStreamDelete(*(void **)(p+0x20));
     STRBUF_Delete(*(void **)(p+0x24));GF_FONT_SetDefaultTextColor();

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF094
+ * function: INTRO_CMD_GetScenarioRow
  * address: 0x021BF094
  * packet: pkt_ov204_021BF094
  * region: ov204
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C0AB8 0x021C0AB8 data a4
+ *   gIntroScenarioTables 0x021C0AB8 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern const u32 d_021C0AB8[];
-void*func_021BF094(u32 n){return *(void**)((u32)d_021C0AB8+n*4);}
+extern const u32 gIntroScenarioTables[];
+void*INTRO_CMD_GetScenarioRow(u32 n){return *(void**)((u32)gIntroScenarioTables+n*4);}

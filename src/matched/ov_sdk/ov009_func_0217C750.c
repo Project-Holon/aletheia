@@ -21,9 +21,9 @@
  *   func_02092344                  0x02092344  arm
  *   func_0217C704                  0x0217C704  arm ov009
  *   gGsAvailabilityGameName                     0x021ACEFC  data
- *   g_021ACF7C                     0x021ACF7C  data
- *   g_021ACF3C                     0x021ACF3C  data
- *   g_021A36E8                     0x021A36E8  data
+ *   gGsAvailableCheck                     0x021ACF7C  data
+ *   gGsAvailableOverrideHost                     0x021ACF3C  data
+ *   gGsAvailableHostFmt                     0x021A36E8  data
  *   g_021ACF80                     0x021ACF80  data
  *   g_021ACF8D                     0x021ACF8D  data
  */
@@ -49,9 +49,9 @@ extern int strlen(const u8 *s);
 extern void *func_02092344(void *dst, const void *src, unsigned long n);
 extern void func_0217C704(void);
 extern char gGsAvailabilityGameName[];
-extern struct gsAC g_021ACF7C;
-extern char g_021ACF3C[];
-extern char g_021A36E8[];
+extern struct gsAC gGsAvailableCheck;
+extern char gGsAvailableOverrideHost[];
+extern char gGsAvailableHostFmt[];
 extern struct SOCSockAddrIn g_021ACF80;
 extern char g_021ACF8D[];
 
@@ -63,23 +63,23 @@ void GSIStartAvailableCheckA(char *gamename)
     char hostname[64];
 
     gsiSafeStrcpyA(gGsAvailabilityGameName, gamename, 64);
-    g_021ACF7C.sock = -1;
+    gGsAvailableCheck.sock = -1;
     SocketStartUp();
-    override = g_021ACF3C[0];
+    override = gGsAvailableOverrideHost[0];
     if (override == 0)
-        OS_SPrintf(hostname, g_021A36E8, gamename);
-    host = g_021ACF3C;
+        OS_SPrintf(hostname, gGsAvailableHostFmt, gamename);
+    host = gGsAvailableOverrideHost;
     if (override == 0)
         host = hostname;
     if (!func_0217C690(host, 27900, &g_021ACF80))
         return;
-    g_021ACF7C.sock = func_0217EB18(2, 2, 0);
-    if (g_021ACF7C.sock == -1)
+    gGsAvailableCheck.sock = func_0217EB18(2, 2, 0);
+    if (gGsAvailableCheck.sock == -1)
         return;
-    g_021ACF7C.b0c = 9;
+    gGsAvailableCheck.b0c = 9;
     len = strlen((const u8 *)gamename);
     func_02092344(g_021ACF8D, gamename, len + 1);
-    g_021ACF7C.len = len + 6;
+    gGsAvailableCheck.len = len + 6;
     func_0217C704();
-    g_021ACF7C.sent = 0;
+    gGsAvailableCheck.sent = 0;
 }

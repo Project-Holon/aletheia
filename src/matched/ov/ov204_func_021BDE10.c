@@ -1,5 +1,5 @@
 /*
- * function: func_021BDE10
+ * function: INTRO_GRAPHIC_ResetBgSlot
  * address:  0x021BDE10
  * packet:   pkt_021BDE10
  * region:   ov204
@@ -23,7 +23,7 @@ typedef signed char    s8;
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void BG_SYS_ResetSlot(u32, u32, u32);
 
-void func_021BDE10(u8 *a0)
+void INTRO_GRAPHIC_ResetBgSlot(u8 *a0)
 {
     if (BG_SYS_GetMainVisiblePlanes() & 4) {
         BG_SYS_ResetSlot(2, 1, 1);

@@ -20,9 +20,9 @@
  *   gSoclConfig     0x021A1CD8  data
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A82DC     0x021A82DC  data
+ *   gCpsDnsIp     0x021A82DC  data
  *   func_0215EF48  0x0215EF48  arm  ov009
- *   g_021A8278     0x021A8278  data
+ *   gCpsDhcpMode     0x021A8278  data
  *   CPSMyIp            0x021a82bc data
  *   SOCLiDhcpState     0x021aa448 data
  *   SOCLiRequestedIP   0x021aa444 data
@@ -55,8 +55,8 @@ unsigned long SOCL_InetAtoH(char *hostname);
 int SOCL_SetResolver(unsigned long dns1, unsigned long dns2);
 unsigned long SOCL_GetHostID(void);
 extern SoclConfig *gSoclConfig;
-extern unsigned long g_021A82DC[2];
-extern unsigned long g_021A8278;
+extern unsigned long gCpsDnsIp[2];
+extern unsigned long gCpsDhcpMode;
 extern unsigned long CPSMyIp;
 extern unsigned long SOCLiDhcpState;
 extern unsigned long SOCLiRequestedIP;
@@ -99,13 +99,13 @@ unsigned long SOCL_InetAtoH(char *hostname)
     unsigned long dns1;
 
     enable = OS_DisableInterrupts();
-    dns0 = g_021A82DC[0];
-    dns1 = g_021A82DC[1];
-    g_021A82DC[0] = 0;
-    g_021A82DC[1] = 0;
+    dns0 = gCpsDnsIp[0];
+    dns1 = gCpsDnsIp[1];
+    gCpsDnsIp[0] = 0;
+    gCpsDnsIp[1] = 0;
     hostip = CPS_Resolve(hostname);
-    g_021A82DC[0] = dns0;
-    g_021A82DC[1] = dns1;
+    gCpsDnsIp[0] = dns0;
+    gCpsDnsIp[1] = dns1;
     OS_RestoreInterrupts(enable);
     return hostip;
 }
@@ -118,13 +118,13 @@ int SOCL_SetResolver(unsigned long dns1, unsigned long dns2)
 {
     if (func_0215EF48() == 0)
         return -0x27;
-    g_021A82DC[0] = dns1;
+    gCpsDnsIp[0] = dns1;
     if (dns1 == 0) {
-        g_021A8278 &= ~2;
-        g_021A82DC[1] = 0;
+        gCpsDhcpMode &= ~2;
+        gCpsDnsIp[1] = 0;
     } else {
-        g_021A8278 |= 2;
-        g_021A82DC[1] = dns2;
+        gCpsDhcpMode |= 2;
+        gCpsDnsIp[1] = dns2;
     }
     return 0;
 }

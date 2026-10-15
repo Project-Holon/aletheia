@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EB8
+ * function: BTL_REC_SEL_StartFade
  * address:  0x021B9EB8
  * packet:   pkt_021B9EB8
  * region:   ov214
@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021B9EB8(char *a, int b, char *c, int d, int e, int f, int g, int h, int i)
+void BTL_REC_SEL_StartFade(char *a, int b, char *c, int d, int e, int f, int g, int h, int i)
 {
     ((struct Obj25721 *)a)->f0 = 0;
     ((struct Obj05548 *)c)->f1C = d;

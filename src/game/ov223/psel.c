@@ -1,7 +1,7 @@
 /*
  * file:     psel.c
  * unit:     yes
- * function: PSEL_SetAnimFrame, PSEL_CreateRecords, PSEL_DeleteRecords, PSEL_Init, PSEL_Exit, PSEL_Main, PSEL_Task, PSEL_DrawObjects, PSEL_CreateG3dUtil, PSEL_DeleteG3dUtil, PSEL_SetupListAnime, PSEL_DeleteListAnime, PSEL_UpdateListAnime, PSEL_SetupSelectAnime, PSEL_DeleteSelectAnime, PSEL_UpdateSelectAnime, PSEL_SetAnimTarget, PSEL_IsAnimTargetReached, PSEL_StepAnim, PSEL_SetAnimTargetIndex, PSEL_StepAnimIndex, PSEL_SelectUnit, PSEL_UpdateUnitAnime, PSEL_CreateUnits, PSEL_DeleteUnits, PSEL_InterpolateCurve, PSEL_UpdateUnitPositions, PSEL_SetUnitVisible, PSEL_UpdateFadeUnit, PSEL_UpdateUnitAnime2, PSEL_CreateUnits2, PSEL_DeleteActors, PSEL_SetActorPosition, PSEL_UpdateActorPosition, PSEL_CreateBmpWindows, PSEL_NopAB74, PSEL_InitBgLayers, PSEL_IsBgReady, PSEL_DeleteBgLayers, PSEL_NopAC6C, PSEL_SetBgSys, PSEL_UpdateBgAD68, PSEL_UpdateBgAD80, PSEL_NopADFC, PSEL_CreateWin, PSEL_DeleteWin, PSEL_UpdateAF30, PSEL_CheckAF48, PSEL_SetMode, PSEL_IsModeDone, PSEL_UpdateB134, PSEL_UpdateB18C, PSEL_ClearWin, PSEL_ClearWin2, PSEL_ClearWin3, PSEL_CreateTaskRes, PSEL_UpdateB3AC, PSEL_ShowTaskRes, PSEL_SetTaskResActive
+ * function: PSEL_SetAnimFrame, PSEL_CreateRecords, PSEL_DeleteRecords, PSEL_Init, PSEL_Exit, PSEL_Main, PSEL_Task, PSEL_DrawObjects, PSEL_CreateG3dUtil, PSEL_DeleteG3dUtil, PSEL_SetupListAnime, PSEL_DeleteListAnime, PSEL_UpdateListAnime, PSEL_SetupSelectAnime, PSEL_DeleteSelectAnime, PSEL_UpdateSelectAnime, PSEL_SetAnimTarget, PSEL_IsAnimTargetReached, PSEL_StepAnim, PSEL_SetAnimTargetIndex, PSEL_StepAnimIndex, PSEL_SelectUnit, PSEL_UpdateUnitAnime, PSEL_CreateUnits, PSEL_DeleteUnits, PSEL_InterpolateCurve, PSEL_UpdateUnitPositions, PSEL_SetUnitVisible, PSEL_UpdateFadeUnit, PSEL_UpdateUnitAnime2, PSEL_CreateUnits2, PSEL_DeleteActors, PSEL_SetActorPosition, PSEL_UpdateActorPosition, PSEL_CreateBmpWindows, PSEL_NopBgWindows, PSEL_InitBgLayers, PSEL_IsBgReady, PSEL_DeleteBgLayers, PSEL_NopBgDelete, PSEL_SetBgSys, PSEL_ClearBgLayerEx, PSEL_UploadBgPalette, PSEL_NopBgUpdate, PSEL_CreateWin, PSEL_DeleteWin, PSEL_UpdateTcbl, PSEL_UpdateWindows, PSEL_SetMode, PSEL_IsModeDone, PSEL_UpdateSubWindow, PSEL_PrintSubWindow, PSEL_ClearWin, PSEL_ClearWin2, PSEL_ClearWin3, PSEL_CreateTaskRes, PSEL_DeleteTaskResData, PSEL_ShowTaskRes, PSEL_SetTaskResActive
  * address:  0x021B95A0
  * region:   ov223
  * compiler: dsi/1.1p1
@@ -113,7 +113,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   entry_table 0x021BC770 data a1
  *   func_02049B40 0x02049B40 arm
  *   func_02045B38 0x02045B38 arm
@@ -143,7 +143,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_Callback 0x0201EE60 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -163,35 +163,12 @@
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
  */
-#include "../../matched/include/Obj03961.h"
-#include "../../matched/include/Obj03962.h"
-#include "../../matched/include/Obj03380.h"
-#include "../../matched/include/Obj14786.h"
-#include "../../matched/include/Obj00739.h"
-#include "../../matched/include/Obj02266.h"
-#include "../../matched/include/Obj05570.h"
-#include "../../matched/include/Obj01594.h"
-#include "../../matched/include/Obj00211.h"
-#include "../../matched/include/Obj05571.h"
-#include "../../matched/include/Obj00738.h"
-#include "../../matched/include/Obj05572.h"
-#include "../../matched/include/Obj10978.h"
-#include "../../matched/include/Obj01786.h"
-#include "../../matched/include/Obj05573.h"
-#include "../../matched/include/Obj02938.h"
-#include "../../matched/include/Obj01595.h"
-#include "../../matched/include/Obj10980.h"
-#include "../../matched/include/Obj10981.h"
-#include "../../matched/include/Obj26089.h"
-#include "../../matched/include/Obj02939.h"
-#include "../../matched/include/Obj08461.h"
-#include "../../matched/include/Obj26093.h"
-#include "../../matched/include/Obj00084.h"
-#include "../../matched/include/Obj03381.h"
+
+#include "psel_types.h"
 
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 struct PrintSys;
 struct Arg;
 struct Rec;
@@ -222,21 +199,13 @@ struct StrObj;
 struct WordSet;
 struct R;
 struct TaskMenuState;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
 typedef struct {int x,y,z;} Vec;
 
 struct Record { u16 id,pad; Vec translation,scale; u32 matrix[9],flag; };
 
-typedef unsigned char u8;
-
 typedef int s32_021B95A0;
 
 typedef signed int     s32_021B97F8;
-
-typedef signed int     s32;
 
 struct TableRow { u16 h[5]; };
 
@@ -285,13 +254,13 @@ extern void MTX_Identity33_(void *);
 extern u32 func_020307B0(void *p);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern u32 FADE_GetSpeed(void);
 extern void FADE_SetSpeed(int);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u32 v);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void PSEL_GRAPHIC_Draw(char *);
@@ -356,7 +325,7 @@ extern int BG_SYS_ClearLayerEx(int, int);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -388,7 +357,7 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -438,31 +407,31 @@ void PSEL_DeleteActors(char *p);
 void PSEL_SetActorPosition(char *p,int flag);
 void PSEL_UpdateActorPosition(char *p, int unused);
 void PSEL_CreateBmpWindows(u16 *p);
-void PSEL_NopAB74(int *a0);
+void PSEL_NopBgWindows(int *a0);
 void PSEL_InitBgLayers(u16 *p);
 int PSEL_IsBgReady(void);
 void PSEL_DeleteBgLayers(u16 *p);
-void PSEL_NopAC6C(void);
+void PSEL_NopBgDelete(void);
 void PSEL_SetBgSys(const u16 *p);
-void PSEL_UpdateBgAD68(char *a0);
-void PSEL_UpdateBgAD80(u16 *p);
-void PSEL_NopADFC(char *a0);
+void PSEL_ClearBgLayerEx(char *a0);
+void PSEL_UploadBgPalette(u16 *p);
+void PSEL_NopBgUpdate(char *a0);
 void PSEL_CreateWin(char *p);
 void PSEL_DeleteWin(char *p);
-void PSEL_UpdateAF30(int *p);
-int PSEL_CheckAF48(char *p);
+void PSEL_UpdateTcbl(int *p);
+int PSEL_UpdateWindows(char *p);
 void PSEL_SetMode(char *p, int idx);
 int PSEL_IsModeDone(char *a);
-void PSEL_UpdateB134(char *p);
-void PSEL_UpdateB18C(char *p, int idx);
+void PSEL_UpdateSubWindow(char *p);
+void PSEL_PrintSubWindow(char *p, int idx);
 void PSEL_ClearWin(char *p);
 void PSEL_ClearWin2(char *p);
 void PSEL_ClearWin3(char *p);
 void PSEL_CreateTaskRes(char *p);
-int PSEL_UpdateB3AC(int *p);
+int PSEL_DeleteTaskResData(int *p);
 void PSEL_ShowTaskRes(char *p);
 void PSEL_DeleteTaskRes(char *p);
-void PSEL_UpdateB414(char *p);
+void PSEL_UpdateTaskResWin(char *p);
 void PSEL_SetTaskResActive(char *p);
 u32 PSEL_IsTaskResFinished(char *p);
 extern const char site[];
@@ -532,15 +501,15 @@ int PSEL_Init(void *a,int unused,void *c)
     GFL_HEAP_CreateChildHeap(1,135,1<<20);
     p=PROCSYS_AllocProcWork(a,2168,135);
     MI_CpuFill8(p,0,2168);
-    ((struct Obj03961 *)p)->f0=135;
-    ((struct Obj03961 *)p)->f4=c;
-    ((struct Obj03961 *)p)->f874=FADE_GetSpeed();
+    ((struct PselWork *)p)->heapId=135;
+    ((struct PselWork *)p)->config=c;
+    ((struct PselWork *)p)->savedFadeSpeed=FADE_GetSpeed();
     FADE_SetSpeed(1);
-    ((struct Obj03961 *)p)->f8=func_020355C4();
-    ((struct Obj03961 *)p)->f228=4;
-    ((struct Obj03961 *)p)->f22C=4;
-    ((struct Obj03961 *)p)->f230=0;
-    ((struct Obj03961 *)p)->fC=0;
+    ((struct PselWork *)p)->fadeSpeed=func_020355C4();
+    ((struct PselWork *)p)->fade.state.menuSelected=4;
+    ((struct PselWork *)p)->fade.state.currentIndex=4;
+    ((struct PselWork *)p)->voicePending=0;
+    ((struct PselWork *)p)->subState=0;
     return 1;
 }
 
@@ -591,15 +560,15 @@ int PSEL_Main(void *a,int *state,void *b,char *p)
     int old=*state;
     *state=callbacks[*state](p,(int *)(p+12));
     if(*state!=13) {
-        if(*state!=old) ((struct Obj03962 *)p)->fC=0;
+        if(*state!=old) ((struct PselWork *)p)->subState=0;
     } else return 1;
     if(*state>=2&&*state<=11) {
-        PRINTSYS_QUE_Main(((struct Obj03962 *)p)->f1C);
-        PSEL_UpdateAF30((int *)p);
-        PSEL_GRAPHIC_Draw(*(char * *)&((struct Obj03962 *)p)->f14);
-        PSEL_GRAPHIC_ApplyLight(((struct Obj03962 *)p)->f14);
+        PRINTSYS_QUE_Main((struct PrintSys *)((struct PselWork *)p)->printQue);
+        PSEL_UpdateTcbl((int *)p);
+        PSEL_GRAPHIC_Draw(*(char * *)&((struct PselWork *)p)->graphicSys);
+        PSEL_GRAPHIC_ApplyLight(((struct PselWork *)p)->graphicSys);
         PSEL_DrawObjects(p);
-        PSEL_GRAPHIC_DrawEnd(((struct Obj03962 *)p)->f14);
+        PSEL_GRAPHIC_DrawEnd(((struct PselWork *)p)->graphicSys);
     }
     return 0;
 }
@@ -610,15 +579,15 @@ int PSEL_Main(void *a,int *state,void *b,char *p)
 
 void PSEL_Task(void *unused,char *p)
 {
-    if(((struct Obj03380 *)p)->f24&1) func_02040588(3,1);
-    if(((struct Obj03380 *)p)->f24&2) func_02040588(3,0);
-    if(((struct Obj03380 *)p)->f24&4) {func_02040588(3,1);func_02040588(2,1);}
-    if(((struct Obj03380 *)p)->f24&8) {func_02040588(3,0);func_02040588(2,0);}
-    if(((struct Obj03380 *)p)->f24&16) {func_02040588(7,1);func_02040588(6,1);func_02040588(5,1);}
-    if(((struct Obj03380 *)p)->f24&32) {func_02040588(7,0);func_02040588(6,0);func_02040588(5,0);}
-    if(((struct Obj03380 *)p)->f24&64) func_02040588(3,1);
-    if(((struct Obj03380 *)p)->f24&128) func_02040588(3,0);
-    ((struct Obj03380 *)p)->f24=0;
+    if(((struct PselWork *)p)->flags&1) func_02040588(3,1);
+    if(((struct PselWork *)p)->flags&2) func_02040588(3,0);
+    if(((struct PselWork *)p)->flags&4) {func_02040588(3,1);func_02040588(2,1);}
+    if(((struct PselWork *)p)->flags&8) {func_02040588(3,0);func_02040588(2,0);}
+    if(((struct PselWork *)p)->flags&16) {func_02040588(7,1);func_02040588(6,1);func_02040588(5,1);}
+    if(((struct PselWork *)p)->flags&32) {func_02040588(7,0);func_02040588(6,0);func_02040588(5,0);}
+    if(((struct PselWork *)p)->flags&64) func_02040588(3,1);
+    if(((struct PselWork *)p)->flags&128) func_02040588(3,0);
+    ((struct PselWork *)p)->flags=0;
 }
 
 
@@ -627,7 +596,7 @@ void PSEL_Task(void *unused,char *p)
 
 
 
-void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct Obj03962 *)p)->f3A;i++){char *q=(char *)(((struct Obj03962 *)p)->f3C+(u32)i*68);if(((struct Obj14786 *)q)->f40)G3D_SYSTEM_DrawObject(func_02048A18(*(u8 * *)&((struct Obj03962 *)p)->f28,((struct Obj14786 *)q)->f0),(struct Arg *)(q+4));} }
+void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct PselWork *)p)->recordCount;i++){char *q=(char *)((struct PselWork *)p)->records+(u32)i*68;if(((struct PselWork *)q)->animStream)G3D_SYSTEM_DrawObject(func_02048A18(*(u8 * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)q)->heapId),(struct Arg *)(q+4));} }
 
 
 
@@ -638,8 +607,8 @@ void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct Obj03962 *)p)->f3A;i++
 
 void PSEL_CreateG3dUtil(char *p)
 {
-    ((struct Obj00739 *)p)->f28 = G3D_UTIL_Create(5, 4, ((struct Obj00739 *)p)->f0);
-    ((struct Obj00739 *)p)->f3A = 0;
+    ((struct PselWork *)p)->g3dUtil = (void *)G3D_UTIL_Create(5, 4, ((struct PselWork *)p)->heapId);
+    ((struct PselWork *)p)->recordCount = 0;
 }
 
 
@@ -648,7 +617,7 @@ void PSEL_CreateG3dUtil(char *p)
 
 
 
-void PSEL_DeleteG3dUtil(int *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj02266 *)p)->f28); }
+void PSEL_DeleteG3dUtil(int *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct PselWork *)p)->g3dUtil); }
 
 
 
@@ -690,7 +659,7 @@ void PSEL_SetupListAnime(u8 *p)
 
 
 
-void PSEL_DeleteListAnime(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj05570 *)p)->f28,((struct Obj05570 *)p)->f2C);PSEL_DeleteRecords(((struct Obj05570 *)p)->f3C);((struct Obj05570 *)p)->f3A=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct Obj05570 *)p)->f40); }
+void PSEL_DeleteListAnime(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream); }
 
 
 
@@ -703,14 +672,14 @@ void PSEL_UpdateListAnime(char *p)
     int *obj;
     u32 n;
     u16 i,j;
-    for(i=0;i<((struct Obj01594 *)p)->f3A;i++) {
-        obj=(int *)func_02048A18(*(unsigned char * *)&((struct Obj01594 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj01594 *)p)->f3C+i*68));
+    for(i=0;i<((struct PselWork *)p)->recordCount;i++) {
+        obj=(int *)func_02048A18(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+i*68));
         n=G3D_SYSTEM_GetObjectAnimeCount(obj);
         for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,j,2048);
     }
-    ICA_ANIME_IncFrameLoop(((struct Obj01594 *)p)->f40,2048);
-    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj01594 *)p)->f14),((struct Obj01594 *)p)->f40);
-    (*(u32 *)&((struct Obj01594 *)p)->f50)++;
+    ICA_ANIME_IncFrameLoop(((struct PselWork *)p)->animStream,2048);
+    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
+    (*(u32 *)&((struct PselWork *)p)->animFrame)++;
 }
 
 
@@ -725,25 +694,25 @@ void PSEL_SetupSelectAnime(char *p)
     u32 base,count;
     int *obj;
     struct Record *r;
-    ((struct Obj00211 *)p)->f2E=G3D_UTIL_AddUnit(*(struct Util * *)&((struct Obj00211 *)p)->f28,&setup);
-    ((struct Obj00211 *)p)->f3A=4;
-    *(struct Record * *)&((struct Obj00211 *)p)->f3C=PSEL_CreateRecords(((struct Obj00211 *)p)->f0,((struct Obj00211 *)p)->f3A);
+    ((struct PselWork *)p)->unitId2=G3D_UTIL_AddUnit(*(struct Util * *)&((struct PselWork *)p)->g3dUtil,&setup);
+    ((struct PselWork *)p)->recordCount=4;
+    *(struct Record * *)&((struct PselWork *)p)->records=PSEL_CreateRecords(((struct PselWork *)p)->heapId,((struct PselWork *)p)->recordCount);
     n=0;
-    base=func_020489F4(*(u8 * *)&((struct Obj00211 *)p)->f28,((struct Obj00211 *)p)->f2E);
+    base=func_020489F4(*(u8 * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId2);
     for(i=0;i<4;i++) {
         *(u16 *)(p+i*2+50)=n;
-        r=*(struct Record * *)&((struct Obj00211 *)p)->f3C+n;
+        r=*(struct Record * *)&((struct PselWork *)p)->records+n;
         r->id=base+i;
         r->flag=1;
         if(i+1>=2&&i+1<=4)r->translation=*(positions+i-1);
         n++;
     }
-    obj=(int *)func_02048A18(*(u8 * *)&((struct Obj00211 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj00211 *)p)->f3C+((struct Obj00211 *)p)->f32*68));
+    obj=(int *)func_02048A18(*(u8 * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
     count=G3D_SYSTEM_GetObjectAnimeCount(obj);
     for(j=0;j<count;j++)G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)obj,j);
-    ((struct Obj00211 *)p)->f40=ICA_ANIME_CreateStream(((struct Obj00211 *)p)->f0,205,36,10);
-    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj00211 *)p)->f14),((struct Obj00211 *)p)->f40);
-    ((struct Obj00211 *)p)->f50=0;
+    ((struct PselWork *)p)->animStream=ICA_ANIME_CreateStream(((struct PselWork *)p)->heapId,205,36,10);
+    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
+    ((struct PselWork *)p)->animFrame=0;
 }
 
 
@@ -752,7 +721,7 @@ void PSEL_SetupSelectAnime(char *p)
 
 
 
-void PSEL_DeleteSelectAnime(char *p) {G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj05571 *)p)->f28,((struct Obj05571 *)p)->f2E);PSEL_DeleteRecords(((struct Obj05571 *)p)->f3C);((struct Obj05571 *)p)->f3A=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct Obj05571 *)p)->f40);}
+void PSEL_DeleteSelectAnime(char *p) {G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId2);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream);}
 
 
 
@@ -765,12 +734,12 @@ void PSEL_UpdateSelectAnime(char *p)
     int *obj;
     u32 n;
     u16 j;
-    obj=(int *)func_02048A18(*(unsigned char * *)&((struct Obj00738 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj00738 *)p)->f3C+((struct Obj00738 *)p)->f32*68));
+    obj=(int *)func_02048A18(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
     n=G3D_SYSTEM_GetObjectAnimeCount(obj);
     for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame(obj,j,2048);
-    ICA_ANIME_IncFrameLoop(((struct Obj00738 *)p)->f40,2048);
-    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj00738 *)p)->f14),((struct Obj00738 *)p)->f40);
-    (((struct Obj00738 *)p)->f50)++;
+    ICA_ANIME_IncFrameLoop(((struct PselWork *)p)->animStream,2048);
+    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
+    (((struct PselWork *)p)->animFrame)++;
 }
 
 
@@ -786,11 +755,11 @@ void PSEL_SetAnimTarget(char *p,int type,int flag)
     v=table[type][flag?1:0];
     if(v!=0) f=0.5f+(float)(v<<12);
     else f=(float)(v<<12)-0.5f;
-    PSEL_SetAnimFrame(*(int *)&((struct Obj05572 *)p)->f40,(int)f);
-    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj05572 *)p)->f14),((struct Obj05572 *)p)->f40);
-    ((struct Obj05572 *)p)->f44=type;
-    ((struct Obj05572 *)p)->f48=flag;
-    ((struct Obj05572 *)p)->f4C=v;
+    PSEL_SetAnimFrame(*(int *)&((struct PselWork *)p)->animStream,(int)f);
+    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
+    ((struct PselWork *)p)->animTableIndex=type;
+    ((struct PselWork *)p)->animReverse=flag;
+    ((struct PselWork *)p)->animTarget=v;
 }
 
 
@@ -800,8 +769,8 @@ void PSEL_SetAnimTarget(char *p,int type,int flag)
 int PSEL_IsAnimTargetReached(char *p)
 {
     int select=0;
-    if(((struct Obj10978 *)p)->f48==0) select=1;
-    if(((struct Obj10978 *)p)->f4C==table[((struct Obj10978 *)p)->f44][select]) return 1;
+    if(((struct PselWork *)p)->animReverse==0) select=1;
+    if(((struct PselWork *)p)->animTarget==table[((struct PselWork *)p)->animTableIndex][select]) return 1;
     return 0;
 }
 
@@ -812,17 +781,17 @@ int PSEL_IsAnimTargetReached(char *p)
 void PSEL_StepAnim(char *p)
 {
     unsigned i=0;
-    if(((struct Obj01786 *)p)->f48==0) i=1;
+    if(((struct PselWork *)p)->animReverse==0) i=1;
     i=table[*(unsigned *)(p+68)][i];
-    if(((struct Obj01786 *)p)->f4C!=i) {
+    if(((struct PselWork *)p)->animTarget!=i) {
         int step;
-        if(((struct Obj01786 *)p)->f48!=0) step=-2048; else step=2048;
-        ICA_ANIME_IncFrameLoop(((struct Obj01786 *)p)->f40,step);
-        ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj01786 *)p)->f14),((struct Obj01786 *)p)->f40);
-        if(((struct Obj01786 *)p)->f48!=0) --((struct Obj01786 *)p)->f4C; else ++((struct Obj01786 *)p)->f4C;
-    if(((struct Obj01786 *)p)->f4C==i && ((struct Obj01786 *)p)->f48!=0) {
-        PSEL_SetAnimFrame((int)(((struct Obj01786 *)p)->f40),0x4E000);
-        ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj01786 *)p)->f14),((struct Obj01786 *)p)->f40);
+        if(((struct PselWork *)p)->animReverse!=0) step=-2048; else step=2048;
+        ICA_ANIME_IncFrameLoop(((struct PselWork *)p)->animStream,step);
+        ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
+        if(((struct PselWork *)p)->animReverse!=0) --((struct PselWork *)p)->animTarget; else ++((struct PselWork *)p)->animTarget;
+    if(((struct PselWork *)p)->animTarget==i && ((struct PselWork *)p)->animReverse!=0) {
+        PSEL_SetAnimFrame((int)(((struct PselWork *)p)->animStream),0x4E000);
+        ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
     }
     }
 }
@@ -838,11 +807,11 @@ void PSEL_SetAnimTargetIndex(char *p,unsigned index)
     value=d_021BC790[index].h[0];
     if(value!=0) coordinate=(int)((float)(value<<12)+0.5f);
     else coordinate=(int)((float)(value<<12)-0.5f);
-    PSEL_SetAnimFrame(*(int *)&((struct Obj05573 *)p)->f40,coordinate);
-    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct Obj05573 *)p)->f14),((struct Obj05573 *)p)->f40);
-    ((struct Obj05573 *)p)->f44=index;
-    ((struct Obj05573 *)p)->f48=0;
-    ((struct Obj05573 *)p)->f4C=value;
+    PSEL_SetAnimFrame(*(int *)&((struct PselWork *)p)->animStream,coordinate);
+    ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->animStream);
+    ((struct PselWork *)p)->animTableIndex=index;
+    ((struct PselWork *)p)->animReverse=0;
+    ((struct PselWork *)p)->animTarget=value;
 }
 
 
@@ -850,7 +819,7 @@ void PSEL_SetAnimTargetIndex(char *p,unsigned index)
 
 
 
-void PSEL_StepAnimIndex(char *p) {if(((struct Obj00738 *)p)->f4C!=*(const u16 *)((const u8 *)d_021BC792+((struct Obj00738 *)p)->f44*10)) {ICA_ANIME_IncFrameLoop(*(struct IcaAnime * *)&((struct Obj00738 *)p)->f40,2048);ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera((unsigned char *)(((struct Obj00738 *)p)->f14)),((struct Obj00738 *)p)->f40);(((struct Obj00738 *)p)->f4C)++;}}
+void PSEL_StepAnimIndex(char *p) {if(((struct PselWork *)p)->animTarget!=*(const u16 *)((const u8 *)d_021BC792+((struct PselWork *)p)->animTableIndex*10)) {ICA_ANIME_IncFrameLoop(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream,2048);ICA_ANIME_SetCameraStatus((void *)PSEL_GRAPHIC_GetCamera((unsigned char *)(((struct PselWork *)p)->graphicSys)),((struct PselWork *)p)->animStream);(((struct PselWork *)p)->animTarget)++;}}
 
 
 
@@ -864,22 +833,22 @@ void PSEL_SelectUnit(char *p,unsigned next)
     unsigned count;
     u16 i;
     int frame;
-    if(((struct Obj02938 *)p)->f22C!=4 && ((struct Obj02938 *)p)->f22C!=next) {
-        object=(void *)func_02048A18(((struct Obj02938 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj02938 *)p)->f3C+68*(*(u16 *)(p+48+2*(((struct Obj02938 *)p)->f22C+2)))));
+    if(((struct PselWork *)p)->fade.state.currentIndex!=4 && ((struct PselWork *)p)->fade.state.currentIndex!=next) {
+        object=(void *)func_02048A18(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(((struct PselWork *)p)->fade.state.currentIndex+2)))));
         count=G3D_SYSTEM_GetObjectAnimeCount(object);
         for(i=0;i<count;i++) G3D_SYSTEM_DisableObjectAnime(object,i);
     }
-    if(next!=4 && ((struct Obj02938 *)p)->f22C!=next) {
-        object=(void *)func_02048A18(((struct Obj02938 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj02938 *)p)->f3C+68*(*(u16 *)(p+48+2*(next+2)))));
+    if(next!=4 && ((struct PselWork *)p)->fade.state.currentIndex!=next) {
+        object=(void *)func_02048A18(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(next+2)))));
         count=G3D_SYSTEM_GetObjectAnimeCount(object);
         frame=0;
         for(i=0;i<count;i++) {
             G3D_SYSTEM_EnableObjectAnime(object,i);
             G3D_SYSTEM_SetObjectAnimeFrame(object,i,&frame);
         }
-        CLACT_SetActorAnimIndex((int)(((struct Obj02938 *)p)->f224),0);
+        CLACT_SetActorAnimIndex((int)(((struct PselWork *)p)->fade.state.actor),0);
     }
-    ((struct Obj02938 *)p)->f22C=next;
+    ((struct PselWork *)p)->fade.state.currentIndex=next;
 }
 
 
@@ -893,8 +862,8 @@ void PSEL_UpdateUnitAnime(char *p)
     void *object;
     unsigned count;
     u16 i;
-    if(((struct Obj00738 *)p)->f22C!=4) {
-        object=(void *)func_02048A18(((struct Obj00738 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj00738 *)p)->f3C+68*(*(u16 *)(p+48+2*(((struct Obj00738 *)p)->f22C+2)))));
+    if(((struct PselWork *)p)->fade.state.currentIndex!=4) {
+        object=(void *)func_02048A18(((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+68*(*(u16 *)(p+48+2*(((struct PselWork *)p)->fade.state.currentIndex+2)))));
         count=G3D_SYSTEM_GetObjectAnimeCount(object);
         for(i=0;i<count;i++) G3D_SYSTEM_LoopObjectAnimeFrame(object,i,2048);
     }
@@ -917,27 +886,27 @@ void PSEL_CreateUnits(char *p)
     char *r;
     const Files *f;
     u8 i,j;
-    arc=POKEGRA_OpenHandle(((struct Obj00211 *)p)->f0);
+    arc=POKEGRA_OpenHandle(((struct PselWork *)p)->heapId);
     for(i=0;i<3;i++) {
         id=ids[i];r=p+i*148;
-        ((struct Obj01595 *)r)->f54=POKEGRA_RegisterCgr(arc,id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
-        ((struct Obj01595 *)r)->f58=POKEGRA_RegisterPalette(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),((struct Obj00211 *)p)->f0);
-        ((struct Obj01595 *)r)->f5C=POKEGRA_RegisterCellAnim(id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
+        ((struct PselUnit *)r)->cgr=POKEGRA_RegisterCgr(arc,id,0,0,0,0,0,0,1,((struct PselWork *)p)->heapId);
+        ((struct PselUnit *)r)->palette=POKEGRA_RegisterPalette(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),((struct PselWork *)p)->heapId);
+        ((struct PselUnit *)r)->cellAnim=POKEGRA_RegisterCellAnim(id,0,0,0,0,0,0,1,((struct PselWork *)p)->heapId);
     }
     ARC_TOOL_DeleteHandle(arc);
     for(j=0;j<3;j++) {
         MI_CpuFill8(&request,0,8);
         request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
-        ((struct Obj01595 *)r)->f6C=(u32)CLACT_CreateActor((void *)PSEL_GRAPHIC_GetClactBank(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f54,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f5C,&request,1,((struct Obj00211 *)p)->f0);
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01595 *)r)->f6C,0);
+        ((struct PselUnit *)r)->actor=(u32)CLACT_CreateActor((void *)PSEL_GRAPHIC_GetClactBank(((struct PselWork *)p)->graphicSys),((struct PselUnit *)r)->cgr,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->cellAnim,&request,1,((struct PselWork *)p)->heapId);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct PselUnit *)r)->actor,0);
     }
-    other=(u32)func_020490F4(205,((struct Obj00211 *)p)->f0);
+    other=(u32)func_020490F4(205,((struct PselWork *)p)->heapId);
     for(i=0;i<3;i++) {
         f=files+i;
         r=p+i*148;
-        ((struct Obj01595 *)r)->f60=CLACT_RegisterCharacter((void *)other,f->b[0],0,1,((struct Obj00211 *)p)->f0);
-        ((struct Obj01595 *)r)->f68=CLACT_RegisterCellAnim((void *)other,f->b[2],f->b[3],((struct Obj00211 *)p)->f0);
+        ((struct PselUnit *)r)->charHandle=CLACT_RegisterCharacter((void *)other,f->b[0],0,1,((struct PselWork *)p)->heapId);
+        ((struct PselUnit *)r)->affineCellAnim=CLACT_RegisterCellAnim((void *)other,f->b[2],f->b[3],((struct PselWork *)p)->heapId);
     }
     ARC_TOOL_DeleteHandle(other);
     for(j=0;j<3;j++) {
@@ -946,8 +915,8 @@ void PSEL_CreateUnits(char *p)
         desc.sx=FIX((float)motion[j].b[6]/16.0f);desc.sy=FIX((float)motion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
-        ((struct Obj01595 *)r)->f70=(unsigned int)CLACT_CreateAffineActor(PSEL_GRAPHIC_GetClactBank(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,(u32)(&desc),1,((struct Obj00211 *)p)->f0);
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01595 *)r)->f70,0);
+        ((struct PselUnit *)r)->affineActor=(unsigned int)CLACT_CreateAffineActor(PSEL_GRAPHIC_GetClactBank(((struct PselWork *)p)->graphicSys),((struct PselUnit *)r)->charHandle,((struct PselUnit *)r)->palette,((struct PselUnit *)r)->affineCellAnim,(u32)(&desc),1,((struct PselWork *)p)->heapId);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct PselUnit *)r)->affineActor,0);
     }
     for(i=0;i<3;i++) {
         *(u16 *)(p+i*148+216)=0;
@@ -955,7 +924,7 @@ void PSEL_CreateUnits(char *p)
         *(u32 *)(p+i*148+224)=0;
         *(u32 *)(p+i*148+228)=0;
     }
-    ((struct Obj00211 *)p)->f210=0;((struct Obj00211 *)p)->f214=0;
+    ((struct PselWork *)p)->fade.state.fadeAlpha=0;((struct PselWork *)p)->fade.state.fadeState=0;
 }
 
 
@@ -973,9 +942,9 @@ void PSEL_DeleteUnits(char *p)
         for(j=0;j<2;j++) {
             CLACT_DeleteActor(*(void **)(row+108+j*4));
             entry=row+j*12;
-            CLACT_ReleaseCellAnim(((struct Obj10980 *)entry)->f5C);
-            CLACT_ReleaseCharacter(((struct Obj10980 *)entry)->f54);
-            if(j!=1) CLACT_ReleasePalette(((struct Obj10980 *)entry)->f58);
+            CLACT_ReleaseCellAnim(((struct PselUnit *)entry)->cellAnim);
+            CLACT_ReleaseCharacter(((struct PselUnit *)entry)->cgr);
+            if(j!=1) CLACT_ReleasePalette(((struct PselUnit *)entry)->palette);
         }
     }
 }
@@ -1232,9 +1201,9 @@ void PSEL_UpdateFadeUnit(char *p)
     u8 i;
     int alpha;
     for(i=0;i<3;i++) CLACT_SetActorObjMode(*(void **)(p+i*148+108),1);
-    ((struct Obj10981 *)p)->f210=0;
-    ((struct Obj10981 *)p)->f214=1;
-    alpha=((struct Obj10981 *)p)->f210;
+    ((struct PselWork *)p)->fade.state.fadeAlpha=0;
+    ((struct PselWork *)p)->fade.state.fadeState=1;
+    alpha=((struct PselWork *)p)->fade.state.fadeAlpha;
     func_0207D63C(0x04001050,0,63,alpha,16-alpha);
 }
 
@@ -1246,7 +1215,7 @@ void PSEL_UpdateFadeUnit(char *p)
 
 int PSEL_IsUnitAnimDone(char *p)
 {
-    if(((struct Obj26089 *)p)->f214==0) return 1;
+    if(((struct PselWork *)p)->fade.state.fadeState==0) return 1;
     return 0;
 }
 
@@ -1258,24 +1227,24 @@ int PSEL_IsUnitAnimDone(char *p)
 void PSEL_UpdateUnitAnime2(char *p)
 {
     u8 i;
-    switch(((struct Obj02939 *)p)->f214) {
+    switch(((struct PselWork *)p)->fade.state.fadeState) {
     case 1:
         for(i=0;i<3;i++) CLACT_SetActorDrawEnable(*(void **)(p+i*148+108),1);
-        ((struct Obj02939 *)p)->f214=2;
+        ((struct PselWork *)p)->fade.state.fadeState=2;
         break;
     case 2:
-        if(((struct Obj02939 *)p)->f210<16) {
-            ++((struct Obj02939 *)p)->f210;
-            if(((struct Obj02939 *)p)->f210==16) {
+        if(((struct PselWork *)p)->fade.state.fadeAlpha<16) {
+            ++((struct PselWork *)p)->fade.state.fadeAlpha;
+            if(((struct PselWork *)p)->fade.state.fadeAlpha==16) {
                 for(i=0;i<3;i++) CLACT_SetActorObjMode(*(void **)(p+i*148+108),0);
-                ((struct Obj02939 *)p)->f214=3;
+                ((struct PselWork *)p)->fade.state.fadeState=3;
             }
-            func_0207D63C(0x04001050,0,63,((struct Obj02939 *)p)->f210,16-((struct Obj02939 *)p)->f210);
-        } else ((struct Obj02939 *)p)->f214=3;
+            func_0207D63C(0x04001050,0,63,((struct PselWork *)p)->fade.state.fadeAlpha,16-((struct PselWork *)p)->fade.state.fadeAlpha);
+        } else ((struct PselWork *)p)->fade.state.fadeState=3;
         break;
     case 3:
         func_0207D63C(0x04001050,4,63,8,8);
-        ((struct Obj02939 *)p)->f214=0;
+        ((struct PselWork *)p)->fade.state.fadeState=0;
         break;
     }
 }
@@ -1289,15 +1258,15 @@ void PSEL_CreateUnits2(char *p)
 {
     void *object;
     struct Request request;
-    object=func_020490F4(205,((struct Obj00211 *)p)->f0);
-    ((struct Obj00211 *)p)->f21C=CLACT_RegisterPaletteEx(object,11,0,0,0,1,((struct Obj00211 *)p)->f0);
-    ((struct Obj00211 *)p)->f218=CLACT_RegisterCharacter(object,17,0,0,((struct Obj00211 *)p)->f0);
-    ((struct Obj00211 *)p)->f220=CLACT_RegisterCellAnim(object,24,28,((struct Obj00211 *)p)->f0);
+    object=func_020490F4(205,((struct PselWork *)p)->heapId);
+    ((struct PselWork *)p)->fade.state.palHandle=CLACT_RegisterPaletteEx(object,11,0,0,0,1,((struct PselWork *)p)->heapId);
+    ((struct PselWork *)p)->fade.state.charHandle=CLACT_RegisterCharacter(object,17,0,0,((struct PselWork *)p)->heapId);
+    ((struct PselWork *)p)->fade.state.cellAnimHandle=CLACT_RegisterCellAnim(object,24,28,((struct PselWork *)p)->heapId);
     ARC_TOOL_DeleteHandle((u32)object);
     MI_CpuFill8(&request,0,8);
     request.x=66;request.y=39;request.z=0;request.a=0;request.b=2;
-    ((struct Obj00211 *)p)->f224=CLACT_CreateActor((void *)PSEL_GRAPHIC_GetClactBank(((struct Obj00211 *)p)->f14),((struct Obj00211 *)p)->f218,((struct Obj00211 *)p)->f21C,((struct Obj00211 *)p)->f220,&request,0,((struct Obj00211 *)p)->f0);
-    CLACT_SetActorAutoAnim(((struct Obj00211 *)p)->f224,1);
+    ((struct PselWork *)p)->fade.state.actor=CLACT_CreateActor((void *)PSEL_GRAPHIC_GetClactBank(((struct PselWork *)p)->graphicSys),((struct PselWork *)p)->fade.state.charHandle,((struct PselWork *)p)->fade.state.palHandle,((struct PselWork *)p)->fade.state.cellAnimHandle,&request,0,((struct PselWork *)p)->heapId);
+    CLACT_SetActorAutoAnim(((struct PselWork *)p)->fade.state.actor,1);
     PSEL_SetActorPosition(p,0);
 }
 
@@ -1310,7 +1279,7 @@ void PSEL_DeleteActors(char *p) {u32 off;off=0x224;CLACT_DeleteActor(*(struct Ob
 
 
 
-void PSEL_SetActorPosition(char *p,int flag) {Vec2 pos;if(flag) {PSEL_UpdateActorPosition(p,flag);}else {pos.x=400;pos.y=300;CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj00211 *)p)->f224,&pos,0);}}
+void PSEL_SetActorPosition(char *p,int flag) {Vec2 pos;if(flag) {PSEL_UpdateActorPosition(p,flag);}else {pos.x=400;pos.y=300;CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct PselWork *)p)->fade.state.actor,&pos,0);}}
 
 
 
@@ -1345,7 +1314,7 @@ void PSEL_CreateBmpWindows(u16 *p)
 
 
 
-void PSEL_NopAB74(int *a0) {}
+void PSEL_NopBgWindows(int *a0) {}
 
 
 
@@ -1395,13 +1364,13 @@ void PSEL_DeleteBgLayers(u16 *p)
     func_02049658(object,15,4,0,0,0,*p);
     func_020498F4(object,18,4,0,0,0,*p);
     ARC_TOOL_DeleteHandle((u32)object);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }
 
 
 
 
-void PSEL_NopAC6C(void) {}
+void PSEL_NopBgDelete(void) {}
 
 
 
@@ -1437,7 +1406,7 @@ void PSEL_SetBgSys(const u16 *p)
 
 
 
-void PSEL_UpdateBgAD68(char *a0)
+void PSEL_ClearBgLayerEx(char *a0)
 {
     BG_SYS_ClearLayerEx(2, 0xd000);
     BG_SYS_ClearLayerEx(6, 0);
@@ -1449,7 +1418,7 @@ void PSEL_UpdateBgAD68(char *a0)
 /*
  * Trailing ADFA halfword is zero alignment padding.
  */
-void PSEL_UpdateBgAD80(u16 *p)
+void PSEL_UploadBgPalette(u16 *p)
 {
     void *object;
     object = func_020490F4(205, *p);
@@ -1458,24 +1427,24 @@ void PSEL_UpdateBgAD80(u16 *p)
     func_020498F4(object, 19, 4, 0, 0, 0, *p);
     func_020498F4(object, 20, 5, 0, 0, 0, *p);
     ARC_TOOL_DeleteHandle((u32)object);
-    func_020409B4(4);
-    func_020409B4(5);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(5);
 }
 
 
 
 
-void PSEL_NopADFC(char *a0) {}
+void PSEL_NopBgUpdate(char *a0) {}
 
 
 
 void PSEL_CreateWin(char *p)
 {
     u8 i=0;
-    func_02049B40(23,5,0,448,32,((struct Obj00739 *)p)->f0);
-    func_02049B40(23,5,4,32,32,((struct Obj00739 *)p)->f0);
-    *(struct MsgBank * *)&((struct Obj00739 *)p)->f234=func_02045B38(0,3,430,((struct Obj00739 *)p)->f0);
-    *(struct Tcbl * *)&((struct Obj00739 *)p)->f254=TCBL_Create(((struct Obj00739 *)p)->f0,((struct Obj00739 *)p)->f0,1,0);
+    func_02049B40(23,5,0,448,32,((struct PselWork *)p)->heapId);
+    func_02049B40(23,5,4,32,32,((struct PselWork *)p)->heapId);
+    *(struct MsgBank * *)&((struct PselWork *)p)->msgBank=func_02045B38(0,3,430,((struct PselWork *)p)->heapId);
+    *(struct Tcbl * *)&((struct PselWork *)p)->tcbl=TCBL_Create(((struct PselWork *)p)->heapId,((struct PselWork *)p)->heapId,1,0);
     GF_FONT_SetTextColor(15,2,0);
     for(;i<3;i++) {
         *(u32 *)(p+i*4+568)=BMP_WIN_Create(entry_table[i].a,entry_table[i].b,entry_table[i].c,entry_table[i].d,entry_table[i].e,entry_table[i].f,entry_table[i].g);
@@ -1483,7 +1452,7 @@ void PSEL_CreateWin(char *p)
         BMP_WIN_TransferChars(*(struct Descriptor **)(p+i*4+568));
         *(u32 *)(p+i*4+580)=1;
     }
-    ((struct Obj00739 *)p)->f250=0;((struct Obj00739 *)p)->f258=0;
+    ((struct PselWork *)p)->printStream=0;((struct PselWork *)p)->strbuf=0;
 }
 
 
@@ -1491,23 +1460,23 @@ void PSEL_CreateWin(char *p)
 void PSEL_DeleteWin(char *p)
 {
     u8 i;
-    if (*(struct Rec3 * *)&((struct Obj02266 *)p)->f250)
-        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj02266 *)p)->f250);
-    if (*(struct U16Vec * *)&((struct Obj02266 *)p)->f258)
-        STRBUF_Delete(*(struct U16Vec * *)&((struct Obj02266 *)p)->f258);
+    if (*(struct Rec3 * *)&((struct PselWork *)p)->printStream)
+        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct PselWork *)p)->printStream);
+    if (*(struct U16Vec * *)&((struct PselWork *)p)->strbuf)
+        STRBUF_Delete(*(struct U16Vec * *)&((struct PselWork *)p)->strbuf);
     for (i = 0; i < 3; i++)
         BMP_WIN_Delete(*(struct Descriptor **)(p + 0x238 + i * 4));
-    TCBL_Destroy(*(struct S02031140 * *)&((struct Obj02266 *)p)->f254);
-    MSGDATA_Delete(*(struct Rec * *)&((struct Obj02266 *)p)->f234);
+    TCBL_Destroy(*(struct S02031140 * *)&((struct PselWork *)p)->tcbl);
+    MSGDATA_Delete(*(struct Rec * *)&((struct PselWork *)p)->msgBank);
 }
 
 
 
 
-void PSEL_UpdateAF30(int *p)
+void PSEL_UpdateTcbl(int *p)
 {
     TCBL_Main((struct Tcbl *)p[0x95]);
-    PSEL_CheckAF48((char *)p);
+    PSEL_UpdateWindows((char *)p);
 }
 
 
@@ -1517,22 +1486,22 @@ void PSEL_UpdateAF30(int *p)
  * before fixed field offsets retains the observed invariant constants;
  * computing p + constant + i*4 instead hoists pointer bases and spills p.
  */
-int PSEL_CheckAF48(char *p)
+int PSEL_UpdateWindows(char *p)
 {
     int finished = 1;
     u8 i;
     for (i = 0; i < 3; i++) {
         char *q = p + i * 4;
-        if (((struct Obj08461 *)q)->f244 == 0) {
-            if (PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct Obj26093 *)p)->f1C,
-                            BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj08461 *)q)->f238)) != 0) {
+        if (((struct PselWork *)q)->winFlag == 0) {
+            if (PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct PselWork *)p)->printQue,
+                            BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)q)->winMain)) != 0) {
                 finished = 0;
             } else {
-                struct Descriptor *d = *(struct Descriptor * *)&((struct Obj08461 *)q)->f238;
+                struct Descriptor *d = *(struct Descriptor * *)&((struct PselWork *)q)->winMain;
                 BMP_WIN_TransferChars(d);
                 BMP_WIN_MakeScreen((struct Cfg *)d);
                 func_02041B6C(BMP_WIN_GetBgLayer(d));
-                ((struct Obj08461 *)q)->f244 = 1;
+                ((struct PselWork *)q)->winFlag = 1;
             }
         }
     }
@@ -1576,23 +1545,23 @@ int PSEL_IsModeDone(char *a)
 {
     int r = 0;
 
-    switch (PRINTSYS_PrintStreamGetState((void *)(*(u32 *)&((struct Obj00084 *)a)->f250))) {
+    switch (PRINTSYS_PrintStreamGetState((void *)(*(u32 *)&((struct PselWork *)a)->printStream))) {
     case 0:
         if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
-            PRINTSYS_PrintStreamShortWait((struct Rec *)(*(u32 *)&((struct Obj00084 *)a)->f250), 0);
+            PRINTSYS_PrintStreamShortWait((struct Rec *)(*(u32 *)&((struct PselWork *)a)->printStream), 0);
             if ((KEY_GetCont() & 3) != 0)
-                ((struct Obj00084 *)a)->f8 = 0;
+                ((struct PselWork *)a)->fadeSpeed = 0;
             else
-                ((struct Obj00084 *)a)->f8 = 1;
+                ((struct PselWork *)a)->fadeSpeed = 1;
         }
         break;
     case 1:
         if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
-            PRINTSYS_PrintStreamReleasePause((void *)(*(u32 *)&((struct Obj00084 *)a)->f250));
+            PRINTSYS_PrintStreamReleasePause((void *)(*(u32 *)&((struct PselWork *)a)->printStream));
             if ((KEY_GetTrg() & 3) != 0)
-                ((struct Obj00084 *)a)->f8 = 0;
+                ((struct PselWork *)a)->fadeSpeed = 0;
             else
-                ((struct Obj00084 *)a)->f8 = 1;
+                ((struct PselWork *)a)->fadeSpeed = 1;
         }
         break;
     case 2:
@@ -1604,20 +1573,20 @@ int PSEL_IsModeDone(char *a)
 
 
 
-void PSEL_UpdateB134(char *p)
+void PSEL_UpdateSubWindow(char *p)
 {
     struct Descriptor *d;
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00084 *)p)->f23C), 0);
-    d = *(struct Descriptor * *)&((struct Obj00084 *)p)->f23C;
+    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)p)->winSub), 0);
+    d = *(struct Descriptor * *)&((struct PselWork *)p)->winSub;
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen((struct Cfg *)d);
     func_02041B6C(BMP_WIN_GetBgLayer(d));
-    if (*(struct Rec3 * *)&((struct Obj00084 *)p)->f250)
-        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj00084 *)p)->f250);
-    *(int *)&((struct Obj00084 *)p)->f250 = 0;
-    if (*(struct U16Vec * *)&((struct Obj00084 *)p)->f258)
-        STRBUF_Delete(*(struct U16Vec * *)&((struct Obj00084 *)p)->f258);
-    *(int *)&((struct Obj00084 *)p)->f258 = 0;
+    if (*(struct Rec3 * *)&((struct PselWork *)p)->printStream)
+        PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct PselWork *)p)->printStream);
+    *(int *)&((struct PselWork *)p)->printStream = 0;
+    if (*(struct U16Vec * *)&((struct PselWork *)p)->strbuf)
+        STRBUF_Delete(*(struct U16Vec * *)&((struct PselWork *)p)->strbuf);
+    *(int *)&((struct PselWork *)p)->strbuf = 0;
 }
 
 
@@ -1628,7 +1597,7 @@ void PSEL_UpdateB134(char *p)
  *   the desc load in r4, derives 0x24C from it at the top, spills only the offset and uses [r5,r0] at the
  *   store. The k/off locals and the enum type of earlier drafts are gone.
  */
-void PSEL_UpdateB18C(char *p, int idx)
+void PSEL_PrintSubWindow(char *p, int idx)
 {
     struct Descriptor *desc;
     u16 x;
@@ -1641,7 +1610,7 @@ void PSEL_UpdateB18C(char *p, int idx)
     desc = *(struct Descriptor **)(p + 0x240);
     flag = (u32 *)(p + 0x24C);
     x = 0;
-    words = GF_FONT_Create_EC64(*(u16 *)p);
+    words = WORDSET_CreateDefault(*(u16 *)p);
     text = func_02045EC0(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
     WORDSET_Callback(words, 1, d_021BC710[idx]);
@@ -1658,7 +1627,7 @@ void PSEL_UpdateB18C(char *p, int idx)
     PRINTSYS_PrintQueColor(*(void **)(p + 0x1C), (unsigned)BMP_WIN_GetBmp(desc), 0, (s16)x, (unsigned)buf, *(unsigned *)(p + 0x18), 0x3C40);
     STRBUF_Delete((struct U16Vec *)buf);
     *flag = 0;
-    PSEL_CheckAF48(p);
+    PSEL_UpdateWindows(p);
 }
 
 
@@ -1675,22 +1644,22 @@ void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BM
  */
 void PSEL_ClearWin2(char *p)
 {
-    struct StrObj *text = func_02045EC0(*(struct MsgBank * *)&((struct Obj03381 *)p)->f234, 12);
-    u16 width = func_0201D304(text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0);
+    struct StrObj *text = func_02045EC0(*(struct MsgBank * *)&((struct PselWork *)p)->msgBank, 12);
+    u16 width = func_0201D304(text, *(unsigned *)&((struct PselWork *)p)->font, 0);
     u16 x = 0;
-    u16 height = func_0201D42C(text, ((struct Obj03381 *)p)->f18);
-    unsigned w = BMP_GetWidth(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
-    unsigned h = BMP_GetHeight(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
+    u16 height = func_0201D42C(text, ((struct PselWork *)p)->font);
+    unsigned w = BMP_GetWidth(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)p)->winMain));
+    unsigned h = BMP_GetHeight(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)p)->winMain));
     u16 y = 0;
     if (w > width)
         x = ((int)w - width) / 2;
     if (h > height)
         y = ((int)h - height) / 2;
-    PRINTSYS_PrintQueColor(((struct Obj03381 *)p)->f1C, (unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238),
-                 (s16)x, (s16)y, (unsigned)text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0x3C40);
+    PRINTSYS_PrintQueColor((void *)((struct PselWork *)p)->printQue, (unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)p)->winMain),
+                 (s16)x, (s16)y, (unsigned)text, *(unsigned *)&((struct PselWork *)p)->font, 0x3C40);
     STRBUF_Delete((struct U16Vec *)text);
-    ((struct Obj03381 *)p)->f244 = 0;
-    PSEL_CheckAF48(p);
+    ((struct PselWork *)p)->winFlag = 0;
+    PSEL_UpdateWindows(p);
 }
 
 
@@ -1699,12 +1668,12 @@ void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear(B
 
 
 
-void PSEL_CreateTaskRes(char *p) {*(struct R * *)&((struct Obj00739 *)p)->f25C=APP_TASKMENU_RES_Create(3,11,*(u32 *)&((struct Obj00739 *)p)->f18,((struct Obj00739 *)p)->f1C,((struct Obj00739 *)p)->f0);}
+void PSEL_CreateTaskRes(char *p) {*(struct R * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,*(u32 *)&((struct PselWork *)p)->font,((struct PselWork *)p)->printQue,((struct PselWork *)p)->heapId);}
 
 
 
 
-int PSEL_UpdateB3AC(int *p)
+int PSEL_DeleteTaskResData(int *p)
 {
     return APP_TASKMENU_RES_Delete((struct TaskMenuState *)p[0x97]);
 }
@@ -1718,10 +1687,10 @@ int PSEL_UpdateB3AC(int *p)
 void PSEL_ShowTaskRes(char *p)
 {
     struct Item item;
-    item.text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00084 *)p)->f234, 21);
+    item.text = func_02045EC0(*(struct MsgBank * *)&((struct PselWork *)p)->msgBank, 21);
     item.color = 0x39E3;
     item.value = 0;
-    *(unsigned *)&((struct Obj00084 *)p)->f260 = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
+    *(unsigned *)&((struct PselWork *)p)->win = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct PselWork *)p)->taskRes, (unsigned)&item, 9, 21, 14, ((struct PselWork *)p)->heapId);
     STRBUF_Delete(item.text);
 }
 
@@ -1729,14 +1698,14 @@ void PSEL_ShowTaskRes(char *p)
 
 void PSEL_DeleteTaskRes(char *p)
 {
-    APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct Obj00084 *)p)->f260);
+    APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct PselWork *)p)->win);
 }
 
 
 
-void PSEL_UpdateB414(char *p)
+void PSEL_UpdateTaskResWin(char *p)
 {
-    APP_TASKMENU_WIN_Update(*(u8 * *)&((struct Obj00084 *)p)->f260);
+    APP_TASKMENU_WIN_Update(*(u8 * *)&((struct PselWork *)p)->win);
 }
 
 
@@ -1745,4 +1714,4 @@ void PSEL_SetTaskResActive(char *p) {u32 off;off=0x260;APP_TASKMENU_WIN_SetActiv
 
 
 
-u32 PSEL_IsTaskResFinished(char *p) {return APP_TASKMENU_WIN_IsFinish(*(u8 * *)&((struct Obj00084 *)p)->f260);}
+u32 PSEL_IsTaskResFinished(char *p) {return APP_TASKMENU_WIN_IsFinish(*(u8 * *)&((struct PselWork *)p)->win);}

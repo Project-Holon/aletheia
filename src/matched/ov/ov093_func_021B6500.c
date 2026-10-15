@@ -42,7 +42,7 @@ typedef struct { u8 pad[0x473]; u8 low:5; u8 flag5:1; u8 flag6:1; u8 flag7:1; } 
 typedef struct { int (*first)(u32 *, void *); int (*second)(u32 *, void *); void *object; u32 state; } Callback;
 typedef struct { u8 pad[0x460]; volatile int fade; } Fade;
 struct S;
-struct S020315D4;
+struct Proc;
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
@@ -62,7 +62,7 @@ extern void BTLV_CORE_UnloadOverlays(void);
 extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BTLV_CORE_UnloadDsiOverlay(void);
 static inline int poll(u8 *p, u32 offset)
@@ -131,7 +131,7 @@ int BTL_MAIN_ProcExit(int handle, u32 *state, int unused, u8 *p)
         GFL_USE_SetPlayersAudible(1, 62);
         PM_VOICE_ResetMasterVolume();
         if (((Flags *)p)->flag7) { RINGTONE_SYS_RegisterSleepCallbacks(); ((Flags *)p)->flag7 = 0; }
-        func_020315D4((struct S020315D4 *)handle);
+        func_020315D4((struct Proc *)handle);
         GFL_HEAP_DeleteChecked(19);
         GFL_HEAP_DeleteChecked(20);
         GFL_HEAP_DeleteChecked(18);

@@ -101,8 +101,8 @@
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
- *   BG_SYS_GetScrollX_1648  0x02041648  arm
- *   BG_SYS_GetScrollY_1664  0x02041664  arm
+ *   BG_SYS_GetChannelScrollX  0x02041648  arm
+ *   BG_SYS_GetChannelScrollY  0x02041664  arm
  *   CLACT_GetActorPos  0x0204B53C  arm
  *   CLACT_SetActorPos  0x0204B528  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
@@ -119,7 +119,7 @@
  *   BMP_FillRect  0x02043AF4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   ItemValueTable  0x020A02A8  data
  *   BagParamFileName  0x020A77C4  data
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -430,8 +430,8 @@ extern u8 BG_SYS_Get(u32 layer);
 extern void  CLACT_SetActorBgPriority(void *h, u32 a);
 extern void CLACT_DeleteActor(struct Actor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern u32 BG_SYS_GetScrollX_1648(u8 channel);
-extern u32 BG_SYS_GetScrollY_1664(u8 channel);
+extern u32 BG_SYS_GetChannelScrollX(u8 channel);
+extern u32 BG_SYS_GetChannelScrollY(u8 channel);
 extern void CLACT_GetActorPos(const struct Actor *actor, struct PmsPoint *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct PmsPoint *src);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
@@ -448,7 +448,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void  BMP_FillRect(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
@@ -3350,8 +3350,8 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
         struct PmsPoint pos;
         s32 scrollX;
         s32 scrollY;
-        scrollX = BG_SYS_GetScrollX_1648((u8)frame);
-        scrollY = BG_SYS_GetScrollY_1664((u8)frame);
+        scrollX = BG_SYS_GetChannelScrollX((u8)frame);
+        scrollY = BG_SYS_GetChannelScrollY((u8)frame);
 
         if (scrollX != elem->scrollX) {
             diff.x = elem->scrollX - scrollX;
@@ -3467,7 +3467,7 @@ void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans)
         BMP_WIN_TransferChars((struct Descriptor *)elem->bmpWin);
         h = elem->bmpWin;
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     }
     for (i = 0; i < 2; i++) {
         CLACT_SetActorDrawEnable(elem->decoActor[i], 0);

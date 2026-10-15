@@ -1,5 +1,5 @@
 /*
- * function: func_021BF080
+ * function: INTRO_CMD_ClearCommand
  * address:  0x021BF080
  * packet:   pkt_021BF080
  * region:   ov204
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_021BF080(char *p, u8 i)
+void INTRO_CMD_ClearCommand(char *p, u8 i)
 {
     char *q;
 

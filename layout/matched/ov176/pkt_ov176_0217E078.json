@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217E078",
+   "name": "LIVEBATTLEMATCH_IRC_CheckError",
    "address": "0x0217E078",
    "kind": "game",
    "region": "ov176",

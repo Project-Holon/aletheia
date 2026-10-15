@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E777C  0x021E777C  thumb  ov177
+ *   WIFIBATTLEMATCH_VIEW_StepRecordWindow  0x021E777C  thumb  ov177
  *
  * Thunk: hands the +0x20 block to 0x021E777C (ov177) and returns its result.
  */
@@ -18,9 +18,9 @@
 
 typedef unsigned long u32;
 
-extern u32 func_021E777C(u32 p);
+extern u32 WIFIBATTLEMATCH_VIEW_StepRecordWindow(u32 p);
 
 u32 WIFIBATTLEMATCH_NET_IsCompCardReady(char *obj)
 {
-    return func_021E777C(((struct Obj24304 *)obj)->f20);
+    return WIFIBATTLEMATCH_VIEW_StepRecordWindow(((struct Obj24304 *)obj)->f20);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B70
+ * function: MONOLITH_TOOL_IsButtonUploaded
  * address: 0x021B6B70
  * packet: pkt_ov071_021B6B70
  * region: ov071
@@ -19,7 +19,7 @@ struct PrintSys;
 struct Obj;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
 extern void BMP_OAM_UploadChars(struct Obj *);
-int func_021B6B70(void **p, u8 *q)
+int MONOLITH_TOOL_IsButtonUploaded(void **p, u8 *q)
 {
     if (q[12] == 1) {
         if (PRINTSYS_QUE_IsExistTarget(p[2], ((struct Obj07693 *)q)->f8) == 0) {

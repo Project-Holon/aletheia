@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
 #include "../include/Obj09473.h"
 
@@ -18,12 +21,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 int FIELD_MSGBG_ReleaseSysFrame(u8 *a)
 {
     if (((struct Obj09473 *)a)->f4 != 0xff) {
-        func_020403F4((u8)(((struct Obj09473 *)a)->f4));
+        BG_SYS_FreeLayerBuf((u8)(((struct Obj09473 *)a)->f4));
         ((struct Obj09473 *)a)->f4 = 0xff;
         return 1;
     }

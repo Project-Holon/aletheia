@@ -10,7 +10,7 @@
  * symbols:
  *   P_STA_SKILL_HideSlot 0x021DB9FC thumb ov131
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   func_02041B6C 0x02041B6C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 extern void P_STA_SKILL_HideSlot(void *,void *,u8 *);
 extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
@@ -33,7 +33,7 @@ void P_STA_SKILL_HideMovesPage(u8 *a,u8 *b) {
     u8 i;
     for(i=0;i<b[43];i++) P_STA_SKILL_HideSlot(a,b,b+176+i*24);
     BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
     func_02041B6C(4);
     CLACT_SetActorDrawEnable(((struct Obj10522 *)b)->f90,0);

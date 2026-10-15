@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0D4
+ * function: INTRO_GRAPHIC_DeleteCamera
  * address:  0x021BE0D4
  * packet:   pkt_021BE0D4
  * region:   ov204
@@ -26,7 +26,7 @@ extern void G3D_LIGHT_DeleteSlots(u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 
-void func_021BE0D4(u8 *p)
+void INTRO_GRAPHIC_DeleteCamera(u8 *p)
 {
     G3D_LIGHT_DeleteSlots(((struct Obj14603 *)p)->f4);
     G3D_CAMERA_Delete((void *)(((struct Obj14603 *)p)->f0));

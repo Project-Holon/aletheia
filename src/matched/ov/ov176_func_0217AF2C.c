@@ -18,15 +18,15 @@
  *
  * symbols:
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera  0x021E5548  thumb  ov177
- *   func_021E567C  0x021E567C  thumb  ov177
+ *   WIFIBATTLEMATCH_VIEW_Create  0x021E567C  thumb  ov177
  */
 #include "../include/Obj10695.h"
 
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 typedef unsigned int   u32;
-extern u32 *func_021E567C(int unused, int mode, int heap);
+extern u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
 
 void BATTLE_CHAMPIONSHIP_FLOW_CreateView(int *p)
 {
-    ((struct Obj10695 *)p)->f20 = (int)func_021E567C(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((struct Obj10695 *)p)->f24)), 1, ((struct Obj10695 *)p)->f0);
+    ((struct Obj10695 *)p)->f20 = (int)WIFIBATTLEMATCH_VIEW_Create(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((struct Obj10695 *)p)->f24)), 1, ((struct Obj10695 *)p)->f0);
 }

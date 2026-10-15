@@ -12,7 +12,7 @@
  * symbols:
  *   C_GEAR_TileToScreen  0x021F0D14  thumb  ov029
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   d_021F323C     0x021F323C  data  a1
  */
 
@@ -32,7 +32,7 @@ typedef struct {
 extern const u8 d_021F323C[];
 extern void C_GEAR_TileToScreen(int a, int b, int *x, int *y);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 
 void C_GEAR_SetTileFlashStep(Ent *p, int idx)
 {
@@ -49,5 +49,5 @@ void C_GEAR_SetTileFlashStep(Ent *p, int idx)
         w = 0x20 - x;
     }
     BG_SYS_FillTileMap(4, x, y, w, 4, pal);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }

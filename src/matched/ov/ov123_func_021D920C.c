@@ -28,7 +28,7 @@
 typedef unsigned int   u32;
 extern u32 WIPE_SYS_EndCheck(void);
 typedef unsigned char  u8;
-struct S020315D4;
+struct Proc;
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 func_020307B0(void *p);
@@ -39,7 +39,7 @@ extern int GFL_NET_GetRunState(void);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void NHTTP_RAP_Destroy(u8 *p);
 extern void DWC_RAP_SetErrorCallback(int,int);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int handle);
 extern char ov114_id[];

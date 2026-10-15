@@ -19,7 +19,7 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   TALKMSGWIN_DrawWindowFrame  0x02194A24  thumb
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  */
 
@@ -66,7 +66,7 @@ int TALKMSGWIN_DrawWindowFrame(void *, void *, int);
 void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 struct PrintSys;
 void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-void func_020409B4(u32 index);
+void BG_SYS_PushTile(u32 index);
 
 void MB_UTIL_MSG_PrintQueued(Ov107Ctx *p, int a)
 {
@@ -96,7 +96,7 @@ void MB_UTIL_MSG_PrintQueued(Ov107Ctx *p, int a)
     p->f34 = 1;
     if (p->f04 == 8) {
         TALKMSGWIN_DrawWindowFrame(p->f54, p->f10, 0);
-        func_020409B4(p->f02);
+        BG_SYS_PushTile(p->f02);
     } else {
         BMP_MENUWORK_DrawWindow(p->f10, 1, 1, 0xD);
     }

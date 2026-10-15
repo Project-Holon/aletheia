@@ -54,7 +54,7 @@
  *   func_021BC46C 0x021BC46C thumb ov208
  *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim 0x021BC678 thumb ov208
  *   ZUKAN_DETAIL_VOICE_UpdateBgmFade 0x021C2C1C thumb ov208
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
@@ -68,7 +68,7 @@ extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
 extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
 extern u16 func_021BC3BC(char *);
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
-extern void func_02040618(u32,u32,u32);
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
@@ -130,8 +130,8 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused,int *seq,u16 *heap,u8 *p,int key)
         *seq=1;
         for(i=0;i<=7;i++){
             if(i!=1 && i!=5){
-                func_02040618(i,0,0);
-                func_02040618(i,3,0);
+                BG_SYS_FillScrollArea(i,0,0);
+                BG_SYS_FillScrollArea(i,3,0);
                 BG_SYS_FreeSlot(i);
             }
         }

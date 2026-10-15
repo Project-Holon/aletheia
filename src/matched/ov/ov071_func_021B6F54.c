@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F54
+ * function: MONOLITH_TOOL_CreateSlotIcon
  * address:  0x021B6F54
  * packet:   pkt_ov071_021B6F54
  * region:   ov071
@@ -44,7 +44,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 
-int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e)
+int MONOLITH_TOOL_CreateSlotIcon(struct P *p, u8 *q, int c, const int *d, int e)
 {
     struct H4 s;
     int r;

@@ -20,7 +20,7 @@
  */
 #include "../include/Obj08345.h"
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 struct Node;
 struct U16Vec;
 extern void SHINKA_DEMO_DeleteScene(int, int *);
@@ -30,9 +30,9 @@ extern void TCB_DeleteTask(struct Node *);
 typedef unsigned int   u32;
 extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(struct U16Vec *);
-extern void PROCSYS_FreeProcWork(struct S020315D4 *);
+extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-int SHINKA_DEMO_Destroy(struct S020315D4 *a, int unused, int b, int *p)
+int SHINKA_DEMO_Destroy(struct Proc *a, int unused, int b, int *p)
 {
     SHINKA_DEMO_DeleteScene(b, p);
     PROCSYS_Delete(*(struct S020314B8 * *)&((struct Obj08345 *)p)->f11C);

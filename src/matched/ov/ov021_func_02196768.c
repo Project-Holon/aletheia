@@ -14,7 +14,7 @@
  *   IRCBATTLEMENU_DeleteButtonWindows  0x02196454  thumb  ov021
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -30,7 +30,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void IRCBATTLEMENU_DeleteButtonWindows(u8 *p);
 extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
 extern void BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
-extern void func_020403F4(u32 a);
+extern void BG_SYS_FreeLayerBuf(u32 a);
 struct Rec;
 struct U16Vec;
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -47,8 +47,8 @@ void IRCBATTLEMENU_FreeMenuGraphics(u8 *p)
     BG_SYS_SetTileUnit(5, 1, 0);
     v = ((struct Obj03578 *)p)->f3C;
     BG_SYS_DeleteHalf(5, (u16)v, (u16)(v >> 16));
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete((struct Rec *)(((struct Obj03578 *)p)->f28));
     GF_FONT_Delete((void *)(((struct Obj03578 *)p)->f2C));
     STRBUF_Delete((struct U16Vec *)(((struct Obj03578 *)p)->f38));

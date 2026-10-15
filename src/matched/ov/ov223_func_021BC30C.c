@@ -10,9 +10,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   PSEL_UpdateB3AC 0x021BB3AC thumb ov223
+ *   PSEL_DeleteTaskResData 0x021BB3AC thumb ov223
  *   PSEL_DeleteWin 0x021BAEE0 thumb ov223
- *   PSEL_NopAB74 0x021BAB74 thumb ov223
+ *   PSEL_NopBgWindows 0x021BAB74 thumb ov223
  *   PSEL_DeleteG3dUtil 0x021B9848 thumb ov223
  *   PSEL_GRAPHIC_Destroy 0x021BC498 thumb ov223
  *   func_02030EAC 0x02030EAC arm
@@ -20,9 +20,9 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  */
-extern int PSEL_UpdateB3AC(int *);
+extern int PSEL_DeleteTaskResData(int *);
 extern void PSEL_DeleteWin(char *p);
-extern void PSEL_NopAB74(int *);
+extern void PSEL_NopBgWindows(int *);
 extern void PSEL_DeleteG3dUtil(int *);
 extern void PSEL_GRAPHIC_Destroy(unsigned *);
 struct Node;
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 int PSEL_GRAPHIC_Delete(int *p)
 {
-    PSEL_UpdateB3AC(p); PSEL_DeleteWin((char *)p); PSEL_NopAB74(p); PSEL_DeleteG3dUtil(p);
+    PSEL_DeleteTaskResData(p); PSEL_DeleteWin((char *)p); PSEL_NopBgWindows(p); PSEL_DeleteG3dUtil(p);
     func_02030EAC((void *)p[8]); PRINTSYS_QUE_Clear((struct PrintSys *)p[7]); PRINTSYS_QUE_Delete((struct PrintSys *)p[7]);
     GF_FONT_Delete((void *)p[6]); PSEL_GRAPHIC_Destroy((unsigned *)p[5]);
     return 13;

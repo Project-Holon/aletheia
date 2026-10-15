@@ -51,7 +51,7 @@
  *   d_021BACC4 0x021BACC4 data a4
  *   d_021BAC84 0x021BAC84 data a4
  *   d_021BACA4 0x021BACA4 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
@@ -80,7 +80,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
@@ -127,56 +127,14 @@
  *   d_021BAB40 0x021BAB40 data a2
  *   func_0207D63C 0x0207D63C arm
  *   BMP_Clear 0x02043B5C arm
- *   func_02040860 0x02040860 arm
+ *   BG_SYS_SetScrollRegs 0x02040860 arm
  */
-#include "../../matched/include/Obj24498.h"
-#include "../../matched/include/Obj14406.h"
-#include "../../matched/include/Obj24499.h"
-#include "../../matched/include/Obj00682.h"
-#include "../../matched/include/Obj01003.h"
-#include "../../matched/include/Obj24500.h"
-#include "../../matched/include/Obj03327.h"
-#include "../../matched/include/Obj24501.h"
-#include "../../matched/include/Obj08302.h"
-#include "../../matched/include/Obj24502.h"
-#include "../../matched/include/Obj14407.h"
-#include "../../matched/include/Obj14408.h"
-#include "../../matched/include/Obj24503.h"
-#include "../../matched/include/Obj24504.h"
-#include "../../matched/include/Obj14409.h"
-#include "../../matched/include/Obj24505.h"
-#include "../../matched/include/Obj06587.h"
-#include "../../matched/include/Obj03877.h"
-#include "../../matched/include/Obj06588.h"
-#include "../../matched/include/Obj14410.h"
-#include "../../matched/include/Obj10722.h"
-#include "../../matched/include/Obj08304.h"
-#include "../../matched/include/Obj14411.h"
-#include "../../matched/include/Obj24507.h"
-#include "../../matched/include/Obj24508.h"
-#include "../../matched/include/Obj04570.h"
-#include "../../matched/include/Obj01071.h"
-#include "../../matched/include/Obj06590.h"
-#include "../../matched/include/Obj14412.h"
-#include "../../matched/include/Obj08305.h"
-#include "../../matched/include/Obj01274.h"
-#include "../../matched/include/Obj00784.h"
-#include "../../matched/include/Obj06591.h"
-#include "../../matched/include/Obj06592.h"
-#include "../../matched/include/Obj10725.h"
-#include "../../matched/include/Obj14414.h"
-#include "../../matched/include/Obj24511.h"
-#include "../../matched/include/Obj24512.h"
-#include "../../matched/include/Obj24513.h"
-#include "../../matched/include/Obj14415.h"
-#include "../../matched/include/Obj14416.h"
-#include "../../matched/include/Obj14417.h"
 
-#define STATE(p) (*(int *)((p) + 0x2EC))
-#define ENTRIES(p) (*(Entry **)((p) + 0x2D4))
-#define IDX(p) (*(unsigned char *)((p) + 0x2BA))
-struct Obj0203159C;
-struct S020315D4;
+#define STATE(p) (((StaffRoll *)(p))->scriptState)
+#define ENTRIES(p) (((StaffRollEntry *)(((StaffRoll *)(p))->entryTable)))
+#define IDX(p) (((StaffRoll *)(p))->rowIndex)
+struct Proc;
+struct Proc;
 struct DispVram;
 struct BgTemplate;
 struct DispConfig;
@@ -203,40 +161,108 @@ typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-typedef short s16_021B95A0;
-
 typedef unsigned int u32;
-
-typedef signed int     s32;
-
-typedef signed short s16_021B97BC;
+typedef signed int s32;
+typedef signed char s8;
+typedef signed short s16;
 
 typedef int (*Command)(char *,char *);
 
 typedef struct { unsigned words[4]; } Small;
-
 typedef struct { unsigned words[8]; } Big;
 
-typedef struct { unsigned text; unsigned short tag; unsigned char kind, pad7; unsigned pad8, padC; } Entry;
-
-typedef signed char s8;
-
-typedef signed short s16;
-
 typedef struct { u32 x,y,z; } Vec3;
-
 typedef struct { int x, y, z; } Vec;
 
+typedef struct { u16 index; u16 duration; } StaffRollLightSlot;
+
+typedef struct {
+    void *lightSet;
+    Vec currentPos;
+    Vec targetPos;
+    Vec velocity;
+    Vec targetVelocity;
+    StaffRollLightSlot queue[16];
+    u16 mode;
+    u16 activeIndex;
+    u16 progress;
+    u16 duration;
+    u32 lightMode;
+} StaffRollLight;
+
+typedef char StaffRollLight_size_check[(sizeof(StaffRollLight) == 0x80) ? 1 : -1];
+
+typedef struct {
+    u32 text;
+    u16 y;
+    u8 opcode;
+    u8 mode;
+    u8 colorIndex;
+    u8 fontIndex;
+    u16 align;
+    s16 x;
+    s16 xOfs;
+} StaffRollEntry;
+
+typedef struct {
+    void *bmp;
+    int index;
+} StaffRollRow;
+
+typedef struct StaffRoll {
+    void *sys;
+    void *vblankTask;
+    void *g3dUtil;
+    void *camera;
+    void *lightSlot;
+    u32 field14;
+    u16 unitId;
+    u8 pad01A[2];
+    int brightness;
+    void *g3dObject;
+    u32 animeCount;
+    StaffRollLight light;
+    void *fontA;
+    void *fontB;
+    void *msgBank;
+    void *textBuf;
+    StaffRollRow rows[64];
+    u16 rowCount;
+    u8 rowIndex;
+    u8 scriptRowIndex;
+    void *windowA;
+    u8 pad2C0[4];
+    void *windowB;
+    u8 pad2C8[4];
+    u8 windowFlags;
+    u8 entryMode;
+    u8 fadeState;
+    u8 planeFlags;
+    s8 slideProgress;
+    u8 pad2D1;
+    u8 fastFlag;
+    u8 pad2D3;
+    void *entryTable;
+    u16 scriptIndex;
+    s16 scriptTimer;
+    int scrollOffset;
+    int scrollActive;
+    u32 introCount;
+    u32 state;
+    int scriptState;
+    int wipeDelay;
+} StaffRoll;
+
+typedef char StaffRoll_size_check[(sizeof(StaffRoll) == 0x2F4) ? 1 : -1];
+
 struct Bmp { void *pixels; u16 width, height, depth, kind; };
-
 struct CharBuf { u8 *pixels; u16 width, height, tileSize; };
-
 struct Mtx22 { int m[4]; };
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int func_02034AC4(s32 handle);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
@@ -258,7 +284,7 @@ extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1,
 extern void BG_SYS_SetScrollRegs(unsigned, unsigned, unsigned, unsigned);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),BG_SYS_Delete(void);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),BG_SYS_FreeLayerBuf(unsigned),BG_SYS_Delete(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -285,7 +311,7 @@ extern unsigned BMP_WIN_Create(unsigned, unsigned, unsigned, unsigned, unsigned 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
@@ -323,9 +349,8 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *, short, short, void *, void *, unsigned short);
 extern void func_0207D63C(unsigned, int, int, int, int);
 extern void BMP_Clear(struct CharBuf *, u8);
-extern void func_02040860(unsigned, unsigned, unsigned, unsigned);
-int STAFF_ROLL_Init(struct Obj0203159C *p,int unused,u32 v);
-int STAFF_ROLL_Main(int a0, int a1, int a2, int a3);
+int STAFF_ROLL_Init(struct Proc *p, int unused, u32 arg);
+int STAFF_ROLL_Main(int unused0, int unused1, int unused2, int work);
 int STAFF_ROLL_Exit(void *p);
 int STAFF_ROLL_RunState(char *p);
 int STAFF_ROLL_Setup(u8 *p);
@@ -345,26 +370,26 @@ void STAFF_ROLL_InitText(char *p);
 void STAFF_ROLL_DeleteText(char *p);
 void STAFF_ROLL_BuildRowList(char *p);
 void STAFF_ROLL_DeleteRowList(char *p);
-void STAFF_ROLL_PrintRow(char *p,void *s,unsigned i);
+void STAFF_ROLL_PrintRow(char *p, void *s, unsigned rowIndex);
 void STAFF_ROLL_PrintNextRow(char *p);
 void STAFF_ROLL_BlitRow(char *p);
 void STAFF_ROLL_LoadRows(char *p);
 void STAFF_ROLL_FreeRows(char *p);
 void STAFF_ROLL_InitWindows(char *p);
 void STAFF_ROLL_DeleteWindows(char *p);
-void STAFF_ROLL_SetWindowFlags(char *p, u32 v);
+void STAFF_ROLL_SetWindowFlags(char *p, u32 flags);
 void STAFF_ROLL_FlushWindows(char *p);
 void STAFF_ROLL_Init3d(char *p);
 void STAFF_ROLL_Exit3d(char *p);
 void STAFF_ROLL_Draw3d(char *p);
 void STAFF_ROLL_InitLights(u8 *p);
-void STAFF_ROLL_QueueLight(u8 *p,int a,int b);
+void STAFF_ROLL_QueueLight(u8 *p, int index, int duration);
 void STAFF_ROLL_AdvanceLights(u8 *p);
 void STAFF_ROLL_CalcVelocity(Vec *out, const Vec *base, const Vec *target, unsigned duration);
 void STAFF_ROLL_StepPosition(Vec *out, const Vec *base, const Vec *velocity, unsigned step);
 void STAFF_ROLL_UpdateLights(char *p);
-void STAFF_ROLL_SetLightMode(u8 *p,u32 a);
-int STAFF_ROLL_StartWipe(u8 *p, int a);
+void STAFF_ROLL_SetLightMode(u8 *p, u32 mode);
+int STAFF_ROLL_StartWipe(u8 *p, int delay);
 void STAFF_ROLL_UpdateBrightness(char *p);
 void STAFF_ROLL_UpdateInput(u8 *p);
 void STAFF_ROLL_ShiftRow(u8 *p,u8 *out,u32 n);
@@ -404,15 +429,15 @@ extern const unsigned short d_021BAB40[];
 
 
 
-int STAFF_ROLL_Init(struct Obj0203159C *p,int unused,u32 v) { u8 *q; GFL_HEAP_CreateChildHeap(1,142,0x125000); q=PROCSYS_AllocProcWork(p,756,142); MI_CpuFill8(q,0,756); ((struct Obj24498 *)q)->f0=v; return 1; }
+int STAFF_ROLL_Init(struct Proc *p, int unused, u32 arg) { u8 *q; GFL_HEAP_CreateChildHeap(1,142,0x125000); q=PROCSYS_AllocProcWork(p,756,142); MI_CpuFill8(q,0,756); ((StaffRoll *)q)->sys=(void *)arg; return 1; }
 
 
 
 
 
-int STAFF_ROLL_Main(int a0, int a1, int a2, int a3)
+int STAFF_ROLL_Main(int unused0, int unused1, int unused2, int work)
 {
-    return STAFF_ROLL_RunState((char *)a3) == 0;
+    return STAFF_ROLL_RunState((char *)work) == 0;
 }
 
 
@@ -434,7 +459,7 @@ extern int (*const d_021BAB70[])(char *);
 
 
 
-int STAFF_ROLL_RunState(char *p){STAFF_ROLL_UpdateInput((unsigned char *)p);((struct Obj14406 *)p)->f2E8=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(((struct Obj14406 *)p)->f2E8==5)return 0;STAFF_ROLL_PrintNextRow(p);STAFF_ROLL_Draw3d(p);return 1;}
+int STAFF_ROLL_RunState(char *p){STAFF_ROLL_UpdateInput((unsigned char *)p);((StaffRoll *)p)->state=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(((StaffRoll *)p)->state==5)return 0;STAFF_ROLL_PrintNextRow(p);STAFF_ROLL_Draw3d(p);return 1;}
 
 
 
@@ -469,7 +494,7 @@ int STAFF_ROLL_Setup(u8 *p)
 int STAFF_ROLL_CheckWipeDone(char *p)
 {
     if (WIPE_SYS_EndCheck() == 1)
-        return ((struct Obj24499 *)p)->f2F0;
+        return ((StaffRoll *)p)->wipeDelay;
     return 1;
 }
 
@@ -500,7 +525,7 @@ int STAFF_ROLL_StateWaitIntro(char *p)
         if (COUNT(p) >= 41) {
             COUNT(p) = 0;
             STATE(p)++;
-        } else if (((struct Obj00682 *)p)->f2D2 == 1) {
+        } else if (((StaffRoll *)p)->fastFlag == 1) {
             COUNT(p) += 4;
         } else {
             COUNT(p)++;
@@ -523,33 +548,33 @@ int STAFF_ROLL_StateWaitIntro(char *p)
 
 int STAFF_ROLL_RunScript(char *p) {
     char *row;
-    if(((struct Obj01003 *)p)->f2EC==0) {
+    if(((StaffRoll *)p)->scriptState==0) {
         for(;;) {
-            row=*(char * *)&((struct Obj01003 *)p)->f2D4+((struct Obj01003 *)p)->f2D8*16;
-            if(((struct Obj01003 *)p)->f2D8==*(u32 *)((u32)p+((struct Obj01003 *)p)->f2BB*8+0xbc)) {
+            row=*(char * *)&((StaffRoll *)p)->entryTable+((StaffRoll *)p)->scriptIndex*16;
+            if(((StaffRoll *)p)->scriptIndex==*(u32 *)((u32)p+((StaffRoll *)p)->scriptRowIndex*8+0xbc)) {
                 STAFF_ROLL_BlitRow(p);
-                (((struct Obj01003 *)p)->f2BB)++;
-                *(u16 *)&((struct Obj01003 *)p)->f2DA=((struct Obj24500 *)row)->f4;
-                ((struct Obj01003 *)p)->f2EC=1;
-                ((struct Obj01003 *)p)->f2D8+=2;
+                (((StaffRoll *)p)->scriptRowIndex)++;
+                *(u16 *)&((StaffRoll *)p)->scriptTimer=((StaffRollEntry *)row)->y;
+                ((StaffRoll *)p)->scriptState=1;
+                ((StaffRoll *)p)->scriptIndex+=2;
                 break;
             }
             if(d_021BABD0[*(u8 *)(row+6)](p,row)==1) {
-                (((struct Obj01003 *)p)->f2D8)++;
+                (((StaffRoll *)p)->scriptIndex)++;
                 break;
             }
-            (((struct Obj01003 *)p)->f2D8)++;
+            (((StaffRoll *)p)->scriptIndex)++;
         }
     }
-    switch(((struct Obj01003 *)p)->f2EC) {
+    switch(((StaffRoll *)p)->scriptState) {
     case 1:
-        if(((struct Obj01003 *)p)->f2DA<=0) {
-            ((struct Obj01003 *)p)->f2DA=0; ((struct Obj01003 *)p)->f2EC=0;
-        } else if(((struct Obj01003 *)p)->f2D2==1) ((struct Obj01003 *)p)->f2DA-=4;
-        else (((struct Obj01003 *)p)->f2DA)--;
+        if(((StaffRoll *)p)->scriptTimer<=0) {
+            ((StaffRoll *)p)->scriptTimer=0; ((StaffRoll *)p)->scriptState=0;
+        } else if(((StaffRoll *)p)->fastFlag==1) ((StaffRoll *)p)->scriptTimer-=4;
+        else (((StaffRoll *)p)->scriptTimer)--;
         break;
-    case 2: if(STAFF_ROLL_StepFadeIn(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
-    case 3: if(STAFF_ROLL_StepFadeOut(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
+    case 2: if(STAFF_ROLL_StepFadeIn(p)==0) ((StaffRoll *)p)->scriptState=0; break;
+    case 3: if(STAFF_ROLL_StepFadeOut(p)==0) ((StaffRoll *)p)->scriptState=0; break;
     case 5:
         if(GFL_USE_IsBgmPlaying()==1) GFL_USE_FadeOutBgm(64);
         return STAFF_ROLL_StartWipe((u8 *)p,2);
@@ -573,21 +598,21 @@ void STAFF_ROLL_SetupVramBanks(void)
 
 void STAFF_ROLL_SetupBackgrounds(void)
 {
-    Small a;
-    Big b, c;
-    Small d;
-    Big e;
+    Small dispCfg;
+    Big bgTmpl1, bgTmpl3;
+    Small mtx;
+    Big bgTmpl5;
     BG_SYS_Create(0x8E);
-    a = d_021BAC74;
-    BG_SYS_SetGraphicsMode((struct DispConfig *)(&a));
-    b = d_021BACC4;
-    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b), 0);
-    c = d_021BAC84;
-    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&c), 2);
-    BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&d), 0, (const void *)0x9000, (const void *)0x9000, 0);
-    BG_SYS_SetScrollRegs(3, (unsigned)&d, 0x80, 0x60);
-    e = d_021BACA4;
-    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&e), 0);
+    dispCfg = d_021BAC74;
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&dispCfg));
+    bgTmpl1 = d_021BACC4;
+    BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&bgTmpl1), 0);
+    bgTmpl3 = d_021BAC84;
+    BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&bgTmpl3), 2);
+    BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&mtx), 0, (const void *)0x9000, (const void *)0x9000, 0);
+    BG_SYS_SetScrollRegs(3, (unsigned)&mtx, 0x80, 0x60);
+    bgTmpl5 = d_021BACA4;
+    BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&bgTmpl5), 0);
     BG_SYS_SetMainPlaneVisible(2, 1);
     BG_SYS_SetSubPlaneVisible(2, 1);
 }
@@ -598,7 +623,7 @@ void STAFF_ROLL_SetupBackgrounds(void)
 /*
  * Tail: two zero alignment bytes at 0x021B99F6.
  */
-void STAFF_ROLL_TeardownBackgrounds(void){BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetSubPlaneVisible(2,0);func_020403F4(5);func_020403F4(3);func_020403F4(1);BG_SYS_Delete();}
+void STAFF_ROLL_TeardownBackgrounds(void){BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetSubPlaneVisible(2,0);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(1);BG_SYS_Delete();}
 
 
 
@@ -646,12 +671,12 @@ void STAFF_ROLL_VblankTask(void *task,char *p){STAFF_ROLL_FlushWindows(p);BG_SYS
 
 
 
-void STAFF_ROLL_AddVblankTask(char *p){((struct Obj03327 *)p)->f4=func_020056A0(STAFF_ROLL_VblankTask,p,0);}
+void STAFF_ROLL_AddVblankTask(char *p){((StaffRoll *)p)->vblankTask=func_020056A0(STAFF_ROLL_VblankTask,p,0);}
 
 
 
 
-void STAFF_ROLL_RemoveVblankTask(char *p){func_02030EAC(((struct Obj24501 *)p)->f4);}
+void STAFF_ROLL_RemoveVblankTask(char *p){func_02030EAC(((StaffRoll *)p)->vblankTask);}
 
 
 
@@ -661,16 +686,16 @@ void STAFF_ROLL_RemoveVblankTask(char *p){func_02030EAC(((struct Obj24501 *)p)->
  */
 void STAFF_ROLL_InitText(char *p)
 {
-    ((struct Obj03327 *)p)->fB0 = func_02045B38(0, 2, 0xB1, 0x8E);
-    ((struct Obj03327 *)p)->fB4 = STRBUF_Create(0x80, 0x8E);
-    ((struct Obj03327 *)p)->fA8 = GF_FONT_Create(0x17, 0, 1, 0, 0x8E);
-    ((struct Obj03327 *)p)->fAC = GF_FONT_Create(0x17, 2, 1, 0, 0x8E);
+    ((StaffRoll *)p)->msgBank = func_02045B38(0, 2, 0xB1, 0x8E);
+    ((StaffRoll *)p)->textBuf = STRBUF_Create(0x80, 0x8E);
+    ((StaffRoll *)p)->fontA = GF_FONT_Create(0x17, 0, 1, 0, 0x8E);
+    ((StaffRoll *)p)->fontB = GF_FONT_Create(0x17, 2, 1, 0, 0x8E);
 }
 
 
 
 
-void STAFF_ROLL_DeleteText(char *p){GF_FONT_Delete(((struct Obj08302 *)p)->fAC);GF_FONT_Delete(((struct Obj08302 *)p)->fA8);STRBUF_Delete(((struct Obj08302 *)p)->fB4);MSGDATA_Delete(((struct Obj08302 *)p)->fB0);}
+void STAFF_ROLL_DeleteText(char *p){GF_FONT_Delete(((StaffRoll *)p)->fontB);GF_FONT_Delete(((StaffRoll *)p)->fontA);STRBUF_Delete(((StaffRoll *)p)->textBuf);MSGDATA_Delete(((StaffRoll *)p)->msgBank);}
 
 
 
@@ -695,15 +720,15 @@ void STAFF_ROLL_BuildRowList(char *p)
     unsigned short i;
     int found = 0;
     for (i = 0; ; i++) {
-        Entry *e = &ENTRIES(p)[i];
+        StaffRollEntry *e = &ENTRIES(p)[i];
         if (found == 0) {
-            if (e->kind == 7)
+            if (e->opcode == 7)
                 found = 1;
         } else {
-            if (e->kind == 5)
+            if (e->opcode == 5)
                 break;
-            if (e->kind == 0 && e->text != 0xFFFF && ((Entry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->tag == 0 &&
-                ((Entry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->kind == 0 && ((Entry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->text != 0xFFFF) {
+            if (e->opcode == 0 && e->text != 0xFFFF && ((StaffRollEntry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->y == 0 &&
+                ((StaffRollEntry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->opcode == 0 && ((StaffRollEntry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->text != 0xFFFF) {
                 *(void **)(p + COUNT(p) * 8 + 0xB8) = BMP_Create(0x20, 2, 0x20, 0x8E);
                 *(int *)(p + COUNT(p) * 8 + 0xBC) = i;
                 COUNT(p)++;
@@ -718,19 +743,19 @@ void STAFF_ROLL_BuildRowList(char *p)
 
 
 
-void STAFF_ROLL_DeleteRowList(char *p){unsigned i;for(i=0;i<((struct Obj24502 *)p)->f2B8;i++)BMP_Delete(*(struct Obj020437AC **)((unsigned)p+i*8+0xb8));}
+void STAFF_ROLL_DeleteRowList(char *p){unsigned i;for(i=0;i<((StaffRoll *)p)->rowCount;i++)BMP_Delete(((StaffRoll *)p)->rows[i].bmp);}
 
 
 
 
-void STAFF_ROLL_PrintRow(char *p,void *s,unsigned i){unsigned char *q=*(unsigned char * *)&((struct Obj14407 *)p)->f2D4+i*16;if(q[9]==0)STAFF_ROLL_PrintText(p,q,s,0);else STAFF_ROLL_PrintText(p,q,s,2);}
+void STAFF_ROLL_PrintRow(char *p, void *s, unsigned rowIndex){unsigned char *q=*(unsigned char * *)&((StaffRoll *)p)->entryTable+rowIndex*16;if(q[9]==0)STAFF_ROLL_PrintText(p,q,s,0);else STAFF_ROLL_PrintText(p,q,s,2);}
 
 
 
 
 void STAFF_ROLL_PrintNextRow(char *p)
 {
-    if (IDX(p) < ((struct Obj14407 *)p)->f2B8) {
+    if (IDX(p) < ((StaffRoll *)p)->rowCount) {
         STAFF_ROLL_PrintRow(p, *(void **)(p + IDX(p) * 8 + 0xB8), *(int *)(p + IDX(p) * 8 + 0xBC));
         STAFF_ROLL_PrintRow(p, *(void **)(p + IDX(p) * 8 + 0xB8), *(int *)(p + IDX(p) * 8 + 0xBC) + 1);
         IDX(p)++;
@@ -740,7 +765,7 @@ void STAFF_ROLL_PrintNextRow(char *p)
 
 
 
-void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((struct Obj14408 *)p)->f2C4);BMP_Blit(*(struct Bmp **)((unsigned)p+((struct Obj14408 *)p)->f2BB*8+0xb8),s,0,0,0,192,256,16,0);}
+void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((StaffRoll *)p)->windowB);BMP_Blit(*(struct Bmp **)((unsigned)p+((StaffRoll *)p)->scriptRowIndex*8+0xb8),s,0,0,0,192,256,16,0);}
 
 
 
@@ -748,7 +773,7 @@ void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((struct Obj14408 
 
 void STAFF_ROLL_LoadRows(char *p)
 {
-    ((struct Obj24503 *)p)->f2D4 = (int)ARC_TOOL_LoadMember(0xdc, 1, 0x8e);
+    ((StaffRoll *)p)->entryTable = ARC_TOOL_LoadMember(0xdc, 1, 0x8e);
     STAFF_ROLL_BuildRowList(p);
 }
 
@@ -759,7 +784,7 @@ void STAFF_ROLL_LoadRows(char *p)
 void STAFF_ROLL_FreeRows(char *p)
 {
     STAFF_ROLL_DeleteRowList(p);
-    func_020307B0((void *)(((struct Obj24504 *)p)->f2D4));
+    func_020307B0((void *)(((StaffRoll *)p)->entryTable));
 }
 
 
@@ -770,32 +795,32 @@ void STAFF_ROLL_FreeRows(char *p)
  */
 void STAFF_ROLL_InitWindows(char *p)
 {
-    unsigned h;
+    void *h;
     BMP_WIN_Init(0x8E);
-    ((struct Obj03327 *)p)->f2BC = BMP_WIN_Create(1, 0, 0, 0x20, 0x19, 0xF, 1);
-    ((struct Obj03327 *)p)->f2C4 = BMP_WIN_Create(5, 0, 0, 0x20, 0x1C, 0xF, 1);
-    h = ((struct Obj03327 *)p)->f2BC;
+    ((StaffRoll *)p)->windowA = (void *)BMP_WIN_Create(1, 0, 0, 0x20, 0x19, 0xF, 1);
+    ((StaffRoll *)p)->windowB = (void *)BMP_WIN_Create(5, 0, 0, 0x20, 0x1C, 0xF, 1);
+    h = ((StaffRoll *)p)->windowA;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
-    h = ((struct Obj03327 *)p)->f2C4;
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    h = ((StaffRoll *)p)->windowB;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
 }
 
 
 
 
-void STAFF_ROLL_DeleteWindows(char *p){BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2BC);BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2C4);BMP_WIN_Exit();}
+void STAFF_ROLL_DeleteWindows(char *p){BMP_WIN_Delete(*(struct Descriptor * *)&((StaffRoll *)p)->windowA);BMP_WIN_Delete(*(struct Descriptor * *)&((StaffRoll *)p)->windowB);BMP_WIN_Exit();}
 
 
 
 
 
-void STAFF_ROLL_SetWindowFlags(char *p, u32 v)
+void STAFF_ROLL_SetWindowFlags(char *p, u32 flags)
 {
-    ((struct Obj24505 *)p)->f2CC |= (u8)v;
+    ((StaffRoll *)p)->windowFlags |= (u8)flags;
 }
 
 
@@ -804,7 +829,7 @@ void STAFF_ROLL_SetWindowFlags(char *p, u32 v)
 /*
  * Tail: two zero alignment bytes at 0x021B9E12.
  */
-void STAFF_ROLL_FlushWindows(char *p){if(((struct Obj06587 *)p)->f2CC&1)BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06587 *)p)->f2BC);if(((struct Obj06587 *)p)->f2CC&2)BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06587 *)p)->f2C4);((struct Obj06587 *)p)->f2CC=0;}
+void STAFF_ROLL_FlushWindows(char *p){if(((StaffRoll *)p)->windowFlags&1)BMP_WIN_TransferChars((struct Descriptor *)((StaffRoll *)p)->windowA);if(((StaffRoll *)p)->windowFlags&2)BMP_WIN_TransferChars((struct Descriptor *)((StaffRoll *)p)->windowB);((StaffRoll *)p)->windowFlags=0;}
 
 
 
@@ -860,14 +885,14 @@ void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));func_02048C4
 void STAFF_ROLL_Draw3d(char *p)
 {
     unsigned i;
-    if (**(int * *)&((struct Obj03877 *)p)->f0 != 1 && (BMP_GetVisiblePlane() & 1)) {
+    if (**(int * *)&((StaffRoll *)p)->sys != 1 && (BMP_GetVisiblePlane() & 1)) {
         STAFF_ROLL_UpdateBrightness(p);
         STAFF_ROLL_UpdateLights(p);
-        for (i = 0; i < ((struct Obj03877 *)p)->f24; i++)
-            G3D_SYSTEM_LoopObjectAnimeFrame(((struct Obj03877 *)p)->f20, (unsigned short)i, 0x1000);
+        for (i = 0; i < ((StaffRoll *)p)->animeCount; i++)
+            G3D_SYSTEM_LoopObjectAnimeFrame(((StaffRoll *)p)->g3dObject, (unsigned short)i, 0x1000);
         func_02047964();
         G3D_SYSTEM_ApplyLookAt();
-        G3D_SYSTEM_DrawObject(((struct Obj03877 *)p)->f20, (struct Arg *)d_021BAC2C);
+        G3D_SYSTEM_DrawObject(((StaffRoll *)p)->g3dObject, (struct Arg *)d_021BAC2C);
         G3D_SYSTEM_DrawEnd();
     }
 }
@@ -876,19 +901,19 @@ void STAFF_ROLL_Draw3d(char *p)
 
 
 
-void STAFF_ROLL_InitLights(u8 *p){u32 i;*(const void * *)&((struct Obj06588 *)p)->f0=&d_021BACE4;((struct Obj06588 *)p)->f74=7;((struct Obj06588 *)p)->f78=0;((struct Obj06588 *)p)->f76=0;((struct Obj06588 *)p)->f7C=0;for(i=0;i<16;i++){u8 *q=p+i*4;((struct Obj14410 *)q)->f34=65535;((struct Obj14410 *)q)->f36=0;}}
+void STAFF_ROLL_InitLights(u8 *p){u32 i;*(const void * *)&((StaffRollLight *)p)->lightSet=&d_021BACE4;((StaffRollLight *)p)->mode=7;((StaffRollLight *)p)->progress=0;((StaffRollLight *)p)->activeIndex=0;((StaffRollLight *)p)->lightMode=0;for(i=0;i<16;i++){u8 *q=p+i*4;((StaffRollLight *)q)->queue[0].index=65535;((StaffRollLight *)q)->queue[0].duration=0;}}
 
 
 
 
 
-void STAFF_ROLL_QueueLight(u8 *p,int a,int b){u32 i;for(i=0;i<16;i++){u8 *q=p+i*4;if(((struct Obj10722 *)q)->f34==65535){((struct Obj10722 *)q)->f34=a;((struct Obj10722 *)q)->f36=b;return;}}}
+void STAFF_ROLL_QueueLight(u8 *p, int index, int duration){u32 i;for(i=0;i<16;i++){u8 *q=p+i*4;if(((StaffRollLight *)q)->queue[0].index==65535){((StaffRollLight *)q)->queue[0].index=index;((StaffRollLight *)q)->queue[0].duration=duration;return;}}}
 
 
 
 
 
-void STAFF_ROLL_AdvanceLights(u8 *p){u32 i;for(i=0;i<15;i++){u8 *q=p+i*4;((struct Obj08304 *)q)->f34=((struct Obj08304 *)q)->f38;((struct Obj08304 *)q)->f36=((struct Obj08304 *)q)->f3A;}((struct Obj14411 *)p)->f70=65535;((struct Obj14411 *)p)->f72=0;}
+void STAFF_ROLL_AdvanceLights(u8 *p){u32 i;for(i=0;i<15;i++){u8 *q=p+i*4;((StaffRollLight *)q)->queue[0].index=((StaffRollLight *)q)->queue[1].index;((StaffRollLight *)q)->queue[0].duration=((StaffRollLight *)q)->queue[1].duration;}((StaffRollLight *)p)->queue[15].index=65535;((StaffRollLight *)p)->queue[15].duration=0;}
 
 
 
@@ -979,13 +1004,13 @@ void STAFF_ROLL_UpdateLights(char *p)
 
 
 
-void STAFF_ROLL_SetLightMode(u8 *p,u32 a){((struct Obj24507 *)p)->f7C=a;}
+void STAFF_ROLL_SetLightMode(u8 *p, u32 mode){((StaffRollLight *)p)->lightMode=mode;}
 
 
 
 
 
-int STAFF_ROLL_StartWipe(u8 *p, int a){WIPE_SYS_Start(0,0,0,0,6,1,142);((struct Obj24508 *)p)->f2F0=a;return 1;}
+int STAFF_ROLL_StartWipe(u8 *p, int delay){WIPE_SYS_Start(0,0,0,0,6,1,142);((StaffRoll *)p)->wipeDelay=delay;return 1;}
 
 
 
@@ -993,10 +1018,10 @@ int STAFF_ROLL_StartWipe(u8 *p, int a){WIPE_SYS_Start(0,0,0,0,6,1,142);((struct 
 
 void STAFF_ROLL_UpdateBrightness(char *p)
 {
-    int v = ((struct Obj03877 *)p)->f1C;
+    int v = ((StaffRoll *)p)->brightness;
     if (v <= 0x10000) {
-        ((struct Obj03877 *)p)->f1C = v + (((struct Obj03877 *)p)->f2D2 == 1 ? 0x400 : 0x100);
-        func_0207D658(0x04000050, 1, *(volatile int *)&((struct Obj03877 *)p)->f1C / 0x1000 - 0x10);
+        ((StaffRoll *)p)->brightness = v + (((StaffRoll *)p)->fastFlag == 1 ? 0x400 : 0x100);
+        func_0207D658(0x04000050, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
     }
 }
 
@@ -1022,14 +1047,14 @@ void STAFF_ROLL_ScrollWindows(char *p)
     unsigned n;
     u16 i, j, k, l, m, o;
     unsigned x, y;
-    if (((struct Obj04570 *)p)->f2E0 == 0) return;
-    ((struct Obj04570 *)p)->f2DC += 0x1000;
-    if (((struct Obj04570 *)p)->f2DC < 0x1000) return;
-    ((struct Obj04570 *)p)->f2DC -= 0x1000;
+    if (((StaffRoll *)p)->scrollActive == 0) return;
+    ((StaffRoll *)p)->scrollOffset += 0x1000;
+    if (((StaffRoll *)p)->scrollOffset < 0x1000) return;
+    ((StaffRoll *)p)->scrollOffset -= 0x1000;
     n = 1;
-    if (((struct Obj04570 *)p)->f2D2) n = 4;
-    a = BMP_GetPixels(BMP_WIN_GetBmp(((struct Obj04570 *)p)->f2BC));
-    b = BMP_GetPixels(BMP_WIN_GetBmp(((struct Obj04570 *)p)->f2C4));
+    if (((StaffRoll *)p)->fastFlag) n = 4;
+    a = BMP_GetPixels(BMP_WIN_GetBmp(((StaffRoll *)p)->windowA));
+    b = BMP_GetPixels(BMP_WIN_GetBmp(((StaffRoll *)p)->windowB));
     x = 0;
     for (i = 0; i < 32; i++, x += 32) STAFF_ROLL_ShiftRow((u8 *)(a + x), 0, n);
     for (j = 1; j < 25; j++) {
@@ -1055,23 +1080,23 @@ void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
 {
     int x;
     unsigned w;
-    func_02045CAC(((struct Obj06590 *)p)->fB0, ((struct Obj01071 *)q)->f0, ((struct Obj06590 *)p)->fB4);
-    if (((struct Obj01071 *)q)->fA == 0) {
-        x = ((struct Obj01071 *)q)->fC + ((struct Obj01071 *)q)->fE;
-    } else if (((struct Obj01071 *)q)->fA == 1) {
-        w = func_0201D304(((struct Obj06590 *)p)->fB4, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
-        x = ((struct Obj01071 *)q)->fC + ((struct Obj01071 *)q)->fE - w;
-    } else if (((struct Obj01071 *)q)->fA == 2) {
-        w = func_0201D304(((struct Obj06590 *)p)->fB4, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
-        x = ((struct Obj01071 *)q)->fC + ((struct Obj01071 *)q)->fE - w / 2;
+    func_02045CAC(((StaffRoll *)p)->msgBank, ((StaffRollEntry *)q)->text, ((StaffRoll *)p)->textBuf);
+    if (((StaffRollEntry *)q)->align == 0) {
+        x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs;
+    } else if (((StaffRollEntry *)q)->align == 1) {
+        w = func_0201D304(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs - w;
+    } else if (((StaffRollEntry *)q)->align == 2) {
+        w = func_0201D304(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs - w / 2;
     }
-    PRINTSYS_PrintColor(s, x, y, ((struct Obj06590 *)p)->fB4, *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);
+    PRINTSYS_PrintColor(s, x, y, ((StaffRoll *)p)->textBuf, *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);
 }
 
 
 
 
-void STAFF_ROLL_PrintRowText(char *p,u8 *q){if(q[9]==0)STAFF_ROLL_PrintText(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),192);else STAFF_ROLL_PrintText(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj14412 *)p)->f2C4),194);}
+void STAFF_ROLL_PrintRowText(char *p,u8 *q){if(q[9]==0)STAFF_ROLL_PrintText(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((StaffRoll *)p)->windowB),192);else STAFF_ROLL_PrintText(p,q,BMP_WIN_GetBmp(*(struct Descriptor * *)&((StaffRoll *)p)->windowB),194);}
 
 
 
@@ -1080,14 +1105,14 @@ void STAFF_ROLL_PrintEntry(char *p, unsigned char *q)
 {
     void *s;
     int y;
-    if (((struct Obj01071 *)q)->f4 < 0x100) {
-        s = BMP_WIN_GetBmp(((struct Obj08305 *)p)->f2BC);
-        y = ((struct Obj01071 *)q)->f4;
-        ((struct Obj08305 *)p)->f2CF |= 1;
+    if (((StaffRollEntry *)q)->y < 0x100) {
+        s = BMP_WIN_GetBmp(((StaffRoll *)p)->windowA);
+        y = ((StaffRollEntry *)q)->y;
+        ((StaffRoll *)p)->planeFlags |= 1;
     } else {
-        s = BMP_WIN_GetBmp(((struct Obj08305 *)p)->f2C4);
-        y = ((struct Obj01071 *)q)->f4 - 0x100;
-        ((struct Obj08305 *)p)->f2CF |= 2;
+        s = BMP_WIN_GetBmp(((StaffRoll *)p)->windowB);
+        y = ((StaffRollEntry *)q)->y - 0x100;
+        ((StaffRoll *)p)->planeFlags |= 2;
     }
     STAFF_ROLL_PrintText(p, q, s, y);
 }
@@ -1101,26 +1126,26 @@ void STAFF_ROLL_PrintEntry(char *p, unsigned char *q)
 int STAFF_ROLL_StepFadeIn(char *p)
 {
     int a, b;
-    switch (((struct Obj01274 *)p)->f2CE) {
+    switch (((StaffRoll *)p)->fadeState) {
     case 0:
-        if (((struct Obj01274 *)p)->f2CF & 1) func_0207D63C(0x04000050, 2, 0x21, 0, 16);
-        if (((struct Obj01274 *)p)->f2CF & 2) func_0207D63C(0x04001050, 2, 0x21, 0, 16);
-        ((struct Obj01274 *)p)->f2CC = ((struct Obj01274 *)p)->f2CF;
-        ++((struct Obj01274 *)p)->f2CE;
+        if (((StaffRoll *)p)->planeFlags & 1) func_0207D63C(0x04000050, 2, 0x21, 0, 16);
+        if (((StaffRoll *)p)->planeFlags & 2) func_0207D63C(0x04001050, 2, 0x21, 0, 16);
+        ((StaffRoll *)p)->windowFlags = ((StaffRoll *)p)->planeFlags;
+        ++((StaffRoll *)p)->fadeState;
         break;
     case 1:
-        if (((struct Obj01274 *)p)->f2D2 == 1) ((struct Obj01274 *)p)->f2D0 += 16;
-        else ((struct Obj01274 *)p)->f2D0 += 4;
-        a = ((struct Obj01274 *)p)->f2D0;
+        if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->slideProgress += 16;
+        else ((StaffRoll *)p)->slideProgress += 4;
+        a = ((StaffRoll *)p)->slideProgress;
         if (a > 16) { a = 16; b = 0; }
         else b = 16 - a;
-        if (((struct Obj01274 *)p)->f2CF & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
-        if (((struct Obj01274 *)p)->f2CF & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
-        if (((struct Obj01274 *)p)->f2D0 >= 16) {
-            if (((struct Obj01274 *)p)->f2CF & 1) *(volatile u16 *)0x04000050 = 0;
-            if (((struct Obj01274 *)p)->f2CF & 2) *(volatile u16 *)0x04001050 = 0;
-            *(u8 *)&((struct Obj01274 *)p)->f2D0 = 0;
-            ((struct Obj01274 *)p)->f2CE = 0;
+        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
+        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
+        if (((StaffRoll *)p)->slideProgress >= 16) {
+            if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000050 = 0;
+            if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001050 = 0;
+            *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
+            ((StaffRoll *)p)->fadeState = 0;
             return 0;
         }
         break;
@@ -1134,32 +1159,32 @@ int STAFF_ROLL_StepFadeIn(char *p)
 int STAFF_ROLL_StepFadeOut(char *p)
 {
     int a, b;
-    switch (((struct Obj00784 *)p)->f2CE) {
+    switch (((StaffRoll *)p)->fadeState) {
     case 0:
-        if (((struct Obj00784 *)p)->f2CF & 1) func_0207D63C(0x04000050, 2, 0x21, 16, 0);
-        if (((struct Obj00784 *)p)->f2CF & 2) func_0207D63C(0x04001050, 2, 0x21, 16, 0);
-        ++((struct Obj00784 *)p)->f2CE;
+        if (((StaffRoll *)p)->planeFlags & 1) func_0207D63C(0x04000050, 2, 0x21, 16, 0);
+        if (((StaffRoll *)p)->planeFlags & 2) func_0207D63C(0x04001050, 2, 0x21, 16, 0);
+        ++((StaffRoll *)p)->fadeState;
     case 1:
-        if (((struct Obj00784 *)p)->f2D2 == 1) ((struct Obj00784 *)p)->f2D0 += 16;
-        else ((struct Obj00784 *)p)->f2D0 += 4;
-        b = ((struct Obj00784 *)p)->f2D0;
+        if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->slideProgress += 16;
+        else ((StaffRoll *)p)->slideProgress += 4;
+        b = ((StaffRoll *)p)->slideProgress;
         if (b > 16) { a = 0; b = 16; }
         else a = 16 - b;
-        if (((struct Obj00784 *)p)->f2CF & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
-        if (((struct Obj00784 *)p)->f2CF & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
-        if (((struct Obj00784 *)p)->f2D0 >= 16) {
-            if (((struct Obj00784 *)p)->f2CF & 1) BMP_Clear(BMP_WIN_GetBmp(((struct Obj00784 *)p)->f2BC), 0);
-            if (((struct Obj00784 *)p)->f2CF & 2) BMP_Clear(BMP_WIN_GetBmp(((struct Obj00784 *)p)->f2C4), 0);
-            ((struct Obj00784 *)p)->f2CC = ((struct Obj00784 *)p)->f2CF;
-            *(u8 *)&((struct Obj00784 *)p)->f2D0 = 0;
-            ++((struct Obj00784 *)p)->f2CE;
+        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
+        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
+        if (((StaffRoll *)p)->slideProgress >= 16) {
+            if (((StaffRoll *)p)->planeFlags & 1) BMP_Clear(BMP_WIN_GetBmp(((StaffRoll *)p)->windowA), 0);
+            if (((StaffRoll *)p)->planeFlags & 2) BMP_Clear(BMP_WIN_GetBmp(((StaffRoll *)p)->windowB), 0);
+            ((StaffRoll *)p)->windowFlags = ((StaffRoll *)p)->planeFlags;
+            *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
+            ++((StaffRoll *)p)->fadeState;
         }
         break;
     case 2:
-        if (((struct Obj00784 *)p)->f2CF & 1) *(volatile u16 *)0x04000050 = 0;
-        if (((struct Obj00784 *)p)->f2CF & 2) *(volatile u16 *)0x04001050 = 0;
-        ((struct Obj00784 *)p)->f2CF = 0;
-        ((struct Obj00784 *)p)->f2CE = 0;
+        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000050 = 0;
+        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001050 = 0;
+        ((StaffRoll *)p)->planeFlags = 0;
+        ((StaffRoll *)p)->fadeState = 0;
         return 0;
     }
     return 1;
@@ -1176,60 +1201,60 @@ int STAFF_ROLL_StepWindowSlide(char *p)
     struct Mtx22 matrix;
     int v;
     unsigned scale;
-    switch (((struct Obj00682 *)p)->f2CE) {
+    switch (((StaffRoll *)p)->fadeState) {
     case 0:
         STAFF_ROLL_ReloadGraphics(p, 1);
         func_0207D63C(0x04000050, 8, 0x20, 0, 16);
         BG_SYS_SetMainPlaneVisible(8, 1);
         GXx_SetMasterBrightness_((void *)0x0400006c, 0);
         GXx_SetMasterBrightness_((void *)0x0400106c, 0);
-        *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
-        ++((struct Obj00682 *)p)->f2CE;
+        *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
+        ++((StaffRoll *)p)->fadeState;
         break;
     case 1:
-        if (((struct Obj00682 *)p)->f2D2 == 1) ((struct Obj00682 *)p)->f2D0 += 8;
-        else ((struct Obj00682 *)p)->f2D0 += 2;
-        v = ((struct Obj00682 *)p)->f2D0;
+        if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->slideProgress += 8;
+        else ((StaffRoll *)p)->slideProgress += 2;
+        v = ((StaffRoll *)p)->slideProgress;
         if (v >= 16) {
             *(volatile u16 *)0x04000052 = 16;
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
-            *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
-            *(u16 *)&((struct Obj00682 *)p)->f2DA = 0xa6;
-            ++((struct Obj00682 *)p)->f2CE;
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
+            *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
+            *(u16 *)&((StaffRoll *)p)->scriptTimer = 0xa6;
+            ++((StaffRoll *)p)->fadeState;
         } else {
             *(volatile u16 *)0x04000052 = v | ((16 - v) << 8);
-            scale = 8 - ((struct Obj00682 *)p)->f2D0 / 2;
+            scale = 8 - ((StaffRoll *)p)->slideProgress / 2;
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;
     case 2:
-        if (((struct Obj00682 *)p)->f2D2 == 1) ((struct Obj00682 *)p)->f2DA -= 4;
-        else --((struct Obj00682 *)p)->f2DA;
-        if (((struct Obj00682 *)p)->f2DA <= 0) {
-            ((struct Obj00682 *)p)->f2DA = 0;
-            ++((struct Obj00682 *)p)->f2CE;
+        if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->scriptTimer -= 4;
+        else --((StaffRoll *)p)->scriptTimer;
+        if (((StaffRoll *)p)->scriptTimer <= 0) {
+            ((StaffRoll *)p)->scriptTimer = 0;
+            ++((StaffRoll *)p)->fadeState;
         }
         break;
     case 3:
-        if (((struct Obj00682 *)p)->f2D2 == 1) ((struct Obj00682 *)p)->f2D0 += 8;
-        else ((struct Obj00682 *)p)->f2D0 += 2;
-        v = ((struct Obj00682 *)p)->f2D0;
+        if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->slideProgress += 8;
+        else ((StaffRoll *)p)->slideProgress += 2;
+        v = ((StaffRoll *)p)->slideProgress;
         if (v >= 16) {
             *(volatile u16 *)0x04000050 = 0;
             BG_SYS_SetMainPlaneVisible(8, 0);
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
             STAFF_ROLL_ReloadGraphics(p, 0);
-            *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
-            ((struct Obj00682 *)p)->f2CE = 0;
+            *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
+            ((StaffRoll *)p)->fadeState = 0;
             return 0;
         } else {
             *(volatile u16 *)0x04000052 = (16 - v) | (v << 8);
-            scale = ((struct Obj00682 *)p)->f2D0 / 2 + 1;
+            scale = ((StaffRoll *)p)->slideProgress / 2 + 1;
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;
     }
@@ -1241,16 +1266,16 @@ int STAFF_ROLL_StepWindowSlide(char *p)
 
 int STAFF_ROLL_CmdPrintEntry(char *p, unsigned char *q)
 {
-    if (((struct Obj06592 *)q)->f0 == 0xffff) {
-        ((struct Obj06591 *)p)->f2DA = ((struct Obj06592 *)q)->f4;
-        ((struct Obj06591 *)p)->f2EC = 1;
+    if (((StaffRollEntry *)q)->text == 0xffff) {
+        ((StaffRoll *)p)->scriptTimer = ((StaffRollEntry *)q)->y;
+        ((StaffRoll *)p)->scriptState = 1;
         return 1;
     }
-    if (((struct Obj06591 *)p)->f2DA == 0)
-        ((struct Obj06591 *)p)->f2DA = ((struct Obj06592 *)q)->f4;
+    if (((StaffRoll *)p)->scriptTimer == 0)
+        ((StaffRoll *)p)->scriptTimer = ((StaffRollEntry *)q)->y;
     STAFF_ROLL_PrintRowText(p, q);
-    if (q[0x16] != 0 || ((struct Obj06592 *)q)->f14 != 0) {
-        ((struct Obj06591 *)p)->f2EC = 1;
+    if (((StaffRollEntry *)((char *)q + 0x10))->opcode != 0 || ((StaffRollEntry *)((char *)q + 0x10))->y != 0) {
+        ((StaffRoll *)p)->scriptState = 1;
         return 1;
     }
     return 0;
@@ -1261,12 +1286,12 @@ int STAFF_ROLL_CmdPrintEntry(char *p, unsigned char *q)
 
 int STAFF_ROLL_CmdShowEntry(char *p, unsigned char *q)
 {
-    if (((struct Obj10725 *)p)->f2EC == 0) {
-        ((struct Obj10725 *)p)->f2CD = q[7];
-        ((struct Obj10725 *)p)->f2EC = 2;
+    if (((StaffRoll *)p)->scriptState == 0) {
+        ((StaffRoll *)p)->entryMode = q[7];
+        ((StaffRoll *)p)->scriptState = 2;
     }
     STAFF_ROLL_PrintEntry(p, q);
-    if (q[0x16] != 1)
+    if (((StaffRollEntry *)((char *)q + 0x10))->opcode != 1)
         return 1;
     return 0;
 }
@@ -1276,8 +1301,8 @@ int STAFF_ROLL_CmdShowEntry(char *p, unsigned char *q)
 
 int STAFF_ROLL_CmdSetEntryMode(char *p, unsigned char *q)
 {
-    ((struct Obj14414 *)p)->f2CD = q[7];
-    ((struct Obj14414 *)p)->f2EC = 3;
+    ((StaffRoll *)p)->entryMode = q[7];
+    ((StaffRoll *)p)->scriptState = 3;
     return 1;
 }
 
@@ -1286,7 +1311,7 @@ int STAFF_ROLL_CmdSetEntryMode(char *p, unsigned char *q)
 
 int STAFF_ROLL_CmdStartScroll(char *p)
 {
-    ((struct Obj24511 *)p)->f2E0 = 1;
+    ((StaffRoll *)p)->scrollActive = 1;
     return 0;
 }
 
@@ -1295,7 +1320,7 @@ int STAFF_ROLL_CmdStartScroll(char *p)
 
 int STAFF_ROLL_CmdStopScroll(char *p)
 {
-    ((struct Obj24512 *)p)->f2E0 = 0;
+    ((StaffRoll *)p)->scrollActive = 0;
     return 0;
 }
 
@@ -1304,7 +1329,7 @@ int STAFF_ROLL_CmdStopScroll(char *p)
 
 int STAFF_ROLL_CmdEnd(char *p)
 {
-    ((struct Obj24513 *)p)->f2EC = 5;
+    ((StaffRoll *)p)->scriptState = 5;
     return 1;
 }
 
@@ -1339,14 +1364,14 @@ int STAFF_ROLL_CmdHidePlane(void)
 
 
 
-int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)((u32)p+0x28);STAFF_ROLL_QueueLight(s,q[7],((struct Obj14415 *)q)->f4);STAFF_ROLL_SetLightMode(s,1);return 1;}
+int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)((u32)p+0x28);STAFF_ROLL_QueueLight(s,q[7],((StaffRollEntry *)q)->y);STAFF_ROLL_SetLightMode(s,1);return 1;}
 
 
 int STAFF_ROLL_CmdSetRecord(char *ctx, unsigned char *rec)
 {
     rec = rec + (rec[7] << 4);
     STAFF_ROLL_PrintRowText(ctx, rec);
-    ((struct Obj14416 *)ctx)->f2DA = ((struct Obj14417 *)rec)->f4;
-    ((struct Obj14416 *)ctx)->f2EC = 1;
+    ((StaffRoll *)ctx)->scriptTimer = ((StaffRollEntry *)rec)->y;
+    ((StaffRoll *)ctx)->scriptState = 1;
     return 1;
 }

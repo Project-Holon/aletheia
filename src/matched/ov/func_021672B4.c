@@ -13,7 +13,7 @@
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 #include "../include/Obj00565.h"
 
@@ -25,7 +25,7 @@ extern int FIELD_MSGBG_ClearMsgWin();
 extern int FIELD_MSGBG_GetMsgWinBmpWin();
 struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern int func_020409B4();
+extern int BG_SYS_PushTile();
 
 int EVENT_RESEARCH_RADAR_CloseInfoWindow(int a0)
 {
@@ -40,6 +40,6 @@ a0 = ((struct Obj00565 *)t4)->f14;
 loc_021672C4:
     a0 = BMP_WIN_GetBgLayer((struct Descriptor *)a0);
 loc_021672C8:
-    a0 = func_020409B4(a0);
+    a0 = BG_SYS_PushTile(a0);
 loc_021672CC:
     return a0;}

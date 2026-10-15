@@ -1,5 +1,5 @@
 /*
- * function: func_0217DBE0,func_0217DC20
+ * function: DIGITALCARDCHECK_Phase6,DIGITALCARDCHECK_EndPhase
  * unit: yes
  * address: 0x0217DBE0
  * packet: pkt_ov176_0217DBE0
@@ -9,31 +9,31 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8AA8 0x021E8AA8 thumb ov177
- *   func_0217DFD0 0x0217DFD0 thumb ov176
- *   func_0217DFE4 0x0217DFE4 thumb ov176
- *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217DC20 0x0217DC20 thumb ov176
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
+ *   LIVEBATTLEMATCH_IRC_SetMenuValue 0x0217DFD0 thumb ov176
+ *   LIVEBATTLEMATCH_IRC_GetMenuValue 0x0217DFE4 thumb ov176
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
+ *   DIGITALCARDCHECK_EndPhase 0x0217DC20 thumb ov176
  */
-extern void func_0217DFD0(int *, int, int);
-extern int func_0217DFE4(int *);
-extern void func_021E8AA0(int *p, int v);
-extern void func_0217DC20(int);
-extern void func_021E8AA8(int);
-void func_0217DBE0(int a, int *state, int *p)
+extern void LIVEBATTLEMATCH_IRC_SetMenuValue(int *, int, int);
+extern int LIVEBATTLEMATCH_IRC_GetMenuValue(int *);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
+extern void DIGITALCARDCHECK_EndPhase(int);
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int);
+void DIGITALCARDCHECK_Phase6(int a, int *state, int *p)
 {
     switch (*state) {
     case 0:
-        func_0217DFD0(p, 0x6F, 1);
+        LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6F, 1);
         *state = 1;
         break;
     case 1:
-        if (func_0217DFE4(p))
+        if (LIVEBATTLEMATCH_IRC_GetMenuValue(p))
             *state = 2;
         break;
     case 2:
-        func_021E8AA0((int *)a, (int)func_0217DC20);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_EndPhase);
         break;
     }
 }
-void func_0217DC20(int a) { func_021E8AA8(a); }
+void DIGITALCARDCHECK_EndPhase(int a) { WIFIBATTLEMATCH_UTIL_ClearCallback(a); }

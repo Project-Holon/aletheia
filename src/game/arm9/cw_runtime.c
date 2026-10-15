@@ -19,6 +19,7 @@
  *   _u32_div_not_0_f    0x0209C2B8  arm
  */
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _double_arith_prelude(void)
 {
     stmdb sp!, {r4, lr}
@@ -512,6 +513,7 @@ L_0209B2D4:
 }
 
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dmul(void)
 {
     stmdb sp!, {r4, r5, r6, r7, lr}
@@ -754,6 +756,7 @@ L_0209B638:
 }
 
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _d2f(void)
 {
     and r2, r1, #0x80000000
@@ -829,6 +832,7 @@ L_0209B744:
     orr r0, r2, r0, lsr #1
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _s32_to_double(void)
 {
     ands r2, r0, #0x80000000
@@ -848,6 +852,7 @@ asm void _s32_to_double(void)
     orr r1, r1, r3, lsl #20
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _u32_to_double(void)
 {
     cmp r0, #0
@@ -868,6 +873,7 @@ L_0209B7B4:
     bx lr
 }
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dcmp_1(void)
 {
     mov ip, #0x200000
@@ -914,6 +920,7 @@ L_0209B854:
     bhi L_0209B7FC
     b L_0209B7E0
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dcmp_2(void)
 {
     mov ip, #0x200000
@@ -960,6 +967,7 @@ L_0209B8EC:
     bhi L_0209B894
     b L_0209B878
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dcmp_3(void)
 {
     mov ip, #0x200000
@@ -1010,6 +1018,7 @@ L_0209B990:
     bhi L_0209B92C
     b L_0209B910
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dcmp_4(void)
 {
     mov ip, #0x200000
@@ -1058,6 +1067,7 @@ L_0209BA2C:
     bhi L_0209B9D0
     b L_0209B9B4
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dcmp_5(void)
 {
     mov ip, #0x200000
@@ -1101,6 +1111,7 @@ L_0209BAB8:
     bhi L_0209BA6C
     b L_0209BA50
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __dcmp_6(void)
 {
     mov ip, #0x200000
@@ -1145,6 +1156,7 @@ L_0209BB44:
     b L_0209BADC
 }
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _fgeq(void)
 {
     mov r3, #0xff000000
@@ -1172,6 +1184,7 @@ L_0209BB9C:
     msr cpsr_flg, ip
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fcmp_1(void)
 {
     mov r3, #0xff000000
@@ -1199,6 +1212,7 @@ L_0209BBF8:
     msr cpsr_flg, ip
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fcmp_2(void)
 {
     mov r3, #0xff000000
@@ -1229,6 +1243,7 @@ L_0209BC5C:
     msr cpsr_flg, ip
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fcmp_3(void)
 {
     mov r3, #0xff000000
@@ -1256,6 +1271,7 @@ L_0209BCBC:
     msr cpsr_flg, ip
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fcmp_4(void)
 {
     mov r3, #0xff000000
@@ -1287,6 +1303,7 @@ L_0209BD24:
     msr cpsr_flg, ip
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _f2d(void)
 {
     and r2, r0, #0x80000000
@@ -1329,6 +1346,7 @@ L_0209BDAC:
     dcd 0x7FF00000
 }
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _s32_to_float(void)
 {
     ands r2, r0, #0x80000000
@@ -1350,6 +1368,7 @@ asm void _s32_to_float(void)
     addne r0, r0, #1
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _u32_to_float(void)
 {
     cmp r0, #0
@@ -1380,6 +1399,7 @@ asm void _s32_div_f(void);
 asm void _div_by_zero_check(void);
 
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _ll_divmod_entry_signed(void)
 {
     stmdb sp!, {r4, r5, r6, r7, r11, ip, lr}
@@ -1539,6 +1559,7 @@ L_0209C030:
     bx lr
 }
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _ll_mul(void)
 {
     stmdb sp!, {r4, r5, lr}
@@ -1552,6 +1573,7 @@ asm void _ll_mul(void)
 }
 
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _ll_shl(void)
 {
     ands r2, r2, #0x3f
@@ -1569,6 +1591,7 @@ L_0209C098:
     bx lr
 }
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _s32_div_f(void)
 {
     eor ip, r0, r1
@@ -1706,6 +1729,7 @@ L_0209C29C:
 }
 
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _div_by_zero_check(void)
 {
     cmp r1, #0
@@ -1831,6 +1855,7 @@ _u32_div_not_0_f:
     mov r1, r3
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _f2s(void)
 {
     bic r1, r0, #0x80000000
@@ -1848,6 +1873,7 @@ L_0209C4BC:
     add r0, r0, #0x80000000
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _f2u(void)
 {
     tst r0, #0x80000000
@@ -1869,6 +1895,7 @@ L_0209C500:
     mvn r0, #0
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _d2s(void)
 {
     bic r3, r1, #0x80000000
@@ -1893,6 +1920,7 @@ L_0209C544:
     bx lr
     dcd 0x0000041E
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _d2u(void)
 {
     tst r1, #0x80000000
@@ -1940,6 +1968,7 @@ asm void __fmul(void);
 asm void __fadd(void);
 asm void __fdiv(void);
 
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void _double_arith_body(void)
 {
     stmdb sp!, {r4, r5, r6, lr}
@@ -2058,6 +2087,7 @@ L_0209C754:
     dcd 0x7FF80000
     dcd 0x02153FAC
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fmul(void)
 {
     eor r2, r0, r1
@@ -2198,6 +2228,7 @@ L_0209C954:
     mov r0, r2
     bx lr
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fadd(void)
 {
 __fadd:
@@ -2541,6 +2572,7 @@ L_0209CDFC:
     eor r1, r0, r1
     eor r0, r0, r1
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __fdiv(void)
 {
     stmdb sp!, {lr}
@@ -2808,6 +2840,7 @@ L_0209D1BC:
     eor r2, r0, r2
     eor r0, r0, r2
 }
+/* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
 asm void __ddiv(void)
 {
     stmdb sp!, {r4, r5, r6, lr}

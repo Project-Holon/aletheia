@@ -1,5 +1,5 @@
 /*
- * function: func_02213684
+ * function: WIFIBATTLEMATCH_SYS_GetPartyCounts
  * address: 0x02213684
  * packet: pkt_ov199_02213684
  * region: ov199
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-void func_02213684(const unsigned char *p, unsigned char *a, unsigned char *b)
+void WIFIBATTLEMATCH_SYS_GetPartyCounts(const unsigned char *p, unsigned char *a, unsigned char *b)
 {
     int i, index;
     int side, flags;

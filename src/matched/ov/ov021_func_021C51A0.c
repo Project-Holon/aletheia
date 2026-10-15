@@ -22,7 +22,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj00020.h"
@@ -46,7 +46,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 func_020307B0(void *p);
 
 void SHORTCUT_MENU_Delete(int *a)
@@ -68,6 +68,6 @@ void SHORTCUT_MENU_Delete(int *a)
     CLACT_ReleaseCellAnim(((struct Obj00020 *)a)->f54);
     CLACT_DeleteUnit((struct Bank *)a[0x4c / 4]);
     BG_SYS_SetTileUnit(1, 1, 0);
-    func_020403F4(1);
+    BG_SYS_FreeLayerBuf(1);
     func_020307B0((void *)((int)a));
 }

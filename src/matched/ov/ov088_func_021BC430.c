@@ -60,8 +60,8 @@ extern void *GAMESYSTEM_SetupInitWork(u32, u16, Rec12 *, int);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern void CONFIG_SetBattleFlag(struct Flags02008450 *p, int on);
 extern void BEACON_SetSlotStates(struct Blk34 *p, u8 v);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern char d_0209DF9C[];
 
 int STARTMENU_BattleFlagProcEnd(int a, int b, int c, u32 *q)
@@ -80,6 +80,6 @@ int STARTMENU_BattleFlagProcEnd(int a, int b, int c, u32 *q)
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, s.f0, &s.rec, s.f18));
     CONFIG_SetBattleFlag((void *)q[1], t);
     BEACON_SetSlotStates((void *)q[3], h);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     return 1;
 }

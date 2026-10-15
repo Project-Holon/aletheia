@@ -1,5 +1,5 @@
 /*
- * function: func_021E8AB4
+ * function: WIFIBATTLEMATCH_UTIL_SetRequest
  * address:  0x021E8AB4
  * packet:   pkt_021E8AB4
  * region:   ov177
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Field setter after func_021E8AA8's pool: stores the second argument at
+ * Field setter after WIFIBATTLEMATCH_UTIL_ClearCallback's pool: stores the second argument at
  * +0xc. Called from the ov175 root WIFIBATTLEMATCH_NET_CompStepF (0x021D7EF6, 0x021D8060,
  * 0x021D8550).
  */
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-void func_021E8AB4(u32 sys, u32 v)
+void WIFIBATTLEMATCH_UTIL_SetRequest(u32 sys, u32 v)
 {
     ((struct Obj24454 *)sys)->fC = v;
 }

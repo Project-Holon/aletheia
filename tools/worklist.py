@@ -456,7 +456,9 @@ def cover_from_entries(entries, matched_status):
     import fnaddr  # noqa: E402
     # the game_units' compiled layouts, in parallel (find_unit_member_addrs)
     fnaddr.prefetch_layouts(e for e in entries if e.get("region") == REGION
-                            and e.get("kind") == "game_unit" and e.get("status") in matched_status)
+                            and e.get("kind") == "game_unit"
+                            and not e.get("pieces")
+                            and e.get("status") in matched_status)
     for ent in entries:
         if ent.get("region") != REGION:
             continue
@@ -494,7 +496,7 @@ def cover_from_entries(entries, matched_status):
         # written before that widening carries the bare "0xADDRESS" the
         # single original (data) sub-kind used, and is read the same way by
         # sole_ref_subkind() below.
-        if kind == "game_unit" and ent.get("source"):
+        if kind == "game_unit" and ent.get("source") and not ent.get("pieces"):
             listed = set(a for a, _who in addrs)
             for addr in find_unit_member_addrs(ent["source"], ent):
                 if addr in listed:

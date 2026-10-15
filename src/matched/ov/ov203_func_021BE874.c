@@ -1,5 +1,5 @@
 /*
- * function: func_021BE874
+ * function: DEMO3D_DATA_BuildTable
  * address: 0x021BE874
  * packet: pkt_ov203_021BE874
  * region: ov203
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE8F4 0x021BE8F4 thumb ov203
+ *   DEMO3D_DATA_GetPair 0x021BE8F4 thumb ov203
  *   d_021C1868 0x021C1868 data a4
  */
 #include "../include/Obj08376.h"
@@ -21,8 +21,8 @@ typedef struct Selector { const Group *groups; unsigned short count, selector; }
 typedef struct Row { const Selector *selectors; unsigned words[4]; } Row;
 extern const Row d_021C1868[];
 typedef unsigned char  u8;
-extern void *func_021BE8F4(char *p, u8 *q);
-void func_021BE874(char *ctx, const char *config, u8 type)
+extern void *DEMO3D_DATA_GetPair(char *p, u8 *q);
+void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type)
 {
     Entry *entries = *(Entry * *)&((struct Obj08376 *)ctx)->f0;
     char *extra = *(char * *)&((struct Obj08376 *)ctx)->f8;
@@ -30,7 +30,7 @@ void func_021BE874(char *ctx, const char *config, u8 type)
     const Group *group;
     int i;
     const Pair *pair;
-    group = func_021BE8F4((char *)(&d_021C1868[*(unsigned *)config].selectors[type]), (u8 *)config);
+    group = DEMO3D_DATA_GetPair((char *)(&d_021C1868[*(unsigned *)config].selectors[type]), (u8 *)config);
     if (group->count > 1) choice = *(const unsigned char *)&((struct Obj08377 *)config)->f9;
     if (choice >= group->count) choice = 0;
     pair = &group->pairs[choice];

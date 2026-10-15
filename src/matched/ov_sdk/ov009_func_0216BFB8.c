@@ -14,7 +14,7 @@
  * symbols:
  *   DWCi_SetState  0x0216BC84  arm  ov009
  *   func_0216EC18  0x0216EC18  arm  ov009
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -46,7 +46,7 @@ typedef struct DwcState {
 
 typedef struct DwcGlobal DwcGlobal;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 extern void DWCi_SetState(int state);
 extern void func_0216EC18(void);
@@ -54,15 +54,15 @@ extern void func_0216EC18(void);
 void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int index)
 {
 	if (error == 0 && cancel != 0) {
-		if (((DwcState *)g_021AA878.st)->a96c == 0) {
+		if (((DwcState *)gDwcGlobalState.st)->a96c == 0) {
 			DWCi_SetState(3);
 			func_0216EC18();
 		}
 	} else if (error == 0) {
 		DWCi_SetState(5);
 	}
-	if (((DwcState *)g_021AA878.st)->b05 == 0)
-		((void (*)(int, int, int, int, int, void *))((DwcState *)g_021AA878.st)->matchedCallback)(error, cancel, self, isServer, index, ((DwcState *)g_021AA878.st)->matchedParam);
-	if (error != 0 && g_021AA878.st != 0 && (unsigned int)(((DwcState *)g_021AA878.st)->state - 4) <= 1)
+	if (((DwcState *)gDwcGlobalState.st)->b05 == 0)
+		((void (*)(int, int, int, int, int, void *))((DwcState *)gDwcGlobalState.st)->matchedCallback)(error, cancel, self, isServer, index, ((DwcState *)gDwcGlobalState.st)->matchedParam);
+	if (error != 0 && gDwcGlobalState.st != 0 && (unsigned int)(((DwcState *)gDwcGlobalState.st)->state - 4) <= 1)
 		DWCi_SetState(3);
 }

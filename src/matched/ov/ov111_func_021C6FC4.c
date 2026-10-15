@@ -105,8 +105,8 @@ typedef struct {
 } Work;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MIi_CpuClearFast(int v, void *p, int size);
 extern void VIEWER_TEXT_LoadResources(Work *p, void *parent);
 extern void VIEWER_TEXT_InitVram(void);

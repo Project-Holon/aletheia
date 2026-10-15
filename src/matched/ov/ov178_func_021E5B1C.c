@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ov176_id        0x000000B0  data
- *   func_0217E058   0x0217E058  thumb
+ *   LIVEBATTLEMATCH_IRC_Delete   0x0217E058  thumb
  *   func_02034A5C   0x02034A5C  arm
  *
  * Release the handle at *p, then tear down channel ov176_id.
@@ -19,11 +19,11 @@
 
 
 extern unsigned char ov176_id[];
-extern void func_0217E058(int);
+extern void LIVEBATTLEMATCH_IRC_Delete(int);
 extern void func_02034A5C(int);
 
 void PARTY_STATUS_ExitSubWork(int *p, void *c)
 {
-    func_0217E058(*p);
+    LIVEBATTLEMATCH_IRC_Delete(*p);
     func_02034A5C((int)ov176_id);
 }

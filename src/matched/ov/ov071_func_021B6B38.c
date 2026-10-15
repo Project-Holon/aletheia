@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B38
+ * function: MONOLITH_TOOL_FreeButton
  * address: 0x021B6B38
  * packet: pkt_ov071_021B6B38
  * region: ov071
@@ -19,7 +19,7 @@ struct Obj020437AC;
 extern void CLACT_DeleteActor(struct Obj *);
 extern void BMP_OAM_Delete(struct Grid *);
 extern void BMP_Delete(struct Obj020437AC *);
-void func_021B6B38(void **p)
+void MONOLITH_TOOL_FreeButton(void **p)
 {
     CLACT_DeleteActor(p[0]);
     BMP_OAM_Delete(p[1]);

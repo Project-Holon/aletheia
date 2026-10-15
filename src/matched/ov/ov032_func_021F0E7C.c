@@ -1,5 +1,5 @@
 /*
- * function: func_021F0E7C
+ * function: BEACON_VIEW_UpdateCountActorAnims
  * address: 0x021F0E7C
  * packet: pkt_ov032_021F0E7C
  * region: ov032
@@ -15,4 +15,4 @@
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021F0E7C(char *p) { if(((struct Obj00007 *)p)->f7B==0) CLACT_SetActorAnimSeq(((struct Obj00007 *)p)->f2C4,9); else CLACT_SetActorAnimSeq(((struct Obj00007 *)p)->f2C4,7); }
+void BEACON_VIEW_UpdateCountActorAnims(char *p) { if(((struct Obj00007 *)p)->f7B==0) CLACT_SetActorAnimSeq(((struct Obj00007 *)p)->f2C4,9); else CLACT_SetActorAnimSeq(((struct Obj00007 *)p)->f2C4,7); }

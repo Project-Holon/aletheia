@@ -1,5 +1,5 @@
 /*
- * function: func_021F03EC
+ * function: BEACON_VIEW_UpdatePowerAnimStart
  * address:  0x021F03EC
  * packet:   pkt_ov032_021F03EC
  * region:   ov032
@@ -12,7 +12,7 @@
  * symbols:
  *   BEACON_VIEW_SetArrowAnim  0x021F05E8  thumb  ov032
  *   BEACON_VIEW_SetPrintQueueLimit  0x021F029C  thumb  ov032
- *   func_021F1A08  0x021F1A08  thumb  ov032
+ *   BEACON_VIEW_ShowActivePower  0x021F1A08  thumb  ov032
  */
 #include "../include/Obj00007.h"
 
@@ -21,9 +21,9 @@ typedef unsigned int u32;
 
 extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
 extern void BEACON_VIEW_SetPrintQueueLimit(char *p, int flag);
-extern void func_021F1A08(char *p);
+extern void BEACON_VIEW_ShowActivePower(char *p);
 
-int func_021F03EC(u8 *p)
+int BEACON_VIEW_UpdatePowerAnimStart(u8 *p)
 {
     int s = ((struct Obj00007 *)p)->f6C;
 
@@ -31,7 +31,7 @@ int func_021F03EC(u8 *p)
     case 0:
         BEACON_VIEW_SetArrowAnim(p, 0, 1);
         BEACON_VIEW_SetPrintQueueLimit((char *)p, 1);
-        func_021F1A08((char *)p);
+        BEACON_VIEW_ShowActivePower((char *)p);
         ((struct Obj00007 *)p)->f6C = ((struct Obj00007 *)p)->f6C + 1;
         break;
     case 1:

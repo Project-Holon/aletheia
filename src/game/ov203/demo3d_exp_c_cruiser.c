@@ -19,8 +19,8 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02030734 0x02030734 arm
- *   func_021BE620 0x021BE620 thumb ov203
- *   func_021BDF30 0x021BDF30 thumb ov203
+ *   DEMO3D_ENGINE_GetFrame 0x021BE620 thumb ov203
+ *   DEMO3D_GRAPHIC_GetUnit 0x021BDF30 thumb ov203
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -80,8 +80,8 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
-extern int func_021BE620(char *p);
-extern int func_021BDF30(char *p);
+extern int DEMO3D_ENGINE_GetFrame(char *p);
+extern int DEMO3D_GRAPHIC_GetUnit(char *p);
 extern void UI_SCENE_LoadActorGfx(Demo3dCruiserActorGfx *, Demo3dCruiserActorConfig *, int, unsigned short);
 extern int UI_SCENE_CreateActor(Demo3dCruiserActorGfx *, int, unsigned char, unsigned char, unsigned char, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
@@ -120,9 +120,9 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     a = (Demo3dCruiserGfx *)func_02030734(p->heapId, 24, 1, d_021C3D5C, 0xB3);
     p->gfx = a;
     DEMO3D_EXP_C_CRUISER_LoadTextures(p->heapId);
-    a->step = (func_021BE620(p->model) >> 12) / 100;
+    a->step = (DEMO3D_ENGINE_GetFrame(p->model) >> 12) / 100;
     if (*(volatile unsigned char *)&a->step >= 54) a->step = 53;
-    resource = func_021BDF30(p->view);
+    resource = DEMO3D_GRAPHIC_GetUnit(p->view);
     config.mode = 1;
     config.modelId = 85;
     config.size = 4;
@@ -145,7 +145,7 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
 void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
 {
     Demo3dCruiserGfx *a = p->gfx;
-    int progress = func_021BE620(p->model) >> 12;
+    int progress = DEMO3D_ENGINE_GetFrame(p->model) >> 12;
     if (a->step < 54 && a->step * 100 <= progress) {
         CLACT_AddActorSurfacePos(a->actor, d_021C3BD0 + a->step, 1);
         ++a->step;

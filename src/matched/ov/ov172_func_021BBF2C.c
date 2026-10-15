@@ -66,6 +66,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -119,7 +120,7 @@ extern void GFL_USE_PlaySeInSlot(void *arg, int i);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -288,7 +289,7 @@ int CTVT_CALL_Update(void *a0, char *p)
                 BMP_MENUWORK_DrawWindowBorder((void *)W(0x30), 1);
                 d = (struct Descriptor *)W(0x30);
                 BMP_WIN_ClearScreen(d);
-                func_020409B4(BMP_WIN_GetBgLayer(d));
+                BG_SYS_PushTile(BMP_WIN_GetBgLayer(d));
                 COMM_TVT_SYS_DeleteTimeIcon(a0);
                 CLACT_SetActorAnimSeq(OBJ, 1);
                 W(0x18) = 4;
@@ -312,7 +313,7 @@ int CTVT_CALL_Update(void *a0, char *p)
             BMP_MENUWORK_DrawWindowBorder((void *)W(0x2c), 1);
             d = (struct Descriptor *)W(0x2c);
             BMP_WIN_ClearScreen(d);
-            func_020409B4(BMP_WIN_GetBgLayer(d));
+            BG_SYS_PushTile(BMP_WIN_GetBgLayer(d));
             BMP_WIN_Delete((struct Descriptor *)W(0x2c));
             W(0x2c) = BMP_WIN_Create(4, 1, 0x15, 0x15, 2, 0xa, 1);
             COMM_TVT_SYS_ClearHostBusy(a0);
@@ -331,7 +332,7 @@ int CTVT_CALL_Update(void *a0, char *p)
                 w = COMM_TVT_SYS_GetArc(a0);
                 func_02049658((void *)w, 0xb, 4, 0, 0x2800, 0, v);
                 func_020498F4((void *)w, 0x12, 4, 0, 0, 0, v);
-                func_020409B4(4);
+                BG_SYS_PushTile(4);
             }
         }
         break;
@@ -384,7 +385,7 @@ int CTVT_CALL_Update(void *a0, char *p)
         if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x2c))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x2c));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x2c));
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             W(0x20) = 0;
         }
     }
@@ -393,7 +394,7 @@ int CTVT_CALL_Update(void *a0, char *p)
         if (PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp((struct Descriptor *)W(0x30))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)W(0x30));
             BMP_WIN_MakeScreen((struct Cfg *)W(0x30));
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             W(0x24) = 0;
             if (W(0x38) == 1) {
                 W(0x38) = 0;

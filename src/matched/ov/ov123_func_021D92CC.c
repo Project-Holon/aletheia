@@ -20,7 +20,7 @@
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
  */
 #include "../include/Obj00500.h"
@@ -34,7 +34,7 @@ struct R;
 struct Tcbl;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -59,7 +59,7 @@ u8 *PDWACC_MESSAGE_InitSystem(u32 heap,u32 bank)
     ((struct Obj00500 *)p)->f30=STRBUF_Create(400,((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f28=GF_FONT_Create(23,0,0,0,((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f20=func_02045B38(0,2,(u16)bank,((struct Obj00500 *)p)->fB0);
-    ((struct Obj00500 *)p)->f24=GF_FONT_Create_EC64(((struct Obj00500 *)p)->fB0);
+    ((struct Obj00500 *)p)->f24=WORDSET_CreateDefault(((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->fAC=APP_TASKMENU_RES_Create(5,9,*(u32 *)&((struct Obj00500 *)p)->f28,((struct Obj00500 *)p)->f8C,((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f0=BMP_MENUWORK_LoadFrameGfx((void *)1,12,0,((struct Obj00500 *)p)->fB0);
     ((struct Obj00500 *)p)->f8=BMP_MENUWORK_LoadFrameGfx((void *)5,12,0,((struct Obj00500 *)p)->fB0);

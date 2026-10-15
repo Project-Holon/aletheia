@@ -30,7 +30,7 @@
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   func_02017E1C 0x02017E1C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -79,7 +79,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(u32,u32,s16,s16,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -130,7 +130,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),i+0x95); y=i<<4;
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
             STRBUF_Delete((struct U16Vec *)buf);
-            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)GF_FONT_Create_EC64(H(0));
+            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)WORDSET_CreateDefault(H(0));
             WORDSET_SetSlotNumber((struct WordSet *)text,0,delta,3,0,1); WORDSET_CopyTaggedText((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
@@ -157,7 +157,7 @@ void PLIST_MENU_UpdateLevelUp(u8 *p)
         BMP_FillRect((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130))),0x50,0,0x20,0x60,15);
         for(i=0;i<6;i++) {
             delta=func_02017E1C((void *)W(0x38),gPlistStatParamIds[i],0);
-            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)GF_FONT_Create_EC64(H(0));
+            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)WORDSET_CreateDefault(H(0));
             WORDSET_SetSlotNumber((struct WordSet *)text,0,delta,3,0,1); WORDSET_CopyTaggedText((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
             PRINTSYS_PrintQueColor(W(0x140),(u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);

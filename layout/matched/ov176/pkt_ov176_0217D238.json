@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217D238",
+   "name": "DIGITALCARDCHECK_IsRecord2Done",
    "address": "0x0217D238",
    "kind": "game",
    "region": "ov176",

@@ -27,7 +27,7 @@
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
@@ -164,7 +164,7 @@ extern u8 BTL_NET_HasServerCmd(void);
 extern u16 BTL_NET_GetServerCmd(struct BtlAdapterPacket **outPacket);
 extern u32 BTL_NET_SendClientReply(const u8 *data, u32 size);
 extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlSystem *battle, int flag);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
@@ -465,7 +465,7 @@ void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *po
     gBtlMsgState.clientId = clientId;
     gBtlMsgState.plainWording = BTL_MAIN_CheckSetupStatusFlag(battle, 0x200);
     gBtlMsgState.useSpeciesName = 0;
-    gBtlMsgState.wordSet = GF_FONT_Create_EC64(heapId);
+    gBtlMsgState.wordSet = WORDSET_CreateDefault(heapId);
     gBtlMsgState.msgBuf = STRBUF_Create(0x200 >> 1, heapId);
     for (i = 0; i < 8; i++) {
         gBtlMsgState.banks[i] = func_02045B38(0, 2, sBtlMsgBankFileIds[i], heapId);

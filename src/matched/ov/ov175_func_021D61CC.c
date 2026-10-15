@@ -17,14 +17,14 @@
  *
  * symbols:
  *   WIFIBATTLEMATCH_NET_DeleteNetContext  0x021D9EA0  thumb  ov175
- *   func_021E8AA8  0x021E8AA8  thumb
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback  0x021E8AA8  thumb
  */
 #include "../include/Obj10679.h"
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
 extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
-extern void func_021E8AA8(void *a);
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(void *a);
 
 void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *p)
 {
@@ -34,5 +34,5 @@ void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *p)
         WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)(((struct Obj10679 *)p)->f30));
         ((struct Obj10679 *)p)->f30 = 0;
     }
-    func_021E8AA8(a);
+    WIFIBATTLEMATCH_UTIL_ClearCallback(a);
 }

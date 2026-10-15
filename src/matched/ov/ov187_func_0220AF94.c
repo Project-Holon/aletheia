@@ -24,8 +24,8 @@
 
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BR_MAIN_FreeSceneManager(int *);
 extern void BATTLE_REC_FreeWork(void);
@@ -42,7 +42,7 @@ int BR_MAIN_Exit(int a, int b, int c, char *p)
     }
     BR_MAIN_FreeSceneManager((int *)p);
     BATTLE_REC_FreeWork();
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x59);
     return 1;
 }

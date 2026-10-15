@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0D4
+ * function: BTL_REC_SEL_InitG3dDisplay
  * address: 0x021BB0D4
  * packet: pkt_ov214_021BB0D4
  * region: ov214
@@ -57,7 +57,7 @@ static inline void G3X_EdgeMarking(int enable)
     if(enable) REG3D=(u16)((REG3D & ~0x3000)|32);
     else REG3D &= (u16)~(32|0x3000);
 }
-void func_021BB0D4(void)
+void BTL_REC_SEL_InitG3dDisplay(void)
 {
     u32 i;
     BG_SYS_SetMainPlaneVisible(1,1);

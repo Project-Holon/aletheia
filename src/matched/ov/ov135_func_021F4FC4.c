@@ -13,7 +13,7 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 #include "../include/Obj00018.h"
 
@@ -28,7 +28,7 @@ struct Descriptor;
 extern void TIME_ICON_Delete(u8 *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 
 void WORLDTRADE_DeleteTimeIcon(u8 *p)
 {
@@ -36,6 +36,6 @@ void WORLDTRADE_DeleteTimeIcon(u8 *p)
         TIME_ICON_Delete((u8 *)(((struct Obj00018 *)p)->fDF8));
         ((struct Obj00018 *)p)->fDF8 = 0;
         BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00018 *)p)->fD40));
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj00018 *)p)->fD40)));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)(((struct Obj00018 *)p)->fD40)));
     }
 }

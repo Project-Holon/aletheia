@@ -14,7 +14,7 @@
  *   OS_GetTick                       0x020870d0 arm
  *   tcp_write_do2                    0x0215b15c arm ov009
  *   func_02157390                    0x02157390 arm ov009
- *   g_021A826C                       0x021a826c data
+ *   gCpsNetVars                       0x021a826c data
  */
 
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ struct CPSVars {
     int (*link_is_on)(void);
 };
 
-extern struct CPSVars g_021A826C;
+extern struct CPSVars gCpsNetVars;
 extern unsigned long long OS_GetTick(void);
 extern void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
 extern void func_02157390(void);
@@ -56,14 +56,14 @@ u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
     need_probe = 0;
     soc->field40 = 0;
     start_time = TICK();
-    while (g_021A826C.link_is_on() && len != 0 && soc->state == 4 && (int)(TICK() - start_time) < 0x9f) {
+    while (gCpsNetVars.link_is_on() && len != 0 && soc->state == 4 && (int)(TICK() - start_time) < 0x9f) {
         seqno = soc->sndnxt;
         tcp_write_do2(buf, len, buf2, len2, soc, need_probe);
         {
             u32 t = TICK();
             do {
                 func_02157390();
-                if (!g_021A826C.link_is_on())
+                if (!gCpsNetVars.link_is_on())
                     break;
                 if (soc->state != 4)
                     break;
@@ -83,7 +83,7 @@ u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
         if (soc->state == 4 && soc->remote_win == 0 && acked_len == 0) {
             if (need_probe == 0) {
                 u32 t = TICK();
-                while (g_021A826C.link_is_on() && (int)(TICK() - t) < 0xf) {
+                while (gCpsNetVars.link_is_on() && (int)(TICK() - t) < 0xf) {
                     func_02157390();
                     if (soc->remote_win != 0)
                         break;

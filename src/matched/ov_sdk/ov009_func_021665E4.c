@@ -12,14 +12,14 @@
  * Copies six bytes to the object at 0x021AA80C.
  *
  * symbols:
- *   g_021AA80C  0x021AA80C  data
+ *   gWcmCpsifMac  0x021AA80C  data
  */
 
-extern char g_021AA80C[];
+extern char gWcmCpsifMac[];
 extern void func_02082EA4(char *p, int a, int n);
 
 void WCM_GetMacAddress(int a)
 {
-    func_02082EA4(g_021AA80C, a, 6);
+    func_02082EA4(gWcmCpsifMac, a, 6);
 }
 

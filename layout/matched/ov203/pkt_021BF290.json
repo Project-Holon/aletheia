@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF290",
+   "name": "DEMO3D_DATA_TaskShowMessage",
    "address": "0x021BF290",
    "kind": "game",
    "region": "ov203",

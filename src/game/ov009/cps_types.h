@@ -3,7 +3,7 @@
 /*
  * Shared libcps (network.o and friends) types for ov009 cps_network.
  * One definition per object; every field sits at the offset the parts
- * used. g_021A826C is network.o's block of file statics, read through
+ * used. gCpsNetVars is network.o's block of file statics, read through
  * one base: wfailed, ip_conflict, ipid, mymss, eport, pingseq,
  * CPSDhcpMode, cps, CPSMyMac, CPSDnsIp and the random context follow
  * each other from 0x021A826C to 0x021A82FC.
@@ -117,7 +117,7 @@ struct CPSNetVars {
 
 #ifndef ALETHEIA_G_CPSFRAGTABLE_H
 #define ALETHEIA_G_CPSFRAGTABLE_H
-/* g_021A8A64: IP reassembly table, 8 slots */
+/* gCpsFragTable: IP reassembly table, 8 slots */
 struct CPSFragTable {
     u32 ipfrom;
     u16 count;
@@ -133,11 +133,11 @@ struct CPSFragTable {
 #endif
 typedef struct CPSFragTable CPSFragTable;
 
-extern struct CPSNetVars g_021A826C;
-extern struct CPSFragTable g_021A8A64[8];
-extern struct _OSThread g_021A8524;
-extern struct _OSThread g_021A85E4;
-extern struct _OSThread g_021A86A4;
+extern struct CPSNetVars gCpsNetVars;
+extern struct CPSFragTable gCpsFragTable[8];
+extern struct _OSThread gCpsDackTimerThread;
+extern struct _OSThread gCpsScavengerThread;
+extern struct _OSThread gCpsTcpipThread;
 extern struct OSThreadInfo gMslRefToken;
 
 #endif

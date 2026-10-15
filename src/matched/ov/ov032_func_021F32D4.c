@@ -1,5 +1,5 @@
 /*
- * function: func_021F32D4
+ * function: BEACON_VIEW_DeletePanelActors
  * address: 0x021F32D4
  * packet: pkt_ov032_021F32D4
  * region: ov032
@@ -16,7 +16,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
 extern void CLACT_DeleteActor(struct Obj *);
-void func_021F32D4(char *p)
+void BEACON_VIEW_DeletePanelActors(char *p)
 {
     int i;
     char *q;

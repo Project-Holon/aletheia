@@ -1,5 +1,5 @@
 /*
- * function: PSEL_UpdateB134
+ * function: PSEL_UpdateSubWindow
  * address: 0x021BB134
  * packet: pkt_ov223_021BB134
  * region: ov223
@@ -33,7 +33,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern void STRBUF_Delete(struct U16Vec *);
-void PSEL_UpdateB134(char *p)
+void PSEL_UpdateSubWindow(char *p)
 {
     struct Descriptor *d;
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00084 *)p)->f23C), 0);

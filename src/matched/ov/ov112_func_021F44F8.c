@@ -19,7 +19,7 @@
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -58,7 +58,7 @@ extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -91,7 +91,7 @@ void MUSICAL_MCSS_CreateUnits(u8 *p)
         func_02049658((void *)((u32)t),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((struct Obj00721 *)p)->f0);
         func_020498F4((void *)((u32)t),APP_ICON_GetStatusDataFileId(),6,0,0,0,((struct Obj00721 *)p)->f0);
         BG_SYS_FillTileMap(6,0,21,32,3,9);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         ((struct Obj00721 *)p)->f4C=CLACT_RegisterPaletteEx((void *)((u32)t),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((struct Obj00721 *)p)->f0);
         ((struct Obj00721 *)p)->f50=CLACT_RegisterCharacter((void *)((u32)t),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj00721 *)p)->f0);
         v=APP_ICON_GetStatusCellFileId(0);

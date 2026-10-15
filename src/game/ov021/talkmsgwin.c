@@ -29,7 +29,7 @@
  *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -98,7 +98,7 @@ extern void NNS_G3dWorldPosToScrPos(const VecFx32 *worldPos, int *screenX, int *
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
                                          u32 wait, struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u32 clearColor);
-extern void func_020409B4(u32 bgLayer);
+extern void BG_SYS_PushTile(u32 bgLayer);
 extern void BMP_WIN_Delete(struct BmpWin *bmpWin);
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
@@ -420,7 +420,7 @@ void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 f
 void TALKMSGWIN_ClearWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
 {
     TALKMSGWIN_ClearFrame(&sys->param, bmpWin);
-    func_020409B4((u8)sys->param.bgLayer);
+    BG_SYS_PushTile((u8)sys->param.bgLayer);
 }
 
 void TALKMSGWIN_DeleteFrameWindow(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
@@ -1216,7 +1216,7 @@ void TALKMSGWIN_DrawSimpleFrame(const TalkMsgWinParam *style, struct BmpWin *bmp
         }
         break;
     }
-    func_020409B4(bgLayer);
+    BG_SYS_PushTile(bgLayer);
 }
 
 /*
@@ -1347,7 +1347,7 @@ void TALKMSGWIN_DrawCorneredFrame(const TalkMsgWinParam *style, struct BmpWin *b
         }
         break;
     }
-    func_020409B4(bgLayer);
+    BG_SYS_PushTile(bgLayer);
 }
 
 /* Draws the frame of the given type around a window. */
@@ -1437,5 +1437,5 @@ void TALKMSGWIN_ClearFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin)
         if (!rightClip)
             BG_SYS_SetTileEntry(bgLayer, 0, right, bottom, 1, 1, 0x11);
     }
-    func_020409B4(bgLayer);
+    BG_SYS_PushTile(bgLayer);
 }

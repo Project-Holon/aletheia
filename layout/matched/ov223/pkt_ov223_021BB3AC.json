@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "PSEL_UpdateB3AC",
+   "name": "PSEL_DeleteTaskResData",
    "address": "0x021BB3AC",
    "kind": "game",
    "region": "ov223",

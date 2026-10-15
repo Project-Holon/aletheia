@@ -1,5 +1,5 @@
 /*
- * function: func_021E8844
+ * function: WIFIBATTLEMATCH_UTIL_GetBusy
  * address:  0x021E8844
  * packet:   pkt_ov177_021E8844
  * region:   ov177
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-int func_021E8844(const int *p)
+int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p)
 {
     return p[0x30 / 4];
 }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E867C  0x021E867C  thumb  ov093
+ *   WIFIBATTLEMATCH_UTIL_Main  0x021E867C  thumb  ov093
  *   func_021E868C  0x021E868C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021E867C(int b);
+extern int WIFIBATTLEMATCH_UTIL_Main(int b);
 extern int func_021E868C(int b);
 
 int HAND_COMMON_IsItemBoundToSpecies(int a, int b)
@@ -26,7 +26,7 @@ int HAND_COMMON_IsItemBoundToSpecies(int a, int b)
             return 1;
         break;
     case 0x1ed:
-        if (func_021E867C(b) != 0)
+        if (WIFIBATTLEMATCH_UTIL_Main(b) != 0)
             return 1;
         break;
     case 0x289:

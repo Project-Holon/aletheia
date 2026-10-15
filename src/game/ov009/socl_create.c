@@ -31,7 +31,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gSoclConfig  0x021A1CD8  data
  *   func_0215F0C8  0x0215F0C8  arm  ov009
- *   g_021AA44C  0x021AA44C  data
+ *   SOCLiUDPSendSocket  0x021AA44C  data
  *   OS_InitMessageQueue  0x02085D94  arm
  *   OS_InitMutex  0x02086004  arm
  *   OS_CreateThread  0x020853C0  arm
@@ -287,7 +287,7 @@ unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, SOCLSocketCommandPipe *
 extern void *SOCLiConfigPtr;
 extern struct SOCLiResource SOCLi_Resource;
 extern SoclConfig *gSoclConfig;
-extern Sock *g_021AA44C;
+extern Sock *SOCLiUDPSendSocket;
 
 
 
@@ -471,7 +471,7 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param_0215D2A8 *param)
 		spipe->f10c = 0;
 	}
 	if (param->recv == 0) {
-		socket->pipe_recv = g_021AA44C->pipe_recv;
+		socket->pipe_recv = SOCLiUDPSendSocket->pipe_recv;
 	} else {
 		RecvPipe *rpipe;
 

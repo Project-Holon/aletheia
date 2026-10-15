@@ -13,7 +13,7 @@
  *
  * symbols:
  *   RESEARCH_GRAPH_CreateWordSet  0x021BFBC0  thumb  ov217
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -27,9 +27,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 void RESEARCH_GRAPH_CreateWordSet(u32 a0)
 {
-    ((struct Obj14745 *)(((u8*)a0 + 0)))->f18 = (u32)GF_FONT_Create_EC64(((struct Obj14745 *)(((u8*)a0 + 0)))->f4);
+    ((struct Obj14745 *)(((u8*)a0 + 0)))->f18 = (u32)WORDSET_CreateDefault(((struct Obj14745 *)(((u8*)a0 + 0)))->f4);
 }
 

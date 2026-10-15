@@ -50,8 +50,8 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int OEKAKI_GetJoinedBits(char *p);
 extern void OEKAKI_FreeWork(char *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 
 int OEKAKI_Exit(u32 a, int *seq, u8 *c, u8 *d)
@@ -94,7 +94,7 @@ int OEKAKI_Exit(u32 a, int *seq, u8 *c, u8 *d)
         break;
     case 3:
         OEKAKI_FreeWork((char *)d);
-        func_020315D4((struct S020315D4 *)a);
+        func_020315D4((struct Proc *)a);
         GFL_HEAP_DeleteChecked(0x28);
         return 1;
     }

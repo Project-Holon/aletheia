@@ -22,7 +22,7 @@
  *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -92,7 +92,7 @@ struct Handle;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void EVENT_PERAP_RECORD_SetupWindow(u32 *w);
 extern int func_02007B50(void *);
@@ -148,7 +148,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 1:
         w->x18 = t = (void *)FIELD_MSGBG_CreateMsgData((u32)w->x1C, 88);
         w->x20 = FIELD_MSGBG_CreateBottomSysWin(w->x1C, (u32)t);
-        w->x28 = GF_FONT_Create_EC64(21);
+        w->x28 = WORDSET_CreateDefault(21);
         w->x2C = STRBUF_Create(0x400, 21);
         EVENT_PERAP_RECORD_SetupWindow((u32 *)w);
         if (func_02007B50(w->x00) == 1) {

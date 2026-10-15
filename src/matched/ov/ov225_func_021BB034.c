@@ -1,5 +1,5 @@
 /*
- * function: func_021BB034
+ * function: MANUAL_COMMON_GetCursorIndex
  * address:  0x021BB034
  * packet:   pkt_021BB034
  * region:   ov225
@@ -14,7 +14,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021BB034(u16 **p)
+u16 MANUAL_COMMON_GetCursorIndex(u16 **p)
 {
     u16 *q = *p;
     return (u16)(q[7] - q[6] + 1);

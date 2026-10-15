@@ -20,10 +20,10 @@
 
 typedef unsigned int u32;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned int);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void MONOLITH_TOOL_DeleteInfoWindows(void **);
 extern void MONOLITH_TOOL_HideInfoBgs(void);
 

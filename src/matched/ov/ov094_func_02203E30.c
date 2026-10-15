@@ -15,7 +15,7 @@
  *   PALANM_RequestFadeOverwrite 0x02021848 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_SetUnitDrawEnable 0x0204B22C arm
  *   BTLV_INPUT_StartBgWipeTask 0x022044C0 thumb ov094
  *   BTLV_INPUT_StartPaletteCycleTask 0x022045A8 thumb ov094
@@ -56,7 +56,7 @@ struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern void BTLV_INPUT_StartBgWipeTask(Main *, int, int, int, int);
 extern void BTLV_INPUT_StartPaletteCycleTask(Main *, int, int);
@@ -72,7 +72,7 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, Ctx *c)
         BTLV_INPUT_PlayConfirmSe((char *)c->main);
         BTLV_INPUT_StartBgScrollOffsetTask(c->main, 5, 0, 0, 0, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(c->main, 0x3000, 0x1000, -0x400, 0x98);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         PALANM_RequestFadeOverwrite(c->main->pal64, 2, 3, 1, 0xc, 0, 0x842, c->main->owner);
         c->state++;
         break;
@@ -80,7 +80,7 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, Ctx *c)
         if (c->main->st == 0) {
             func_020498F4((void *)c->main->f48, 0x64, 4, 0, 0, 0, c->main->h240);
             BMP_WIN_MakeScreen(c->main->obj228);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BTLV_INPUT_StartBgWipeTask(c->main, d_0220A4EC[c->main->mode].a, d_0220A4EC[c->main->mode].b, 8, 8);
             BTLV_INPUT_StartPaletteCycleTask(c->main, 0, 0);
             BTLV_INPUT_StartPaletteFlashTask(c->main, 0);

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BAF64,func_021BB0C4
+ * function: BTL_REC_SEL_FadeMain,BTL_REC_SEL_TransferPalettes
  * address: 0x021BAF64
  * packet: pkt_ov214_021BAF64
  * region: ov214
@@ -30,7 +30,7 @@ extern void TCB_Main(struct Ctx *c);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 extern int PALANM_RequestFade(struct PalAnmObj *,u16,u32,s16,u8,u8,u16,void *);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
-void func_021BAF64(void *unused,struct S *p)
+void BTL_REC_SEL_FadeMain(void *unused,struct S *p)
 {
     u32 mask;
     u8 i;
@@ -65,7 +65,7 @@ void func_021BAF64(void *unused,struct S *p)
         break;
     }
 }
-void func_021BB0C4(char *p)
+void BTL_REC_SEL_TransferPalettes(char *p)
 {
     PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj25729 *)p)->f2E0);
 }

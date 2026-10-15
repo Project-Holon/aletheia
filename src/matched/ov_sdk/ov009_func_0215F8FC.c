@@ -13,10 +13,10 @@
  *
  * symbols:
  *   SOCL_Startup  0x0215CA8C  arm  ov009
- *   g_021AA4BC     0x021AA4BC  data
+ *   gSocStatics     0x021AA4BC  data
  *   func_0215F8A4  0x0215F8A4  arm  ov009
  *   func_0215F8D0  0x0215F8D0  arm  ov009
- *   g_021AA50C     0x021AA50C  data
+ *   gSoclStartupConfig     0x021AA50C  data
  *
  * soc.o's statics sit in one block; the vendor addresses the stores through
  * one pool word anchored at 0x021AA4BC (hostip_1 of SOC_GetHostByName) and
@@ -74,23 +74,23 @@ typedef struct SOCStatics {
 extern int SOCL_Startup(void *socl_config);
 extern void *func_0215F8A4(u32 size);
 extern void func_0215F8D0(void *ptr);
-extern SOCStatics g_021AA4BC;
-extern SOCLConfig g_021AA50C;
+extern SOCStatics gSocStatics;
+extern SOCLConfig gSoclStartupConfig;
 
 int SOC_Startup(const SOCConfig *config)
 {
-    g_021AA4BC.soclConfig.use_dhcp = (config->flag == 1);
-    g_021AA4BC.soclConfig.my_ip = SOC_HtoNl(config->addr);
-    g_021AA4BC.soclConfig.net_mask = SOC_HtoNl(config->netmask);
-    g_021AA4BC.soclConfig.gateway_ip = SOC_HtoNl(config->router);
-    g_021AA4BC.soclConfig.dns_ip0 = SOC_HtoNl(config->dns1);
-    g_021AA4BC.soclConfig.dns_ip1 = SOC_HtoNl(config->dns2);
-    g_021AA4BC.soclConfig.alloc = func_0215F8A4;
-    g_021AA4BC.soclConfig.free = func_0215F8D0;
-    g_021AA4BC.AllocFunc_SOC = config->alloc;
-    g_021AA4BC.FreeFunc_SOC = config->free;
-    g_021AA4BC.soclConfig.cmd_packet_max = 0x40;
-    g_021AA4BC.soclConfig.mtu = config->mtu;
-    g_021AA4BC.soclConfig.rwin = config->rwin;
-    return SOCL_Startup(&g_021AA50C);
+    gSocStatics.soclConfig.use_dhcp = (config->flag == 1);
+    gSocStatics.soclConfig.my_ip = SOC_HtoNl(config->addr);
+    gSocStatics.soclConfig.net_mask = SOC_HtoNl(config->netmask);
+    gSocStatics.soclConfig.gateway_ip = SOC_HtoNl(config->router);
+    gSocStatics.soclConfig.dns_ip0 = SOC_HtoNl(config->dns1);
+    gSocStatics.soclConfig.dns_ip1 = SOC_HtoNl(config->dns2);
+    gSocStatics.soclConfig.alloc = func_0215F8A4;
+    gSocStatics.soclConfig.free = func_0215F8D0;
+    gSocStatics.AllocFunc_SOC = config->alloc;
+    gSocStatics.FreeFunc_SOC = config->free;
+    gSocStatics.soclConfig.cmd_packet_max = 0x40;
+    gSocStatics.soclConfig.mtu = config->mtu;
+    gSocStatics.soclConfig.rwin = config->rwin;
+    return SOCL_Startup(&gSoclStartupConfig);
 }

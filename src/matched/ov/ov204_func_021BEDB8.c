@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDB8
+ * function: INTRO_CMD_CmdActorFadeIn
  * address: 0x021BEDB8
  * packet: pkt_ov204_021BEDB8
  * region: ov204
@@ -26,7 +26,7 @@ static inline void change_alpha(int a, int b)
     *(volatile unsigned short *)0x04000052 = (unsigned short)(a | (b << 8));
 }
 extern u32 CLACT_GetActorObjMode(const struct Actor *actor);
-int func_021BEDB8(char *p, unsigned *state, unsigned *q)
+int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q)
 {
     unsigned i;
     switch (*state) {

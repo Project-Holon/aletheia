@@ -20,7 +20,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj01414.h"
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *,
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     void *text;
     void *window;
@@ -61,5 +61,5 @@ void GURU2_RECEIPT_PrintMessage(char *p, int message, int unused) {
     window = ((struct Obj01414 *)p)->fD4;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }

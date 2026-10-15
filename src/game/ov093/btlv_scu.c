@@ -32,7 +32,7 @@
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gBtlvScuBgTemplateMsg 0x021F3930 data a4
@@ -42,7 +42,7 @@
  *   func_02049740  0x02049740  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BMP_WIN_Delete  0x020452E8  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
@@ -140,7 +140,7 @@
  *   BMP_Delete  0x020437AC  arm
  *   BTLV_EFFECT_SetPokeEffectValue  0x021F8AE8  thumb  ov094
  *   BG_SYS_LoadTileData 0x02040B1C arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
@@ -175,7 +175,7 @@
  *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
  *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
@@ -313,14 +313,14 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern void BMP_WIN_DrawFrame(struct BmpWin *win, u16 base, u32 pal);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
 extern void STRBUF_Delete(struct MsgBuf *buf);
 extern u32 func_020307B0(void *p);
@@ -407,7 +407,7 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void BTLV_EFFECT_SetPokeEffectValue(int viewPos, u32 speciesId);
 extern void BG_SYS_LoadTileData(int bgPlane, const void *src, u32 size, u32 tile);
-extern void func_02040618(u32 bgPlane, u32 mode, u32 value);
+extern void BG_SYS_FillScrollArea(u32 bgPlane, u32 mode, u32 value);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end, u8 wait, u16 color, void *ctx);
@@ -684,9 +684,9 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
     BTLV_SCU_InitMsgWinFade(&scu->slide, scu->msgWin);
     BTLV_SCU_InitMonSlots(scu);
     BTLV_SCU_InitNamePlates(scu, scu->msgTile);
-    func_020409B4(1);
-    func_020409B4(2);
-    func_020409B4(3);
+    BG_SYS_PushTile(1);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(3);
     func_02040588(0, 1);
     func_02040588(1, 1);
     func_02040588(2, 1);
@@ -721,9 +721,9 @@ void BTLV_SCU_Delete(BtlvScu *scu)
         BMP_WIN_Delete(scu->msgWin);
         scu->msgWin = 0;
     }
-    func_020403F4(1);
-    func_020403F4(2);
-    func_020403F4(3);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(3);
     if (scu->printer != 0) {
         PRINTSYS_QUE_Delete(scu->printer);
         scu->printer = 0;
@@ -2986,18 +2986,18 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
             plate->slideX = -0x90000;
             plate->slideDx = 0x12000;
         }
-        func_02040618(plate->bgPlane, 0, plate->slideX >> 12);
-        func_02040618(plate->bgPlane, 3, 0);
+        BG_SYS_FillScrollArea(plate->bgPlane, 0, plate->slideX >> 12);
+        BG_SYS_FillScrollArea(plate->bgPlane, 3, 0);
         GFL_USE_PlaySeDefaultVolume(BTLV_SCU_SE_PLATE_SLIDE);
         plate->phase++;
         break;
     case 2:
         if (plate->timer != 0) {
             plate->slideX += plate->slideDx;
-            func_02040618(plate->bgPlane, 0, plate->slideX >> 12);
+            BG_SYS_FillScrollArea(plate->bgPlane, 0, plate->slideX >> 12);
             plate->timer--;
         } else {
-            func_02040618(plate->bgPlane, 0, 0);
+            BG_SYS_FillScrollArea(plate->bgPlane, 0, 0);
             plate->counter = 0;
             plate->phase++;
         }
@@ -3091,9 +3091,9 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
 void BTLV_SCU_HideNamePlate(BtlvScuNamePlate *plate)
 {
     if (plate->sideIdx == 0)
-        func_02040618(plate->bgPlane, 0, 0x90);
+        BG_SYS_FillScrollArea(plate->bgPlane, 0, 0x90);
     else
-        func_02040618(plate->bgPlane, 0, -0x90);
+        BG_SYS_FillScrollArea(plate->bgPlane, 0, -0x90);
     plate->isShown = 0;
 }
 
@@ -3369,7 +3369,7 @@ int BTLV_SCU_StepBallWindowOpen(int *state, BtlvScu *scu)
         BMP_WIN_MakeScreen(scu->nameWin);
         BMP_WIN_DrawFrame(scu->nameWin, scu->nameTile, 3);
         BMP_Clear(scu->nameWinChars, 12);
-        func_020409B4(BMP_WIN_GetBgLayer(scu->nameWin));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(scu->nameWin));
         (*state)++;
         break;
     case 1:
@@ -3382,8 +3382,8 @@ int BTLV_SCU_StepBallWindowOpen(int *state, BtlvScu *scu)
         (*state)++;
         break;
     case 3:
-        func_02040618(3, 0, 0);
-        func_02040618(3, 3, 0x100);
+        BG_SYS_FillScrollArea(3, 0, 0);
+        BG_SYS_FillScrollArea(3, 3, 0x100);
         GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;
         break;
@@ -3434,13 +3434,13 @@ int BTLV_SCU_StepBallWindowClose(int *state, BtlvScu *scu)
         height = BMP_WIN_GetHeight(scu->nameWin) + 2;
         index = BMP_WIN_GetBgLayer(scu->nameWin);
         BG_SYS_SetTileEntry(index, 0, (u8)left, (u8)top, (u8)width, (u8)height, 0);
-        func_020409B4(index);
+        BG_SYS_PushTile(index);
         GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;
         break;
     case 1:
-        func_02040618(3, 0, -0x90);
-        func_02040618(3, 3, 0);
+        BG_SYS_FillScrollArea(3, 0, -0x90);
+        BG_SYS_FillScrollArea(3, 3, 0);
         (*state)++;
         break;
     case 2:

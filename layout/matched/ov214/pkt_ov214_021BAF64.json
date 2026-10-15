@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BAF64",
-    "func_021BB0C4"
+    "BTL_REC_SEL_FadeMain",
+    "BTL_REC_SEL_TransferPalettes"
+   ],
+   "addresses": [
+    "0x021BAF64",
+    "0x021BB0C4"
    ]
   }
  ]

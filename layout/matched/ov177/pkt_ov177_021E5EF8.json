@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E5EF8",
+   "name": "WIFIBATTLEMATCH_VIEW_DeleteStatusWindow",
    "address": "0x021E5EF8",
    "kind": "game",
    "region": "ov177",

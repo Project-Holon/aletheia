@@ -1,5 +1,5 @@
 /*
- * function: func_0217E380,func_0217E40C
+ * function: LIVEBATTLEMATCH_IRC_DeliveryMain,LIVEBATTLEMATCH_IRC_ClearState
  * unit: yes
  * address: 0x0217E380
  * packet: pkt_ov176_0217E380
@@ -8,7 +8,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * extent: two alignment bytes follow func_0217E40C
+ * extent: two alignment bytes follow LIVEBATTLEMATCH_IRC_ClearState
  * symbols:
  *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
  *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
@@ -24,7 +24,7 @@ extern int DELIVERY_IRC_Start(void *p);
 extern unsigned char DELIVERY_IRC_GetResult(char *p);
 extern int DELIVERY_IRC_Delete(void *a0);
 extern u32 GFL_NET_IsIdle(void);
-int func_0217E380(char *p)
+int LIVEBATTLEMATCH_IRC_DeliveryMain(char *p)
 {
     if (((struct Obj01957 *)p)->f1018)
         DELIVERY_IRC_Main(((struct Obj01957 *)p)->f1018);
@@ -56,4 +56,4 @@ int func_0217E380(char *p)
     }
     return 0;
 }
-void func_0217E40C(int *p) { *p = 0; }
+void LIVEBATTLEMATCH_IRC_ClearState(int *p) { *p = 0; }

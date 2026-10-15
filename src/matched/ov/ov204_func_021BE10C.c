@@ -1,5 +1,5 @@
 /*
- * function: func_021BE10C
+ * function: INTRO_GRAPHIC_SetScenario
  * address:  0x021BE10C
  * packet:   pkt_021BE10C
  * region:   ov204
@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-int func_021BE10C(char *p, u32 b, int *c)
+int INTRO_GRAPHIC_SetScenario(char *p, u32 b, int *c)
 {
     ((struct Obj10870 *)p)->f1C = *c;
     ((struct Obj10870 *)p)->fA0 = 0;

@@ -19,7 +19,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_021B8798  0x021B8798  thumb  ov071
+ *   MONOLITH_TOOL_SUMMARY_Draw  0x021B8798  thumb  ov071
  */
 #include "../include/Obj06187.h"
 
@@ -49,7 +49,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int a, int *p, C *c, unsigned char *d)
     extern void *BMP_WIN_GetBmp(struct Descriptor *p);
     extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
-    extern void func_021B8798(C *, Q *, unsigned char *, int, unsigned);
+    extern void MONOLITH_TOOL_SUMMARY_Draw(C *, Q *, unsigned char *, int, unsigned);
     int r;
     int n;
     int i;
@@ -76,7 +76,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int a, int *p, C *c, unsigned char *d)
     if (n == 2) {
         unsigned v = *c->f8;
         if (d[0x24] != v) {
-            func_021B8798(c, c->f4, d, r, v);
+            MONOLITH_TOOL_SUMMARY_Draw(c, c->f4, d, r, v);
             d[0x24] = *c->f8;
         }
     }

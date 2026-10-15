@@ -10,11 +10,11 @@
  * mode: original assigns constructor selectors only for mode 0 or 1.
  * symbols:
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
- *   func_021E7520 0x021E7520 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateRecordWindow 0x021E7520 thumb ov177
  */
 typedef unsigned int u32;
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
-extern u32 func_021E7520(u32,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 WIFIBATTLEMATCH_VIEW_CreateRecordWindow(u32,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32);
 void WIFIBATTLEMATCH_NET_StartBoxAnim(u32 *p,u32 arg)
 {
     u32 b,a;
@@ -23,6 +23,6 @@ void WIFIBATTLEMATCH_NET_StartBoxAnim(u32 *p,u32 arg)
         u32 mode = ((u32 *)p[16])[0];
         if (mode == 0) { a=1; b=2; }
         else if (mode == 1) { a=0; b=3; }
-        p[7]=func_021E7520(arg,base,p[1],p[2],p[3],p[4],p[5],b,a,0,87);
+        p[7]=WIFIBATTLEMATCH_VIEW_CreateRecordWindow(arg,base,p[1],p[2],p[3],p[4],p[5],b,a,0,87);
     }
 }

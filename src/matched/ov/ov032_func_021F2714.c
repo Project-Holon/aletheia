@@ -1,5 +1,5 @@
 /*
- * function: func_021F2714
+ * function: BEACON_VIEW_UpdateSlide
  * address:  0x021F2714
  * packet:   pkt_ov032_021F2714
  * region:   ov032
@@ -13,29 +13,29 @@
  *           puts the zero in r2 for the three stores.
  *
  * symbols:
- *   func_021F2714 0x021F2714 thumb
- *   func_021F0050 0x021F0050 thumb ov032
+ *   BEACON_VIEW_UpdateSlide 0x021F2714 thumb
+ *   BEACON_VIEW_GetContTouchedRow 0x021F0050 thumb ov032
  *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
- *   func_021F067C 0x021F067C thumb ov032
+ *   BEACON_VIEW_RefreshActorAnims 0x021F067C thumb ov032
  *   BEACON_VIEW_SetPrintQueueLimit 0x021F029C thumb ov032
- *   func_021F028C 0x021F028C thumb ov032
+ *   BEACON_VIEW_ApplySlideTarget 0x021F028C thumb ov032
  */
 #include "../include/Obj00007.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int func_021F0050(unsigned char *p);
+extern int BEACON_VIEW_GetContTouchedRow(unsigned char *p);
 extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
-extern void func_021F067C(char *);
+extern void BEACON_VIEW_RefreshActorAnims(char *);
 extern void BEACON_VIEW_SetPrintQueueLimit(char *, int);
-extern void func_021F028C(unsigned char *p);
+extern void BEACON_VIEW_ApplySlideTarget(unsigned char *p);
 
-int func_021F2714(char *p)
+int BEACON_VIEW_UpdateSlide(char *p)
 {
     int r;
 
     if (((struct Obj00007 *)p)->f82 == 0) {
-        r = func_021F0050((unsigned char *)p);
+        r = BEACON_VIEW_GetContTouchedRow((unsigned char *)p);
         if (r != ((struct Obj00007 *)p)->f84 || r == -1) {
             ((struct Obj00007 *)p)->f82 = 1;
         }
@@ -51,12 +51,12 @@ int func_021F2714(char *p)
         if (((struct Obj00007 *)p)->f83 == 0) {
             BEACON_VIEW_SetArrowAnim((u8 *)p, 4, 0);
         }
-        func_021F067C(p);
+        BEACON_VIEW_RefreshActorAnims(p);
         BEACON_VIEW_SetPrintQueueLimit(p, 0);
         return ((struct Obj00007 *)p)->f83;
     }
     if (((struct Obj00007 *)p)->fA8 == 0) {
-        func_021F028C((unsigned char *)p);
+        BEACON_VIEW_ApplySlideTarget((unsigned char *)p);
     }
     return 3;
 }

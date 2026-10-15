@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D9E48 0x021D9E48 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorVisible 0x021D9E48 thumb ov129
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021DA158 0x021DA158 thumb ov129
- *   func_021DA320 0x021DA320 thumb ov129
- *   func_021D97CC 0x021D97CC thumb ov129
- *   func_021D97FC 0x021D97FC thumb ov129
- *   func_021D9E60 0x021D9E60 thumb ov129
- *   func_021D97B8 0x021D97B8 thumb ov129
+ *   WF2DMAP_SCENE_GetCellAnim 0x021DA158 thumb ov129
+ *   WF2DMAP_SCENE_UpdateCellRects 0x021DA320 thumb ov129
+ *   WF2DMAP_SCENE_FindCellByValue 0x021D97CC thumb ov129
+ *   WF2DMAP_SCENE_FindLastCellByValue 0x021D97FC thumb ov129
+ *   WF2DMAP_SCENE_MoveCursor 0x021D9E60 thumb ov129
+ *   WF2DMAP_SCENE_ClearPending 0x021D97B8 thumb ov129
  *   WF2DMAP_SCENE_ResetState 0x021D8AF4 thumb ov129
  *   d_021DA830 0x021DA830 data a4
  *   d_021DA84C 0x021DA84C data a4
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef struct { s16 x,y; } Pair;
 typedef struct { int x,y; } Scale;
 extern const int d_021DA830[], d_021DA84C[];
-extern void func_021D9E48(char *,int,int);
+extern void WF2DMAP_SCENE_SetCursorVisible(char *,int,int);
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
@@ -43,12 +43,12 @@ struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern int func_021DA158(int x, int flag);
-extern void func_021DA320(char *);
-extern int func_021D97CC(u8 *p, int value);
-extern int func_021D97FC(u8 *p, int value);
-extern void func_021D9E60(u8 *p, int n);
-extern void func_021D97B8(char *);
+extern int WF2DMAP_SCENE_GetCellAnim(int x, int flag);
+extern void WF2DMAP_SCENE_UpdateCellRects(char *);
+extern int WF2DMAP_SCENE_FindCellByValue(u8 *p, int value);
+extern int WF2DMAP_SCENE_FindLastCellByValue(u8 *p, int value);
+extern void WF2DMAP_SCENE_MoveCursor(u8 *p, int n);
+extern void WF2DMAP_SCENE_ClearPending(char *);
 extern void WF2DMAP_SCENE_ResetState(char *,int);
 int WF2DMAP_SCENE_StepAnimate(char *p)
 {
@@ -58,7 +58,7 @@ int WF2DMAP_SCENE_StepAnimate(char *p)
     Pair first,second;
     switch(((struct Obj00361 *)p)->f234) {
     case 0:
-        func_021D9E48(p,0,0);
+        WF2DMAP_SCENE_SetCursorVisible(p,0,0);
         for(i=0;i<((struct Obj00361 *)p)->f23C;i++) {
             q=p+i*28;
             if(((struct Obj00411 *)q)->f18) {
@@ -94,11 +94,11 @@ int WF2DMAP_SCENE_StepAnimate(char *p)
         if(((struct Obj00361 *)p)->f18==0) {
             for(i=((struct Obj00361 *)p)->f248;i<((struct Obj00361 *)p)->f24C;i++) {
                 q=p+i*28;
-                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,WF2DMAP_SCENE_GetCellAnim(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
             }
             for(i=((struct Obj00361 *)p)->f250;i<((struct Obj00361 *)p)->f254;i++) {
                 q=p+i*28;
-                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,WF2DMAP_SCENE_GetCellAnim(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
             }
             (((struct Obj00361 *)p)->f234)++;
         }
@@ -127,12 +127,12 @@ int WF2DMAP_SCENE_StepAnimate(char *p)
         if(((struct Obj00361 *)p)->f238==6) (((struct Obj00361 *)p)->f234)++;
         break;
     default:
-        func_021DA320(p);
-        if(((struct Obj00361 *)p)->f324==0) n=func_021D97CC((u8 *)p,((struct Obj00361 *)p)->f320);
-        else n=func_021D97FC((u8 *)p,((struct Obj00361 *)p)->f320);
-        func_021D9E60((u8 *)p,n);
-        if(((struct Obj00361 *)p)->f240) func_021D9E48(p,0,1);
-        func_021D97B8(p);
+        WF2DMAP_SCENE_UpdateCellRects(p);
+        if(((struct Obj00361 *)p)->f324==0) n=WF2DMAP_SCENE_FindCellByValue((u8 *)p,((struct Obj00361 *)p)->f320);
+        else n=WF2DMAP_SCENE_FindLastCellByValue((u8 *)p,((struct Obj00361 *)p)->f320);
+        WF2DMAP_SCENE_MoveCursor((u8 *)p,n);
+        if(((struct Obj00361 *)p)->f240) WF2DMAP_SCENE_SetCursorVisible(p,0,1);
+        WF2DMAP_SCENE_ClearPending(p);
         WF2DMAP_SCENE_ResetState(p,1);
         break;
     }

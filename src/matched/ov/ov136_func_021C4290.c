@@ -24,8 +24,8 @@ extern void BG_SYS_Delete(void);
 struct S02031140;
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 GF_FONT_Delete(void *ptr);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void func_0203084C(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 int MAILSYS_ProcExit(void *a, void *b, void *c, u32 *p)

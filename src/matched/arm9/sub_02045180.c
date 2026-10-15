@@ -9,15 +9,15 @@
  * isa:      arm
  *
  * status:   EXACT
- * closed:   blocker BG_SYS_CheckFAF0 is now a manifest entry (matched class)
+ * closed:   blocker BG_SYS_ReserveTileRun is now a manifest entry (matched class)
  *
  * symbols:
  *   BG_SYS_GetField16  0x0204169C  arm
- *   BG_SYS_CheckFAF0  0x0203FAF0  arm
+ *   BG_SYS_ReserveTileRun  0x0203FAF0  arm
  *   BMP_WIN_Alloc   0x02045210  arm
  *
  * Every concrete byte is right; the file is capped at MATCH by one
- * relocation site, the bl to BG_SYS_CheckFAF0 at +0x44.  Blocking evidence
+ * relocation site, the bl to BG_SYS_ReserveTileRun at +0x44.  Blocking evidence
  * class: none available.  0x0203FAF0 has exactly one witness image wide and
  * it is the call inside this very function (--suggest-split reports "the
  * whole range as one file is NOT viable", best partition 0 pieces), so no
@@ -26,7 +26,7 @@
  * of it turns up in another packet.
  *
  * The fixed-offset twin of BMP_WIN_Create: the caller already knows where the
- * layer's character data goes, so BG_SYS_CheckFAF0 is asked to reserve that
+ * layer's character data goes, so BG_SYS_ReserveTileRun is asked to reserve that
  * offset (answering 0 on failure, not -1), the cell count is passed in units
  * rather than scaled to bytes, and the caller's own offset is what reaches
  * BMP_WIN_Alloc as the seventh argument.
@@ -44,7 +44,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern u8 BG_SYS_GetField16(int channel);
-extern u32 BG_SYS_CheckFAF0(u32 layer, u32 offset, u32 units);
+extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 extern u32 BMP_WIN_Alloc(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
                         u32 offset, u32 is8bpp);
 
@@ -61,7 +61,7 @@ u32 BMP_WIN_CreateAt(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u32 offset)
         units = tiles * c * 2;
     }
 
-    if (BG_SYS_CheckFAF0(layer, offset, units) == 0)
+    if (BG_SYS_ReserveTileRun(layer, offset, units) == 0)
         return 0;
 
     return BMP_WIN_Alloc(layer, a, b, tiles, c, d, offset, is8bpp);

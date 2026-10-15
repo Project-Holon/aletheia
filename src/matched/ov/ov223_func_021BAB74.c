@@ -1,5 +1,5 @@
 /*
- * function: PSEL_NopAB74
+ * function: PSEL_NopBgWindows
  * address: 0x021BAB74
  * packet: pkt_ov223_021BAB74
  * region: ov223
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void PSEL_NopAB74(int *a0) {}
+void PSEL_NopBgWindows(int *a0) {}

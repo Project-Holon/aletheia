@@ -1,5 +1,5 @@
 /*
- * function: func_0217E414
+ * function: LIVEBATTLEMATCH_IRC_DeliveryEnd
  * address: 0x0217E414
  * packet: pkt_ov176_0217E414
  * region: ov176
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 extern void DELIVERY_IRC_Main(u8 *p);
 extern int DELIVERY_IRC_Delete(void *a0);
 extern u32 GFL_NET_IsIdle(void);
-int func_0217E414(char *p)
+int LIVEBATTLEMATCH_IRC_DeliveryEnd(char *p)
 {
     if (((struct Obj04563 *)p)->f1018)
         DELIVERY_IRC_Main(((struct Obj04563 *)p)->f1018);

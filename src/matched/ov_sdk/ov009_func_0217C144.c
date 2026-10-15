@@ -25,12 +25,12 @@
  *   DWC_Http_FinishHeader  0x0217967C  arm  ov009
  *   OS_GetThreadPriority  0x02085A30  arm
  *   DWC_Http_StartThread  0x02179718  arm  ov009
- *   g_021ACEF4     0x021ACEF4  data ov009
- *   g_021A2358     0x021A2358  data ov009
- *   g_021A2840     0x021A2840  data ov009
- *   g_021A2860     0x021A2860  data ov009
- *   g_021A2868     0x021A2868  data ov009
- *   g_021A2870     0x021A2870  data ov009
+ *   gDwcSvlWorkarea     0x021ACEF4  data ov009
+ *   gDwcHttpParamArg     0x021A2358  data ov009
+ *   gDwcSvlNasUrl     0x021A2840  data ov009
+ *   gDwcSvlPostLabelAction     0x021A2860  data ov009
+ *   gDwcSvlPostValueSvcloc     0x021A2868  data ov009
+ *   gDwcSvlPostLabelSvc     0x021A2870  data ov009
  *   gMslRefToken     0x02150FEC  data
  *
  * strcmp (strcmp) is declared pure: the object keeps the intwork
@@ -113,12 +113,12 @@ extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(OSThread *thread);
 extern void DWC_Http_StartThread(char *http, unsigned long prio);
 
-extern DWCSvlIntWorkarea *g_021ACEF4;
-extern DWCAuthHttpParam g_021A2358;
-extern char g_021A2840[];
-extern char g_021A2860[];
-extern char g_021A2868[];
-extern char g_021A2870[];
+extern DWCSvlIntWorkarea *gDwcSvlWorkarea;
+extern DWCAuthHttpParam gDwcHttpParamArg;
+extern char gDwcSvlNasUrl[];
+extern char gDwcSvlPostLabelAction[];
+extern char gDwcSvlPostValueSvcloc[];
+extern char gDwcSvlPostLabelSvc[];
 extern OSThreadInfo gMslRefToken;
 
 int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
@@ -126,50 +126,50 @@ int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
     DWCHttpParam httpparam;
     DWCCalInfo calinfo;
 
-    g_021ACEF4->result = result;
+    gDwcSvlWorkarea->result = result;
     MI_CpuFill8(result, 0, sizeof(DWCSvlResult));
 
-    if (g_021ACEF4->http.thread.id != 0 && !OS_IsThreadTerminated(&g_021ACEF4->http.thread))
+    if (gDwcSvlWorkarea->http.thread.id != 0 && !OS_IsThreadTerminated(&gDwcSvlWorkarea->http.thread))
         OS_Terminate();
 
-    httpparam.url = g_021A2358.url;
+    httpparam.url = gDwcHttpParamArg.url;
     httpparam.action = 0;
     httpparam.len_recvbuf = 0x1000;
-    httpparam.alloc = g_021ACEF4->alloc;
-    httpparam.free = g_021ACEF4->free;
-    if (strcmp(g_021A2358.url, g_021A2840) != 0)
+    httpparam.alloc = gDwcSvlWorkarea->alloc;
+    httpparam.free = gDwcSvlWorkarea->free;
+    if (strcmp(gDwcHttpParamArg.url, gDwcSvlNasUrl) != 0)
         httpparam.ignoreca = 1;
     else
         httpparam.ignoreca = 0;
     httpparam.timeout = 20000;
 
-    if (DWC_Http_Create(&g_021ACEF4->http, &httpparam) != 0) {
+    if (DWC_Http_Create(&gDwcSvlWorkarea->http, &httpparam) != 0) {
         func_02059F54(9, -24100);
         return 0;
     }
 
-    if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(&g_021ACEF4->http, &calinfo, 0)) {
-        DWC_Http_Destroy((char *)(&g_021ACEF4->http));
+    if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(&gDwcSvlWorkarea->http, &calinfo, 0)) {
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         func_02059F54(9, -24100);
         return 0;
     }
 
-    if (DWC_Http_Add_PostBase64Item(&g_021ACEF4->http, g_021A2860, g_021A2868, 6) != 0
-        || DWC_Http_Add_PostBase64Item(&g_021ACEF4->http, g_021A2870, svc, 4) != 0) {
-        DWC_Http_Destroy((char *)(&g_021ACEF4->http));
+    if (DWC_Http_Add_PostBase64Item(&gDwcSvlWorkarea->http, gDwcSvlPostLabelAction, gDwcSvlPostValueSvcloc, 6) != 0
+        || DWC_Http_Add_PostBase64Item(&gDwcSvlWorkarea->http, gDwcSvlPostLabelSvc, svc, 4) != 0) {
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         func_02059F54(9, -24100);
         return 0;
     }
 
-    if (DWC_Http_FinishHeader((char *)(&g_021ACEF4->http)) != 0) {
-        DWC_Http_Destroy((char *)(&g_021ACEF4->http));
+    if (DWC_Http_FinishHeader((char *)(&gDwcSvlWorkarea->http)) != 0) {
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         func_02059F54(9, -24100);
         return 0;
     }
 
-    DWC_Http_StartThread((char *)(&g_021ACEF4->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
-    if (g_021ACEF4->http.thread.id == 0) {
-        DWC_Http_Destroy((char *)(&g_021ACEF4->http));
+    DWC_Http_StartThread((char *)(&gDwcSvlWorkarea->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
+    if (gDwcSvlWorkarea->http.thread.id == 0) {
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         func_02059F54(9, -24100);
         return 0;
     }

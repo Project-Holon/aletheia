@@ -19,7 +19,7 @@
  * symbols:
  *   func_0215EF48                  0x0215EF48  arm ov009
  *   SOC_U32to4U8                  0x0215FBAC  arm ov009
- *   g_021A37BC                     0x021A37BC  data
+ *   gGsLocalhostName                     0x021A37BC  data
  *   _ZZ12getlocalhostvE9aliases_0 0x021AD0F4  data
  *   _ZZ12getlocalhostvE9localhost_0 0x021AD0FC  data
  *   _ZZ12getlocalhostvE5ips_2_1   0x021AD10C  data
@@ -36,7 +36,7 @@ struct SOCHostEnt {
 
 extern unsigned long func_0215EF48(void);
 extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
-extern char g_021A37BC[];
+extern char gGsLocalhostName[];
 
 struct SOCHostEnt *getlocalhost(void)
 {
@@ -45,7 +45,7 @@ struct SOCHostEnt *getlocalhost(void)
     static unsigned int ips_2[5];
     static unsigned char *ipPtrs_1[6];
 
-    localhost.name = g_021A37BC;
+    localhost.name = gGsLocalhostName;
     localhost.aliases = aliases_0;
     localhost.addrType = 2;
     localhost.length = 0;

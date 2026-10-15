@@ -15,7 +15,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 
 typedef struct {
@@ -38,7 +38,7 @@ void *BMP_WIN_GetBmp(struct Descriptor *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void BMP_WIN_TransferChars(struct Descriptor *d);
 void BMP_WIN_MakeScreen(struct Cfg *cfg);
-void func_020409B4(u32 index);
+void BG_SYS_PushTile(u32 index);
 
 void MB_UTIL_MSG_SetWindowLayout(Ov107Ctx *p, int mode)
 {
@@ -78,5 +78,5 @@ void MB_UTIL_MSG_SetWindowLayout(Ov107Ctx *p, int mode)
     BMP_Clear(BMP_WIN_GetBmp(p->f10), 0);
     BMP_WIN_TransferChars(p->f10);
     BMP_WIN_MakeScreen(p->f10);
-    func_020409B4(p->f02);
+    BG_SYS_PushTile(p->f02);
 }

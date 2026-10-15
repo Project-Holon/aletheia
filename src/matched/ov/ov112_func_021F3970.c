@@ -29,7 +29,7 @@ extern u8 ov_abs_84[];
 extern unsigned WIPE_SYS_EndCheck(void);
 typedef unsigned short u16;
 struct Node;
-struct S020315D4;
+struct Proc;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void MUSICAL_MCSS_Delete(u8 *);
@@ -39,7 +39,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_02034A5C(int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     if (!WIPE_SYS_EndCheck()) return 0;

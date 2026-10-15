@@ -17,7 +17,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   func_02040588  0x02040588  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb
@@ -36,7 +36,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void *PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
@@ -58,7 +58,7 @@ void PDC_MSG_StartPrint(char *a, int b)
         PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(a + 0x1c)), 0, 0,
                       *(void **)(a + 0x2c), *(void **)(a + 0x24));
         BMP_WIN_MakeScreen(*(struct Cfg **)(a + 0x1c));
-        func_020409B4(1);
+        BG_SYS_PushTile(1);
         BMP_WIN_TransferChars(*(struct Descriptor **)(a + 0x1c));
         *(char *)(a + 0x38) = 1;
     }

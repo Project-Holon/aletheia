@@ -1,5 +1,5 @@
 /*
- * function: func_021B81A0
+ * function: MONOLITH_TOOL_MENU_CreateButtons
  * address:  0x021B81A0
  * packet:   pkt_ov071_021B81A0
  * region:   ov071
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6C54  0x021B6C54  thumb  ov071
+ *   MONOLITH_TOOL_ResetHighlights  0x021B6C54  thumb  ov071
  *   MONOLITH_TOOL_CreateButton  0x021B6A0C  thumb  ov071
  *   func_020355C4  0x020355C4  arm
- *   func_021B6B98  0x021B6B98  thumb  ov071
+ *   MONOLITH_TOOL_HighlightButtonPulse  0x021B6B98  thumb  ov071
  *   d_021BA978     0x021BA978  data  a4
  *   d_021BA9A4     0x021BA9A4  data  a4
  */
@@ -23,17 +23,17 @@ typedef unsigned char u8;
 extern unsigned d_021BA978[];
 extern int d_021BA9A4[][3];
 
-extern void func_021B6C54(char *p);
+extern void MONOLITH_TOOL_ResetHighlights(char *p);
 extern void MONOLITH_TOOL_CreateButton(int a, void *b, int c, int d, int e, int f, int g, int h);
 extern u8 func_020355C4(void);
-extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
+extern void MONOLITH_TOOL_HighlightButtonPulse(void *p, int *tbl, int n, int sel, int c);
 
-void func_021B81A0(int *a, u8 *p)
+void MONOLITH_TOOL_MENU_CreateButtons(int *a, u8 *p)
 {
     unsigned i;
     unsigned k;
 
-    func_021B6C54((char *)a);
+    MONOLITH_TOOL_ResetHighlights((char *)a);
     for (i = 0; i < d_021BA978[p[0x32]]; i++) {
         k = p[0x32];
         if (k == 1) {
@@ -45,7 +45,7 @@ void func_021B81A0(int *a, u8 *p)
         }
     }
     if (func_020355C4() == 0) {
-        func_021B6B98(a, (int *)p, d_021BA978[p[0x32]], 0, 3);
+        MONOLITH_TOOL_HighlightButtonPulse(a, (int *)p, d_021BA978[p[0x32]], 0, 3);
         p[0x33] = 0;
     } else {
         p[0x33] = 1;

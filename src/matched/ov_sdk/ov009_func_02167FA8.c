@@ -19,7 +19,7 @@
  *   DWC_Svl_Cleanup  0x0217C104  arm  ov009
  *   DWC_Alloc      0x0205A16C  arm
  *   DWC_Free       0x0205A1B0  arm
- *   g_021A1F6C     0x021A1F6C  data
+ *   gDwcNasTokenInitial     0x021A1F6C  data
  */
 
 typedef struct AuthId {
@@ -36,7 +36,7 @@ extern int DWC_Svl_GetTokenAsync(char *svc, struct DWCSvlResult *result);
 extern void DWC_Svl_Cleanup(void);
 extern void DWC_Alloc(void);
 extern void DWC_Free(void);
-extern char g_021A1F6C[];
+extern char gDwcNasTokenInitial[];
 
 int DWC_SVLGetTokenAsync(char *svl, void *result)
 {
@@ -49,7 +49,7 @@ int DWC_SVLGetTokenAsync(char *svl, void *result)
     if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
         return 0;
     if (strlen((const u8 *)svl) == 0)
-        flag = DWC_Svl_GetTokenAsync(g_021A1F6C, result);
+        flag = DWC_Svl_GetTokenAsync(gDwcNasTokenInitial, result);
     else
         flag = DWC_Svl_GetTokenAsync(svl, result);
     if (flag != 0)

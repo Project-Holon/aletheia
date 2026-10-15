@@ -18,7 +18,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_SleepThread  0x020857B0  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 struct NetVars {
@@ -42,7 +42,7 @@ extern void _tcp_send_handshake(char *soc, unsigned char flag);
 extern unsigned long OS_DisableInterrupts(void);
 extern void OS_SleepThread(void *queue);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct NetVars g_021A826C;
+extern struct NetVars gCpsNetVars;
 
 unsigned long CPSi_TcpConnectRaw(struct Soc *soc)
 {
@@ -57,14 +57,14 @@ unsigned long CPSi_TcpConnectRaw(struct Soc *soc)
 		soc->when = (unsigned long)(func_020870D0() >> 16);
 		_tcp_send_handshake((char *)soc, 2);
 		enabled = OS_DisableInterrupts();
-		if (soc->state == 2 && g_021A826C.myip != 0) {
+		if (soc->state == 2 && gCpsNetVars.myip != 0) {
 			soc->block_type = 1;
 			OS_SleepThread(0);
 		}
 		OS_RestoreInterrupts(enabled);
 		if (soc->state == 4)
 			return 0;
-		if (g_021A826C.myip == 0)
+		if (gCpsNetVars.myip == 0)
 			break;
 	}
 	return 1;

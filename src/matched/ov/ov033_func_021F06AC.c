@@ -13,7 +13,7 @@
  *   func_02040588 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -34,7 +34,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 struct BgTemplate;
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
 extern void BG_SYS_FreeSlot(unsigned char);
-extern void func_02040618(unsigned char, unsigned, unsigned);
+extern void BG_SYS_FillScrollArea(unsigned char, unsigned, unsigned);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -56,8 +56,8 @@ void DOWSING_InitBgsAndActorUnit(char *p)
         BG_SYS_InitBgLayer((unsigned char)id, (const struct BgTemplate *)e->f04, (unsigned char)e->f24);
         BG_SYS_FreeSlot(id);
         func_02040588((unsigned char)id, (unsigned char)e->f28);
-        func_02040618(id, 0, 0);
-        func_02040618(id, 3, 0);
+        BG_SYS_FillScrollArea(id, 0, 0);
+        BG_SYS_FillScrollArea(id, 3, 0);
     }
     ((struct Obj09802 *)p)->fC = CLACT_CreateUnit(8, 0, ((struct Obj09802 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct Obj09802 *)p)->fC);

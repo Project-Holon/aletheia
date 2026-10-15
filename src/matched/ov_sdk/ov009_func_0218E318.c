@@ -19,7 +19,7 @@
  *   gpiProcessRegisterUniqueNick  0x0219305C  arm  ov009
  *   gpiProcessRegisterCdKey  0x0219316C  arm  ov009
  *   gsDebugFormat  0x0217D254  arm  ov009
- *   g_021A4E08  0x021A4E08  data
+ *   gGpiOperationDebugInvalidTypeFmt  0x021A4E08  data
  */
 
 struct GPIOperation {
@@ -37,7 +37,7 @@ extern int gpiProcessGetInfo(void **connection, struct GPIOperation_s *operation
 extern int gpiProcessRegisterUniqueNick(void **connection, struct GPIOperation_s *operation, char *input);
 extern int gpiProcessRegisterCdKey(void **connection, struct GPIOperation_s *operation, char *input);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern char g_021A4E08[];
+extern char gGpiOperationDebugInvalidTypeFmt[];
 
 int gpiProcessOperation(void **connection, struct GPIOperation *operation, char *input)
 {
@@ -63,7 +63,7 @@ int gpiProcessOperation(void **connection, struct GPIOperation *operation, char 
         result = gpiProcessRegisterCdKey(connection, (struct GPIOperation_s *)operation, input);
         break;
     default:
-        gsDebugFormat(1, (char *)4, 1, g_021A4E08, operation->type);
+        gsDebugFormat(1, (char *)4, 1, gGpiOperationDebugInvalidTypeFmt, operation->type);
         break;
     }
     if (result != 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1F4
+ * function: MANUAL_COMMON_HitToIndex
  * address: 0x021BB1F4
  * packet: pkt_ov225_021BB1F4
  * region: ov225
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef unsigned short u16;
-u16 func_021BB1F4(void *p, u16 count, u16 value)
+u16 MANUAL_COMMON_HitToIndex(void *p, u16 count, u16 value)
 {
     u16 index, upper, lower;
     if (count <= 1) index = 0;

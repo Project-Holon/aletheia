@@ -1,5 +1,5 @@
 /*
- * function: func_021BC178
+ * function: BEACON_DETAIL_GRA_DeleteObjects
  * address: 0x021BC178
  * packet: pkt_ov216_021BC178
  * region: ov216
@@ -30,7 +30,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021BC178(char *p)
+void BEACON_DETAIL_GRA_DeleteObjects(char *p)
 {
     STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f144);
     STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f140);

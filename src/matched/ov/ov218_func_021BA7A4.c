@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7A4
+ * function: UN_SELECT_SetupDisplay
  * address: 0x021BA7A4
  * packet: pkt_ov218_021BA7A4
  * region: ov218
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
-void func_021BA7A4(void)
+void UN_SELECT_SetupDisplay(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);

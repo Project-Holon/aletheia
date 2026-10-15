@@ -34,14 +34,14 @@
  *   KEY_GetRepeat 0x0203633C arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021D9E98 0x021D9E98 thumb ov129
- *   func_021D93D4 0x021D93D4 thumb ov129
- *   func_021D9320 0x021D9320 thumb ov129
- *   func_021D9348 0x021D9348 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorPos 0x021D9E98 thumb ov129
+ *   WF2DMAP_SCENE_ClearSelection 0x021D93D4 thumb ov129
+ *   WF2DMAP_SCENE_CheckGridNumber 0x021D9320 thumb ov129
+ *   WF2DMAP_SCENE_BuildNumberList 0x021D9348 thumb ov129
  *   WF2DMAP_SCENE_ResetState 0x021D8AF4 thumb ov129
- *   func_021D9E48 0x021D9E48 thumb ov129
- *   func_021D9EE8 0x021D9EE8 thumb ov129
- *   func_021DA158 0x021DA158 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorVisible 0x021D9E48 thumb ov129
+ *   WF2DMAP_SCENE_SetCursorPosBySlot 0x021D9EE8 thumb ov129
+ *   WF2DMAP_SCENE_GetCellAnim 0x021DA158 thumb ov129
  *   d_021DA75C 0x021DA75C data a4
  */
 typedef unsigned int u32;
@@ -56,14 +56,14 @@ extern u32 KEY_GetRepeat(void);
 typedef unsigned char  u8;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021D9E98(char *p, int i);
-extern void func_021D93D4(char *p);
-extern int func_021D9320(u8 *p);
-extern void func_021D9348(char *p);
+extern void WF2DMAP_SCENE_SetCursorPos(char *p, int i);
+extern void WF2DMAP_SCENE_ClearSelection(char *p);
+extern int WF2DMAP_SCENE_CheckGridNumber(u8 *p);
+extern void WF2DMAP_SCENE_BuildNumberList(char *p);
 extern void WF2DMAP_SCENE_ResetState(char *p, int v);
-extern void func_021D9E48(char *p, int i, int a);
-extern void func_021D9EE8(char *p, int i, int j);
-extern int func_021DA158(int x, int flag);
+extern void WF2DMAP_SCENE_SetCursorVisible(char *p, int i, int a);
+extern void WF2DMAP_SCENE_SetCursorPosBySlot(char *p, int i, int j);
+extern int WF2DMAP_SCENE_GetCellAnim(int x, int flag);
 
 void WF2DMAP_SCENE_HandleInput(char *p)
 {
@@ -80,7 +80,7 @@ void WF2DMAP_SCENE_HandleInput(char *p)
 
     if (*(int *)(p + 0x2FC) == 1 && KEY_GetTrg() != 0) {
         *(int *)(p + 0x2FC) = flag;
-        func_021D9E98(p, cur);
+        WF2DMAP_SCENE_SetCursorPos(p, cur);
         if (cur == 10 || cur == 11) {
             if (*(int *)(p + 0x1A4) == 2) return;
             *(int *)(p + 0x1A4) = 2;
@@ -116,11 +116,11 @@ void WF2DMAP_SCENE_HandleInput(char *p)
         flag = 1;
     } else if (KEY_GetTrg() & 1) {
         if (cur == 10) {
-            func_021D93D4(p);
+            WF2DMAP_SCENE_ClearSelection(p);
             GFL_USE_PlaySeDefaultVolume(1363);
         } else if (cur == 11) {
-            if (func_021D9320((u8 *)p)) {
-                func_021D9348(p);
+            if (WF2DMAP_SCENE_CheckGridNumber((u8 *)p)) {
+                WF2DMAP_SCENE_BuildNumberList(p);
                 GFL_USE_PlaySeDefaultVolume(1357);
             } else {
                 WF2DMAP_SCENE_ResetState(p, 4);
@@ -129,10 +129,10 @@ void WF2DMAP_SCENE_HandleInput(char *p)
             if (*(int *)(p + 0x240) == 0) return;
             idx = *(int *)(p + 0x188);
             ((Record *)p)[idx].state = cur + 1;
-            func_021D9E48(p, 1, 0);
-            func_021D9E48(p, 2, 1);
-            func_021D9EE8(p, cur, 2);
-            CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
+            WF2DMAP_SCENE_SetCursorVisible(p, 1, 0);
+            WF2DMAP_SCENE_SetCursorVisible(p, 2, 1);
+            WF2DMAP_SCENE_SetCursorPosBySlot(p, cur, 2);
+            CLACT_SetActorAnimSeq(r[idx].handle, WF2DMAP_SCENE_GetCellAnim(r[idx].state, r[idx].flag));
             CLACT_SetActorAnimSeq(*(struct Obj **)(p + 0x1CC), 3);
             n = r[idx].value;
             if (idx + 1 == *(int *)(p + 0x23C)) {
@@ -154,7 +154,7 @@ void WF2DMAP_SCENE_HandleInput(char *p)
             }
         }
     } else if (KEY_GetTrg() & 2) {
-        func_021D93D4(p);
+        WF2DMAP_SCENE_ClearSelection(p);
         GFL_USE_PlaySeDefaultVolume(1363);
     } else if (KEY_GetRepeat() & 0x200) {
         idx = *(int *)(p + 0x188);
@@ -194,7 +194,7 @@ void WF2DMAP_SCENE_HandleInput(char *p)
     if (flag == 1) {
         GFL_USE_PlaySeDefaultVolume(1352);
         cur = T.v[*(s16 *)(p + 0x1BA)][*(s16 *)(p + 0x1B8)];
-        func_021D9E98(p, cur);
+        WF2DMAP_SCENE_SetCursorPos(p, cur);
         if (cur == 10 || cur == 11) {
             if (*(int *)(p + 0x1A4) == 2) return;
             *(int *)(p + 0x1A4) = 2;

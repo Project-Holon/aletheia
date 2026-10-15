@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE8C
+ * function: BEACON_DETAIL_GRA_SetActorPos
  * address:  0x021BCE8C
  * packet:   pkt_021BCE8C
  * region:   ov216
@@ -22,7 +22,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021BCE8C(void *a0, short a1, short a2, int a3)
+void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
 {
     u16 tmp[2];
     tmp[0] = a1;

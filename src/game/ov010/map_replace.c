@@ -311,13 +311,13 @@ int MAP_REPLACE_GetDefaultWarpId(void) { return 1; }
 int MAP_REPLACE_IsValidWarpId(int warpId)
 {
 
-    if (warpId <= 0) goto loc_02159F8C;
-loc_02159F88:
-    if ((unsigned)warpId <= (unsigned)0x11) goto loc_02159F90;
-loc_02159F8C:
+    if (warpId <= 0) goto invalid;
+validRangeCheck:
+    if ((unsigned)warpId <= (unsigned)0x11) goto valid;
+invalid:
 warpId = 0;
     return warpId;
-loc_02159F90:
+valid:
 warpId = 1;
     return warpId;}
 

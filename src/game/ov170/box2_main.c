@@ -46,7 +46,7 @@
  *   d_021EF80C 0x021EF80C data
  *   d_021EF8AC 0x021EF8AC data
  *   d_021EF84C 0x021EF84C data
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
@@ -71,7 +71,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_CreateEx 0x0201C450 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -338,7 +338,7 @@ struct ProcSys;
 
 struct S020314B8;
 
-struct S020315D4;
+struct Proc;
 
 struct S02021D50;
 
@@ -370,7 +370,7 @@ extern void func_0200780C(void *save, u32 box);
 
 extern void func_0203133C(struct S020314B8 *p);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -457,7 +457,7 @@ int BOX2_MAIN_Exit(int a, int b, int c, int *d)
 {
     func_0200780C((void *)(*(int *)(*d + 4)), ((BoxTask *)d)->curBox);
     func_0203133C((struct S020314B8 *)d[1]);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x4b);
     return 1;
 }
@@ -700,7 +700,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 
 extern void BG_SYS_Delete(void);
 
@@ -754,7 +754,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern void *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
 
@@ -1349,13 +1349,13 @@ void BOX2_MAIN_DeleteBgSys(void *p)
 {
     BG_SYS_SetMainPlaneVisible(15, 0);
     BG_SYS_SetSubPlaneVisible(7, 0);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -1444,7 +1444,7 @@ void BOX2_MAIN_CreateTextSystem(char *p)
     (*(void **)((char *)((BoxTask *)(p))->work + (0x80))) = func_02045B38(0,2,9,0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x78))) = GF_FONT_Create(0x17,0,1,0,0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x7c))) = GF_FONT_Create(0x17,3,0,0,0x4c);
-    (*(void **)((char *)((BoxTask *)(p))->work + (0x84))) = GF_FONT_Create_EC64(0x4c);
+    (*(void **)((char *)((BoxTask *)(p))->work + (0x84))) = WORDSET_CreateDefault(0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x8c))) = PRINTSYS_QUE_CreateEx(0x800,0x4c);
     (*(void **)((char *)((BoxTask *)(p))->work + (0x88))) = STRBUF_Create(0x400,0x4c);
 }

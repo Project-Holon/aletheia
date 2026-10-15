@@ -23,7 +23,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049B40  0x02049B40  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_MENUWORK_LoadPltt  0x0201F57C  thumb
  *   BMP_MENUWORK_LoadChar  0x0201F554  thumb
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
@@ -124,7 +124,7 @@ extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BMP_MENUWORK_LoadPltt(u32 a, u32 b, u32 c, u32 d);
 extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
@@ -152,7 +152,7 @@ void VIEWER_TEXT_LoadBgResources(Work *p)
     func_020498F4(arc2, APP_ICON_GetStatusDataFileId(), 2, 0, 0, 0, 0x27);
     ARC_UTIL_UploadPaletteFromHandle(arc2, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x27);
     BG_SYS_FillTileMap(2, 0, 0x15, 0x20, 3, 0xE);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     ARC_TOOL_DeleteHandle(arc2);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x27);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x27);

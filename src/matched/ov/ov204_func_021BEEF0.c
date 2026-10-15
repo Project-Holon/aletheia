@@ -1,5 +1,5 @@
 /*
- * function: func_021BEEF0
+ * function: INTRO_CMD_CmdCheckConfig
  * address: 0x021BEEF0
  * packet: pkt_ov204_021BEEF0
  * region: ov204
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj*);
-int func_021BEEF0(u8*p){if(!func_02008550(**(struct Sub0200852CObj** *)&((struct Obj25378 *)p)->f4))return 1;return 0;}
+int INTRO_CMD_CmdCheckConfig(u8*p){if(!func_02008550(**(struct Sub0200852CObj** *)&((struct Obj25378 *)p)->f4))return 1;return 0;}

@@ -27,7 +27,7 @@
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   BG_SYS_DecodeTile  0x02040AE0  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_0200734C  0x0200734C  thumb
  *   func_020307B0  0x020307B0  arm
  *   d_021F3554     0x021F3554  data  a4
@@ -58,7 +58,7 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
 extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern u32 func_020307B0(void *p);
@@ -92,7 +92,7 @@ int C_GEAR_LoadCustomBackground(u8 *p, int a)
             for (i = 0; i < 0x600 / 2; i++) {
                 pal[i] += (u16)base;
             }
-            func_020409B4(5);
+            BG_SYS_PushTile(5);
         }
     }
     func_0200734C((struct Sub02007324Ctrl *)h, 4);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E73B8
+ * function: WIFIBATTLEMATCH_VIEW_DeletePokeActor
  * address: 0x021E73B8
  * packet: pkt_ov177_021E73B8
  * region: ov177
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-void func_021E73B8(char *p)
+void WIFIBATTLEMATCH_VIEW_DeletePokeActor(char *p)
 {
     CLACT_DeleteActor(((struct Obj00133 *)p)->f188);
     CLACT_ReleaseCharacter((u32)(((struct Obj00133 *)p)->f1EC));

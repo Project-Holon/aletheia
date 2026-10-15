@@ -10,8 +10,8 @@
  * volatile: display blend register stores at 021BC2D2/021BC2D8.
  * symbols:
  *   PSEL_GRAPHIC_UpdateFadeNop 0x021BB954 thumb ov223
- *   PSEL_NopADFC 0x021BADFC thumb ov223
- *   PSEL_UpdateBgAD68 0x021BAD68 thumb ov223
+ *   PSEL_NopBgUpdate 0x021BADFC thumb ov223
+ *   PSEL_ClearBgLayerEx 0x021BAD68 thumb ov223
  *   PSEL_DeleteActors 0x021BAA30 thumb ov223
  *   PSEL_DeleteUnits 0x021BA050 thumb ov223
  *   PSEL_DeleteSelectAnime 0x021B9A6C thumb ov223
@@ -20,8 +20,8 @@
  */
 #include "../include/Obj05571.h"
 extern void PSEL_GRAPHIC_UpdateFadeNop(char *);
-extern void PSEL_NopADFC(char *);
-extern void PSEL_UpdateBgAD68(char *);
+extern void PSEL_NopBgUpdate(char *);
+extern void PSEL_ClearBgLayerEx(char *);
 extern void PSEL_DeleteActors(char *);
 extern void PSEL_DeleteUnits(char *);
 extern void PSEL_DeleteSelectAnime(char *);
@@ -29,7 +29,7 @@ int PSEL_GRAPHIC_StateCleanup(char *p)
 {
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
-    PSEL_GRAPHIC_UpdateFadeNop(p); PSEL_NopADFC(p); PSEL_UpdateBgAD68(p);
+    PSEL_GRAPHIC_UpdateFadeNop(p); PSEL_NopBgUpdate(p); PSEL_ClearBgLayerEx(p);
     PSEL_DeleteActors(p); PSEL_DeleteUnits(p); PSEL_DeleteSelectAnime(p);
     ((struct Obj05571 *)p)->f10=0;
     return 12;

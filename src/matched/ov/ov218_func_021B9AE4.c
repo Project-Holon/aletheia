@@ -12,7 +12,7 @@
  * note 2026-10-05 (wD9r lane02): EXACT. The last two parameters are one u64 split across r3 and the
  *   first stack word (old ATPCS does not align a doubleword argument). c is its low word, d its high word.
  *   The high word is a fresh value, not a u32 parameter in its home slot, so mwcc keeps d in r7 and spills t.
- *   Caller func_021B9C8C stores two separate words (r3 and [sp]), which fits this signature. r is declared
+ *   Caller UN_SELECT_UpdateFrameList stores two separate words (r3 and [sp]), which fits this signature. r is declared
  *   before t (that orders the t spill store after the two constants).
  * symbols:
  *   MSGDATA_ReadString 0x02045CAC arm

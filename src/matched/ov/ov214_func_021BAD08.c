@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021BAD08
+ * function: BTL_REC_SEL_ClearLayer
  * address: 0x021BAD08
  * packet: pkt_ov214_021BAD08
  * region: ov214
@@ -14,4 +14,4 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-void func_021BAD08(void *a0, char *a1){BG_SYS_ClearLayerEx(2,0);}
+void BTL_REC_SEL_ClearLayer(void *a0, char *a1){BG_SYS_ClearLayerEx(2,0);}

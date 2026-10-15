@@ -1,5 +1,5 @@
 /*
- * function: func_021D9B34
+ * function: MYSTERY_UTIL_IsMessageDone
  * address: 0x021D9B34
  * packet: pkt_ov121_021D9B34
  * region: ov121
@@ -21,7 +21,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-int func_021D9B34(u8 *p)
+int MYSTERY_UTIL_IsMessageDone(u8 *p)
 {
     u32 q;
     if (((struct Obj02179 *)p)->f24 == 0) {

@@ -30,7 +30,7 @@
 
 typedef unsigned int   u32;
 struct Node;
-struct S020315D4;
+struct Proc;
 extern void func_02184408(int *p);
 extern void func_02184138(char *p);
 extern void func_02183F98(void *);
@@ -40,7 +40,7 @@ extern void func_02183F08(void);
 extern void func_02030EAC(struct Node *n);
 extern void TCB_Noop(int);
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
@@ -61,7 +61,7 @@ int func_02183C50(int a, int b, int c, void *p)
     func_021841C8((char *)p + 0xe4);
     func_02183F08();
     v = (unsigned short)*(int *)((char *)p + 0x14c);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);

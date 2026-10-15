@@ -42,7 +42,7 @@
  *   strcmp  0x020948E0  arm
  *   atoi  0x020964E0  arm
  *   g_021A8158  0x021A8158  data
- *   g_020A61DC  0x020A61DC  data
+ *   gCtypeMap  0x020A61DC  data
  *   SBServerGetStringValueA  0x0219E0C0  arm
  *   atof                     0x02095B2C  arm
  *   strcmp                         0x020948E0  arm
@@ -156,7 +156,7 @@ extern struct HashImplementation *g_021AEAF8[];
 extern char g_021A8130[];
 extern char g_021A8154[];
 extern char g_021A8158[];
-extern const unsigned short g_020A61DC[];
+extern const unsigned short gCtypeMap[];
 extern char *g_021A8120[2];
 extern char g_021A8160[];
 extern char g_021A8164[];
@@ -285,7 +285,7 @@ char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def)
 
 
 
-static inline int isdigit(unsigned int c) { return (c >= 0x80) ? 0 : (g_020A61DC[c] & 8); }
+static inline int isdigit(unsigned int c) { return (c >= 0x80) ? 0 : (gCtypeMap[c] & 8); }
 
 
 

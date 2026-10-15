@@ -1,5 +1,5 @@
 /*
- * function: func_021DB54C
+ * function: MYSTERY_ALBUM_SetupSlot
  * address: 0x021DB54C
  * packet: pkt_ov121_021DB54C
  * region: ov121
@@ -43,14 +43,14 @@
  *   (1016 -> 1004); (3) `#pragma opt_loop_invariants off` keeps both /3 and %3 calls inside the
  *   y loop (the old lane tried it only while the size was still wrong); (4) do-while loops with
  *   `x = 0;` first in the y body and `y = 0;` before the loops give the original head order;
- *   (5) a local for func_021DBF08's result puts that call before the idx*4 address work;
+ *   (5) a local for MYSTERY_ALBUM_GetEntryBmp's result puts that call before the idx*4 address work;
  *   (6) declaration order off, tab, idx, y, y2, y3 (one counter per loop), m, src, k, ry, rx
  *   gives the original spill slots for most locals; tab = p + 0x28 plain (no inline helper);
  *   (7) dy = 0 before MI_CpuFill8.
  *   Residue (53 bytes): rx and x swapped (original x r4, rx r5; mine rx r4, x r5; decl order of
  *   x/rx did not move it, 2 compiles); index and ry slots swapped (original index sp+0x18, ry
  *   sp+0x1c); obj and the p+0xb88 base temp slots swapped (original obj sp+0x48, temp sp+0x44);
- *   `dx = 0` (movs r6) sits before the call to func_021DBF9C in mine, just before the blx of
+ *   `dx = 0` (movs r6) sits before the call to MYSTERY_ALBUM_GetEntryGraphicIndex in mine, just before the blx of
  *   CLACT_RegisterCharacter in the original.
  *   Idioms checked: of-two-equal-temps-the-later-born-one-gets-the-lower-register (no source
  *   order found that flips x/rx), a-separate-index-local-per-loop-reorders-spill-slots (y per
@@ -76,16 +76,16 @@
  * symbols:
  *   d_021DF86E 0x021DF86E data ov121 a2
  *   d_021DF86F 0x021DF86F data ov121 a1
- *   func_021DBF04 0x021DBF04 thumb ov121
- *   func_021DBF08 0x021DBF08 thumb ov121
- *   func_021DBF10 0x021DBF10 thumb ov121
- *   func_021DBF40 0x021DBF40 thumb ov121
- *   func_021DBF70 0x021DBF70 thumb ov121
- *   func_021DBF9C 0x021DBF9C thumb ov121
- *   func_021DBFE4 0x021DBFE4 thumb ov121
- *   func_021DC004 0x021DC004 thumb ov121
- *   func_021DC024 0x021DC024 thumb ov121
- *   func_021DC03C 0x021DC03C thumb ov121
+ *   MYSTERY_ALBUM_IsEntryValid 0x021DBF04 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryBmp 0x021DBF08 thumb ov121
+ *   MYSTERY_ALBUM_CreateEntryArc 0x021DBF10 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryArcId 0x021DBF40 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryIconPalette 0x021DBF70 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryGraphicIndex 0x021DBF9C thumb ov121
+ *   MYSTERY_ALBUM_GetEntrySpeciesId 0x021DBFE4 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryFormId 0x021DC004 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryIconX 0x021DC03C thumb ov121
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -133,19 +133,19 @@ extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const voi
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern int func_021DBF04(int *p);
-extern void *func_021DBF08(void *);
-extern void *func_021DBF10(void *, u16);
-extern u32 func_021DBF40(void *);
-extern u32 func_021DBF70(void *);
-extern int func_021DBF9C(void *);
-extern int func_021DBFE4(void *);
-extern int func_021DC004(void *);
-extern int func_021DC024(void *);
-extern int func_021DC03C(void *);
+extern int MYSTERY_ALBUM_IsEntryValid(int *p);
+extern void *MYSTERY_ALBUM_GetEntryBmp(void *);
+extern void *MYSTERY_ALBUM_CreateEntryArc(void *, u16);
+extern u32 MYSTERY_ALBUM_GetEntryArcId(void *);
+extern u32 MYSTERY_ALBUM_GetEntryIconPalette(void *);
+extern int MYSTERY_ALBUM_GetEntryGraphicIndex(void *);
+extern int MYSTERY_ALBUM_GetEntrySpeciesId(void *);
+extern int MYSTERY_ALBUM_GetEntryFormId(void *);
+extern int MYSTERY_ALBUM_GetEntryKind(void *);
+extern int MYSTERY_ALBUM_GetEntryIconX(void *);
 #pragma opt_loop_invariants off
 #pragma opt_lifetimes off
-void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
+void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
 {
     void *obj;
     int off;
@@ -186,7 +186,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         } while (x < 2);
         y++;
     } while (y < 2);
-    if (func_021DBF04((int *)(tab + off)) == 0) {
+    if (MYSTERY_ALBUM_IsEntryValid((int *)(tab + off)) == 0) {
         y2 = 0;
         do {
             x = 0;
@@ -213,22 +213,22 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         } while (x < 12);
         y3++;
     } while (y3 < 7);
-    BG_SYS_FillTileMap(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
-    dsc = func_021DBF08(tab + off);
+    BG_SYS_FillTileMap(3, r.b[0], ry, 12, 7, (u8)MYSTERY_ALBUM_GetEntryIconX(tab + off));
+    dsc = MYSTERY_ALBUM_GetEntryBmp(tab + off);
     BMP_CopyPixels(dsc, BMP_WIN_GetBmp(*(void **)(p + 0xb08 + idx * 4)));
     BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
-    obj = func_021DBF10(tab + off, heap);
-    if (func_021DC024(tab + off) != 1)
-        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, func_021DBF40(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
-    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, func_021DBFE4(tab + off), func_021DC004(tab + off), heap);
-    *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, func_021DBF9C(tab + off), 0, 0, heap);
+    obj = MYSTERY_ALBUM_CreateEntryArc(tab + off, heap);
+    if (MYSTERY_ALBUM_GetEntryKind(tab + off) != 1)
+        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, MYSTERY_ALBUM_GetEntryArcId(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
+    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, MYSTERY_ALBUM_GetEntrySpeciesId(tab + off), MYSTERY_ALBUM_GetEntryFormId(tab + off), heap);
+    *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, MYSTERY_ALBUM_GetEntryGraphicIndex(tab + off), 0, 0, heap);
     dx = 0;
     ARC_TOOL_DeleteHandle(obj);
     dy = 0;
     MI_CpuFill8(&pos, 0, 8);
     pos.y = r.h[3];
     pos.flag = 1;
-    if (func_021DC024(tab + off) == 2) {
+    if (MYSTERY_ALBUM_GetEntryKind(tab + off) == 2) {
         dx = 4;
         dy = 8;
     }
@@ -243,9 +243,9 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     pos.x += dx;
     pos.y += dy;
     *(void **)(p + 0xb28 + idx * 4) = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xb48 + idx * 4),
-        func_021DC024(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
+        MYSTERY_ALBUM_GetEntryKind(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
         *(u32 *)(p + 0xb68 + idx * 4), &pos, 0, *(u16 *)(p + 0x24));
-    CLACT_SetActorPaletteOffset(*(void **)(p + 0xb28 + idx * 4), (u8)func_021DBF70(tab + off), 0);
+    CLACT_SetActorPaletteOffset(*(void **)(p + 0xb28 + idx * 4), (u8)MYSTERY_ALBUM_GetEntryIconPalette(tab + off), 0);
     CLACT_SetActorDrawEnable(*(void **)(p + 0xb28 + idx * 4), 1);
     if (*(u32 *)(p + 0xae0) && *(u16 *)(p + 0xade) == k) {
         cur.x = src->b[0] * 8 - 0x18;

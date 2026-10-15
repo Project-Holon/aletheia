@@ -20,7 +20,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
@@ -43,13 +43,13 @@
  *   gClActorInitParam 0x020A1448 data a4
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -146,8 +146,8 @@ struct Rec;
 struct TaskMenuState;
 struct Ctx;
 struct Vec2;
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
@@ -233,7 +233,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ResetSubDisplay(void), BG_SYS_ClearMainPlanes(void), BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
@@ -248,13 +248,13 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -308,11 +308,11 @@ extern void BG_SYS_DrawTile(u32, void *, u32, u32, u8, u8);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *MYSTATUS_Create(int a0);
 extern unsigned int KEY_GetCont(void);
 extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 void CG_HELP_Setup(CgHelpWork *work);
 void CG_HELP_Teardown(CgHelpWork *work);
@@ -329,7 +329,7 @@ void CG_HELP_HandleTouchInput(CgHelpWork *work);
 void CG_HELP_DrawPageText(CgHelpWork *work, int page);
 void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page);
 int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c);
-int CG_HELP_ProcExit(struct S020315D4 *task,int b,int keep,CgHelpWork *work);
+int CG_HELP_ProcExit(struct Proc *task,int b,int keep,CgHelpWork *work);
 extern const CgHelpClactConfig gClActorInitParam;
 extern const u32 gCgHelpVramBanks[], gCgHelpDispConfig[], gCgHelpBgTemplateLayer4[], gCgHelpBgTemplateLayer5[], gCgHelpBgTemplateLayer6[], gCgHelpBgTemplateLayer7[];
 extern const CgHelpTouchRects gCgHelpTouchRects;
@@ -418,7 +418,7 @@ int CG_HELP_Main(CgHelpWork *work)
             APP_TASKMENU_WIN_ResetDecide(work->prevButton);
         }
     }
-    func_02040618(7,5,1);
+    BG_SYS_FillScrollArea(7,5,1);
     return 0;
 }
 
@@ -487,10 +487,10 @@ void CG_HELP_ExitDisplay(CgHelpWork *work)
 {
     CLACT_DeleteUnit(work->actorUnit);
     CLACT_ExitSystem();
-    func_020403F4(4);
-    func_020403F4(5);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -503,7 +503,7 @@ void CG_HELP_SetupBgLayer(const struct BgTemplate *bgTemplate, int layer, int ty
     BG_SYS_InitBgLayer(layer, bgTemplate, type);
     func_02040588(layer, 1);
     BG_SYS_FreeSlot(layer);
-    func_020409B4(layer);
+    BG_SYS_PushTile(layer);
 }
 
 
@@ -573,8 +573,8 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->bodyWin), 0);
     BMP_WIN_TransferChars(work->bodyWin);
     BMP_WIN_MakeScreen(work->bodyWin);
-    func_020409B4(5);
-    func_020409B4(4);
+    BG_SYS_PushTile(5);
+    BG_SYS_PushTile(4);
     work->textDirty = 0;
     req.text = (u32)func_02045EC0(work->msgData, 24);
     req.color = 0x39e3;
@@ -687,7 +687,7 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
         BG_SYS_DrawTile(4, q, 2, 4, 4, 4);
         func_020307B0(q);
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     delta = gCgHelpActorOffset;
     CLACT_AddActorSurfacePos(work->pageActor, (const struct Vec2 *)(&delta), 1);
     if (page == 10) {
@@ -724,7 +724,7 @@ int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c)
 
 
 
-int CG_HELP_ProcExit(struct S020315D4 *task, int b, int keep, CgHelpWork *work)
+int CG_HELP_ProcExit(struct Proc *task, int b, int keep, CgHelpWork *work)
 {
     CG_HELP_Teardown(work);
     if (keep == 0) {

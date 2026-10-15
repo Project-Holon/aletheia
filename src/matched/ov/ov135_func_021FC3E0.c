@@ -15,7 +15,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   WORLDTRADE_TITLE_CreateMenuWindow 0x02200BAC thumb ov135
  *   tbl_0220351C 0x0220351C data a4
  */
@@ -41,7 +41,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void WORLDTRADE_TITLE_CreateMenuWindow(u8 *p, u32 k);
 void WORLDTRADE_DETAIL_CreateWindows(Menu *p)
 {
@@ -52,19 +52,19 @@ void WORLDTRADE_DETAIL_CreateWindows(Menu *p)
     w=p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     p->side=BMP_WIN_Create(2,(u8)21,(u8)15,(u8)10,4,13,(u16)1);
     w=p->side;
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     for(i=0;i<14;i++) {
         p->item[i]=BMP_WIN_Create(3,(u8)tbl_0220351C[i].x,(u8)tbl_0220351C[i].y,(u8)tbl_0220351C[i].w,tbl_0220351C[i].h,13,(u16)1);
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->item[i])),0);
         w=p->item[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
     }
     WORLDTRADE_TITLE_CreateMenuWindow((u8 *)p,2);
 }

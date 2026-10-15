@@ -11,7 +11,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromMemory 0x02045C44 arm
  *   func_02049B40 0x02049B40 arm
@@ -32,7 +32,7 @@ struct GfFont;
 struct MsgBank;
 struct Tcbl;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
@@ -44,7 +44,7 @@ void STA_ACTING_CreateText(u8 *p)
     ((struct Obj01257 *)p)->fD0=BMP_WIN_Create(1,4,20,24,4,15,1);
     BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01257 *)p)->fD0);
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj01257 *)p)->fD0));
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     zero=0;
     ((struct Obj01257 *)p)->fD4=(u32)GF_FONT_Create(23,0,0,0,((struct Obj01257 *)p)->f0);
     ((struct Obj01257 *)p)->fDC=(u32)MSGDATA_CreateFromMemory(((struct Obj23183 *)(*(u8 * *)&((struct Obj23182 *)(*(u8 * *)&((struct Obj01257 *)p)->f30))->f18))->f8,((struct Obj01257 *)p)->f0);

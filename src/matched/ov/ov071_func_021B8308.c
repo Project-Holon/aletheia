@@ -1,5 +1,5 @@
 /*
- * function: func_021B8308
+ * function: MONOLITH_TOOL_MENU_InitBackgrounds
  * address: 0x021B8308
  * packet: pkt_ov071_021B8308
  * region: ov071
@@ -22,4 +22,4 @@ struct BgTemplate;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021B8308(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021BA984,0); BG_SYS_SetTileEntry(5,0,0,0,0x20,0x20,0x11); func_02040588(5,0); }
+void MONOLITH_TOOL_MENU_InitBackgrounds(void) { BG_SYS_InitBgLayer(5,(const struct BgTemplate *)d_021BA984,0); BG_SYS_SetTileEntry(5,0,0,0,0x20,0x20,0x11); func_02040588(5,0); }

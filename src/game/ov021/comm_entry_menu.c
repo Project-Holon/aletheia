@@ -22,7 +22,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  *   func_02045EC0  0x02045EC0  arm
@@ -469,7 +469,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
 extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
@@ -631,7 +631,7 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
 
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     menu = func_02030734(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, 0x179);
-    menu->wordSet = GF_FONT_Create_EC64(heapId);
+    menu->wordSet = WORDSET_CreateDefault(heapId);
     menu->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x1e);
     menu->sysWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, menu->msgData);
     menu->msgStr = STRBUF_Create(0x64, heapId);

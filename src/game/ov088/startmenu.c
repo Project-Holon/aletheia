@@ -64,7 +64,7 @@
  *   func_02049624  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_02049B40  0x02049B40  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_Create  0x020450F0  arm
@@ -190,7 +190,7 @@
  *   d_021BD744     0x021BD744  data  a4
  *   d_021BD6A4     0x021BD6A4  data  a4
  *   d_021BD704     0x021BD704  data  a4
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -198,7 +198,7 @@
  *   BLINK_PALANM_Create  0x0202E940  thumb
  *   BLINK_PALANM_LoadPalettes  0x0202E9AC  thumb
  *   func_0202EA20  0x0202EA20  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -365,7 +365,7 @@
 #define REG_G3X_DISP3DCNT_ATE_MASK 0x00000004
 struct Proc;
 struct IcaAnime;
-struct S020315D4;
+struct Proc;
 struct DispConfig;
 struct DispVram;
 struct Tcbl;
@@ -513,7 +513,7 @@ extern void GFL_USE_PlayFanfare(void *arg);
 extern u32  PM_VOICE_IsSlotActive(u32 a);
 extern int  GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void func_020315D4(struct S020315D4 *a);
+extern void func_020315D4(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
@@ -539,7 +539,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u32 a6);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -632,7 +632,7 @@ extern u32 APP_ENV_IsRunOnTwl(void);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void BG_SYS_Update(void);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -640,7 +640,7 @@ extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern u32 func_0202EA20(struct PalAnm *p);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 APP_KEYCURSOR_CreateDefault(u32, u32, u32, u32);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -908,10 +908,10 @@ void func_02007214(void *, u32);
 void func_0200721C(void *, u32);
 extern int BACKUP_SYSTEM_IsFlashBusy(void);
 extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
-int STARTMENU_NewGameIntroEnd(struct S020315D4 *proc, int *seq, void *procWork, NewGameIntroWork *work);
+int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGameIntroWork *work);
 int STARTMENU_BattleFlagProcInit(struct Proc *a0);
 int STARTMENU_BattleFlagProcMain(void *proc, int *seq, int mode, NewGameIntroWork *work);
-int STARTMENU_BattleFlagProcEnd(struct S020315D4 *proc, int seq, int mode, NewGameIntroWork *work);
+int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameIntroWork *work);
 void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbuf *name, int gender);
 int STARTMENU_ConfigPromptInit(struct Proc *proc, int seq, int *procWork);
 int STARTMENU_ConfigPromptEnd(int proc, int seq, int procWork, ConfigPromptWork *work);
@@ -1154,7 +1154,7 @@ int STARTMENU_TitleDemoExit(int procCtx, int unusedArg1, int unusedArg2, int *pr
 {
     int target = procArgs[1];
 
-    func_020315D4((struct S020315D4 *)procCtx);
+    func_020315D4((struct Proc *)procCtx);
     GFL_HEAP_DeleteChecked(0x16);
     if (target == 0) {
         PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD66C, 0);
@@ -1309,12 +1309,12 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     func_02049624(0x1A, 9, 3, 0, 0, 1, heap);
     func_0204989C(0x1A, 10, 3, 0, 0, 1, heap);
     func_02049B40(0x1A, 8, 0, 0, 0, heap);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_02040588(3, 1);
     func_02049624(0x1A, 0, 7, 0, 0x8000, 1, heap);
     func_0204989C(0x1A, 1, 7, 0, 0, 1, heap);
     func_02049B40(0x1A, 2, 4, 0, 0, heap);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02040588(7, 1);
     func_0204989C(0x1A, 3, 6, 0, 0, 1, heap);
     func_02040588(6, 1);
@@ -1327,7 +1327,7 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     BMP_WIN_TransferChars((struct Descriptor *)logo->textWindow);
     logo->windowDirty = 0;
     logo->textWindowCopy = logo->textWindow;
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     logo->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, heap);
     logo->printer = PRINTSYS_QUE_Create((void *)heap);
     logo->msgBank = (u32)func_02045B38(0, 2, 0xB5, heap);
@@ -1713,7 +1713,7 @@ int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWor
     u8 hasSave = work->connectResult;
     char *procArgs;
 
-    func_020315D4((struct S020315D4 *)procCtx);
+    func_020315D4((struct Proc *)procCtx);
     GFL_HEAP_DeleteChecked(0xb);
     switch (selectedRow) {
     case 0:
@@ -2396,13 +2396,13 @@ void STARTMENU_TeardownBackgrounds(void)
 {
     BG_SYS_SetMainPlaneVisible(0xf, 0);
     BG_SYS_SetSubPlaneVisible(7, 0);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -2468,7 +2468,7 @@ void STARTMENU_CreateTextSystem(StartMenuWork *work)
 {
     work->msgBank = (void *)func_02045B38(0, 2, 0xb3, 0xb);
     work->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, 0xb);
-    work->wordSet = (void *)GF_FONT_Create_EC64(0xb);
+    work->wordSet = (void *)WORDSET_CreateDefault(0xb);
     work->printSys = (void *)PRINTSYS_QUE_Create((void *)0xb);
     work->stringBuf = (void *)STRBUF_Create(0x400, 0xb);
     work->taskList = (u32)TCBL_Create(0xb, 0xb, 1, 4);
@@ -3470,7 +3470,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
 
 
 
-int STARTMENU_NewGameIntroEnd(struct S020315D4 *proc, int *seq, void *procWork, NewGameIntroWork *work)
+int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGameIntroWork *work)
 {
     void *saveControl = func_020070A4();
     void *ov228Work;
@@ -3549,7 +3549,7 @@ int STARTMENU_BattleFlagProcMain(void *proc, int *seq, int mode, NewGameIntroWor
 
 
 
-int STARTMENU_BattleFlagProcEnd(struct S020315D4 *proc, int seq, int mode, NewGameIntroWork *work)
+int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameIntroWork *work)
 {
     SaveLocation location;
     void *saveControl;
@@ -3625,11 +3625,11 @@ int STARTMENU_ConfigPromptEnd(int proc, int seq, int procWork, ConfigPromptWork 
     STARTMENU_ConfigPromptDeleteWindows(work);
     GF_FONT_Delete(work->font);
     BMP_WIN_Exit();
-    func_020403F4(3);
-    func_020403F4(1);
-    func_020403F4(5);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(5);
     BG_SYS_Delete();
-    func_020315D4((struct S020315D4 *)proc);
+    func_020315D4((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x39);
     return 1;
 }
@@ -3719,7 +3719,7 @@ void STARTMENU_InitBgLayer(const void *bgTemplate, int bgId)
     BG_SYS_InitBgLayer(bgId, bgTemplate, 0);
     func_02040588(bgId, 1);
     BG_SYS_FreeSlot(bgId);
-    func_020409B4(bgId);
+    BG_SYS_PushTile(bgId);
 }
 
 void STARTMENU_ConfigPromptDrawQuestion(ConfigPromptWork *work)
@@ -3939,8 +3939,8 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         func_02049624(0xa4, 3, 5, 0, 0x8000, 0, 0x16);
         func_0204989C(0xa4, 4, 5, 0, 0, 0, 0x16);
         func_02049B40(0xa4, 0, 4, 0, 0, 0x16);
-        func_020409B4(1);
-        func_020409B4(5);
+        BG_SYS_PushTile(1);
+        BG_SYS_PushTile(5);
         func_02040588(1, 1);
         func_02040588(5, 1);
         BMP_SetDisplaySwap(1);
@@ -3985,7 +3985,7 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
 
 int STARTMENU_LogoScreenEnd(int proc)
 {
-    func_020315D4((struct S020315D4 *)proc);
+    func_020315D4((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x16);
     return 1;
 }
@@ -4035,7 +4035,7 @@ int STARTMENU_SaveEraseMain(int proc, int *seq, int procWork, SaveEraseWork *wor
 
 int STARTMENU_SaveEraseEnd(int proc)
 {
-    func_020315D4((struct S020315D4 *)proc);
+    func_020315D4((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x81);
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
     return 1;
@@ -4126,7 +4126,7 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
 
     if (STARTMENU_SaveEraseUpdateMessage(work) == 0) {
         d_021BDA20 = TIME_ICON_Create(0, work->window, 0xf, 0x10, 0x81);
-        func_020409B4(BMP_WIN_GetBgLayer(work->window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(work->window));
         func_02005654((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
         saveControl = func_020070A4();
         func_02034AC4((u32)ov228_id);
@@ -4180,7 +4180,7 @@ void STARTMENU_SaveEraseSetupGraphics(void)
 void STARTMENU_SaveEraseExitGraphics(void)
 {
     BG_SYS_SetMainPlaneVisible(1, 0);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF24
+ * function: DEMO3D_GRAPHIC_EndDraw
  * address: 0x021BDF24
  * packet: pkt_ov203_021BDF24
  * region: ov203
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE148 0x021BE148 thumb ov203
+ *   DEMO3D_GRAPHIC_DrawEnd 0x021BE148 thumb ov203
  */
-extern void func_021BE148(void *);
-void func_021BDF24(char *p){func_021BE148(p+8);}
+extern void DEMO3D_GRAPHIC_DrawEnd(void *);
+void DEMO3D_GRAPHIC_EndDraw(char *p){DEMO3D_GRAPHIC_DrawEnd(p+8);}

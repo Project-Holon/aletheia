@@ -32,7 +32,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_02005728 0x02005728 thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
@@ -57,13 +57,13 @@
  *   d_021B73F0 0x021B73F0 data a4
  *   gClActorInitParam 0x020A1448 data a4
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_UTIL_LoadHandleMember 0x0204A380 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02012944 0x02012944 thumb
@@ -122,7 +122,7 @@
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   g_021B7398  0x021B7398  data  a4
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -191,9 +191,9 @@ struct Blk;
 
 struct Ctx;
 
-struct Obj0203159C;
+struct Proc;
 
-struct S020315D4;
+struct Proc;
 
 struct RtcTime{unsigned hour,minute,second;};
 
@@ -270,7 +270,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern int func_02005728(int);
 
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 
@@ -298,11 +298,11 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
 extern void func_0207D63C(void *,int,int,int,int);
 
-extern void CLACT_ExitSystem(void),func_020403F4(unsigned),BMP_WIN_Exit(void),BG_SYS_Delete(void);
+extern void CLACT_ExitSystem(void),BG_SYS_FreeLayerBuf(unsigned),BMP_WIN_Exit(void),BG_SYS_Delete(void);
 
 extern void BG_SYS_InitBgLayer(unsigned,const struct BgTemplate *,unsigned);
 
-extern void func_02040588(unsigned,unsigned),BG_SYS_FreeSlot(unsigned),func_020409B4(unsigned);
+extern void func_02040588(unsigned,unsigned),BG_SYS_FreeSlot(unsigned),BG_SYS_PushTile(unsigned);
 
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32_021B655C a1, u32_021B655C a2, u32_021B655C a3);
 
@@ -416,13 +416,13 @@ extern signed char MSG_SPEED_GetWait(void);
 
 extern unsigned PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -430,7 +430,7 @@ extern void *GAME_DATA_Create(u16);
 
 extern unsigned int KEY_GetCont(void);
 
-extern void LOCAL_TVT_SYS_Delete(unsigned char *),GAME_DATA_Delete(unsigned char *),func_020315D4(struct S020315D4 *),GFL_HEAP_DeleteChecked(unsigned int);
+extern void LOCAL_TVT_SYS_Delete(unsigned char *),GAME_DATA_Delete(unsigned char *),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 
 void LOCAL_TVT_SYS_Create(u8 *p);
 
@@ -480,7 +480,7 @@ int LOCAL_TVT_SYS_TickTimer(char *p);
 
 int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg);
 
-int LOCAL_TVT_SYS_ProcExit(struct S020315D4 *a,unsigned unused,int own,unsigned char *p);
+int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p);
 
 int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d);
 
@@ -617,7 +617,7 @@ int LOCAL_TVT_SYS_Main(u8 *p)
     return 0;
 }
 
-void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();func_02040618(1,0,func_02005728(256));func_02040618(1,3,func_02005728(256));}
+void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_FillScrollArea(1,0,func_02005728(256));BG_SYS_FillScrollArea(1,3,func_02005728(256));}
 
 /*
  *   one --arm, no region: MATCH, 16 bytes, blocker434CC.log; concrete bytes agree,
@@ -664,9 +664,9 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     func_0207D63C((void *)0x04000050,1,30,16,4);
 }
 
-void LOCAL_TVT_SYS_ExitSystem(unsigned char *p) {CLACT_ExitSystem();func_020403F4(7);func_020403F4(3);func_020403F4(2);func_020403F4(1);func_020403F4(0);BMP_WIN_Exit();BG_SYS_Delete();}
+void LOCAL_TVT_SYS_ExitSystem(unsigned char *p) {CLACT_ExitSystem();BG_SYS_FreeLayerBuf(7);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(0);BMP_WIN_Exit();BG_SYS_Delete();}
 
-void LOCAL_TVT_SYS_SetupBgLayer(const struct BgTemplate *p, int i, int type) {BG_SYS_InitBgLayer(i,p,type);func_02040588(i,1);BG_SYS_FreeSlot(i);func_020409B4(i);}
+void LOCAL_TVT_SYS_SetupBgLayer(const struct BgTemplate *p, int i, int type) {BG_SYS_InitBgLayer(i,p,type);func_02040588(i,1);BG_SYS_FreeSlot(i);BG_SYS_PushTile(i);}
 
 void LOCAL_TVT_SYS_LoadMenuData(char *p) {unsigned char *q=ARC_UTIL_LoadHandleMember(((struct Obj03859 *)p)->f18,**(unsigned short * *)&((struct Obj03859 *)p)->f30+62,0,((struct Obj03859 *)p)->f0);((struct Obj03859 *)p)->f38=q;((struct Obj03859 *)p)->f3C=q;((struct Obj03859 *)p)->f40=q+8;if(q[2]==255 && q[3]==255) ((struct Obj03859 *)p)->f8=2;else ((struct Obj03859 *)p)->f8=4;}
 
@@ -688,12 +688,12 @@ void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
     else func_02049B68(arc,6,4,0,0x60,((struct Obj00545 *)p)->f0);
     func_02049658(arc,11,7,0,0,0,((struct Obj00545 *)p)->f0);
     func_020498F4(arc,14,7,0,0,0,((struct Obj00545 *)p)->f0);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02049B68(arc,0,0,0x160,0x20,((struct Obj00545 *)p)->f0);
     func_02049658(arc,8,1,0,0,0,((struct Obj00545 *)p)->f0);
     func_020498F4(arc,13,1,0,0,0,((struct Obj00545 *)p)->f0);
     BG_SYS_FillTileMap(1,0,0,32,32,11);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     ARC_TOOL_DeleteHandle(arc);
     s.a=10; s.b=1; s.x=0;s.y=0;s.z=0;
     ((struct Obj00545 *)p)->f54=CLACT_CreateActor((void *)((struct Obj00545 *)p)->f50,((struct Obj00545 *)p)->f48,((struct Obj00545 *)p)->f44,((struct Obj00545 *)p)->f4C,&s,0,((struct Obj00545 *)p)->f0);
@@ -867,7 +867,7 @@ void LOCAL_TVT_SYS_ApplyStep(u8 *p)
     if (*(void **)(p + 0x74) != 0) {
         WORDSET_DeleteStrbufED04(*(void **)(p + 0x74));
     }
-    *(void **)(p + 0x74) = GF_FONT_Create_EC64(*(u16 *)p);
+    *(void **)(p + 0x74) = WORDSET_CreateDefault(*(u16 *)p);
     WORDSET_SetSlotMyStatus(*(void **)(p + 0x74), 0, func_02012944(*(void **)(*(u8 **)(p + 0x30) + 4)));
     LOCAL_TVT_SYS_PrintMessage(p, b);
 }
@@ -913,7 +913,7 @@ int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg)
     return 1;
 }
 
-int LOCAL_TVT_SYS_ProcExit(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);GFL_HEAP_DeleteChecked(85);return 1;}
+int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);GFL_HEAP_DeleteChecked(85);return 1;}
 
 int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d)
 {

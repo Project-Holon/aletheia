@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEA4
+ * function: BEACON_DETAIL_GRA_PrintMsg
  * address: 0x021BCEA4
  * packet: pkt_ov216_021BCEA4
  * region: ov216
@@ -104,4 +104,4 @@ struct WordSet;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank*,u32,void*);
 extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
-void func_021BCEA4(u8*p, u8 n){MSGDATA_ReadString(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n){MSGDATA_ReadString(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}

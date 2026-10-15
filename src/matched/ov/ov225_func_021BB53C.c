@@ -1,5 +1,5 @@
 /*
- * function: func_021BB53C
+ * function: MANUAL_COMMON_UpdateDialogInput
  * address: 0x021BB53C
  * packet: pkt_ov225_021BB53C
  * region: ov225
@@ -17,11 +17,11 @@
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   d_021BBF9C 0x021BBF9C data a4
+ *   gManualCommonDialogHitRects 0x021BBF9C data a4
  */
 #include "../include/Obj00740.h"
 typedef unsigned char u8;
-extern const u8 d_021BBF9C[];
+extern const u8 gManualCommonDialogHitRects[];
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
@@ -31,9 +31,9 @@ struct Obj;
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-int func_021BB53C(char *p)
+int MANUAL_COMMON_UpdateDialogInput(char *p)
 {
-    int hit=TOUCHPANEL_HitTrg(d_021BBF9C);
+    int hit=TOUCHPANEL_HitTrg(gManualCommonDialogHitRects);
     if(func_020355C4()==0) {
         if(hit>=0 && hit<=1) {
             func_020355D8(1);

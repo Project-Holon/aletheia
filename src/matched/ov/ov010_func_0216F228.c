@@ -21,8 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 int TRCARD_SYS_ExitMinimal(void *a, int b, int c, char *d)

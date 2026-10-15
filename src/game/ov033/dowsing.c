@@ -54,13 +54,13 @@
  *   func_02040588 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   sDowsingBgSetup 0x021F0DF0 data ov033 a4
  *   CLACT_DeleteUnit 0x0204B1CC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049740 0x02049740 arm
@@ -181,12 +181,12 @@ extern void PALANM_TransferPalettes(struct PalAnm *palAnm);
 extern void func_02040588(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
 extern void BG_SYS_FreeSlot(unsigned char bgId);
-extern void func_02040618(unsigned char bgId, unsigned attr, unsigned value);
+extern void BG_SYS_FillScrollArea(unsigned char bgId, unsigned attr, unsigned value);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern unsigned int CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void *func_020490F4(unsigned int arcId, unsigned int heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u32 palSize, u16 heapId);
 extern u32 func_02049740(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
@@ -691,8 +691,8 @@ void DOWSING_InitBgsAndActorUnit(DowsingWork *work)
         BG_SYS_InitBgLayer((unsigned char)bgId, (const struct BgTemplate *)setup->bgTemplate, (unsigned char)setup->bgType);
         BG_SYS_FreeSlot(bgId);
         func_02040588((unsigned char)bgId, (unsigned char)setup->visible);
-        func_02040618(bgId, 0, 0);
-        func_02040618(bgId, 3, 0);
+        BG_SYS_FillScrollArea(bgId, 0, 0);
+        BG_SYS_FillScrollArea(bgId, 3, 0);
     }
     work->clactUnit = CLACT_CreateUnit(8, 0, work->heapId);
     CLACT_SetUnitDefaultRenderer(work->clactUnit);
@@ -704,7 +704,7 @@ void DOWSING_ExitBgsAndActorUnit(DowsingWork *work)
     unsigned i;
     CLACT_DeleteUnit(work->clactUnit);
     for (i = 0; i < 2; i++)
-        func_020403F4((unsigned char)sDowsingBgSetup[i].bgId);
+        BG_SYS_FreeLayerBuf((unsigned char)sDowsingBgSetup[i].bgId);
 }
 
 /* Loads palette, tiles and screen of BG 7 from the archive. */

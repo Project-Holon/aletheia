@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FD8,func_021BA0AC
+ * function: UN_SELECT_SceneStepList,UN_SELECT_IsMessageDone
  * unit: yes
  * address: 0x021B9FD8
  * packet: pkt_ov218_021B9FD8
@@ -20,9 +20,9 @@
  *   FRAME_LIST_SetRowPalette 0x021B9280 thumb ov067
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
- *   func_021B9890 0x021B9890 thumb ov218
+ *   UN_SELECT_UpdateTouchBar 0x021B9890 thumb ov218
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
- *   func_021B9F98 0x021B9F98 thumb ov218
+ *   UN_SELECT_SetMode 0x021B9F98 thumb ov218
  */
 #include "../include/Obj02931.h"
 typedef unsigned int u32;
@@ -35,10 +35,10 @@ typedef unsigned char  u8;
 extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void UI_SCENE_SetNextScene(unsigned char *,int);
-extern void func_021B9890(void *);
+extern void UN_SELECT_UpdateTouchBar(void *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
-extern void func_021B9F98(u8 *p, int mode);
-int func_021B9FD8(unsigned char *task,char *p)
+extern void UN_SELECT_SetMode(u8 *p, int mode);
+int UN_SELECT_SceneStepList(unsigned char *task,char *p)
 {
     int active=0;
     int selected;
@@ -56,14 +56,14 @@ int func_021B9FD8(unsigned char *task,char *p)
             return 1;
         }
     }
-    func_021B9890(((struct Obj02931 *)p)->f8);
+    UN_SELECT_UpdateTouchBar(((struct Obj02931 *)p)->f8);
     switch(TOUCHBAR_GetPressedButtonIdIfDone(*(unsigned char * *)&((struct Obj02931 *)p)->f8)){
     case -1:case 0:case 2:case 3:case 4:case 5:break;
     case 1:
-        func_021B9F98((u8 *)p,1);
+        UN_SELECT_SetMode((u8 *)p,1);
         UI_SCENE_SetNextScene(task,65534);
         return 1;
     }
     return 0;
 }
-int func_021BA0AC(void) { return 1; }
+int UN_SELECT_IsMessageDone(void) { return 1; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F27CC
+ * function: BEACON_VIEW_RunSelect
  * address:  0x021F27CC
  * packet:   pkt_ov032_021F27CC
  * region:   ov032
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F27CC 0x021F27CC thumb
- *   func_021F0438 0x021F0438 thumb ov032
+ *   BEACON_VIEW_RunSelect 0x021F27CC thumb
+ *   BEACON_VIEW_UpdateSelect 0x021F0438 thumb ov032
  */
 
 typedef unsigned char  u8;
-extern int func_021F0438(u8 *p);
+extern int BEACON_VIEW_UpdateSelect(u8 *p);
 
-int func_021F27CC(char *p)
+int BEACON_VIEW_RunSelect(char *p)
 {
-    return func_021F0438((u8 *)p);
+    return BEACON_VIEW_UpdateSelect((u8 *)p);
 }

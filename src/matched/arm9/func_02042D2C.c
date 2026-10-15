@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020422D4  0x020422D4  arm
+ *   BG_SYS_GetModeValue  0x020422D4  arm
  *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *
  * The third of the three tilemap blitters BG_SYS_SetTileEntry dispatches to on the
@@ -75,7 +75,7 @@ struct Screen {
     u8   size_code;
 };
 
-extern void func_020422D4(u32 mode, u8 *a, u8 *b);
+extern void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 extern u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code);
 
 void BG_SYS_BlitTileMap(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
@@ -92,7 +92,7 @@ void BG_SYS_BlitTileMap(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
         return;
     }
 
-    func_020422D4(s->size_code, &width, &height);
+    BG_SYS_GetModeValue(s->size_code, &width, &height);
 
     for (y = y0; y < y0 + h; y++) {
         if (y >= height) {

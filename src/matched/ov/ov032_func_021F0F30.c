@@ -1,5 +1,5 @@
 /*
- * function: func_021F0F30
+ * function: BEACON_VIEW_SetEntrySlot
  * address: 0x021F0F30
  * packet: pkt_ov032_021F0F30
  * region: ov032
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021F0EDC 0x021F0EDC thumb ov032
+ *   BEACON_VIEW_ResetEntry 0x021F0EDC thumb ov032
  */
-extern void func_021F0EDC(char *);
-void func_021F0F30(char *p, int a, int b) { func_021F0EDC(p); p[1]=a; p[2]=b; }
+extern void BEACON_VIEW_ResetEntry(char *);
+void BEACON_VIEW_SetEntrySlot(char *p, int a, int b) { BEACON_VIEW_ResetEntry(p); p[1]=a; p[2]=b; }

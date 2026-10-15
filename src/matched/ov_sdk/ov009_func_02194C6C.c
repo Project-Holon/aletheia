@@ -17,14 +17,14 @@
  *   rand                     0x02094694  arm
  *   _s32_div_f               0x0209C0A4  arm
  *   abs                      0x02091588  arm
- *   g_021A591C               0x021A591C  data
+ *   gGt2AuthChallengeKey               0x021A591C  data
  */
 
 extern int strlen();
 extern int gti2VerifyChallenge();
 extern int rand();
 extern int abs();
-extern char g_021A591C[];
+extern char gGt2AuthChallengeKey[];
 
 unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
 {
@@ -34,7 +34,7 @@ unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
     int keylen;
     int chalrand;
 
-    keylen = strlen(g_021A591C);
+    keylen = strlen(gGt2AuthChallengeKey);
     valid = gti2VerifyChallenge(challenge);
     for (i = 0; i < 32; i++)
     {
@@ -49,8 +49,8 @@ unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
                 cchar = challenge[i];
             else
                 cchar = challenge[i - 1];
-            chalrand = g_021A591C[(i + challenge[i]) % keylen];
-            buffer[i] = (unsigned char)(33 + abs(challenge[(i * challenge[i] + chalrand) % 32] ^ g_021A591C[(cchar * (i * 17991)) % keylen]) % 93);
+            chalrand = gGt2AuthChallengeKey[(i + challenge[i]) % keylen];
+            buffer[i] = (unsigned char)(33 + abs(challenge[(i * challenge[i] + chalrand) % 32] ^ gGt2AuthChallengeKey[(cchar * (i * 17991)) % keylen]) % 93);
         }
     }
     return buffer;

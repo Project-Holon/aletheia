@@ -1,5 +1,5 @@
 /*
- * function: func_021BA190
+ * function: BTL_REC_SEL_PrintStep
  * address: 0x021BA190
  * packet: pkt_ov214_021BA190
  * region: ov214
@@ -33,7 +33,7 @@ extern void func_020355D8(u8 v);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-int func_021BA190(int unused,char*p)
+int BTL_REC_SEL_PrintStep(int unused,char*p)
 {
     int result=0;
     switch(PRINTSYS_PrintStreamGetState(*(void* *)&((struct Obj04632 *)p)->f5C)){

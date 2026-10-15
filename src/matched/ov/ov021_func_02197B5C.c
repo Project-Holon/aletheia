@@ -19,7 +19,7 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   TCBL_Destroy  0x02031140  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   BMP_WIN_Delete  0x020452E8  arm
@@ -59,7 +59,7 @@ extern void IRCBATTLEMENU_DeleteClact(struct Obj *o);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void TCBL_Destroy(struct S02031140 *p);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -71,8 +71,8 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 
 int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
@@ -95,7 +95,7 @@ int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
     }
     APP_KEYCURSOR_Delete(d[0xAA]);
     TCBL_Destroy((struct S02031140 *)d[0xAE]);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(7);
     PRINTSYS_QUE_Clear((struct PrintSys *)d[0xAF]);
     PRINTSYS_QUE_Delete((struct PrintSys *)d[0xAF]);
     if (d[0xAC] != 0) {
@@ -114,7 +114,7 @@ int IRCBATTLEMENU_Exit(u32 a, u32 b, u8 *c, u32 *d)
     CLACT_ExitSystem();
     BMP_WIN_Exit();
     BG_SYS_Delete();
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x1f);
     return 1;
 }

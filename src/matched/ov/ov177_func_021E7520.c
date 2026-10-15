@@ -1,5 +1,5 @@
 /*
- * function: func_021E7520
+ * function: WIFIBATTLEMATCH_VIEW_CreateRecordWindow
  * address: 0x021E7520
  * packet: pkt_ov177_021E7520
  * region: ov177
@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   d_021E8DBC 0x021E8DBC data a1
- *   func_021E7CF0 0x021E7CF0 thumb ov177
- *   func_021E78B0 0x021E78B0 thumb ov177
- *   func_021E7B68 0x021E7B68 thumb ov177
- *   func_021E7C3C 0x021E7C3C thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_GetEntryValue 0x021E7CF0 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_SetupRecordWindow 0x021E78B0 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateRecordActor 0x021E7B68 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec 0x021E7C3C thumb ov177
  *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb  arm9
  *   PMS_DRAW_SetFollowBgScroll  0x0202DE68  thumb  arm9
@@ -20,6 +20,8 @@
  *   BG_SYS_GetBuf  0x0204162C  arm  arm9
  *   BG_SYS_DrawTileEx  0x020410D0  arm  arm9
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -45,20 +47,20 @@ extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1,
 struct PmsDraw;
 extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *p, u32 v);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
-extern u32 func_021E7CF0(void *, u32, u32);
-extern void func_021E78B0(Work *, const Record *, void *, void *, void *, void *, int, u16);
+extern u32 WIFIBATTLEMATCH_VIEW_GetEntryValue(void *, u32, u32);
+extern void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(Work *, const Record *, void *, void *, void *, void *, int, u16);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern void func_021E7B68(char *p, unsigned idx, unsigned owner, unsigned heap);
-extern void func_021E7C3C(char *p, char *q, void *x, void *data, unsigned heap);
+extern void WIFIBATTLEMATCH_VIEW_CreateRecordActor(char *p, unsigned idx, unsigned owner, unsigned heap);
+extern void WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec(char *p, char *q, void *x, void *data, unsigned heap);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 BG_SYS_GetBuf(int);
 extern void BG_SYS_DrawTileEx(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
-extern void func_020409B4(u32);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_PushTile(u32);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(void *, int, int, int, int);
-Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, u32 mode, u32 owner, int style, u16 heap)
+Work *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Record *rec, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, u32 mode, u32 owner, int style, u16 heap)
 {
     Work *w;
     u32 kind;
@@ -70,17 +72,17 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
     w->menu = PMS_DRAW_Create((u32)a1, 0, (u32)a4, (u32)a3, 5, 1, heap);
     PMS_DRAW_SetFollowBgScroll(w->menu, 1);
     PMS_DRAW_SetNullColorPalette(w->menu, 0);
-    kind = func_021E7CF0(rec->f30, rec->f28, rec->f2c);
+    kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(rec->f30, rec->f28, rec->f2c);
     alt = 0;
     if (mode - 2 <= 1)
         alt = kind == 5;
-    func_021E78B0(w, rec, a3, a4, a5, a6, alt, heap);
-    func_021E7B68((char *)w, func_02008554((const struct Sub0200852CObj *)rec), (unsigned int)a1, heap);
+    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, a3, a4, a5, a6, alt, heap);
+    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, func_02008554((const struct Sub0200852CObj *)rec), (unsigned int)a1, heap);
     func_0204989C(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
     case 2:
     case 3:
-        func_021E7C3C((char *)w, (char *)rec, a1, a2, heap);
+        WIFIBATTLEMATCH_VIEW_CreateRecordActorFromRec((char *)w, (char *)rec, a1, a2, heap);
         BG_SYS_FillTileMap(2, 0, 0, 0x20, 2, 1);
         BG_SYS_FillTileMap(2, 0, 3, 0x20, 0x20, kind + 3);
         BG_SYS_FillTileMap(2, 0, 3, 1, 2, 1);
@@ -105,9 +107,9 @@ Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, v
         }
         break;
     }
-    func_020409B4(2);
-    func_02040618(2, 0, ~0xff);
-    func_02040618(1, 0, ~0xff);
+    BG_SYS_PushTile(2);
+    BG_SYS_FillScrollArea(2, 0, ~0xff);
+    BG_SYS_FillScrollArea(1, 0, ~0xff);
     func_0207D63C((void *)0x04000050, 4, 8, 0xf, 3);
     return w;
 }

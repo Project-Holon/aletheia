@@ -36,7 +36,7 @@
  *   func_02040588 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
  *   func_02012944 0x02012944 thumb
@@ -51,7 +51,7 @@
  *   sBgTemplate4    0x021F05E8 data ov035 a4
  *   sBgTemplate6    0x021F0608 data ov035 a4
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_Delete_03F4  0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_02049B40 0x02049B40 arm
@@ -157,7 +157,7 @@ extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
 extern struct GameData *ICA_ANIME_GetField1C(const void *gameSystem);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
@@ -168,7 +168,7 @@ extern void func_02049990(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs,
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void *APP_TASKMENU_RES_Create(u16 a0, u16 a1, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern u32 APP_TASKMENU_RES_Delete(void *taskMenuRes);
 extern void func_02049B40(int, int, int, int, int, int);
@@ -298,15 +298,15 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
         func_02040588((u8)i, 0);
     BG_SYS_InitBgLayer(6, &sBgTemplate6, 0);
     BG_SYS_ClearSlot(6);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_02040588((u8)6, 1);
     BG_SYS_InitBgLayer(5, &sBgTemplate5, 0);
     BG_SYS_ClearSlot(5);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     func_02040588((u8)5, 1);
     BG_SYS_InitBgLayer(4, &sBgTemplate4, 0);
     BG_SYS_ClearSlot(4);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     func_02040588((u8)4, 1);
     arc = func_020490F4(0x1E, heapId);
     i = func_02008550(func_02012944(ICA_ANIME_GetField1C(work->gameSystem)));
@@ -325,9 +325,9 @@ void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
 {
     unsigned int charAlloc = work->bgCharAlloc;
     BG_SYS_DeleteHalf(6, (unsigned short)charAlloc, (unsigned short)(charAlloc >> 16));
-    BG_SYS_Delete_03F4(6);
-    BG_SYS_Delete_03F4(5);
-    BG_SYS_Delete_03F4(4);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     func_02040588(6, 0);
     func_02040588(5, 0);
     func_02040588(4, 0);

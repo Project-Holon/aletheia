@@ -44,7 +44,7 @@
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BTLV_INPUT_TaskEndClearBusyBit  0x022043AC  thumb  ov094
  *   BTLV_INPUT_WaitScreenOpenTask  0x02203BC0  thumb  ov094
@@ -188,7 +188,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
@@ -399,7 +399,7 @@ void BTLV_INPUT_ChangeScreen(char *s, int mode, void *arg)
                 STRBUF_Delete(w);
             }
             BMP_WIN_MakeScreen(S_PTR(0x228));
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BMP_WIN_TransferChars(S_PTR(0x228));
         }
         break;

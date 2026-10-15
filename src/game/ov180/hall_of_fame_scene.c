@@ -22,7 +22,7 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   gHallOfFameBgSetup 0x021B80E8 data ov180 a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
@@ -31,7 +31,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -242,7 +242,7 @@ extern void BG_SYS_SetAffine(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -251,7 +251,7 @@ extern void ARC_TOOL_DeleteHandle(u8 *p);
 extern void func_0207D63C(void *,u32,u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -393,8 +393,8 @@ void HALL_OF_FAME_ExitBackgrounds(void)
 {
     BG_SYS_SetMainPlaneVisible(8, 0);
     BG_SYS_SetSubPlaneVisible(8, 0);
-    func_020403F4(7);
-    func_020403F4(3);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(3);
 }
 
 void HALL_OF_FAME_LoadBackgroundGraphics(void)
@@ -420,7 +420,7 @@ void HALL_OF_FAME_InitText(HallOfFameWork *work)
     work->msgData = func_02045B38(0, 2, 32, HOF_HEAP_ID);
     work->fontMain = GF_FONT_Create(23, 0, 0, 0, HOF_HEAP_ID);
     work->fontSub = GF_FONT_Create(23, 3, 0, 0, HOF_HEAP_ID);
-    work->wordSet = GF_FONT_Create_EC64(HOF_HEAP_ID);
+    work->wordSet = WORDSET_CreateDefault(HOF_HEAP_ID);
     work->strBuf = STRBUF_Create(1024, HOF_HEAP_ID);
 }
 

@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_02146A44      0x02146A44  data
- *   func_02043228   0x02043228  arm
+ *   BG_SYS_SetAffineField   0x02043228  arm
  *   func_02043264   0x02043264  arm
  *   func_020432E4   0x020432E4  arm
  *
@@ -60,14 +60,14 @@ struct Ctx {
 extern struct Ctx *g_02146A44;
 
 struct Obj;
-extern void func_02043228(struct Obj *p, u32 op, u16 value);
+extern void BG_SYS_SetAffineField(struct Obj *p, u32 op, u16 value);
 struct Obj;
 extern void func_02043264(struct Obj *p, u32 op, u32 value);
 extern void func_020432E4(struct Obj *p, u32 op, u32 value);
 
 void BG_SYS_SetScrollX(u32 which, u32 op, u16 value)
 {
-    func_02043228((struct Obj *)(&g_02146A44->slots[which]), op, value);
+    BG_SYS_SetAffineField((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 

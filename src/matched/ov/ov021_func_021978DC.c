@@ -55,8 +55,8 @@ typedef unsigned int   u32;
 typedef struct { u32 w[4]; } Q16;
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
@@ -97,7 +97,7 @@ extern void *ICA_ANIME_GetField1C(const struct Ctx *);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 
-int IRCBATTLEMENU_Init(struct Obj0203159C *a, u32 b, u32 c)
+int IRCBATTLEMENU_Init(struct Proc *a, u32 b, u32 c)
 {
     u8 *w;
 

@@ -18,7 +18,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   WIFILOGIN_MSG_GetFrameIdA 0x021D5FA0 thumb ov115
  *   WIFILOGIN_MSG_GetFrameIdB 0x021D5FC4 thumb ov115
@@ -45,7 +45,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern struct R *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 extern u32 WIFILOGIN_MSG_GetFrameIdA(u32);
 extern u32 WIFILOGIN_MSG_GetFrameIdB(u32);
@@ -66,7 +66,7 @@ u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode)
     *(struct U16Vec * *)&((struct Obj00531 *)p)->f28 = STRBUF_Create(400, ((struct Obj00531 *)p)->f4C);
     *(struct GfFont * *)&((struct Obj00531 *)p)->f24 = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00531 *)p)->f4C);
     *(struct MsgBank * *)&((struct Obj00531 *)p)->f1C = MSGDATA_CreateFromArchive(0, 2, (u16)bank, ((struct Obj00531 *)p)->f4C);
-    *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = GF_FONT_Create_EC64(((struct Obj00531 *)p)->f4C);
+    *(struct WordSet * *)&((struct Obj00531 *)p)->f20 = WORDSET_CreateDefault(((struct Obj00531 *)p)->f4C);
     *(struct R * *)&((struct Obj00531 *)p)->f70 = APP_TASKMENU_RES_Create(5, 9, *(u32 *)&((struct Obj00531 *)p)->f24, ((struct Obj00531 *)p)->f48, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f0 = BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdA(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);
     ((struct Obj00531 *)p)->f4 = BMP_MENUWORK_LoadFrameGfx((void *)WIFILOGIN_MSG_GetFrameIdB(((struct Obj00531 *)p)->f50), 12, 0, ((struct Obj00531 *)p)->f4C);

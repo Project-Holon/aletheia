@@ -18,7 +18,7 @@
  *   func_02008550 0x02008550 thumb
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
@@ -43,7 +43,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -67,12 +67,12 @@ void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
     else func_02049B68(arc,6,4,0,0x60,((struct Obj00545 *)p)->f0);
     func_02049658(arc,11,7,0,0,0,((struct Obj00545 *)p)->f0);
     func_020498F4(arc,14,7,0,0,0,((struct Obj00545 *)p)->f0);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02049B68(arc,0,0,0x160,0x20,((struct Obj00545 *)p)->f0);
     func_02049658(arc,8,1,0,0,0,((struct Obj00545 *)p)->f0);
     func_020498F4(arc,13,1,0,0,0,((struct Obj00545 *)p)->f0);
     BG_SYS_FillTileMap(1,0,0,32,32,11);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     ARC_TOOL_DeleteHandle(arc);
     s.a=10; s.b=1; s.x=0;s.y=0;s.z=0;
     ((struct Obj00545 *)p)->f54=CLACT_CreateActor((void *)((struct Obj00545 *)p)->f50,((struct Obj00545 *)p)->f48,((struct Obj00545 *)p)->f44,((struct Obj00545 *)p)->f4C,&s,0,((struct Obj00545 *)p)->f0);

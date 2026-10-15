@@ -15,7 +15,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00050.h"
 #include "../include/Obj02893.h"
@@ -30,7 +30,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void BR_CODEIN_RecordDeleteActors(char *p,char *q)
 {
     int i;
@@ -52,7 +52,7 @@ void BR_CODEIN_RecordDeleteActors(char *p,char *q)
             if(((struct Obj02893 *)slot)->f30) { BR_UTIL_Delete(((struct Obj02893 *)slot)->f30); *(int *)&((struct Obj02893 *)slot)->f30=0; }
         }
         BR_RES_ApplyBgSet(((struct Obj24572 *)q)->f10,6);
-        func_020409B4(1);
+        BG_SYS_PushTile(1);
         ((struct Obj00050 *)p)->fD4=0;
     }
 }

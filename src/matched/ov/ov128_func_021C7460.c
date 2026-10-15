@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021CA58A 0x021CA58A data a1
+ *   gWf2dmapListHitRects 0x021CA58A data a1
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WF2DMAP_TOUCH_SetTopHighlight1 0x021CA154 thumb ov128
@@ -16,7 +16,7 @@
  *   func_020355D8 0x020355D8 arm
  */
 typedef unsigned char u8;
-extern const char d_021CA58A[];
+extern const char gWf2dmapListHitRects[];
 extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -26,7 +26,7 @@ extern void func_020355D8(u8 v);
 int Wf2dmapFriend_ListTouchInput(int *p,int *q,u8 *ctx)
 {
     int v;
-    v=TOUCHPANEL_HitTrg(d_021CA58A);
+    v=TOUCHPANEL_HitTrg(gWf2dmapListHitRects);
     if(v!=-1) {
         if(v==3) {
             GFL_USE_PlaySeDefaultVolume(1361);

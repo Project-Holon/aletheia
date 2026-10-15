@@ -16,7 +16,7 @@
  *   gpiSendBuddyMessage  0x021889A0  arm   ov009
  *   strcmp  0x020948E0  arm  
  *   gsifree  0x0217EAE0  arm   ov009
- *   g_021A4468     0x021A4468  data  ov009
+ *   gGpiBuddyEmptyMsg     0x021A4468  data  ov009
  */
 
 typedef struct GPIPeer {
@@ -29,7 +29,7 @@ extern int gpiSendBuddyMessage(void **connection, int profileid, int type, char 
                          int sendOption, void *peerOp);
 extern int strcmp(const char *s1, const char *s2);
 extern void gsifree(void *ptr);
-extern char g_021A4468[];
+extern char gGpiBuddyEmptyMsg[];
 
 int gpiBuddyHandleKeyRequest(void **connection, GPIPeer *peer)
 {
@@ -39,12 +39,12 @@ int gpiBuddyHandleKeyRequest(void **connection, GPIPeer *peer)
     if ((result = gpiSaveKeysToBuffer(connection, &message)) != 0)
         return result;
     if (message == 0)
-        message = g_021A4468;
+        message = gGpiBuddyEmptyMsg;
     if ((result = gpiSendBuddyMessage(connection, peer->profile, 0x69, message, 0xB00, 0)) != 0)
         return result;
     {
         char *m = message;
-        if (strcmp(m, g_021A4468) != 0)
+        if (strcmp(m, gGpiBuddyEmptyMsg) != 0)
             gsifree(m);
     }
     return 0;

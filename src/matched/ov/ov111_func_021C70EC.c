@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   BG_SYS_Update  0x020419E4  arm
  *
@@ -79,7 +79,7 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
 
@@ -87,10 +87,10 @@ void VIEWER_TEXT_VBlank(void *unused, Work *p)
 {
     int v = -(p->f11C / 2);
 
-    func_02040618(6, 0, v);
-    func_02040618(6, 3, v);
-    func_02040618(3, 0, v);
-    func_02040618(3, 3, v);
+    BG_SYS_FillScrollArea(6, 0, v);
+    BG_SYS_FillScrollArea(6, 3, v);
+    BG_SYS_FillScrollArea(3, 0, v);
+    BG_SYS_FillScrollArea(3, 3, v);
     CLACT_VBlankSystem();
     BG_SYS_Update();
 }

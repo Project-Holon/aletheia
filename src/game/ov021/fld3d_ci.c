@@ -141,7 +141,7 @@
  *   d_021DE43C     0x021DE43C  data  ov021  a4
  *   d_021DE448     0x021DE448  data  ov021  a4
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -298,7 +298,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 extern int func_0208CC78(const char *s);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create_EC64(u32 heap);
+extern void *WORDSET_CreateDefault(u32 heap);
 extern void *STRBUF_Create(u32 size, u16 heap);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *playerStatus);
@@ -1566,7 +1566,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     heapId = ci->heapId;
     msgBank = func_02045B38(0, 2, 0xb0, heapId);
     if (msgId == 0) {
-        wordSet = GF_FONT_Create_EC64((u16)((heapId & 0x7FFF) | 0x8000));
+        wordSet = WORDSET_CreateDefault((u16)((heapId & 0x7FFF) | 0x8000));
         text = STRBUF_Create(8, (heapId & 0x7FFF) | 0x8000);
         rawMsg = func_02045EC0(msgBank, msgId);
         WORDSET_SetSlotMyStatus(wordSet, 0, playerStatus);

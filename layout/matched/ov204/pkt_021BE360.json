@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE360",
+   "name": "INTRO_CMD_CmdBrightnessSet",
    "address": "0x021BE360",
    "kind": "game",
    "region": "ov204",

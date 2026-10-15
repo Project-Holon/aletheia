@@ -20,7 +20,7 @@
  *   d_021DA710 0x021DA710 data a4
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -77,7 +77,7 @@
  *   d_021DA648 0x021DA648 data a4
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -141,7 +141,7 @@
  *   d_021DAA20 0x021DAA20 data a1
  *   ICA_ANIME_GetUnk330 0x02012204 thumb
  *   TCBL_Main 0x020310C4 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -199,7 +199,7 @@ extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void BG_SYS_FreeSlot(u32);
 
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern void BG_SYS_SetVisibleLayer(int, u16);
 
@@ -311,7 +311,7 @@ extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern u32 MSGDATA_Delete(void *rec);
 
@@ -393,7 +393,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
@@ -447,7 +447,7 @@ extern void TCBL_Main(struct Tcbl *p);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void CLACT_DrawSystem(void);
 
@@ -485,7 +485,7 @@ extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
@@ -567,27 +567,27 @@ void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work)
     bgTemplates[4] = d_021DA690;
     BG_SYS_InitBgLayer(0, &bgTemplates[4], 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     BG_SYS_SetVisibleLayer(0, 0);
     func_02040588(0, 1);
     bgTemplates[3] = d_021DA6B0;
     BG_SYS_InitBgLayer(4, &bgTemplates[3], 0);
     func_02040588(4, 1);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     bgTemplates[2] = d_021DA6D0;
     BG_SYS_InitBgLayer(5, &bgTemplates[2], 0);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 32, 32, 17);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     func_02040588(5, 1);
     bgTemplates[1] = d_021DA6F0;
     BG_SYS_InitBgLayer(6, &bgTemplates[1], 0);
     func_02040588(6, 1);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     bgTemplates[0] = d_021DA710;
     BG_SYS_InitBgLayer(7, &bgTemplates[0], 0);
     func_02040588(7, 1);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }
 
 void GSYNC_MENU_RestartTimeIcon(GsyncMenuWork *work)
@@ -741,7 +741,7 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
     if (work->buttonMan != 0)
         BUTTON_MAN_Delete(work->buttonMan);
     work->buttonMan = 0;
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }
 
 void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work)
@@ -852,8 +852,8 @@ void GSYNC_MENU_FreeResources(GsyncMenuWork *work)
     GSYNC_MENU_DeleteButtonWindows(work);
     BG_SYS_SetTileUnit(5, 1, 0);
     BG_SYS_DeleteHalf((int)5, (u16)(work->bgFrame), (u16)(work->bgFrame >> 16));
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete(work->msgBank);
     MSGDATA_Delete(work->msgBankSub);
     GF_FONT_Delete(work->font);
@@ -1238,7 +1238,7 @@ int GSYNC_MENU_ProcMain(int unused0, int unused1, int unused2, GsyncMenuWork *wo
     }
     TCBL_Main(work->tcbl);
     PRINTSYS_QUE_Main(work->printQue);
-    func_02040618(4, 3, work->bgScrollY);
+    BG_SYS_FillScrollArea(4, 3, work->bgScrollY);
     --work->bgScrollY;
     CLACT_DrawSystem();
     if (!work->exiting) GAMESYSTEM_TryStartAutoComm(work->gameSystem);
@@ -1279,7 +1279,7 @@ int GSYNC_MENU_ProcExit(void *proc, int seq, GsyncProcParam *param, GsyncMenuWor
     func_020307B0(work->palBufMain);
     func_020307B0(work->palBufSub);
     APP_KEYCURSOR_Delete(work->keyCursor);
-    func_020403F4(5);
+    BG_SYS_FreeLayerBuf(5);
     PRINTSYS_QUE_Clear(work->printQue);
     PRINTSYS_QUE_Delete(work->printQue);
     if (work->msgWin) BMP_WIN_Delete(work->msgWin);

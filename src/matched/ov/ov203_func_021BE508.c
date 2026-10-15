@@ -1,5 +1,5 @@
 /*
- * function: func_021BE508
+ * function: DEMO3D_ENGINE_SetClipPlanes
  * address: 0x021BE508
  * packet: pkt_ov203_021BE508
  * region: ov203
@@ -26,7 +26,7 @@ struct Light;
 extern u32 DOUBLE3DDISP_GetMode(void);
 extern void G3D_CAMERA_SetNearClipAlt(struct Light *,u32);
 extern void G3D_CAMERA_SetFarClipAlt(struct Light *,u32);
-void func_021BE508(char *p,struct Light *q)
+void DEMO3D_ENGINE_SetClipPlanes(char *p,struct Light *q)
 {
     int x;
     if(DOUBLE3DDISP_GetMode()==0)x=*(short *)(*(char **)(p+0x74)+0x20);

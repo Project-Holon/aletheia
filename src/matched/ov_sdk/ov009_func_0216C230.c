@@ -48,8 +48,8 @@
  *   DWCi_SetState                             0x0216BC84  arm   ov009
  *   DWCi_ClearQR2Key                          0x0216EC18  arm   ov009
  *   DWCi_IsServerChangeEnabled                0x02175FC8  arm   ov009
- *   g_021AA878                                0x021AA878  data
- *   g_021AA8A0                                0x021AA8A0  data
+ *   gDwcGlobalState                                0x021AA878  data
+ *   gDwcConnectionArray                                0x021AA8A0  data
 
  */
 
@@ -119,8 +119,8 @@ struct DWCControl {
     int fb14;                         /* 0xb14 */
 };
 
-extern struct DwcGlobal g_021AA878;
-extern int g_021AA8A0[];
+extern struct DwcGlobal gDwcGlobalState;
+extern int gDwcConnectionArray[];
 
 extern int DWCi_IsShutdownMatch(void);
 extern struct DWCstConnectionInfo *gt2GetConnectionData(struct GTI2Connection *connection);
@@ -202,11 +202,11 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         }
 
         profileID = DWCi_DeleteAID(aid);
-        ((struct DWCControl *)g_021AA878.st)->f36c &= ~(1 << aid);
+        ((struct DWCControl *)gDwcGlobalState.st)->f36c &= ~(1 << aid);
 
-        if (((struct DWCControl *)g_021AA878.st)->f398 != 0 && isServer) {
+        if (((struct DWCControl *)gDwcGlobalState.st)->f398 != 0 && isServer) {
             if (!DWCi_IsBackupMine())
-                ((struct DWCControl *)g_021AA878.st)->f394 = 1;
+                ((struct DWCControl *)gDwcGlobalState.st)->f394 = 1;
         }
 
         i = 0;
@@ -215,55 +215,55 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
             profileID = gt2GetConnectionData(DWCi_GetGT2Connection(aid))->profileID;
 
         if (!isPseudClose)
-            g_021AA8A0[conninfo->index] = 0;
+            gDwcConnectionArray[conninfo->index] = 0;
     }
 
-    if (((struct DWCControl *)g_021AA878.st)->fb14 == 1 && DWC_IsServerMyself())
-        ((struct DWCControl *)g_021AA878.st)->fb14 = 1;
-    else if ((((struct DWCControl *)g_021AA878.st)->f365 == 3 || ((struct DWCControl *)g_021AA878.st)->f365 == 2))
-        ((struct DWCControl *)g_021AA878.st)->fb14 = 0;
+    if (((struct DWCControl *)gDwcGlobalState.st)->fb14 == 1 && DWC_IsServerMyself())
+        ((struct DWCControl *)gDwcGlobalState.st)->fb14 = 1;
+    else if ((((struct DWCControl *)gDwcGlobalState.st)->f365 == 3 || ((struct DWCControl *)gDwcGlobalState.st)->f365 == 2))
+        ((struct DWCControl *)gDwcGlobalState.st)->fb14 = 0;
     else if (DWC_GetNumConnectionHost() == 1)
-        ((struct DWCControl *)g_021AA878.st)->fb14 = 1;
+        ((struct DWCControl *)gDwcGlobalState.st)->fb14 = 1;
     else
-        ((struct DWCControl *)g_021AA878.st)->fb14 = 0;
+        ((struct DWCControl *)gDwcGlobalState.st)->fb14 = 0;
 
     if (DWCi_IsBackupMine()) {
         struct DWCstNodeInfo *pNodeInfo;
 
-        ((struct DWCControl *)g_021AA878.st)->fadc = 0;
+        ((struct DWCControl *)gDwcGlobalState.st)->fadc = 0;
 
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); ) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
 
-            if (pNodeInfo->profileID != ((struct DWCControl *)g_021AA878.st)->f9c8 &&
+            if (pNodeInfo->profileID != ((struct DWCControl *)gDwcGlobalState.st)->f9c8 &&
                 DWCi_GetGT2Connection(pNodeInfo->aid) == 0) {
-                if (((struct DWCControl *)g_021AA878.st)->cb88 != 0) {
-                    ((struct DWCControl *)g_021AA878.st)->cb88(dwcError, reason == 0, isServer,
+                if (((struct DWCControl *)gDwcGlobalState.st)->cb88 != 0) {
+                    ((struct DWCControl *)gDwcGlobalState.st)->cb88(dwcError, reason == 0, isServer,
                                           pNodeInfo->aid,
                                           DWCi_GetFriendListIndex(pNodeInfo->profileID),
-                                          ((struct DWCControl *)g_021AA878.st)->f8c);
+                                          ((struct DWCControl *)gDwcGlobalState.st)->f8c);
                 }
                 DWCi_DeleteAID(pNodeInfo->aid);
             } else {
                 pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
-                ((struct DWCControl *)g_021AA878.st)->fadc |= 1 << pNodeInfo->aid;
+                ((struct DWCControl *)gDwcGlobalState.st)->fadc |= 1 << pNodeInfo->aid;
                 i++;
             }
         }
     }
 
     if (reason != 0 && DWC_IsServerMyself() == 1) {
-        ((struct DWCControl *)g_021AA878.st)->faf0 = 0;
+        ((struct DWCControl *)gDwcGlobalState.st)->faf0 = 0;
 
         if (DWCi_IsFullMesh()) {
-            if (((struct DWCControl *)g_021AA878.st)->f96c == 0x10 && ((struct DWCControl *)g_021AA878.st)->fa28 == 8) {
-                ((struct DWCControl *)g_021AA878.st)->fab8 = 0;
+            if (((struct DWCControl *)gDwcGlobalState.st)->f96c == 0x10 && ((struct DWCControl *)gDwcGlobalState.st)->fa28 == 8) {
+                ((struct DWCControl *)gDwcGlobalState.st)->fab8 = 0;
             }
         }
     }
 
-    if (((struct DWCControl *)g_021AA878.st)->f2d == 0 && ((struct DWCControl *)g_021AA878.st)->f24 == 5 && aidValid == 0) {
-        if (!(((struct DWCControl *)g_021AA878.st)->f364 == 2 && dwcError == 0))
+    if (((struct DWCControl *)gDwcGlobalState.st)->f2d == 0 && ((struct DWCControl *)gDwcGlobalState.st)->f24 == 5 && aidValid == 0) {
+        if (!(((struct DWCControl *)gDwcGlobalState.st)->f364 == 2 && dwcError == 0))
             return;
 
         DWCi_GPSetServerStatus(-1);
@@ -281,8 +281,8 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         return;
     }
 
-    if (((struct DWCControl *)g_021AA878.st)->f364 == 2) {
-        if (((struct DWCControl *)g_021AA878.st)->f2d == 0)
+    if (((struct DWCControl *)gDwcGlobalState.st)->f364 == 2) {
+        if (((struct DWCControl *)gDwcGlobalState.st)->f2d == 0)
             DWCi_GPSetServerStatus(-1);
         else if (DWCi_NodeInfoList_GetCount() == 1)
             DWCi_GPSetServerStatus(1);
@@ -290,34 +290,34 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         DWCi_GPSetServerStatus(1);
     }
 
-    if (((struct DWCControl *)g_021AA878.st)->f366 == 2)
-        qr2_send_statechanged(((struct DWCControl *)g_021AA878.st)->f360);
+    if (((struct DWCControl *)gDwcGlobalState.st)->f366 == 2)
+        qr2_send_statechanged(((struct DWCControl *)gDwcGlobalState.st)->f360);
 
-    if (((struct DWCControl *)g_021AA878.st)->cb88 != 0 && aidValid != 0) {
-        ((struct DWCControl *)g_021AA878.st)->cb88(dwcError, reason == 0, isServer, aid,
+    if (((struct DWCControl *)gDwcGlobalState.st)->cb88 != 0 && aidValid != 0) {
+        ((struct DWCControl *)gDwcGlobalState.st)->cb88(dwcError, reason == 0, isServer, aid,
                               DWCi_GetFriendListIndex(profileID),
-                              ((struct DWCControl *)g_021AA878.st)->f8c);
+                              ((struct DWCControl *)gDwcGlobalState.st)->f8c);
     }
 
-    if (((struct DWCControl *)g_021AA878.st)->f2d == 0 && ((struct DWCControl *)g_021AA878.st)->f364 == 2)
+    if (((struct DWCControl *)gDwcGlobalState.st)->f2d == 0 && ((struct DWCControl *)gDwcGlobalState.st)->f364 == 2)
         return;
 
     if (DWCi_StopMeshMaking() == 1)
         DWCi_SetMatchStatus(1);
 
     if (DWCi_NodeInfoList_GetCount() == 1) {
-        if (((struct DWCControl *)g_021AA878.st)->f2d != 0) {
+        if (((struct DWCControl *)gDwcGlobalState.st)->f2d != 0) {
             DWCi_NNFreeNegotiateList();
             DWCi_SetState(3);
             DWCi_ClearQR2Key();
-            ((struct DWCControl *)g_021AA878.st)->f366 = 0;
+            ((struct DWCControl *)gDwcGlobalState.st)->f366 = 0;
         } else {
             DWCi_SetMatchStatus(0xb);
         }
         return;
     }
 
-    if (((struct DWCControl *)g_021AA878.st)->f364 == 3 && isServer && DWCi_NodeInfoList_GetCount() >= 1) {
+    if (((struct DWCControl *)gDwcGlobalState.st)->f364 == 3 && isServer && DWCi_NodeInfoList_GetCount() >= 1) {
         if (DWCi_NodeInfoList_GetCount() == 1 && DWCi_IsServerChangeEnabled())
             DWCi_SetMatchStatus(0xb);
         else

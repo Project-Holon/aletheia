@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_graphic.c
  * unit:     yes
- * function: func_021BDDD8, func_021BDE98, func_021BDF00, func_021BDF18, func_021BDF24, func_021BDF30, func_021BDF3C, func_021BDF74, func_021BDF88, func_021BDFA8, func_021BDFC0, func_021BE02C, func_021BE078, func_021BE07C, func_021BE084, func_021BE0C4, func_021BE0E0, func_021BE0E8, func_021BE0F0, func_021BE0F4, func_021BE12C, func_021BE13C, func_021BE148, func_021BE150, func_021BE158
+ * function: DEMO3D_GRAPHIC_Create, DEMO3D_GRAPHIC_Delete, DEMO3D_GRAPHIC_Draw, DEMO3D_GRAPHIC_UpdateLookAt, DEMO3D_GRAPHIC_EndDraw, DEMO3D_GRAPHIC_GetUnit, DEMO3D_GRAPHIC_SetupLightBlock, DEMO3D_GRAPHIC_SetLightSlot, DEMO3D_GRAPHIC_SetLightVector, DEMO3D_GRAPHIC_VBlank, DEMO3D_GRAPHIC_InitBg, DEMO3D_GRAPHIC_DeleteBg, DEMO3D_GRAPHIC_Noop, DEMO3D_GRAPHIC_UpdateBg, DEMO3D_GRAPHIC_InitClact, DEMO3D_GRAPHIC_DeleteClact, DEMO3D_GRAPHIC_DrawClact, DEMO3D_GRAPHIC_VBlankClact, DEMO3D_GRAPHIC_GetClactUnit, DEMO3D_GRAPHIC_InitG3d, DEMO3D_GRAPHIC_DeleteG3d, DEMO3D_GRAPHIC_ApplyLookAt, DEMO3D_GRAPHIC_DrawEnd, DEMO3D_GRAPHIC_DeleteDouble3d, DEMO3D_GRAPHIC_DeleteCamera
  * address:  0x021BDDD8
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@
  *   d_021BFB50 0x021BFB50 data a4
  *   d_021BFC24 0x021BFC24 data a4
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -66,18 +66,10 @@
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   DOUBLE3DDISP_Delete 0x0204EA64 arm
  *   G3D_CAMERA_Delete 0x02048AC4 arm
- *   func_021BDF74 0x021BDF74 thumb ov203
- *   func_021BDF88 0x021BDF88 thumb ov203
- *   func_021BE938 0x021BE938 thumb ov203
+ *   DEMO3D_GRAPHIC_SetLightSlot 0x021BDF74 thumb ov203
+ *   DEMO3D_GRAPHIC_SetLightVector 0x021BDF88 thumb ov203
+ *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
  */
-#include "../../matched/include/Obj08374.h"
-#include "../../matched/include/Obj10861.h"
-#include "../../matched/include/Obj25309.h"
-#include "../../matched/include/Obj25310.h"
-#include "../../matched/include/Obj25311.h"
-#include "../../matched/include/Obj14586.h"
-#include "../../matched/include/Obj25312.h"
-#include "../../matched/include/Obj25313.h"
 #include "demo3d_graphic_shared_types.h"
 
 struct DispVram;
@@ -92,9 +84,16 @@ struct Bank;
 
 struct LightSet;
 
-typedef struct Descriptor { unsigned layer; unsigned config[8]; unsigned type, enable; } Descriptor;
+/* One background layer template (0x28 bytes) in d_021BFC24. */
+typedef struct Demo3dBgLayer { unsigned layer; unsigned config[8]; unsigned type, enable; } Demo3dBgLayer;
 
-typedef signed short s16_021BE02C;
+/* The clact sub-section of Demo3dGraphic at 0x04. */
+typedef struct Demo3dGraphicClact { struct Bank *unit; } Demo3dGraphicClact;
+
+/* The g3d sub-section of Demo3dGraphic at 0x08. */
+typedef struct Demo3dGraphicG3d { int tag; struct LightSlot *lightSlots; } Demo3dGraphicG3d;
+
+typedef signed short s16;
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 
@@ -146,7 +145,7 @@ extern void BG_SYS_Init(unsigned, unsigned, unsigned, unsigned);
 
 extern void BG_SYS_SetTileUnit(unsigned, unsigned, unsigned);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BMP_WIN_Exit(void);
 
@@ -173,7 +172,7 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
-                          u16 fifoSize, s16_021BE02C heap, void (*setup)(void));
+                          u16 fifoSize, s16 heap, void (*setup)(void));
 
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 
@@ -193,63 +192,63 @@ extern void DOUBLE3DDISP_Delete(void);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
-void *func_021BDDD8(unsigned swap, void *config, u8 heap);
+Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap);
 
-void func_021BDE98(char *ctx);
+void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx);
 
-void func_021BDF00(u8 *p);
+void DEMO3D_GRAPHIC_Draw(Demo3dGraphic *p);
 
-void func_021BDF18(char *p);
+void DEMO3D_GRAPHIC_UpdateLookAt(Demo3dGraphic *p);
 
-void func_021BDF24(char *p);
+void DEMO3D_GRAPHIC_EndDraw(Demo3dGraphic *p);
 
-int func_021BDF30(char *p);
+int DEMO3D_GRAPHIC_GetUnit(Demo3dGraphic *p);
 
-void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2);
+void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2);
 
-void func_021BDF74(char *p,unsigned i,unsigned short val);
+void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p, unsigned i, unsigned short val);
 
-void func_021BDF88(char *p, int a, int b);
+void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b);
 
-void func_021BDFA8(u32 a, u8 *p);
+void DEMO3D_GRAPHIC_VBlank(u32 a, Demo3dGraphic *p);
 
-void func_021BDFC0(void *ctx, unsigned heap);
+void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, unsigned heap);
 
-void func_021BE02C(void *ctx);
+void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx);
 
-void func_021BE078(void *a0);
+void DEMO3D_GRAPHIC_Noop(void *a0);
 
-void func_021BE07C(void *a0);
+void DEMO3D_GRAPHIC_UpdateBg(void *a0);
 
-void func_021BE084(unsigned char *p, int a, int b);
+void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b);
 
-void func_021BE0C4(char *a);
+void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p);
 
-void func_021BE0E0(void *a0);
+void DEMO3D_GRAPHIC_DrawClact(void *a0);
 
-void func_021BE0E8(u8 *a0);
+void DEMO3D_GRAPHIC_VBlankClact(u8 *a0);
 
-int func_021BE0F0(void *p);
+int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p);
 
-void func_021BE0F4(unsigned char *p, u8 heap);
+void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap);
 
-void func_021BE12C(int *p);
+void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p);
 
-void func_021BE13C(void *a);
+void DEMO3D_GRAPHIC_ApplyLookAt(void *a);
 
-void func_021BE148(void *p);
+void DEMO3D_GRAPHIC_DrawEnd(void *p);
 
-void func_021BE150(void);
+void DEMO3D_GRAPHIC_DeleteDouble3d(void);
 
-void func_021BE158(void *p);
+void DEMO3D_GRAPHIC_DeleteCamera(void *p);
 
-int func_021BE938(void *a);
+int DEMO3D_DATA_GetAnimCount(void *a);
 
 extern const char d_021C3CCC[];
 
 extern const unsigned char d_021BFBC4[][48];
 
-extern const Descriptor d_021BFC24[];
+extern const Demo3dBgLayer d_021BFC24[];
 
 extern const unsigned d_021BFB50[];
 
@@ -258,38 +257,38 @@ extern const struct LightSet d_021BFB48;
 /*
  * volatile: 04000050/04001050 hardware stores DE06/DE0C; 04000000/04001000 rereads DE10/DE1A.
  */
-void *func_021BDDD8(unsigned swap, void *config, u8 heap)
+Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
 {
-    unsigned char *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
+    Demo3dGraphic *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
     MI_CpuFill8(ctx, 0, 24);
-    ((struct Obj08374 *)ctx)->f14 = func_021BE938(config);
+    ctx->engineOn = DEMO3D_DATA_GetAnimCount(config);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const struct DispVram *)d_021BFBC4[((struct Obj08374 *)ctx)->f14]);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021BFBC4[ctx->engineOn]);
     BMP_SetDisplaySwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    if (((struct Obj08374 *)ctx)->f14 == 0) {
-        func_021BDFC0(ctx, heap);
-        func_021BE084(ctx + 4, (int)d_021BFBC4, heap);
-        ((struct Obj08374 *)ctx)->f10 = func_020056A0((unsigned)func_021BDFA8, (unsigned)ctx, 0);
+    if (ctx->engineOn == 0) {
+        DEMO3D_GRAPHIC_InitBg(ctx, heap);
+        DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (int)d_021BFBC4, heap);
+        ctx->proc = func_020056A0((unsigned)DEMO3D_GRAPHIC_VBlank, (unsigned)ctx, 0);
     }
-    func_021BE0F4(ctx + 8, heap);
+    DEMO3D_GRAPHIC_InitG3d((Demo3dGraphicG3d *)&ctx->g3dTag, heap);
     return ctx;
 }
 
-void func_021BDE98(char *ctx)
+void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx)
 {
-    if (((struct Obj10861 *)ctx)->f14 == 0) func_02030EAC(((struct Obj10861 *)ctx)->f10);
-    func_021BE12C((int *)(ctx + 8));
-    if (((struct Obj10861 *)ctx)->f14 == 0) {
-        func_021BE0C4(ctx + 4);
-        func_021BE02C(ctx);
+    if (ctx->engineOn == 0) func_02030EAC(ctx->proc);
+    DEMO3D_GRAPHIC_DeleteG3d((Demo3dGraphicG3d *)&ctx->g3dTag);
+    if (ctx->engineOn == 0) {
+        DEMO3D_GRAPHIC_DeleteClact((Demo3dGraphicClact *)&ctx->clact);
+        DEMO3D_GRAPHIC_DeleteBg(ctx);
     }
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050 = 0;
@@ -303,43 +302,51 @@ void func_021BDE98(char *ctx)
 /*
  * Addresses are Black-image addresses.
  */
-void func_021BDF00(u8 *p)
+void DEMO3D_GRAPHIC_Draw(Demo3dGraphic *p)
 {
-    if (((struct Obj25309 *)p)->f14 == 0) {
-        func_021BE0E0(p + 4);
-        func_021BE078(p);
+    if (p->engineOn == 0) {
+        DEMO3D_GRAPHIC_DrawClact((void *)&p->clact);
+        DEMO3D_GRAPHIC_Noop(p);
     }
 }
 
-void func_021BDF18(char *p){func_021BE13C(p+8);}
+void DEMO3D_GRAPHIC_UpdateLookAt(Demo3dGraphic *p){DEMO3D_GRAPHIC_ApplyLookAt(&p->g3dTag);}
 
-void func_021BDF24(char *p){func_021BE148(p+8);}
+void DEMO3D_GRAPHIC_EndDraw(Demo3dGraphic *p){DEMO3D_GRAPHIC_DrawEnd(&p->g3dTag);}
 
-int func_021BDF30(char *p){return func_021BE0F0(p+4);}
+int DEMO3D_GRAPHIC_GetUnit(Demo3dGraphic *p){return DEMO3D_GRAPHIC_GetClactUnit((Demo3dGraphicClact *)&p->clact);}
 
-void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2){struct Block *p=&obj->block;func_02048CDC(p->slots,0,a);func_02048CDC(p->slots,1,a+1);func_02048CDC(p->slots,2,a+2);func_02048CDC(p->slots,3,a+3);func_02048C58(p->slots);}
+void DEMO3D_GRAPHIC_SetupLightBlock(Demo3dGraphic *graphic, unsigned short *colors, int a2)
+{
+    Demo3dGraphicG3d *p = (Demo3dGraphicG3d *)&graphic->g3dTag;
+    func_02048CDC(p->lightSlots,0,colors);
+    func_02048CDC(p->lightSlots,1,colors+1);
+    func_02048CDC(p->lightSlots,2,colors+2);
+    func_02048CDC(p->lightSlots,3,colors+3);
+    func_02048C58(p->lightSlots);
+}
 
-void func_021BDF74(char *p,unsigned i,unsigned short val){func_02048CDC(*(struct LightSlot **)(p+12),i,&val);}
+void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p,unsigned i,unsigned short val){func_02048CDC(p->lightSlots,i,&val);}
 
-void func_021BDF88(char *p, int a, int b)
+void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b)
 {
     int buf[2];
     VEC_Fx16Normalize(b, buf);
-    func_02048CA4(((struct Obj25310 *)p)->fC, a, (struct Rgb555 *)buf);
+    func_02048CA4(p->lightSlots, a, (struct Rgb555 *)buf);
 }
 
-void func_021BDFA8(u32 a, u8 *p)
+void DEMO3D_GRAPHIC_VBlank(u32 unused, Demo3dGraphic *p)
 {
-    if (((struct Obj25311 *)p)->f14 == 0) {
-        func_021BE07C(p);
-        func_021BE0E8(p + 4);
+    if (p->engineOn == 0) {
+        DEMO3D_GRAPHIC_UpdateBg(p);
+        DEMO3D_GRAPHIC_VBlankClact((u8 *)&p->clact);
     }
 }
 
-void func_021BDFC0(void *ctx, unsigned heap)
+void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, unsigned heap)
 {
     unsigned i = 0;
-    const Descriptor *descriptor;
+    const Demo3dBgLayer *descriptor;
     unsigned layer;
     MI_CpuFill8(ctx, 0, 4);
     BG_SYS_Create(heap);
@@ -355,7 +362,7 @@ void func_021BDFC0(void *ctx, unsigned heap)
     BG_SYS_Init(1, 0, 1, 0);
 }
 
-void func_021BE02C(void *ctx)
+void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx)
 {
     unsigned i = 0;
     unsigned layer;
@@ -363,67 +370,67 @@ void func_021BE02C(void *ctx)
     for (; i < 4; i++) {
         layer = d_021BFC24[i].layer;
         func_02040588((unsigned char)layer, 0);
-        func_020403F4((unsigned char)layer);
+        BG_SYS_FreeLayerBuf((unsigned char)layer);
     }
     BMP_WIN_Exit();
     BG_SYS_Delete();
     MI_CpuFill8(ctx, 0, 4);
 }
 
-void func_021BE078(void *a0){}
+void DEMO3D_GRAPHIC_Noop(void *a0){}
 
-void func_021BE07C(void *a0){BG_SYS_Update();}
+void DEMO3D_GRAPHIC_UpdateBg(void *a0){BG_SYS_Update();}
 
-void func_021BE084(unsigned char *p, int a, int b)
+void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BFB60, a, b);
-    ((struct Obj14586 *)p)->f0 = CLACT_CreateUnit(0x20, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct Obj14586 *)p)->f0);
+    p->unit = CLACT_CreateUnit(0x20, 0, b);
+    CLACT_SetUnitDefaultRenderer(p->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void func_021BE0C4(char *a)
+void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p)
 {
-    CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj25312 *)a)->f0)));
-    MI_CpuFill8(a, 0, 4);
+    CLACT_ExitSystem(CLACT_DeleteUnit(p->unit));
+    MI_CpuFill8(p, 0, 4);
 }
 
-void func_021BE0E0(void *a0){CLACT_DrawSystem();}
+void DEMO3D_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}
 
-void func_021BE0E8(u8 *a0) { CLACT_VBlankSystem(); }
+void DEMO3D_GRAPHIC_VBlankClact(u8 *a0) { CLACT_VBlankSystem(); }
 
-int func_021BE0F0(void *p){return ((struct Obj25313 *)p)->f0;}
+int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p){return (int)p->unit;}
 
 /*
  * lever: twin of ov204_func_021BE03C.c (3D setup, texSize 2, plttSize 4,
  * light set 0x021BFB48); u8 heap parameter.
  */
-void func_021BE0F4(unsigned char *p, u8 heap)
+void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 {
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, heap, DEMO3D_SetupGx);
-    *(struct LightSlot **)(p + 4) = func_02048BC4(&d_021BFB48, heap);
-    func_02048C58(*(struct LightSlot **)(p + 4));
+    p->lightSlots = func_02048BC4(&d_021BFB48, heap);
+    func_02048C58(p->lightSlots);
 }
 
-void func_021BE12C(int *p)
+void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)
 {
-    G3D_SYSTEM_Exit(func_02048C4C(p[1]));
+    G3D_SYSTEM_Exit(func_02048C4C((int)p->lightSlots));
 }
 
-void func_021BE13C(void *a)
+void DEMO3D_GRAPHIC_ApplyLookAt(void *a)
 {
     func_02047964();
     G3D_SYSTEM_ApplyLookAt();
 }
 
-void func_021BE148(void *p){G3D_SYSTEM_DrawEnd();}
+void DEMO3D_GRAPHIC_DrawEnd(void *p){G3D_SYSTEM_DrawEnd();}
 
 /*
  * leaf: solely blocks assigned 021BDF24; parent cleared ownership.
  * extent: three 8-byte wrappers; ends at peer-owned 021BE160, which is excluded.
  */
-void func_021BE150(void){DOUBLE3DDISP_Delete();}
+void DEMO3D_GRAPHIC_DeleteDouble3d(void){DOUBLE3DDISP_Delete();}
 
-void func_021BE158(void *p){G3D_CAMERA_Delete(p);}
+void DEMO3D_GRAPHIC_DeleteCamera(void *p){G3D_CAMERA_Delete(p);}

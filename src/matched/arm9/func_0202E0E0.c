@@ -15,8 +15,8 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_GetScrollX_1648  0x02041648  arm
- *   BG_SYS_GetScrollY_1664  0x02041664  arm
+ *   BG_SYS_GetChannelScrollX  0x02041648  arm
+ *   BG_SYS_GetChannelScrollY  0x02041664  arm
  *   CLACT_GetActorPos  0x0204B53C  arm
  *   CLACT_SetActorPos  0x0204B528  arm
  */
@@ -59,8 +59,8 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern u32 BG_SYS_GetScrollX_1648(u8 channel);
-extern u32 BG_SYS_GetScrollY_1664(u8 channel);
+extern u32 BG_SYS_GetChannelScrollX(u8 channel);
+extern u32 BG_SYS_GetChannelScrollY(u8 channel);
 extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 
@@ -95,8 +95,8 @@ int PMS_DRAW_UpdateElem(struct Obj0202E0E0 *a0, void *a1, int a2)
         struct Pt pos;
         s32 nx;
         s32 ny;
-        nx = BG_SYS_GetScrollX_1648((u8)v);
-        ny = BG_SYS_GetScrollY_1664((u8)v);
+        nx = BG_SYS_GetChannelScrollX((u8)v);
+        ny = BG_SYS_GetChannelScrollY((u8)v);
 
         if (nx != a0->x) {
             diff.x = a0->x - nx;

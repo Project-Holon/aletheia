@@ -14,7 +14,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   MIi_CpuCopy16 0x02082A60 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   STA_ACT_LIGHT_AllocElem 0x021F6F24 thumb ov112
  */
 #include "../include/Obj00503.h"
@@ -26,7 +26,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void MIi_CpuCopy16(const void *,void *,u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern u8 *STA_ACT_LIGHT_AllocElem(u32 heap, u32 v);
 void STA_ACTING_UploadPalettes(u8 *p)
 {
@@ -54,7 +54,7 @@ void STA_ACTING_UploadPalettes(u8 *p)
         p[0x19a+i]=(u8)((new&0x3e0)>>5)-(u8)((old&0x3e0)>>5);
         p[0x1aa+i]=(u8)((new&0x7c00)>>10)-(u8)((old&0x7c00)>>10);
     }
-    func_020409B4(3);
-    func_020409B4(5);
+    BG_SYS_PushTile(3);
+    BG_SYS_PushTile(5);
     ((struct Obj00503 *)p)->f3C=STA_ACT_LIGHT_AllocElem(((struct Obj00503 *)p)->f0,(u32)p);
 }

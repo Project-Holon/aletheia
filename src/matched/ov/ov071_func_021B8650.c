@@ -1,5 +1,5 @@
 /*
- * function: func_021B8650
+ * function: MONOLITH_TOOL_SUMMARY_InitBackgrounds
  * address:  0x021B8650
  * packet:   pkt_ov071_021B8650
  * region:   ov071
@@ -21,7 +21,7 @@ extern char d_021BAA84[];
 
 typedef unsigned int   u32;
 struct BgTemplate;
-void func_021B8650(void)
+void MONOLITH_TOOL_SUMMARY_InitBackgrounds(void)
 {
     extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
     extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);

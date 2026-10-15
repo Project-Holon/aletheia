@@ -12,6 +12,7 @@
  * symbols:
  *   TALKMSGWIN_Delete  0x02194798  thumb
  *   BG_SYS_SetTileUnit  0x02040DA8  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
 #include "../include/Obj04205.h"
 
@@ -24,7 +25,7 @@ typedef signed int     s32;
 
 extern void TALKMSGWIN_Delete(unsigned char *a);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 void FIELD_MSGBG_ReleaseBg(u8 *a)
 {
@@ -34,7 +35,7 @@ void FIELD_MSGBG_ReleaseBg(u8 *a)
     }
     if (((struct Obj04205 *)a)->f2 != 0xff) {
         BG_SYS_SetTileUnit(((struct Obj04205 *)a)->f2, 1, 0);
-        func_020403F4((u8)(((struct Obj04205 *)a)->f2));
+        BG_SYS_FreeLayerBuf((u8)(((struct Obj04205 *)a)->f2));
         ((struct Obj04205 *)a)->f2 = 0xff;
     }
 }

@@ -26,13 +26,13 @@ extern void func_0200F7F4(void);
 extern unsigned int WIPE_SYS_EndCheck(void);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned int);
-struct S020315D4;
+struct Proc;
 struct TaskMenu;
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void GTSNEGO_MSG_Delete(char *p);
 extern void GTSNEGO_DISP_DeleteMsgSystem(u8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int GTSNEGO_DISP_Delete(void *p, int a, int b, u8 *q)
 {

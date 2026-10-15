@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA58
+ * function: BEACON_DETAIL_GRA_InitBgSystem
  * address: 0x021BCA58
  * packet: pkt_ov216_021BCA58
  * region: ov216
@@ -32,7 +32,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-void func_021BCA58(void *p,int heap)
+void BEACON_DETAIL_GRA_InitBgSystem(void *p,int heap)
 {
     unsigned i;
     MI_CpuFill8(p,0,4);

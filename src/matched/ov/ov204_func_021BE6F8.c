@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6F8
+ * function: INTRO_CMD_CmdSaveNoOp
  * address:  0x021BE6F8
  * packet:   pkt_021BE6F8
  * region:   ov204
@@ -20,7 +20,7 @@
 
 extern void SAVE_CONTROL_INTR_NoOp(int);
 
-int func_021BE6F8(char *a)
+int INTRO_CMD_CmdSaveNoOp(char *a)
 {
     SAVE_CONTROL_INTR_NoOp(((struct Obj25362 *)a)->fA4);
     return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3264
+ * function: BEACON_VIEW_CreatePanelActors
  * address:  0x021F3264
  * packet:   pkt_ov032_021F3264
  * region:   ov032
@@ -10,7 +10,7 @@
  * note:     the object array at +0x2BC must be a struct array member: raw
  *           (p + i * 4) arithmetic schedules p+i*4 ahead of &d[i] (2-byte DIFF).
  * symbols:
- *   func_021F3214 0x021F3214 thumb ov032
+ *   BEACON_VIEW_CreateIconActor 0x021F3214 thumb ov032
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021F35F0 0x021F35F0 data ov032 a2
  */
@@ -32,16 +32,16 @@ typedef struct {
 } S;
 
 extern Pt d_021F35F0[];
-extern void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
+extern void *BEACON_VIEW_CreateIconActor(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021F3264(S *p)
+void BEACON_VIEW_CreatePanelActors(S *p)
 {
     int i;
     for (i = 0; i < 6; i++) {
-        p->o[i] = func_021F3214((char *)p, *p->b, *p->a, *p->c, d_021F35F0[i].x, d_021F35F0[i].y, i * 3 + 1, 1, 1);
+        p->o[i] = BEACON_VIEW_CreateIconActor((char *)p, *p->b, *p->a, *p->c, d_021F35F0[i].x, d_021F35F0[i].y, i * 3 + 1, 1, 1);
         CLACT_SetActorDrawEnable(p->o[i], 1);
     }
 }

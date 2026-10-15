@@ -21,7 +21,7 @@
  *   STRBUF_SetString 0x02045924 arm
  *   STRBUF_Delete 0x02045808 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   d_021CA6C8 0x021CA6C8 data a2
+ *   gWf2dmapEntrySlotPos 0x021CA6C8 data a2
  */
 #include "../include/Obj05381.h"
 #include "../include/Obj05382.h"
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { s16 x, y, rest[3]; } Entry;
-extern const Entry d_021CA6C8[];
+extern const Entry gWf2dmapEntrySlotPos[];
 extern int func_02009864(void *, int, int);
 struct Sub020097BCEnt;
 struct Sub020097BCObj;
@@ -58,8 +58,8 @@ void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void 
     if (result9 == 2) {
         Wf2dmapFriend_CreateEntryActor((char *)p, (char *)b, unused, i, heap);
     } else {
-        local.pos[0] = (((struct Obj05381 *)p)->f0 + d_021CA6C8[i].x) * 8 + 8;
-        local.pos[1] = (((struct Obj05381 *)p)->f2 + d_021CA6C8[i].y) * 8 + 10;
+        local.pos[0] = (((struct Obj05381 *)p)->f0 + gWf2dmapEntrySlotPos[i].x) * 8 + 8;
+        local.pos[1] = (((struct Obj05381 *)p)->f2 + gWf2dmapEntrySlotPos[i].y) * 8 + 10;
         local.pos[2] = 8;
         local.pos[3] = 1;
         *(void **)(p + 12 + (int)((u32)i * 4u)) = WIFI_2DCHAR_SpawnActor(a, local.pos, result8, heap);
@@ -67,7 +67,7 @@ void Wf2dmapFriend_DrawEntrySlot(u8 *p, void *a, u8 *b, int unused, int i, void 
     }
     str = STRBUF_Create(128, heap);
     STRBUF_SetString(str, (const u16 *)func_020099D4(base, idx));
-    TOUCHBAR_PrintAligned(*(u8 * *)&((struct Obj05381 *)p)->f8, (void *)(((struct Obj05382 *)b)->f34), d_021CA6C8[i].x * 8,
-                 d_021CA6C8[i].y * 8 - 24, (u32)str, ((struct Obj05382 *)b)->f17C, *(u16 *)((u8 *)&local + result9 * 2), 0);
+    TOUCHBAR_PrintAligned(*(u8 * *)&((struct Obj05381 *)p)->f8, (void *)(((struct Obj05382 *)b)->f34), gWf2dmapEntrySlotPos[i].x * 8,
+                 gWf2dmapEntrySlotPos[i].y * 8 - 24, (u32)str, ((struct Obj05382 *)b)->f17C, *(u16 *)((u8 *)&local + result9 * 2), 0);
     STRBUF_Delete(str);
 }

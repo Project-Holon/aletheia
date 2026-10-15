@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF90
+ * function: INTRO_GRAPHIC_DrawClact
  * address: 0x021BDF90
  * packet: pkt_ov204_021BDF90
  * region: ov204
@@ -12,4 +12,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021BDF90(void *a0){CLACT_DrawSystem();}
+void INTRO_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}

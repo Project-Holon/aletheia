@@ -42,7 +42,7 @@
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DrawTile 0x02041090 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -141,19 +141,23 @@
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BMP_SetDisplaySwap  0x0204363C  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
-#include "../../matched/include/Obj10952.h"
-#include "../../matched/include/Obj25801.h"
-#include "../../matched/include/Obj25805.h"
 #include "research_shared_types.h"
 
 struct DispVram;
 
-struct Obj0203159C;
+struct Proc;
 
-struct S020315D4;
+struct Proc;
 
 struct NitroFileHeader;
+
+/* The process callback's subSeq counter (procsys.c passes &proc->subSeq). */
+struct ProcSubSeq { u32 subSeq; };
+
+/* The caller argument buffer; the first word is the app resource handle. */
+struct ProcArg { u32 appResource; };
 
 struct LabelTemplate { u8 params[11]; u32 messageIndex; };
 
@@ -208,13 +212,13 @@ struct ResearchProc {
     u32 listViewState;
 };
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void BMP_SetDisplaySwap(u32 swap);
 
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 
 extern u32 ICA_ANIME_GetUnk330(const struct Ctx *);
 
@@ -252,7 +256,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern u32 BG_SYS_Delete();
 
-extern u32 func_020403F4(u32 i);
+extern u32 BG_SYS_FreeLayerBuf(u32 i);
 
 extern void *func_020490F4(unsigned int id, u32 heap);
 
@@ -272,7 +276,6 @@ extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 
-extern int func_020409B4(int);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -704,13 +707,13 @@ extern struct PaletteAnimeBinding d_021C2FF8[];
 
 u32 RESEARCH_TOP_InitProc(u32 procsys, u32 state, u8 *work, u32 proc)
 {
-    switch (((struct Obj10952 *)((u8*)state))->f0) {
+    switch (((struct ProcSubSeq *)((u8*)state))->subSeq) {
     case 0:
-    PROCSYS_AllocProcWork((struct Obj0203159C *)procsys, 32, 1);
-    ((struct Obj10952 *)((u8*)state))->f0 = (u32)(((struct Obj10952 *)((u8*)state))->f0 + 1);
+    PROCSYS_AllocProcWork((struct Proc *)procsys, 32, 1);
+    ((struct ProcSubSeq *)((u8*)state))->subSeq = (u32)(((struct ProcSubSeq *)((u8*)state))->subSeq + 1);
     break;
     case 1:
-    RESEARCH_TOP_ResetProc((void *)proc, ((struct Obj25801 *)((u8*)work))->f0);
+    RESEARCH_TOP_ResetProc((void *)proc, ((struct ProcArg *)((u8*)work))->appResource);
     BG_SYS_SetVramBanks((const struct DispVram *)0x21C2EA0);
     BMP_SetDisplaySwap(0);
     RESEARCH_TOP_InitBackgrounds(((struct ResearchProc *)proc)->heapId);
@@ -728,7 +731,7 @@ u32 RESEARCH_TOP_ReleaseProc(u32 procsys, u32 unused1, u32 unused2, u32 proc)
     RESEARCH_TOP_DestroyListView(proc);
     RESEARCH_TOP_DestroyCommon(proc);
     RESEARCH_TOP_ExitBackgrounds();
-    func_020315D4((struct S020315D4 *)procsys);
+    func_020315D4((struct Proc *)procsys);
     return 1;
 }
 
@@ -950,8 +953,8 @@ void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
 
 u32 RESEARCH_TOP_ExitBackgrounds(void)
 {
-    func_020403F4(1);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(4);
     return BG_SYS_Delete();
 }
 
@@ -975,12 +978,12 @@ void RESEARCH_TOP_LoadSubAssets(u32 heap)
     buffer = ARC_TOOL_LoadHandleMember(arc, 11, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
     BG_SYS_DrawTile(4, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     func_020307B0(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 12, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen2);
     BG_SYS_DrawTile(5, (u32)((char *)screen2 + 12), 0, 0, 32, 24);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     func_020307B0(buffer);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -990,7 +993,7 @@ void RESEARCH_TOP_UpdateFrameGraphic(const void *proc)
     u32 frame = RESEARCH_TOP_GetFrameCount(proc) / 10;
     u32 index = (u8)(frame % 6);
     BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x18, (u8)index);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
 }
 
 void RESEARCH_TOP_LoadTopAssets(u32 heap)
@@ -1324,7 +1327,7 @@ void RESEARCH_TOP_DrawSelector(int selection)
         return;
     }
     BG_SYS_FillTileMap(index, x, y, w, h, palette);
-    func_020409B4(index);
+    BG_SYS_PushTile(index);
 }
 
 void RESEARCH_TOP_DrawSelectorIdle(int selection)
@@ -1341,7 +1344,7 @@ void RESEARCH_TOP_DrawSelectorIdle(int selection)
         return;
     }
     BG_SYS_FillTileMap(index, x, y, w, h, palette);
-    func_020409B4(index);
+    BG_SYS_PushTile(index);
 }
 
 void RESEARCH_TOP_SetupTextLabel(u32 obj)
@@ -1654,10 +1657,10 @@ void RESEARCH_TOP_InitOverlayBackgrounds(char *obj)
 void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj)
 {
     BMP_WIN_Exit();
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(7);
-    func_020403F4(6);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
 }
 
 void RESEARCH_TOP_LoadBackground6(char *obj)
@@ -1667,7 +1670,7 @@ void RESEARCH_TOP_LoadBackground6(char *obj)
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
     BG_SYS_DrawTile(6,(unsigned)((char *)data+12),0,0,32,24);
-    func_020409B4(6);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
+    BG_SYS_PushTile(6);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
 }
 
 void RESEARCH_TOP_DummyBg7(u32 unused)
@@ -1692,7 +1695,7 @@ void RESEARCH_TOP_LoadBackground2(char *obj)
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
     BG_SYS_DrawTile(2,(unsigned)((char *)data+12),0,0,32,24);
-    func_020409B4(2);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
+    BG_SYS_PushTile(2);func_020307B0(file);ARC_TOOL_DeleteHandle(arc);
 }
 
 void RESEARCH_TOP_DummyBg3(u32 unused)

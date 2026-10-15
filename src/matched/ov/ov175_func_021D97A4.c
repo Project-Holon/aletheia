@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E5D40   0x021E5D40  thumb
- *   func_021E89D0   0x021E89D0  thumb
- *   func_021E8A00   0x021E8A00  thumb
+ *   WIFIBATTLEMATCH_VIEW_DeleteMainWindow   0x021E5D40  thumb
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu   0x021E89D0  thumb
+ *   WIFIBATTLEMATCH_UTIL_UpdateMenu   0x021E8A00  thumb
  *   POKETRADE_2D_DeleteMarkingIcon   0x021E5EF8  thumb  ov119
- *   func_021E5F24   0x021E5F24  thumb
+ *   WIFIBATTLEMATCH_VIEW_DrawStatusWindow   0x021E5F24  thumb
  *
  * Release path for the +0x1c block pointer, freed through 0x021E5EF8
  *     and cleared; a second call is a no-op.  The callee address is shared by

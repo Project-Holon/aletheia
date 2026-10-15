@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6FD8 0x021B6FD8 thumb ov071
+ *   MONOLITH_TOOL_DeleteSlotIcon 0x021B6FD8 thumb ov071
  */
 
-extern void func_021B6FD8(void *);
-void MONOLITH_TOOL_TITLE_FreeSlotIcons(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }
+extern void MONOLITH_TOOL_DeleteSlotIcon(void *);
+void MONOLITH_TOOL_TITLE_FreeSlotIcons(void **p) { int i; for(i=0;i<6;i++) MONOLITH_TOOL_DeleteSlotIcon(p[i+3]); }

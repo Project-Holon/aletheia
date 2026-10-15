@@ -1,5 +1,5 @@
 /*
- * function: func_021DA8C0
+ * function: MYSTERY_UTIL_SetTaskArg
  * address: 0x021DA8C0
  * packet: pkt_ov121_021DA8C0
  * region: ov121
@@ -13,4 +13,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021DA8C0(u32 *p,u32 a) { p[4]=a; }
+void MYSTERY_UTIL_SetTaskArg(u32 *p,u32 a) { p[4]=a; }

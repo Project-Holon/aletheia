@@ -12,8 +12,8 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   DEMO3D_EXP_C_CRUISER_LoadTextures 0x021BF9D0 thumb ov203
- *   func_021BE620 0x021BE620 thumb ov203
- *   func_021BDF30 0x021BDF30 thumb ov203
+ *   DEMO3D_ENGINE_GetFrame 0x021BE620 thumb ov203
+ *   DEMO3D_GRAPHIC_GetUnit 0x021BDF30 thumb ov203
  *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
  *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -29,8 +29,8 @@ typedef struct { int f0, f4, f8, fC; } Out;
 typedef struct { int f0; unsigned f4; int f8, fC, f10, f14, f18; unsigned char b1c, b1d, b1e; } In;
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short);
-extern int func_021BE620(char *p);
-extern int func_021BDF30(char *p);
+extern int DEMO3D_ENGINE_GetFrame(char *p);
+extern int DEMO3D_GRAPHIC_GetUnit(char *p);
 extern void UI_SCENE_LoadActorGfx(Out *, In *, int, unsigned short);
 extern int UI_SCENE_CreateActor(Out *, int, unsigned char, unsigned char, unsigned char, unsigned short);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
@@ -48,9 +48,9 @@ void DEMO3D_EXP_C_CRUISER_Create(char *p)
     a = func_02030734(*(unsigned short *)p, 24, 1, d_021C3D5C, 0xB3);
     *(unsigned char **)(p + 0x10) = a;
     DEMO3D_EXP_C_CRUISER_LoadTextures(*(unsigned short *)p);
-    *a = (func_021BE620(*(void **)(p + 8)) >> 12) / 100;
+    *a = (DEMO3D_ENGINE_GetFrame(*(void **)(p + 8)) >> 12) / 100;
     if (*(volatile unsigned char *)a >= 54) *a = 53;
-    resource = func_021BDF30(*(void **)(p + 4));
+    resource = DEMO3D_GRAPHIC_GetUnit(*(void **)(p + 4));
     config.f0 = 1;
     config.f8 = 85;
     config.fC = 4;

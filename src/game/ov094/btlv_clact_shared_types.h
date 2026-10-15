@@ -59,7 +59,6 @@ struct Bank;
 struct PtS;
 struct Vec2;
 struct Obj;
-struct Obj_02201DA0;
 
 /* Two ints, used by btlv_input.c (lane C094c3). */
 typedef struct BtlvClactPoint {

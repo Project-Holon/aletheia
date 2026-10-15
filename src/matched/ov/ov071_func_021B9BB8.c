@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7070 0x021B7070 thumb ov071
+ *   MONOLITH_TOOL_CreateBlink 0x021B7070 thumb ov071
  */
 #include "../include/Obj02123.h"
 
-extern void func_021B7070(int *, int *);
-void MONOLITH_TOOL_CreateMarker(char *p, char *q) { func_021B7070(*(int * *)&((struct Obj02123 *)p)->f4, (int *)(q + 0x298)); }
+extern void MONOLITH_TOOL_CreateBlink(int *, int *);
+void MONOLITH_TOOL_CreateMarker(char *p, char *q) { MONOLITH_TOOL_CreateBlink(*(int * *)&((struct Obj02123 *)p)->f4, (int *)(q + 0x298)); }

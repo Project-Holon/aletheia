@@ -1,5 +1,5 @@
 /*
- * function: func_0221268C
+ * function: WIFIBATTLEMATCH_SYS_DestroyWork
  * address: 0x0221268C
  * packet: pkt_ov199_0221268C
  * region: ov199
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0221372C 0x0221372C thumb ov199
- *   func_022133D0 0x022133D0 thumb ov199
+ *   WIFIBATTLEMATCH_SYS_DeleteProcWork 0x0221372C thumb ov199
+ *   WIFIBATTLEMATCH_SYS_FreePartyBuffers 0x022133D0 thumb ov199
  *   BATTLE_REC_FreeWork 0x0200B424 thumb
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_Delete 0x02012704 thumb
@@ -21,20 +21,20 @@
 #include "../include/Obj03352.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-struct S020315D4;
-extern void func_0221372C(char *p);
-extern void func_022133D0(u8 *p);
+struct Proc;
+extern void WIFIBATTLEMATCH_SYS_DeleteProcWork(char *p);
+extern void WIFIBATTLEMATCH_SYS_FreePartyBuffers(u8 *p);
 extern void BATTLE_REC_FreeWork(void);
 extern u32 func_020307B0(void *p);
 extern void GAME_DATA_Delete(u8 *p);
 extern void OS_ResetSystem(u32 parameter);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-int func_0221268C(void *sys, int unused, void *data, char *p)
+int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, char *p)
 {
-    func_0221372C(((struct Obj03352 *)p)->f18);
-    func_022133D0((u8 *)p);
+    WIFIBATTLEMATCH_SYS_DeleteProcWork(((struct Obj03352 *)p)->f18);
+    WIFIBATTLEMATCH_SYS_FreePartyBuffers((u8 *)p);
     BATTLE_REC_FreeWork();
     func_020307B0(((struct Obj03352 *)p)->f3C);
     func_020307B0(((struct Obj03352 *)p)->f38);

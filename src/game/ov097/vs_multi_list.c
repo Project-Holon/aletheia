@@ -44,7 +44,7 @@
  *   gVsMultiListBg0Template     0x021F7688  data  ov097  a4
  *   gVsMultiListBg1Template     0x021F7668  data  ov097  a4
  *   gVsMultiListBg2Template     0x021F76A8  data  ov097  a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049658  0x02049658  arm
@@ -54,7 +54,7 @@
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   func_02045B38  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -278,7 +278,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void BG_SYS_Delete(void);
 extern struct ArcHandle *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -288,7 +288,7 @@ extern void ARC_TOOL_DeleteHandle(struct ArcHandle *h);
 extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -589,9 +589,9 @@ void VS_MULTI_LIST_InitBgs(void)
 
 void VS_MULTI_LIST_ExitBgs(void)
 {
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -612,7 +612,7 @@ void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work)
     work->msgBank = func_02045B38(0, 2, 0x12, 0x71);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x71);
     work->fontSmall = GF_FONT_Create(0x17, 3, 0, 0, 0x71);
-    work->wordSet = GF_FONT_Create_EC64(0x71);
+    work->wordSet = WORDSET_CreateDefault(0x71);
     work->printQue = PRINTSYS_QUE_CreateEx(0x800, 0x71);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D9FF8
+ * function: MYSTERY_UTIL_GetMenuState
  * address: 0x021D9FF8
  * packet: pkt_ov121_021D9FF8
  * region: ov121
@@ -11,4 +11,4 @@
  */
 #include "../include/Obj22877.h"
 typedef unsigned char u8;
-unsigned func_021D9FF8(u8 *p) { return ((struct Obj22877 *)p)->f2C; }
+unsigned MYSTERY_UTIL_GetMenuState(u8 *p) { return ((struct Obj22877 *)p)->f2C; }

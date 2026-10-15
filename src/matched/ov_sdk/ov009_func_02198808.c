@@ -12,16 +12,16 @@
  * sdk:      gti2MessageCheck (libdwcgsgt2.TWL.HYB.a gt2utility.o)
  * symbols:
  *   strlen       0x0209477C arm
- *   g_021A595C   0x021A595C data
+ *   gGt2EmptyMessage   0x021A595C data
  */
 
 extern int strlen(const char *s);
-extern char g_021A595C[];
+extern char gGt2EmptyMessage[];
 
 void gti2MessageCheck(unsigned char **message, int *len)
 {
     if (*message == 0) {
-        *message = (unsigned char *)g_021A595C;
+        *message = (unsigned char *)gGt2EmptyMessage;
         *len = 0;
         return;
     }

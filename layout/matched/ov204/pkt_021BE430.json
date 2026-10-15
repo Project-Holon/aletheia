@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE430",
+   "name": "INTRO_CMD_CmdWaitInput",
    "address": "0x021BE430",
    "kind": "game",
    "region": "ov204",

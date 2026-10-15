@@ -63,7 +63,7 @@
  * LCG x and the return into named temps before the `context->x` store (the
  * store-operands-first lever) stays 24; `const char *name` on the read-only
  * source parameter (the const-source-pointer tie lever) stays 24; `const` on
- * the read-only extern `g_021A82DC[2]` blows up to 384/159.  Reverted to the
+ * the read-only extern `gCpsDnsIp[2]` blows up to 384/159.  Reverted to the
  * 24-byte state.  This is the list scheduler's slot tie-break, not a body
  * shape: all 7 relocations resolve and every instruction opcode is right.
  *

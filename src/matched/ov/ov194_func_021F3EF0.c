@@ -5,7 +5,7 @@
  * region: ov194
  * status: EXACT
  * symbols:
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotBoxName 0x0201F164 thumb
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern int NAMEIN_SETUP_IsCanceled(int *);
 extern void NAMEIN_SETUP_CopyName(int *,int);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
@@ -53,7 +53,7 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void NAMEIN_GRAPHIC_CallbackFadeOut(unsigned char *p, int *state);
 void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap)
 {
-    void *set=GF_FONT_Create_EC64(heap);
+    void *set=WORDSET_CreateDefault(heap);
     if(NAMEIN_SETUP_IsCanceled(w)) WORDSET_SetSlotMonSpecies(set,0,(void *)w[2]);
     else {
         int text=(int)STRBUF_Clone((struct U16Vec *)w[8],heap);

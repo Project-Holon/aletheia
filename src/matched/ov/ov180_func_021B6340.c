@@ -10,11 +10,11 @@
  * symbols:
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void func_020403F4(u32);
-void HALL_OF_FAME_ExitBackgrounds(void) {BG_SYS_SetMainPlaneVisible(8,0);BG_SYS_SetSubPlaneVisible(8,0);func_020403F4(7);func_020403F4(3);}
+extern void BG_SYS_FreeLayerBuf(u32);
+void HALL_OF_FAME_ExitBackgrounds(void) {BG_SYS_SetMainPlaneVisible(8,0);BG_SYS_SetSubPlaneVisible(8,0);BG_SYS_FreeLayerBuf(7);BG_SYS_FreeLayerBuf(3);}

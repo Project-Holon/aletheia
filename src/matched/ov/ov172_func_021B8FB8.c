@@ -16,7 +16,7 @@
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
@@ -35,7 +35,7 @@ struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void BG_SYS_ClearSlot(u32 i);
@@ -49,11 +49,11 @@ void CTVT_TALK_Exit(void *a0, char *a1)
 
     p = ((struct Obj02505 *)a1)->f2C;
     BMP_WIN_ClearScreen(p);
-    func_020409B4(BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
     p = ((struct Obj02505 *)a1)->f7C;
     BMP_WIN_ClearScreen(p);
-    func_020409B4(BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 
     BMP_WIN_Delete(((struct Obj02505 *)a1)->f2C);
     BMP_WIN_Delete(((struct Obj02505 *)a1)->f7C);
@@ -63,6 +63,6 @@ void CTVT_TALK_Exit(void *a0, char *a1)
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f94);
     CLACT_DeleteActor(((struct Obj02505 *)a1)->f90);
     BG_SYS_ClearSlot(6);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     *(u16 *)0x04001050 = 0;
 }

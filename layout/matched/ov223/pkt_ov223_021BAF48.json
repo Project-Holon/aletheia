@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "PSEL_CheckAF48",
+   "name": "PSEL_UpdateWindows",
    "address": "0x021BAF48",
    "kind": "game",
    "region": "ov223",

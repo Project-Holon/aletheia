@@ -65,8 +65,8 @@
 struct Big;
 struct Sub02008C20Obj;
 struct S020314B8;
-struct S020315D4;
-struct Obj0203159C;
+struct Proc;
+struct Proc;
 
 extern struct MailData *func_02008FEC(void *sys);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -80,7 +80,7 @@ extern void func_02008FA8(struct Mail *mail, u32 value);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_020307B0(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 PROCSYS_Main(void *p);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
@@ -93,7 +93,7 @@ extern void PMSI_PARAM_Delete(struct PmsiParam *a);
 extern struct Sub02008C20Obj *func_02008C58(struct SaveControl *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_0203133C(void *v);
-extern void func_020315D4(struct S020315D4 *v);
+extern void func_020315D4(struct Proc *v);
 extern void func_0203084C(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *p);
@@ -280,7 +280,7 @@ int MAILTOOL_ProcExit(u32 a, void *b, void *c, struct MailToolProc *proc)
     func_0203133C(proc->procSys);
     MAILSYS_DeleteMessage(proc->draft);
     h = (u16)proc->heapId;
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     func_0203084C(h);
     GFL_HEAP_DeleteChecked(h);
     return 1;

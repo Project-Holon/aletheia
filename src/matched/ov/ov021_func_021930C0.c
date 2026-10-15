@@ -15,7 +15,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  */
 
@@ -31,7 +31,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
 int FIELD_MSGBG_CreateWindow(int a, int unused, int b, int c, u16 d, u16 e, u16 f)
@@ -43,7 +43,7 @@ int FIELD_MSGBG_CreateWindow(int a, int unused, int b, int c, u16 d, u16 e, u16 
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)r)), 0xff);
     BMP_WIN_MakeScreen((struct Cfg *)r);
     BMP_WIN_TransferChars((struct Descriptor *)r);
-    func_020409B4((u8)a);
+    BG_SYS_PushTile((u8)a);
     k = 0xd;
     if (f != 0xe) {
         k = 0xa;

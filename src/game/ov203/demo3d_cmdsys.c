@@ -25,7 +25,7 @@
  *   d_021C3D4C 0x021C3D4C data a4
  *   DEMO3D_DATA_GetRecordField 0x021BE9A4 thumb ov203
  *   TCBL_Main 0x020310C4 arm
- *   func_021BE990 0x021BE990 thumb ov203
+ *   DEMO3D_DATA_GetAnimIndex 0x021BE990 thumb ov203
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_020490F4 0x020490F4 arm
@@ -81,7 +81,7 @@ extern u32 DEMO3D_DATA_GetRecordField(u32 id);
 
 extern void TCBL_Main(struct Tcbl *p);
 
-extern Record *func_021BE990(int);
+extern Record *DEMO3D_DATA_GetAnimIndex(int);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 
@@ -149,7 +149,7 @@ void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
     p->flags[2]=flag?1:0;
     TCBL_Main(p->task);
     if(p->ended==0 && time!=-4096) {
-        r=func_021BE990(p->config)+p->index;
+        r=DEMO3D_DATA_GetAnimIndex(p->config)+p->index;
         time>>=12;
         if(r->time==time && p->previous!=time) {
             i=0;
@@ -185,7 +185,7 @@ int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
     Record *r;
     int i;
-    r=func_021BE990(((struct Demo3dOwner *)owner)->config);
+    r=DEMO3D_DATA_GetAnimIndex(((struct Demo3dOwner *)owner)->config);
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
         if(r[i].time==-1) DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,owner,&r[i]);

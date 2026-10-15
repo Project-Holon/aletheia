@@ -6658,7 +6658,7 @@ MANIFEST = MANIFEST_DIR
 
 HEADER_RE = re.compile(
     r"^\s*\*?\s*(address|region|compiler|flags|lang|isa|status|function|unit"
-    r"|packet)\s*:\s*(.+?)\s*$",
+    r"|packet|contiguous)\s*:\s*(.+?)\s*$",
     re.IGNORECASE)
 
 # A `function:` list can run over several lines; a continuation is a comment
@@ -7101,6 +7101,78 @@ def runtime_entry_status(path, header, addr, flags, lang, region):
     return ("EXACT*" if star else "EXACT"), sorted(covers), ""
 
 
+def header_is_piece(header):
+    """True when a source header opts into the non-contiguous per-function
+    path with `contiguous: no` (also `false` or `0`).
+
+    The marker is absent from every existing file, so the piece branch below
+    cannot fire until a merged piece carries it.  A piece is one source whose
+    functions live in two or more non-adjacent ranges, with another original
+    between them, so a whole-file compare would report DIFF."""
+    return (header.get("contiguous", "") or "").strip().lower() in (
+        "no", "false", "0")
+
+
+def piece_name_addresses(header, names):
+    """{name: address or None} for a non-contiguous piece: a func_XXXXXXXX
+    name's own address first, else the file's header `symbols:` block."""
+    decls = declared_symbols(header)
+    out = {}
+    for n in names:
+        a = fnaddr.name_address(n)
+        if a is None and n in decls:
+            a = decls[n].addr
+        out[n] = a
+    return out
+
+
+def piece_entry_status(path, header, addr, flags, lang, region):
+    """(status, covers, note, by_name) for a non-contiguous piece entry.
+
+    Like runtime_entry_status(), but the name to address map is the file's own
+    header `symbols:` block (plus a func_XXXXXXXX name) instead of
+    layout/runtime_arm9.txt, so each function is compiled alone and compared
+    at its own original address.  `covers` is the set of compared function
+    addresses; `by_name` is the map, so the caller records `addresses`."""
+    names = [n.strip() for n in header.get("function", "").split(",")
+             if n.strip()]
+    if not names:
+        return "DIFF", [], "no function: names", {}
+    by_name = piece_name_addresses(header, names)
+    if by_name[names[0]] is None:
+        return ("DIFF", [], "%s has no address in the symbols: block"
+                % names[0], by_name)
+    if by_name[names[0]] != addr:
+        return ("DIFF", [], "address is not the first function's address",
+                by_name)
+    isa = (header.get("isa") or "").strip().lower()
+    thumb = (isa.startswith("thumb") if isa
+             else resolve_isa(addr, region,
+                              argparse.Namespace(thumb=False, arm=False)))
+    covers = set()
+    statuses = []
+    for n in names:
+        a = by_name[n]
+        if a is None:
+            continue
+        r = run_one(path, n, a, header.get("compiler", "1.1p1"),
+                    flags.split(), thumb, lang, region=region)
+        statuses.append((n, r.status))
+        if r.status in MATCHED_STATUS:
+            covers.add(a)
+    if not statuses:
+        return "DIFF", [], "the file defines none of its functions", by_name
+    bad = [(n, st) for n, st in statuses if st not in MATCHED_STATUS]
+    if bad:
+        return bad[0][1], sorted(covers), "%s: %s" % bad[0], by_name
+    missing = [n for n in names if by_name[n] not in covers]
+    if missing:
+        return ("DIFF", sorted(covers), "not covered: " + ", ".join(missing),
+                by_name)
+    star = any(st == "EXACT*" for _n, st in statuses)
+    return ("EXACT*" if star else "EXACT"), sorted(covers), "", by_name
+
+
 def entry_from_source(path, header, kind, rel, verify=False):
     """One manifest entry, optionally recompiled to record a live status."""
     h = header
@@ -7121,7 +7193,17 @@ def entry_from_source(path, header, kind, rel, verify=False):
                     and addr in runtime_addresses())
     if runtime_kind:
         kind, is_unit = "runtime", False
+    # A non-contiguous piece (header `contiguous: no`) is one original whose
+    # functions sit in two or more non-adjacent ranges, so the whole-file unit
+    # compare is the wrong test; it takes the per-function path instead.  The
+    # marker is absent from every existing file, so this cannot fire until a
+    # merged piece carries it.  Keep kind `game_unit` and flag `pieces: true`
+    # so every kind-based switch in the counting tools stays unchanged.
+    piece_kind = (kind in ("game", "game_unit") and header_is_piece(h))
+    if piece_kind:
+        kind, is_unit = "game", True
     covers = None
+    by_name = None
     unit_tl = None
     # The header's `status:` is never trusted (audit 2026-09-23, finding 4):
     # without --verify the entry records "unverified", which no coverage
@@ -7130,6 +7212,10 @@ def entry_from_source(path, header, kind, rel, verify=False):
     if verify and runtime_kind:
         status, covers, _note = runtime_entry_status(path, h, addr, flags,
                                                      lang, region)
+        sole, sdk_ev = [], []
+    elif verify and piece_kind:
+        status, covers, _note, by_name = piece_entry_status(path, h, addr,
+                                                            flags, lang, region)
         sole, sdk_ev = [], []
     elif verify:
         if is_unit:
@@ -7166,17 +7252,32 @@ def entry_from_source(path, header, kind, rel, verify=False):
     # symbol) are verified too, and worklist.py credits such a label only
     # when this field covers it (owner decision 2026-09-28).  An entry whose
     # compared bytes stop at or before the next label records nothing.
-    if verify and not is_unit and not runtime_kind and r.size:
+    if verify and not is_unit and not runtime_kind and not piece_kind and r.size:
         nxt = next_listing_label(addr, find_region(addr, region).name)
         if nxt is not None and addr + r.size > nxt:
             entry["compared_bytes"] = r.size
     if is_unit:
         entry["functions"] = names
+        if piece_kind:
+            # A non-contiguous piece's own functions are its members; their
+            # addresses come from the per-function map (the compiled layout
+            # would mis-place every function after the gap, so it is not
+            # consulted).  The `pieces` flag tells the counting tools to
+            # prefer this list over the layout too.
+            if by_name is None:
+                by_name = piece_name_addresses(h, names)
+            rec = ["0x%08X" % by_name[n] for n in names
+                   if by_name.get(n) is not None]
+            if len(rec) == len(names):
+                entry["addresses"] = rec
+            if covers is not None:
+                entry["covers"] = ["0x%08X" % a for a in covers]
+            entry["pieces"] = True
         # Members whose names carry no address (renamed to real names) get
         # their addresses recorded, parallel to `functions`, so the counting
         # tools resolve them without compiling (tools/fnaddr.py).  A unit whose
         # members are all func_XXXXXXXX records nothing: its shard stays as it was.
-        if any(fnaddr.name_address(n) is None for n in names):
+        elif any(fnaddr.name_address(n) is None for n in names):
             rec = unit_member_record(names, addr, unit_tl, region, rel)
             if rec:
                 entry["addresses"] = rec
@@ -8385,6 +8486,78 @@ def cmd_selftest(args):
     _check(res, "runtime: an address inside the runtime range that is not "
                 "itself a listed entry does not attest",
            cls(attest(RUNTIME_NOT_AN_ENTRY, "arm", 0, 0)), None)
+
+    # --- the non-contiguous piece class ------------------------------------
+    # A piece is a file marked `contiguous: no` whose functions are compared
+    # each at its own address, taken from the header symbols block.  run_one
+    # is stubbed: the point is that piece_entry_status passes every function
+    # its own address and reports the first failing one, without depending on
+    # a specific tree file.
+    _check(res, "piece: `contiguous: no` marks a file a non-contiguous piece",
+           header_is_piece({"contiguous": "no"}), True)
+    _check(res, "piece: `contiguous: false` and `0` mark it too",
+           (header_is_piece({"contiguous": "false"}),
+            header_is_piece({"contiguous": "0"})), (True, True))
+    _check(res, "piece: an absent or `yes` marker is not a piece",
+           (header_is_piece({}), header_is_piece({"contiguous": "yes"})),
+           (False, False))
+    _fd, _tmp = tempfile.mkstemp(suffix=".c", prefix="bwpiece_")
+    with os.fdopen(_fd, "w", newline="\n") as _fh:
+        _fh.write("/*\n * address:  0x02000000\n * contiguous: no\n"
+                  " * function: Piece_A\n */\n")
+    try:
+        _ph = read_header(_tmp)
+    finally:
+        os.remove(_tmp)
+    _check(res, "piece: read_header captures the `contiguous:` marker",
+           _ph.get("contiguous"), "no")
+    _phdr = {"function": "Piece_A, Piece_B", "address": "0x02000000",
+             "isa": "thumb",
+             "symbols_lines": ["Piece_A  0x02000000  thumb",
+                               "Piece_B  0x02000040  thumb"]}
+    _check(res, "piece: the symbols block resolves each function's address",
+           piece_name_addresses(_phdr, ["Piece_A", "Piece_B"]),
+           {"Piece_A": 0x02000000, "Piece_B": 0x02000040})
+
+    def _piece_probe(status_of):
+        seen = []
+
+        def fake_run_one(src, func, addr, version, flags, thumb, lang, **kw):
+            seen.append((func, addr, thumb))
+            r = Result(status_of.get(func, "EXACT"))
+            r.size = 4
+            return r
+        real = globals()["run_one"]
+        globals()["run_one"] = fake_run_one
+        try:
+            out = piece_entry_status("x.c", _phdr, 0x02000000, "-O4,p",
+                                     "c99", "ov118")
+        finally:
+            globals()["run_one"] = real
+        return out, seen
+
+    _out, _seen = _piece_probe({})
+    _check(res, "piece: every function is compiled at its own address",
+           _seen, [("Piece_A", 0x02000000, True),
+                   ("Piece_B", 0x02000040, True)])
+    _check(res, "piece: all functions exact -> EXACT and both addresses covered",
+           (_out[0], _out[1]), ("EXACT", [0x02000000, 0x02000040]))
+    _out, _seen = _piece_probe({"Piece_B": "DIFF"})
+    _check(res, "piece: a wrong address makes exactly that function DIFF and "
+                "the piece fail",
+           (_out[0], _out[2]), ("DIFF", "Piece_B: DIFF"))
+    _check(res, "piece: a first address that is not the header address is "
+                "refused before any compile",
+           piece_entry_status("x.c", _phdr, 0x02000010, "-O4,p", "c99",
+                              "ov118")[0:2],
+           ("DIFF", []))
+    _check(res, "piece: a function with no address in the symbols block is "
+                "refused",
+           piece_entry_status("x.c", {"function": "Piece_A",
+                                      "address": "0x02000000",
+                                      "symbols_lines": []},
+                              0x02000000, "-O4,p", "c99", "ov118")[0],
+           "DIFF")
 
     # --- the sdk class -----------------------------------------------------
     _check(res, "sdk: a catalogued layout/symbols_sdk.json address attests "

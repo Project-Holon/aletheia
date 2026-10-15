@@ -44,10 +44,10 @@ struct U16Vec;
 typedef unsigned char  u8;
 struct Sub0200852CObj;
 struct WordSet;
-struct Obj0203159C;
-int MONOLITH_TOOL_TITLE_Init(struct Obj0203159C *a, int *b, C *c)
+struct Proc;
+int MONOLITH_TOOL_TITLE_Init(struct Proc *a, int *b, C *c)
 {
-    extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+    extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
     extern void MI_CpuFill8(void *, int, int);
     extern void MONOLITH_TOOL_TITLE_InitBackgrounds(void);
     extern void MONOLITH_TOOL_TITLE_LoadGraphics(void *a, unsigned *b);

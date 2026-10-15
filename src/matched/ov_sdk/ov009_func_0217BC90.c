@@ -18,7 +18,7 @@
  *   func_02059F54  0x02059F54  arm
  *   DWC_Http_Destroy  0x02179CF4  arm  ov009
  *   func_0205A1B0  0x0205A1B0  arm
- *   g_021ACEF0     0x021ACEF0  data ov009
+ *   gDwcProfWorkarea     0x021ACEF0  data ov009
  */
 
 typedef struct OSThread {
@@ -52,21 +52,21 @@ extern void func_02059F54(int error, int errorCode);
 extern void DWC_Http_Destroy(char *http);
 extern void func_0205A1B0(int name, void *ptr, long size);
 
-extern DWCProfWorkarea *g_021ACEF0;
+extern DWCProfWorkarea *gDwcProfWorkarea;
 
 int DWC_CheckProfanityProcess(void)
 {
     int retval;
     unsigned char aptype;
 
-    if (g_021ACEF0 == 0 || g_021ACEF0->http.thread.id == 0)
+    if (gDwcProfWorkarea == 0 || gDwcProfWorkarea->http.thread.id == 0)
         return 0;
-    if (OS_IsThreadTerminated(&g_021ACEF0->http.thread) == 1) {
+    if (OS_IsThreadTerminated(&gDwcProfWorkarea->http.thread) == 1) {
         aptype = DWC_AC_GetApType();
         if (aptype == 0xff || aptype > 99)
             aptype = 99;
 
-        switch (g_021ACEF0->http.error) {
+        switch (gDwcProfWorkarea->http.error) {
         case 8:
             if (DWCi_Prof_ParseResponse() == 0)
                 retval = 3;
@@ -92,8 +92,8 @@ int DWC_CheckProfanityProcess(void)
         return 1;
     }
 
-    DWC_Http_Destroy((char *)(&g_021ACEF0->http));
-    func_0205A1B0(0, g_021ACEF0, 0);
-    g_021ACEF0 = 0;
+    DWC_Http_Destroy((char *)(&gDwcProfWorkarea->http));
+    func_0205A1B0(0, gDwcProfWorkarea, 0);
+    gDwcProfWorkarea = 0;
     return retval;
 }

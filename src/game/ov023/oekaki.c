@@ -22,7 +22,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   OEKAKI_QueueCommand  0x02186860  thumb  ov023
  *   OEKAKI_StoreStroke 0x02186988 thumb ov023
  *   OEKAKI_HandleEvent  0x02185AB0  thumb  ov023
@@ -40,7 +40,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   BG_SYS_Create  0x0203F8F4  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
@@ -103,7 +103,7 @@
  *   func_020307B0 0x020307B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049B40  0x02049B40  arm
@@ -229,7 +229,7 @@ struct BmpWin;
 struct Bmp;
 struct MsgBank;
 struct WordSet;
-struct S020315D4;
+struct Proc;
 struct DispVram;
 typedef struct DispConfig { u32 word[4]; } DispConfig;
 
@@ -243,7 +243,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *window);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);
 extern int UNION_APP_GetMemberCount(UnionAppWork *app);
 extern unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app);
@@ -258,7 +258,7 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
 extern void *PROCSYS_AllocProcWork(void *task, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BG_SYS_Create(u16 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 heapId);
@@ -283,7 +283,7 @@ extern void CLACT_ExitSystem(void);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(void *font);
-extern void func_020315D4(struct S020315D4 *task);
+extern void func_020315D4(struct Proc *task);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 void CLACT_VBlankSystem(void);
 void BG_SYS_Update(void);
@@ -298,7 +298,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void STRBUF_Delete(StrBuf *vec);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-void func_020403F4(u32 layer);
+void BG_SYS_FreeLayerBuf(u32 layer);
 void BG_SYS_Delete(void);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
@@ -330,7 +330,7 @@ CanvasChunk *OEKAKI_GetRecvChunk(int netId, OekakiWork *work);
 void OEKAKI_OpenGroup(OekakiWork *work, int maxCount);
 int OEKAKI_Init(void *task, int *state, OekakiParam *param);
 int OEKAKI_Main(void *task, int *state, int unused, OekakiWork *work);
-int OEKAKI_Exit(struct S020315D4 *task, int *seq, void *unused, OekakiWork *work);
+int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work);
 void OEKAKI_VBlankTask(void);
 void OEKAKI_OnMemberJoined(int netId, UnionAppEntry *entry, void *work);
 void OEKAKI_OnMemberLeft(int netId, UnionAppEntry *entry, void *work);
@@ -584,7 +584,7 @@ void OEKAKI_RecvCanvasChunk(int netId, int size, CanvasChunk *chunk, OekakiWork 
         window = work->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(BMP_WIN_GetBgLayer(window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
     } else {
         sent = work->nextChunk;
         if (sent * 1000 < 0x3840) {
@@ -843,7 +843,7 @@ int OEKAKI_Init(void *task, int *state, OekakiParam *param)
         work = PROCSYS_AllocProcWork(task, OEKAKI_WORK_SIZE, OEKAKI_HEAP_ID);
         MI_CpuFill8(work, 0, OEKAKI_WORK_SIZE);
         BG_SYS_Create(OEKAKI_HEAP_ID);
-        work->wordSet = GF_FONT_Create_EC64(OEKAKI_HEAP_ID);
+        work->wordSet = WORDSET_CreateDefault(OEKAKI_HEAP_ID);
         work->msgBank = func_02045B38(0, 2, 0x53, OEKAKI_HEAP_ID);
         work->font = GF_FONT_Create(0x17, 0, 0, 0, OEKAKI_HEAP_ID);
         OEKAKI_SetVramBanks();
@@ -953,7 +953,7 @@ int OEKAKI_Main(void *task, int *state, int unused, OekakiWork *work)
 /*
  * Exit step: frees the resources and the work in order.
  */
-int OEKAKI_Exit(struct S020315D4 *task, int *seq, void *unused, OekakiWork *work)
+int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work)
 {
     switch (*seq) {
     case 0:
@@ -1148,11 +1148,11 @@ void OEKAKI_ResetDisplay(void)
 {
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, -16);
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, -16);
-    func_020403F4(5);
-    func_020403F4(4);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -1270,7 +1270,7 @@ void OEKAKI_CreateWindows(OekakiWork *p, void *task)
         window = p->nameWindow[i];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(BMP_WIN_GetBgLayer(window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
     }
     OEKAKI_RefreshNamePlates(p->nameWindow, 0x44f, p);
 }
@@ -1540,7 +1540,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
         window = p->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(BMP_WIN_GetBgLayer(window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
         break;
     case 1:
         OEKAKI_SetNextScene(p, 4);
@@ -1549,7 +1549,7 @@ int OEKAKI_StepQuitMenuResult(OekakiWork *p, int procState)
         window = p->canvasWindow;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(BMP_WIN_GetBgLayer(window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             OEKAKI_OpenGroup(p, 1);
             p->syncMode = 1;
@@ -1854,7 +1854,7 @@ void OEKAKI_HandleEvent(OekakiWork *p, int event, int netId)
             window = p->canvasWindow;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            func_020409B4(BMP_WIN_GetBgLayer(window));
+            BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
         }
         OEKAKI_SetQuitButtonPressed(p->quitButton, 0);
         break;
@@ -2002,7 +2002,7 @@ void OEKAKI_DrawStrokes(struct BmpWin *canvas, StrokeRec *strokes, LastPoint *la
     if (drew && redraw) {
         BMP_WIN_TransferChars(canvas);
         BMP_WIN_MakeScreen(canvas);
-        func_020409B4(BMP_WIN_GetBgLayer(canvas));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(canvas));
     }
     OEKAKI_StoreLastPoints(strokes, last);
     for (i = 0; i < 5; i++)
@@ -2096,7 +2096,7 @@ void OEKAKI_RefreshNamePlates(struct BmpWin **windows, u16 color, OekakiWork *p)
         window = windows[i];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(BMP_WIN_GetBgLayer(window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
     }
 }
 
@@ -2179,7 +2179,7 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
     window = p->messageWindow;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }
 
 /* Returns 1 when the message has been shown completely (or none runs). */

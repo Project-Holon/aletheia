@@ -1,5 +1,5 @@
 /*
- * function: func_021DA004
+ * function: WF2DMAP_SCENE_UpdateOam
  * address: 0x021DA004
  * packet: pkt_ov129_021DA004
  * region: ov129
@@ -12,7 +12,7 @@
  * Lever: declare the 4-byte-stride pointer before the 28-byte-stride pointer.
  * symbols:
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021D9FF0 0x021D9FF0 thumb ov129
+ *   WF2DMAP_SCENE_SetOamPos 0x021D9FF0 thumb ov129
  */
 #include "../include/Obj02186.h"
 #include "../include/Obj04507.h"
@@ -21,8 +21,8 @@ typedef short s16;
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void func_021D9FF0(char *,int,int);
-void func_021DA004(char *p)
+extern void WF2DMAP_SCENE_SetOamPos(char *,int,int);
+void WF2DMAP_SCENE_UpdateOam(char *p)
 {
     int i;
     char *r,*q;
@@ -41,19 +41,19 @@ void func_021DA004(char *p)
             ((struct Obj02186 *)q)->f1F4+=1;
             if(((struct Obj02186 *)q)->f1F4==1) {
                 CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),1);
-                func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
+                WF2DMAP_SCENE_SetOamPos(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
             } else if(((struct Obj02186 *)q)->f1F4==2) {
                 CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),2);
-                func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
+                WF2DMAP_SCENE_SetOamPos(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
             } else if(((struct Obj02186 *)q)->f1F4==10) {
                 CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
-                func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
+                WF2DMAP_SCENE_SetOamPos(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
                 ((struct Obj02186 *)q)->f1DC+=1;
             }
             break;
         default:
             CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
-            func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
+            WF2DMAP_SCENE_SetOamPos(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
             ((struct Obj02186 *)q)->f1DC=0;
             break;
         }

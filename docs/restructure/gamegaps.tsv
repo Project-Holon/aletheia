@@ -264,6 +264,8 @@ arm9	0x0203D594	0x0203D5A0	12	leaf	labeled		arm	strong	tailstub target=0x02039C3
 arm9	0x0203D5A0	0x0203D5AC	12	leaf	labeled		arm	strong	tailstub target=0x02039CA0 arm	ldr ip,[pc]; bx ip	2	func_0203D578	src/game/arm9/net.c	func_0203D5AC	src/game/arm9/net.c	
 arm9	0x0203D644	0x0203D650	12	leaf	labeled		arm	strong	tailstub target=0x020394F0 arm	ldr ip,[pc]; bx ip	2	func_0203D634	src/game/arm9/net.c	func_0203D650	src/game/arm9/net.c	
 arm9	0x0203F024	0x0203F028	4	leaf	hidden		arm	weak		bx lr	1	func_0203F004	src/game/arm9/gf_standard.c	func_0203F028	src/game/arm9/gf_standard.c	
+arm9	0x02041648	0x02041664	28	leaf	labeled		arm	strong	label,ref	ldr r2, [pc, #0x10]; mov r1, #0x2c; ldr r2, [r2]; mla r1, r0, r1, r2	6	func_0204162C	src/game/arm9/bg_sys.c	func_02041680	src/game/arm9/bg_sys.c	
+arm9	0x02041664	0x02041680	28	leaf	labeled		arm	strong	label,ref	ldr r2, [pc, #0x10]; mov r1, #0x2c; ldr r2, [r2]; mla r1, r0, r1, r2	6	func_0204162C	src/game/arm9/bg_sys.c	func_02041680	src/game/arm9/bg_sys.c	
 arm9	0x020434B4	0x020434CC	24	leaf	labeled		arm	strong	label,ref	ldr r0, [pc, #0xc]; ldr r1, [r0, #4]; and r1, r1, #0xf; str r1, [r0, #4]	5	func_0204349C	src/game/arm9/bmp.c	func_020434DC	src/game/arm9/bmp.c	
 arm9	0x020434CC	0x020434DC	16	func	labeled		arm	strong	label,ref,push	push {r3, lr}; bl #0x204349c; bl #0x20434b4; pop {r3, pc}	4	func_0204349C	src/game/arm9/bmp.c	func_020434DC	src/game/arm9/bmp.c	
 arm9	0x02043588	0x02043598	16	func	labeled		arm	strong	label,ref,push	push {r3, lr}; bl #0x2043558; bl #0x2043570; pop {r3, pc}	4	func_02043570	src/game/arm9/bmp.c	func_02043598	src/game/arm9/bmp.c	
@@ -426,6 +428,7 @@ ov021	0x021C7F44	0x021C7F60	28	func	labeled	EXACT	thumb	strong	label,ref,push	pu
 ov021	0x021C7F60	0x021C7F70	16	leaf	hidden		thumb	strong	ref,tailcall	movs r1, #0; strh r1, [r0, #0x1c]; ldr r3, [pc, #4]; adds r0, r0, #4	5	func_021C7F18	src/game/ov021/field_flash.c	func_021C7F70	src/game/ov021/field_flash.c	
 ov021	0x021D2EDC	0x021D2F44	104	func	labeled	EXACT*	thumb	strong	label,push	push {r3, r4, r5, r6, r7, lr}; sub sp, #0x10; adds r4, r1, #0; adds r5, r0, #0	41	func_021D2D7C	src/game/ov021/scrcmd_misc.c	func_021D2F44	src/game/ov021/scrcmd_misc.c	
 ov021	0x021D331C	0x021D335C	64	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, lr}; sub sp, #8; adds r3, r0, #0; cmp r1, #0	26	func_021D32F8	src/game/ov021/fld_vreq.c	func_021D335C	src/game/ov021/fld_vreq.c	
+ov032	0x021F253C	0x021F2544	8	leaf	labeled	EXACT	thumb	strong	label,ref	adds r0, #0x70; strh r1, [r0]; bx lr	3	func_021F2404	src/game/ov032/beacon_view.c	func_021F2544	src/game/ov032/beacon_view.c	
 ov048	0x021F3A98	0x021F3AB4	28	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, lr}; ldr r0, [r0, #8]; bl #0x201296c; movs r1, #0x96	12	func_021F3A70	src/game/ov048/field_gimmick_gate.c	func_021F3AB4	src/game/ov048/field_gimmick_gate.c	
 ov051	0x021F36EC	0x021F36F8	12	func	labeled		thumb	strong	label,ref,push	push {r3, lr}; bl #0x21f36c0; ldr r0, [r0, #4]; pop {r3, pc}	4	func_021F36E0	src/game/ov051/field_gimmick_d06.c	func_021F36F8	src/game/ov051/field_gimmick_d06.c	
 ov051	0x021F3868	0x021F38A0	56	func	labeled	EXACT	thumb	strong	label,push	push {r3, r4, r5, lr}; adds r5, r0, #0; bl #0x2188c84; adds r0, r5, #0	19	func_021F3730	src/game/ov051/field_gimmick_d06.c	func_021F38A0	src/game/ov051/field_gimmick_d06.c	
@@ -435,6 +438,11 @@ ov068	0x021B9950	0x021B995C	12	leaf	labeled		thumb	strong	label,ref,tailcall	ldr
 ov068	0x021BB0D0	0x021BB0D8	8	leaf	labeled	EXACT	thumb	strong	tailstub target=0x02012FFD thumb	ldr r3,[pc]; bx r3	2	func_021BB0AC	src/game/ov068/option_menu.c	func_021BB0E4	src/game/ov068/option_menu.c	
 ov068	0x021BB0D8	0x021BB0E4	12	leaf	labeled		thumb	strong	label,ref	ldrb r2, [r0, #5]; movs r1, #0xb; strb r1, [r0, #5]; adds r0, r2, #0	5	func_021BB0AC	src/game/ov068/option_menu.c	func_021BB0E4	src/game/ov068/option_menu.c	
 ov068	0x021BB138	0x021BB140	8	leaf	labeled		thumb	strong	label,ref	str r1, [r0]; movs r1, #0; str r1, [r0, #8]; bx lr	4	func_021BB134	src/game/ov068/option_menu.c	func_021BB140	src/game/ov068/option_menu.c	
+ov071	0x021B7114	0x021B7118	4	leaf	labeled		thumb	strong	label,ref	ldrb r0, [r0, #4]; bx lr	2	func_021B7108	src/game/ov071/monolith_tool.c	func_021B7118	src/game/ov071/monolith_tool.c	
+ov071	0x021B9BA0	0x021B9BAC	12	leaf	labeled	EXACT	thumb	strong	label,ref,tailcall	ldr r3, [pc, #4]; adds r0, #8; bx r3	3	func_021B9B64	src/game/ov071/monolith_tool.c	func_021B9BB8	src/game/ov071/monolith_tool.c	
+ov071	0x021B9BAC	0x021B9BB8	12	leaf	labeled		thumb	strong	label,ref,tailcall	ldr r3, [pc, #4]; adds r1, #8; bx r3	3	func_021B9B64	src/game/ov071/monolith_tool.c	func_021B9BB8	src/game/ov071/monolith_tool.c	
+ov071	0x021B9FEC	0x021B9FF8	12	leaf	labeled	EXACT	thumb	strong	label,ref,tailcall	ldr r3, [pc, #4]; movs r2, #3; bx r3	3	func_021B9F74	src/game/ov071/monolith_tool.c	func_021BA004	src/game/ov071/monolith_tool.c	
+ov071	0x021B9FF8	0x021BA004	12	leaf	labeled		thumb	strong	label,ref,tailcall	ldr r3, [pc, #4]; movs r2, #0; bx r3	3	func_021B9F74	src/game/ov071/monolith_tool.c	func_021BA004	src/game/ov071/monolith_tool.c	
 ov091	0x021B97D4	0x021B9804	48	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, r4, r5, lr}; movs r4, #0x55; adds r5, r0, #0; lsls r4, r4, #2	21	func_021B9788	src/game/ov091/pokelist.c	func_021B981C	src/game/ov091/pokelist.c	
 ov091	0x021B9804	0x021B981C	24	leaf	labeled		thumb	strong	label,ref,tailcall	movs r2, #9; strb r2, [r0, #0xc]; movs r2, #0x53; lsls r2, r2, #2	9	func_021B9788	src/game/ov091/pokelist.c	func_021B981C	src/game/ov091/pokelist.c	
 ov091	0x021B9E20	0x021B9E3C	28	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, lr}; movs r1, #0x15; adds r4, r0, #0; lsls r1, r1, #4	11	func_021B9DC0	src/game/ov091/pokelist.c	func_021B9E3C	src/game/ov091/pokelist.c	
@@ -443,6 +451,7 @@ ov091	0x021B9EB0	0x021B9EC0	16	leaf	labeled		thumb	strong	label,ref,tailcall	ldr
 ov091	0x021B9EC0	0x021B9F34	116	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, r5, r6, lr}; movs r6, #0x15; adds r5, r0, #0; lsls r6, r6, #4	48	func_021B9E3C	src/game/ov091/pokelist.c	func_021B9F34	src/game/ov091/pokelist.c	
 ov091	0x021BA004	0x021BA098	148	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, r5, r6, lr}; movs r4, #0x15; adds r5, r0, #0; lsls r4, r4, #4	61	func_021B9F44	src/game/ov091/pokelist.c	func_021BA098	src/game/ov091/pokelist.c	
 ov091	0x021BA318	0x021BA394	124	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, r4, r5, r6, r7, lr}; movs r7, #0xa; adds r5, r0, #0; lsls r7, r7, #6	54	func_021BA288	src/game/ov091/pokelist.c	func_021BA394	src/game/ov091/pokelist.c	
+ov091	0x021BB9BC	0x021BB9CC	16	leaf	labeled		thumb	strong	label,ref,tailcall	ldr r0, [r1, #0x2c]; adds r1, r2, #0; adds r2, r3, #0; ldr r3, [pc, #4]	5	func_021BB9AC	src/game/ov091/plist_message.c	func_021BB9CC	src/game/ov091/plist_message.c	
 ov091	0x021BBE44	0x021BBE50	12	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, lr}; cmp r0, #0; beq #0x21bbe4e; bl #0x2028148	5	func_021BBDEC	src/game/ov091/plist_menu.c	func_021BBE68	src/game/ov091/plist_menu.c	
 ov091	0x021BBE50	0x021BBE5C	12	func	labeled		thumb	strong	label,ref,push	push {r3, lr}; cmp r0, #0; beq #0x21bbe5a; bl #0x2028178	5	func_021BBDEC	src/game/ov091/plist_menu.c	func_021BBE68	src/game/ov091/plist_menu.c	
 ov091	0x021BBE5C	0x021BBE68	12	func	labeled		thumb	strong	label,ref,push	push {r3, lr}; cmp r0, #0; beq #0x21bbe66; bl #0x2028218	5	func_021BBDEC	src/game/ov091/plist_menu.c	func_021BBE68	src/game/ov091/plist_menu.c	
@@ -1446,6 +1455,7 @@ ov172	0x021BA014	0x021BA01C	8	veneer	labeled	EXACT	arm	strong	ldr pc,[pc,#-4]; t
 ov175	0x021DD560	0x021DD56C	12	leaf	labeled		arm	strong	tailstub target=0x021DD328 arm	ldr ip,[pc]; bx ip	2	func_021DD4D8	src/game/ov175/sakemain.c	func_021DD56C	src/game/ov175/sakerequest.c	
 ov208	0x021BD404	0x021BD43C	56	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r3, r4, r5, r6, r7, lr}; adds r5, r0, #0; ldr r0, [r5, #4]; adds r7, r1, #0	26	func_021BD3F8	src/game/ov208/zknd_tbar.c	func_021BD43C	src/game/ov208/zknd_tbar.c	
 ov208	0x021BDC48	0x021BDC80	56	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r4, lr}; adds r4, r0, #0; str r1, [r4, #0x34]; cmp r1, #0	23	func_021BDC2C	src/game/ov208/zukan_detail_touchbar.c	func_021BDC80	src/game/ov208/zukan_detail_touchbar.c	
+ov223	0x021BB414	0x021BB424	16	leaf	labeled		thumb	strong	label,ref,tailcall	movs r1, #0x26; lsls r1, r1, #4; ldr r0, [r0, r1]; ldr r3, [pc, #4]	5	func_021BB404	src/game/ov223/psel.c	func_021BB424	src/game/ov223/psel.c	
 ov230	0x02187F00	0x021882A0	928	data	hidden				ptrs=10 t:ok					func_021889B0	src/game/ov230/loader_entry.c	
 ov230	0x021882A0	0x021882C4	36	veneer	labeled		arm	strong	ov230 decryptor entry,label	orr ip, pc, pc; ands ip, ip, ip; moveq ip, #0; addne ip, ip, #0x1c	9			func_021889B0	src/game/ov230/loader_entry.c	
 ov230	0x021882C4	0x021882DC	24	data	hidden				ptrs=5 a:no end t:no end					func_021889B0	src/game/ov230/loader_entry.c	

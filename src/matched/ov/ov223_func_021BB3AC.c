@@ -1,5 +1,5 @@
 /*
- * function: PSEL_UpdateB3AC
+ * function: PSEL_DeleteTaskResData
  * address:  0x021BB3AC
  * packet:   pkt_ov223_021BB3AC
  * region:   ov223
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * This address is also matched as PSEL_UpdateB3AC in ov021; the ov223 copy is a
+ * This address is also matched as PSEL_DeleteTaskResData in ov021; the ov223 copy is a
  * distinct function and gets its own shard.
  *
  * symbols:
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct TaskMenuState;
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
-int PSEL_UpdateB3AC(int *p)
+int PSEL_DeleteTaskResData(int *p)
 {
     return APP_TASKMENU_RES_Delete((struct TaskMenuState *)p[0x97]);
 }

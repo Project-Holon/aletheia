@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -28,7 +28,7 @@ extern u16  ZUKAN_DETAIL_COMMON_GetCurrentEntry(int key);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -51,7 +51,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, u8 *p, int key, u32 *outStr
     k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     switch (*(u32 *)(p + 0x148 + idx * 16)) {
     case 0:
-        ws = (u32)GF_FONT_Create_EC64(*heap);
+        ws = (u32)WORDSET_CreateDefault(*heap);
         src = ((struct Obj06686 *)p)->f5A4;
         str = (u32)STRBUF_Create(0x40, *heap);
         WORDSET_Callback((struct WordSet *)ws, 0, k);

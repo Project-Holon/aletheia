@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020422D4  0x020422D4  arm
+ *   BG_SYS_GetModeValue  0x020422D4  arm
  *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *
  * The 8bpp-screen fill of the three blitters BG_SYS_SetTileEntry dispatches to on
@@ -47,7 +47,7 @@ struct Surface {
 };
 
 typedef unsigned short u16;
-extern void func_020422D4(u32 mode, u8 *a, u8 *b);
+extern void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 extern u16 BG_SYS_GetTileMapEntry(int x, int y, u32 code);
 
 void BG_SYS_BlitPixelsEx(struct Surface *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
@@ -63,7 +63,7 @@ void BG_SYS_BlitPixelsEx(struct Surface *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
         return;
     }
 
-    func_020422D4(s->size_code, &width, &height);
+    BG_SYS_GetModeValue(s->size_code, &width, &height);
 
     yEnd = y0 + h;
 

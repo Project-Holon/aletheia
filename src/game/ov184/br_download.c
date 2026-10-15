@@ -103,10 +103,10 @@
 #include "../../matched/include/Obj08319.h"
 
 struct Obj24810;
-struct Obj0203159C;
+struct Proc;
 struct Big;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 typedef unsigned short u16;
 
 typedef unsigned int u32;
@@ -130,7 +130,7 @@ typedef struct
 
 extern int func_02034AC4(s32 handle);
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
@@ -145,7 +145,7 @@ extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTextWin(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void func_02034A5C(int);
 extern int BR_NET_HandleNetError(char *);
 extern void BR_PROC_SYS_FlushWindows(char *);
@@ -241,7 +241,7 @@ int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
     }
     BMP_OAM_DeleteSys((void *)(((struct Obj02233 *)p)->f1C));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj02233 *)p)->f20));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     func_02034A5C((int)ov112_id);
     return 1;
 }

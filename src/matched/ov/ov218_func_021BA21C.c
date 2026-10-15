@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA21C, UN_SELECT_Callback
+ * function: UN_SELECT_SceneStepMenuOut, UN_SELECT_Callback
  * address: 0x021BA21C
  * packet: pkt_ov218_021BA21C
  * region: ov218
@@ -11,19 +11,19 @@
  * follower: parent-cleared ov218021BA238; lead EXACT*28B, no ARM9 blocker; independent ldrh/threshold/bx Thumb body fills remaining88B before A290.
  * volatile: VCOUNT04000006 read at A23A, SUB_BLDALPHA04001052 written at A244/A250/A25C/A268/A26E.
  * symbols:
- *   func_021B9944 0x021B9944 thumb ov218
- *   func_021B9C74 0x021B9C74 thumb ov218
+ *   UN_SELECT_RequestBrightness 0x021B9944 thumb ov218
+ *   UN_SELECT_DrawWindowBorder 0x021B9C74 thumb ov218
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
  */
 #include "../include/Obj26048.h"
-extern void func_021B9944(void);
+extern void UN_SELECT_RequestBrightness(void);
 typedef unsigned char  u8;
-extern void func_021B9C74(u8 *p);
+extern void UN_SELECT_DrawWindowBorder(u8 *p);
 extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
-int func_021BA21C(unsigned char *task, char *ctx)
+int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx)
 {
-    func_021B9944();
-    func_021B9C74(((struct Obj26048 *)ctx)->f28);
+    UN_SELECT_RequestBrightness();
+    UN_SELECT_DrawWindowBorder(((struct Obj26048 *)ctx)->f28);
     UI_SCENE_SetNextScene(task, 0);
     return 1;
 }

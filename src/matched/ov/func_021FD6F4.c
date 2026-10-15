@@ -18,6 +18,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
 
  * Tear the object down: unhook the two sub-objects, release the +0xd40 resource, wire the 0/1/2 quad, then drain the four engine hooks.
  */
@@ -40,7 +41,7 @@ extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32
 extern void BMP_WIN_TransferChars(struct Descriptor *v);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 
 void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
 {
@@ -53,5 +54,5 @@ void WORLDTRADE_LIST_PrintMessage(u8 *p, u32 k, u32 a2, u32 a3, u32 a4)
     v = ((struct Obj01063 *)p)->fD40;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
 }

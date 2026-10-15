@@ -16,7 +16,7 @@
  *   func_02049658       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
  *   BG_SYS_SetTileEntry       0x02041300  arm
- *   func_020409B4       0x020409B4  arm
+ *   BG_SYS_PushTile       0x020409B4  arm
  *   gSysState           0x0214693C  data
  */
 
@@ -47,7 +47,7 @@ extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void  func_020409B4(u32 a);
+extern void  BG_SYS_PushTile(u32 a);
 
 void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
 {
@@ -65,5 +65,5 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
     ENV_SetResourceSet(env);
     BG_SYS_SetTileEntry(a, (u16)(gSysState->field_0 + 0xf), 0, 0, 0x20, 1, b);
     BG_SYS_SetTileEntry(a, (u16)(gSysState->field_0 + 0x1f), 0, 1, 0x20, 1, b);
-    func_020409B4(a);
+    BG_SYS_PushTile(a);
 }

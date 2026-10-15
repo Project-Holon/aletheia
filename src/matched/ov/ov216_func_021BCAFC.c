@@ -1,5 +1,5 @@
 /*
- * function: func_021BCAFC
+ * function: BEACON_DETAIL_GRA_InitClact
  * address: 0x021BCAFC
  * packet: pkt_ov216_021BCAFC
  * region: ov216
@@ -36,7 +36,7 @@ extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-void func_021BCAFC(void **p,void *a,int heap)
+void BEACON_DETAIL_GRA_InitClact(void **p,void *a,int heap)
 {
     struct Block b;
     MI_CpuFill8(p,0,8);

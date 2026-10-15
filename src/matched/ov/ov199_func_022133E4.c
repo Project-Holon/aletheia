@@ -1,5 +1,5 @@
 /*
- * function: func_022133E4
+ * function: WIFIBATTLEMATCH_SYS_FillSetupRecord
  * address: 0x022133E4
  * packet: pkt_ov199_022133E4
  * region: ov199
@@ -16,7 +16,7 @@
  *   func_02017E1C 0x02017E1C thumb
  *   DWC_GetDateTime 0x02167ED8 arm ov009
  *   func_02034714 0x02034714 arm
- *   func_022135CC 0x022135CC thumb ov199
+ *   WIFIBATTLEMATCH_SYS_CountBoxSpecies 0x022135CC thumb ov199
  *   REGULATION_GetRuleValue 0x0200AE54 thumb
  *   d_02213D00 0x02213D00 data a1 ov199
  */
@@ -40,10 +40,10 @@ extern unsigned func_02017E1C(void *,unsigned,unsigned);
 struct Reg;
 extern int DWC_GetDateTime(void *date, void *time);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_022135CC(u8 *,u8 *,u8 *);
+extern void WIFIBATTLEMATCH_SYS_CountBoxSpecies(u8 *,u8 *,u8 *);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern const char d_02213D00[];
-void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode)
+void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode)
 {
     int i;
     unsigned zero = 0;
@@ -80,7 +80,7 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     ((Flags *)(p + 0x44))->minute=time.b;
     ((struct Obj06660 *)p)->f48=setting;
     p[0x4c]=((struct Obj25297 *)record)->f8C;
-    func_022135CC(record,&bytes.a,&bytes.b);
+    WIFIBATTLEMATCH_SYS_CountBoxSpecies(record,&bytes.a,&bytes.b);
     ((Nibbles *)(p + 0x4e))->a=bytes.a;
     ((Nibbles *)(p + 0x4e))->b=bytes.b;
     p[0x4d]=REGULATION_GetRuleValue(reg,0x15);

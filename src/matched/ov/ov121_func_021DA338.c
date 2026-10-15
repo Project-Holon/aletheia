@@ -1,5 +1,5 @@
 /*
- * function: func_021DA338
+ * function: MYSTERY_UTIL_CreateBmpList
  * address: 0x021DA338
  * packet: pkt_ov121_021DA338
  * region: ov121
@@ -33,7 +33,7 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-void *func_021DA338(char *p,u16 heap)
+void *MYSTERY_UTIL_CreateBmpList(char *p,u16 heap)
 {
     u32 i;
     int size=((struct Obj13952 *)p)->f4*4+8;

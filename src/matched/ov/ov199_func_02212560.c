@@ -1,5 +1,5 @@
 /*
- * function: func_02212560
+ * function: WIFIBATTLEMATCH_SYS_CreateWork
  * address: 0x02212560
  * packet: pkt_ov199_02212560
  * region: ov199
@@ -20,9 +20,9 @@
  *   GAME_DATA_Create 0x020124F4 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
- *   func_0221336C 0x0221336C thumb ov199
- *   func_022136E4 0x022136E4 thumb ov199
- *   func_02213808 0x02213808 thumb ov199
+ *   WIFIBATTLEMATCH_SYS_AllocPartyBuffers 0x0221336C thumb ov199
+ *   WIFIBATTLEMATCH_SYS_CreateProcWork 0x022136E4 thumb ov199
+ *   WIFIBATTLEMATCH_SYS_SetStep 0x02213808 thumb ov199
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -42,16 +42,16 @@ struct BigObj;
 struct Party;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void BATTLE_REC_AllocWork(unsigned);
-extern void func_0221336C(char *, int);
-extern void *func_022136E4(void *, void *, void *, int);
-extern void func_02213808(char *p, int value);
+extern void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *, int);
+extern void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *, void *, void *, int);
+extern void WIFIBATTLEMATCH_SYS_SetStep(char *p, int value);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -60,7 +60,7 @@ extern void *func_0200BAF4(int a0, int a1);
 extern u32 func_020307B0(void *p);
 extern const char d_02213D00[];
 extern const unsigned d_02213C58[];
-int func_02212560(void *a, int unused, u8 *arg)
+int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg)
 {
     u8 *p;
     void *v;
@@ -85,16 +85,16 @@ int func_02212560(void *a, int unused, u8 *arg)
     ((struct Obj01177 *)p)->f38 = POKEPARTY_Create(0x56);
     ((struct Obj01177 *)p)->f3C = POKEPARTY_Create(0x56);
     BATTLE_REC_AllocWork(0x56);
-    func_0221336C((char *)p, 0x56);
-    ((struct Obj01177 *)p)->f18 = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);
+    WIFIBATTLEMATCH_SYS_AllocPartyBuffers((char *)p, 0x56);
+    ((struct Obj01177 *)p)->f18 = WIFIBATTLEMATCH_SYS_CreateProcWork((void *)d_02213C58, (void *)9, p, 0x56);
     switch (((struct Obj01177 *)p)->fC) {
     case 0:
         ((struct Obj01177 *)p)->f1C = 0;
-        func_02213808(((struct Obj01177 *)p)->f18, 0);
+        WIFIBATTLEMATCH_SYS_SetStep(((struct Obj01177 *)p)->f18, 0);
         break;
     case 1:
         ((struct Obj01177 *)p)->f1C = 2;
-        func_02213808(((struct Obj01177 *)p)->f18, 4);
+        WIFIBATTLEMATCH_SYS_SetStep(((struct Obj01177 *)p)->f18, 4);
         break;
     default: func_02034714(d_02213D00, 0, d_02213D00); break;
     }

@@ -11,7 +11,7 @@
  * volatile: sub-display blend/control reads and writes 021B973C-021B9746.
  * symbols:
  *   gSubwayMapGraphicSubBgLayerTable 0x021B9C04 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets 0x021B9898 thumb ov224
  *   SUBWAY_MAP_GRAPHIC_DeleteScreen 0x021B99E8 thumb ov224
  *   func_02030EAC 0x02030EAC arm
@@ -28,19 +28,19 @@ extern const Entry gSubwayMapGraphicSubBgLayerTable[];
 typedef unsigned int   u32;
 struct Node;
 struct PrintSys;
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(char *),SUBWAY_MAP_GRAPHIC_DeleteScreen(char *);
-struct S020315D4;
+struct Proc;
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p)
 {
     Index i=ZERO;
-    do { func_020403F4((unsigned char)gSubwayMapGraphicSubBgLayerTable[i].id); i++; } while(i<1U);
+    do { BG_SYS_FreeLayerBuf((unsigned char)gSubwayMapGraphicSubBgLayerTable[i].id); i++; } while(i<1U);
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
     SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(p);

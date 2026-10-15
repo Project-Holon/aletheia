@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AD0
+ * function: UN_SELECT_Main
  * address:  0x021B9AD0
  * packet:   pkt_021B9AD0
  * region:   ov218
@@ -23,7 +23,7 @@ struct Tcbl;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 
-void func_021B9AD0(char *p)
+void UN_SELECT_Main(char *p)
 {
     PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj14771 *)p)->f10));
     TCBL_Main((struct Tcbl *)(((struct Obj14771 *)p)->f4));

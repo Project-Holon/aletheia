@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E89D0 0x021E89D0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu 0x021E89D0 thumb ov177
  */
-extern void func_021E89D0(int);
-void BATTLE_CHAMPIONSHIP_FLOW_HideWindow(int *p) {func_021E89D0(p[1]);}
+extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(int);
+void BATTLE_CHAMPIONSHIP_FLOW_HideWindow(int *p) {WIFIBATTLEMATCH_UTIL_DeleteMenu(p[1]);}

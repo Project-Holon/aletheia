@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj24810;
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
@@ -39,7 +39,7 @@ int BR_CODEIN_SidebarCreate(int *task, int unused, char *p)
 {
     char *s;
     void *callback;
-    s=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0x20,BR_PROC_SYS_GetSlotId(((struct Obj03879 *)p)->f10));
+    s=PROCSYS_AllocProcWork((struct Proc *)task,0x20,BR_PROC_SYS_GetSlotId(((struct Obj03879 *)p)->f10));
     MI_CpuFill8(s,0,0x20);
     *(char * *)&((struct Obj02228 *)s)->f1C=p;
     ((struct Obj02228 *)s)->f4=BR_PROC_SYS_GetSlotId(((struct Obj03879 *)p)->f10);

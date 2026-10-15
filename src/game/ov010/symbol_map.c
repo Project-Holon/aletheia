@@ -120,7 +120,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -131,7 +131,7 @@
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb
  *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
@@ -389,7 +389,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern int MSGDATA_Delete();
 extern struct InfoWindow *FIELD_MSGBG_CreateMsgWin(void *fx, struct MsgBank *msgBank, u16 x, u16 y, u16 width, u16 height);
 extern int FIELD_MSGBG_DeleteMsgWin();
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern int WORDSET_DeleteStrbufED04();
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
@@ -400,7 +400,7 @@ extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
 extern int FIELD_MSGBG_MsgWinPrintStr(struct InfoWindow *window, u32 b, u32 c, u32 text);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(struct InfoWindow *window);
 extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void STRBUF_Delete(struct StrBuf *buf);
 extern int FIELD_MSGBG_ClearMsgWin();
 extern void *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
@@ -1537,7 +1537,7 @@ struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(ResearchReportWork *work)
 {
     struct WordSet *wordSet;
 
-    wordSet = GF_FONT_Create_EC64(work->heapId);
+    wordSet = WORDSET_CreateDefault(work->heapId);
     work->wordSet = wordSet;
     return wordSet;
 }
@@ -1570,7 +1570,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     WORDSET_CopyTaggedText(work->wordSet, formattedText, rawText);
     WORDSET_ClearAllSlots(work->wordSet);
     FIELD_MSGBG_MsgWinPrintStr(work->window, 8, 0, (u32)formattedText);
-    func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
     STRBUF_Delete(rawText);
     STRBUF_Delete(formattedText);
 }
@@ -1578,7 +1578,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
 void EVENT_RESEARCH_RADAR_CloseInfoWindow(ResearchReportWork *work)
 {
     FIELD_MSGBG_ClearMsgWin(work->window);
-    func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
 }
 
 /* Report kind (0..5) from the research report block. */

@@ -1,5 +1,5 @@
 /*
- * function: func_0217D2F0
+ * function: DIGITALCARDCHECK_BuildBattleRecord
  * address:  0x0217D2F0
  * packet:   pkt_0217D2F0
  * region:   ov176
@@ -56,7 +56,7 @@ extern u32 func_020307B0(void *p);
 extern u8 func_0200E918(const u8 *base, u32 idx);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 
-void func_0217D2F0(u8 *p, u8 *q)
+void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q)
 {
     u8 *r = *(u8 * *)&((struct Obj06579 *)q)->f1B8;
     u32 x;

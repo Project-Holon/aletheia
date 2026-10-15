@@ -68,7 +68,7 @@
  *   func_02007774 0x02007774 thumb
  *   d_021F6E08 0x021F6E08 data a4
  *   d_021F6E0C 0x021F6E0C data a4
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -97,12 +97,12 @@
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
@@ -424,7 +424,7 @@ extern int func_02007774(void *);
 extern void *MB_UTIL_MSG_Main(void *);
 extern void CLACT_DrawSystem(void *);
 extern void CLACT_VBlankSystem(void);
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32,u32);
@@ -442,12 +442,12 @@ extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void CLACT_DeleteActor(void *p);
 extern u32 CLACT_DeleteUnit(void *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -1073,10 +1073,10 @@ void MB_COMM_SYS_VBlankRefreshBg(void)
 {
     if (gMbParentUi.vblankDivider > 1) {
         gMbParentUi.vblankDivider = 0;
-        func_02040618(3, 2, 1);
-        func_02040618(3, 5, 1);
-        func_02040618(7, 2, 1);
-        func_02040618(7, 5, 1);
+        BG_SYS_FillScrollArea(3, 2, 1);
+        BG_SYS_FillScrollArea(3, 5, 1);
+        BG_SYS_FillScrollArea(7, 2, 1);
+        BG_SYS_FillScrollArea(7, 5, 1);
     } else {
         gMbParentUi.vblankDivider++;
     }
@@ -1091,8 +1091,8 @@ void MB_COMM_SYS_VBlankRefreshBgStandalone(void)
     gMbParentUi.vblankCounter++;
     if (gMbParentUi.vblankCounter >= 5) {
         gMbParentUi.vblankCounter = 0;
-        func_02040618(3, 5, 1);
-        func_02040618(7, 5, 1);
+        BG_SYS_FillScrollArea(3, 5, 1);
+        BG_SYS_FillScrollArea(7, 5, 1);
     }
 }
 
@@ -1149,14 +1149,14 @@ void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p)
     CLACT_DeleteActor(p->actor);
     CLACT_DeleteUnit(p->clactUnit);
     CLACT_ExitSystem();
-    func_020403F4(0);
-    func_020403F4(1);
-    func_020403F4(2);
-    func_020403F4(3);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -1167,7 +1167,7 @@ void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode)
     BG_SYS_InitBgLayer(layer, bgTemplate, mode);
     func_02040588(layer, 1);
     BG_SYS_FreeSlot(layer);
-    func_020409B4(layer);
+    BG_SYS_PushTile(layer);
 }
 
 /* Loads the background graphics, palettes and the actor sprite for the current mode. */
@@ -1191,7 +1191,7 @@ void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
         ARC_UTIL_UploadPaletteFromHandle(archive, 3, 0, 416, 416, 32, p->heapId);
         func_02049658(archive, 7, 0, 0, 0, 0, p->heapId);
         func_020498F4(archive, 11, 0, 0, 0, 0, p->heapId);
-        func_020409B4(2);
+        BG_SYS_PushTile(2);
         ARC_TOOL_DeleteHandle(archive);
     } else {
         archive = func_020490F4(34, p->heapId);
@@ -1209,7 +1209,7 @@ void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
         ARC_UTIL_UploadPaletteFromHandle(archive, 3, 4, 416, 416, 32, p->heapId);
         func_02049658(archive, 7, 4, 0, 0, 0, p->heapId);
         func_020498F4(archive, 11, 4, 0, 0, 0, p->heapId);
-        func_020409B4(5);
+        BG_SYS_PushTile(5);
         func_02040588(5, 0);
         func_02040588(4, 0);
         ARC_TOOL_DeleteHandle(archive);
@@ -1219,7 +1219,7 @@ void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p)
     func_02049658(archive, APP_ICON_GetStatusFrameFileId(), 6, 0, 0, 0, p->heapId);
     func_020498F4(archive, APP_ICON_GetStatusDataFileId(), 6, 0, 0, 0, p->heapId);
     BG_SYS_FillTileMap(6, 0, 21, 32, 3, 8);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     p->paletteId = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0, 0, 3, p->heapId);
     p->charId = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 1, p->heapId);
     firstCell = APP_ICON_GetStatusCellFileId(2);
@@ -1269,7 +1269,7 @@ void MB_COMM_SYS_DrawTitle(MbCommSysWork *p)
     func_02049658(archive, 1, textBg, 0, 0, 0, p->heapId);
     func_020498F4(archive, 2, textBg, 0, 0, 0, p->heapId);
     BG_SYS_FillTileMap(textBg, 0, 0, 32, 24, 7);
-    func_020409B4(textBg);
+    BG_SYS_PushTile(textBg);
     ARC_TOOL_DeleteHandle(archive);
     window = BMP_WIN_Create(textBg, 1, 4, 30, 8, 7, 1);
     bank = func_02045B38(0, 2, 0x52, p->heapId);
@@ -1278,7 +1278,7 @@ void MB_COMM_SYS_DrawTitle(MbCommSysWork *p)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(window), 0, 0, text, (void *)MB_UTIL_MSG_GetFont(p->msg), 0x1167);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
     STRBUF_Delete(text);
     MSGDATA_Delete(bank);
     BMP_WIN_Delete(window);

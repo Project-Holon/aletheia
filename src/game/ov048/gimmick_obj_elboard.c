@@ -18,7 +18,7 @@
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   FIELD_GIMMICK_GATE_HasMessagesToShow  0x021F3A70  thumb
  *   func_021F3D24  0x021F3D24  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   RTC_GetDate  0x02088864  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotMonth  0x0201F230  thumb
@@ -242,7 +242,7 @@ extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work);
 extern int func_021F3D24(GateWork *work);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern int RTC_GetDate(RtcDate *date);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
 extern void WORDSET_SetSlotMonth(struct WordSet *wordSet, u32 index, u32 month);
@@ -456,7 +456,7 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     struct { RtcDate date; ElboardMessage msg; } locals;
     struct WordSet *wordSet;
 
-    wordSet = GF_FONT_Create_EC64(work->heapId);
+    wordSet = WORDSET_CreateDefault(work->heapId);
     RTC_GetDate(&locals.date);
     WORDSET_SetSlotNumber(wordSet, 2, locals.date.year, 2, 2, 1);
     WORDSET_SetSlotMonth(wordSet, 0, locals.date.month);
@@ -572,7 +572,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
         return;
     if (placeId == 0x159 && GAME_DATA_GetSeason(work->gameData) == 3)
         return;
-    words = GF_FONT_Create_EC64(work->heapId);
+    words = WORDSET_CreateDefault(work->heapId);
     placeNames = func_02045B38(0, 2, 0x59, work->heapId);
     placeName = func_02045EC0(placeNames, ZONEDATA_GetPlaceNameId(placeId));
     WORDSET_SetSlotTag(words, 0, placeName, 0, 1, 0);
@@ -704,7 +704,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     int i;
     int msgId;
 
-    words = GF_FONT_Create_EC64(GIMMICK_OBJ_ELBOARD_GetHeapId(work->board));
+    words = WORDSET_CreateDefault(GIMMICK_OBJ_ELBOARD_GetHeapId(work->board));
     if (FIELD_GIMMICK_GATE_IsExtraSaveListOn(work))
         FIELD_GIMMICK_GATE_ReadExtraSaveValues(work, savedIds, &savedCount);
     else

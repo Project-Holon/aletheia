@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_02200D5C 0x02200D5C data a1
  */
 #include "../include/Obj02901.h"
@@ -37,7 +37,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap)
 {
     char *p;
@@ -56,6 +56,6 @@ void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned s
     bmp=((struct Obj02901 *)p)->fC;
     BMP_WIN_TransferChars(bmp);
     BMP_WIN_MakeScreen(bmp);
-    func_020409B4(BMP_WIN_GetBgLayer(bmp));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmp));
     return p;
 }

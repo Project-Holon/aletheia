@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6B38 0x021B6B38 thumb ov071
+ *   MONOLITH_TOOL_FreeButton 0x021B6B38 thumb ov071
  */
 
-extern void func_021B6B38(void **p);
-void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(char *p) { int i; p += 0x2c; for (i=0;i<2;i++) func_021B6B38((void **)(p+i*16)); }
+extern void MONOLITH_TOOL_FreeButton(void **p);
+void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(char *p) { int i; p += 0x2c; for (i=0;i<2;i++) MONOLITH_TOOL_FreeButton((void **)(p+i*16)); }

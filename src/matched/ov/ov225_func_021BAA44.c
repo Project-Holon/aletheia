@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA44
+ * function: MANUAL_COMMON_SetListWorkBgMode
  * address: 0x021BAA44
  * packet: pkt_ov225_021BAA44
  * region: ov225
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 extern void BG_SYS_SetFlagField06(u32);
 struct Work;
 
-void func_021BAA44(struct Work *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_COMMON_SetListWorkBgMode(struct Work *a0) { BG_SYS_SetFlagField06(4); }

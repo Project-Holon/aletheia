@@ -37,7 +37,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021BA1D4 0x021BA1D4 data a4
  *   d_021BA250 0x021BA250 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -105,7 +105,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void func_020403F4(unsigned char);
+extern void BG_SYS_FreeLayerBuf(unsigned char);
 extern void BMP_WIN_Exit(void),BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
@@ -227,7 +227,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap)
  }
 }
 
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p){unsigned base=(unsigned)d_021BA250;unsigned i;for(i=0;i<2;i++)func_020403F4(*(unsigned *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p){unsigned base=(unsigned)d_021BA250;unsigned i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf(*(unsigned *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p){}
 

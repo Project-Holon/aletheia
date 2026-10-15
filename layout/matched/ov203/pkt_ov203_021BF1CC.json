@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF1CC",
+   "name": "DEMO3D_DATA_BrightnessSeqMain",
    "address": "0x021BF1CC",
    "kind": "game",
    "region": "ov203",

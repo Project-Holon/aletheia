@@ -23,7 +23,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 #include "../include/Obj00525.h"
 
@@ -52,7 +52,7 @@ extern void *PRINTSYS_PrintStream(void *a0, u32 a1, u32 a2, void *a3, u32 a4, u3
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode)
 {
@@ -82,5 +82,5 @@ void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode)
     p = ((struct Obj00525 *)w)->f11C;
     BMP_WIN_TransferChars(p);
     BMP_WIN_MakeScreen(p);
-    func_020409B4(BMP_WIN_GetBgLayer(p));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(p));
 }

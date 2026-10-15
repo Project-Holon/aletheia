@@ -33,11 +33,11 @@ extern void IRC_RHYTHM_ExitPulse(void *);
 extern void IRC_RHYTHM_ExitTextWindow(u8 *p);
 extern void IRC_RHYTHM_ExitScreen(u8 *p);
 extern void IRC_RHYTHM_ExitTextSystem(u8 *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int IRC_RHYTHM_Exit(int a,int b,int c,u8 *p) {
  func_02030EAC((struct Node *)(((struct Obj13741 *)p)->f8A4));IRC_RHYTHM_ExitParticles(p+0x278);
  *(volatile unsigned short *)0x04000050=0;
- IRC_APPBAR_Delete((void *)(((struct Obj13741 *)p)->f7AC));IRC_RHYTHM_ExitNetSync(p+0xe0);IRC_RHYTHM_ExitCountdown(p+0x7b0);IRC_RHYTHM_ExitPulse(p+0x7cc);IRC_RHYTHM_ExitTextWindow(p+0x7f0);IRC_RHYTHM_ExitTextWindow(p+0x7dc);IRC_RHYTHM_ExitTextWindow(p+0xcc);IRC_RHYTHM_ExitScreen(p);IRC_RHYTHM_ExitTextSystem(p+0xbc);func_020315D4((struct S020315D4 *)a);GFL_HEAP_DeleteChecked(56);return 1;
+ IRC_APPBAR_Delete((void *)(((struct Obj13741 *)p)->f7AC));IRC_RHYTHM_ExitNetSync(p+0xe0);IRC_RHYTHM_ExitCountdown(p+0x7b0);IRC_RHYTHM_ExitPulse(p+0x7cc);IRC_RHYTHM_ExitTextWindow(p+0x7f0);IRC_RHYTHM_ExitTextWindow(p+0x7dc);IRC_RHYTHM_ExitTextWindow(p+0xcc);IRC_RHYTHM_ExitScreen(p);IRC_RHYTHM_ExitTextSystem(p+0xbc);func_020315D4((struct Proc *)a);GFL_HEAP_DeleteChecked(56);return 1;
 }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8AA8 0x021E8AA8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  */
-extern void func_021E8AA8(int);
-void LIVEBATTLEMATCH_FLOW_End(int p) {func_021E8AA8(p);}
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int);
+void LIVEBATTLEMATCH_FLOW_End(int p) {WIFIBATTLEMATCH_UTIL_ClearCallback(p);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA320
+ * function: WF2DMAP_SCENE_UpdateCellRects
  * address: 0x021DA320
  * packet: pkt_ov129_021DA320
  * region: ov129
@@ -18,7 +18,7 @@ struct Actor;
 struct PtS;
 typedef unsigned short u16;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-void func_021DA320(char *p)
+void WF2DMAP_SCENE_UpdateCellRects(char *p)
 {
     int i;
     int x,y;

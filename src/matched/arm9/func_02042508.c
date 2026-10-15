@@ -14,7 +14,7 @@
  *   g_020A7E5C     0x020A7E5C  data
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   GFL_HEAP_Free   0x020307B0  arm
- *   func_02040968  0x02040968  arm
+ *   BG_SYS_SetupMemory  0x02040968  arm
  *   BG_SYS_LoadTileLayerEx  0x020425B4  arm
  *
  * bg_sys.c.  Upload tile data to a layer, decompressing first when the
@@ -49,7 +49,7 @@ extern char g_020A7E5C[];
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void  func_02040968(const void *src, void *dst, u32 mode);
+extern void  BG_SYS_SetupMemory(const void *src, void *dst, u32 mode);
 extern void  BG_SYS_LoadTileLayerEx(u32 index, const void *src, u32 size, u32 offset);
 
 void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size)
@@ -60,7 +60,7 @@ void BG_SYS_LoadTileDataEx(u32 index, const u32 *src, u32 mode, u32 size)
 
         buf = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
                            n, 0, g_020A7E5C, 2963);
-        func_02040968(src, buf, mode);
+        BG_SYS_SetupMemory(src, buf, mode);
         BG_SYS_LoadTileLayerEx(index, buf, size, n);
         GFL_HEAP_Free(buf);
     } else {

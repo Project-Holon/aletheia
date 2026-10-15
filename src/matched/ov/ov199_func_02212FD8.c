@@ -1,5 +1,5 @@
 /*
- * function: func_02212FD8
+ * function: WIFIBATTLEMATCH_SYS_BuildStartCommand
  * address: 0x02212FD8
  * packet: pkt_ov199_02212FD8
  * region: ov199
@@ -16,7 +16,7 @@
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void MI_CpuFill8(void *, int, int);
 extern const char d_02213D04[];
-int *func_02212FD8(int unused, unsigned heap, char *ctx)
+int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, unsigned heap, char *ctx)
 {
     int zero = 0;
     int *p = func_02030734(heap, 0x28, zero, d_02213D04, 0x588);

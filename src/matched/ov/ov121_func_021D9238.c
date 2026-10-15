@@ -1,5 +1,5 @@
 /*
- * function: func_021D9238
+ * function: MYSTERY_StepScroll
  * address:  0x021D9238
  * packet:   pkt_021D9238
  * region:   ov121
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-void func_021D9238(char *p)
+void MYSTERY_StepScroll(char *p)
 {
     if (((struct Obj10411 *)p)->f4 != 0 && ((struct Obj10411 *)p)->f0 != 0) {
         void (*fp)(char *) = *(void (**)(char *))(p + 0x11c);

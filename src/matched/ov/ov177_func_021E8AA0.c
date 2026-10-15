@@ -1,5 +1,5 @@
 /*
- * function: func_021E8AA0
+ * function: WIFIBATTLEMATCH_UTIL_SetCallback
  * address:  0x021E8AA0
  * packet:   pkt_ov177_021E8AA0
  * region:   ov177
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-void func_021E8AA0(int *p, int v)
+void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v)
 {
     p[0] = v;
     p[1] = 0;

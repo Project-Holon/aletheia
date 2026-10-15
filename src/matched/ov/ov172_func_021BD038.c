@@ -17,7 +17,7 @@
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   CTVT_CALL_PrintMessage  0x021BD0C4  thumb  ov172
  *   COMM_TVT_SYS_DeleteTimeIcon  0x021BE34C  thumb  ov172
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *
  * Follows the mode byte at +0x14 against its last seen value (+0x15): entering mode 0 prints message 0x1c in the text window and switches the display to the window at +0x2c; leaving mode 0 prints message 0x11 in the window at +0x30 and switches back.
  */
@@ -34,7 +34,7 @@ extern void func_02041B6C(u32 bit);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void CTVT_CALL_PrintMessage(void *ctx, char *st, int msgId);
 extern void COMM_TVT_SYS_DeleteTimeIcon(void *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 static inline u8 func_021BD038_show(u32 win)
 {
@@ -55,7 +55,7 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st)
         CTVT_CALL_PrintMessage(ctx, st, 0x11);
         COMM_TVT_SYS_DeleteTimeIcon(ctx);
         BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj01266 *)st)->f30), 1);
-        func_020409B4(func_021BD038_show(((struct Obj01266 *)st)->f30));
+        BG_SYS_PushTile(func_021BD038_show(((struct Obj01266 *)st)->f30));
     }
     ((struct Obj01266 *)st)->f15 = ((struct Obj01266 *)st)->f14;
 }

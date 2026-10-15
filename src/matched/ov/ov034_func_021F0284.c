@@ -13,7 +13,7 @@
  * symbols:
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -84,7 +84,7 @@ struct WordSet;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -145,7 +145,7 @@ void REPORT_InitWindows(u8 *p)
     }
     ((struct Obj00166 *)p)->f4C=GF_FONT_Create(23,0,0,0,((struct Obj00166 *)p)->f12C);
     bank=func_02045B38(0,2,168,((struct Obj00166 *)p)->f12C);
-    ws=GF_FONT_Create_EC64(((struct Obj00166 *)p)->f12C);
+    ws=WORDSET_CreateDefault(((struct Obj00166 *)p)->f12C);
     dst=STRBUF_Create(256,((struct Obj00166 *)p)->f12C);
     ctx=GAMESYSTEM_GetGameData(((struct Obj00166 *)p)->f0);
     ctrl=GAME_DATA_GetSaveControl(ctx);

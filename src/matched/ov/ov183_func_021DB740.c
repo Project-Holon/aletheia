@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-struct S020315D4;
+struct Proc;
 extern void BR_RES_ApplyBgSet(int,unsigned),BR_BTN_Delete(u8 *),BR_UTIL_DeleteHandles(char *);
-extern void func_020315D4(struct S020315D4 *);
-int BR_CODEIN_ButtonDestroy(struct S020315D4 *task,int b,char *q,char *p) { if(((struct Obj10727 *)q)->f0<5) BR_RES_ApplyBgSet(((struct Obj10727 *)q)->f18,3); else BR_RES_ApplyBgSet(((struct Obj10727 *)q)->f18,4); BR_BTN_Delete(*(u8 * *)&((struct Obj14419 *)p)->f0); BR_UTIL_DeleteHandles(*(char * *)&((struct Obj14419 *)p)->f4); func_020315D4(task); return 1; }
+extern void func_020315D4(struct Proc *);
+int BR_CODEIN_ButtonDestroy(struct Proc *task,int b,char *q,char *p) { if(((struct Obj10727 *)q)->f0<5) BR_RES_ApplyBgSet(((struct Obj10727 *)q)->f18,3); else BR_RES_ApplyBgSet(((struct Obj10727 *)q)->f18,4); BR_BTN_Delete(*(u8 * *)&((struct Obj14419 *)p)->f0); BR_UTIL_DeleteHandles(*(char * *)&((struct Obj14419 *)p)->f4); func_020315D4(task); return 1; }

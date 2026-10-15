@@ -31,7 +31,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02030734  0x02030734  arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -53,7 +53,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   INFOWIN_Init 0x02024A20 thumb
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
@@ -118,7 +118,7 @@
  *   d_0220A4AC  0x0220A4AC  data
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -180,6 +180,7 @@
  *   GXx_GetMasterBrightness_  0x0207D55C  arm  arm9
  *   BG_SYS_ClearLayer  0x0204152C  arm  arm9
  *   APP_ICON_GetTypePaletteOffset  0x020275EC  thumb  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
@@ -570,7 +571,7 @@ extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 co
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -606,7 +607,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 
 extern u32 CLACT_SetActorAnimSeq(void *obj, u16 v);
 
-extern void CLACT_AddActorSurfacePos(struct Obj_02201DA0 *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 
@@ -630,7 +631,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern void INFOWIN_Init(u8, u8, void *, u16);
 
@@ -648,7 +649,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_ClearLayer(int channel, u16 val);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 
@@ -718,7 +719,7 @@ extern int FX_ModS32(int n, int d);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 
@@ -1186,7 +1187,7 @@ void BTLV_INPUT_LoadScreenResources(BtlvInput *input)
     BMP_WIN_TransferChars(input->bmpWinB);
     BMP_WIN_MakeScreen(input->bmpWinA);
     BMP_WIN_MakeScreen(input->bmpWinB);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     INFOWIN_Init(6, 15, input->infoWinParam, input->heap);
     func_02040588(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
@@ -1300,7 +1301,7 @@ void BTLV_INPUT_ReleaseBgLayers(void)
     u32 i;
     for (i = 0; i < 4; i++) {
         func_02040588((u8)(i + 4), (int)0);
-        func_020403F4((u8)(i + 4));
+        BG_SYS_FreeLayerBuf((u8)(i + 4));
     }
 }
 
@@ -1544,7 +1545,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
                 STRBUF_Delete(w);
             }
             BMP_WIN_MakeScreen(input->bmpWinA);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BMP_WIN_TransferChars(input->bmpWinA);
         }
         break;
@@ -1822,7 +1823,7 @@ void BTLV_INPUT_ActionScreenOpenTask(void *task, void *arg)
         BTLV_INPUT_StartBgWipeTask(ctx->input, 0, 0x1c0, 8, 8);
         BTLV_INPUT_BlendWindowPalette((void *)ctx->input);
         BMP_WIN_MakeScreen(ctx->input->bmpWinB);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         PALANM_RequestFadeOverwrite(ctx->input->palAnm, 2, 3, 1, 12, 0, 0x842, ctx->input->taskMgr);
         ctx->state++;
         break;
@@ -1850,7 +1851,7 @@ void BTLV_INPUT_WazaScreenOpenTask(void *task, void *arg)
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 0, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         PALANM_RequestFadeOverwrite(ctx->input->palAnm, 2, 3, 1, 12, 0, 0x842, ctx->input->taskMgr);
         ctx->state++;
         break;
@@ -1862,7 +1863,7 @@ void BTLV_INPUT_WazaScreenOpenTask(void *task, void *arg)
                 func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, 0, 0, ctx->input->heap);
             }
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BTLV_INPUT_StartBgWipeTask(ctx->input, 0x100, 0x1c0, 8, 8);
             BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
             BTLV_INPUT_StartPaletteFlashTask((void *)ctx->input, 0);
@@ -1901,7 +1902,7 @@ void BTLV_INPUT_WazaScreenOpenInstantTask(void *task, void *arg)
     case 0:
         func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0, 0, 0, ctx->input->heap);
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgWipeTask(ctx->input, 0x100, 0x1c0, 8, 8);
         BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
         BTLV_INPUT_StartPaletteFlashTask((void *)ctx->input, 0);
@@ -1938,7 +1939,7 @@ void BTLV_INPUT_ActionScreenOpenInstantTask(void *task, void *arg)
         func_020498F4((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
         BMP_WIN_MakeScreen(ctx->input->bmpWinB);
         BTLV_INPUT_BlendWindowPalette((void *)ctx->input);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0xc0, 1, 1, 2, 0);
         ctx->state++;
         break;
@@ -1975,7 +1976,7 @@ void BTLV_INPUT_TargetScreenOpenTask(void *a0, void *arg)
     func_020498F4((void *)ctx->input->arc, 0x5d, 4, 0, z, z, ctx->input->heap);
     func_020498F4((void *)ctx->input->arc, ctx->bgFile, 4, 0x440, 0x380, z, ctx->input->heap);
     BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     if (ctx->input->battleType == 2) {
         func_020498F4((void *)ctx->input->arc, 0x6a, 5, 0, z, z, ctx->input->heap);
     } else {
@@ -1997,7 +1998,7 @@ void BTLV_INPUT_WazaScreenCloseTask(void *a0, void *arg)
         break;
     case 1:
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         func_020498F4((void *)ctx->input->arc, 0x68, 5, 0, 0, 0, ctx->input->heap);
         BMP_WIN_TransferChars(ctx->input->bmpWinA);
         CLACT_SetUnitDrawEnable(ctx->input->unitWaza, 1);
@@ -2098,7 +2099,7 @@ void BTLV_INPUT_MessageScreenOpenTask(void *h, void *arg)
     default:
         if (ctx->input->flags.animTasks == 0) {
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BMP_WIN_TransferChars(ctx->input->bmpWinA);
             BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0x100, 0xc0, 2, 2, 2, 2);
             BTLV_INPUT_DeleteTask((void *)ctx->input, h);
@@ -2118,7 +2119,7 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, void *arg)
         BTLV_INPUT_PlayConfirmSe((void *)ctx->input);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 5, 0, 0, 0, 0, 2, 1);
         BTLV_INPUT_StartBgScrollTask(ctx->input, 0x3000, 0x1000, -0x400, 0x98);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         PALANM_RequestFadeOverwrite(ctx->input->palAnm, 2, 3, 1, 0xc, 0, 0x842, ctx->input->taskMgr);
         ctx->state++;
         break;
@@ -2126,7 +2127,7 @@ void BTLV_INPUT_ListScreenOpenTask(void *h, void *arg)
         if (ctx->input->flags.animTasks == 0) {
             func_020498F4((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
             BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
             BTLV_INPUT_StartPaletteFlashTask((void *)ctx->input, 0);
@@ -2176,7 +2177,7 @@ void BTLV_INPUT_SelectScreenOpenTask(void *h, void *arg)
                 STRBUF_Delete(ctx->text);
             }
             BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BMP_WIN_TransferChars(ctx->input->bmpWinA);
             BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, 4, ctx->scrollX, ctx->scrollY, 1, 1, 2, 0);
             BTLV_INPUT_DeleteTask((void *)ctx->input, h);
@@ -2221,7 +2222,7 @@ void BTLV_INPUT_ListScreenOpenInstantTask(void *h, void *arg)
         func_020498F4((void *)ctx->input->arc, 0x64, 4, 0, 0, 0, ctx->input->heap);
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
         BTLV_INPUT_RestoreWindowPalette((void *)ctx->input);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
         BTLV_INPUT_StartPaletteCycleTask((void *)ctx->input, 0, 0);
         BTLV_INPUT_StartPaletteFlashTask((void *)ctx->input, 0);
@@ -2259,7 +2260,7 @@ void BTLV_INPUT_ScreenResetTask(void *h, void *arg)
     case 1:
         BTLV_INPUT_InitButtonState((void *)ctx->input);
         BMP_WIN_MakeScreen(ctx->input->bmpWinA);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgWipeTask(ctx->input, d_0220A4EC[ctx->input->flags.slotIndex].start, d_0220A4EC[ctx->input->flags.slotIndex].end, 8, 8);
         BTLV_INPUT_StartBgScrollOffsetTask((void *)ctx->input, -1, 0, 0, 1, 1, 2, 0);
         ctx->state++;
@@ -2358,13 +2359,13 @@ void BTLV_INPUT_BgWipeTaskMain(void *a0, void *arg)
     BtlvInputScrollTask *c = arg;
 
     if (c->state == 0) {
-        func_02040618(4, 0, c->x);
-        func_02040618(4, 3, c->y);
+        BG_SYS_FillScrollArea(4, 0, c->x);
+        BG_SYS_FillScrollArea(4, 3, c->y);
         c->state = c->state + 1;
         return;
     }
     c->y = c->y + c->dy;
-    func_02040618(4, 3, c->y);
+    BG_SYS_FillScrollArea(4, 3, c->y);
     c->count = c->count - 1;
     if (c->count == 0)
         BTLV_INPUT_DeleteTask((void *)c->input, (void *)a0);
@@ -2401,10 +2402,10 @@ void BTLV_INPUT_PaletteCycleTaskMain(void *task, void *arg)
     t->count = t->count - 1;
     if (t->count == 0) {
         t->count = 2;
-        func_02040618(5, 0, d_0220A46C[t->palSet][t->tab].color0);
+        BG_SYS_FillScrollArea(5, 0, d_0220A46C[t->palSet][t->tab].color0);
         i = t->tab;
         t->tab = i + 1;
-        func_02040618(5, 3, d_0220A46C[t->palSet][i].color1);
+        BG_SYS_FillScrollArea(5, 3, d_0220A46C[t->palSet][i].color1);
         if (t->tab >= 2)
             BTLV_INPUT_DeleteTask((void *)t->input, task);
     }
@@ -2440,7 +2441,7 @@ void BTLV_INPUT_CreateCursorActors(BtlvInput *input, int rowIndex, int animIndex
             t->actors[i] = 0;
         } else {
             t->actors[i] = (struct Obj *)CLACT_CreateActor(t->unit, input->resCommonChr, input->resCommonPal, input->resCommonCell, &quad, 1, input->heap);
-            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(t->actors[i]), (const struct Vec2 *)(&row->point[i]), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(t->actors[i]), (const struct Vec2 *)(&row->point[i]), 1);
             CLACT_SetActorAffineMode(t->actors[i], 2);
             CLACT_SetActorAutoAnim((struct Obj *)(t->actors[i]), 1);
             CLACT_SetActorAnimSeq(t->actors[i], v);
@@ -2516,7 +2517,7 @@ void BTLV_INPUT_PaletteFlashTaskMain(void *task, void *arg)
                 v[1] = v[1] + 4;
                 changed = 1;
             }
-            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(*(void **)(p + j * 8)), (const struct Vec2 *)v, 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(*(void **)(p + j * 8)), (const struct Vec2 *)v, 1);
         }
     }
     if (changed == 0) {
@@ -2551,8 +2552,8 @@ void BTLV_INPUT_BgScrollOffsetTaskMain(void *task, void *arg)
     BtlvInputBgScrollOffsetTask *t = arg;
 
     if (t->bg != -1) {
-        func_02040618((u8)t->bg, (int)0, (int)t->scrollX);
-        func_02040618((u8)t->bg, (int)3, (int)t->scrollY);
+        BG_SYS_FillScrollArea((u8)t->bg, (int)0, (int)t->scrollX);
+        BG_SYS_FillScrollArea((u8)t->bg, (int)3, (int)t->scrollY);
     }
     if (t->bg4 != 2) {
         func_02040588((int)4, (u8)t->bg4);
@@ -2596,10 +2597,10 @@ void BTLV_INPUT_CursorMoveTaskMain(void *task, void *arg)
 
     CLACT_GetActorSurfacePos((*q)->statusActors[0], (struct PtS *)v, 1);
     v[0] -= 8;
-    CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)((*q)->statusActors[0]), (const struct Vec2 *)v, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)((*q)->statusActors[0]), (const struct Vec2 *)v, 1);
     CLACT_GetActorSurfacePos((*q)->statusActors[1], (struct PtS *)v, 1);
     v[0] -= 8;
-    CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)((*q)->statusActors[1]), (const struct Vec2 *)v, 1);
+    CLACT_AddActorSurfacePos((struct Obj *)((*q)->statusActors[1]), (const struct Vec2 *)v, 1);
     if (v[0] == 0xe0) {
         BTLV_INPUT_DeleteTask((void *)*q, task);
     }
@@ -2921,7 +2922,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
     str1 = STRBUF_Create(0x10, input->heap);
     m0 = func_02045EC0(input->msgData, 0);
     m1 = func_02045EC0(input->msgData, 1);
-    font = (int)GF_FONT_Create_EC64(input->heap);
+    font = (int)WORDSET_CreateDefault(input->heap);
     str2 = STRBUF_Create(0x10, input->heap);
     m2 = func_02045EC0(input->msgData, 2);
     CLACT_SetUnitDrawEnable(input->unitWaza, 0);
@@ -2930,7 +2931,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *q)
             k = WAZA_TOOL_GetParam(q->id[i], 0);
             file = d_0220A5F0[k];
             input->wazaActors[i] = (struct Obj *)CLACT_CreateActor(input->unitWaza, input->typeChr[i], input->typePal, input->typeCell, d_0220A392, 1, input->heap);
-            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->wazaActors[i]), (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
+            CLACT_AddActorSurfacePos((struct Obj *)(input->wazaActors[i]), (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
             heap = (input->heap & 0x7fff) | 0x8000;
             arc = APP_ICON_GetArchiveId();
             chr = ARC_UTIL_LoadScreenDataFromArchive(arc, APP_ICON_GetTypeCellFileId((u8)k), 0, (u32)(&cd), heap);
@@ -3003,7 +3004,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTar
     k = (input->battleType == 2) ? 1 : 0;
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     v = STRBUF_Create(12, (u16)((input->heap & 0x7fff) | 0x8000));
-    h = (int)GF_FONT_Create_EC64((u16)((input->heap & 0x7fff) | 0x8000));
+    h = (int)WORDSET_CreateDefault((u16)((input->heap & 0x7fff) | 0x8000));
     GF_FONT_SetTextColor(1, 2, 0);
     for (i = 0; i < n; i++) {
         if (p->buttons[i].show != 0) {
@@ -3110,7 +3111,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b)
     void *w;
     void *extra;
     u8 c[3];
-    h = (int)GF_FONT_Create_EC64(input->heap);
+    h = (int)WORDSET_CreateDefault(input->heap);
     v = STRBUF_Create(8, input->heap);
     w = func_02045EC0(input->msgData, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -3220,7 +3221,7 @@ void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info)
         if (info->species[i] != 0) {
             input->pokeChr[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(info->species[i], info->form[i], info->gender[i], 0), 0, 1, input->heap);
             input->pokeIcons[i].actor = CLACT_CreateActor((void *)input->unitPoke, input->pokeChr[i], input->pokePal, input->pokeCell, d_0220A392, 1, input->heap);
-            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->pokeIcons[i].actor), (const struct Vec2 *)(&d_0220A50C[input->battleType][i]), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(input->pokeIcons[i].actor), (const struct Vec2 *)(&d_0220A50C[input->battleType][i]), 1);
             CLACT_SetActorAutoAnim(input->pokeIcons[i].actor, 1);
             if (info->sel == i) {
                 CLACT_SetActorAnimSeq(input->pokeIcons[i].actor, 1);
@@ -3295,14 +3296,14 @@ void BTLV_INPUT_CreateStatusIcons(BtlvInput *input, int n)
     index = n - 1;
     v.x = 0x130 + b.v[index];
     v.y = 0x20 + c.v[index];
-    CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->statusActors[0]), (const struct Vec2 *)(&v.x), (int)1);
+    CLACT_AddActorSurfacePos((struct Obj *)(input->statusActors[0]), (const struct Vec2 *)(&v.x), (int)1);
     CLACT_SetActorAutoAnim(input->statusActors[0], 1);
     n += 14;
     CLACT_SetActorAnimSeq(input->statusActors[0], n);
     input->statusActors[1] = CLACT_CreateActor((void *)input->unitStatus, input->resCommonChr, input->resCommonPal, input->resCommonCell, d_0220A392, 1, input->heap);
     v.x = 0x130;
     v.y = 0x20;
-    CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->statusActors[1]), (const struct Vec2 *)(&v.x), (int)1);
+    CLACT_AddActorSurfacePos((struct Obj *)(input->statusActors[1]), (const struct Vec2 *)(&v.x), (int)1);
     CLACT_SetActorAutoAnim(input->statusActors[1], 1);
     CLACT_SetActorAnimSeq(input->statusActors[1], 14);
     CLACT_SetActorPaletteOffset(input->statusActors[1], (u8)a.v[index], 0);
@@ -3350,7 +3351,7 @@ void BTLV_INPUT_CreateWazaCursorActors(BtlvInput *input, int mode)
     row = (char *)input + mode * 0x48;
     for (; i < 6; i++) {
         slots[i].actor = CLACT_CreateActor((void *)input->unitButtons, input->resCommonChr, input->resCommonPal, input->resCommonCell, d_0220A392, 1, input->heap);
-        CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)slots[i].actor, (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct Obj *)slots[i].actor, (const struct Vec2 *)(&pos), 1);
         CLACT_SetActorAutoAnim(slots[i].actor, 1);
         CLACT_SetActorAnimSeq(slots[i].actor, add + *(u8 *)(row + i * 12 + 0x75));
         pos.x += (s16)step;
@@ -3466,12 +3467,12 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     input->backActor = CLACT_CreateActor((void *)input->unitBack, input->resCommonChr, input->resCommonPal, input->resCommonCell, d_0220A392, 1, input->heap);
     pos.x = 0x80;
     pos.y = 0x50;
-    CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->backActor), (const struct Vec2 *)(&pos), 1);
+    CLACT_AddActorSurfacePos((struct Obj *)(input->backActor), (const struct Vec2 *)(&pos), 1);
     CLACT_SetActorAutoAnim(input->backActor, 1);
     CLACT_SetActorAnimSeq(input->backActor, 0x14);
     str = STRBUF_Create(0x10, input->heap);
     msg = func_02045EC0(input->msgData, 0);
-    font = (int)GF_FONT_Create_EC64(input->heap);
+    font = (int)WORDSET_CreateDefault(input->heap);
     bmp = BMP_Create(0xe, 4, 0x20, input->heap);
     BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
@@ -3700,7 +3701,7 @@ void BTLV_INPUT_UpdateButtonActors(BtlvInput *input, u8 (* __restrict tab)[4], s
                 break;
             }
             CLACT_SetActorDrawEnable(input->targets[i].actor, *input->cursorVisible);
-            CLACT_AddActorSurfacePos((struct Obj_02201DA0 *)(input->targets[i].actor), (const struct Vec2 *)(&pos), 1);
+            CLACT_AddActorSurfacePos((struct Obj *)(input->targets[i].actor), (const struct Vec2 *)(&pos), 1);
         } else {
             CLACT_SetActorDrawEnable(input->targets[i].actor, 0);
         }
@@ -3778,7 +3779,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
 
     if (BTLV_EFFECT_IsRecordEnabledInComm() == 0)
         return;
-    h = (int)GF_FONT_Create_EC64(input->heap);
+    h = (int)WORDSET_CreateDefault(input->heap);
     v = STRBUF_Create(6, input->heap);
     w = func_02045EC0(input->msgData, 8);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);

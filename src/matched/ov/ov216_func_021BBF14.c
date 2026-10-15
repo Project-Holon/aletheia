@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF14
+ * function: BEACON_DETAIL_GRA_StateClose
  * address:  0x021BBF14
  * packet:   pkt_021BBF14
  * region:   ov216
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCCBC  0x021BCCBC  thumb  ov216
+ *   BEACON_DETAIL_GRA_RefreshButtons  0x021BCCBC  thumb  ov216
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj25767.h"
 
 typedef unsigned char  u8;
-extern void func_021BCCBC(u8 *p);
+extern void BEACON_DETAIL_GRA_RefreshButtons(u8 *p);
 
-int func_021BBF14(char *p)
+int BEACON_DETAIL_GRA_StateClose(char *p)
 {
     if (((struct Obj25767 *)p)->fC != 0)
         return 3;
-    func_021BCCBC((u8 *)p);
+    BEACON_DETAIL_GRA_RefreshButtons((u8 *)p);
     return 2;
 }

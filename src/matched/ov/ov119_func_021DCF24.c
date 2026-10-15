@@ -40,7 +40,7 @@ extern void POKETRADE_2D_ClearSubScreen(char *);
 extern void POKETRADE_PROC_DeleteAllResources(char *);
 extern void BEACON_STATUS_DoNothing(void);
 extern int POKETRADE_PROC_IsNetSession(void *);
-struct S020315D4;
+struct Proc;
 typedef unsigned int   u32;
 struct Node;
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
@@ -49,7 +49,7 @@ extern void func_02030EAC(struct Node *n);
 extern void POKETRADE_PROC_FreeMons(char *p, int a1);
 extern void POKETRADE_PROC_ExitMcssSystem(char *p);
 extern void POKETRADE_PROC_ExitDisplay(void *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int);
 int POKETRADE_PROC_Exit(void *owner,int unused,int keep,char *p)

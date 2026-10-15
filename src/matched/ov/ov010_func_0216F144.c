@@ -17,7 +17,7 @@
 typedef struct { int w[8]; } W;
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 int TRCARD_SYS_InitMinimal(void *a,int b,int c) { W *w; GFL_HEAP_CreateChildHeap(1,38,0x18000); w=PROCSYS_AllocProcWork(a,32,38); MI_CpuFill8(w,0,32); w->w[0]=38; w->w[6]=c; return 1; }

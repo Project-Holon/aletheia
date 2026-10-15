@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   id127 0x0000007F data
- *   id67 0x00000043 data
+ *   gWf2dmapOverlayId 0x0000007F data
+ *   gWf2dmapTouchbarOverlayId 0x00000043 data
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
@@ -24,12 +24,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern char id127[],id67[];
+extern char gWf2dmapOverlayId[],gWf2dmapTouchbarOverlayId[];
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern void Wf2dmapFriend_InitText(u8 *p, const u32 *q, int heap);
 extern void Wf2dmapFriend_InitGfx(char *p, void *q, int heap);
@@ -38,7 +38,7 @@ extern void Wf2dmapFriend_Proc(void *p, char *q);
 int Wf2dmapFriend_Create(void *p,int unused,void *q)
 {
     char *v;
-    func_02034AC4((u32)id127); func_02034AC4((u32)id67);
+    func_02034AC4((u32)gWf2dmapOverlayId); func_02034AC4((u32)gWf2dmapTouchbarOverlayId);
     GFL_HEAP_CreateChildHeap(1,52,0xc0000);
     v=PROCSYS_AllocProcWork(p,0x5b0,52);
     MI_CpuFill8(v,0,0x5b0);

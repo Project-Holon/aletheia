@@ -12,16 +12,16 @@
  * Tail call on the object at 0x021AA4B8 with the incoming argument.
  *
  * symbols:
- *   g_021AA4B8  0x021AA4B8  data
+ *   SOCLiTrashList  0x021AA4B8  data
  *   SOCLi_SocketUnregisterList  0x0215F334  arm  ov009
  */
 
-extern char g_021AA4B8[];
+extern char SOCLiTrashList[];
 struct Sock;
 extern void SOCLi_SocketUnregisterList(struct Sock **next, struct Sock *socket);
 
 void SOCLi_SocketUnregisterTrash(int a)
 {
-    SOCLi_SocketUnregisterList((struct Sock **)g_021AA4B8, (struct Sock *)a);
+    SOCLi_SocketUnregisterList((struct Sock **)SOCLiTrashList, (struct Sock *)a);
 }
 

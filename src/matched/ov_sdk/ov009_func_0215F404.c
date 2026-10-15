@@ -12,15 +12,15 @@
  * Non-zero test on the call that takes the object and the argument.
  *
  * symbols:
- *   g_021AA4B8  0x021AA4B8  data
+ *   SOCLiTrashList  0x021AA4B8  data
  *   func_0215F36C  0x0215F36C  arm  ov009
  */
 
-extern char g_021AA4B8[];
+extern char SOCLiTrashList[];
 extern int func_0215F36C(char *p, int b);
 
 int SOCL_SocketIsInTrash(int b)
 {
-    return func_0215F36C(g_021AA4B8, b) != 0;
+    return func_0215F36C(SOCLiTrashList, b) != 0;
 }
 

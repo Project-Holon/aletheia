@@ -1,5 +1,5 @@
 /*
- * function: func_021F1A28
+ * function: BEACON_VIEW_StartPowerAnim
  * address:  0x021F1A28
  * packet:   pkt_ov032_021F1A28
  * region:   ov032
@@ -20,9 +20,9 @@
  * put the flag's zero store after the argument copies.
  *
  * symbols:
- *   func_021F1A28 0x021F1A28 thumb
- *   func_021F1B94 0x021F1B94 thumb ov032
- *   func_021F1CF0 0x021F1CF0 thumb ov032
+ *   BEACON_VIEW_StartPowerAnim 0x021F1A28 thumb
+ *   BEACON_VIEW_PowerAnimTaskA 0x021F1B94 thumb ov032
+ *   BEACON_VIEW_PowerAnimTaskB 0x021F1CF0 thumb ov032
  *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
@@ -44,8 +44,8 @@ typedef signed int     s32;
 struct Rec02010FA0;
 struct S02030FB4;
 struct WordSet;
-extern void func_021F1B94(void *h, u8 *t);
-extern void func_021F1CF0(void *h, u8 *t);
+extern void BEACON_VIEW_PowerAnimTaskA(void *h, u8 *t);
+extern void BEACON_VIEW_PowerAnimTaskB(void *h, u8 *t);
 extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
@@ -58,13 +58,13 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 extern u8 GPOWER_GetActiveIdOfSameType(int slot, u8 *rec);
 extern int GPOWER_GetSelectedMinutesLeft(void);
 
-void func_021F1A28(char *p, int b, u8 c, int *r)
+void BEACON_VIEW_StartPowerAnim(char *p, int b, u8 c, int *r)
 {
     void *h;
     int flag;
     u8 *t;
 
-    h = TCBL_AddTask(*(u32 *)(p + 0xa0), (void *)func_021F1B94, 0x24, 0);
+    h = TCBL_AddTask(*(u32 *)(p + 0xa0), (void *)BEACON_VIEW_PowerAnimTaskA, 0x24, 0);
     t = TCBL_GetWork(h);
     MI_CpuFill8(t, 0, 0x24);
     p[0x7f] = 0x30;
@@ -98,7 +98,7 @@ void func_021F1A28(char *p, int b, u8 c, int *r)
     BEACON_VIEW_SetArrowAnim((u8 *)p, 2, 2);
     BEACON_VIEW_SetArrowAnim((u8 *)p, 3, 2);
     if (*(u16 *)(t + 0x14) != 0 || *(u16 *)(t + 0x10) < *(u16 *)(t + 0x12))
-        TCBL_SetTaskFunc(h, (int)((void *)func_021F1CF0));
+        TCBL_SetTaskFunc(h, (int)((void *)BEACON_VIEW_PowerAnimTaskB));
     *(int **)(t + 0x20) = r;
     (*r)++;
 }

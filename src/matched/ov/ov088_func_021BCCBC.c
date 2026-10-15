@@ -14,13 +14,13 @@
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  */
 
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *a);
+struct Proc;
+extern void func_020315D4(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 int STARTMENU_LogoScreenEnd(int a0)
 {
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     GFL_HEAP_DeleteChecked(0x16);
     return 1;
 }

@@ -15,17 +15,17 @@
  *   maccmp            0x021579BC  arm  ov009
  *   reg_arpcache            0x02157FF8  arm  ov009
  *   reply_arp            0x02158BB8  arm  ov009
- *   g_021A82D4               0x021A82D4  data
- *   g_021A826C               0x021A826C  data
+ *   CPSMyMac               0x021A82D4  data
+ *   gCpsNetVars               0x021A826C  data
  */
 
 extern int maccmp(unsigned short *a, unsigned short *b);
 extern void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry);
 extern void reply_arp(unsigned char *buf);
-extern unsigned char g_021A82D4[6];
-extern unsigned char g_021A826C;
+extern unsigned char CPSMyMac[6];
+extern unsigned char gCpsNetVars;
 
-#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
+#define NV(off, type) (*(type *)((char *)&gCpsNetVars + (off)))
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 #define GET16(p) SWAP16(*(unsigned short *)(p))
 #define GET32(p) (((unsigned long)GET16(p) << 16) | GET16((p) + 2))
@@ -44,7 +44,7 @@ void dispatch_arp(unsigned char *buf, unsigned long len)
 
 	if (len < 0x1c)
 		return;
-	if (maccmp((short unsigned int *)(buf + 8), (short unsigned int *)g_021A82D4) == 0 || NV(0x50, long) == 0)
+	if (maccmp((short unsigned int *)(buf + 8), (short unsigned int *)CPSMyMac) == 0 || NV(0x50, long) == 0)
 		return;
 	if (*(unsigned short *)buf != 0x100 || *(unsigned short *)(buf + 2) != 8 || *(unsigned short *)(buf + 4) != 0x406)
 		return;

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gt2GetConnectionData  0x02195E78  arm  ov009
- *   g_021AA8A0  0x021AA8A0  data
+ *   gDwcConnectionArray  0x021AA8A0  data
  */
 
 typedef struct ConnData {
@@ -22,15 +22,15 @@ typedef struct ConnData {
 } ConnData;
 
 extern int gt2GetConnectionData(const int *p);
-extern void *g_021AA8A0[];
+extern void *gDwcConnectionArray[];
 
 int DWCi_IsValidAID(unsigned char aid)
 {
 	int i;
 
 	for (i = 0; i < 0x20; i++) {
-		if (g_021AA8A0[i] != 0) {
-			if (aid == ((ConnData *)gt2GetConnectionData(g_021AA8A0[i]))->aid)
+		if (gDwcConnectionArray[i] != 0) {
+			if (aid == ((ConnData *)gt2GetConnectionData(gDwcConnectionArray[i]))->aid)
 				return 1;
 		}
 	}

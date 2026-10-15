@@ -1,5 +1,5 @@
 /*
- * function: func_021BEEF8
+ * function: DEMO3D_DATA_BgmFadeMain
  * address: 0x021BEEF8
  * packet: pkt_ov203_021BEEF8
  * region: ov203
@@ -27,7 +27,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void TCBL_DeleteTask(struct TcblNode *);
-void func_021BEEF8(struct TcblNode *node,Task *t)
+void DEMO3D_DATA_BgmFadeMain(struct TcblNode *node,Task *t)
 {
     switch(t->done){
     case 0:

@@ -18,7 +18,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   func_021B8EDC  0x021B8EDC  thumb  ov071
+ *   MONOLITH_TOOL_STATS_UpdateCursor  0x021B8EDC  thumb  ov071
  *   KEY_GetTrg  0x020362DC  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   MONOLITH_TOOL_StartBlink  0x021B7108  thumb  ov071
@@ -55,7 +55,7 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
     extern void *BMP_WIN_GetBmp(struct Descriptor *p);
     extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
-    extern void func_021B8EDC(void *);
+    extern void MONOLITH_TOOL_STATS_UpdateCursor(void *);
     extern u32 KEY_GetTrg(void);
     extern int TOUCHPANEL_HitTrg(const void *p);
     extern void MONOLITH_TOOL_StartBlink(void *);
@@ -78,7 +78,7 @@ int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
             }
         }
     }
-    func_021B8EDC(d);
+    MONOLITH_TOOL_STATS_UpdateCursor(d);
     switch (*b) {
     case 0:
         t = KEY_GetTrg();

@@ -17,11 +17,11 @@
  *
  * symbols:
  *   DWC_Free    0x0205A1B0  arm
- *   g_021AB178  0x021AB178  data
+ *   gDwcReliableQueue  0x021AB178  data
  *   func_02195CC0  0x02195CC0  arm  ov009
  *   DWC_Alloc       0x0205A16C  arm
  *   MIi_CpuCopy32   0x02082A90  arm
- *   g_021AB178_head 0x021AB178  data
+ *   gDwcReliableQueueHead 0x021AB178  data
  */
 typedef struct SendQueue {
     void *connection;
@@ -45,8 +45,8 @@ int DWCi_IsReliableQueueFree(void);
 int DWCi_ProcessReliableQueue(void);
 int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int));
 int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size);
-extern QueueInfo g_021AB178;
-extern SendQueue *g_021AB178_head;
+extern QueueInfo gDwcReliableQueue;
+extern SendQueue *gDwcReliableQueueHead;
 
 
 /*
@@ -57,8 +57,8 @@ extern SendQueue *g_021AB178_head;
  */
 void func_02176B68(void)
 {
-    g_021AB178.head = 0;
-    g_021AB178.total = 0;
+    gDwcReliableQueue.head = 0;
+    gDwcReliableQueue.total = 0;
 }
 
 
@@ -66,13 +66,13 @@ void DWCi_CleanupReliableQueue(char *p)
 {
     SendQueue *it;
 
-    while ((it = g_021AB178.head) != 0) {
-        g_021AB178.head = it->next;
+    while ((it = gDwcReliableQueue.head) != 0) {
+        gDwcReliableQueue.head = it->next;
         DWC_Free(4, it->data, it->size);
         DWC_Free(4, it, 0);
     }
-    g_021AB178.head = 0;
-    g_021AB178.total = 0;
+    gDwcReliableQueue.head = 0;
+    gDwcReliableQueue.total = 0;
 }
 
 
@@ -84,7 +84,7 @@ void DWCi_CleanupReliableQueue(char *p)
  */
 int DWCi_IsReliableQueueFree(void)
 {
-    return g_021AB178.total < 0x6000;
+    return gDwcReliableQueue.total < 0x6000;
 }
 
 
@@ -104,12 +104,12 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
     int retrycount;
     int res;
 
-    for (it = g_021AB178.head; it != 0; it = it->next) {
+    for (it = gDwcReliableQueue.head; it != 0; it = it->next) {
         retrycount = 0;
         do {
             res = func(it->connection, it->data, it->size, 1);
             if (res == 0) {
-                g_021AB178.total -= it->size;
+                gDwcReliableQueue.total -= it->size;
                 DWC_Free(4, it->data, it->size);
                 it->data = 0;
                 it->size = 0;
@@ -121,10 +121,10 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
         if (retrycount == 3)
             break;
     }
-    for (it = g_021AB178.head; it != 0; it = g_021AB178.head) {
+    for (it = gDwcReliableQueue.head; it != 0; it = gDwcReliableQueue.head) {
         if (it->data != 0)
             break;
-        g_021AB178.head = it->next;
+        gDwcReliableQueue.head = it->next;
         DWC_Free(4, it, 0);
     }
     return it == 0;
@@ -141,7 +141,7 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
  * count/head field reads and r6 for the `target` cursor.  mwccarm emits one
  * pool word per (symbol, addend), so two words for one address means the
  * source reached it through two names.  Declaring a second extern
- * (`g_021AB178_head`) at the same address for `target = &...` reproduces both
+ * (`gDwcReliableQueueHead`) at the same address for `target = &...` reproduces both
  * words and closes the whole 188-byte diff in one step; with one name the
  * compiler CSEs them into r6 and the function is 8 bytes short.
  *
@@ -151,8 +151,8 @@ int DWCi_ProcessReliableQueueEx(int (*func)(void *, unsigned char *, int, int))
 int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
 {
     SendQueue *it;
-    SendQueue **target = &g_021AB178_head;
-    QueueInfo *q = &g_021AB178;
+    SendQueue **target = &gDwcReliableQueueHead;
+    QueueInfo *q = &gDwcReliableQueue;
 
     if (q->total + size > 0x8000)
         return 0;
@@ -176,6 +176,6 @@ int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
     (*target)->size = size;
     (*target)->next = 0;
     MIi_CpuCopy32(buffer, (*target)->data, size);
-    g_021AB178.total += size;
+    gDwcReliableQueue.total += size;
     return 1;
 }

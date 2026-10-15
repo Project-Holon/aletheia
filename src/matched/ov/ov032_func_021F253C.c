@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: BEACON_VIEW_RequestTransition, func_021F2544
+ * function: BEACON_VIEW_RequestTransition, BEACON_VIEW_ClearEndRequest
  * address:  0x021F253C
  * packet:   pkt_021F253C
  * region:   ov032
@@ -18,7 +18,7 @@ void BEACON_VIEW_RequestTransition(char *p, int v)
     ((struct Obj20459 *)p)->f70 = v;
 }
 
-void func_021F2544(char *p)
+void BEACON_VIEW_ClearEndRequest(char *p)
 {
     ((struct Obj20460 *)p)->f70 = 0;
 }

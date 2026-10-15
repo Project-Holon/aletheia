@@ -21,14 +21,14 @@
 
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(int, int, int);
 extern void PARTY_STATUS_Noop(int, int *, int);
 typedef unsigned int   u32;
 extern void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v);
 
-int PARTY_STATUS_CreateSub(struct Obj0203159C *a, int b, int *p)
+int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p)
 {
     int h;
     GFL_HEAP_CreateChildHeap(1, 0x58, 0x10000);

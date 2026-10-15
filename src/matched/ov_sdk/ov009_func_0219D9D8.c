@@ -12,8 +12,8 @@
  * sdk:      ParseSingleQR2Reply (sb_queryengine.o)
  *
  * symbols:
- *   g_021A7C90  0x021A7C90  data
- *   g_021A8104  0x021A8104  data
+ *   gQr2RegKeys  0x021A7C90  data
+ *   gSbQuerySplitNum  0x021A8104  data
  *   atoi  0x020964E0  arm
  *   FIFORemove  0x0219D544  arm  ov009
  *   QEStartQuery  0x0219D5C4  arm  ov009
@@ -64,8 +64,8 @@ typedef struct _SBQueryEngine {
     void *instance;
 } _SBQueryEngine;
 
-extern char *g_021A7C90[];
-extern char g_021A8104[];
+extern char *gQr2RegKeys[];
+extern char gSbQuerySplitNum[];
 
 typedef unsigned int   u32;
 extern int atoi(u32 a0);
@@ -103,14 +103,14 @@ void ParseSingleQR2Reply(_SBQueryEngine *engine, _SBServer *server, char *data, 
             dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 break;
-            if (!qr2_internal_is_master_only_key(g_021A7C90[engine->serverkeys[i]]))
-                func_0219E01C(server, g_021A7C90[engine->serverkeys[i]], data);
+            if (!qr2_internal_is_master_only_key(gQr2RegKeys[engine->serverkeys[i]]))
+                func_0219E01C(server, gQr2RegKeys[engine->serverkeys[i]], data);
             data += dlen;
             len -= dlen;
         }
         server->state |= 0x01 | 0x40;
     } else {
-        if (*data && strncmp((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
+        if (*data && strncmp((const u8 *)gSbQuerySplitNum, (const u8 *)data, 8) == 0) {
             SBServerParseQR2FullKeysSplit(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;

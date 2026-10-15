@@ -15,9 +15,9 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   SOCL_Close  0x0215E84C  arm  ov009
- *   g_021AA44C     0x021AA44C  data
- *   g_021AA4B4     0x021AA4B4  data
- *   g_021AA4B8     0x021AA4B8  data
+ *   SOCLiUDPSendSocket     0x021AA44C  data
+ *   SOCLiSocketList     0x021AA4B4  data
+ *   SOCLiTrashList     0x021AA4B8  data
  */
 
 #include "../include/G_Sock.h"
@@ -29,9 +29,9 @@ typedef struct Socket Socket;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_Close(int s);
-extern struct Sock *g_021AA44C;
-extern struct Socket *g_021AA4B4;
-extern struct G_021AA4B8 *g_021AA4B8;
+extern struct Sock *SOCLiUDPSendSocket;
+extern struct Socket *SOCLiSocketList;
+extern struct G_021AA4B8 *SOCLiTrashList;
 
 int SOCL_CloseAll(void)
 {
@@ -40,8 +40,8 @@ int SOCL_CloseAll(void)
 
 	for (;;) {
 		enable = OS_DisableInterrupts();
-		for (socket = ((Socket *)g_021AA4B4); socket != 0; socket = socket->next) {
-			if (socket != ((Socket *)g_021AA44C) && (socket->state & 0x10) == 0) {
+		for (socket = ((Socket *)SOCLiSocketList); socket != 0; socket = socket->next) {
+			if (socket != ((Socket *)SOCLiUDPSendSocket) && (socket->state & 0x10) == 0) {
 				break;
 			}
 		}
@@ -51,8 +51,8 @@ int SOCL_CloseAll(void)
 		}
 		SOCL_Close((int)socket);
 	}
-	if (((Socket *)g_021AA4B4) == 0 || (((Socket *)g_021AA4B4) == ((Socket *)g_021AA44C) && g_021AA4B4->next == 0)) {
-		if (((Socket *)g_021AA4B8) == 0) {
+	if (((Socket *)SOCLiSocketList) == 0 || (((Socket *)SOCLiSocketList) == ((Socket *)SOCLiUDPSendSocket) && SOCLiSocketList->next == 0)) {
+		if (((Socket *)SOCLiTrashList) == 0) {
 			return 0;
 		}
 	}

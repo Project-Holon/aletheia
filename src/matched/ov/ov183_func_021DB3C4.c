@@ -26,7 +26,7 @@
  *   BR_CODEIN_SidebarClearStep 0x021DB690 thumb ov183
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00630.h"
 #include "../include/Obj24519.h"
@@ -58,7 +58,7 @@ extern void BR_PROC_SYS_PushEntry(unsigned *,unsigned);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void BR_CODEIN_SidebarClearStep(int *task);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern int TOUCHPANEL_GetTrg(void);
 void BR_CODEIN_SidebarStepIntro(int *task,int *state,char *p)
 {
@@ -77,7 +77,7 @@ void BR_CODEIN_SidebarStepIntro(int *task,int *state,char *p)
     case 5: if(BR_FADE_GetResult(*(int * *)&((struct Obj24522 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8))*state=6;break;
     case 6: BR_FADE_StartTimed((char *)(((struct Obj24523 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8),3,15,0,4);*state=7;break;
     case 7: if(BR_FADE_GetResult(*(int * *)&((struct Obj24524 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8))*state=8;break;
-    case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(((struct Obj00630 *)p)->f8);*(int *)&((struct Obj00630 *)p)->f8=0;func_020409B4(4);*state=9;}break;
+    case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(((struct Obj00630 *)p)->f8);*(int *)&((struct Obj00630 *)p)->f8=0;BG_SYS_PushTile(4);*state=9;}break;
     case 9: BR_FADE_StartTimed((char *)(((struct Obj24525 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8),3,3,0,48);BR_SIDEBAR_StartBounce((char *)(((struct Obj24526 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f14));*state=10;break;
     case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult(*(int * *)&((struct Obj24527 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8)&mask) {BR_UTIL_StartEffect(*(int *)&((struct Obj00630 *)p)->f18,8,0);*state=11;}break;}
     case 11: BR_FADE_StartTimed((char *)(((struct Obj24528 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8),2,3,1,1);*state=12;break;

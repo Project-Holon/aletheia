@@ -29,8 +29,8 @@ extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTextWin(void *,int);
 extern void BMP_OAM_DeleteSys(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern void func_02034A5C(int);
 extern char ov112_id[];
 int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
@@ -46,7 +46,7 @@ int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
     }
     BMP_OAM_DeleteSys((void *)(((struct Obj02233 *)p)->f1C));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj02233 *)p)->f20));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     func_02034A5C((int)ov112_id);
     return 1;
 }

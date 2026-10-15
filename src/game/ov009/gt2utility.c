@@ -15,11 +15,11 @@
  * symbols:
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   OS_SPrintf  0x02084F40  arm
- *   g_021AE41C  0x021AE41C  data
- *   g_021AE420  0x021AE420  data
- *   g_021A594C  0x021A594C  data
- *   g_021A5954  0x021A5954  data
- *   g_021A5958  0x021A5958  data
+ *   gGt2StringTableIndex  0x021AE41C  data
+ *   gGt2StringTable  0x021AE420  data
+ *   gGt2AddressPortFmt  0x021A594C  data
+ *   gGt2AddressFmt  0x021A5954  data
+ *   gGt2PortFmt  0x021A5958  data
  *   strchr              0x02094A28  arm
  *   memcpy              0x02092344  arm
  *   atoi                0x020964E0  arm
@@ -27,7 +27,7 @@
  *   SOC_GetHostByName   0x0215F650  arm  ov009
  *   __ctype_mapC        0x020A61DC  data
  *   strlen       0x0209477C arm
- *   g_021A595C   0x021A595C data
+ *   gGt2EmptyMessage   0x021A595C data
  */
 #define GT2_ISDIGIT(c) ((u32)(c) >= 0x80 ? 0 : (__ctype_mapC[(c)] & 8))
 typedef struct SOCInAddr {
@@ -60,13 +60,13 @@ extern int strlen(const char *s);
 char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 int gt2StringToAddress(char *string, u32 *ip, u16 *port);
 void gti2MessageCheck(unsigned char **message, int *len);
-extern int g_021AE41C;
-extern char g_021AE420[][22];
-extern char g_021A594C[];
-extern char g_021A5954[];
-extern char g_021A5958[];
+extern int gGt2StringTableIndex;
+extern char gGt2StringTable[][22];
+extern char gGt2AddressPortFmt[];
+extern char gGt2AddressFmt[];
+extern char gGt2PortFmt[];
 extern u16 __ctype_mapC[];
-extern char g_021A595C[];
+extern char gGt2EmptyMessage[];
 
 
 /*
@@ -78,21 +78,21 @@ char *gt2AddressToString(unsigned int ip, unsigned short port, char *string)
 	SOCInAddr inAddr;
 
 	if (string == 0) {
-		g_021AE41C ^= 1;
-		string = g_021AE420[g_021AE41C];
+		gGt2StringTableIndex ^= 1;
+		string = gGt2StringTable[gGt2StringTableIndex];
 	}
 	if (ip != 0) {
 		inAddr.addr = ip;
 		if (port != 0) {
 			strAddress = func_0215FA9C(inAddr);
-			OS_SPrintf(string, g_021A594C, strAddress, port);
+			OS_SPrintf(string, gGt2AddressPortFmt, strAddress, port);
 		} else {
 			strAddress = func_0215FA9C(inAddr);
-			OS_SPrintf(string, g_021A5954, strAddress);
+			OS_SPrintf(string, gGt2AddressFmt, strAddress);
 		}
 	} else {
 		if (port != 0)
-			OS_SPrintf(string, g_021A5958, port);
+			OS_SPrintf(string, gGt2PortFmt, port);
 		else
 			string[0] = 0;
 	}
@@ -182,7 +182,7 @@ int gt2StringToAddress(char *string, u32 *ip, u16 *port)
 void gti2MessageCheck(unsigned char **message, int *len)
 {
     if (*message == 0) {
-        *message = (unsigned char *)g_021A595C;
+        *message = (unsigned char *)gGt2EmptyMessage;
         *len = 0;
         return;
     }

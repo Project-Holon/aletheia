@@ -10,7 +10,7 @@
  * volatile: hardware 04001050 and 04001000 read/write at 021B966C-021B967A.
  * symbols:
  *   d_021B9BAC 0x021B9BAC data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   THE_END_GRAPHIC_Dummy 0x021B9810 thumb ov182
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -26,23 +26,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 id; u32 v[10];} Record;
 extern const Record d_021B9BAC[1];
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void THE_END_GRAPHIC_Dummy(void *);
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void THE_END_GRAPHIC_Delete(char *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
 {
     int i;
     for (i = 0; i < sizeof(d_021B9BAC) / sizeof(d_021B9BAC[0]); i++)
-        func_020403F4((u8)d_021B9BAC[i].id);
+        BG_SYS_FreeLayerBuf((u8)d_021B9BAC[i].id);
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04001000 &= ~0xe000;
     THE_END_GRAPHIC_Dummy(p);

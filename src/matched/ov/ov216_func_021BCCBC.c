@@ -1,5 +1,5 @@
 /*
- * function: func_021BCCBC
+ * function: BEACON_DETAIL_GRA_RefreshButtons
  * address: 0x021BCCBC
  * packet: pkt_ov216_021BCCBC
  * region: ov216
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BCD60 0x021BCD60 thumb ov216
+ *   BEACON_DETAIL_GRA_UpdateButtons 0x021BCD60 thumb ov216
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BCD60(u8*);
-void func_021BCCBC(u8*p){func_021BCD60(p);}
+extern void BEACON_DETAIL_GRA_UpdateButtons(u8*);
+void BEACON_DETAIL_GRA_RefreshButtons(u8*p){BEACON_DETAIL_GRA_UpdateButtons(p);}

@@ -1,5 +1,5 @@
 /*
- * function: func_02213804
+ * function: WIFIBATTLEMATCH_SYS_GetKind
  * address: 0x02213804
  * packet: pkt_ov199_02213804
  * region: ov199
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 #include "../include/Obj25300.h"
-unsigned char func_02213804(char *p)
+unsigned char WIFIBATTLEMATCH_SYS_GetKind(char *p)
 {
     return ((struct Obj25300 *)p)->f18;
 }

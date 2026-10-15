@@ -17,9 +17,9 @@
  *   OS_UnlockMutex 0x02086078  arm
  *   strlen  0x0209477C  arm
  *   atoi  0x020964E0  arm
- *   g_021A25D4     0x021A25D4  data
- *   g_021A25F0     0x021A25F0  data
- *   g_021A2604     0x021A2604  data
+ *   gDwcHttpHeaderTerminator     0x021A25D4  data
+ *   gDwcHttpContentLengthPrefix     0x021A25F0  data
+ *   gDwcHttpCrLf     0x021A2604  data
  */
 
 typedef struct {
@@ -28,9 +28,9 @@ typedef struct {
     char *end;
     int cap;
 } Buf;
-extern char g_021A25D4[];
-extern char g_021A25F0[];
-extern char g_021A2604[];
+extern char gDwcHttpHeaderTerminator[];
+extern char gDwcHttpContentLengthPrefix[];
+extern char gDwcHttpCrLf[];
 extern unsigned char *strstr(const unsigned char *s1, const unsigned char *s2);
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
@@ -50,19 +50,19 @@ int DWCi_Http_CheckHeaderReceived(char *http)
 
     hdr = *(char **)(http + 0x1a44);
     rep = (Buf *)(http + 0x1a44);
-    if (strstr((const unsigned char *)hdr, (const unsigned char *)g_021A25D4) == 0) {
+    if (strstr((const unsigned char *)hdr, (const unsigned char *)gDwcHttpHeaderTerminator) == 0) {
         return 0;
     }
-    endof_header = (char *)(strstr((const unsigned char *)hdr, (const unsigned char *)g_021A25D4) + 4);
+    endof_header = (char *)(strstr((const unsigned char *)hdr, (const unsigned char *)gDwcHttpHeaderTerminator) + 4);
     OS_LockMutex(http + 0x1a54);
     *(int *)(http + 0x1a70) = rep->cur - endof_header;
     OS_UnlockMutex(http + 0x1a54);
-    content_length = (char *)strstr((const unsigned char *)rep->base, (const unsigned char *)g_021A25F0);
+    content_length = (char *)strstr((const unsigned char *)rep->base, (const unsigned char *)gDwcHttpContentLengthPrefix);
     if (content_length == 0) {
         return 1;
     }
-    content_length += strlen((const u8 *)g_021A25F0);
-    content_end = (char *)strstr((const unsigned char *)content_length, (const unsigned char *)g_021A2604);
+    content_length += strlen((const u8 *)gDwcHttpContentLengthPrefix);
+    content_end = (char *)strstr((const unsigned char *)content_length, (const unsigned char *)gDwcHttpCrLf);
     content_temp = *content_end;
     *content_end = 0;
     OS_LockMutex(http + 0x1a54);

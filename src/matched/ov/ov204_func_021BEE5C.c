@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE5C
+ * function: INTRO_CMD_CmdActorFadeOut
  * address: 0x021BEE5C
  * packet: pkt_ov204_021BEE5C
  * region: ov204
@@ -24,7 +24,7 @@ static inline void change_alpha(int a, int b)
 {
     *(volatile unsigned short *)0x04000052 = (unsigned short)(a | (b << 8));
 }
-int func_021BEE5C(char *p, unsigned *state, unsigned *q)
+int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
 {
     unsigned i;
     switch (*state) {

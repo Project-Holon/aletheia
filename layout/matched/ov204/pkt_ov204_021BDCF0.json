@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDCF0",
+   "name": "INTRO_GRAPHIC_DeleteDisplay",
    "address": "0x021BDCF0",
    "kind": "game",
    "region": "ov204",

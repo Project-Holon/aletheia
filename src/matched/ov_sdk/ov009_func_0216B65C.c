@@ -26,8 +26,8 @@
  *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
  *   DWCi_GT2ClosedProcess                0x0216C230 arm   ov009
  *   DWC_GetState                0x0216B994 arm   ov009
- *   g_021AA878                   0x021AA878 data
- *   g_021AA8A0                   0x021AA8A0 data
+ *   gDwcGlobalState                   0x021AA878 data
+ *   gDwcConnectionArray                   0x021AA8A0 data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -54,8 +54,8 @@ struct DWCstNodeInfo {
     u8 aid;
 };
 
-extern struct DwcGlobal g_021AA878;
-extern void *g_021AA8A0[32];
+extern struct DwcGlobal gDwcGlobalState;
+extern void *gDwcConnectionArray[32];
 
 extern int DWC_CancelMatch(void);
 extern int DWCi_IsError(void);
@@ -79,14 +79,14 @@ int DWC_CloseAllConnectionsHard(void)
     int i;
     int anyGT2ConnectionExist = 0;
 
-    ((struct DWCControl *)g_021AA878.st)->fb05 = 1;
+    ((struct DWCControl *)gDwcGlobalState.st)->fb05 = 1;
     if (DWC_CancelMatch())
         return 1;
-    if (g_021AA878.st == 0 || DWCi_IsError() ||
-        (((struct DWCControl *)g_021AA878.st)->state != 4 && ((struct DWCControl *)g_021AA878.st)->state != 5))
+    if (gDwcGlobalState.st == 0 || DWCi_IsError() ||
+        (((struct DWCControl *)gDwcGlobalState.st)->state != 4 && ((struct DWCControl *)gDwcGlobalState.st)->state != 5))
         return -1;
     for (i = 0; i < 32; i++) {
-        if (g_021AA8A0[i] != 0) {
+        if (gDwcConnectionArray[i] != 0) {
             anyGT2ConnectionExist = 1;
             break;
         }
@@ -102,16 +102,16 @@ int DWC_CloseAllConnectionsHard(void)
         DWCi_CloseMatch();
         return 1;
     }
-    ((struct DWCControl *)g_021AA878.st)->f2d = 1;
-    gt2CloseAllConnectionsHard((int *)((struct DWCControl *)g_021AA878.st)->socket);
+    ((struct DWCControl *)gDwcGlobalState.st)->f2d = 1;
+    gt2CloseAllConnectionsHard((int *)((struct DWCControl *)gDwcGlobalState.st)->socket);
     while (DWCi_NodeInfoList_GetCount() > 1) {
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
             pNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
-            if (pNodeInfo->profileID != ((struct DWCControl *)g_021AA878.st)->myProfileID)
+            if (pNodeInfo->profileID != ((struct DWCControl *)gDwcGlobalState.st)->myProfileID)
                 DWCi_GT2ClosedProcess(0, 0, 1, pNodeInfo->aid);
         }
     }
-    ((struct DWCControl *)g_021AA878.st)->f2d = 0;
+    ((struct DWCControl *)gDwcGlobalState.st)->f2d = 0;
     DWCi_NodeInfoList_Clear();
     DWCi_SetMatchStatus(0);
     DWCi_CloseMatch();

@@ -14,16 +14,16 @@
  * symbols:
  *   is_broadcast  0x021578EC  arm  ov009
  *   is_multicast  0x02157928  arm  ov009
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
-extern char g_021A826C[];
+extern char gCpsNetVars[];
 extern unsigned long is_broadcast(unsigned long ip);
 extern int is_multicast(unsigned v);
 
 unsigned long ip_isme(unsigned long ip)
 {
-    unsigned long my = *(unsigned long *)(g_021A826C + 0x50);
+    unsigned long my = *(unsigned long *)(gCpsNetVars + 0x50);
     int d = 1;
     int c = 1;
     int b = 1;

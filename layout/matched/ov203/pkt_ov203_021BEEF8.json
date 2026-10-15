@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEEF8",
+   "name": "DEMO3D_DATA_BgmFadeMain",
    "address": "0x021BEEF8",
    "kind": "game",
    "region": "ov203",

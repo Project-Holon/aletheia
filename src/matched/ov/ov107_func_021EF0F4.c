@@ -14,7 +14,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
@@ -44,7 +44,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -68,7 +68,7 @@ void MB_COMM_SYS_LoadGraphics(u8 *p) {
  func_02049658((void *)((u32)archive),6,2,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),10,2,0,0,0,((struct Obj00057 *)p)->f0);
  ARC_UTIL_UploadPaletteFromHandle((void *)((u32)archive),3,0,416,416,32,((struct Obj00057 *)p)->f0);
  func_02049658((void *)((u32)archive),7,0,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),11,0,0,0,0,((struct Obj00057 *)p)->f0);
- func_020409B4(2);ARC_TOOL_DeleteHandle(archive);
+ BG_SYS_PushTile(2);ARC_TOOL_DeleteHandle(archive);
  } else {
  archive=func_020490F4(34,((struct Obj00057 *)p)->f0);
  func_02049B68((void *)((u32)archive),6,4,0,0,((struct Obj00057 *)p)->f0);
@@ -81,12 +81,12 @@ void MB_COMM_SYS_LoadGraphics(u8 *p) {
  func_02049658((void *)((u32)archive),6,5,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),10,5,0,0,0,((struct Obj00057 *)p)->f0);
  ARC_UTIL_UploadPaletteFromHandle((void *)((u32)archive),3,4,416,416,32,((struct Obj00057 *)p)->f0);
  func_02049658((void *)((u32)archive),7,4,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),11,4,0,0,0,((struct Obj00057 *)p)->f0);
- func_020409B4(5);func_02040588(5,0);func_02040588(4,0);ARC_TOOL_DeleteHandle(archive);
+ BG_SYS_PushTile(5);func_02040588(5,0);func_02040588(4,0);ARC_TOOL_DeleteHandle(archive);
  }
  archive=func_020490F4(APP_ICON_GetArchiveId(),((struct Obj00057 *)p)->f0);
  func_02049B68((void *)((u32)archive),APP_ICON_GetStatusAnimFileId(),4,256,32,((struct Obj00057 *)p)->f0);
  func_02049658((void *)((u32)archive),APP_ICON_GetStatusFrameFileId(),6,0,0,0,((struct Obj00057 *)p)->f0);func_020498F4((void *)((u32)archive),APP_ICON_GetStatusDataFileId(),6,0,0,0,((struct Obj00057 *)p)->f0);
- BG_SYS_FillTileMap(6,0,21,32,3,8);func_020409B4(6);
+ BG_SYS_FillTileMap(6,0,21,32,3,8);BG_SYS_PushTile(6);
  *(int *)&((struct Obj00057 *)p)->f70=CLACT_RegisterPaletteEx((void *)((u32)archive),APP_ICON_GetMoveKindPaletteFileId(),1,0,0,3,((struct Obj00057 *)p)->f0);
  *(int *)&((struct Obj00057 *)p)->f74=CLACT_RegisterCharacter((void *)((u32)archive),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct Obj00057 *)p)->f0);
  first=APP_ICON_GetStatusCellFileId(2);

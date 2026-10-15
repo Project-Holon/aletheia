@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, filed as the only blocker of ov032 func_021F0F74.
+ * Unlabelled leaf, filed as the only blocker of ov032 BEACON_VIEW_LoadEntryPanel.
  *
  * symbols:
  *   GAME_BEACON_ACCESSOR_GetTrainerAppearance  0x02165CE8  thumb

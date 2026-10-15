@@ -1,5 +1,5 @@
 /*
- * function: func_021BE420
+ * function: INTRO_CMD_CmdSeStop
  * address:  0x021BE420
  * packet:   pkt_021BE420
  * region:   ov204
@@ -17,7 +17,7 @@
 extern int GFL_USE_GetSeSlot(unsigned int);
 extern void GFL_USE_StopSeSlot(int);
 
-int func_021BE420(int a, int b, int *p)
+int INTRO_CMD_CmdSeStop(int a, int b, int *p)
 {
     GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(*p));
     return 1;

@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj01774.h"
 extern void MI_CpuFill8(unsigned char *,unsigned,unsigned);
@@ -35,7 +35,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,int a,int b,int c,int d,unsigned short e) {
     int window;
     MI_CpuFill8(p,0,0x24);
@@ -49,5 +49,5 @@ void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,int a,int b,int c,int d,unsigned
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01774 *)p)->f14),((struct Obj01774 *)p)->f20);
     window=((struct Obj01774 *)p)->f14;
     BMP_WIN_TransferChars((struct Descriptor *)window); BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }

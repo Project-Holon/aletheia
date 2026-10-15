@@ -1,5 +1,5 @@
 /*
- * function: func_022135CC
+ * function: WIFIBATTLEMATCH_SYS_CountBoxSpecies
  * address: 0x022135CC
  * packet: pkt_ov199_022135CC
  * region: ov199
@@ -12,7 +12,7 @@
  */
 typedef unsigned int   u32;
 extern u32 POKEPARTY_GetCount(void *p);
-void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
+void WIFIBATTLEMATCH_SYS_CountBoxSpecies(unsigned char *p, unsigned char *a, unsigned char *b)
 {
     int i, index, j, count;
     int side, flags;

@@ -13,7 +13,7 @@
  *   func_02045B38 0x02045B38 arm
  *   d_0217E5E4 0x0217E5E4 data a1
  *   BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase 0x0217B380 thumb ov176
- *   func_021E8A3C 0x021E8A3C thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  */
 #include "../include/Obj10698.h"
 typedef struct Data { unsigned words[8]; } Data;
@@ -25,7 +25,7 @@ extern void MI_CpuFill8(void *,int,unsigned);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern const char d_0217E5E4[];
 extern void BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase(int,int,int *);
-extern int *func_021E8A3C(int a, int b, int c);
+extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const Data *src,unsigned heap)
 {
     char *p;
@@ -34,6 +34,6 @@ void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const Data *src,unsigned heap)
     *(Data *)(p+0x14)=*src;
     ((struct Obj10698 *)p)->f34=heap;
     ((struct Obj10698 *)p)->fC=func_02045B38(0,3,0x9e,heap);
-    ((struct Obj10698 *)p)->f0=func_021E8A3C((int)p,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
+    ((struct Obj10698 *)p)->f0=WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
     return p;
 }

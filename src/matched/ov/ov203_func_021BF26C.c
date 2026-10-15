@@ -1,5 +1,5 @@
 /*
- * function: func_021BF26C
+ * function: DEMO3D_DATA_TaskSetLightVector
  * address: 0x021BF26C
  * packet: pkt_ov203_021BF26C
  * region: ov203
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BDF88 0x021BDF88 thumb ov203
+ *   DEMO3D_GRAPHIC_SetLightVector 0x021BDF88 thumb ov203
  */
 struct Triple{unsigned short x,y,z;};
-extern void func_021BDF88(char *p, int a, int b);
-void func_021BF26C(unsigned unused,char **q,unsigned *v){struct Triple t;t.x=v[1];t.y=v[2];t.z=v[3];func_021BDF88(*q,(unsigned char)v[0],(int)&t);}
+extern void DEMO3D_GRAPHIC_SetLightVector(char *p, int a, int b);
+void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v){struct Triple t;t.x=v[1];t.y=v[2];t.z=v[3];DEMO3D_GRAPHIC_SetLightVector(*q,(unsigned char)v[0],(int)&t);}

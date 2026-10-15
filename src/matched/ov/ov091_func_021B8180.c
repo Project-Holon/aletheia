@@ -15,7 +15,7 @@
  * signed (bgt/blt compare tree).
  *
  * symbols:
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   PLIST_PLATE_IsEgg  0x021BB468  thumb  ov091
@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern u32 FILE_UTIL_Check136C(u16 v);
 extern int PLIST_PLATE_IsEgg(int unused, int *p);
@@ -55,7 +55,7 @@ void POKELIST_OpenContextMenu(u8 *p)
 {
     int buf[8];
 
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     switch (((struct Obj20858 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f34) {
     case 0:
         if (PLIST_PLATE_IsEgg((int)p, (int *)(*(u32 *)(p + W(0x2c) * 4 + 0x160))) == 1) {

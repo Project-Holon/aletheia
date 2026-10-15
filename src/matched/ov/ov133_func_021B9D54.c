@@ -11,7 +11,7 @@
  *   DUP_FITTING_SetText 0x021B9C08 thumb ov133
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  */
@@ -23,7 +23,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void DUP_FITTING_SetText(u8 *p, unsigned int index, void *object);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -48,7 +48,7 @@ void DUP_FITTING_SetTextHelp(u8 *p, int state)
     case 6:
     case 7: index = 0x16; break;
     }
-    w = GF_FONT_Create_EC64(((struct Obj00004 *)p)->f0);
+    w = WORDSET_CreateDefault(((struct Obj00004 *)p)->f0);
     str = func_02045EC0(((struct Obj00004 *)p)->f18E0, index);
     WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
     DUP_FITTING_SetText(p, 4, w);

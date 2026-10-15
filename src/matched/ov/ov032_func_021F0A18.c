@@ -1,5 +1,5 @@
 /*
- * function: func_021F0A18
+ * function: BEACON_VIEW_HitTestActorTouch
  * address:  0x021F0A18
  * packet:   pkt_ov032_021F0A18
  * region:   ov032
@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
- *   func_021F0DD8  0x021F0DD8  thumb  ov032
+ *   BEACON_VIEW_PlaySe  0x021F0DD8  thumb  ov032
  *   d_021F3530     0x021F3530  data  a2
  */
 
@@ -24,10 +24,10 @@ struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 struct Ctx;
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-extern void func_021F0DD8(u32 v);
+extern void BEACON_VIEW_PlaySe(u32 v);
 extern u16 d_021F3530[];
 
-int func_021F0A18(u8 *p, u32 *v)
+int BEACON_VIEW_HitTestActorTouch(u8 *p, u32 *v)
 {
     u8 b[5];
     int i;
@@ -41,7 +41,7 @@ int func_021F0A18(u8 *p, u32 *v)
             b[2] = i * 32 + 0x84;
             b[3] = b[2] + 0x18;
             if (TOUCHPANEL_HitPoint((struct Ctx *)b, v[0], v[1]) != -1) {
-                func_021F0DD8(d_021F3530[i]);
+                BEACON_VIEW_PlaySe(d_021F3530[i]);
                 return i;
             }
         }

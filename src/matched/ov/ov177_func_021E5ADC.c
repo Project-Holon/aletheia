@@ -1,5 +1,5 @@
 /*
- * function: func_021E5ADC
+ * function: WIFIBATTLEMATCH_VIEW_DrawTaggedText
  * address: 0x021E5ADC
  * packet: pkt_ov177_021E5ADC
  * region: ov177
@@ -11,7 +11,7 @@
  * note 2026-10-05 (final push G6L3): EXACT*. The three running x values are separate locals (x, x1 = x - w, x2 = x1 - w, third draw x2 - w), not one x updated in place; the separate values give each its own live range and the original colours (str r4, p r5, heap-base temp and buf r6, x r7). Earlier notes (all pragmas, declaration orders, inline helpers, u8/u16 widths) did not move the colours.
  * symbols:
  *   func_02045B38 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -36,7 +36,7 @@ struct PrintSys;
 struct Rec;
 struct StrObj;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u16 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -49,7 +49,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap)
+void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap)
 {
     struct MsgBank *msg;
     struct WordSet *ws;
@@ -59,7 +59,7 @@ void func_021E5ADC(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 he
     u16 w;
 
     msg = func_02045B38(0, 2, 0xa3, heap);
-    ws = GF_FONT_Create_EC64(heap);
+    ws = WORDSET_CreateDefault(heap);
     buf = STRBUF_Create(0x20, heap);
     x = (u16)(BMP_WIN_GetWidth((void *)p[0]) << 3);
 

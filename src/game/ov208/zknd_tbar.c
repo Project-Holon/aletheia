@@ -41,7 +41,7 @@
  *   BG_SYS_GetField16  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_Get  0x020416D4  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -145,7 +145,7 @@ extern u32 BG_SYS_GetBuf(int channel);
 
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 
-extern void func_020409B4(u8 channel);
+extern void BG_SYS_PushTile(u8 channel);
 
 extern u8   BG_SYS_Get(u32 layer);
 
@@ -491,7 +491,7 @@ void ZKND_TBAR_LoadCellArchive(void *a0, u32 a1, u32 channel, u32 add, u8 a4, u8
     if ((int)BG_SYS_GetBuf((u8)channel) != 0) {
         BG_SYS_DrawTileEx((u8)channel, x, y, w, h, (u32)scr->tiles, a4, a5, a6, a7);
         BG_SYS_FillTileMap(channel, x, y, w, h, pal);
-        func_020409B4(channel);
+        BG_SYS_PushTile(channel);
     }
     func_020307B0((void *)file);
 }

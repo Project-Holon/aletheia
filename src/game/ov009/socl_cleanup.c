@@ -16,10 +16,10 @@
  *   OS_Sleep  0x02085A38  arm
  *   SOCLi_CleanupCommandPacketQueue  0x0215CDD0  arm  ov009
  *   SOCLi_InitResource  0x0215F0D4  arm  ov009
- *   g_021AA444     0x021AA444  data
- *   g_021A82BC     0x021A82BC  data
+ *   SOCLiRequestedIP     0x021AA444  data
+ *   gCpsMyIp     0x021A82BC  data
  *   gSoclConfig     0x021A1CD8  data
- *   g_021AA450     0x021AA450  data
+ *   SOCLiCPSConfig     0x021AA450  data
  *   CPS_Cleanup  0x02157640  arm  ov009
  *   CPS_SetScavengerCallback  0x02157630  arm  ov009
  *   CPS_SetCheckNConfigCallback  0x02157280  arm  ov009
@@ -27,20 +27,20 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   SOCL_Close  0x0215E84C  arm  ov009
- *   g_021AA44C     0x021AA44C  data
- *   g_021AA4B4     0x021AA4B4  data
- *   g_021AA4B8     0x021AA4B8  data
+ *   SOCLiUDPSendSocket     0x021AA44C  data
+ *   SOCLiSocketList     0x021AA4B4  data
+ *   SOCLiTrashList     0x021AA4B8  data
  *   SOCL_IsClosed  0x0215E794  arm  ov009
  *   SOCLi_TrashSocket  0x0215EBB4  arm  ov009
  *   CPS_CalmDown  0x021575DC  arm  ov009
  */
 #include "socl_command_types.h"
 
-/* g_021AA450: the CPS configuration object (only bufSize and the field at
+/* SOCLiCPSConfig: the CPS configuration object (only bufSize and the field at
  * 0x1c, the command-packet size, are read). */
 #include "ov009_globals.h"
 
-/* The SOCL socket list entries at g_021AA44C/g_021AA4B4/g_021AA4B8: only the
+/* The SOCL socket list entries at SOCLiUDPSendSocket/SOCLiSocketList/SOCLiTrashList: only the
  * state word and the next link are read here. */
 typedef struct SoclSocket {
 	unsigned char reserved0[0xAC];
@@ -66,13 +66,13 @@ int SOCL_Cleanup(void);
 void SOCLi_CleanupCPS(void);
 int SOCL_CloseAll(void);
 int SOCL_CalmDown(void);
-extern unsigned long g_021AA444;
-extern unsigned long g_021A82BC;
+extern unsigned long SOCLiRequestedIP;
+extern unsigned long gCpsMyIp;
 extern SoclConfig *gSoclConfig;
-extern CpsConfig g_021AA450;
-extern SoclSocket *g_021AA44C;
-extern SoclSocket *g_021AA4B4;
-extern SoclSocket *g_021AA4B8;
+extern CpsConfig SOCLiCPSConfig;
+extern SoclSocket *SOCLiUDPSendSocket;
+extern SoclSocket *SOCLiSocketList;
+extern SoclSocket *SOCLiTrashList;
 
 
 /*
@@ -82,8 +82,8 @@ int SOCL_Cleanup(void)
 {
 	int result;
 
-	if (g_021AA444 == 0) {
-		g_021AA444 = g_021A82BC;
+	if (SOCLiRequestedIP == 0) {
+		SOCLiRequestedIP = gCpsMyIp;
 	}
 	result = SOCL_CalmDown();
 	while (result == -26) {
@@ -94,7 +94,7 @@ int SOCL_Cleanup(void)
 	if (result >= 0) {
 		SOCLi_CleanupCPS();
 		if (gSoclConfig->serviceFlag == 0) {
-			gSoclConfig->free((void *)g_021AA450.field1c);
+			gSoclConfig->free((void *)SOCLiCPSConfig.field1c);
 		}
 		gSoclConfig = 0;
 		SOCLi_InitResource();
@@ -125,8 +125,8 @@ int SOCL_CloseAll(void)
 
 	for (;;) {
 		enable = OS_DisableInterrupts();
-		for (socket = ((SoclSocket *)g_021AA4B4); socket != 0; socket = socket->next) {
-			if (socket != ((SoclSocket *)g_021AA44C) && (socket->state & 0x10) == 0) {
+		for (socket = ((SoclSocket *)SOCLiSocketList); socket != 0; socket = socket->next) {
+			if (socket != ((SoclSocket *)SOCLiUDPSendSocket) && (socket->state & 0x10) == 0) {
 				break;
 			}
 		}
@@ -136,8 +136,8 @@ int SOCL_CloseAll(void)
 		}
 		SOCL_Close((int)socket);
 	}
-	if (((SoclSocket *)g_021AA4B4) == 0 || (((SoclSocket *)g_021AA4B4) == ((SoclSocket *)g_021AA44C) && g_021AA4B4->next == 0)) {
-		if (((SoclSocket *)g_021AA4B8) == 0) {
+	if (((SoclSocket *)SOCLiSocketList) == 0 || (((SoclSocket *)SOCLiSocketList) == ((SoclSocket *)SOCLiUDPSendSocket) && SOCLiSocketList->next == 0)) {
+		if (((SoclSocket *)SOCLiTrashList) == 0) {
 			return 0;
 		}
 	}
@@ -152,12 +152,12 @@ int SOCL_CalmDown(void)
 {
 	int result;
 
-	if ((*(int *)&g_021AA44C)) {
+	if ((*(int *)&SOCLiUDPSendSocket)) {
 		result = SOCL_CloseAll();
 		if (result == 0) {
-			SOCL_Close((*(int *)&g_021AA44C));
-			if (SOCL_IsClosed((*(int *)&g_021AA44C))) {
-				(*(int *)&g_021AA44C) = 0;
+			SOCL_Close((*(int *)&SOCLiUDPSendSocket));
+			if (SOCL_IsClosed((*(int *)&SOCLiUDPSendSocket))) {
+				(*(int *)&SOCLiUDPSendSocket) = 0;
 			}
 			result = -26;
 		}

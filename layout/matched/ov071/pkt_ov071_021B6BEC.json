@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6BEC",
+   "name": "MONOLITH_TOOL_HighlightButtonFlash",
    "address": "0x021B6BEC",
    "kind": "game",
    "region": "ov071",

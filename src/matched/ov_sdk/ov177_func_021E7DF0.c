@@ -1,5 +1,5 @@
 /*
- * function: func_021E7DF0
+ * function: WIFIBATTLEMATCH_VIEW_DeleteActorArray
  * address:  0x021E7DF0
  * packet:   pkt_021E7DF0
  * region:   ov177
@@ -19,7 +19,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021E7DF0(int *p)
+void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p)
 {
     CLACT_DeleteActor((struct Obj *)(*(int *)((char *)p + 4)));
     CLACT_DeleteActor((struct Obj *)(*(int *)p));

@@ -24,7 +24,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   STRBUF_Create 0x020457B0 arm
  *   func_02030734 0x02030734 arm
@@ -96,7 +96,7 @@
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
@@ -163,7 +163,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 
 extern u32 func_020173EC(void);
 
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 struct Ctx_02202094;
 
@@ -361,7 +361,7 @@ extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, uns
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -623,7 +623,7 @@ void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind)
     BMP_WIN_ClearScreen((struct Descriptor *)a);
     switch (kind) {
     case 0:
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)a));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)a));
         break;
     case 1:
         func_02041B6C(BMP_WIN_GetBgLayer((struct Descriptor *)a));
@@ -827,7 +827,7 @@ Ctx_02202974 *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
     ctx->msg = (void *)PRINTSYS_QUE_Create((void *)heap);
     ctx->bank = func_02045B38(0, 2, 0xD0, heap);
-    ctx->words = GF_FONT_Create_EC64(heap);
+    ctx->words = WORDSET_CreateDefault(heap);
     return ctx;
 }
 

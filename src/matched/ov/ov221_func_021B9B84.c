@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_GetCharOffset 0x02045768 arm
  *   BG_SYS_DrawTile 0x02041090 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BA2D8 0x021BA2D8 data a1
  */
 #include "../include/Obj06724.h"
@@ -35,7 +35,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
 extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 void CHIHOU_ZUKAN_AWARD_SetupTiles(char *p)
 {
  u16 *tiles;
@@ -57,6 +57,6 @@ void CHIHOU_ZUKAN_AWARD_SetupTiles(char *p)
  tile=BMP_WIN_GetCharOffset(*(void* *)&((struct Obj06724 *)p)->f20)|0xf000;
  for(y=0;y<24;y++) for(x=0;x<32;x++) {tiles[index]=tile;index++;}
  BG_SYS_DrawTile(2,(u32)tiles,0,24,32,24);
- func_020409B4(2);
+ BG_SYS_PushTile(2);
  func_020307B0(tiles);
 }

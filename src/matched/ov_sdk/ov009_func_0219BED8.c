@@ -13,7 +13,7 @@
  *
  * symbols:
  *   g_021A76D8  0x021A76D8  data
- *   g_021A7C90  0x021A7C90  data
+ *   gQr2RegKeys  0x021A7C90  data
  *   func_0219B660  0x0219B660  arm  ov009
  *
  * notes: DIFF by one instruction (636 B object, 632 B here). At the top of the key-type
@@ -58,7 +58,7 @@ typedef struct qr2_implementation_s {
 } qr2_implementation_s;
 
 extern char g_021A76D8[];
-extern char *g_021A7C90[];
+extern char *gQr2RegKeys[];
 extern int func_0219B660(qr2_buffer_s *outbuf, char *value);
 
 int qr_build_split_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf, QRSplitQueryProgress *progress)
@@ -87,7 +87,7 @@ int qr_build_split_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf, QR
 
         while (progress->mCurKeyIndex < progress->mKeyBuffer.numkeys) {
             aRegisteredKeyIndex = progress->mKeyBuffer.keys[progress->mCurKeyIndex];
-            if (func_0219B660(buf, g_021A7C90[aRegisteredKeyIndex]) == 0)
+            if (func_0219B660(buf, gQr2RegKeys[aRegisteredKeyIndex]) == 0)
                 return 1;
             if (progress->mState == 0) {
                 qrec->server_key_callback(aRegisteredKeyIndex, buf, qrec->udata);

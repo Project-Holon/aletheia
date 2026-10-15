@@ -28,7 +28,7 @@
  */
 struct Desc;
 struct Obj;
-struct Obj00020;
+struct FieldMap;
 struct VecFx32;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -51,7 +51,7 @@ typedef struct DoorAnimeWork {
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
@@ -81,7 +81,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     switch (seq[0]) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(SE_DOOR_OPEN);
-        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
@@ -133,7 +133,7 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
     switch (seq[0]) {
     case 0:
-        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
@@ -174,7 +174,7 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
     case 0:
         if (work->silent == 0)
             GFL_USE_PlaySeDefaultVolume(SE_DOOR_CLOSE);
-        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;

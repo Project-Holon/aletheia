@@ -17,7 +17,7 @@
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  */
@@ -31,7 +31,7 @@ extern void G3D_SYSTEM_Exit(void);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void func_020403F4(unsigned int);
+extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 void P_STATUS_ExitGraphics(char *p)
@@ -42,13 +42,13 @@ void P_STATUS_ExitGraphics(char *p)
     G3D_SYSTEM_Exit();
     CLACT_DeleteUnit(((struct Obj10503 *)p)->f174);
     CLACT_ExitSystem();
-    func_020403F4(5);
-    func_020403F4(6);
-    func_020403F4(7);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }

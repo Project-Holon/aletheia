@@ -1,5 +1,5 @@
 /*
- * function: func_021BB05C
+ * function: MANUAL_COMMON_GetVisibleCount
  * address:  0x021BB05C
  * packet:   pkt_021BB05C
  * region:   ov225
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BB044  0x021BB044  thumb  ov225
+ *   MANUAL_COMMON_GetLastVisible  0x021BB044  thumb  ov225
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned short u16;
 
-extern u16 func_021BB044(u16 **);
+extern u16 MANUAL_COMMON_GetLastVisible(u16 **);
 
-u16 func_021BB05C(u16 **p)
+u16 MANUAL_COMMON_GetVisibleCount(u16 **p)
 {
-    return (u16)(func_021BB044(p) - (*p)[6] + 1);
+    return (u16)(MANUAL_COMMON_GetLastVisible(p) - (*p)[6] + 1);
 }

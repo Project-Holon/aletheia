@@ -17,10 +17,10 @@
  *   SOCLi_CleanupCommandPacketQueue  0x0215CDD0  arm  ov009
  *   SOCLi_CleanupCPS  0x0215EC90  arm  ov009
  *   SOCLi_InitResource  0x0215F0D4  arm  ov009
- *   g_021AA444     0x021AA444  data
- *   g_021A82BC     0x021A82BC  data
+ *   SOCLiRequestedIP     0x021AA444  data
+ *   gCpsMyIp     0x021A82BC  data
  *   gSoclConfig     0x021A1CD8  data
- *   g_021AA450     0x021AA450  data
+ *   SOCLiCPSConfig     0x021AA450  data
  */
 
 #include "../include/G_CPSConfig.h"
@@ -42,17 +42,17 @@ extern void OS_Sleep(unsigned long msec);
 extern int SOCLi_CleanupCommandPacketQueue(void);
 extern void SOCLi_CleanupCPS(void);
 extern void SOCLi_InitResource(void);
-extern unsigned long g_021AA444;
-extern unsigned long g_021A82BC;
+extern unsigned long SOCLiRequestedIP;
+extern unsigned long gCpsMyIp;
 extern SOCConfig *gSoclConfig;
-extern struct CPSConfig g_021AA450;
+extern struct CPSConfig SOCLiCPSConfig;
 
 int SOCL_Cleanup(void)
 {
 	int result;
 
-	if (g_021AA444 == 0) {
-		g_021AA444 = g_021A82BC;
+	if (SOCLiRequestedIP == 0) {
+		SOCLiRequestedIP = gCpsMyIp;
 	}
 	result = SOCL_CalmDown();
 	while (result == -26) {
@@ -63,7 +63,7 @@ int SOCL_Cleanup(void)
 	if (result >= 0) {
 		SOCLi_CleanupCPS();
 		if (gSoclConfig->flag28 == 0) {
-			gSoclConfig->func1c(g_021AA450.field1c);
+			gSoclConfig->func1c(SOCLiCPSConfig.field1c);
 		}
 		gSoclConfig = 0;
 		SOCLi_InitResource();

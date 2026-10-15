@@ -32,12 +32,12 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-struct Obj0203159C;
+struct Proc;
 struct U16Vec;
 struct App;
 struct Scene;
 extern void sub_0203064C(u32 src, u32 dst, u32 size);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *POKEPARTY_GetMember(void *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
@@ -51,7 +51,7 @@ extern void *PROCSYS_Create(int a0);
 extern void SHINKA_DEMO_SetupScene(struct App *,struct Scene *);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern const char d_02208F40[];
-int SHINKA_DEMO_Create(struct Obj0203159C *owner,int unused,u8 *app)
+int SHINKA_DEMO_Create(struct Proc *owner,int unused,u8 *app)
 {
     char *p;
     sub_0203064C(1,0x94,0x10000);

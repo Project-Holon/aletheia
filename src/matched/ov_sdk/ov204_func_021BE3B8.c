@@ -1,5 +1,5 @@
 /*
- * function: func_021BE3B8
+ * function: INTRO_CMD_CmdBgmWait
  * address:  0x021BE3B8
  * packet:   pkt_021BE3B8
  * region:   ov204
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int GFL_USE_IsBgmPlaying(void);
 
-u32 func_021BE3B8(void)
+u32 INTRO_CMD_CmdBgmWait(void)
 {
     if (GFL_USE_IsBgmPlaying() != 0) {
         return 1;

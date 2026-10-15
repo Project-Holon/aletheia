@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0217E178",
-    "func_0217E1B8"
+    "LIVEBATTLEMATCH_IRC_WaitExit",
+    "LIVEBATTLEMATCH_IRC_ResetState"
+   ],
+   "addresses": [
+    "0x0217E178",
+    "0x0217E1B8"
    ]
   }
  ]

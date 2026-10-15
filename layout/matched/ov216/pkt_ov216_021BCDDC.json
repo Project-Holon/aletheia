@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCDDC",
+   "name": "BEACON_DETAIL_GRA_FindAppearanceType",
    "address": "0x021BCDDC",
    "kind": "game",
    "region": "ov216",

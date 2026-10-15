@@ -1,5 +1,5 @@
 /*
- * function: func_021D8380
+ * function: MYSTERY_DeleteCardMenu
  * address: 0x021D8380
  * packet: pkt_ov121_021D8380
  * region: ov121
@@ -10,17 +10,17 @@
  * status: EXACT*
  * symbols:
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
- *   func_021DA698 0x021DA698 thumb ov121
+ *   MYSTERY_UTIL_DeleteDetailWindow 0x021DA698 thumb ov121
  */
 #include "../include/Obj00326.h"
 typedef unsigned int   u32;
 extern void BG_SYS_ClearSlot(unsigned);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
 typedef unsigned char  u8;
-extern void func_021DA698(u8 *p);
-void func_021D8380(char *p) {
- if(((struct Obj00326 *)p)->f270!=0) {BG_SYS_ClearSlot(2);func_020409B4(2);func_02040588(2,0);func_021DA698(((struct Obj00326 *)p)->f270);*(unsigned *)&((struct Obj00326 *)p)->f270=0;}
+extern void MYSTERY_UTIL_DeleteDetailWindow(u8 *p);
+void MYSTERY_DeleteCardMenu(char *p) {
+ if(((struct Obj00326 *)p)->f270!=0) {BG_SYS_ClearSlot(2);BG_SYS_PushTile(2);func_02040588(2,0);MYSTERY_UTIL_DeleteDetailWindow(((struct Obj00326 *)p)->f270);*(unsigned *)&((struct Obj00326 *)p)->f270=0;}
 }

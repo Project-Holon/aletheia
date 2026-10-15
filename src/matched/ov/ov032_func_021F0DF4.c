@@ -1,5 +1,5 @@
 /*
- * function: func_021F0DF4
+ * function: BEACON_VIEW_SetActorAnim
  * address: 0x021F0DF4
  * packet: pkt_ov032_021F0DF4
  * region: ov032
@@ -17,4 +17,4 @@ struct Actor;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-void func_021F0DF4(void *p, unsigned short v) { CLACT_SetActorAnimSeq(p,v); CLACT_RestartActorAnim(p); }
+void BEACON_VIEW_SetActorAnim(void *p, unsigned short v) { CLACT_SetActorAnimSeq(p,v); CLACT_RestartActorAnim(p); }

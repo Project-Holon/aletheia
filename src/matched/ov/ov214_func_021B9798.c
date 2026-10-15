@@ -1,5 +1,5 @@
 /*
- * function: func_021B9798
+ * function: BTL_REC_SEL_Delete
  * address: 0x021B9798
  * packet: pkt_ov214_021B9798
  * region: ov214
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BAF30 0x021BAF30 thumb ov214
- *   func_021BA43C 0x021BA43C thumb ov214
- *   func_021BA39C 0x021BA39C thumb ov214
- *   func_021BA018 0x021BA018 thumb ov214
- *   func_021BAE10 0x021BAE10 thumb ov214
- *   func_021BAC3C 0x021BAC3C thumb ov214
+ *   BTL_REC_SEL_DeletePalanm 0x021BAF30 thumb ov214
+ *   BTL_REC_SEL_DeleteWindowList 0x021BA43C thumb ov214
+ *   BTL_REC_SEL_Noop 0x021BA39C thumb ov214
+ *   BTL_REC_SEL_DeleteWindows 0x021BA018 thumb ov214
+ *   BTL_REC_SEL_DeleteSubBg 0x021BAE10 thumb ov214
+ *   BTL_REC_SEL_DeleteBgRun 0x021BAC3C thumb ov214
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -29,12 +29,12 @@
 struct Rec;
 extern const char ov067_id[];
 typedef unsigned char  u8;
-extern void func_021BAF30(int unused, u8 *p);
-extern void func_021BA43C(int unused,char *p);
-extern void func_021BA39C(int unused,char *p);
-extern void func_021BA018(int unused,char *p);
-extern void func_021BAE10(int unused,char *p);
-extern void func_021BAC3C(int unused, u8 *p);
+extern void BTL_REC_SEL_DeletePalanm(int unused, u8 *p);
+extern void BTL_REC_SEL_DeleteWindowList(int unused,char *p);
+extern void BTL_REC_SEL_Noop(int unused,char *p);
+extern void BTL_REC_SEL_DeleteWindows(int unused,char *p);
+extern void BTL_REC_SEL_DeleteSubBg(int unused,char *p);
+extern void BTL_REC_SEL_DeleteBgRun(int unused, u8 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 struct Node;
 struct PrintSys;
@@ -44,18 +44,18 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void BTL_REC_SEL_GRAPHIC_Delete(char *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int handle);
-int func_021B9798(void *owner,int unused,int state,char *p)
+int BTL_REC_SEL_Delete(void *owner,int unused,int state,char *p)
 {
-    func_021BAF30(state,(u8 *)p);
-    func_021BA43C(state,p);
-    func_021BA39C(state,p);
-    func_021BA018(state,p);
-    func_021BAE10(state,p);
-    func_021BAC3C(state,(u8 *)p);
+    BTL_REC_SEL_DeletePalanm(state,(u8 *)p);
+    BTL_REC_SEL_DeleteWindowList(state,p);
+    BTL_REC_SEL_Noop(state,p);
+    BTL_REC_SEL_DeleteWindows(state,p);
+    BTL_REC_SEL_DeleteSubBg(state,p);
+    BTL_REC_SEL_DeleteBgRun(state,(u8 *)p);
     MSGDATA_Delete(*(struct Rec * *)&((struct Obj00636 *)p)->f58);
     func_02030EAC((struct Node *)(((struct Obj00636 *)p)->f4C));
     PRINTSYS_QUE_Clear((struct PrintSys *)(((struct Obj00636 *)p)->f18));

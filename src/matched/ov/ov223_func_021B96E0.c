@@ -11,7 +11,7 @@
  * symbols:
  *   callbacks 0x021BC84C data a4
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   PSEL_UpdateAF30 0x021BAF30 thumb ov223
+ *   PSEL_UpdateTcbl 0x021BAF30 thumb ov223
  *   PSEL_GRAPHIC_Draw 0x021BC4F4 thumb ov223
  *   PSEL_GRAPHIC_ApplyLight 0x021BC508 thumb ov223
  *   PSEL_DrawObjects 0x021B97F8 thumb ov223
@@ -22,7 +22,7 @@ extern int (*callbacks[])(char *,int *);
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void PSEL_UpdateAF30(int *);
+extern void PSEL_UpdateTcbl(int *);
 extern void PSEL_GRAPHIC_Draw(char *);
 extern void PSEL_GRAPHIC_ApplyLight(unsigned char *p);
 extern void PSEL_DrawObjects(char *p);
@@ -36,7 +36,7 @@ int PSEL_Main(void *a,int *state,void *b,char *p)
     } else return 1;
     if(*state>=2&&*state<=11) {
         PRINTSYS_QUE_Main(((struct Obj03962 *)p)->f1C);
-        PSEL_UpdateAF30((int *)p);
+        PSEL_UpdateTcbl((int *)p);
         PSEL_GRAPHIC_Draw(*(char * *)&((struct Obj03962 *)p)->f14);
         PSEL_GRAPHIC_ApplyLight(((struct Obj03962 *)p)->f14);
         PSEL_DrawObjects(p);

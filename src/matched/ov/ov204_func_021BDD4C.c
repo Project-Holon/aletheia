@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD4C
+ * function: INTRO_GRAPHIC_UpdateDisplay
  * address:  0x021BDD4C
  * packet:   pkt_021BDD4C
  * region:   ov204
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BDF90  0x021BDF90  thumb  ov204
- *   func_021BDE10  0x021BDE10  thumb  ov204
+ *   INTRO_GRAPHIC_DrawClact  0x021BDF90  thumb  ov204
+ *   INTRO_GRAPHIC_ResetBgSlot  0x021BDE10  thumb  ov204
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021BDF90(void *a0);
-extern void func_021BDE10(u8 *);
+extern void INTRO_GRAPHIC_DrawClact(void *a0);
+extern void INTRO_GRAPHIC_ResetBgSlot(u8 *);
 
-void func_021BDD4C(u8 *p)
+void INTRO_GRAPHIC_UpdateDisplay(u8 *p)
 {
-    func_021BDF90(p + 4);
-    func_021BDE10(p);
+    INTRO_GRAPHIC_DrawClact(p + 4);
+    INTRO_GRAPHIC_ResetBgSlot(p);
 }
 

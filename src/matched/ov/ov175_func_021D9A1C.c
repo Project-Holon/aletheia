@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8AA0  0x021E8AA0  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback  0x021E8AA0  thumb  ov177
  *
  * Closes the +0x3c stream handle through 0x021E8AA0 and parks the +0x40
  *     result word at the 0xFFFF sentinel.  Mirrors WIFIBATTLEMATCH_NET_SetWaitCallback.
@@ -19,11 +19,11 @@
 
 typedef unsigned long u32;
 
-extern void func_021E8AA0(int *p, int v);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
 void WIFIBATTLEMATCH_NET_SetCompWaitCallback(char *obj, void *fn)
 {
-    func_021E8AA0((int *)(((struct Obj00013 *)obj)->f3C), (int)fn);
+    WIFIBATTLEMATCH_UTIL_SetCallback((int *)(((struct Obj00013 *)obj)->f3C), (int)fn);
     ((struct Obj00013 *)obj)->f40 = 0xFFFF;
 }
 

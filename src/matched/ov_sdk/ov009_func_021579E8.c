@@ -14,17 +14,17 @@
  * symbols:
  *   func_02082EA4  0x02082EA4  arm
  *   WCM_SendDCFDataEx  0x02166444  arm  ov009
- *   g_021A1CC0  0x021A1CC0  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsUdpHeaderTemplate  0x021A1CC0  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
-extern char g_021A1CC0[];
-extern unsigned char g_021A826C;
+extern char gCpsUdpHeaderTemplate[];
+extern unsigned char gCpsNetVars;
 extern void func_02082EA4(void *src, void *dst, unsigned long size);
 extern long WCM_SendDCFDataEx(unsigned char *dst, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 
 void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len)
 {
-    func_02082EA4(g_021A1CC0, hdr + 6, 6);
-    g_021A826C = WCM_SendDCFDataEx(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
+    func_02082EA4(gCpsUdpHeaderTemplate, hdr + 6, 6);
+    gCpsNetVars = WCM_SendDCFDataEx(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;
 }

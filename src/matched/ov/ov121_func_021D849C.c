@@ -1,5 +1,5 @@
 /*
- * function: func_021D849C
+ * function: MYSTERY_DeletePartyMenu
  * address: 0x021D849C
  * packet: pkt_ov121_021D849C
  * region: ov121
@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DA2A8 0x021DA2A8 thumb ov121
- *   func_021DA280 0x021DA280 thumb ov121
- *   func_020409B4 0x020409B4 arm
+ *   MYSTERY_UTIL_ClearWindowList 0x021DA2A8 thumb ov121
+ *   MYSTERY_UTIL_DeleteWindowList 0x021DA280 thumb ov121
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  */
 #include "../include/Obj00326.h"
 typedef unsigned char  u8;
-extern void func_021DA2A8(u8 *p);
-extern void func_021DA280(u8 *p);
+extern void MYSTERY_UTIL_ClearWindowList(u8 *p);
+extern void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 typedef unsigned int   u32;
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021D849C(char *p) {
+void MYSTERY_DeletePartyMenu(char *p) {
  if(((struct Obj00326 *)p)->f28C) {
   *(unsigned short *)0x04001050=0;
-  func_021DA2A8(((struct Obj00326 *)p)->f28C);func_021DA280(((struct Obj00326 *)p)->f28C);
+  MYSTERY_UTIL_ClearWindowList(((struct Obj00326 *)p)->f28C);MYSTERY_UTIL_DeleteWindowList(((struct Obj00326 *)p)->f28C);
   *(unsigned *)&((struct Obj00326 *)p)->f28C=0;
-  func_020409B4(4);func_02040588(6,0);
+  BG_SYS_PushTile(4);func_02040588(6,0);
  }
 }

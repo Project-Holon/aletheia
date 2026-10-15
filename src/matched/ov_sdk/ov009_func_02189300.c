@@ -14,7 +14,7 @@
  * symbols:
  *   gpiSetErrorString  0x02193734  arm   ov009
  *   func_0218FD9C  0x0218FD9C  arm   ov009
- *   g_021A446C     0x021A446C  data  ov009
+ *   gGpiBuddyErrorInvalidProfile     0x021A446C  data  ov009
  */
 
 typedef struct GPIProfile {
@@ -24,14 +24,14 @@ typedef struct GPIProfile {
 
 extern void gpiSetErrorString(int *p, int b);
 extern int func_0218FD9C(void **connection, int profileid, GPIProfile **pProfile);
-extern char g_021A446C[];
+extern char gGpiBuddyErrorInvalidProfile[];
 
 int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted)
 {
     GPIProfile *pProfile;
 
     if (id <= 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A446C);
+        gpiSetErrorString((int *)connection, (int)gGpiBuddyErrorInvalidProfile);
         return 2;
     }
     if (func_0218FD9C(connection, id, &pProfile))

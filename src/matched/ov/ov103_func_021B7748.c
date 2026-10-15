@@ -26,8 +26,8 @@ extern void IRC_COMPATIBLE_TOUCH_TEST_ExitWindow(u8 *);
 extern void IRC_COMPATIBLE_TOUCH_TEST_ExitScene(u8 *);
 extern void IRC_COMPATIBLE_TOUCH_TEST_ExitText(u8 *);
 extern void IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(u8 *);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(int a, int b, int c, u8 *p)
 {
@@ -39,7 +39,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(int a, int b, int c, u8 *p)
     IRC_COMPATIBLE_TOUCH_TEST_ExitScene(p);
     IRC_COMPATIBLE_TOUCH_TEST_ExitText(p + 0x174);
     IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(p + 0x75c);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(55);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2F4
+ * function: BTL_REC_SEL_InitPalette
  * address: 0x021BA2F4
  * packet: pkt_ov214_021BA2F4
  * region: ov214
@@ -27,7 +27,7 @@ extern void*func_02030734(unsigned,unsigned,int,const char*,u16);
 extern void BG_SYS_LoadPltt(unsigned,void*,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BA2F4(int unused,char*p)
+void BTL_REC_SEL_InitPalette(int unused,char*p)
 {
     unsigned off;
     u16*colors;

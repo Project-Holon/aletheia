@@ -68,7 +68,7 @@ struct Proc;
 
 struct Ov208Mgr;
 
-struct S020315D4;
+struct Proc;
 
 struct Ov208Fade;
 
@@ -151,7 +151,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 

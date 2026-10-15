@@ -1,5 +1,5 @@
 /*
- * function: func_02213134
+ * function: WIFIBATTLEMATCH_SYS_BuildVersionCommand
  * address: 0x02213134
  * packet: pkt_ov199_02213134
  * region: ov199
@@ -39,7 +39,7 @@ extern void *REGULATION_NoOp(void *);
 extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
 extern unsigned BATTLE_REC_IsVersionSupported(unsigned);
 extern const char d_02213D04[], d_02213D00[];
-unsigned *func_02213134(int unused, unsigned heap, u8 *p)
+unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, unsigned heap, u8 *p)
 {
     unsigned *out;
     unsigned index, id, flag;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217D188
+ * function: DIGITALCARDCHECK_IsRecordDone
  * address: 0x0217D188
  * packet: pkt_ov176_0217D188
  * region: ov176
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021E64C8 0x021E64C8 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_StepMainWindow 0x021E64C8 thumb ov177
  */
 #include "../include/Obj00053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021E64C8(void *);
-int func_0217D188(u8 *p) {return func_021E64C8(((struct Obj00053 *)p)->f10);}
+extern int WIFIBATTLEMATCH_VIEW_StepMainWindow(void *);
+int DIGITALCARDCHECK_IsRecordDone(u8 *p) {return WIFIBATTLEMATCH_VIEW_StepMainWindow(((struct Obj00053 *)p)->f10);}

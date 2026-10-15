@@ -13,30 +13,30 @@
  *
  * symbols:
  *   ScrollTopScreen  0x02183F68 arm ov009
- *   g_021AD1C4     0x021AD1C4 data
- *   g_021AD1C8     0x021AD1C8 data
+ *   gScreenScrollCount     0x021AD1C4 data
+ *   gScreenScrollBuffer     0x021AD1C8 data
  */
 
 extern void ScrollTopScreen(void);
-extern int g_021AD1C4;
-extern unsigned short g_021AD1C8[768];
+extern int gScreenScrollCount;
+extern unsigned short gScreenScrollBuffer[768];
 
 void PrintChar(char c)
 {
     if (c == 13)
         return;
-    if (g_021AD1C4 == 32)
+    if (gScreenScrollCount == 32)
     {
         ScrollTopScreen();
-        g_021AD1C4 = 0;
+        gScreenScrollCount = 0;
         if (c == 10)
             return;
     }
     if (c == 10)
     {
-        g_021AD1C4 = 32;
+        gScreenScrollCount = 32;
         return;
     }
-    g_021AD1C8[736 + g_021AD1C4] = (unsigned short)(c | 0xf000);
-    g_021AD1C4++;
+    gScreenScrollBuffer[736 + gScreenScrollCount] = (unsigned short)(c | 0xf000);
+    gScreenScrollCount++;
 }

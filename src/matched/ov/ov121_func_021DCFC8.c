@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFC8
+ * function: MYSTERY_ALBUM_CreateSlotWork
  * address: 0x021DCFC8
  * packet: pkt_ov121_021DCFC8
  * region: ov121
@@ -11,7 +11,7 @@
  * interfaces: D81C/D898 scalar stack words reproduce the aggregate layout; complete bodies and forwarding targets read no padding, key only low halfword.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021DA1BC 0x021DA1BC thumb ov121
+ *   MYSTERY_UTIL_CreateWindowList 0x021DA1BC thumb ov121
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -42,7 +42,7 @@ extern const Config d_021DF99C;
 struct Actor;
 struct Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_021DA1BC(void *,const char *,u32,u16,u8,u32,u32,int,u16);
+extern void *MYSTERY_UTIL_CreateWindowList(void *,const char *,u32,u16,u8,u32,u32,int,u16);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
@@ -58,7 +58,7 @@ extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a
 extern int POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterCgr(void *,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-void *func_021DCFC8(const Desc *p,u16 heap)
+void *MYSTERY_ALBUM_CreateSlotWork(const Desc *p,u16 heap)
 {
     char *out;
     Config config;
@@ -81,7 +81,7 @@ void *func_021DCFC8(const Desc *p,u16 heap)
         ((struct Obj00237 *)out)->f84=0;
     }
     config=d_021DF99C;
-    ((struct Obj00237 *)out)->f0=func_021DA1BC((void *)1,(const char *)&config,5,((struct Obj00237 *)out)->fA4,((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
+    ((struct Obj00237 *)out)->f0=MYSTERY_UTIL_CreateWindowList((void *)1,(const char *)&config,5,((struct Obj00237 *)out)->fA4,((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
     arc=func_020490F4(34,heap);
     *(int *)&((struct Obj00237 *)out)->f4=CLACT_RegisterPalette(arc,3,((struct Obj00237 *)out)->f98,(u16)(p->w[4]<<5),heap);
     *(int *)&((struct Obj00237 *)out)->fC=CLACT_RegisterCellAnim(arc,33,36,heap);

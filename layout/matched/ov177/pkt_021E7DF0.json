@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E7DF0",
+   "name": "WIFIBATTLEMATCH_VIEW_DeleteActorArray",
    "address": "0x021E7DF0",
    "kind": "sdk",
    "region": "ov177",

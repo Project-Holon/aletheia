@@ -1,5 +1,5 @@
 /*
- * function: func_021D9BE8
+ * function: MYSTERY_UTIL_AlignText
  * address: 0x021D9BE8
  * packet: pkt_ov121_021D9BE8
  * region: ov121
@@ -22,7 +22,7 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
-void func_021D9BE8(u32 mode, const Pair *in, const void *bitmap, void *obj, int a, Pair *out)
+void MYSTERY_UTIL_AlignText(u32 mode, const Pair *in, const void *bitmap, void *obj, int a, Pair *out)
 {
     int x;
     int y;

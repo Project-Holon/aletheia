@@ -50,11 +50,11 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void func_02030EAC(struct Node *n);
-struct S020315D4;
+struct Proc;
 extern int GURU2_RECEIPT_GetMemberCount(void *p);
 extern u32 GURU2_RECEIPT_GetJoinedBits(void *);
 extern void GURU2_RECEIPT_FreeStrings(u8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int GURU2_RECEIPT_ProcExit(void *a,int b,void *c,u8 *p)
 {

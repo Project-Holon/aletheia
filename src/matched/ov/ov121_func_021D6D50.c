@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D50
+ * function: MYSTERY_LoadParticle
  * address:  0x021D6D50
  * packet:   pkt_021D6D50
  * region:   ov121
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern void PARTICLE_SetupSystem(int, int, int, int);
 
-void func_021D6D50(int *p, int a, int b, int c)
+void MYSTERY_LoadParticle(int *p, int a, int b, int c)
 {
     int x = PARTICLE_LoadArchiveMember(a, b, c);
     PARTICLE_SetupSystem(*p, x, 1, 0);

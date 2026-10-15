@@ -29,7 +29,7 @@
  *   func_02040804  0x02040804  arm
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
  *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
  *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
@@ -83,7 +83,7 @@ extern int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *outPos);
 
 extern u32 TCBL_GetTaskUserData(void *task);
 
-extern void func_02040618(u32 layer, u32 param, u32 value);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 param, u32 value);
 
 BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
 
@@ -243,7 +243,7 @@ void BTLV_BG_ApplyScrollTask(void *task)
 {
     BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_GetTaskUserData(task);
 
-    func_02040618(3, 0, args->scrollX);
-    func_02040618(3, 3, args->scrollY);
+    BG_SYS_FillScrollArea(3, 0, args->scrollX);
+    BG_SYS_FillScrollArea(3, 3, args->scrollY);
     BTLV_EFFECT_DeleteTask(task);
 }

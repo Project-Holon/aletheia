@@ -1,5 +1,5 @@
 /*
- * function: func_021BF404
+ * function: DEMO3D_DATA_CreateMessageWindow
  * address: 0x021BF404
  * packet: pkt_ov203_021BF404
  * region: ov203
@@ -26,7 +26,7 @@ extern void *BMP_MENUWORK_LoadFrameGfx(void *,unsigned,unsigned,unsigned);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
-void func_021BF404(char *p,Work *out,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
+void DEMO3D_DATA_CreateMessageWindow(char *p,Work *out,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
     MI_CpuFill8(out,0,0x28);
     out->a=a;out->c=c;out->ctx=p;out->b=b;

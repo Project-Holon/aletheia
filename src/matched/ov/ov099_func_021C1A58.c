@@ -13,7 +13,7 @@
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   d_021C377C 0x021C377C data a4
  *   WIFICLUB_OnSlotButtonEvent 0x021C1C9C thumb ov099
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WIFICLUB_CreateSlotPanelWindows 0x021C1D1C thumb ov099
  *   WIFICLUB_EmptyHook 0x021C208C thumb ov099
  *   WIFICLUB_RedrawSlotPanels 0x021C2090 thumb ov099
@@ -28,7 +28,7 @@ extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
 extern const int d_021C377C[];
 extern void WIFICLUB_OnSlotButtonEvent(u32 a, int b, u32 p);
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WIFICLUB_CreateSlotPanelWindows(u8 *p, void *a, int heap);
 extern void WIFICLUB_EmptyHook(char *);
 extern void WIFICLUB_RedrawSlotPanels(char *);
@@ -38,7 +38,7 @@ void WIFICLUB_OpenSlotPanel(char *p, int a, int heap)
     BG_SYS_SetSubPlaneVisible(7, 1);
     BG_SYS_SetSubPlaneVisible(8, 0);
     ((struct Obj10212 *)p)->f8C8 = BUTTON_MAN_Create((u8 *)d_021C377C, (int)WIFICLUB_OnSlotButtonEvent, (int)p, heap);
-    ((struct Obj10212 *)p)->f8B0 = GF_FONT_Create_EC64((u16)heap);
+    ((struct Obj10212 *)p)->f8B0 = WORDSET_CreateDefault((u16)heap);
     WIFICLUB_CreateSlotPanelWindows((u8 *)p, (void *)a, heap);
     ((struct Obj10212 *)p)->f8F4 = 1;
     WIFICLUB_EmptyHook(p);

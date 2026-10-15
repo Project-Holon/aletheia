@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_Delete_03F4
+ * function: BG_SYS_FreeLayerBuf
  * address:  0x020403F4
  * packet:   pkt_0203FC6C
  * region:   arm9
@@ -34,8 +34,8 @@
  * or a second caller turns up in an overlay.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_Delete_03F4.c \
- *       --func BG_SYS_Delete_03F4 --addr 0x020403F4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_FreeLayerBuf.c \
+ *       --func BG_SYS_FreeLayerBuf --addr 0x020403F4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -53,7 +53,7 @@ extern struct Entry *g_02146A44;
 extern void BG_SYS_DeleteBlock(u32 index, u32 zero, u32 cookie);
 extern u32 GFL_HEAP_Free(void *p);
 
-void BG_SYS_Delete_03F4(u32 i)
+void BG_SYS_FreeLayerBuf(u32 i)
 {
     if (g_02146A44[i].unk_08 == 0) {
         return;

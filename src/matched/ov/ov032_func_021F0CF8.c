@@ -1,5 +1,5 @@
 /*
- * function: func_021F0CF8
+ * function: BEACON_VIEW_FinishTaskMenuButtons
  * address:  0x021F0CF8
  * packet:   pkt_ov032_021F0CF8
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0CF8  0x021F0CF8  thumb
+ *   BEACON_VIEW_FinishTaskMenuButtons  0x021F0CF8  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
@@ -23,7 +23,7 @@ extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 
-int func_021F0CF8(char *p, int i)
+int BEACON_VIEW_FinishTaskMenuButtons(char *p, int i)
 {
     char *q;
     int j;

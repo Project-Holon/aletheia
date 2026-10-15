@@ -18,7 +18,7 @@
  *   SOC_GetHostByName  0x0215F650  arm ov009
  *   sendto  0x0217ECA4  arm  ov009
  *   current_time  0x0217F264  arm  ov009
- *   g_021ACF7C     0x021ACF7C  data
+ *   gGsAvailableCheck     0x021ACF7C  data
  *   gsiSafeStrcpyA  0x021803BC  arm ov009
  *   SocketStartUp  0x0217F25C  arm ov009
  *   OS_SPrintf  0x02084F40  arm
@@ -28,10 +28,10 @@
  *   func_02092344  0x02092344  arm
  *   func_0217C704  0x0217C704  arm ov009
  *   gGsAvailabilityGameName     0x021ACEFC  data
- *   g_021ACF3C     0x021ACF3C  data
- *   g_021A36E8     0x021A36E8  data
+ *   gGsAvailableOverrideHost     0x021ACF3C  data
+ *   gGsAvailableHostFmt     0x021A36E8  data
  *   func_020923F0  0x020923F0  arm
- *   g_021A370C     0x021A370C  data
+ *   gGsAvailableMagic     0x021A370C  data
  *   func_0217EF50  0x0217EF50  arm  ov009
  *   func_0217EC60  0x0217EC60  arm  ov009
  *   HandlePacket  0x0217C848  arm  ov009
@@ -86,11 +86,11 @@ extern int func_0217EC60(int sock, char *buf, int len, int flags, void *addr, in
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int closesocket(int sock);
 extern char gGsAvailabilityGameName[];
-extern char g_021ACF3C[];
-extern char g_021A36E8[];
-extern char g_021A370C[];
+extern char gGsAvailableOverrideHost[];
+extern char gGsAvailableHostFmt[];
+extern char gGsAvailableMagic[];
 extern int gGsAvailabilityState;
-extern AvailableCheck g_021ACF7C;
+extern AvailableCheck gGsAvailableCheck;
 
 /*
  * sdk:      get_sockaddrin (gsavailable.o)
@@ -114,8 +114,8 @@ int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr)
  */
 void func_0217C704(void)
 {
-    sendto(g_021ACF7C.sock, g_021ACF7C.packet, g_021ACF7C.packetLen, 0, (struct SOCSockAddr *)&g_021ACF7C.address, 8);
-    g_021ACF7C.sendTime = current_time();
+    sendto(gGsAvailableCheck.sock, gGsAvailableCheck.packet, gGsAvailableCheck.packetLen, 0, (struct SOCSockAddr *)&gGsAvailableCheck.address, 8);
+    gGsAvailableCheck.sendTime = current_time();
 }
 
 /*
@@ -128,25 +128,25 @@ void GSIStartAvailableCheckA(char *gamename)
     char *host;
     char hostname[64];
     gsiSafeStrcpyA(gGsAvailabilityGameName, gamename, 64);
-    g_021ACF7C.sock = -1;
+    gGsAvailableCheck.sock = -1;
     SocketStartUp();
-    override = g_021ACF3C[0];
+    override = gGsAvailableOverrideHost[0];
     if (override == 0)
-        OS_SPrintf(hostname, g_021A36E8, gamename);
-    host = g_021ACF3C;
+        OS_SPrintf(hostname, gGsAvailableHostFmt, gamename);
+    host = gGsAvailableOverrideHost;
     if (override == 0)
         host = hostname;
-    if (!func_0217C690(host, 27900, &g_021ACF7C.address))
+    if (!func_0217C690(host, 27900, &gGsAvailableCheck.address))
         return;
-    g_021ACF7C.sock = func_0217EB18(2, 2, 0);
-    if (g_021ACF7C.sock == -1)
+    gGsAvailableCheck.sock = func_0217EB18(2, 2, 0);
+    if (gGsAvailableCheck.sock == -1)
         return;
-    g_021ACF7C.packet[0] = 9;
+    gGsAvailableCheck.packet[0] = 9;
     len = strlen((const u8 *)gamename);
-    func_02092344(g_021ACF7C.packet + 5, gamename, len + 1);
-    g_021ACF7C.packetLen = len + 6;
+    func_02092344(gGsAvailableCheck.packet + 5, gamename, len + 1);
+    gGsAvailableCheck.packetLen = len + 6;
     func_0217C704();
-    g_021ACF7C.retryCount = 0;
+    gGsAvailableCheck.retryCount = 0;
 }
 
 /*
@@ -157,11 +157,11 @@ int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disa
     int bitfield;
     if (len < 7)
         return 1;
-    if (func_020923F0((const u8 *)(&address->addr), (const u8 *)&g_021ACF7C.address.addr, 4) != 0)
+    if (func_020923F0((const u8 *)(&address->addr), (const u8 *)&gGsAvailableCheck.address.addr, 4) != 0)
         return 1;
-    if (address->port != g_021ACF7C.address.port)
+    if (address->port != gGsAvailableCheck.address.port)
         return 1;
-    if (func_020923F0((const u8 *)packet, (const u8 *)g_021A370C, 3) != 0)
+    if (func_020923F0((const u8 *)packet, (const u8 *)gGsAvailableMagic, 3) != 0)
         return 1;
     bitfield = (packet[3] << 24) & 0xff000000;
     bitfield |= (packet[4] << 16) & 0xff0000;
@@ -181,14 +181,14 @@ int GSIAvailableCheckThink(void)
     int len = sizeof(address);
     int rcode;
     int disabledservices;
-    if (g_021ACF7C.sock == -1) {
+    if (gGsAvailableCheck.sock == -1) {
         gGsAvailabilityState = 1;
         return 1;
     }
-    if (func_0217EF50(g_021ACF7C.sock)) {
-        rcode = func_0217EC60(g_021ACF7C.sock, packet, 64, 0, &address, &len);
+    if (func_0217EF50(gGsAvailableCheck.sock)) {
+        rcode = func_0217EC60(gGsAvailableCheck.sock, packet, 64, 0, &address, &len);
         if (HandlePacket(packet, rcode, &address, &disabledservices) == 0) {
-            closesocket(g_021ACF7C.sock);
+            closesocket(gGsAvailableCheck.sock);
             if (disabledservices & 1) {
                 gGsAvailabilityState = 2;
                 return 2;
@@ -201,14 +201,14 @@ int GSIAvailableCheckThink(void)
             }
         }
     }
-    if (current_time() > g_021ACF7C.sendTime + 2000) {
-        if (g_021ACF7C.retryCount == 1) {
-            closesocket(g_021ACF7C.sock);
+    if (current_time() > gGsAvailableCheck.sendTime + 2000) {
+        if (gGsAvailableCheck.retryCount == 1) {
+            closesocket(gGsAvailableCheck.sock);
             gGsAvailabilityState = 1;
             return 1;
         }
         func_0217C704();
-        g_021ACF7C.retryCount++;
+        gGsAvailableCheck.retryCount++;
     }
     return 0;
 }

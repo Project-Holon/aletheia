@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B6C7C 0x021B6C7C thumb ov071
- *   func_021B6B70 0x021B6B70 thumb ov071
+ *   MONOLITH_TOOL_UpdateHighlight 0x021B6C7C thumb ov071
+ *   MONOLITH_TOOL_IsButtonUploaded 0x021B6B70 thumb ov071
  */
 
 typedef unsigned char  u8;
-extern void func_021B6C7C(int *p, int idx);
-extern int func_021B6B70(void **p, u8 *q);
-void MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(int *a,char *p) { int i; func_021B6C7C(a,3); p+=0x2c; for(i=0;i<2;i++) func_021B6B70((void **)a[1],(u8 *)(p+i*16)); }
+extern void MONOLITH_TOOL_UpdateHighlight(int *p, int idx);
+extern int MONOLITH_TOOL_IsButtonUploaded(void **p, u8 *q);
+void MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(int *a,char *p) { int i; MONOLITH_TOOL_UpdateHighlight(a,3); p+=0x2c; for(i=0;i<2;i++) MONOLITH_TOOL_IsButtonUploaded((void **)a[1],(u8 *)(p+i*16)); }

@@ -26,7 +26,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   POKELIST_PrintTextMain 0x021B9C1C thumb ov091
  *   POKE_TOOL_CalcLevel 0x02018430 thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   POKELIST_PrintExpandedTextSub 0x021B9D58 thumb ov091
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -59,7 +59,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 extern void POKELIST_PrintTextMain(u8 *p, u32 win, u32 id, int x, s16 y, u16 color);
 extern u32 POKE_TOOL_CalcLevel(void *p);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void POKELIST_PrintExpandedTextSub(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -118,7 +118,7 @@ u32 *PLIST_BATTLE_CreateMiniCell(u8 *p,void *mon,s16 x,u16 y)
     z=rem;
     s[2]=BMP_WIN_Create(4,(u8)gx,(u8)gy+3,6,1,14,1);
     if(egg==0) {
-        text=(u32)GF_FONT_Create_EC64(((struct Obj02771 *)p)->f0);
+        text=(u32)WORDSET_CreateDefault(((struct Obj02771 *)p)->f0);
         WORDSET_SetSlotNumber((struct WordSet *)text,0,level,3,0,1);
         POKELIST_PrintExpandedTextSub(p,s[2],(void *)text,2,z,0,0x3c40);
         WORDSET_DeleteStrbufED04((struct WordSet *)text);

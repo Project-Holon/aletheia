@@ -1,5 +1,5 @@
 /*
- * function: func_021D9564
+ * function: WF2DMAP_SCENE_SetButtonCursor
  * address: 0x021D9564
  * packet: pkt_ov129_021D9564
  * region: ov129
@@ -19,4 +19,4 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct { u8 a,b; } Entry;
 extern Entry d_021DA72C[];
-void func_021D9564(u8 *p,int n) { if(n>=12 && n<24) { ((struct Obj14056 *)p)->f1B8=d_021DA72C[n-12].a; ((struct Obj14056 *)p)->f1BA=d_021DA72C[n-12].b; } }
+void WF2DMAP_SCENE_SetButtonCursor(u8 *p,int n) { if(n>=12 && n<24) { ((struct Obj14056 *)p)->f1B8=d_021DA72C[n-12].a; ((struct Obj14056 *)p)->f1BA=d_021DA72C[n-12].b; } }

@@ -66,7 +66,7 @@
  *   sRecordListDispConfig  0x021BA65C  data  a4
  *   sRecordListBgTemplates  0x021BA7A0  data  a4
  *   sRecordListBgIds  0x021BA60C  data  a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
@@ -78,7 +78,7 @@
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049B40  0x02049B40  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   BGWINFRM_SetFrameDataArcHandle  0x0202CB18  thumb
@@ -158,7 +158,7 @@
 
 struct BsubwayWifiData;
 struct BsubwayWifiRecordList;
-struct S020315D4;
+struct Proc;
 struct DispVram;
 struct ActorSystemConfig;
 
@@ -201,7 +201,7 @@ extern int func_021B9F58(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void *func_0203084C(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -228,7 +228,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_ClearSlot(u8);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(u32 layer);
+extern void BG_SYS_FreeLayerBuf(u32 layer);
 extern void BG_SYS_Delete(void);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
@@ -240,7 +240,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
@@ -453,7 +453,7 @@ int BSUBWAY_RECORD_LIST_Exit(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     BSUBWAY_RECORD_LIST_DeleteFrames(work);
     BSUBWAY_RECORD_LIST_ReleaseBgLayers(work);
     BSUBWAY_RECORD_LIST_FreeWork(work);
-    func_020315D4((struct S020315D4 *)proc);
+    func_020315D4((struct Proc *)proc);
     func_0203084C(0x80);
     GFL_HEAP_DeleteChecked(0x80);
     return 1;
@@ -534,7 +534,7 @@ void BSUBWAY_RECORD_LIST_SetupBgLayers(BsubwayRecordListWork *unusedWork)
 }
 
 
-void BSUBWAY_RECORD_LIST_ReleaseBgLayers(BsubwayRecordListWork *unusedWork) { u32 i; for(i=0;i<5;i++) func_020403F4((u8)sRecordListBgIds[i]); BG_SYS_Delete(); }
+void BSUBWAY_RECORD_LIST_ReleaseBgLayers(BsubwayRecordListWork *unusedWork) { u32 i; for(i=0;i<5;i++) BG_SYS_FreeLayerBuf((u8)sRecordListBgIds[i]); BG_SYS_Delete(); }
 
 
 
@@ -557,7 +557,7 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
     func_020498F4(spriteArc, APP_ICON_GetStatusDataFileId(), 1, 0, 0, 0, 0x80);
     ARC_UTIL_UploadPaletteFromHandle(spriteArc, APP_ICON_GetStatusAnimFileId(), 0, 0, 0x1C0, 0x20, 0x80);
     BG_SYS_FillTileMap(1, 0, 0x15, 0x20, 3, 0xE);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     ARC_TOOL_DeleteHandle(spriteArc);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x80);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x80);
@@ -656,7 +656,7 @@ void BSUBWAY_RECORD_LIST_CreateWindows(BsubwayRecordListWork *work)
         win = work->windows[BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE + i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     }
     for (j = 0; j < 10; j++) {
         work->windows[j] = BMP_WIN_Create(1, 2, 1, 10, 2, 1, 1);

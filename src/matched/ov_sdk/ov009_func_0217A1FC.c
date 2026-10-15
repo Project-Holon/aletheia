@@ -16,10 +16,10 @@
  *   strncpy  0x02094860  arm
  *   strstr  0x02094B20  arm
  *   atoi  0x020964E0  arm
- *   g_021A2698     0x021A2698  data ov009
- *   g_021A26A0     0x021A26A0  data ov009
- *   g_021A26AC     0x021A26AC  data ov009
- *   g_021A26B0     0x021A26B0  data ov009
+ *   gDwcHttpSchemeHttp     0x021A2698  data ov009
+ *   gDwcHttpSchemeHttps     0x021A26A0  data ov009
+ *   gDwcHttpColon     0x021A26AC  data ov009
+ *   gDwcHttpSlash     0x021A26B0  data ov009
  */
 
 typedef struct DWCHttp {
@@ -42,10 +42,10 @@ extern char *strstr(const char *s, const char *find);
 typedef unsigned int   u32;
 extern int atoi(u32 a0);
 
-extern const char g_021A2698[];
-extern const char g_021A26A0[];
-extern const char g_021A26AC[];
-extern const char g_021A26B0[];
+extern const char gDwcHttpSchemeHttp[];
+extern const char gDwcHttpSchemeHttps[];
+extern const char gDwcHttpColon[];
+extern const char gDwcHttpSlash[];
 
 int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
 {
@@ -58,12 +58,12 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
     if ((unsigned long)strlen((const u8 *)url) != (unsigned long)strlen((const u8 *)http->url))
         return 0;
 
-    if (strstr(http->url, g_021A2698) != 0) {
+    if (strstr(http->url, gDwcHttpSchemeHttp) != 0) {
         http->hostname = &http->url[7];
         http->ssl_enabled = 0;
         http->port = 80;
     } else {
-        temp = strstr(http->url, g_021A26A0);
+        temp = strstr(http->url, gDwcHttpSchemeHttps);
         if (temp == 0)
             return 0;
         http->hostname = temp + 8;
@@ -71,12 +71,12 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
         http->port = 443;
     }
 
-    temp = strstr(http->hostname, g_021A26AC);
+    temp = strstr(http->hostname, gDwcHttpColon);
     if (temp != 0) {
         *temp = 0;
         portnum = temp + 1;
     }
-    temp = strstr(http->hostname, g_021A26B0);
+    temp = strstr(http->hostname, gDwcHttpSlash);
     if (temp != 0) {
         *temp = 0;
         http->filepath = temp + 1;

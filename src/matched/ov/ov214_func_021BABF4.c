@@ -1,5 +1,5 @@
 /*
- * function: func_021BABF4
+ * function: BTL_REC_SEL_InitBgRun
  * address: 0x021BABF4
  * packet: pkt_ov214_021BABF4
  * region: ov214
@@ -24,7 +24,7 @@ extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsi
 extern unsigned int func_02049740(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021BABF4(int unused, char *p)
+void BTL_REC_SEL_InitBgRun(int unused, char *p)
 {
     void *h = func_020490F4(188, ((struct Obj00182 *)p)->f0);
     func_02049B68(h, 0, 0, 0, 320, ((struct Obj00182 *)p)->f0);

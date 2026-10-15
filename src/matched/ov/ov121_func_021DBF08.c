@@ -1,5 +1,5 @@
 /*
- * function: func_021DBF08
+ * function: MYSTERY_ALBUM_GetEntryBmp
  * address: 0x021DBF08
  * packet: pkt_ov121_021DBF08
  * region: ov121
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021DBF08(void *p) { return ((struct Obj22903 *)p)->fD0; }
+void *MYSTERY_ALBUM_GetEntryBmp(void *p) { return ((struct Obj22903 *)p)->fD0; }

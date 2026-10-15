@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D48
+ * function: UN_SELECT_CreateFrameList
  * address: 0x021B9D48
  * packet: pkt_ov218_021B9D48
  * region: ov218
@@ -44,7 +44,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B9D48(char *p)
+void UN_SELECT_CreateFrameList(char *p)
 {
     int i,value;
     u32 offset;

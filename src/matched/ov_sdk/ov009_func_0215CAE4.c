@@ -15,7 +15,7 @@
  *   SOCLi_StartupCommandPacketQueue  0x0215CD3C  arm  ov009
  *   func_0215D070  0x0215D070  arm  ov009
  *   gSoclConfig  0x021A1CD8  data
- *   g_021A1D14  0x021A1D14  data
+ *   gSoclUdpSendSocketParam  0x021A1D14  data
  *   g_021AA440  0x021AA440  data
  */
 
@@ -24,7 +24,7 @@
 extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
 extern void *func_0215D070(void *param);
 extern struct G_021A1CD8 *gSoclConfig;
-extern int g_021A1D14;
+extern int gSoclUdpSendSocketParam;
 extern void *g_021AA440[4];
 
 int SOCLi_StartupSOCL(void)
@@ -33,7 +33,7 @@ int SOCLi_StartupSOCL(void)
 
 	r = SOCLi_StartupCommandPacketQueue(gSoclConfig->cpMaxCount);
 	if (r >= 0) {
-		g_021AA440[3] = func_0215D070(&g_021A1D14);
+		g_021AA440[3] = func_0215D070(&gSoclUdpSendSocketParam);
 	}
 	return r;
 }

@@ -36,7 +36,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void TIME_ICON_Delete(u8 *);
@@ -48,7 +48,7 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void func_02030EAC(struct Node *n);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 extern int UI_ClearFlags39Global(u32);
 extern void GURU2_MAIN_DeleteBounceEffectTask(u8 *);
@@ -61,7 +61,7 @@ extern void GURU2_MAIN_RemoveBackgroundUnit(char *);
 extern void GURU2_MAIN_RemoveCenterUnit(u8 *);
 extern void GURU2_MAIN_RemovePlayerUnits(char *);
 extern void GURU2_MAIN_TeardownAll(char *);
-int GURU2_MAIN_ProcExit(struct S020315D4 *a, int b, int c, u8 *p)
+int GURU2_MAIN_ProcExit(struct Proc *a, int b, int c, u8 *p)
 {
     PRINTSYS_QUE_Clear(*(struct PrintSys **)(p + 0xD38));
     PRINTSYS_QUE_Delete(*(struct PrintSys **)(p + 0xD38));

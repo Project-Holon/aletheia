@@ -14,15 +14,15 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021B9C20 0x021B9C20 thumb ov225
- *   func_021B9C34 0x021B9C34 thumb ov225
- *   func_021B9C40 0x021B9C40 thumb ov225
- *   func_021B9BD4 0x021B9BD4 thumb ov225
- *   func_021B9C58 0x021B9C58 thumb ov225
- *   func_021B9BE0 0x021B9BE0 thumb ov225
- *   func_021B9C98 0x021B9C98 thumb ov225
- *   func_021B9BC8 0x021B9BC8 thumb ov225
- *   func_021BA65C 0x021BA65C thumb ov225
+ *   MANUAL_COMMON_GetEntryCount 0x021B9C20 thumb ov225
+ *   MANUAL_COMMON_GetGroupValue1 0x021B9C34 thumb ov225
+ *   MANUAL_COMMON_GetGroupValue2 0x021B9C40 thumb ov225
+ *   MANUAL_COMMON_GetEntryValue1 0x021B9BD4 thumb ov225
+ *   MANUAL_COMMON_CheckUnlocked 0x021B9C58 thumb ov225
+ *   MANUAL_COMMON_GetEntryValue2 0x021B9BE0 thumb ov225
+ *   MANUAL_COMMON_GetSaveValue 0x021B9C98 thumb ov225
+ *   MANUAL_COMMON_GetEntryValue0 0x021B9BC8 thumb ov225
+ *   MANUAL_COMMON_CreateListWork 0x021BA65C thumb ov225
  *   MANUAL_CATEGORY_DetailTaskNoop 0x021BBA70 thumb ov225
  *   gManualCategoryDetailAllocFile 0x021BC05C data a1
  */
@@ -31,15 +31,15 @@ typedef unsigned int u32;
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 struct Data;
-extern u16 func_021B9C20(const char *p);
-extern u16 func_021B9C34(char *, int);
-extern u16 func_021B9C40(char *, int, int);
-extern u16 func_021B9BD4(char *, int);
-extern int func_021B9C58(void *, int, void *);
-extern u16 func_021B9BE0(char *, int);
-extern int func_021B9C98(void *, int, int);
-extern u16 func_021B9BC8(char *, int);
-extern void *func_021BA65C(char *owner, struct Data *data);
+extern u16 MANUAL_COMMON_GetEntryCount(const char *p);
+extern u16 MANUAL_COMMON_GetGroupValue1(char *, int);
+extern u16 MANUAL_COMMON_GetGroupValue2(char *, int, int);
+extern u16 MANUAL_COMMON_GetEntryValue1(char *, int);
+extern int MANUAL_COMMON_CheckUnlocked(void *, int, void *);
+extern u16 MANUAL_COMMON_GetEntryValue2(char *, int);
+extern int MANUAL_COMMON_GetSaveValue(void *, int, int);
+extern u16 MANUAL_COMMON_GetEntryValue0(char *, int);
+extern void *MANUAL_COMMON_CreateListWork(char *owner, struct Data *data);
 extern void MANUAL_CATEGORY_DetailTaskNoop(void);
 extern const char gManualCategoryDetailAllocFile[];
 typedef struct Owner { u32 f0; u16 f4; u16 f6; u16 f8; } Owner;
@@ -62,7 +62,7 @@ Q *MANUAL_CATEGORY_CreateDetailList(Owner *p, Data *data)
     if (t0 == 0) {
         q->f8 = 1;
         g = q->f0->f4;
-        ca = func_021B9C34(q->f4->f2C, g);
+        ca = MANUAL_COMMON_GetGroupValue1(q->f4->f2C, g);
         q->fC = 0;
         q->f10 = func_02030734(q->f4->f4, ca * 8, 1, gManualCategoryDetailAllocFile, 0x79);
         {
@@ -70,13 +70,13 @@ Q *MANUAL_CATEGORY_CreateDetailList(Owner *p, Data *data)
         for (i = 0; i < ca; i++) {
             u16 id;
             int id2;
-            id = func_021B9C40(q->f4->f2C, g, i);
-            id2 = func_021B9BD4(q->f4->f2C, id);
-            if (func_021B9C58(q->f4->f2C, id2, q->f4->f0)) {
-                t = func_021B9BE0(q->f4->f2C, id);
-                ra = func_021B9C98(q->f4->f2C, t, (int)q->f4->f0);
+            id = MANUAL_COMMON_GetGroupValue2(q->f4->f2C, g, i);
+            id2 = MANUAL_COMMON_GetEntryValue1(q->f4->f2C, id);
+            if (MANUAL_COMMON_CheckUnlocked(q->f4->f2C, id2, q->f4->f0)) {
+                t = MANUAL_COMMON_GetEntryValue2(q->f4->f2C, id);
+                ra = MANUAL_COMMON_GetSaveValue(q->f4->f2C, t, (int)q->f4->f0);
                 *(u16 *)(q->f10 + q->fC * 8) = id;
-                *(u16 *)(q->f10 + q->fC * 8 + 2) = func_021B9BC8(q->f4->f2C, id);
+                *(u16 *)(q->f10 + q->fC * 8 + 2) = MANUAL_COMMON_GetEntryValue0(q->f4->f2C, id);
                 *(u32 *)(q->f10 + q->fC * 8 + 4) = (ra != 0) ? FLAG_FALSE : FLAG_TRUE;
                 q->fC += 1;
             }
@@ -86,19 +86,19 @@ Q *MANUAL_CATEGORY_CreateDetailList(Owner *p, Data *data)
         q->f16 = *(u16 *)((char *)q->f0 + 8);
     } else {
         q->f8 = 1;
-        cb = func_021B9C20(q->f4->f2C);
+        cb = MANUAL_COMMON_GetEntryCount(q->f4->f2C);
         q->fC = 0;
         q->f10 = func_02030734(q->f4->f4, cb * 8, 1, gManualCategoryDetailAllocFile, 0xB2);
         {
             u16 i;
         for (i = 0; i < cb; i++) {
             int id;
-            id = func_021B9BD4(q->f4->f2C, i);
-            if (func_021B9C58(q->f4->f2C, id, q->f4->f0)) {
-                t = func_021B9BE0(q->f4->f2C, i);
-                rb = func_021B9C98(q->f4->f2C, t, (int)q->f4->f0);
+            id = MANUAL_COMMON_GetEntryValue1(q->f4->f2C, i);
+            if (MANUAL_COMMON_CheckUnlocked(q->f4->f2C, id, q->f4->f0)) {
+                t = MANUAL_COMMON_GetEntryValue2(q->f4->f2C, i);
+                rb = MANUAL_COMMON_GetSaveValue(q->f4->f2C, t, (int)q->f4->f0);
                 *(u16 *)(q->f10 + q->fC * 8) = i;
-                *(u16 *)(q->f10 + q->fC * 8 + 2) = func_021B9BC8(q->f4->f2C, i);
+                *(u16 *)(q->f10 + q->fC * 8 + 2) = MANUAL_COMMON_GetEntryValue0(q->f4->f2C, i);
                 {
                     u32 fl = 0;
                     if (rb == 0)
@@ -112,7 +112,7 @@ Q *MANUAL_CATEGORY_CreateDetailList(Owner *p, Data *data)
         q->f14 = *(u16 *)((char *)q->f0 + 6);
         q->f16 = *(u16 *)((char *)q->f0 + 8);
     }
-    q->f1C = func_021BA65C((char *)q + 8, (struct Data *)data);
+    q->f1C = MANUAL_COMMON_CreateListWork((char *)q + 8, (struct Data *)data);
     q->f20 = func_020056A0((unsigned)MANUAL_CATEGORY_DetailTaskNoop, (unsigned)q, 1);
     return q;
 }

@@ -21,7 +21,7 @@
  *   gpiRemoveOperation  0x0218E240  arm   ov009
  *   func_0218D40C  0x0218D40C  arm   ov009
  *   func_02186E9C  0x02186E9C  arm   ov009
- *   g_021A4BE4     0x021A4BE4  data
+ *   gGpiInfoErrorOutOfMemory     0x021A4BE4  data
  */
 
 typedef struct GPICallback {
@@ -70,7 +70,7 @@ struct GPIOperation;
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern int func_0218D40C(void **connection, int profileid, int operationid);
 extern int func_02186E9C(void **connection, int blockingOperationID);
-extern char g_021A4BE4[];
+extern char gGpiInfoErrorOutOfMemory[];
 
 int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
                   void (*callback)(void **, void *, void *), void *param)
@@ -93,7 +93,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
 
             arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                gpiSetErrorString((int *)connection, (int)g_021A4BE4);
+                gpiSetErrorString((int *)connection, (int)gGpiInfoErrorOutOfMemory);
                 return 1;
             }
             gpiInfoCacheToArg(pProfile->cache, arg);

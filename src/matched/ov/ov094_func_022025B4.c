@@ -7,17 +7,20 @@
  * flags:    -O4,p
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 void BTLV_INPUT_ReleaseBgLayers(void)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
         func_02040588((u8)(i + 4), (int)0);
-        func_020403F4((u8)(i + 4));
+        BG_SYS_FreeLayerBuf((u8)(i + 4));
     }
 }

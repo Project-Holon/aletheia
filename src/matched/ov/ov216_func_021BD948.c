@@ -1,5 +1,5 @@
 /*
- * function: func_021BD948
+ * function: BEACON_DETAIL_GRA_SlotSlideCallback
  * address: 0x021BD948
  * packet: pkt_ov216_021BD948
  * region: ov216
@@ -13,9 +13,9 @@
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   TOUCHBAR_SetAllButtonsEnabled 0x021B64A8 thumb ov067
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   func_021BD7D4 0x021BD7D4 thumb ov216
+ *   BEACON_DETAIL_GRA_AddSlideTask 0x021BD7D4 thumb ov216
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BD448 0x021BD448 thumb ov216
+ *   BEACON_DETAIL_GRA_UpdateSlotInfo 0x021BD448 thumb ov216
  *   TCBL_DeleteTask 0x02031194 arm
  *   d_021BDD88 0x021BDD88 data a1
  */
@@ -37,12 +37,12 @@ struct PrintSys;
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern void TOUCHBAR_SetAllButtonsEnabled(u8 *,u32);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
-extern void func_021BD7D4(char *,u8,int,u8,int *);
+extern void BEACON_DETAIL_GRA_AddSlideTask(char *,u8,int,u8,int *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern void func_021BD448(char *p);
+extern void BEACON_DETAIL_GRA_UpdateSlotInfo(char *p);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern const u8 d_021BDD88[];
-void func_021BD948(struct TcblNode *task,char *work)
+void BEACON_DETAIL_GRA_SlotSlideCallback(struct TcblNode *task,char *work)
 {
     if(((struct Obj00690 *)work)->f5==0) {
         if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj25787 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124)!=-1)
@@ -56,8 +56,8 @@ void func_021BD948(struct TcblNode *task,char *work)
         ++((struct Obj00690 *)work)->f0;
         return;
     case 1:
-        func_021BD7D4(*(char * *)&((struct Obj00690 *)work)->f10,((struct Obj25790 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E,1,((struct Obj00690 *)work)->f4,(int *)(work+8));
-        func_021BD7D4(*(char * *)&((struct Obj00690 *)work)->f10,((struct Obj25791 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E^1,d_021BDD88[((struct Obj00690 *)work)->f4],((struct Obj00690 *)work)->f4,(int *)(work+8));
+        BEACON_DETAIL_GRA_AddSlideTask(*(char * *)&((struct Obj00690 *)work)->f10,((struct Obj25790 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E,1,((struct Obj00690 *)work)->f4,(int *)(work+8));
+        BEACON_DETAIL_GRA_AddSlideTask(*(char * *)&((struct Obj00690 *)work)->f10,((struct Obj25791 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E^1,d_021BDD88[((struct Obj00690 *)work)->f4],((struct Obj00690 *)work)->f4,(int *)(work+8));
         CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj25792 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f264,0);
         CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj25793 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f268,0);
         ++((struct Obj00690 *)work)->f0;
@@ -66,7 +66,7 @@ void func_021BD948(struct TcblNode *task,char *work)
         if(((struct Obj00690 *)work)->f8!=0) break;
         ((struct Obj25794 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E^=1;
         ((struct Obj25795 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f30=((struct Obj00690 *)work)->f3;
-        func_021BD448(((struct Obj00690 *)work)->f10);
+        BEACON_DETAIL_GRA_UpdateSlotInfo(((struct Obj00690 *)work)->f10);
         ++((struct Obj00690 *)work)->f0;
         return;
     case 3:

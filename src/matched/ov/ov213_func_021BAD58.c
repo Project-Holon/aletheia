@@ -14,7 +14,7 @@
  * start) and the ROM word at the site 0x021BAD94 already names it, so
  * `sole-ref/self` is the right class.  It only failed because the `ov213`
  * token on the symbols line made the hint contested (ov223 also starts a
- * PSEL_UpdateB18C there) and this function loads no overlay id, so
+ * PSEL_PrintSubWindow there) and this function loads no overlay id, so
  * self_hint_accepted() refused.  Dropping the token lets the function's own
  * region pick ov213 and the site resolves `sole-ref` with no outside evidence.
  *

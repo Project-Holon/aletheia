@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BDF98, func_021BDFA0
+ * function: INTRO_GRAPHIC_VBlankClact, INTRO_GRAPHIC_GetClactBank
  * address: 0x021BDF98
  * packet: pkt_ov204_021BDF98
  * region: ov204
@@ -14,5 +14,5 @@
  */
 #include "../include/Obj25336.h"
 extern void CLACT_VBlankSystem(void);
-void func_021BDF98(void *a0){CLACT_VBlankSystem();}
-unsigned func_021BDFA0(char *p){return ((struct Obj25336 *)p)->f0;}
+void INTRO_GRAPHIC_VBlankClact(void *a0){CLACT_VBlankSystem();}
+unsigned INTRO_GRAPHIC_GetClactBank(char *p){return ((struct Obj25336 *)p)->f0;}

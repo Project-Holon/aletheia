@@ -20,7 +20,7 @@
  *   BMP_WIN_GetDispHeight  0x02045750  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void TALKMSGWIN_ClearFrame(struct FrameStyle *style, void *win)
 {
@@ -98,5 +98,5 @@ void TALKMSGWIN_ClearFrame(struct FrameStyle *style, void *win)
         if (!rightClip)
             BG_SYS_SetTileEntry(bg, 0, right, bottom, 1, 1, 0x11);
     }
-    func_020409B4(bg);
+    BG_SYS_PushTile(bg);
 }

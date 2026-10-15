@@ -38,7 +38,7 @@
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -150,7 +150,7 @@ extern int GAME_DATA_SaveStart(int a0);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void TIME_ICON_Delete(u8 *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -264,7 +264,7 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             GFL_USE_PlaySeDefaultVolume(0x558);
             REPORT_EVENT_StopSaveEffect((int)w);
             REPORT_EVENT_EndAvatarAnim((int)w);
-            ws = GF_FONT_Create_EC64(w->f10);
+            ws = WORDSET_CreateDefault(w->f10);
             str = func_02045EC0(w->f18->f04, 5);
             WORDSET_SetSlotMyStatus(ws, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->f04)));
             WORDSET_CopyTaggedText(ws, w->f18->f18, str);

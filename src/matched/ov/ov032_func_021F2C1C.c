@@ -1,5 +1,5 @@
 /*
- * function: func_021F2C1C
+ * function: BEACON_VIEW_CreateTaskMenuRes
  * address:  0x021F2C1C
  * packet:   pkt_ov032_021F2C1C
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F2C1C 0x021F2C1C thumb
+ *   BEACON_VIEW_CreateTaskMenuRes 0x021F2C1C thumb
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
@@ -25,7 +25,7 @@ struct R;
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void func_021F2C1C(char *p)
+void BEACON_VIEW_CreateTaskMenuRes(char *p)
 {
     int i;
     int z;

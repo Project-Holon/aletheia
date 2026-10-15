@@ -79,7 +79,7 @@
  *   func_02040588 0x02040588 arm
  *   d_02184878 0x02184878 data a4
  *   d_02184964 0x02184964 data a1
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02049B40 0x02049B40 arm
@@ -97,7 +97,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_02184888 0x02184888 data a1
  *   d_02184868 0x02184868 data a2
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -147,10 +147,10 @@
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
-struct Obj0203159C;
+struct Proc;
 struct Ctx;
 struct Node;
-struct S020315D4;
+struct Proc;
 struct Actor;
 struct Obj;
 struct DispVram;
@@ -208,7 +208,7 @@ typedef struct {
 } Obj;
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -218,7 +218,7 @@ extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_02030EAC(struct Node *n);
 extern void TCB_Noop(int);
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
@@ -263,7 +263,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_ClearSlot(unsigned);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u16 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(u32 v);
+extern void BG_SYS_FreeLayerBuf(u32 v);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -281,7 +281,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned);
+extern void BG_SYS_PushTile(unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -411,7 +411,7 @@ int func_02183C50(int a, int b, int c, void *p)
     func_021841C8((char *)p + 0xe4);
     func_02183F08();
     v = (unsigned short)*(int *)((char *)p + 0x14c);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD574, 0);
@@ -848,7 +848,7 @@ void func_021841C8(void *a0)
     u32 i;
 
     for (i = 0; i < 5; i++)
-        func_020403F4(d_02184964[i * 0x24 + 0x20]);
+        BG_SYS_FreeLayerBuf(d_02184964[i * 0x24 + 0x20]);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -918,7 +918,7 @@ void func_021842BC(void **p, int heap)
         s = p[i];
         BMP_WIN_TransferChars(s);
         BMP_WIN_MakeScreen(s);
-        func_020409B4(BMP_WIN_GetBgLayer(s));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(s));
     }
 }
 

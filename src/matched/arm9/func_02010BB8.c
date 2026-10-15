@@ -45,8 +45,8 @@ typedef unsigned int   u32;
 extern void  BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 extern void *PROCSYS_Create(int a0);
 

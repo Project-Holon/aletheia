@@ -23,8 +23,8 @@ struct S020314B8;
 extern void func_0203133C(struct S020314B8 *v);
 typedef unsigned char  u8;
 extern void MAILSYS_DeleteMessage(u8 *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *v);
+struct Proc;
+extern void func_020315D4(struct Proc *v);
 extern void *func_0203084C(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 int MAILTOOL_ProcExit(u32 a, void *b, void *c, u32 *p)
@@ -33,7 +33,7 @@ int MAILTOOL_ProcExit(u32 a, void *b, void *c, u32 *p)
     func_0203133C((struct S020314B8 *)p[7]);
     MAILSYS_DeleteMessage((void *)p[4]);
     h = (u16)p[0];
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     func_0203084C(h);
     GFL_HEAP_DeleteChecked(h);
     return 1;

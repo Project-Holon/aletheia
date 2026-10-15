@@ -1,5 +1,5 @@
 /*
- * function: func_021E8A00
+ * function: WIFIBATTLEMATCH_UTIL_UpdateMenu
  * address:  0x021E8A00
  * packet:   pkt_ov177_021E8A00
  * region:   ov177
@@ -37,7 +37,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 
-int func_021E8A00(S *p)
+int WIFIBATTLEMATCH_UTIL_UpdateMenu(S *p)
 {
     int r4 = p->f4;
     int r;

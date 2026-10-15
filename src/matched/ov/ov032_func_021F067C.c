@@ -1,5 +1,5 @@
 /*
- * function: func_021F067C
+ * function: BEACON_VIEW_RefreshActorAnims
  * address:  0x021F067C
  * packet:   pkt_ov032_021F067C
  * region:   ov032
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F067C 0x021F067C thumb
- *   func_021F0E24 0x021F0E24 thumb ov032
+ *   BEACON_VIEW_RefreshActorAnims 0x021F067C thumb
+ *   BEACON_VIEW_UpdateActorAnims 0x021F0E24 thumb ov032
  */
 
-extern void func_021F0E24(char *p);
+extern void BEACON_VIEW_UpdateActorAnims(char *p);
 
-void func_021F067C(char *p)
+void BEACON_VIEW_RefreshActorAnims(char *p)
 {
-    func_021F0E24(p);
+    BEACON_VIEW_UpdateActorAnims(p);
 }

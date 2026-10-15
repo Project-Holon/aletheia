@@ -1,5 +1,5 @@
 /*
- * function: func_021BA240
+ * function: MANUAL_COMMON_UpdateTouchbarSlots
  * address: 0x021BA240
  * packet: pkt_ov225_021BA240
  * region: ov225
@@ -27,7 +27,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-void func_021BA240(char *p)
+void MANUAL_COMMON_UpdateTouchbarSlots(char *p)
 {
     u8 i;
     for(i=0;i<2;i++) {

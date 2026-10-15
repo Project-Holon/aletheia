@@ -14,6 +14,7 @@
  * symbols:
  *   RESEARCH_TOP_ExitBackgrounds  0x021B990C  thumb  ov217
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -26,11 +27,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 BG_SYS_Delete();
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 u32 RESEARCH_TOP_ExitBackgrounds(void)
 {
-    func_020403F4(1);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(4);
     return BG_SYS_Delete();
 }
 

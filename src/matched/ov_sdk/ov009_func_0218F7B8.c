@@ -15,9 +15,9 @@
  *   func_0218F0E8  0x0218F0E8  arm  ov009
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   gsDebugFormat  0x0217D254  arm  ov009
- *   g_021A50BC  0x021A50BC  data
- *   g_021A50E4  0x021A50E4  data
- *   g_021A5110  0x021A5110  data
+ *   gGpiPeerDebugNotExist  0x021A50BC  data
+ *   gGpiPeerDebugConnRejected  0x021A50E4  data
+ *   gGpiPeerDebugConnAccepted  0x021A5110  data
  */
 
 struct SOCInAddr {
@@ -31,9 +31,9 @@ struct GPIPeer {
 extern struct GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
 extern char *func_0215FA9C(struct SOCInAddr in);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern char g_021A50BC[];
-extern char g_021A50E4[];
-extern char g_021A5110[];
+extern char gGpiPeerDebugNotExist[];
+extern char gGpiPeerDebugConnRejected[];
+extern char gGpiPeerDebugConnAccepted[];
 
 void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, int rejected, void *userData)
 {
@@ -43,11 +43,11 @@ void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, i
     anAddr.addr = ip;
     aPeer = func_0218F0E8((void **)userData, ip, port);
     if (aPeer == 0) {
-        gsDebugFormat(1, 0, 1, g_021A50BC, func_0215FA9C(anAddr), port);
+        gsDebugFormat(1, 0, 1, gGpiPeerDebugNotExist, func_0215FA9C(anAddr), port);
     } else if (rejected) {
         aPeer->state = 0x6a;
-        gsDebugFormat(1, 0, 8, g_021A50E4, func_0215FA9C(anAddr), port);
+        gsDebugFormat(1, 0, 8, gGpiPeerDebugConnRejected, func_0215FA9C(anAddr), port);
         return;
     }
-    gsDebugFormat(1, 0, 8, g_021A5110, func_0215FA9C(anAddr), port);
+    gsDebugFormat(1, 0, 8, gGpiPeerDebugConnAccepted, func_0215FA9C(anAddr), port);
 }

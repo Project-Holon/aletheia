@@ -160,7 +160,6 @@ struct Grid;
 
 struct Bmp;
 
-struct Obj020437AC;
 
 typedef s16 fx16;
 
@@ -397,7 +396,7 @@ extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(void *p);
 
 extern int FX_Sqrt(int);
 

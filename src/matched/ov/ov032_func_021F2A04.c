@@ -1,5 +1,5 @@
 /*
- * function: func_021F2A04
+ * function: BEACON_VIEW_DestroySubSystems
  * address:  0x021F2A04
  * packet:   pkt_ov032_021F2A04
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F2A04 0x021F2A04 thumb
+ *   BEACON_VIEW_DestroySubSystems 0x021F2A04 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -43,7 +43,7 @@ extern u32 PALANM_Delete(void *a0);
 extern void func_02030EAC(struct Node *n);
 extern void TCBL_Destroy(struct S02031140 *p);
 
-void func_021F2A04(char *p)
+void BEACON_VIEW_DestroySubSystems(char *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj00812 *)p)->f120));
     STRBUF_Delete((struct U16Vec *)(((struct Obj00812 *)p)->f11C));

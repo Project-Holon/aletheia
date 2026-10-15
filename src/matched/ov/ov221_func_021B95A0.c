@@ -52,6 +52,7 @@
  *   tbl_021BA148 0x021BA148 data a4
  *   tbl_021BA2C0 0x021BA2C0 data a4
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,8 +64,8 @@ extern Assets tbl_021BA2C0[];
 struct BgTemplate;
 struct Obj;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,int,u32);
 extern void *CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 struct GfFont;
@@ -90,7 +91,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
 extern void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p);
-extern void FADE_Start(u32,int,int,int),func_020409B4(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
 int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
 {
  char *p,*settings;
@@ -130,7 +131,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  func_02049B68(h,tbl_021BA2C0[selected].a,4,zero,zero,heap);
  func_02049658(h,tbl_021BA2C0[selected].b,4,zero,zero,zero,heap);
  func_020498F4(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
- ARC_TOOL_DeleteHandle(h);func_020409B4(4);CHIHOU_ZUKAN_AWARD_SetupActorPos((char *)p);
+ ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);CHIHOU_ZUKAN_AWARD_SetupActorPos((char *)p);
  FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;

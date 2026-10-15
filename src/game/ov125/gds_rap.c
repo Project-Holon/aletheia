@@ -18,7 +18,7 @@
  *   GDS_SOCKET_GetMaxReplySize 0x021D8600 arm ov125
  *   func_02030734 0x02030734 arm
  *   func_02045B38 0x02045B38 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   GDS_SOCKET_Begin 0x021D8598 arm ov125
  *   func_02034714 0x02034714 arm
@@ -133,7 +133,7 @@ extern u32 func_020307B0(void *p);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
@@ -255,7 +255,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->replyBuffer = func_02030734(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
     MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
     work->msgData = func_02045B38(0, 2, 0xE8, params->heapId);
-    work->wordSet = GF_FONT_Create_EC64(params->heapId);
+    work->wordSet = WORDSET_CreateDefault(params->heapId);
     work->strBuf = STRBUF_Create(0x100, params->heapId);
     work->client.profileId = params->profileId;
     work->client.packetType = 0x15;

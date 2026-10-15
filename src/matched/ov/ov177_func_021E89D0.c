@@ -1,5 +1,5 @@
 /*
- * function: func_021E89D0
+ * function: WIFIBATTLEMATCH_UTIL_DeleteMenu
  * address:  0x021E89D0
  * packet:   pkt_ov177_021E89D0
  * region:   ov177
@@ -36,7 +36,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 
-void func_021E89D0(S *p)
+void WIFIBATTLEMATCH_UTIL_DeleteMenu(S *p)
 {
     BMP_MENULIST_Delete((struct Obj *)p->f10, 0, 0);
     BMP_MENUWORK_Delete((void *)p->f14);

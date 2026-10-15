@@ -53,11 +53,11 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   sReportBgTemplate6 0x021F0AA0 data ov034 a4
  *   sReportBgTemplate5 0x021F0AC0 data ov034 a4
  *   sReportBgTemplate4 0x021F0AE0 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
@@ -66,7 +66,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02012944 0x02012944 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -220,8 +220,8 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void func_020409B4(u32 layer);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_PushTile(u32 layer);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern struct ArcHandle *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(struct ArcHandle *, int, int, int, int, int);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
@@ -233,7 +233,7 @@ extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02012944(struct GameData *gameData);
@@ -502,7 +502,7 @@ void REPORT_InitBgs(u32 heapId)
     }
     BG_SYS_ClearSlot(4);
     BG_SYS_InitRun(4, 0x20, 0, heapId);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     {
         struct BgTemplate bgTemplate = sReportBgTemplate5;
 
@@ -510,7 +510,7 @@ void REPORT_InitBgs(u32 heapId)
     }
     BG_SYS_ClearSlot(5);
     BG_SYS_InitRun(5, 0x20, 0, heapId);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     {
         struct BgTemplate bgTemplate = sReportBgTemplate6;
 
@@ -518,11 +518,11 @@ void REPORT_InitBgs(u32 heapId)
     }
     BG_SYS_ClearSlot(6);
     BG_SYS_InitRun(6, 0x20, 0, heapId);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
 }
 
 
-void REPORT_ExitBgs(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); func_020403F4(6); func_020403F4(5); func_020403F4(4); }
+void REPORT_ExitBgs(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); BG_SYS_FreeLayerBuf(6); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4); }
 
 
 
@@ -572,7 +572,7 @@ void REPORT_InitWindows(ReportWork *work)
     }
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heapId);
     msgBank = func_02045B38(0, 2, 168, work->heapId);
-    wordSet = GF_FONT_Create_EC64(work->heapId);
+    wordSet = WORDSET_CreateDefault(work->heapId);
     buf = STRBUF_Create(256, work->heapId);
     gameData = ICA_ANIME_GetField1C(work->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);

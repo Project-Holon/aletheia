@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  */
 
 typedef struct {
@@ -24,9 +24,9 @@ typedef unsigned char  u8;
 extern u16 FIELD_PLACE_NAME_GetHeapId(u8 *p);
 typedef unsigned int   u32;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 void FIELD_PLACE_NAME_CreateWordSet(Obj *p)
 {
-    p->f8 = GF_FONT_Create_EC64(FIELD_PLACE_NAME_GetHeapId((u8 *)p));
+    p->f8 = WORDSET_CreateDefault(FIELD_PLACE_NAME_GetHeapId((u8 *)p));
 }

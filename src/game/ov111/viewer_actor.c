@@ -63,7 +63,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -1523,7 +1523,7 @@ extern void BMP_MENUWORK_DrawWindow(void *p, int a, int b, int c);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -1790,7 +1790,7 @@ void VIEWER_ACTOR_FlushBgWindow(Work_021C7908 *p)
     v = p->f8;
     BMP_WIN_TransferChars(v);
     BMP_WIN_MakeScreen(v);
-    func_020409B4(BMP_WIN_GetBgLayer(v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(v));
 }
 
 

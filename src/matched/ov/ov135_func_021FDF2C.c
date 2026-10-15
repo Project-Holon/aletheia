@@ -16,7 +16,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   tbl_022037A8   0x022037A8  data  a2
  *   tbl_022037B0   0x022037B0  data  a2
@@ -57,7 +57,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 
 void WORLDTRADE_SEARCH_CreateWindows(Menu *p)
@@ -70,7 +70,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Menu *p)
     v = p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     BG_SYS_Init(3, 0, 1, 0);
     for (i = 0; i < 6; i++) {
         p->item[i] = BMP_WIN_Create(3, (u8)tbl_022037BC[i].x, (u8)tbl_022037BC[i].y, (u8)0xb, 2, 0xd, (u16)0);
@@ -78,7 +78,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Menu *p)
         v = p->item[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
     for (i = 0; i < 2; i++) {
         p->tab[i] = BMP_WIN_Create(3, (u8)tbl_022037A8[i].x, (u8)tbl_022037A8[i].y, (u8)0x1c, 2, 0xd, (u16)0);
@@ -86,7 +86,7 @@ void WORLDTRADE_SEARCH_CreateWindows(Menu *p)
         v = p->tab[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
     for (i = 0; i < 3; i++) {
         p->page[i] = BMP_WIN_Create(3, (u8)tbl_022037B0[i].x, (u8)tbl_022037B0[i].y, (u8)0xa, 2, 0xd, (u16)0);
@@ -94,6 +94,6 @@ void WORLDTRADE_SEARCH_CreateWindows(Menu *p)
         v = p->page[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217E00C
+ * function: LIVEBATTLEMATCH_IRC_Create
  * address: 0x0217E00C
  * packet: pkt_ov176_0217E00C
  * region: ov176
@@ -24,7 +24,7 @@ extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern const char d_0217E634[];
 extern const unsigned d_0217E544[];
-void *func_0217E00C(int unused, int heap)
+void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap)
 {
     char *p = func_02030734(heap, 0x1020, 0, d_0217E634, 0x8E);
     MI_CpuFill8(p, 0, 0x1020);

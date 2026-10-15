@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF080",
+   "name": "INTRO_CMD_ClearCommand",
    "address": "0x021BF080",
    "kind": "game",
    "region": "ov204",

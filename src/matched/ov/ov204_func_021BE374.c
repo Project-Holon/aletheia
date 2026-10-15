@@ -1,5 +1,5 @@
 /*
- * function: func_021BE374
+ * function: INTRO_CMD_CmdBrightnessChange
  * address:  0x021BE374
  * packet:   pkt_021BE374
  * region:   ov204
@@ -15,7 +15,7 @@
 
 extern void BRIGHTNESS_ChangeRequest(int, int, int, int, int);
 
-int func_021BE374(int a0, int a1, int *src)
+int INTRO_CMD_CmdBrightnessChange(int a0, int a1, int *src)
 {
     BRIGHTNESS_ChangeRequest((unsigned char)src[0], (short)src[1], (short)src[2], 0x1d, 1);
     return 1;

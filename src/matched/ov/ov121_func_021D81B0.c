@@ -1,5 +1,5 @@
 /*
- * function: func_021D81B0
+ * function: MYSTERY_CreateCardMenu
  * address: 0x021D81B0
  * packet: pkt_ov121_021D81B0
  * region: ov121
@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021D6C58 0x021D6C58 thumb ov121
- *   func_021D83CC 0x021D83CC thumb ov121
+ *   MYSTERY_GetClactActor 0x021D6C58 thumb ov121
+ *   MYSTERY_CardMenuCallback 0x021D83CC thumb ov121
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -21,11 +21,11 @@
  *   func_0204989C 0x0204989C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
- *   func_021DA4DC 0x021DA4DC thumb ov121
+ *   MYSTERY_UTIL_CreateDetailWindow 0x021DA4DC thumb ov121
  *   func_0207D63C 0x0207D63C arm
- *   func_021D6CEC 0x021D6CEC thumb ov121
+ *   MYSTERY_ResetActorAngle 0x021D6CEC thumb ov121
  */
 #include "../include/Obj00326.h"
 typedef unsigned char u8;
@@ -35,8 +35,8 @@ typedef unsigned int u32;
 typedef struct { u32 w[9]; s16 h[7]; u16 pad; void *callback,*arg,*result; } Desc;
 extern void MI_CpuFill8(void *,int,int);
 struct U16Vec;
-extern void *func_021D6C58(u8 *p, int i);
-extern void func_021D83CC(char *p);
+extern void *MYSTERY_GetClactActor(u8 *p, int i);
+extern void MYSTERY_CardMenuCallback(char *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
@@ -47,12 +47,12 @@ extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_0204989C(int,int,int,int,int,int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void *func_021DA4DC(Desc *,int);
+extern void *MYSTERY_UTIL_CreateDetailWindow(Desc *,int);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void func_021D6CEC(u8 *p);
-void func_021D81B0(u8 *p,u32 which,int heap)
+extern void MYSTERY_ResetActorAngle(u8 *p);
+void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap)
 {
     Desc d;
     void *archive;
@@ -61,12 +61,12 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     MI_CpuFill8(&d,0,64);
     d.w[1]=((struct Obj00326 *)p)->f398;
     d.w[2]=((struct Obj00326 *)p)->f39C;
-    d.w[3]=(u32)func_021D6C58(p+660,0);
+    d.w[3]=(u32)MYSTERY_GetClactActor(p+660,0);
     d.h[0]=1;
     d.h[1]=15;
     d.h[2]=2;
     d.h[3]=4;
-    d.callback=func_021D83CC;
+    d.callback=MYSTERY_CardMenuCallback;
     d.arg=p;
     d.h[4]=0;
     d.h[5]=0;
@@ -102,14 +102,14 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     else func_0204989C(34,29,2,0,0,0,heap);
     ARC_TOOL_DeleteHandle(archive);
     BG_SYS_FillTileMap(2,0,0,32,24,4);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_02040588(2,1);
-    ((struct Obj00326 *)p)->f270=func_021DA4DC(&d,heap);
+    ((struct Obj00326 *)p)->f270=MYSTERY_UTIL_CreateDetailWindow(&d,heap);
     if(!d.w[0]) {
         for(i=0;i<4;i++) {
             if(d.w[4+i]) STRBUF_Delete((void *)d.w[4+i]);
         }
     }
     func_0207D63C((void *)0x04000050,4,24,15,3);
-    func_021D6CEC(p+660);
+    MYSTERY_ResetActorAngle(p+660);
 }

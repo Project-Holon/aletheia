@@ -12,13 +12,13 @@
  * Sets the word at the state object.
  *
  * symbols:
- *   g_021A2358  0x021A2358  data
+ *   gDwcHttpParamArg  0x021A2358  data
  */
 
-extern char g_021A2358[];
+extern char gDwcHttpParamArg[];
 
 void DWC_Auth_SetCustomNas(int v)
 {
-    *(int *)g_021A2358 = v;
+    *(int *)gDwcHttpParamArg = v;
 }
 

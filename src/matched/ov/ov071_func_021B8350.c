@@ -1,5 +1,5 @@
 /*
- * function: func_021B8350
+ * function: MONOLITH_TOOL_MENU_CreateWindow
  * address:  0x021B8350
  * packet:   pkt_ov071_021B8350
  * region:   ov071
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 struct Cfg;
 struct CharBuf;
 struct PalAnmSlot;
-void func_021B8350(W *w, int *b)
+void MONOLITH_TOOL_MENU_CreateWindow(W *w, int *b)
 {
     extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
     extern u8 BMP_MENUWORK_GetPlttFileId(int i);

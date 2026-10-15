@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0217DE60",
-    "func_0217DE8C",
-    "func_0217DE98"
+    "DIGITALCARDCHECK_DeleteInitRecord",
+    "DIGITALCARDCHECK_IsInitRecordDone",
+    "DIGITALCARDCHECK_IsInitWorkDone"
+   ],
+   "addresses": [
+    "0x0217DE60",
+    "0x0217DE8C",
+    "0x0217DE98"
    ]
   }
  ]

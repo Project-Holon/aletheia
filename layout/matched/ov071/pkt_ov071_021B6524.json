@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6524",
-    "func_021B652C",
-    "func_021B6538"
+    "MONOLITH_TOOL_DeleteBg",
+    "MONOLITH_TOOL_InitBmpWin",
+    "MONOLITH_TOOL_ExitBmpWin"
+   ],
+   "addresses": [
+    "0x021B6524",
+    "0x021B652C",
+    "0x021B6538"
    ]
   }
  ]

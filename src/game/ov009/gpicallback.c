@@ -15,7 +15,7 @@
  * symbols:
  *   gsimalloc  0x0217EAB0  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
- *   g_021A45C8     0x021A45C8  data
+ *   gGpiCallbackErrorOutOfMemory     0x021A45C8  data
  *   gsifree  0x0217EAE0  arm   ov009
  *   gpiDeleteBuddy  0x021890E0  arm   ov009
  */
@@ -112,7 +112,7 @@ int gpiCallErrorCallback(void **connection, int a1, int a2);
 int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *operation, int type);
 void gpiCallCallback(void **connection, GPICallbackData *data);
 int gpiProcessCallbacks(void **connection, int blockingOperationID);
-extern char g_021A45C8[];
+extern char gGpiCallbackErrorOutOfMemory[];
 
 
 
@@ -168,7 +168,7 @@ int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *oper
 
     data = (GPICallbackData *)gsimalloc(0x18);
     if (data == 0) {
-        gpiSetErrorString(connection, g_021A45C8);
+        gpiSetErrorString(connection, gGpiCallbackErrorOutOfMemory);
         return 1;
     }
     data->callback = callback;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA740
+ * function: MANUAL_COMMON_DeleteListWork
  * address:  0x021BA740
  * packet:   pkt_021BA740
  * region:   ov225
@@ -22,7 +22,7 @@ extern void func_02030EAC(struct Node *n);
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 
-void func_021BA740(char *p)
+void MANUAL_COMMON_DeleteListWork(char *p)
 {
     func_02030EAC(((struct Obj26178 *)p)->f80);
     BG_SYS_ResetSlot(5, 3, 0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022127F0",
+   "name": "WIFIBATTLEMATCH_SYS_HandleRuleCommand",
    "address": "0x022127F0",
    "kind": "game",
    "region": "ov199",

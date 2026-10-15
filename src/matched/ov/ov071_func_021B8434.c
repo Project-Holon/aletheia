@@ -1,5 +1,5 @@
 /*
- * function: func_021B8434
+ * function: MONOLITH_TOOL_MENU_IsMessageDone
  * address:  0x021B8434
  * packet:   pkt_ov071_021B8434
  * region:   ov071
@@ -23,7 +23,7 @@ typedef signed int     s32;
 struct Blk;
 extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
 
-int func_021B8434(u8 *p, u8 *q)
+int MONOLITH_TOOL_MENU_IsMessageDone(u8 *p, u8 *q)
 {
     return PRINTSYS_CTRL_Update((struct Blk *)(p + 0x38), (void *)(((struct Obj20725 *)q)->f40));
 }

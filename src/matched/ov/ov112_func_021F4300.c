@@ -15,7 +15,7 @@
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   MUSICAL_MCSS_DeleteWindows 0x021F4748 thumb ov112
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020307B0 0x020307B0 arm
  *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
  */
@@ -32,7 +32,7 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void MUSICAL_MCSS_DeleteWindows(u8 *);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 func_020307B0(void *p);
 void MUSICAL_MCSS_Delete(u8 *p)
 {
@@ -45,8 +45,8 @@ void MUSICAL_MCSS_Delete(u8 *p)
     }
     CLACT_DeleteUnit((struct Bank *)(((struct Obj04456 *)p)->f48));
     MUSICAL_MCSS_DeleteWindows(p);
-    func_020403F4(4);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
     func_020307B0(p);
 }

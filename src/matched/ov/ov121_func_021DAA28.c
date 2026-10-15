@@ -1,5 +1,5 @@
 /*
- * function: func_021DAA28
+ * function: MYSTERY_UTIL_BuildPaletteRow
  * address: 0x021DAA28
  * packet: pkt_ov121_021DAA28
  * region: ov121
@@ -24,7 +24,7 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
-void func_021DAA28(char *p,int a,int *out)
+void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out)
 {
     int x,y;
     switch(((struct Obj02470 *)p)->f14) {

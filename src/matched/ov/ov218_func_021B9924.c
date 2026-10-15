@@ -11,7 +11,7 @@
  *
  * Initialises one record: enable flag 1 through 0x02023F98, then issue the
  * five-argument setup 0x02023EF4(8, -8, 0, 0x3c, 1) and return its result.
- * Blocker target of func_021BA0B0.
+ * Blocker target of UN_SELECT_SceneStepMessage.
  *
  * Addresses are Black-image addresses.
  *

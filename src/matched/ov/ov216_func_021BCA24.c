@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA24
+ * function: BEACON_DETAIL_GRA_Draw
  * address:  0x021BCA24
  * packet:   pkt_021BCA24
  * region:   ov216
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BCB90  0x021BCB90  thumb  ov216
- *   func_021BCAF0  0x021BCAF0  thumb  ov216
+ *   BEACON_DETAIL_GRA_DrawClact  0x021BCB90  thumb  ov216
+ *   BEACON_DETAIL_GRA_Noop  0x021BCAF0  thumb  ov216
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BCB90(void *);
-extern void func_021BCAF0(void *);
+extern void BEACON_DETAIL_GRA_DrawClact(void *);
+extern void BEACON_DETAIL_GRA_Noop(void *);
 
-void func_021BCA24(char *p)
+void BEACON_DETAIL_GRA_Draw(char *p)
 {
-    func_021BCB90(p + 4);
-    func_021BCAF0(p);
+    BEACON_DETAIL_GRA_DrawClact(p + 4);
+    BEACON_DETAIL_GRA_Noop(p);
 }

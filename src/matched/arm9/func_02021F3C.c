@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Witness leaf for ov071 func_021B6C7C (tiny unlabelled arm9 leaf).
+ * Witness leaf for ov071 MONOLITH_TOOL_UpdateHighlight (tiny unlabelled arm9 leaf).
  */
 
 typedef unsigned short u16;

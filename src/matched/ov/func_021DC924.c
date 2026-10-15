@@ -22,14 +22,14 @@ typedef unsigned int   u32;
 extern void func_0200780C(void *save, u32 box);
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int BOX2_MAIN_Exit(int a, int b, int c, int *d)
 {
     func_0200780C((void *)(*(int *)(*d + 4)), ((struct Obj09220 *)d)->f14);
     func_0203133C((struct S020314B8 *)d[1]);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x4b);
     return 1;
 }

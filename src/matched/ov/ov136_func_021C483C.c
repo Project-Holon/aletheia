@@ -16,7 +16,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb  arm9
@@ -43,7 +43,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void MAILSYS_ResetCursorBlend(u8 *);
 int MAILSYS_StepIncompleteNotice(u8 *p)
 {
@@ -74,7 +74,7 @@ int MAILSYS_StepIncompleteNotice(u8 *p)
         BMP_MENUWORK_DrawWindowBorder(((struct Obj01413 *)p)->f5C, 2);
         q = ((struct Obj01413 *)p)->f5C;
         BMP_WIN_ClearScreen(q);
-        func_020409B4(BMP_WIN_GetBgLayer(q));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
         MAILSYS_ResetCursorBlend(p);
         ((struct Obj01413 *)p)->f8 = 0;
         p[0xB] = p[0xC];

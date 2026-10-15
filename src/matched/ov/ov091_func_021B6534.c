@@ -37,8 +37,8 @@ typedef struct {
 
 extern int POKELIST_ExitWork(u8 *p);
 extern u32 func_020307B0(void *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 
 int POKELIST_Exit(int a0, int a1, int a2, P *p)
@@ -59,7 +59,7 @@ int POKELIST_Exit(int a0, int a1, int a2, P *p)
         func_020307B0(*(void **)p->q);
         func_020307B0(p->q);
     }
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     GFL_HEAP_DeleteChecked(0x17);
     return 1;
 }

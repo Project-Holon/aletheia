@@ -19,7 +19,7 @@
  *   bmpWin_File   0x020A7E70  data
  *   BG_SYS_GetField16  0x0204169C  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
- *   BG_SYS_CheckFAF0  0x0203FAF0  arm
+ *   BG_SYS_ReserveTileRun  0x0203FAF0  arm
  *   sub_0203FB44  0x0203FB44  arm
  *   sub_020416B8  0x020416B8  arm
  *   sub_02040B1C  0x02040B1C  arm
@@ -63,7 +63,7 @@ extern u8 BG_SYS_GetField16(int channel);
 
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 
-extern u32 BG_SYS_CheckFAF0(u32 layer, u32 offset, u32 units);
+extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 
 extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
 
@@ -188,7 +188,7 @@ void BMP_WIN_Exit(void)
  * failure answer, and the function reports failure as 0.
  *
  * BMP_WIN_CreateAt, the next function, is the same routine for the case where
- * the caller already knows the offset: it calls BG_SYS_CheckFAF0 to reserve
+ * the caller already knows the offset: it calls BG_SYS_ReserveTileRun to reserve
  * that exact offset instead, passes a count rather than a byte size, and
  * forwards the caller's offset straight through as BMP_WIN_Alloc's seventh
  * argument.
@@ -219,10 +219,10 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
 }
 
 /*
- * closed:   blocker BG_SYS_CheckFAF0 is now a manifest entry (matched class)
+ * closed:   blocker BG_SYS_ReserveTileRun is now a manifest entry (matched class)
  *
  * Every concrete byte is right; the file is capped at MATCH by one
- * relocation site, the bl to BG_SYS_CheckFAF0 at +0x44.  Blocking evidence
+ * relocation site, the bl to BG_SYS_ReserveTileRun at +0x44.  Blocking evidence
  * class: none available.  0x0203FAF0 has exactly one witness image wide and
  * it is the call inside this very function (--suggest-split reports "the
  * whole range as one file is NOT viable", best partition 0 pieces), so no
@@ -231,7 +231,7 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
  * of it turns up in another packet.
  *
  * The fixed-offset twin of BMP_WIN_Create: the caller already knows where the
- * layer's character data goes, so BG_SYS_CheckFAF0 is asked to reserve that
+ * layer's character data goes, so BG_SYS_ReserveTileRun is asked to reserve that
  * offset (answering 0 on failure, not -1), the cell count is passed in units
  * rather than scaled to bytes, and the caller's own offset is what reaches
  * BMP_WIN_Alloc as the seventh argument.
@@ -257,7 +257,7 @@ struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 he
         charCount = width * height * 2;
     }
 
-    if (BG_SYS_CheckFAF0(bgLayer, charOffset, charCount) == 0)
+    if (BG_SYS_ReserveTileRun(bgLayer, charOffset, charCount) == 0)
         return 0;
 
     return BMP_WIN_Alloc(bgLayer, posX, posY, width, height, palette, charOffset, is8bpp);

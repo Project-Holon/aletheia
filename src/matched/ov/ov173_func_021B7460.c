@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   POKE_SUMMARY_MAIN_SoundStateCallback 0x021B74F8 thumb ov173
  */
 #include "../include/Obj03858.h"
@@ -39,7 +39,7 @@ extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3, 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern int POKE_SUMMARY_MAIN_SoundStateCallback(u32);
 void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind)
 {
@@ -55,5 +55,5 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind)
     q = ((struct Obj03858 *)p)->f20;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
 }

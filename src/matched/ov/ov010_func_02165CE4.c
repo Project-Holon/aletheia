@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, filed as a blocker of ov032 func_021F1144.
+ * Unlabelled leaf, filed as a blocker of ov032 BEACON_VIEW_SetupEntry.
  */
 #include "../include/Obj19000.h"
 

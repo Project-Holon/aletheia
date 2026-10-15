@@ -14,10 +14,10 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_021B8270  0x021B8270  thumb  ov071
- *   func_021B82F0  0x021B82F0  thumb  ov071
- *   func_021B83C0  0x021B83C0  thumb  ov071
- *   func_021B833C  0x021B833C  thumb  ov071
+ *   MONOLITH_TOOL_MENU_FreeButtons  0x021B8270  thumb  ov071
+ *   MONOLITH_TOOL_MENU_FreeCursor  0x021B82F0  thumb  ov071
+ *   MONOLITH_TOOL_MENU_FreeWindow  0x021B83C0  thumb  ov071
+ *   MONOLITH_TOOL_MENU_FreeBackgrounds  0x021B833C  thumb  ov071
  *   func_020315D4  0x020315D4  arm
  */
 
@@ -38,7 +38,7 @@ typedef struct {
 typedef unsigned int   u32;
 struct PrintSys;
 struct Rec3;
-struct S020315D4;
+struct Proc;
 struct U16Vec;
 int MONOLITH_TOOL_MENU_Destroy(void *a, int unused, B *b, W *w)
 {
@@ -46,11 +46,11 @@ int MONOLITH_TOOL_MENU_Destroy(void *a, int unused, B *b, W *w)
     extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
     extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
     extern void STRBUF_Delete(struct U16Vec *vec);
-    extern void func_021B8270(unsigned char *p);
-    extern void func_021B82F0(void *p);
-    extern void func_021B83C0(void *p);
-    extern void func_021B833C(void);
-    extern void func_020315D4(struct S020315D4 *p);
+    extern void MONOLITH_TOOL_MENU_FreeButtons(unsigned char *p);
+    extern void MONOLITH_TOOL_MENU_FreeCursor(void *p);
+    extern void MONOLITH_TOOL_MENU_FreeWindow(void *p);
+    extern void MONOLITH_TOOL_MENU_FreeBackgrounds(void);
+    extern void func_020315D4(struct Proc *p);
 
     if (PRINTSYS_QUE_IsFinished(b->f4->f8) == 0) {
         return 0;
@@ -62,10 +62,10 @@ int MONOLITH_TOOL_MENU_Destroy(void *a, int unused, B *b, W *w)
     if (w->f44 != 0) {
         STRBUF_Delete(w->f44);
     }
-    func_021B8270((unsigned char *)w);
-    func_021B82F0(w);
-    func_021B83C0(w);
-    func_021B833C();
+    MONOLITH_TOOL_MENU_FreeButtons((unsigned char *)w);
+    MONOLITH_TOOL_MENU_FreeCursor(w);
+    MONOLITH_TOOL_MENU_FreeWindow(w);
+    MONOLITH_TOOL_MENU_FreeBackgrounds();
     func_020315D4(a);
     return 1;
 }

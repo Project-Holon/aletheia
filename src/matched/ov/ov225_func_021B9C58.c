@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C58
+ * function: MANUAL_COMMON_CheckUnlocked
  * address: 0x021B9C58
  * packet: pkt_ov225_021B9C58
  * region: ov225
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
-int func_021B9C58(void *unused,int kind,void *save)
+int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
 {
     int result=0;
     switch(kind) {

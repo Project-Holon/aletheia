@@ -18,13 +18,13 @@
  *   atoi  0x020964E0  arm
  *   func_0217A77C  0x0217A77C  arm  ov009
  *   func_02059F54  0x02059F54  arm
- *   g_021A27B8     0x021A27B8  data ov009
- *   g_021ACEF0     0x021ACEF0  data ov009
- *   g_021A2818     0x021A2818  data ov009
- *   g_021A2820     0x021A2820  data ov009
+ *   gDwcProfFieldNames     0x021A27B8  data ov009
+ *   gDwcProfWorkarea     0x021ACEF0  data ov009
+ *   gDwcProfLabelDate     0x021A2818  data ov009
+ *   gDwcProfLabelHttpResult     0x021A2820  data ov009
  *   errno     0x02153FAC  data
- *   g_021A282C     0x021A282C  data ov009
- *   g_021A2838     0x021A2838  data ov009
+ *   gDwcProfLabelReturnCd     0x021A282C  data ov009
+ *   gDwcProfLabelPrWords     0x021A2838  data ov009
  */
 
 typedef struct DWCHttp {
@@ -52,17 +52,17 @@ extern int atoi(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
 extern void func_02059F54(int error, int errorCode);
 
-extern const DWCProfFieldNames g_021A27B8;
-extern DWCProfWorkarea *g_021ACEF0;
-extern char g_021A2818[];
-extern char g_021A2820[];
+extern const DWCProfFieldNames gDwcProfFieldNames;
+extern DWCProfWorkarea *gDwcProfWorkarea;
+extern char gDwcProfLabelDate[];
+extern char gDwcProfLabelHttpResult[];
 extern int errno;
-extern char g_021A282C[];
-extern char g_021A2838[];
+extern char gDwcProfLabelReturnCd[];
+extern char gDwcProfLabelPrWords[];
 
 int DWCi_Prof_ParseResponse(void)
 {
-    DWCProfFieldNames regionResultFieldName = g_021A27B8;
+    DWCProfFieldNames regionResultFieldName = gDwcProfFieldNames;
     int isAllRegionResult = 0;
     int decodedStringLength;
     char *strp;
@@ -71,23 +71,23 @@ int DWCi_Prof_ParseResponse(void)
     char result[51];
     int i;
     int j;
-    DWCHttp *DWChttp = &g_021ACEF0->http;
+    DWCHttp *DWChttp = &gDwcProfWorkarea->http;
 
     if (!DWC_Http_ParseResult(DWChttp, 0))
         goto error;
 
-    strp = func_0217A728(DWChttp, g_021A2818);
+    strp = func_0217A728(DWChttp, gDwcProfLabelDate);
     if (strp != 0)
         func_02168250(strp);
 
-    strp = func_0217A728(DWChttp, g_021A2820);
+    strp = func_0217A728(DWChttp, gDwcProfLabelHttpResult);
     if (strp == 0)
         goto error;
     httpretcode = atoi((u32)strp);
     if (errno == 34 || httpretcode != 200)
         goto error;
 
-    if (func_0217A77C(DWChttp, g_021A282C, retcode, 4) <= 0)
+    if (func_0217A77C(DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
         goto error;
     httpretcode = atoi((u32)retcode);
     if (errno == 34)
@@ -106,30 +106,30 @@ int DWCi_Prof_ParseResponse(void)
         if (decodedStringLength == 0)
             continue;
         isAllRegionResult = 1;
-        if (decodedStringLength < g_021ACEF0->wordsnum)
+        if (decodedStringLength < gDwcProfWorkarea->wordsnum)
             goto error;
-        for (j = 0; j < g_021ACEF0->wordsnum; j++) {
+        for (j = 0; j < gDwcProfWorkarea->wordsnum; j++) {
             if (result[j] == '1')
-                g_021ACEF0->result[j] |= (char)(1 << i);
+                gDwcProfWorkarea->result[j] |= (char)(1 << i);
         }
     }
 
-    decodedStringLength = func_0217A77C(DWChttp, g_021A2838, result, sizeof(result));
+    decodedStringLength = func_0217A77C(DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
     if (decodedStringLength < 0)
         goto error;
     if (decodedStringLength == 0)
         goto error;
-    if (decodedStringLength < g_021ACEF0->wordsnum)
+    if (decodedStringLength < gDwcProfWorkarea->wordsnum)
         goto error;
 
-    *g_021ACEF0->badwordsnum = 0;
-    for (j = 0; j < g_021ACEF0->wordsnum; j++) {
+    *gDwcProfWorkarea->badwordsnum = 0;
+    for (j = 0; j < gDwcProfWorkarea->wordsnum; j++) {
         if (result[j] == '1') {
-            (*g_021ACEF0->badwordsnum)++;
+            (*gDwcProfWorkarea->badwordsnum)++;
             if (isAllRegionResult)
-                g_021ACEF0->result[j] |= 0x80;
+                gDwcProfWorkarea->result[j] |= 0x80;
             else
-                g_021ACEF0->result[j] = 1;
+                gDwcProfWorkarea->result[j] = 1;
         }
     }
     return 1;

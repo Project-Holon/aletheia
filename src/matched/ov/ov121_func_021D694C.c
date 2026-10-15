@@ -1,5 +1,5 @@
 /*
- * function: func_021D694C
+ * function: MYSTERY_SetupBg
  * address: 0x021D694C
  * packet: pkt_ov121_021D694C
  * region: ov121
@@ -26,7 +26,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 typedef unsigned char  u8;
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-void func_021D694C(u16 *p,int mode)
+void MYSTERY_SetupBg(u16 *p,int mode)
 {
     u16 heap=(*p&0x7fff)|0x8000;
     void *arc;

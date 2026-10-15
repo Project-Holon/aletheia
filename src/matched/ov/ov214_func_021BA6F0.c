@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6F0
+ * function: BTL_REC_SEL_ResetTimer
  * address: 0x021BA6F0
  * packet: pkt_ov214_021BA6F0
  * region: ov214
@@ -17,7 +17,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_021BAD08 0x021BAD08 thumb ov214
+ *   BTL_REC_SEL_ClearLayer 0x021BAD08 thumb ov214
  */
 #include "../include/Obj00202.h"
 typedef unsigned char u8;
@@ -32,8 +32,8 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
-extern void func_021BAD08(void*,char*);
-void func_021BA6F0(void*obj,char*p)
+extern void BTL_REC_SEL_ClearLayer(void*,char*);
+void BTL_REC_SEL_ResetTimer(void*obj,char*p)
 {
     void*h;
     *(int *)&((struct Obj00202 *)p)->fAC=0;
@@ -48,7 +48,7 @@ void func_021BA6F0(void*obj,char*p)
     h=*(void* *)&((struct Obj00202 *)p)->f98;
     BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);func_02041B6C(BMP_WIN_GetBgLayer(h));
     ((struct Obj00202 *)p)->fA8=1;
-    if(((struct Obj00202 *)p)->f3C)func_021BAD08(obj,p);
+    if(((struct Obj00202 *)p)->f3C)BTL_REC_SEL_ClearLayer(obj,p);
     ((struct Obj00202 *)p)->fBC=0;
     ((struct Obj00202 *)p)->fC0=0;
 }

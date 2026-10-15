@@ -98,8 +98,8 @@
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_0215513C     0x0215513C  data  ov008  a4
  */
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 struct S020314B8;
 struct Entry;
 struct Desc;
@@ -176,12 +176,12 @@ typedef struct EventBattleRecSaveTask {
 typedef signed int     s32;
 
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(int h, u32 id, void *a, void *b);

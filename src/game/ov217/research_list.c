@@ -82,7 +82,7 @@
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_GetBuf 0x0204162C arm
- *   BG_SYS_GetScrollX_1648  0x02041648  arm
+ *   BG_SYS_GetChannelScrollX  0x02041648  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   d_021C309E 0x021C309E data a1
@@ -160,12 +160,9 @@
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
  */
-#include "../../matched/include/Obj00801.h"
-#include "../../matched/include/Obj25879.h"
-#include "../../matched/include/Obj14733.h"
-#include "../../matched/include/Obj14734.h"
-#include "../../matched/include/Obj25887.h"
 #include "research_shared_types.h"
 
 #define GB ((const struct G *)gb)
@@ -321,7 +318,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern u32 func_020403F4(u32 i);
+extern u32 BG_SYS_FreeLayerBuf(u32 i);
 
 extern void *func_020490F4(unsigned int id, u32 heap);
 
@@ -475,7 +472,7 @@ extern void func_02041B6C(u32 layer);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
-extern u32 BG_SYS_GetScrollX_1648(u8 channel);
+extern u32 BG_SYS_GetChannelScrollX(u8 channel);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
 
@@ -485,7 +482,7 @@ extern void BG_SYS_ResetSlot(unsigned layer,unsigned mode,unsigned value);
 
 extern u32 func_02040804(u32 layer);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern u32 func_0209C0A4(u32, u32);
 
@@ -525,7 +522,7 @@ extern void *func_02045EC0(struct MsgBank *,u32);
 
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 
-extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_Delete(struct Bmp *p);
 
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 
@@ -2022,7 +2019,7 @@ u32 RESEARCH_LIST_GetRowBase(u32 unused, u32 v)
 int RESEARCH_LIST_GetEntryScreenX(unsigned char *p, unsigned int slot)
 {
     int t = RESEARCH_LIST_GetRowOffset((unsigned int)p, slot) << 3;
-    return t - BG_SYS_GetScrollX_1648(2);
+    return t - BG_SYS_GetChannelScrollX(2);
 }
 
 int RESEARCH_LIST_GetEntryScreenY(unsigned char *p, unsigned char index)
@@ -2147,8 +2144,8 @@ void RESEARCH_LIST_UpdateScrollbarActor(u32 a0)
     CLACT_SetActorDrawEnable((struct Obj *)v1, 0);
     return;
     }
-    ((struct Obj00801 *)((u8*)s))->f0 = 248;
-    *(u16 *)&((struct Obj00801 *)(((u8*)s)))->f2 = RESEARCH_LIST_GetScrollbarY((void *)a0);
+    ((struct Vec2 *)s)->x = 248;
+    ((struct Vec2 *)s)->y = RESEARCH_LIST_GetScrollbarY((void *)a0);
     CLACT_AddActorSurfacePos((struct Obj *)v1, (const struct Vec2 *)s, 0);
     CLACT_SetActorDrawEnable((struct Obj *)v1, 1);
 }
@@ -2329,8 +2326,8 @@ int RESEARCH_LIST_GetScrollY(void)
 
 void RESEARCH_LIST_SetScrollY(u32 a0)
 {
-    func_02040618(2, 3, a0);
-    func_02040618(3, 3, a0);
+    BG_SYS_FillScrollArea(2, 3, a0);
+    BG_SYS_FillScrollArea(3, 3, a0);
 }
 
 u32 RESEARCH_LIST_GetScrollMin(void)
@@ -2814,7 +2811,7 @@ void RESEARCH_LIST_ClearCommandQueue(void *p)
  */
 void RESEARCH_LIST_DestroyCommandQueue(u8 *a0)
 {
-    RingQueue_Destroy((void *)((u32)(((struct Obj25879 *)a0)->f18)));
+    RingQueue_Destroy((void *)((u32)(((struct ResearchTop *)a0)->commandQueue)));
 }
 
 /*
@@ -2868,11 +2865,11 @@ void RESEARCH_LIST_InitBackgrounds(char *p)
 u32 RESEARCH_LIST_ExitBackgrounds(u8 *a0)
 {
     BMP_WIN_Exit();
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(0);
-    func_020403F4(7);
-    return func_020403F4(6);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(7);
+    return BG_SYS_FreeLayerBuf(6);
 }
 
 /*
@@ -3135,8 +3132,8 @@ void RESEARCH_LIST_CreateActors(u8 *p)
         c=RESEARCH_LIST_GetResourceId(p,q->e);
         d=RESEARCH_LIST_GetResourceId(p,q->f);
         dest=p+i*4;
-        ((struct Obj14733 *)dest)->f120=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct ResearchTop *)p)->heapId);
-        CLACT_SetActorDrawEnable((struct Obj *)((struct Obj14733 *)dest)->f120,0);
+        ((struct ResearchTop *)p)->actorHandles[i]=(void *)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct ResearchTop *)p)->heapId);
+        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchTop *)p)->actorHandles[i],0);
     }
 }
 
@@ -3175,12 +3172,12 @@ void RESEARCH_LIST_DrawBmps(u8 *p)
         if(q->enabled) {
             bmp=BMP_CreateFromArchive(q->arc,q->member,0,((struct ResearchTop *)p)->heapId);
             dest=p+i*4;
-            BMP_Blit(bmp,*(struct Bmp * *)&((struct Obj14734 *)dest)->f140,0,0,0,0,q->x<<3,q->y<<3,q->b);
+            BMP_Blit(bmp,((struct ResearchTop *)p)->bmps[i],0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
             text=func_02045EC0(*(struct MsgBank **)(p+16+q->bank*4),q->index);
-            PRINTSYS_PrintColor(((struct Obj14734 *)dest)->f140,q->px,q->py,text,((struct ResearchTop *)p)->fontP,color);
+            PRINTSYS_PrintColor(((struct ResearchTop *)p)->bmps[i],q->px,q->py,text,((struct ResearchTop *)p)->fontP,color);
             func_020307B0(text);
-            BMP_Delete((struct Obj020437AC *)((int)bmp));
+            BMP_Delete((struct Bmp *)((int)bmp));
         }
     }
 }
@@ -3241,7 +3238,7 @@ void RESEARCH_LIST_DeleteBmps(int *p)
 {
     int i;
     for (i = 0; i < 4; i++)
-        BMP_Delete((struct Obj020437AC *)p[i + 0x50]);
+        BMP_Delete(((struct ResearchTop *)p)->bmps[i]);
 }
 
 void RESEARCH_LIST_CreateOamSys(char *p)
@@ -3269,7 +3266,7 @@ void RESEARCH_LIST_CreateOamObjects(u8 *p)
     uploadOff=0x130;
     for(i=0;i<4;i++) {
         dest=p+i*4;
-        param.bmp=((struct Obj25887 *)dest)->f140;
+        param.bmp=((struct ResearchTop *)p)->bmps[i];
         q=&d_021C31BC[i];
         param.x=q->x; param.y=q->y;
         param.f8=RESEARCH_LIST_GetResourceId(p,q->f8);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3214
+ * function: BEACON_VIEW_CreateIconActor
  * address:  0x021F3214
  * packet:   pkt_ov032_021F3214
  * region:   ov032
@@ -31,7 +31,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
-void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z)
+void *BEACON_VIEW_CreateIconActor(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z)
 {
     Rect r;
     void *res;

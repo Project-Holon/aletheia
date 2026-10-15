@@ -12,7 +12,7 @@
  * symbols:
  *   FIELD_ENCOUNT_GetSwarmZoneId  0x021A9810  thumb  ov021
  *   GAME_DATA_GetSeason  0x02012984  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
@@ -37,7 +37,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -60,7 +60,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(int *p)
         return;
     if (k == 0x159 && GAME_DATA_GetSeason((const struct BigObj *)p[2]) == 3)
         return;
-    h = GF_FONT_Create_EC64(((struct Obj00270 *)p)->f0);
+    h = WORDSET_CreateDefault(((struct Obj00270 *)p)->f0);
     r7 = (u32)func_02045B38(0, 2, 0x59, ((struct Obj00270 *)p)->f0);
     r6 = (u32)func_02045EC0((struct MsgBank *)r7, ZONEDATA_GetPlaceNameId(k));
     WORDSET_SetSlotTag(h, 0, (const void *)r6, 0, 1, 0);

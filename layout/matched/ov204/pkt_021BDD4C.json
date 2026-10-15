@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDD4C",
+   "name": "INTRO_GRAPHIC_UpdateDisplay",
    "address": "0x021BDD4C",
    "kind": "game",
    "region": "ov204",

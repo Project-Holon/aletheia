@@ -20,7 +20,7 @@
  *   FIELD_MSGBG_LoadFrameTile  0x02192264  thumb  ov021
  *   FIELD_MSGBG_DrawFrameBmp  0x021922A4  thumb  ov021
  *   FIELD_MSGBG_LoadSpWinPalette  0x02192244  thumb  ov021
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   FIELD_MSGBG_InitCursor  0x021927C0  thumb  ov021
  *   FIELD_MSGBG_SetBlend  0x02193044  thumb  ov021
  * Addresses are Black-image addresses.
@@ -44,7 +44,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern void FIELD_MSGBG_LoadFrameTile(u32 a, u32 b, u32 c, u32 d);
 extern void FIELD_MSGBG_DrawFrameBmp(u32 a, u32 b, u32 c);
 extern void FIELD_MSGBG_LoadSpWinPalette(u32 a, u32 b, u32 c);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 struct Fx;
 struct G;
 extern void FIELD_MSGBG_InitCursor(struct G *g, struct Fx *a);
@@ -63,7 +63,7 @@ u32 *FIELD_MSGBG_CreateSpWin(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f)
     FIELD_MSGBG_LoadSpWinPalette(a[1], 9, *a);
     BMP_WIN_MakeScreen((struct Cfg *)t[0]);
     BMP_WIN_TransferChars((struct Descriptor *)t[0]);
-    func_020409B4((u8)a[1]);
+    BG_SYS_PushTile((u8)a[1]);
     FIELD_MSGBG_InitCursor((struct G *)(t + 4), (struct Fx *)a);
     a[3] = 0xB;
     FIELD_MSGBG_SetBlend(0);

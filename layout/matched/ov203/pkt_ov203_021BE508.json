@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE508",
+   "name": "DEMO3D_ENGINE_SetClipPlanes",
    "address": "0x021BE508",
    "kind": "game",
    "region": "ov203",

@@ -1,5 +1,5 @@
 /*
- * function: func_021F254C
+ * function: BEACON_VIEW_CreateTaskProc
  * address: 0x021F254C
  * packet: pkt_ov032_021F254C
  * region: ov032
@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_021F2588 0x021F2588 thumb ov032
+ *   BEACON_VIEW_TaskProc 0x021F2588 thumb ov032
  */
 #include "../include/Obj07639.h"
 typedef struct { void *f00; void *f04; unsigned f08; void *f0c; void *f10; } Desc;
@@ -21,12 +21,12 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021F2588(int, int, int *);
-Desc *func_021F254C(char *p, unsigned a, unsigned b, unsigned c)
+extern int BEACON_VIEW_TaskProc(int, int, int *);
+Desc *BEACON_VIEW_CreateTaskProc(char *p, unsigned a, unsigned b, unsigned c)
 {
     Desc *d;
     Work *w;
-    d = (Desc *)func_020122C0(((struct Obj07639 *)p)->f0, 0, func_021F2588, 0x1c);
+    d = (Desc *)func_020122C0(((struct Obj07639 *)p)->f0, 0, BEACON_VIEW_TaskProc, 0x1c);
     w = func_020124E8((struct Obj *)d);
     w->owner = p;
     w->f04 = ((struct Obj07639 *)p)->f0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCE8C",
+   "name": "BEACON_DETAIL_GRA_SetActorPos",
    "address": "0x021BCE8C",
    "kind": "game",
    "region": "ov216",

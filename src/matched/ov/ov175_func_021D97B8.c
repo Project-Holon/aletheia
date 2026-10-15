@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E64C8  0x021E64C8  thumb  ov177
+ *   WIFIBATTLEMATCH_VIEW_StepMainWindow  0x021E64C8  thumb  ov177
  *
  * Thunk: hands the +0x1c block to 0x021E64C8 and returns its result; the
  *     poll WIFIBATTLEMATCH_NET_SetupTradeIconAndWait spins on.
@@ -19,10 +19,10 @@
 
 typedef unsigned long u32;
 
-extern u32 func_021E64C8(u32 p);
+extern u32 WIFIBATTLEMATCH_VIEW_StepMainWindow(u32 p);
 
 u32 WIFIBATTLEMATCH_NET_IsTradeIconReady(char *obj)
 {
-    return func_021E64C8(((struct Obj24302 *)obj)->f1C);
+    return WIFIBATTLEMATCH_VIEW_StepMainWindow(((struct Obj24302 *)obj)->f1C);
 }
 

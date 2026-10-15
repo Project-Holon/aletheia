@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA4D8",
+   "name": "MANUAL_COMMON_DeleteTouchbarActors",
    "address": "0x021BA4D8",
    "kind": "game",
    "region": "ov225",

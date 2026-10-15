@@ -14,7 +14,7 @@
  *   func_02040588 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020490F4 0x020490F4 arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -39,7 +39,7 @@ struct BgTemplate;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -68,15 +68,15 @@ void C_GEAR_POWER_ONOFF_InitBgs(char *p, u32 heap)
         func_02040588((u8)i, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)sBgTemplate6, 0);
     BG_SYS_ClearSlot(6);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_02040588((u8)6, 1);
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)sBgTemplate5, 0);
     BG_SYS_ClearSlot(5);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     func_02040588((u8)5, 1);
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)sBgTemplate4, 0);
     BG_SYS_ClearSlot(4);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     func_02040588((u8)4, 1);
     h = func_020490F4(0x1E, heap);
     i = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(((struct Obj13078 *)p)->f4)));

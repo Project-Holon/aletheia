@@ -11,7 +11,7 @@
  * symbols:
  *   func_02048A0C  0x02048A0C  arm
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -59,7 +59,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *STRBUF_Create(u32 size, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -92,7 +92,7 @@ void FLD3D_CI_DrawMessageTexture(int s, Obj *p, char *a1, char *a2, u32 c, u32 d
     heap = p->heap;
     m = func_02045B38(0, 2, 0xb0, heap);
     if (c == 0) {
-        x = GF_FONT_Create_EC64((u16)((heap & 0x7FFF) | 0x8000));
+        x = WORDSET_CreateDefault((u16)((heap & 0x7FFF) | 0x8000));
         str = STRBUF_Create(8, (heap & 0x7FFF) | 0x8000);
         y = func_02045EC0(m, c);
         WORDSET_SetSlotMyStatus(x, 0, (void *)s);

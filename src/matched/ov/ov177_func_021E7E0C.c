@@ -1,5 +1,5 @@
 /*
- * function: func_021E7E0C
+ * function: WIFIBATTLEMATCH_VIEW_SetActorVisible
  * address: 0x021E7E0C
  * packet: pkt_ov177_021E7E0C
  * region: ov177
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void GFL_USE_StopSeSlot(int i);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021E7E0C(void **p, int on)
+void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **p, int on)
 {
     if (on == 1) {
         GFL_USE_PlaySeDefaultVolume(0x80D);

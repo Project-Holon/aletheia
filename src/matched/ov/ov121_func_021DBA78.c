@@ -1,5 +1,5 @@
 /*
- * function: func_021DBA78
+ * function: MYSTERY_ALBUM_StartScroll
  * address: 0x021DBA78
  * packet: pkt_ov121_021DBA78
  * region: ov121
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021DBA78(u8 *p,int a) { int v; if(a) v=-1; else v=1; ((struct Obj13957 *)p)->fADC=v; ((struct Obj13957 *)p)->fAD8=0; }
+void MYSTERY_ALBUM_StartScroll(u8 *p,int a) { int v; if(a) v=-1; else v=1; ((struct Obj13957 *)p)->fADC=v; ((struct Obj13957 *)p)->fAD8=0; }

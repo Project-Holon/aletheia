@@ -15,9 +15,9 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int NAMEIN_SETUP_ExitHostProc(void *a, int b, int c, void **d) {
     func_0203133C(*d); func_020315D4(a); GFL_HEAP_DeleteChecked(0x76); return 1;

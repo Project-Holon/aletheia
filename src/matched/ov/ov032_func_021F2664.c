@@ -1,5 +1,5 @@
 /*
- * function: func_021F2664
+ * function: BEACON_VIEW_TransferPalettes
  * address: 0x021F2664
  * packet: pkt_ov032_021F2664
  * region: ov032
@@ -14,7 +14,7 @@
 #include "../include/Obj13067.h"
 struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *);
-void func_021F2664(int a, char *p)
+void BEACON_VIEW_TransferPalettes(int a, char *p)
 {
     if (*(struct S02021D50 * *)&((struct Obj13067 *)p)->fAC)
         PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj13067 *)p)->fAC);

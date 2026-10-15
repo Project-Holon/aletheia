@@ -17,7 +17,7 @@
  *   func_020870D0  0x020870D0  arm
  *   DWC_Auth_Create  0x02177EE8  arm  ov009
  *   gDwcAuthParam     0x021AB1C0  data
- *   g_021AB1F4     0x021AB1F4  data
+ *   gDwcAuthGsbrcdBuffer     0x021AB1F4  data
  *   gDwcAuthState     0x021AB1A4  data
  *   gDwcAuthResultBuf     0x021AB208  data
  */
@@ -26,7 +26,7 @@
 #include "../include/G_DWCAuthParam.h"
 
 extern struct DWCAuthParam gDwcAuthParam;
-extern unsigned char g_021AB1F4[];
+extern unsigned char gDwcAuthGsbrcdBuffer[];
 extern struct DWCAuthState gDwcAuthState;
 extern unsigned char gDwcAuthResultBuf[];
 
@@ -39,7 +39,7 @@ int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsign
 {
 	DWCi_Auth_InitAdapterParam();
 	MI_CpuCopy8(ingamesn, &gDwcAuthParam, 0x34);
-	MI_CpuCopy8(gsbrcd, g_021AB1F4, 0xc);
+	MI_CpuCopy8(gsbrcd, gDwcAuthGsbrcdBuffer, 0xc);
 	gDwcAuthParam.allocator = allocator;
 	gDwcAuthParam.deallocator = deallocator;
 	gDwcAuthState.tick = func_020870D0();

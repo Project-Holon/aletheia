@@ -1,5 +1,5 @@
 /*
- * function: func_021E65FC
+ * function: WIFIBATTLEMATCH_VIEW_StepMainWindowIdle
  * address: 0x021E65FC
  * packet: pkt_ov177_021E65FC
  * region: ov177
@@ -34,7 +34,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
 typedef unsigned int   u32;
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
-int func_021E65FC(Work *w)
+int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
 {
     int ret = 0;
     int level;

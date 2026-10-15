@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0C8
+ * function: BEACON_DETAIL_GRA_CreateObjects
  * address: 0x021BC0C8
  * packet: pkt_ov216_021BC0C8
  * region: ov216
@@ -30,7 +30,7 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
 extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
-void func_021BC0C8(char *p)
+void BEACON_DETAIL_GRA_CreateObjects(char *p)
 {
     *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=TCBL_Create(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
     ((struct Obj00366 *)p)->f54=func_020490F4(173,((struct Obj00366 *)p)->f0);

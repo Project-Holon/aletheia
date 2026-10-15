@@ -1,5 +1,5 @@
 /*
- * function: func_021E7D20
+ * function: WIFIBATTLEMATCH_VIEW_CreateActorArray
  * address: 0x021E7D20
  * packet: pkt_ov177_021E7D20
  * region: ov177
@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021E5978 0x021E5978 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_GetFrameIndex 0x021E5978 thumb ov177
  *   d_021E8DBC 0x021E8DBC data a1
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
@@ -22,10 +22,10 @@ typedef unsigned int   u32;
 struct Obj;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
-extern int func_021E5978(int *p, int i);
+extern int WIFIBATTLEMATCH_VIEW_GetFrameIndex(int *p, int i);
 extern void *CLACT_CreateActor(void *, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void **func_021E7D20(void *owner, void *src, unsigned heap)
+void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *owner, void *src, unsigned heap)
 {
     void **objs;
     Request req;
@@ -37,12 +37,12 @@ void **func_021E7D20(void *owner, void *src, unsigned heap)
     req.id = 1;
     req.a = 1;
     req.flag = 1;
-    objs[0] = CLACT_CreateActor(owner, func_021E5978(src, 2), func_021E5978(src, 0), func_021E5978(src, 4), &req, 0, heap);
+    objs[0] = CLACT_CreateActor(owner, WIFIBATTLEMATCH_VIEW_GetFrameIndex(src, 2), WIFIBATTLEMATCH_VIEW_GetFrameIndex(src, 0), WIFIBATTLEMATCH_VIEW_GetFrameIndex(src, 4), &req, 0, heap);
     CLACT_SetActorAutoAnim(objs[0], 1);
     req.id = 0;
     req.a = 0;
     req.flag = 1;
-    objs[1] = CLACT_CreateActor(owner, func_021E5978(src, 2), func_021E5978(src, 0), func_021E5978(src, 4), &req, 0, heap);
+    objs[1] = CLACT_CreateActor(owner, WIFIBATTLEMATCH_VIEW_GetFrameIndex(src, 2), WIFIBATTLEMATCH_VIEW_GetFrameIndex(src, 0), WIFIBATTLEMATCH_VIEW_GetFrameIndex(src, 4), &req, 0, heap);
     CLACT_SetActorAutoAnim(objs[1], 1);
     return objs;
 }

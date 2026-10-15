@@ -1,5 +1,5 @@
 /*
- * function: func_021D9228
+ * function: MYSTERY_ClearScroll
  * address:  0x021D9228
  * packet:   pkt_021D9228
  * region:   ov121
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021D9228(void *p)
+void MYSTERY_ClearScroll(void *p)
 {
     MI_CpuFill8(p, 0, 0x128);
 }

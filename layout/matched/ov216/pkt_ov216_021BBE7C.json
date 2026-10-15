@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "BEACON_DETAIL_GRA_Main",
-    "func_021BBF0C"
+    "BEACON_DETAIL_GRA_StateInteract"
    ],
    "addresses": [
     "0x021BBE7C",

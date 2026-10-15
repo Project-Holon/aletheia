@@ -26,15 +26,15 @@
  *   CPSi_SslPeriodical  0x02162EC4  arm  ov009
  *   dhcp_release_server  0x0215C44C  arm  ov009
  *   CPS_SocUnRegister  0x0215AA70  arm  ov009
- *   g_021A83E4     0x021A83E4  data
- *   g_021A826C     0x021A826C  data
- *   g_021A88E4     0x021A88E4  data
- *   g_021A8764     0x021A8764  data
- *   g_021A8384     0x021A8384  data
+ *   gCpsRecvSoc     0x021A83E4  data
+ *   gCpsNetVars     0x021A826C  data
+ *   gCpsRecvBuffer     0x021A88E4  data
+ *   gCpsSendBuffer     0x021A8764  data
+ *   gCpsArpCache     0x021A8384  data
  *   gMslRefToken     0x02150FEC  data
- *   g_021A8A64     0x021A8A64  data
+ *   gCpsFragTable     0x021A8A64  data
  *
- * g_021A826C is network.o's block of file statics (first symbol wfailed);
+ * gCpsNetVars is network.o's block of file statics (first symbol wfailed);
  * the fields below are named by the offsets this function touches.
  *
  * Case 0 spells the callback test out with a flag; cases 1 and 2 use the
@@ -120,13 +120,13 @@ struct thread_info {
     OSThread *list;                   /* 0x08 */
 };
 
-extern CPSSoc g_021A83E4;
-extern struct net_vars g_021A826C;
-extern unsigned char g_021A88E4[384];
-extern unsigned char g_021A8764[384];
-extern struct ArpEntry g_021A8384[8];
+extern CPSSoc gCpsRecvSoc;
+extern struct net_vars gCpsNetVars;
+extern unsigned char gCpsRecvBuffer[384];
+extern unsigned char gCpsSendBuffer[384];
+extern struct ArpEntry gCpsArpCache[8];
 extern struct thread_info gMslRefToken;
-extern struct CPSFragTable g_021A8A64[8];
+extern struct CPSFragTable gCpsFragTable[8];
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void CPS_SocRegister(int v);
@@ -145,7 +145,7 @@ extern void CPS_SocUnRegister(void);
 
 static inline int dhcp_denied(void)
 {
-    return g_021A826C.dhcp_callback ? g_021A826C.dhcp_callback() == 0 : 0;
+    return gCpsNetVars.dhcp_callback ? gCpsNetVars.dhcp_callback() == 0 : 0;
 }
 
 void scavenger(void)
@@ -162,30 +162,30 @@ void scavenger(void)
     int denied;
 
     dhcp_state = 0;
-    g_021A826C.calm = 0;
-    MI_CpuFill8(&g_021A83E4, 0, sizeof(CPSSoc));
-    g_021A83E4.rcvbuf.size = sizeof(g_021A88E4);
-    g_021A83E4.rcvbuf.data = g_021A88E4;
-    g_021A83E4.sndbuf.size = sizeof(g_021A8764);
-    g_021A83E4.sndbuf.data = g_021A8764;
-    CPS_SocRegister((int)(&g_021A83E4));
+    gCpsNetVars.calm = 0;
+    MI_CpuFill8(&gCpsRecvSoc, 0, sizeof(CPSSoc));
+    gCpsRecvSoc.rcvbuf.size = sizeof(gCpsRecvBuffer);
+    gCpsRecvSoc.rcvbuf.data = gCpsRecvBuffer;
+    gCpsRecvSoc.sndbuf.size = sizeof(gCpsSendBuffer);
+    gCpsRecvSoc.sndbuf.data = gCpsSendBuffer;
+    CPS_SocRegister((int)(&gCpsRecvSoc));
     gwcache_sleep = 1;
     dhcp_sleep = 1;
     first = 1;
-    g_021A826C.state = 1;
+    gCpsNetVars.state = 1;
 
     for (;;)
     {
         OS_Sleep(1000);
-        if (g_021A826C.calm)
+        if (gCpsNetVars.calm)
             break;
         now = (unsigned long)(func_020870D0() >> 16);
 
-        if (g_021A826C.link_is_on())
+        if (gCpsNetVars.link_is_on())
         {
             if (--dhcp_sleep == 0)
             {
-                if (g_021A826C.mode & 1)
+                if (gCpsNetVars.mode & 1)
                 {
                     if (dhcp_state == 0)
                     {
@@ -200,7 +200,7 @@ void scavenger(void)
                     case 0:
                         if (first)
                         {
-                            g_021A826C.state = 2;
+                            gCpsNetVars.state = 2;
                             first = 0;
                         }
                         if (!dhcp_discover_server() || !dhcp_request_server(&dhcp_sleep, 0))
@@ -211,9 +211,9 @@ void scavenger(void)
                         else
                         {
                             denied = 0;
-                            if (g_021A826C.dhcp_callback)
+                            if (gCpsNetVars.dhcp_callback)
                             {
-                                if (g_021A826C.dhcp_callback() == 0)
+                                if (gCpsNetVars.dhcp_callback() == 0)
                                     denied = 1;
                             }
                             if (denied)
@@ -293,14 +293,14 @@ void scavenger(void)
 
         for (i = 0; i < 8; i++)
         {
-            arp = &((CPSArpCache *)g_021A8384)[i];
+            arp = &((CPSArpCache *)gCpsArpCache)[i];
             if (arp->ip && (short)(now - arp->when) > 957)
                 arp->ip = 0;
         }
 
-        if (g_021A826C.gateway_ip && --gwcache_sleep == 0)
+        if (gCpsNetVars.gateway_ip && --gwcache_sleep == 0)
         {
-            send_arprequest(g_021A826C.gateway_ip);
+            send_arprequest(gCpsNetVars.gateway_ip);
             gwcache_sleep = 105;
         }
 
@@ -334,20 +334,20 @@ void scavenger(void)
 
         for (i = 0; i < 8; i++)
         {
-            CPSFragTable *f = &((CPSFragTable *)g_021A8A64)[i];
+            CPSFragTable *f = &((CPSFragTable *)gCpsFragTable)[i];
             if (f->frags && (long)(now - f->when) > 239)
             {
-                g_021A826C.free(f->buf);
+                gCpsNetVars.free(f->buf);
                 f->frags = 0;
             }
         }
 
         CPSi_SslPeriodical(now);
-        if (g_021A826C.periodic)
-            g_021A826C.periodic();
+        if (gCpsNetVars.periodic)
+            gCpsNetVars.periodic();
     }
 
-    if (!(g_021A826C.mode & 1) && dhcp_state != 3)
+    if (!(gCpsNetVars.mode & 1) && dhcp_state != 3)
         dhcp_release_server();
     CPS_SocUnRegister();
 }

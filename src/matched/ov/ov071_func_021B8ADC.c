@@ -1,5 +1,5 @@
 /*
- * function: func_021B8ADC
+ * function: MONOLITH_TOOL_STATS_LoadGraphics
  * address: 0x021B8ADC
  * packet: pkt_ov071_021B8ADC
  * region: ov071
@@ -10,12 +10,12 @@
  * status: EXACT*
  * symbols:
  *   func_020498F4 0x020498F4 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj20741.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(unsigned int);
-void func_021B8ADC(char *p) { func_020498F4((void *)(((struct Obj20741 *)p)->f30),5,6,0,0,1,0x61); func_020409B4(6); func_020409B4(4); }
+extern void BG_SYS_PushTile(unsigned int);
+void MONOLITH_TOOL_STATS_LoadGraphics(char *p) { func_020498F4((void *)(((struct Obj20741 *)p)->f30),5,6,0,0,1,0x61); BG_SYS_PushTile(6); BG_SYS_PushTile(4); }

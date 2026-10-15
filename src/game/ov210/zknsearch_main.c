@@ -29,7 +29,7 @@
  *   g_07D4 0x021C07D4 data
  *   g_07B4 0x021C07B4 data
  *   g_0794 0x021C0794 data
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -54,7 +54,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_02045B38 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete  0x02045808  arm
@@ -285,7 +285,7 @@ extern void BG_SYS_ClearSlot(u32);
 extern void func_02041B6C(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void func_020403F4(u32 a);
+extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -311,7 +311,7 @@ extern int PALANM_RequestFade(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
 extern void func_0207D63C(u32 reg, u32 a, u32 b, u32 c, u32 d);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -681,12 +681,12 @@ void ZKNSEARCH_MAIN_DeleteBackgrounds(u32 a0)
 {
     BG_SYS_SetMainPlaneVisible(15, 0);
     BG_SYS_SetSubPlaneVisible(15, 0);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BG_SYS_Delete();
 }
 
@@ -880,7 +880,7 @@ void ZKNSEARCH_MAIN_InitTextSystem(char *p)
 {
     *(struct MsgBank * *)&((ZknSearchWork *)p)->msgBank = func_02045B38(0, 2, 277, 123);
     *(struct GfFont * *)&((ZknSearchWork *)p)->font = GF_FONT_Create(23, 0, 0, 0, 123);
-    *(struct WordSet * *)&((ZknSearchWork *)p)->wordSet = GF_FONT_Create_EC64(123);
+    *(struct WordSet * *)&((ZknSearchWork *)p)->wordSet = WORDSET_CreateDefault(123);
     ((ZknSearchWork *)p)->printSys = PRINTSYS_QUE_Create((void *)123);
     *(struct U16Vec * *)&((ZknSearchWork *)p)->strBuf = STRBUF_Create(128, 123);
 }

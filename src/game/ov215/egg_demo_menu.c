@@ -37,9 +37,9 @@
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02045EC0 0x02045EC0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -110,9 +110,9 @@ extern void TCBL_Main(struct Tcbl *p);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -200,7 +200,7 @@ void EGG_DEMO_MENU_Draw(void *unused, char *work)
     win = ((struct EggDemoWork *)work)->window;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
 }
 
 /*
@@ -213,7 +213,7 @@ void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
     if(((struct EggDemoWork *)work)->printStream) PRINTSYS_PrintStreamDelete(((struct EggDemoWork *)work)->printStream);
     if(((struct EggDemoWork *)work)->textBuf) STRBUF_Delete(((struct EggDemoWork *)work)->textBuf);
     text=func_02045EC0(((struct EggDemoWork *)work)->msgBank,entry);
-    words=GF_FONT_Create_EC64(((struct EggDemoWork *)work)->heapId);
+    words=WORDSET_CreateDefault(((struct EggDemoWork *)work)->heapId);
     WORDSET_SetSlotMonName(words,0,((struct EggDemoArgs *)args)->mon);
     buffer=STRBUF_Create(256,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->textBuf=buffer;

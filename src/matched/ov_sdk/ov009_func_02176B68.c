@@ -12,14 +12,14 @@
  * Clears the first two words of the state object.
  *
  * symbols:
- *   g_021AB178  0x021AB178  data
+ *   gDwcReliableQueue  0x021AB178  data
  */
 
-extern char g_021AB178[];
+extern char gDwcReliableQueue[];
 
 void func_02176B68(void)
 {
-    *(int *)(g_021AB178) = 0;
-    *(int *)(g_021AB178 + 4) = 0;
+    *(int *)(gDwcReliableQueue) = 0;
+    *(int *)(gDwcReliableQueue + 4) = 0;
 }
 

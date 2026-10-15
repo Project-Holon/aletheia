@@ -11,17 +11,17 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
- *   func_021DA3C0 0x021DA3C0 thumb ov121
- *   func_021DBEE4 0x021DBEE4 thumb ov121
+ *   MYSTERY_UTIL_DeleteBmpList 0x021DA3C0 thumb ov121
+ *   MYSTERY_ALBUM_ClearEntry 0x021DBEE4 thumb ov121
  */
 #include "../include/Obj03789.h"
 typedef unsigned char  u8;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern unsigned int func_020307B0(void *p);
-extern void func_021DA3C0(u8 *p);
+extern void MYSTERY_UTIL_DeleteBmpList(u8 *p);
 typedef unsigned int   u32;
-extern void func_021DBEE4(u32 p);
+extern void MYSTERY_ALBUM_ClearEntry(u32 p);
 void MYSTERY_ALBUM_Delete(char *p)
 {
     if (((struct Obj03789 *)p)->f128) {
@@ -30,7 +30,7 @@ void MYSTERY_ALBUM_Delete(char *p)
     }
     if (((struct Obj03789 *)p)->f13C) func_020307B0(((struct Obj03789 *)p)->f13C);
     if (((struct Obj03789 *)p)->f134) func_020307B0(((struct Obj03789 *)p)->f134);
-    func_021DA3C0(((struct Obj03789 *)p)->f144);
-    func_021DBEE4((u32)p);
+    MYSTERY_UTIL_DeleteBmpList(((struct Obj03789 *)p)->f144);
+    MYSTERY_ALBUM_ClearEntry((u32)p);
     func_020307B0(p);
 }

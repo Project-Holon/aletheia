@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_Create_EC64
+ * function: WORDSET_CreateDefault
  *
  * The first function of wordset.c.  The file identity is in the image: the
  * constructor at 0x0201EC74, immediately after this, passes 0x020A7364 to the
@@ -41,7 +41,7 @@ struct WordSet;
 
 extern struct WordSet *WORDSET_Create(u32 count, u32 size, u32 heap);
 
-struct WordSet *GF_FONT_Create_EC64(u32 heap)
+struct WordSet *WORDSET_CreateDefault(u32 heap)
 {
     return WORDSET_Create(8, 0x20, heap);
 }

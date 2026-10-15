@@ -1,5 +1,5 @@
 /*
- * function: func_0217DFD0
+ * function: LIVEBATTLEMATCH_IRC_SetMenuValue
  * address:  0x0217DFD0
  * packet:   pkt_0217DFD0
  * region:   ov176
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8738  0x021E8738  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_PrintMessage  0x021E8738  thumb  ov177
  */
 #include "../include/Obj00348.h"
 
-extern void func_021E8738(int *p, int a, int b, int c);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 
-void func_0217DFD0(int *p, int a, int b)
+void LIVEBATTLEMATCH_IRC_SetMenuValue(int *p, int a, int b)
 {
-    func_021E8738((int *)(*(int *)&((struct Obj00348 *)p)->f18), *(int *)&((struct Obj00348 *)p)->f0, a, b);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(*(int *)&((struct Obj00348 *)p)->f18), *(int *)&((struct Obj00348 *)p)->f0, a, b);
 }

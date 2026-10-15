@@ -20,9 +20,9 @@
  *   gpiSetErrorString  0x02193734  arm   ov009
  *   gpiAddCallback  0x02189dfc  arm   ov009
  *   gpiRemoveOperation  0x0218e240  arm   ov009
- *   g_021A5224     0x021a5224  data
- *   g_021A51D8     0x021a51d8  data
- *   g_021A5214     0x021a5214  data
+ *   gGpiProfileResponseDpr     0x021a5224  data
+ *   gGpiProfileErrorUnexpectedData     0x021a51d8  data
+ *   gGpiProfileErrorOutOfMemory     0x021a5214  data
  */
 
 typedef struct GPICallback {
@@ -58,9 +58,9 @@ extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
 extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
-extern char g_021A5224[];
-extern char g_021A51D8[];
-extern char g_021A5214[];
+extern char gGpiProfileResponseDpr[];
+extern char gGpiProfileErrorUnexpectedData[];
+extern char gGpiProfileErrorOutOfMemory[];
 
 int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *input)
 {
@@ -71,8 +71,8 @@ int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *inp
 
     if (gpiCheckForError((int *)connection, input, 1))
         return 4;
-    if (strncmp((const u8 *)input, (const u8 *)g_021A5224, 5) != 0) {
-        gpiSetError((int *)connection, 1, (int)g_021A51D8);
+    if (strncmp((const u8 *)input, (const u8 *)gGpiProfileResponseDpr, 5) != 0) {
+        gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
         gpiCallErrorCallback((int *)connection, 3, 1);
         return 3;
     }
@@ -80,7 +80,7 @@ int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *inp
     if (operation->callback.callback != 0) {
         arg = (GPDeleteProfileResponseArg *)gsimalloc(sizeof(GPDeleteProfileResponseArg));
         if (arg == 0) {
-            gpiSetErrorString((int *)connection, (int)g_021A5214);
+            gpiSetErrorString((int *)connection, (int)gGpiProfileErrorOutOfMemory);
             return 1;
         }
         arg->profile = iconnection->profileid;

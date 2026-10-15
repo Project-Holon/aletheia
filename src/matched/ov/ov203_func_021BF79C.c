@@ -1,5 +1,5 @@
 /*
- * function: func_021BF79C
+ * function: DEMO3D_DATA_TaskDeleteCapture
  * address:  0x021BF79C
  * packet:   pkt_021BF79C
  * region:   ov203
@@ -16,7 +16,7 @@
 
 extern void DEMO3D_DATA_DeleteCapture(int);
 
-void func_021BF79C(char *a)
+void DEMO3D_DATA_TaskDeleteCapture(char *a)
 {
     DEMO3D_DATA_DeleteCapture(((struct Obj14599 *)a)->f2C);
     ((struct Obj14599 *)a)->f2C = 0;

@@ -17,7 +17,7 @@
  *   gpiAddCallback  0x02189DFC  arm  ov009
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   gpiPeerRemoveOp  0x0218F900  arm  ov009
- *   g_021A4F30  0x021A4F30  data
+ *   gGpiPeerDebugTimeout  0x021A4F30  data
  */
 
 struct GPICallback {
@@ -54,7 +54,7 @@ extern void *gsimalloc(unsigned long size);
 extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, void *operation, int type);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation);
-extern char g_021A4F30[];
+extern char gGpiPeerDebugTimeout[];
 
 void gpiCheckTimedOutPeerOperations(void **connection, struct GPIPeer *peer)
 {
@@ -81,7 +81,7 @@ void gpiCheckTimedOutPeerOperations(void **connection, struct GPIPeer *peer)
             arg->profileid = peer->profile;
             gpiAddCallback(connection, callback, arg, 0, 0);
         }
-        gsDebugFormat(1, (char *)4, 8, g_021A4F30);
+        gsDebugFormat(1, (char *)4, 8, gGpiPeerDebugTimeout);
         gpiPeerRemoveOp(peer, anIterator);
     }
 }

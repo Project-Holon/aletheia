@@ -1,5 +1,5 @@
 /*
- * function: func_021E82BC
+ * function: WIFIBATTLEMATCH_VIEW_DeletePartyWindow
  * address: 0x021E82BC
  * packet: pkt_ov177_021E82BC
  * region: ov177
@@ -28,7 +28,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern u32 func_020307B0(void *p);
-void func_021E82BC(char *p)
+void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *p)
 {
  int i;
  *(volatile unsigned short *)0x04000050 = 0;

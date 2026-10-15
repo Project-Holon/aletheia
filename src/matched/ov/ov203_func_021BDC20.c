@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE948 0x021BE948 thumb ov203
+ *   DEMO3D_DATA_GetTextureSize 0x021BE948 thumb ov203
  *   WIPE_SetMstBrightColor 0x02022268 thumb
  *   FADE_GetSpeed 0x0204E6E0 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  */
-extern void func_021BE948(void *ctx, int mode, unsigned char *width, unsigned char *height);
+extern void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsigned char *height);
 extern void WIPE_SetMstBrightColor(unsigned);
 extern unsigned FADE_GetSpeed(void);
 extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
@@ -22,7 +22,7 @@ int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap)
     unsigned char width, height;
     unsigned char factor;
     int color;
-    func_021BE948(ctx, (unsigned char)(mode == 0), &width, &height);
+    DEMO3D_DATA_GetTextureSize(ctx, (unsigned char)(mode == 0), &width, &height);
     color = 0;
     if (width) color = 32767;
     WIPE_SetMstBrightColor(color);

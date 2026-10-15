@@ -57,7 +57,7 @@
  *   sResultBackgroundTypes 0x021B8998 data ov105 a4
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -94,7 +94,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -126,7 +126,7 @@
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
  *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  */
@@ -234,7 +234,7 @@ extern void *func_02049740(void *,int,int,int,int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileUnit(u32,u32,u32);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -264,7 +264,7 @@ extern void GF_FONT_InitTextColor(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_DeleteStrbufED04(struct WordSet *);
 extern void MSGDATA_Delete(struct MsgBank *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
@@ -277,7 +277,7 @@ extern void BMP_Clear(void *bitmap, u8 value);
 extern void BMP_WIN_TransferChars(void *window);
 extern void BMP_WIN_MakeScreen(void *window);
 extern u8 BMP_WIN_GetBgLayer(void *window);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void STRBUF_Delete(void *);
 extern void BMP_WIN_Delete(void *window);
 extern unsigned int PRINTSYS_QUE_IsExistTarget(void *queue,void *bitmap);
@@ -522,7 +522,7 @@ void IRC_RESULT_ExitBackgrounds(u32 *bgCharRegion) {
  int i;
  BG_SYS_DeleteHalf(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16));
  BG_SYS_SetTileUnit(5,1,0);
- for(i=0;i<8;i++) func_020403F4((u8)sResultBackgroundLayers[i]);
+ for(i=0;i<8;i++) BG_SYS_FreeLayerBuf((u8)sResultBackgroundLayers[i]);
  BMP_WIN_Exit(); BG_SYS_Delete();
 }
 
@@ -591,7 +591,7 @@ void IRC_RESULT_InitTextSystem(IrcTextSystem *text, int fontStyle, int heapId) {
  }
  text->printQueue = PRINTSYS_QUE_Create(heapId);
  text->messages = func_02045B38(0, 2, 0x33, heapId);
- text->wordSet = GF_FONT_Create_EC64(heapId);
+ text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
 void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { WORDSET_DeleteStrbufED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
@@ -634,7 +634,7 @@ void IRC_RESULT_InitMessageWindow(IrcTextWindow *win, u32 layer, u32 x, u8 y, u8
     window = win->window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }
 
 void IRC_RESULT_InitTextWindow(IrcTextWindow *win,u32 layer,u32 x,u8 y,u8 width,u8 height,u8 paletteNo,u16 clearColor,u8 slot,u16 heapId) {
@@ -644,7 +644,7 @@ void IRC_RESULT_InitTextWindow(IrcTextWindow *win,u32 layer,u32 x,u8 y,u8 width,
  win->buffer=STRBUF_Create(0xff,heapId);
  win->printTarget=win->window; win->isPrinting=0;
  BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor);
- window=win->window; BMP_WIN_TransferChars(window); BMP_WIN_MakeScreen(window); func_020409B4(BMP_WIN_GetBgLayer(window));
+ window=win->window; BMP_WIN_TransferChars(window); BMP_WIN_MakeScreen(window); BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }
 
 void IRC_RESULT_ExitTextWindow(IrcTextWindow *win) { STRBUF_Delete(win->buffer); BMP_WIN_Delete(win->window); MI_CpuFill8(win,0,20); }

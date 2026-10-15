@@ -22,7 +22,7 @@
  *   SOCLi_SendCommandPacket  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   SOCLi_SendCommandPacketToCtrlPipe  0x0215CEFC  arm  ov009
- *   g_021AA4AC     0x021AA4AC  data
+ *   SOCLi_Resource     0x021AA4AC  data
  *   OS_JoinThread  0x02085710  arm
  *   CPS_TcpShutdown  0x0215AD00  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
@@ -41,7 +41,7 @@
  *   OS_EnableScheduler  0x02085B60  arm
  *   OS_RescheduleThread  0x020858BC  arm
  *   SOCLi_CleanupSocket  0x0215EA1C  arm  ov009
- *   g_021AA4B8  0x021AA4B8  data
+ *   SOCLiTrashList  0x021AA4B8  data
  */
 
 #include "ov009_globals.h"
@@ -104,9 +104,9 @@ extern void SOCLi_SocketRegisterTrash(int a);
 int SOCL_IsReleased(int s);
 /* * sdk: SOCL_Close (libsoc.TWL.HYB.a(socl_close.o)) */ int SOCL_Close(int s);
 int SOCLi_CloseCallBack(void *arg);
-extern SoclResource g_021AA4AC;
+extern SoclResource SOCLi_Resource;
 extern SoclConfig *gSoclConfig;
-extern Socket *g_021AA4B8;
+extern Socket *SOCLiTrashList;
 typedef struct {
 	unsigned long pad0[2];
 	void *reply;
@@ -212,10 +212,10 @@ int SOCL_Close(int s)
 		if (socket->flag_mode != 0 && socket->flag_mode != 4)
 			mode = 0;
 		if (mode == 0) {
-			g_021AA4AC.datagramCount--;
+			SOCLi_Resource.datagramCount--;
 		} else {
 			SOCLi_SendCommandPacket((int)socket->send_pipe, 0);
-			g_021AA4AC.streamCount--;
+			SOCLi_Resource.streamCount--;
 		}
 	}
 	command = func_0215CE3C(SOCLi_CloseCallBack, socket, 1);
@@ -337,7 +337,7 @@ void SOCLi_TrashSocket(void)
 	unsigned long enable;
 
 	enable = OS_DisableInterrupts();
-	while (g_021AA4B8 != 0)
-		SOCLi_CleanupSocket(g_021AA4B8);
+	while (SOCLiTrashList != 0)
+		SOCLi_CleanupSocket(SOCLiTrashList);
 	OS_RestoreInterrupts(enable);
 }

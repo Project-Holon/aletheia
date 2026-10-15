@@ -20,7 +20,7 @@
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DrawTile 0x02041090 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ extern int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *, void **);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void ARC_TOOL_DeleteHandle(struct ArcFile *);
 void RESEARCH_TOP_LoadSubAssets(u32 heap)
 {
@@ -59,12 +59,12 @@ void RESEARCH_TOP_LoadSubAssets(u32 heap)
     buffer = ARC_TOOL_LoadHandleMember(arc, 11, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
     BG_SYS_DrawTile(4, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     func_020307B0(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 12, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen2);
     BG_SYS_DrawTile(5, (u32)((char *)screen2 + 12), 0, 0, 32, 24);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     func_020307B0(buffer);
     ARC_TOOL_DeleteHandle(arc);
 }

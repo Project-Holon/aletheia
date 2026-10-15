@@ -30,7 +30,7 @@
  *   INFOWIN_WriteScreen       0x02025154  thumb
  *   INFOWIN_LoadCharacters       0x020251D8  thumb
  *   BG_SYS_DrawTileEx       0x020410D0  arm
- *   func_020409B4       0x020409B4  arm
+ *   BG_SYS_PushTile       0x020409B4  arm
  *   func_02035630       0x02035630  arm
  *   OS_IsRunOnTwl       0x02085D3C  arm
  *   _s32_div_f          0x0209C0A4  arm
@@ -84,7 +84,7 @@ extern const u16 d_0209F830[];
 extern void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
 extern int  INFOWIN_LoadCharacters(int a0, const void *a1, int a2);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_020409B4(u32 a0);
+extern void BG_SYS_PushTile(u32 a0);
 extern u8 func_02035630(void);
 extern int  OS_IsRunOnTwl(void);
 
@@ -192,5 +192,5 @@ void INFOWIN_DrawTask(void)
     }
 
     if (done == 1)
-        func_020409B4(gInfoWin->f06);
+        BG_SYS_PushTile(gInfoWin->f06);
 }

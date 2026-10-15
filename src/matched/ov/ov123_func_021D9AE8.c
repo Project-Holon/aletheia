@@ -15,7 +15,7 @@
  * symbols:
  *   d_021DA8A8      0x021DA8A8  data
  *   BG_SYS_InitBgLayer   0x0203FCA0  arm
- *   func_020409B4   0x020409B4  arm
+ *   BG_SYS_PushTile   0x020409B4  arm
  *   func_02040588   0x02040588  arm
  *   BG_SYS_Init   0x02040C14  arm
  *   BG_SYS_SetTileEntry   0x02041300  arm
@@ -43,7 +43,7 @@ struct BgTemplate {
 
 extern const struct BgTemplate d_021DA8A8[8];
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_SetTileEntry(u32, u32, u32, u32, u8, u8, u8);
@@ -55,51 +55,51 @@ void PDWACC_DISP_InitBgLayers(void *a0)
     b[7] = d_021DA8A8[1];
     BG_SYS_InitBgLayer(0, &b[7], 0);
     func_02040588(0, 1);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 
     b[6] = d_021DA8A8[4];
     BG_SYS_InitBgLayer(1, &b[6], 0);
     func_02040588(1, 1);
     BG_SYS_Init(1, 0, 1, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 
     b[5] = d_021DA8A8[3];
     BG_SYS_InitBgLayer(2, &b[5], 0);
     func_02040588(2, 1);
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 
     b[4] = d_021DA8A8[7];
     BG_SYS_InitBgLayer(3, &b[4], 0);
     func_02040588(3, 1);
     BG_SYS_Init(3, 0, 1, 0);
     BG_SYS_SetTileEntry(3, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
 
     b[3] = d_021DA8A8[5];
     BG_SYS_InitBgLayer(4, &b[3], 0);
     func_02040588(4, 1);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 
     b[2] = d_021DA8A8[0];
     BG_SYS_InitBgLayer(5, &b[2], 0);
     func_02040588(5, 1);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
 
     b[1] = d_021DA8A8[6];
     BG_SYS_InitBgLayer(6, &b[1], 0);
     func_02040588(6, 1);
     BG_SYS_Init(6, 0, 1, 0);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
 
     b[0] = d_021DA8A8[2];
     BG_SYS_InitBgLayer(7, &b[0], 0);
     func_02040588(7, 1);
     BG_SYS_Init(7, 0, 1, 0);
     BG_SYS_SetTileEntry(7, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE9C
+ * function: BTL_REC_SEL_InitPalanm
  * address: 0x021BAE9C
  * packet: pkt_ov214_021BAE9C
  * region: ov214
@@ -32,7 +32,7 @@ extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern const char site[];
-void func_021BAE9C(int unused,char *p)
+void BTL_REC_SEL_InitPalanm(int unused,char *p)
 {
     ((struct Obj00182 *)p)->f2DC=func_02030734(((struct Obj00182 *)p)->f0,func_02030CB0(2),1,site,2403);
     ((struct Obj00182 *)p)->f2D8=func_02030CBC(2,((struct Obj00182 *)p)->f2DC);

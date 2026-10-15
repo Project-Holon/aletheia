@@ -24,7 +24,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
  *   WORDSET_SetSlotBoxName 0x0201F164 thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -60,7 +60,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *,u32,void *);
 extern void WORDSET_SetSlotBoxName(struct WordSet *,u32,u32,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
@@ -102,7 +102,7 @@ int ZUKAN_NICKNAME_Main(char *p)
             BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj00181 *)p)->f24),15);
             PRINTSYS_PrintStreamDelete(((struct Obj00181 *)p)->f28);
             STRBUF_Delete(*(struct U16Vec * *)&((struct Obj00181 *)p)->f2C);
-            ws=GF_FONT_Create_EC64(((struct Obj00181 *)p)->f0);
+            ws=WORDSET_CreateDefault(((struct Obj00181 *)p)->f0);
             WORDSET_SetSlotMonSpecies(ws,0,((struct Obj00181 *)p)->f4);
             WORDSET_SetSlotBoxName(ws,1,((struct Obj00181 *)p)->fC,((struct Obj00181 *)p)->f10);
             *(struct U16Vec * *)&((struct Obj00181 *)p)->f2C=STRBUF_Create(64,((struct Obj00181 *)p)->f0);

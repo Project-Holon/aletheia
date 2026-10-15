@@ -19,15 +19,15 @@
 void FIELDMAP_Delete(int *p);
 struct Ctx;
 void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v);
-struct S020315D4;
-void func_020315D4(struct S020315D4 *p);
+struct Proc;
+void func_020315D4(struct Proc *p);
 void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 int FIELDMAP_ProcExit(int a, int unused, int b, int *c)
 {
     FIELDMAP_Delete((int *)(*c));
     GAMESYSTEM_SetFieldMap((void *)b, 0);
-    func_020315D4((struct S020315D4 *)a);
+    func_020315D4((struct Proc *)a);
     GFL_HEAP_DeleteChecked(0x96);
     GFL_HEAP_DeleteChecked(0x92);
     GFL_HEAP_DeleteChecked(0x93);

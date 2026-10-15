@@ -1,5 +1,5 @@
 /*
- * function: func_021D9348
+ * function: WF2DMAP_SCENE_BuildNumberList
  * address: 0x021D9348
  * packet: pkt_ov129_021D9348
  * region: ov129
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   STRBUF_Create 0x020457B0 arm
- *   func_021DA158 0x021DA158 thumb ov129
+ *   WF2DMAP_SCENE_GetCellAnim 0x021DA158 thumb ov129
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   WORDSET_FormatNumber 0x0201F35C thumb
  *   STRBUF_Append 0x02045AA8 arm
@@ -23,7 +23,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern int func_021DA158(int x, int flag);
+extern int WF2DMAP_SCENE_GetCellAnim(int x, int flag);
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -31,7 +31,7 @@ extern void WORDSET_FormatNumber(void *ctx, s32 n, u32 kind, u32 mode, u32 flag)
 extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WF2DMAP_SCENE_ResetState(char *,int);
-void func_021D9348(char *p)  {
+void WF2DMAP_SCENE_BuildNumberList(char *p)  {
     int i;
     char *q;
     void *v=STRBUF_Create(100,50);
@@ -41,7 +41,7 @@ void func_021D9348(char *p)  {
         q=p+i*28;
         if(((struct Obj06479 *)q)->f0==0)  {
             ((struct Obj06479 *)q)->f0=1;
-            CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj06479 *)q)->fC),func_021DA158(1,((struct Obj06479 *)q)->f8));
+            CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj06479 *)q)->fC),WF2DMAP_SCENE_GetCellAnim(1,((struct Obj06479 *)q)->f8));
         }
         WORDSET_FormatNumber(v,((struct Obj06479 *)q)->f0-1,1,1,1);
         STRBUF_Append((struct U16Vec *)(((struct Obj08137 *)p)->f348),v);

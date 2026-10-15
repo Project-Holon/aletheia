@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BCAF4  0x021BCAF4  thumb  ov216
- *   func_021BCB98  0x021BCB98  thumb  ov216
+ *   BEACON_DETAIL_GRA_UpdateBg  0x021BCAF4  thumb  ov216
+ *   BEACON_DETAIL_GRA_VBlankClact  0x021BCB98  thumb  ov216
  *
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BCAF4(void *);
-extern void func_021BCB98(void *);
+extern void BEACON_DETAIL_GRA_UpdateBg(void *);
+extern void BEACON_DETAIL_GRA_VBlankClact(void *);
 
 void BEACON_DETAIL_GRA_Task(void *unused, char *p)
 {
-    func_021BCAF4(p);
-    func_021BCB98(p + 4);
+    BEACON_DETAIL_GRA_UpdateBg(p);
+    BEACON_DETAIL_GRA_VBlankClact(p + 4);
 }

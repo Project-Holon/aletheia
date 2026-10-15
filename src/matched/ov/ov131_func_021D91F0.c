@@ -12,7 +12,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -39,7 +39,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -64,7 +64,7 @@ void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
     MI_CpuCopy8(pixels,source,0x660);
     text=func_02045EC0(((struct Obj10517 *)p)->f50,record[5]+160);
     buffer=STRBUF_Create(32,((struct Obj10516 *)a)->f0);
-    object=GF_FONT_Create_EC64(((struct Obj10516 *)a)->f0);
+    object=WORDSET_CreateDefault(((struct Obj10516 *)a)->f0);
     WORDSET_SetSlotNumber(object,0,record[6],2,2,1);
     WORDSET_CopyTaggedText(object,buffer,text);
     GF_FONT_SetTextColor(1,2,0);

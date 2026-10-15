@@ -1,5 +1,5 @@
 /*
- * function: func_021BA898
+ * function: MANUAL_COMMON_LoadListWorkAssets
  * address: 0x021BA898
  * packet: pkt_ov225_021BA898
  * region: ov225
@@ -20,9 +20,9 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   MANUAL_GRAPHIC_GetClactUnit 0x021B9A08 thumb ov225
- *   func_021BA9D0 0x021BA9D0 thumb ov225
- *   d_021BBF8C 0x021BBF8C data ov225 a2
- *   d_021BBF94 0x021BBF94 data ov225 a2
+ *   MANUAL_COMMON_CreateListWorkMenu 0x021BA9D0 thumb ov225
+ *   gManualCommonListHeadPos 0x021BBF8C data ov225 a2
+ *   gManualCommonListRowPos 0x021BBF94 data ov225 a2
  */
 #include "../include/Obj00074.h"
 #include "../include/Obj14804.h"
@@ -43,7 +43,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
 struct Quad { short x,y,z,w; };
-extern const struct Quad d_021BBF8C,d_021BBF94;
+extern const struct Quad gManualCommonListHeadPos,gManualCommonListRowPos;
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
@@ -56,8 +56,8 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
-extern void func_021BA9D0(char *);
-void func_021BA898(char *p)
+extern void MANUAL_COMMON_CreateListWorkMenu(char *);
+void MANUAL_COMMON_LoadListWorkAssets(char *p)
 {
     struct Quad q[2];
     u8 i;
@@ -68,12 +68,12 @@ void func_021BA898(char *p)
     *(int *)&((struct Obj00074 *)p)->f54=CLACT_RegisterPaletteEx(((struct Obj26191 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,1,1,0,0,1,((struct Obj26192 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f50=CLACT_RegisterCharacter(((struct Obj26193 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,3,0,1,((struct Obj26194 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     *(int *)&((struct Obj00074 *)p)->f58=CLACT_RegisterCellAnim(((struct Obj26195 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,7,8,((struct Obj26196 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-    q[1]=d_021BBF8C;
+    q[1]=gManualCommonListHeadPos;
     parent=*(char * *)&((struct Obj00074 *)p)->f4;
     ((struct Obj00074 *)p)->f5C=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14804 *)parent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[1],1,((struct Obj14804 *)parent)->f4);
     CLACT_SetActorDrawEnable(((struct Obj00074 *)p)->f5C,0);
     CLACT_SetActorAutoAnim(((struct Obj00074 *)p)->f5C,1);
-    q[0]=d_021BBF94;
+    q[0]=gManualCommonListRowPos;
     for(i=0;i<8;i++) {
         char *loopparent;
         q[0].y=i*24-8;
@@ -82,5 +82,5 @@ void func_021BA898(char *p)
         CLACT_SetActorDrawEnable(*(void **)(p+i*4+0x60),0);
         CLACT_SetActorAutoAnim(*(void **)(p+i*4+0x60),1);
     }
-    func_021BA9D0(p);
+    MANUAL_COMMON_CreateListWorkMenu(p);
 }

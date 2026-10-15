@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D38
+ * function: MYSTERY_DeleteParticle
  * address:  0x021D6D38
  * packet:   pkt_021D6D38
  * region:   ov121
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021D6D38(void *p)
+void MYSTERY_DeleteParticle(void *p)
 {
     func_020307B0(((struct Obj22854 *)p)->f8);
     MI_CpuFill8(p, 0, 0x10);

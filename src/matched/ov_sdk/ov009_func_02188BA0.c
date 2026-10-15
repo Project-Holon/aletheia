@@ -28,10 +28,10 @@
  *   gpiStatusInfoAddKey  0x0218D878  arm   ov009
  *   gpiStatusInfoSetKey  0x0218D900  arm   ov009
  *   gpiPeerRemoveOp  0x0218F900  arm   ov009
- *   g_021A446C     0x021A446C  data
- *   g_021A4468     0x021A4468  data
- *   g_021A4480     0x021A4480  data
- *   g_021A4488     0x021A4488  data
+ *   gGpiBuddyErrorInvalidProfile     0x021A446C  data
+ *   gGpiBuddyEmptyMsg     0x021A4468  data
+ *   gGpiBuddyKeyKeys     0x021A4480  data
+ *   gGpiBuddyErrorReadingKeys     0x021A4488  data
  */
 
 typedef void (*GPCallback)(void **connection, void *arg, void *param);
@@ -91,21 +91,21 @@ extern int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, c
 extern int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *theKeyValue);
 extern int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newValue);
 extern void gpiPeerRemoveOp(GPIPeer *peer, GPIPeerOp *operation);
-extern char g_021A446C[];
-extern char g_021A4468[];
-extern char g_021A4480[];
-extern char g_021A4488[];
+extern char gGpiBuddyErrorInvalidProfile[];
+extern char gGpiBuddyEmptyMsg[];
+extern char gGpiBuddyKeyKeys[];
+extern char gGpiBuddyErrorReadingKeys[];
 
 int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer)
 {
     GPIProfile *pProfile;
 
     if (!func_0218FD9C(connection, peer->profile, &pProfile)) {
-        gpiSetErrorString((int *)connection, (int)g_021A446C);
+        gpiSetErrorString((int *)connection, (int)gGpiBuddyErrorInvalidProfile);
         return 2;
     }
 
-    if (strcmp(buffer, g_021A4468) == 0) {
+    if (strcmp(buffer, gGpiBuddyEmptyMsg) == 0) {
         GPIPeerOp *anIterator;
         for (anIterator = peer->firstOp; anIterator != 0; anIterator = anIterator->next)
             if (anIterator->type == 0x68)
@@ -142,8 +142,8 @@ int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer)
         checkKey = 0;
 
         gpiReadKeyAndValue((int *)connection, buffer, &index, keyName, keyVal);
-        if (strcmp(keyName, g_021A4480) != 0) {
-            gpiSetError((int *)connection, 1, (int)g_021A4488);
+        if (strcmp(keyName, gGpiBuddyKeyKeys) != 0) {
+            gpiSetError((int *)connection, 1, (int)gGpiBuddyErrorReadingKeys);
             gpiCallErrorCallback((int *)connection, 3, 0);
             return 3;
         }

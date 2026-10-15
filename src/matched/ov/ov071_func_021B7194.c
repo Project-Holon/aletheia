@@ -1,5 +1,5 @@
 /*
- * function: func_021B7194
+ * function: MONOLITH_TOOL_OpenTaskMenu
  * address:  0x021B7194
  * packet:   pkt_ov071_021B7194
  * region:   ov071
@@ -29,7 +29,7 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-void *func_021B7194(int *p, void *arg1, u32 heap)
+void *MONOLITH_TOOL_OpenTaskMenu(int *p, void *arg1, u32 heap)
 {
     Item it[2];
     struct {

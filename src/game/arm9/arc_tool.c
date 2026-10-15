@@ -44,7 +44,7 @@
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DecodeTileSource  0x02040AF0  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_02041B6C  0x02041B6C  arm
  *   sub_02049B90   0x02049B90  arm
  *   sub_02049BDC   0x02049BDC  arm
@@ -176,7 +176,7 @@ extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 of
 
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
-extern void func_020409B4(u8 channel);
+extern void BG_SYS_PushTile(u8 channel);
 
 extern void func_02041B6C(u8 channel);
 
@@ -1346,7 +1346,7 @@ u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u
  * (+0x08); when `add` is non-zero, add it to every entry of the data at +0x0C
  * -- as halfwords (size / 2 of them) when BG_SYS_GetField16 says the channel is
  * not 8-bit, else as bytes; then upload through BG_SYS_DecodeTileSource plus the
- * flag-selected commit (func_02041B6C / func_020409B4) or BG_SYS_PushTileSource, and
+ * flag-selected commit (func_02041B6C / BG_SYS_PushTile) or BG_SYS_PushTileSource, and
  * release the resource either way.  Every `and rN, r7, #0xff` is a callee's
  * u8 channel parameter, not a cast in the source.
  *
@@ -1382,7 +1382,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
             if (flag != 0)
                 func_02041B6C(channel);
             else
-                func_020409B4(channel);
+                BG_SYS_PushTile(channel);
         } else {
             BG_SYS_PushTileSource((u8)channel, pal->data, size, a2);
         }

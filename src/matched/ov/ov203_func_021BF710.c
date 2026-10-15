@@ -1,5 +1,5 @@
 /*
- * function: func_021BF710
+ * function: DEMO3D_DATA_CreateFadeWork
  * address: 0x021BF710
  * packet: pkt_ov203_021BF710
  * region: ov203
@@ -17,7 +17,7 @@ extern void MI_CpuFill8(void *,int,int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-void func_021BF710(char *p,Work *out,int a,int b,int c,int d,int e,int f)
+void DEMO3D_DATA_CreateFadeWork(char *p,Work *out,int a,int b,int c,int d,int e,int f)
 {
     MI_CpuFill8(out,0,0x2C);
     out->ctx=p;out->c=d;out->a=a;out->d=c;out->b=b;out->e=e;out->f=f;

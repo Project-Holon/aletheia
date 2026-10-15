@@ -1,5 +1,5 @@
 /*
- * file:     namein_graphic_p01.c
+ * file:     namein_graphic_main.c
  * unit:     yes
  * function: NAMEIN_GRAPHIC_Create, NAMEIN_GRAPHIC_Delete, NAMEIN_GRAPHIC_Main, NAMEIN_GRAPHIC_LoadBgPalette, NAMEIN_GRAPHIC_UpdateBg, NAMEIN_GRAPHIC_CreateActors, NAMEIN_GRAPHIC_DeleteActors, NAMEIN_GRAPHIC_GetActor, NAMEIN_GRAPHIC_InitCursor, NAMEIN_GRAPHIC_ClearCursor, NAMEIN_GRAPHIC_SetupCursor, NAMEIN_GRAPHIC_UpdateCursor
  * address:  0x021F1440
@@ -20,7 +20,7 @@
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   NAMEIN_GRAPHIC_CreateDisplay  0x021F4AE4  thumb  ov194
  *   NAMEIN_GRAPHIC_GetDisplayHandle  0x021F4BEC  thumb  ov194
  *   BMP_OAM_CreateSys  0x02025538  thumb
@@ -92,7 +92,7 @@
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   func_020355C4 0x020355C4 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   NAMEIN_GRAPHIC_FadeCellColor 0x021F1D58 thumb ov194
  *   func_02040804 0x02040804 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -103,10 +103,10 @@ struct Blk34;
 struct GfFont;
 struct MsgBank;
 struct WordSet;
-struct Obj0203159C;
+struct Proc;
 struct PrintSys;
 struct Rec;
-struct S020315D4;
+struct Proc;
 struct Obj;
 struct Actor;
 typedef unsigned char u8;
@@ -196,12 +196,12 @@ typedef struct NameinGraphicWork {
 
 extern u8 BEACON_GetInputFlag(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap);
 extern unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
 extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
@@ -242,7 +242,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32);
 extern void NAMEIN_GRAPHIC_RunCallback(u8 *);
 extern void NAMEIN_GRAPHIC_DrawDisplay(u8 *);
@@ -276,7 +276,7 @@ extern void CLACT_RestartActorAnim(struct Actor *a);
 extern int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
 extern u32 func_02040804(u32 layer);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-u32 NAMEIN_GRAPHIC_Create(struct Obj0203159C *a, u32 b, u8 *args);
+u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args);
 int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d);
 int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p);
 void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap);
@@ -294,7 +294,7 @@ extern u32 d_021F5780[];
 
 
 
-u32 NAMEIN_GRAPHIC_Create(struct Obj0203159C *a, u32 b, u8 *args)
+u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
 {
     u8 *w;
     int mode;
@@ -315,7 +315,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Obj0203159C *a, u32 b, u8 *args)
     *(u32 *)(w + 0x2b0) = (u32)GF_FONT_Create(0x17, 0, 1, 0, 0x1e);
     *(u32 *)(w + 0x2b4) = (u32)PRINTSYS_QUE_CreateEx(0x1000, 0x1e);
     *(u32 *)(w + 0x2b8) = (u32)func_02045B38(1, 2, 0x51, 0x1e);
-    *(u32 *)(w + 0x2bc) = (u32)GF_FONT_Create_EC64(0x1e);
+    *(u32 *)(w + 0x2bc) = (u32)WORDSET_CreateDefault(0x1e);
     *(u32 *)w = (u32)NAMEIN_GRAPHIC_CreateDisplay(0, 0x1e);
     *(u32 *)(w + 0x2c0) = (u32)BMP_OAM_CreateSys(0x1e, (void *)NAMEIN_GRAPHIC_GetDisplayHandle((unsigned char *)(*(u32 *)w)));
     NAMEIN_GRAPHIC_LoadBgPalette((int)(w + 0x64), 0x1e);
@@ -537,8 +537,8 @@ void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int s
         CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorA,0);
         CLACT_SetActorDrawEnable(((NameinGraphicCursor *)p)->actorB,0);
     }
-    func_020409B4(2);
-    func_020409B4(1);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(1);
     if(mode!=0) {
         MI_CpuFill8(p+0x60,0,32);
         ((NameinGraphicCursor *)p)->blinkTimer=0;

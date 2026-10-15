@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0E4
+ * function: BEACON_DETAIL_GRA_SetSlotVisible
  * address: 0x021BD0E4
  * packet: pkt_ov216_021BD0E4
  * region: ov216
@@ -24,7 +24,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *, int, u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-void func_021BD0E4(char *p, u8 index, u32 enable)
+void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable)
 {
     char *entry;
     entry = p + 0x15c + index * 128;

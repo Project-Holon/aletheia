@@ -29,7 +29,7 @@
  *   gpiSetErrorString  0x02193734  arm  ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   gpiAddCallback  0x02189DFC  arm  ov009
- *   g_021A4DF8     0x021A4DF8  data
+ *   gGpiOperationErrorOutOfMemory     0x021A4DF8  data
  */
 typedef struct GPICallback {
     void *callback;
@@ -90,7 +90,7 @@ typedef struct GPRegisterCdKeyResponseArg {
     int result;
 } GPRegisterCdKeyResponseArg;
 
-extern char g_021A4DF8[];
+extern char gGpiOperationErrorOutOfMemory[];
 
 extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(void **connection, char *errorString);
@@ -110,7 +110,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPConnectResponseArg *arg;
             arg = (GPConnectResponseArg *)gsimalloc(sizeof(GPConnectResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPConnectResponseArg));
@@ -131,7 +131,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPNewProfileResponseArg *arg;
             arg = (GPNewProfileResponseArg *)gsimalloc(sizeof(GPNewProfileResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPNewProfileResponseArg));
@@ -148,7 +148,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPDeleteProfileResponseArg *arg;
             arg = (GPDeleteProfileResponseArg *)gsimalloc(sizeof(GPDeleteProfileResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPDeleteProfileResponseArg));
@@ -165,7 +165,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPGetInfoResponseArg *arg;
             arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPGetInfoResponseArg));
@@ -182,7 +182,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPProfileSearchResponseArg *arg;
             arg = (GPProfileSearchResponseArg *)gsimalloc(sizeof(GPProfileSearchResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPProfileSearchResponseArg));
@@ -200,7 +200,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPRegisterUniqueNickResponseArg *arg;
             arg = (GPRegisterUniqueNickResponseArg *)gsimalloc(sizeof(GPRegisterUniqueNickResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPRegisterUniqueNickResponseArg));
@@ -217,7 +217,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPRegisterCdKeyResponseArg *arg;
             arg = (GPRegisterCdKeyResponseArg *)gsimalloc(sizeof(GPRegisterCdKeyResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, g_021A4DF8);
+                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPRegisterCdKeyResponseArg));

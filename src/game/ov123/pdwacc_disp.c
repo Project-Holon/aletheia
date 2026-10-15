@@ -14,7 +14,7 @@
  *
  * symbols:
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -26,7 +26,7 @@
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E468 0x0207E468 arm
@@ -46,7 +46,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   func_02030734 0x02030734 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -117,7 +117,7 @@
 
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
@@ -149,7 +149,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
@@ -195,7 +195,7 @@ extern void func_0207D63C(void *,int,int,int,int);
 
 extern void APP_TASKMENU_UpdateMenu(void *);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void CLACT_DrawSystem(void);
 
@@ -389,8 +389,8 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp)
     CLACT_ExitSystem();
     BG_SYS_SetTileUnit(1,1,0);
     BG_SYS_SetTileUnit(6,1,0);
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     func_02040588(5,0);
     BG_SYS_Delete();
     func_020307B0(disp);
@@ -409,53 +409,53 @@ void PDWACC_DISP_InitBgLayers(PdwaccDispWork *disp)
     bgTemplates[7] = d_021DA8A8[1];
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&bgTemplates[7]), 0);
     func_02040588(0, 1);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
 
     bgTemplates[6] = d_021DA8A8[4];
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&bgTemplates[6]), 0);
     func_02040588(1, 1);
     BG_SYS_Init(1, 0, 1, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 
     bgTemplates[5] = d_021DA8A8[3];
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&bgTemplates[5]), 0);
     func_02040588(2, 1);
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 
     bgTemplates[4] = d_021DA8A8[7];
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&bgTemplates[4]), 0);
     func_02040588(3, 1);
     BG_SYS_Init(3, 0, 1, 0);
     BG_SYS_SetTileEntry(3, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
 
     bgTemplates[3] = d_021DA8A8[5];
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&bgTemplates[3]), 0);
     func_02040588(4, 1);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 
     bgTemplates[2] = d_021DA8A8[0];
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)(&bgTemplates[2]), 0);
     func_02040588(5, 1);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
 
     bgTemplates[1] = d_021DA8A8[6];
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)(&bgTemplates[1]), 0);
     func_02040588(6, 1);
     BG_SYS_Init(6, 0, 1, 0);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
 
     bgTemplates[0] = d_021DA8A8[2];
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&bgTemplates[0]), 0);
     func_02040588(7, 1);
     BG_SYS_Init(7, 0, 1, 0);
     BG_SYS_SetTileEntry(7, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }
 
 /*
@@ -544,7 +544,7 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
             func_0207E468(&palette->blendedPalettes[palette->frame][4],40,14);
             ++palette->frame;
             if (palette->frame>=60) palette->frame=0;
-            func_02040618(palette->bgLayer,2,7);
+            BG_SYS_FillScrollArea(palette->bgLayer,2,7);
         }
     }
 }

@@ -24,7 +24,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
@@ -33,7 +33,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
- *   BG_SYS_Delete_03F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
@@ -179,7 +179,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 
 extern void WORLDTRADE_TITLE_ScrollBg(Work *, u32, u32);
 
@@ -201,7 +201,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -267,7 +267,6 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern u8 unit_02045730(u32 a);
 
-extern void BG_SYS_PushTile(u32 index);
 
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 
@@ -589,7 +588,7 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
         BG_SYS_InitBgLayer(2, &t, 0);
     }
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x18, 0);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_02040588(2, 1);
     {
         struct BgTemplate_021F4580 t = g_02202FA4;
@@ -606,10 +605,10 @@ void WORLDTRADE_DEPOSIT_SetupBgPlanes(void)
  */
 void WORLDTRADE_DEPOSIT_ExitBgPlanes(void)
 {
-    BG_SYS_Delete_03F4(2);
-    BG_SYS_Delete_03F4(1);
-    BG_SYS_Delete_03F4(0);
-    BG_SYS_Delete_03F4(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(3);
 }
 
 void WORLDTRADE_DEPOSIT_LoadBgGraphics(Work *p)
@@ -635,14 +634,14 @@ void WORLDTRADE_DEPOSIT_CreateWindows(Work *p)
     w = p->d40;
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_020409B4(BMP_WIN_GetBgLayer(w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
     for (i = 0; i < 6; i++) {
         p->wins[i] = (void *)BMP_WIN_Create(3, (u8)tbl_02202EC0[i][0], (u8)tbl_02202EC0[i][1], (u8)12, 2, 13, (u16)1);
         BMP_Clear(BMP_WIN_GetBmp(p->wins[i]), 0);
         w = p->wins[i];
         BMP_WIN_TransferChars(w);
         BMP_WIN_MakeScreen(w);
-        func_020409B4(BMP_WIN_GetBgLayer(w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
     }
     WORLDTRADE_TITLE_CreateMenuWindow(p, 3);
 }

@@ -132,7 +132,7 @@
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Create 0x020457B0 arm
@@ -236,7 +236,7 @@ struct Big;
 struct Sub0200852CObj;
 struct Sub02009470Obj;
 struct Tcbl;
-struct Obj0203159C;
+struct Proc;
 struct WordSet;
 struct PrintSys;
 struct Obj;
@@ -246,7 +246,7 @@ struct CharBuf;
 struct MsgBank;
 struct Rec;
 struct S02031140;
-struct S020315D4;
+struct Proc;
 struct Cfg;
 struct BgTemplate;
 struct GfFont;
@@ -320,7 +320,7 @@ typedef struct { V3 a; V3 b; } Pair;
 typedef struct { int m[9]; } M33;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *func_02012944(void *p);
@@ -372,7 +372,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct Pri
 extern int APP_KEYCURSOR_Delete(int);
 extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned WORDSET_DeleteStrbufED04(struct WordSet *);
-extern void func_021845A4(int),func_020315D4(struct S020315D4 *),GFL_HEAP_DeleteChecked(unsigned int);
+extern void func_021845A4(int),func_020315D4(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_0208068C(unsigned),MIi_CpuClearFast(unsigned,void *,unsigned),func_02080B98(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(unsigned),BG_SYS_SetGraphicsMode(struct DispConfig *);
@@ -408,7 +408,7 @@ extern void BG_SYS_SetFlagField06(u32);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_PrintQue(struct PrintSys *,unsigned,unsigned,unsigned,void *,unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -468,7 +468,7 @@ int BEACON_DETAIL_Main(void *unused, char *state, int unused2, char *ctx);
 void func_02183CBC(u8 *p,u32 i);
 void func_02183CEC(u8 *p);
 int func_02183D14(u8 *p, int *state);
-int BEACON_DETAIL_Exit(struct S020315D4 *controller,void *unused1,void *unused2,char *p);
+int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char *p);
 void func_021844E4(void);
 void func_02184558(unsigned heap);
 void func_021845A4(int a);
@@ -1043,7 +1043,7 @@ int func_02183D14(u8 *p, int *state)
 
 
 
-int BEACON_DETAIL_Exit(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
+int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=((struct Obj05564 *)p)->f0;
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
@@ -1436,7 +1436,7 @@ void func_02184CB0(char *p)
     STRBUF_Delete(*(struct U16Vec * *)&((struct Obj02933 *)p)->fC064);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj02933 *)p)->fC068);
     ((struct Obj02933 *)p)->fC05C=0;((struct Obj02933 *)p)->fC060=0;
     BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj02933 *)p)->fC01C);
-    func_020403F4(2);func_020403F4(6);func_020403F4(3);func_020403F4(7);
+    BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(7);
     GF_FONT_Delete(((struct Obj02933 *)p)->fC06C);
     GF_FONT_SetTextColor((unsigned char)p[0xc084],(unsigned char)p[0xc085],(unsigned char)p[0xc086]);
 }

@@ -14,7 +14,7 @@
  *   KEY_GetCont  0x0203630C  arm
  *   FIELD_MSGBG_MsgStreamMain  0x02190D5C  thumb  ov021
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   FIELD_MSGBG_IsCursorDrawn  0x021927F8  thumb  ov021
  *   FIELD_MSGBG_ClearCursor  0x021927FC  thumb  ov021
  *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
@@ -34,7 +34,7 @@ extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern int FIELD_MSGBG_MsgStreamMain(u32 *p);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern u8 FIELD_MSGBG_IsCursorDrawn(u8 *p);
 struct Cur;
 extern void FIELD_MSGBG_ClearCursor(struct Cur *c, u32 win, u32 col);
@@ -51,7 +51,7 @@ u32 FIELD_MSGBG_PlainWinMain(u32 *a)
     KEY_GetCont();
     r = FIELD_MSGBG_MsgStreamMain((u32 *)a[7]);
     a[9] = PRINTSYS_PrintStreamGetState((void *)(*(u32 *)(a[7] + 4)));
-    func_02040618(1, 3, ((struct Obj00005 *)a)->f28);
+    BG_SYS_FillScrollArea(1, 3, ((struct Obj00005 *)a)->f28);
     if (((struct Obj00005 *)a)->f28 < 0) {
         ((struct Obj00005 *)a)->f28 += 2;
         if (((struct Obj00005 *)a)->f28 > 0) {
@@ -75,7 +75,7 @@ u32 FIELD_MSGBG_PlainWinMain(u32 *a)
     case 2:
         if (((struct Obj00005 *)a)->f28 != 0) {
             ((struct Obj00005 *)a)->f28 = 0;
-            func_02040618(1, 3, ((struct Obj00005 *)a)->f28);
+            BG_SYS_FillScrollArea(1, 3, ((struct Obj00005 *)a)->f28);
         }
         return 1;
     }

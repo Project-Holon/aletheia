@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF54
+ * function: MYSTERY_ALBUM_SetupIconSprite
  * address: 0x021DCF54
  * packet: pkt_ov121_021DCF54
  * region: ov121
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
-void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
+void MYSTERY_ALBUM_SetupIconSprite(char *p,void *arc,int id,int index,u8 other,u16 heap)
 {
     void *res;
     void *allocation;

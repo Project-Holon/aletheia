@@ -1,5 +1,5 @@
 /*
- * function: func_0221372C
+ * function: WIFIBATTLEMATCH_SYS_DeleteProcWork
  * address: 0x0221372C
  * packet: pkt_ov199_0221372C
  * region: ov199
@@ -22,7 +22,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D00[];
 extern void func_0203133C(struct S020314B8 *p);
 extern u32 func_020307B0(void *p);
-void func_0221372C(char *p)
+void WIFIBATTLEMATCH_SYS_DeleteProcWork(char *p)
 {
     if (((struct Obj14584 *)p)->f4) func_02034714(d_02213D00, 0, d_02213D00);
     func_0203133C(((struct Obj14584 *)p)->f0);

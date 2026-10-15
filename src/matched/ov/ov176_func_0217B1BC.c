@@ -14,7 +14,7 @@
  *   LIVEBATTLEMATCH_FLOW_Release 0x0217BAF4 thumb ov176
  *   LIVEBATTLEMATCH_FLOW_GetResult 0x0217BB3C thumb ov176
  *   LIVEBATTLEMATCH_FLOW_Delete 0x0217BA9C thumb ov176
- *   func_021E8AA0 0x021E8AA0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
  *   BATTLE_CHAMPIONSHIP_FLOW_FadeOut 0x0217B064 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_StartMenu 0x0217B0C8 thumb ov176
  */
@@ -26,7 +26,7 @@ extern u8 *LIVEBATTLEMATCH_FLOW_Create(Init *,u32);
 extern void LIVEBATTLEMATCH_FLOW_Release(int *);
 extern int LIVEBATTLEMATCH_FLOW_GetResult(int *);
 extern void LIVEBATTLEMATCH_FLOW_Delete(int *);
-extern void func_021E8AA0(int *,int);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *,int);
 extern void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *,int *,char *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *,int *,int *);
 void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *a,int *state,int *p)
@@ -65,12 +65,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *a,int *state,int *p)
         break;
     case 2:
         LIVEBATTLEMATCH_FLOW_Delete((int *)p[11]);
-        func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
+        WIFIBATTLEMATCH_UTIL_SetCallback(a,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
         p[12]=1;
         LIVEBATTLEMATCH_FLOW_Delete((int *)p[11]);
-        func_021E8AA0(a,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
+        WIFIBATTLEMATCH_UTIL_SetCallback(a,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
         break;
     }
 }

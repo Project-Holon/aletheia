@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * blocker:  every concrete byte reproduces; the single call to
- *   func_021E8A90 (0x021E8A90) stays wildcarded because the target is an
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull (0x021E8A90) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *   func_021E8A90  0x021E8A90  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull  0x021E8A90  thumb  ov177
  */
 #include "../include/Obj14362.h"
 
-extern int func_021E8A90(int **p);
+extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **p);
 
 int LIVEBATTLEMATCH_FLOW_GetResult(int *p)
 {
-    if (func_021E8A90((int **)(((struct Obj14362 *)p)->f0)))
+    if (WIFIBATTLEMATCH_UTIL_IsCallbackNull((int **)(((struct Obj14362 *)p)->f0)))
         return ((struct Obj14362 *)p)->f19C;
     return 0;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE538",
+   "name": "DEMO3D_ENGINE_Update",
    "address": "0x021BE538",
    "kind": "game",
    "region": "ov203",

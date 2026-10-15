@@ -21,8 +21,8 @@
  *   current_time     0x0217f264  arm
  *   sendto           0x0217eca4  arm
  *   FIFOAddRear      0x0219d4b4  arm
- *   g_021A80E8       0x021a80e8  data
- *   g_021A80F8       0x021a80f8  data
+ *   gSbQueryBasicInfo       0x021a80e8  data
+ *   gSbQueryStatus       0x021a80f8  data
  */
 
 struct _SBServer {
@@ -69,8 +69,8 @@ extern unsigned int current_time(void);
 extern int sendto(int sock, char *buf, int len, int flags,
                   struct SOCSockAddrIn *addr, int tolen);
 extern void FIFOAddRear(struct _SBServerFIFO *fifo, struct _SBServer *server);
-extern unsigned char g_021A80E8[];
-extern unsigned char g_021A80F8[];
+extern unsigned char gSbQueryBasicInfo[];
+extern unsigned char gSbQueryStatus[];
 
 static void QEStartQuery(struct _SBQueryEngine *engine, struct _SBServer *server)
 {
@@ -144,12 +144,12 @@ static void QEStartQuery(struct _SBQueryEngine *engine, struct _SBServer *server
 
     if (server->flags & 4)
     {
-        __memcpy(queryBuffer, g_021A80E8, 13);
+        __memcpy(queryBuffer, gSbQueryBasicInfo, 13);
         queryLen = 13;
     }
     else
     {
-        __memcpy(queryBuffer, g_021A80F8, 8);
+        __memcpy(queryBuffer, gSbQueryStatus, 8);
         queryLen = 8;
     }
 

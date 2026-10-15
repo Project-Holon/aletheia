@@ -1,5 +1,5 @@
 /*
- * function: func_021DBDB8
+ * function: MYSTERY_ALBUM_GetColumnCount
  * address: 0x021DBDB8
  * packet: pkt_ov121_021DBDB8
  * region: ov121
@@ -13,4 +13,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021DBDB8(char *p) { return 3; }
+int MYSTERY_ALBUM_GetColumnCount(char *p) { return 3; }

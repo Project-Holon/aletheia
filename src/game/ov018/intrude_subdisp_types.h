@@ -23,23 +23,13 @@ struct ClactRenderer;
 struct ClactActor;
 struct ClactRes;
 struct TcbTask;
+struct IntrudeZonePos;
 
 enum {
     INTRUDE_SUBDISP_TOWN_COUNT = 8,         /* actors 0..7 */
     INTRUDE_SUBDISP_ACTOR_PALACE = 8,
     INTRUDE_SUBDISP_ACTOR_COUNT = 21
 };
-
-/* One entry of the zone table that INTRUDE_FIELD_FindZonePos returns (the position on the map screen). */
-typedef struct IntrudeZoneInfo {
-    u32 zoneId : 10;            /* 0x00 */
-    u32 zoneIdAlt : 10;
-    u32 townId : 10;
-    u32 flags : 2;
-    u8 pad04[6];
-    u8 x;                       /* 0x0A: position on the sub screen */
-    u8 y;                       /* 0x0B */
-} IntrudeZoneInfo;
 
 /* Row of the town table d_02176AA0: where a town icon sits and which zones it stands for. */
 typedef struct IntrudeTownEntry {
@@ -77,7 +67,7 @@ typedef struct IntrudeSubdispTownState {
 
 /* One remembered town of a peer: zone table entry and the zone it was looked up for. */
 typedef struct IntrudeSubdispPeerTown {
-    IntrudeZoneInfo *town;      /* 0x00 */
+    struct IntrudeZonePos *town; /* 0x00: entry of the shared zone table */
     u16 zoneId;                 /* 0x04 */
     u16 pad06;
 } IntrudeSubdispPeerTown;

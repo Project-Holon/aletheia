@@ -19,7 +19,7 @@
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   APP_ICON_LoadTouchBar  0x02027634  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 #include "../include/Obj02419.h"
 #include "../include/Obj09885.h"
@@ -38,7 +38,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 extern void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal);
 extern void ARC_TOOL_DeleteHandle(void *a);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 
 void MONOLITH_TOOL_LoadGraphics(void *a, void *b)
 {
@@ -60,7 +60,7 @@ void MONOLITH_TOOL_LoadGraphics(void *a, void *b)
     APP_ICON_LoadTouchBar(h, 7, 0x61, (int)(((struct Obj09885 *)d)->f138), 0xc);
     PALANM_LoadHandlePaletteToSlot(((struct Obj02419 *)r5)->f0, h, 0x1b, 0x61, 1, 0x20, 0xc0);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(7);
-    func_020409B4(3);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
+    BG_SYS_PushTile(3);
+    BG_SYS_PushTile(7);
 }

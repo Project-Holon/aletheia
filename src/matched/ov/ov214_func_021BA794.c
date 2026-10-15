@@ -1,5 +1,5 @@
 /*
- * function: func_021BA794
+ * function: BTL_REC_SEL_DrawCounter
  * address:  0x021BA794
  * packet:   pkt_ov214_021BA794
  * region:   ov214
@@ -12,7 +12,7 @@
  * symbols:
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -21,7 +21,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_021BA4E8  0x021BA4E8  thumb  ov214
+ *   BTL_REC_SEL_ShowWindows  0x021BA4E8  thumb  ov214
  *
  * Addresses are Black-image addresses.
  */
@@ -69,14 +69,14 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintQueColor(int, int, int, int, int, int, int);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct S;
-extern void func_021BA4E8(void *unused, struct S *p);
+extern void BTL_REC_SEL_ShowWindows(void *unused, struct S *p);
 
-void func_021BA794(Obj *obj, Ent *e, unsigned int v)
+void BTL_REC_SEL_DrawCounter(Obj *obj, Ent *e, unsigned int v)
 {
     int state;
     int flag;
@@ -119,7 +119,7 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
     }
 
     if (state != e->fBC || v != e->fC0) {
-        x = (int)GF_FONT_Create_EC64(e->f00);
+        x = (int)WORDSET_CreateDefault(e->f00);
         h2 = (int)func_02045EC0((struct MsgBank *)e->f58, 0x12);
         p2 = (int)STRBUF_Create(8, e->f00);
         PRINTSYS_QUE_Clear((struct PrintSys *)e->f18);
@@ -135,5 +135,5 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
 
     e->fBC = state;
     e->fC0 = v;
-    func_021BA4E8(obj, (struct S *)e);
+    BTL_REC_SEL_ShowWindows(obj, (struct S *)e);
 }

@@ -16,7 +16,7 @@
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram     0x02043754  arm
- *   GF_FONT_Create_EC64     0x0201EC64  thumb
+ *   WORDSET_CreateDefault     0x0201EC64  thumb
  *   GF_FONT_Create     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
  *   WORDSET_SetSlotNumber     0x0201EFA4  thumb
@@ -64,7 +64,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -106,7 +106,7 @@ void GFL_NET_ERR_DrawWindow(u32 a0, u32 a1)
     }
     MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
     surf = BMP_CreateFromVram(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
-    obj = GF_FONT_Create_EC64(1);
+    obj = WORDSET_CreateDefault(1);
     pal = GF_FONT_Create(0x17, 0, 0, 0, 1);
 
     if (a1 == 1) {

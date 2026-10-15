@@ -43,7 +43,7 @@
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   func_02030734  0x02030734  arm
  *   gFieldG3dobjFileName     0x021DE4A8  data  ov021  a1
@@ -150,7 +150,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern const BgPoint gSweetScentFadeBgPos;
 
@@ -485,7 +485,7 @@ void SWEET_SCENT_FadeSetup(SweetScentFade *fade)
     BG_SYS_LoadPltt(fade->bgLayer, &pos, 8, 0x20);
     BG_SYS_Init(fade->bgLayer, 1, 1, 0x100);
     BG_SYS_SetTileEntry(fade->bgLayer, 0x100, 0, 0, 0x20, 0x20, 1);
-    func_020409B4(fade->bgLayer);
+    BG_SYS_PushTile(fade->bgLayer);
     FLD_VREQ_SetMainBlendAlpha(fade->vreq, 8, 0x37, fade->level, 0x10 - fade->level);
     FLD_VREQ_SetBgVisible(fade->vreq, fade->bgLayer, 1);
 }
@@ -496,7 +496,7 @@ void SWEET_SCENT_FadeCleanup(SweetScentFade *fade)
 
     BG_SYS_LoadPltt(fade->bgLayer, &pos, 8, 0x20);
     BG_SYS_SetTileEntry(fade->bgLayer, 0, 0, 0, 0x20, 0x20, 1);
-    func_020409B4(fade->bgLayer);
+    BG_SYS_PushTile(fade->bgLayer);
     BG_SYS_SetTileUnit(fade->bgLayer, 1, 0x100);
 }
 

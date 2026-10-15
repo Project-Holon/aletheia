@@ -1,5 +1,5 @@
 /*
- * function: func_0217D194
+ * function: DIGITALCARDCHECK_IsWorkDone
  * address: 0x0217D194
  * packet: pkt_ov176_0217D194
  * region: ov176
@@ -10,11 +10,11 @@
  * status: EXACT
  * extent: 12-byte tail stub before labelled 0217D1A0.
  * symbols:
- *   func_021E65FC 0x021E65FC thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_StepMainWindowIdle 0x021E65FC thumb ov177
  */
 typedef struct Work Work;
-extern int func_021E65FC(Work *);
-int func_0217D194(int *p)
+extern int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *);
+int DIGITALCARDCHECK_IsWorkDone(int *p)
 {
-    return func_021E65FC((Work *)p[4]);
+    return WIFIBATTLEMATCH_VIEW_StepMainWindowIdle((Work *)p[4]);
 }

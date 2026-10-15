@@ -83,7 +83,7 @@
  *   d_020A5078 0x020A5078 data a2
  *   VEC_Add 0x0207C9D0 arm
  *   MCSS_SetShadowOffset 0x02015D94 thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -274,7 +274,7 @@ extern int APP_ICON_GetStatusIconAnim(struct PokemonParam *pp);
 extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
 extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *mon);
@@ -622,7 +622,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
 {
     struct WordSet *wordSet;
     struct Strbuf *buf, *name, *text;
-    wordSet = GF_FONT_Create_EC64(wk->heapId);
+    wordSet = WORDSET_CreateDefault(wk->heapId);
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
     func_02017E88(mon, 115, name);
@@ -645,7 +645,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     }
     if (wk->isEgg == 0) {
         struct Strbuf *levelText;
-        wordSet = GF_FONT_Create_EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
+        wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         WORDSET_SetSlotNumber(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
         levelText = func_02045EC0(wk->msgData, 3);
         WORDSET_CopyTaggedText(wordSet, buf, levelText);
@@ -657,7 +657,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     STRBUF_Delete(buf);
     {
         struct Strbuf *itemText;
-        wordSet = GF_FONT_Create_EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
+        wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         WORDSET_Callback_EF40(wordSet, 0, func_02017E88(mon, 6, 0));
         itemText = func_02045EC0(wk->msgData, 5);
         WORDSET_CopyTaggedText(wordSet, buf, itemText);

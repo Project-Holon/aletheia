@@ -1,5 +1,5 @@
 /*
- * function: func_021BB4F8
+ * function: MANUAL_COMMON_SetDialogBgMode
  * address: 0x021BB4F8
  * packet: pkt_ov225_021BB4F8
  * region: ov225
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void BG_SYS_SetFlagField06(u32);
-void func_021BB4F8(char *a0) { BG_SYS_SetFlagField06(4); }
+void MANUAL_COMMON_SetDialogBgMode(char *a0) { BG_SYS_SetFlagField06(4); }

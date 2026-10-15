@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BA074, func_021BA0A4
+ * function: BTL_REC_SEL_DrawWindow, BTL_REC_SEL_DrawWindowBorder
  * address: 0x021BA074
  * packet: pkt_ov214_021BA074
  * region: ov214
@@ -27,5 +27,5 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_02041B6C(unsigned);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
-void func_021BA074(int unused,char *p){struct Descriptor *d;BMP_MENUWORK_DrawWindow(((struct Obj10935 *)p)->f6C,1,(unsigned short)(((struct Obj10935 *)p)->f74),10);d=*(struct Descriptor * *)&((struct Obj10935 *)p)->f6C;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}
-void func_021BA0A4(int unused,char *p){BMP_MENUWORK_DrawWindowBorder(((struct Obj25724 *)p)->f6C,(int)1);}
+void BTL_REC_SEL_DrawWindow(int unused,char *p){struct Descriptor *d;BMP_MENUWORK_DrawWindow(((struct Obj10935 *)p)->f6C,1,(unsigned short)(((struct Obj10935 *)p)->f74),10);d=*(struct Descriptor * *)&((struct Obj10935 *)p)->f6C;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);func_02041B6C(BMP_WIN_GetBgLayer(d));}
+void BTL_REC_SEL_DrawWindowBorder(int unused,char *p){BMP_MENUWORK_DrawWindowBorder(((struct Obj25724 *)p)->f6C,(int)1);}

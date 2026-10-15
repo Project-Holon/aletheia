@@ -11,16 +11,16 @@
  *
  * symbols:
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   d_021CA5CC     0x021CA5CC  data
+ *   gWf2dmapVramBanks     0x021CA5CC  data
  *
  * Addresses are Black-image addresses.
  */
 
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern char d_021CA5CC[];
+extern char gWf2dmapVramBanks[];
 
 void Wf2dmapFriend_SetVramBanks(void *a0)
 {
-    BG_SYS_SetVramBanks((const struct DispVram *)d_021CA5CC);
+    BG_SYS_SetVramBanks((const struct DispVram *)gWf2dmapVramBanks);
 }

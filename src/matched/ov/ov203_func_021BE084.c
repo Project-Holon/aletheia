@@ -1,5 +1,5 @@
 /*
- * function: func_021BE084
+ * function: DEMO3D_GRAPHIC_InitClact
  * address:  0x021BE084
  * packet:   pkt_021BE084
  * region:   ov203
@@ -30,7 +30,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021BE084(unsigned char *p, int a, int b)
+void DEMO3D_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((const struct Cfg *)0x021BFB60, a, b);

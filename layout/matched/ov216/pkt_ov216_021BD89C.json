@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD89C",
+   "name": "BEACON_DETAIL_GRA_AddSlotSlideTask",
    "address": "0x021BD89C",
    "kind": "game",
    "region": "ov216",

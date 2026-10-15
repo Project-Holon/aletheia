@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8650",
+   "name": "MONOLITH_TOOL_SUMMARY_InitBackgrounds",
    "address": "0x021B8650",
    "kind": "game",
    "region": "ov071",

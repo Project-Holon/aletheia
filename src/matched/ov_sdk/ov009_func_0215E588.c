@@ -13,11 +13,11 @@
  * config buffer size), doubled, then as many whole copies of `len` as the
  * divisor helper allows.  Interrupts are off across the window-size read.
  *
- * The lever was the `int max = g_021AA450.bufSize;` local: reading the config
+ * The lever was the `int max = SOCLiCPSConfig.bufSize;` local: reading the config
  * word into a local *before* the two min compares is what makes the scheduler
  * hoist the config base load above `cmp winSize, mss`, which in turn keeps
  * `mss` alive in r2 (r3 = winSize, r2 = mss, r1 = bufSize).  Reading
- * g_021AA450.bufSize inline in the second compare sinks both loads below the
+ * SOCLiCPSConfig.bufSize inline in the second compare sinks both loads below the
  * first min and reuses r1 for mss (21 bytes out); using `temp` itself as the
  * running minimum forces it into r6 and costs the frame (`push {r4,r5,r6,lr}`).
  *
@@ -28,7 +28,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   gMslRefToken     0x02150FEC  data
- *   g_021AA450     0x021AA450  data
+ *   SOCLiCPSConfig     0x021AA450  data
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_0215E588.c \
@@ -58,7 +58,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0209C0A4(int a, int b);
 extern Info gMslRefToken;
-extern struct CPSConfig g_021AA450;
+extern struct CPSConfig SOCLiCPSConfig;
 
 int SOCLi_GetOptimumSendBufLen(int len)
 {
@@ -72,7 +72,7 @@ int SOCLi_GetOptimumSendBufLen(int len)
 	if (soc != 0) {
 		if (soc->winSize != 0 && soc->mss != 0) {
 			int w = soc->winSize;
-			int max = g_021AA450.bufSize;
+			int max = SOCLiCPSConfig.bufSize;
 			if (w > soc->mss) {
 				w = soc->mss;
 			}
@@ -81,10 +81,10 @@ int SOCLi_GetOptimumSendBufLen(int len)
 			}
 			temp = w << 1;
 		} else {
-			temp = g_021AA450.bufSize << 1;
+			temp = SOCLiCPSConfig.bufSize << 1;
 		}
 	} else {
-		temp = g_021AA450.bufSize << 1;
+		temp = SOCLiCPSConfig.bufSize << 1;
 	}
 	OS_RestoreInterrupts(enabled);
 	if (temp > 0) {

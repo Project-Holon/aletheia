@@ -50,12 +50,12 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
- *   func_02040618  0x02040618  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   FIELD_SUBSCREEN_LoadBackdrop  0x021A12D4  thumb  ov021
  *   FIELD_MENU_ShowItemWindow  0x021A9294  thumb  ov021
@@ -371,12 +371,12 @@ extern u32 CLACT_DeleteUnit(void *unit);
 extern void CLACT_ReleaseCellAnim(void *cellRes);
 extern void CLACT_ReleaseCharacter(void *charRes);
 extern void CLACT_ReleasePalette(void *palRes);
-extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020403F4(u32 layer);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FreeLayerBuf(u32 layer);
 extern void PRINTSYS_QUE_Clear(void *printQue);
 extern void PRINTSYS_QUE_Delete(void *printQue);
 extern u32 func_020307B0(void *p);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern u32 PRINTSYS_QUE_IsFinished(void *printQue);
 extern void FIELD_SUBSCREEN_LoadBackdrop(void *parent, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -573,10 +573,10 @@ void FIELD_MENU_Delete(FieldMenu *menu)
     CLACT_ReleaseCellAnim(menu->cellResB);
     CLACT_ReleaseCharacter(menu->charResB);
     CLACT_ReleasePalette(menu->palResB);
-    func_02040618(6, 3, 0);
-    func_020403F4(7);
-    func_020403F4(5);
-    func_020403F4(6);
+    BG_SYS_FillScrollArea(6, 3, 0);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
     PRINTSYS_QUE_Clear(menu->printQue);
     PRINTSYS_QUE_Delete(menu->printQue);
     func_020307B0(menu);
@@ -585,7 +585,7 @@ void FIELD_MENU_Delete(FieldMenu *menu)
 /* Shows the menu BG layers again after a slide or a wipe. */
 int FIELD_MENU_ShowBgLayers(void)
 {
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_02040588(4, 1);
     func_02040588(5, 1);
     func_02040588(6, 1);
@@ -762,7 +762,7 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     BG_SYS_InitBgLayer(7, &gFieldMenuBgTemplate7, 0);
     func_02040588(7, 1);
     BG_SYS_ClearSlot(7);
-    func_02040618(6, 3, -FIELD_MENU_LAYER6_OFFSET);
+    BG_SYS_FillScrollArea(6, 3, -FIELD_MENU_LAYER6_OFFSET);
     func_02049B68(arcHandle, 0, 4, 0, 0, menu->subHeapId);
     func_02049658(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
     func_020498F4(arcHandle, gFieldMenuScreenIds[layoutType], 5, 0, 0, 0, menu->subHeapId);
@@ -776,7 +776,7 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     cellId = APP_ICON_GetStatusCellFileId(0);
     menu->cellResB = CLACT_RegisterCellAnim(commonArc, cellId, APP_ICON_GetStatusPaletteFileId(0), menu->heapId);
     ARC_TOOL_DeleteHandle(commonArc);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     menu->clactUnit = CLACT_CreateUnit(8, 0, menu->heapId);
     surfaceRect = gFieldMenuSurfaceRect;
     menu->clactSurface = CLACT_CreateRenderer(&surfaceRect, 1, menu->heapId);
@@ -937,8 +937,8 @@ void FIELD_MENU_SetScrolledOut(FieldMenu *menu)
     FieldMenuScreenPos offset;
 
     menu->scrollY = FIELD_MENU_SCROLL_HIDDEN;
-    func_02040618(5, 3, -FIELD_MENU_SCROLL_HIDDEN);
-    func_02040618(6, 3, -(FIELD_MENU_SCROLL_HIDDEN + FIELD_MENU_LAYER6_OFFSET));
+    BG_SYS_FillScrollArea(5, 3, -FIELD_MENU_SCROLL_HIDDEN);
+    BG_SYS_FillScrollArea(6, 3, -(FIELD_MENU_SCROLL_HIDDEN + FIELD_MENU_LAYER6_OFFSET));
     offset.x = 0;
     offset.y = FIELD_MENU_SCROLL_HIDDEN;
     CLACT_SetSurfacePos(menu->clactSurface, 0, &offset);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E8738
+ * function: WIFIBATTLEMATCH_UTIL_PrintMessage
  * address:  0x021E8738
  * packet:   pkt_021E8738
  * region:   ov177
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   func_021E8754  0x021E8754  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_SetMode  0x021E8754  thumb  ov177
  */
 #include "../include/Obj24449.h"
 
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021E8754(int *, int);
+extern void WIFIBATTLEMATCH_UTIL_SetMode(int *, int);
 
-void func_021E8738(int *p, int a, int b, int c)
+void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c)
 {
     MSGDATA_ReadString((struct MsgBank *)a, b, (void *)(((struct Obj24449 *)p)->f18));
-    func_021E8754(p, c);
+    WIFIBATTLEMATCH_UTIL_SetMode(p, c);
 }

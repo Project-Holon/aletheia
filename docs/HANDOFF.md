@@ -1,4 +1,4 @@
-# Handoff state (2026-09-24)
+# Handoff state (matching phase 2026-09-24; cleanup phase 2026-10-15)
 
 > Current figures, end of wave 21, 2026-09-24: **100 percent** of ARM9 game code matched byte for byte
 > (400306 of 400306 bytes, 4422 functions), confirmed by a full ROM rebuild (sha1 26ad0b99). Scope: the
@@ -14,6 +14,39 @@
 > onto consecutive commits); the exact and reproduced figures it prints, 97.73 and 97.73 percent, are the
 > right ones for that point, only the delta arithmetic is off. Older snapshots below are kept for the
 > record, not as live claims.
+
+## Cleanup phase (2026-10-15): wave 10 and the gap fixes
+
+The repo is now a full source tree, not a per-function match pool. Current
+figures, end of wave 10 plus the three gap-fix lanes: `src/game` holds 1,212 `.c`
+files, all byte-exact (`python tools/gameverify.py`: 1,212 files, not exact 0);
+`python tools/gamecheck.py` reports 35,520 functions, 0 missing, 0 doubled;
+`python tools/tucount.py` reports 1,212 of 1,212 translation units whole, split 0.
+
+`python tools/linkstats.py` reports 243 regions, 181 linked byte-identical with
+every file, 0 failures; game code is 100.00 percent fully linked (2,630,598 of
+2,630,598 bytes) and all code is 99.98 percent linked (3,390,128 of 3,390,676);
+the remaining all-code gap is the SDK side (covered_sdk 759,530 of 760,078, the
+two uncovered SDK functions ov107 func_021F6AA4 and ov175 func_021E2A5C). The
+match.py selftest is 373 cases, 0 failures; the manifest verifies 28,050 shards,
+33,541 entries, 0 rewritten.
+
+Wave 10 was 22 `Obj`-removal lanes plus integration: `struct Obj0203159C` and
+`struct S020315D4` resolved to `struct Proc` across 886 references in 325 files,
+four standing per-file `*_shared_types.h` folded into owner headers, and the five
+`docs/COMPILER_NOTES.md` corrections applied. Three gap-fix lanes followed: arm9
+`ui_p02.c` was folded into one whole `ui.c` (54 functions); the ov194
+`namein_graphic` range was split into five originals at their real boundaries
+(`namein_graphic_main.c`, `namein_graphic_field.c`, `namein_graphic.c`,
+`namein_data.c`, `nsbtx_to_clwk.c`); the per-function verify path was generalised
+to a non-contiguous C piece (`contiguous: no`); and the H1 hand-written marker
+was applied to the 33 `cw_runtime` asm bodies, which raised the linked figure by
+10,360 bytes without matching anything (comment-only, awaiting owner
+confirmation, DEBT D-1963).
+
+Remaining work is cleanup, not matching: 3,874 `Obj` references in 37 files and
+365 unnamed functions in 60 files. The sections below describe the matching phase
+(waves 1 to 21 of the previous run) and are kept for the record.
 
 ## Session of 2026-09-23: waves 14 to 16, seed rounds 7 to 9
 

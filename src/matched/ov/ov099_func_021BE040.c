@@ -16,7 +16,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_InitSlot 0x020414C4 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
@@ -44,7 +44,7 @@ struct DispConfig;
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_InitSlot(u32 idx);
 extern void BG_SYS_SetVisibleLayer(int, u16);
@@ -60,20 +60,20 @@ void WIFICLUB_InitBackgrounds(u16 heap)
     i = 0;
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&b0), 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     b1 = d_021C382C;
     BG_SYS_InitBgLayer(1, (const struct BgTemplate *)(&b1), 0);
     BG_SYS_FreeSlot(1);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     b2 = d_021C384C;
     BG_SYS_InitBgLayer(2, (const struct BgTemplate *)(&b2), 0);
     BG_SYS_Init(2, 0, 1, 0);
     BG_SYS_FreeSlot(2);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     b3 = d_021C386C;
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)(&b3), 0);
     BG_SYS_FreeSlot(3);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     b4 = d_021C38AC;
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&b4), 0);
     BG_SYS_FreeSlot(4);

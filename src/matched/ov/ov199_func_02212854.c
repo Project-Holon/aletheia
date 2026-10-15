@@ -1,5 +1,5 @@
 /*
- * function: func_02212854
+ * function: WIFIBATTLEMATCH_SYS_BuildMatchCommand
  * address: 0x02212854
  * packet: pkt_ov199_02212854
  * region: ov199
@@ -31,7 +31,7 @@ extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern const char d_02213D04[];
 typedef enum { tag_2854 = 0x2c0 } Offset2854;
-int *func_02212854(int unused, unsigned heap, char *ctx)
+int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, unsigned heap, char *ctx)
 {
     Offset2854 offset = tag_2854;
     int *p = func_02030734(heap, 0x44, 0, d_02213D04, tag_2854);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A80
+ * function: UN_SELECT_DeleteRecord
  * address: 0x021B9A80
  * packet: pkt_ov218_021B9A80
  * region: ov218
@@ -36,7 +36,7 @@ extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B9A80(char *p)
+void UN_SELECT_DeleteRecord(char *p)
 {
     if (*(struct Rec3 * *)&((struct Obj02264 *)p)->f20 != 0) {
         PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct Obj02264 *)p)->f20);

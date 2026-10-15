@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC43C",
+   "name": "BEACON_DETAIL_GRA_ReleaseActorGfx",
    "address": "0x021BC43C",
    "kind": "game",
    "region": "ov216",

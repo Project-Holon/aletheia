@@ -27,29 +27,6 @@ typedef enum { SLOT_ZERO, SLOT_LAST = 14 } BtlvSlotIndex;
 typedef unsigned long long u64;
 #endif
 
-/*
- * Legacy stand-ins still used by btlv_effvm.c and btlv_effvm_shared_types.h
- * (lane C094d3): S9844 is BtlvEffVmParams, Entry_021FF228 is a mcss sprite slot view.
- */
-typedef struct {
-    unsigned char b0;
-    unsigned char b1;
-    unsigned char b2;
-    unsigned char b3;
-    unsigned int  w1;
-    unsigned int  w2;
-    unsigned short h1;
-} S9844;
-
-typedef struct {
-    void *h;                /* 0x00 */
-    char pad04[0x48];
-    unsigned int f0 : 1;    /* 0x4c */
-    unsigned int f1 : 1;
-    unsigned int flip : 1;
-    char pad50[0x0c];
-} Entry_021FF228;
-
 /* Part of the battle setup returned by BTL_MAIN_GetFieldSituation (0x10 bytes): where the battle takes place. */
 typedef struct BtlvEffFieldSituation {
     int stageGroup;         /* 0x00: row of the stage table */

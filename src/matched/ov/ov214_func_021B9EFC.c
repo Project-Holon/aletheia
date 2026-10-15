@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EFC
+ * function: BTL_REC_SEL_StartEntryB
  * address:  0x021B9EFC
  * packet:   pkt_021B9EFC
  * region:   ov214
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9F10 0x021B9F10 thumb
+ *   BTL_REC_SEL_SetEntryB 0x021B9F10 thumb
  */
 
-extern void func_021B9F10(int unused, char *b, int c, int d);
+extern void BTL_REC_SEL_SetEntryB(int unused, char *b, int c, int d);
 
-void func_021B9EFC(int *out, int a, int b, int c, int d)
+void BTL_REC_SEL_StartEntryB(int *out, int a, int b, int c, int d)
 {
     *out = 4;
-    func_021B9F10(a, (char *)b, c, d);
+    BTL_REC_SEL_SetEntryB(a, (char *)b, c, d);
 }

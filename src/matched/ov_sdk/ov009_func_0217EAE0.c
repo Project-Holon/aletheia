@@ -12,10 +12,10 @@
  * Calls the second word of the table at 0x021A3730 on the argument.
  *
  * symbols:
- *   g_021A3730  0x021A3730  data
+ *   gGsMemoryFuncs  0x021A3730  data
  */
 
-extern char g_021A3730[];
+extern char gGsMemoryFuncs[];
 
 void gsifree(void *p)
 {
@@ -23,6 +23,6 @@ void gsifree(void *p)
         return;
     }
 
-    (*(void (**)(void *))(g_021A3730 + 4))(p);
+    (*(void (**)(void *))(gGsMemoryFuncs + 4))(p);
 }
 

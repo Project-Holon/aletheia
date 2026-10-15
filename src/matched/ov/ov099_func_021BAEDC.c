@@ -34,7 +34,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -72,7 +72,7 @@ extern void WIFICLUB_DrawTileBlock(char *p, int a, u8 b, u8 c, u32 d, int e);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 void WIFICLUB_DrawPlayerInfoWindow(char *p)
 {
     struct Save *a;
@@ -120,5 +120,5 @@ void WIFICLUB_DrawPlayerInfoWindow(char *p)
     BMP_WIN_ClearScreen(*(struct Descriptor **)(p + 0x194));
     BMP_WIN_MakeScreen(*(struct Cfg **)(p + 0x194));
     BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0x194));
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
 }

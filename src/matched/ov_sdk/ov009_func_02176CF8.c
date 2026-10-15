@@ -17,14 +17,14 @@
  *   DWC_Alloc       0x0205A16C  arm
  *   DWC_Free        0x0205A1B0  arm
  *   MIi_CpuCopy32   0x02082A90  arm
- *   g_021AB178      0x021AB178  data
- *   g_021AB178_head 0x021AB178  data
+ *   gDwcReliableQueue      0x021AB178  data
+ *   gDwcReliableQueueHead 0x021AB178  data
  *
  * The image carries TWO literal-pool words for the queue info: r3 for the
  * count/head field reads and r6 for the `target` cursor.  mwccarm emits one
  * pool word per (symbol, addend), so two words for one address means the
  * source reached it through two names.  Declaring a second extern
- * (`g_021AB178_head`) at the same address for `target = &...` reproduces both
+ * (`gDwcReliableQueueHead`) at the same address for `target = &...` reproduces both
  * words and closes the whole 188-byte diff in one step; with one name the
  * compiler CSEs them into r6 and the function is 8 bytes short.
  *
@@ -47,14 +47,14 @@ typedef struct QueueInfo {
 extern void *DWC_Alloc(int kind, int size);
 extern void DWC_Free(int kind, void *p, int size);
 extern void MIi_CpuCopy32(void *src, void *dst, int size);
-extern QueueInfo g_021AB178;
-extern SendQueue *g_021AB178_head;
+extern QueueInfo gDwcReliableQueue;
+extern SendQueue *gDwcReliableQueueHead;
 
 int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
 {
     SendQueue *it;
-    SendQueue **target = &g_021AB178_head;
-    QueueInfo *q = &g_021AB178;
+    SendQueue **target = &gDwcReliableQueueHead;
+    QueueInfo *q = &gDwcReliableQueue;
 
     if (q->total + size > 0x8000)
         return 0;
@@ -78,6 +78,6 @@ int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size)
     (*target)->f8 = size;
     (*target)->fC = 0;
     MIi_CpuCopy32(buffer, (*target)->f4, size);
-    g_021AB178.total += size;
+    gDwcReliableQueue.total += size;
     return 1;
 }

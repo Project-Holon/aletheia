@@ -1,5 +1,5 @@
 /*
- * function: func_021DC024
+ * function: MYSTERY_ALBUM_GetEntryKind
  * address: 0x021DC024
  * packet: pkt_ov121_021DC024
  * region: ov121
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021DC024(void *p) { return ((struct Obj22905 *)p)->fB7; }
+int MYSTERY_ALBUM_GetEntryKind(void *p) { return ((struct Obj22905 *)p)->fB7; }

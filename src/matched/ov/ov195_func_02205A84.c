@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   d_02208D1C    0x02208D1C data ov195 a4
  */
 
 typedef unsigned int   u32;
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern char d_02208D1C[];
 
 void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0)
@@ -26,7 +26,7 @@ void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int a0)
         unsigned int v = *(unsigned int *)(d_02208D1C + i * 0x2c);
         if (v >= 4)
         {
-            func_020403F4(v & 0xff);
+            BG_SYS_FreeLayerBuf(v & 0xff);
         }
     }
 }

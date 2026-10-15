@@ -1,7 +1,7 @@
 /*
  * file:     beacon_detail_gra.c
  * unit:     yes
- * function: BEACON_DETAIL_GRA_Init, BEACON_DETAIL_GRA_Exit, BEACON_DETAIL_GRA_Main, func_021BBF14, func_021BBF28, func_021BBF60, func_021BBF98, func_021BBFEC, BEACON_DETAIL_GRA_Delete, func_021BC0C8, func_021BC178, func_021BC1E4, func_021BC378, func_021BC398, func_021BC3D4, func_021BC3DC, func_021BC3E4, func_021BC43C, func_021BC454, func_021BC56C, func_021BC5C4, func_021BC614, func_021BC650, func_021BC6B4, func_021BC6D8, func_021BC6FC, func_021BC70C, func_021BC8A8, func_021BC920, BEACON_DETAIL_GRA_Create, func_021BC9D0, func_021BCA24, func_021BCA38, BEACON_DETAIL_GRA_Task, func_021BCA58, func_021BCAB8, func_021BCAF0, func_021BCAF4, func_021BCAFC, func_021BCB70, func_021BCB90, func_021BCB98, func_021BCBA4, func_021BCC10, func_021BCCBC, func_021BCCC4, func_021BCD00, func_021BCD08, func_021BCD60, func_021BCDC0, func_021BCDDC, func_021BCE04, func_021BCE7C, func_021BCE8C, func_021BCEA4, func_021BCED0, func_021BCF08, func_021BD07C, func_021BD0E4, func_021BD13C, func_021BD174, func_021BD448, func_021BD668, BEACON_DETAIL_GRA_Callback, func_021BD6F0, func_021BD6FC, func_021BD73C, func_021BD768, func_021BD7D4, func_021BD854, func_021BD89C, func_021BD8A8, func_021BD948, func_021BDA54, func_021BDAA0, BEACON_DETAIL_GRA_PrintWaitTask
+ * function: BEACON_DETAIL_GRA_Init, BEACON_DETAIL_GRA_Exit, BEACON_DETAIL_GRA_Main, BEACON_DETAIL_GRA_StateClose, BEACON_DETAIL_GRA_StateInit, BEACON_DETAIL_GRA_StateFadeIn, BEACON_DETAIL_GRA_StateFadeOut, BEACON_DETAIL_GRA_LoadBeaconInfo, BEACON_DETAIL_GRA_Delete, BEACON_DETAIL_GRA_CreateObjects, BEACON_DETAIL_GRA_DeleteObjects, BEACON_DETAIL_GRA_LoadBackground, BEACON_DETAIL_GRA_FreeBackground, BEACON_DETAIL_GRA_CreateTouchBar, BEACON_DETAIL_GRA_DeleteTouchBar, BEACON_DETAIL_GRA_UpdateTouchBar, BEACON_DETAIL_GRA_RegisterActorGfx, BEACON_DETAIL_GRA_ReleaseActorGfx, BEACON_DETAIL_GRA_LoadTrainerGfx, BEACON_DETAIL_GRA_FreeTrainerGfx, BEACON_DETAIL_GRA_CreateWindow, BEACON_DETAIL_GRA_CreatePositionedActor, BEACON_DETAIL_GRA_CreateDetailActors, BEACON_DETAIL_GRA_DeleteDetailActors, BEACON_DETAIL_GRA_CreateInfoWindow, BEACON_DETAIL_GRA_DeleteInfoWindow, BEACON_DETAIL_GRA_CreateListWindows, BEACON_DETAIL_GRA_DeleteListWindows, BEACON_DETAIL_GRA_IsPmsActive, BEACON_DETAIL_GRA_Create, BEACON_DETAIL_GRA_Destroy, BEACON_DETAIL_GRA_Draw, BEACON_DETAIL_GRA_GetClactUnit, BEACON_DETAIL_GRA_Task, BEACON_DETAIL_GRA_InitBgSystem, BEACON_DETAIL_GRA_ExitBgSystem, BEACON_DETAIL_GRA_Noop, BEACON_DETAIL_GRA_UpdateBg, BEACON_DETAIL_GRA_InitClact, BEACON_DETAIL_GRA_ExitClact, BEACON_DETAIL_GRA_DrawClact, BEACON_DETAIL_GRA_VBlankClact, BEACON_DETAIL_GRA_SetupBeaconList, BEACON_DETAIL_GRA_UpdateInteract, BEACON_DETAIL_GRA_RefreshButtons, BEACON_DETAIL_GRA_IsTouchOnActor, BEACON_DETAIL_GRA_PlaySe, BEACON_DETAIL_GRA_LoadPalette, BEACON_DETAIL_GRA_UpdateButtons, BEACON_DETAIL_GRA_GetPmVersionClass, BEACON_DETAIL_GRA_FindAppearanceType, BEACON_DETAIL_GRA_SetNameSlots, BEACON_DETAIL_GRA_SetActorAnim, BEACON_DETAIL_GRA_SetActorPos, BEACON_DETAIL_GRA_PrintMsg, BEACON_DETAIL_GRA_TransferChar, BEACON_DETAIL_GRA_InitWindows, BEACON_DETAIL_GRA_DrawWindowRecord, BEACON_DETAIL_GRA_SetSlotVisible, BEACON_DETAIL_GRA_MoveActor, BEACON_DETAIL_GRA_SetupSlot, BEACON_DETAIL_GRA_UpdateSlotInfo, BEACON_DETAIL_GRA_AddFadeTask, BEACON_DETAIL_GRA_Callback, BEACON_DETAIL_GRA_AddTimerTask, BEACON_DETAIL_GRA_AddTimerTaskEx, BEACON_DETAIL_GRA_UpdateTimer, BEACON_DETAIL_GRA_TimerCallback, BEACON_DETAIL_GRA_AddSlideTask, BEACON_DETAIL_GRA_SlideCallback, BEACON_DETAIL_GRA_AddSlotSlideTask, BEACON_DETAIL_GRA_AddSlotSlideTaskEx, BEACON_DETAIL_GRA_SlotSlideCallback, BEACON_DETAIL_GRA_DrawRecord, BEACON_DETAIL_GRA_AddPrintWaitTask, BEACON_DETAIL_GRA_PrintWaitTask
  * address:  0x021BBD80
  * region:   ov216
  * compiler: dsi/1.1p1
@@ -60,7 +60,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
  *   func_0207D63C 0x0207D63C arm
@@ -118,7 +118,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021BDBAC 0x021BDBAC data a4
  *   d_021BDC28 0x021BDC28 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -167,7 +167,7 @@
  *   sub_0202DCC4 0x0202DCC4 thumb
  *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   GAME_BEACON_ACCESSOR_GetFavoriteColorRgb 0x02165CC0 thumb ov010
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GAME_BEACON_ACCESSOR_GetPlayerName 0x02165C34 thumb ov010
@@ -214,80 +214,28 @@
  *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb  arm9
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb  arm9
  */
-#include "../../matched/include/Obj00366.h"
-#include "../../matched/include/Obj01437.h"
-#include "../../matched/include/Obj03374.h"
-#include "../../matched/include/Obj25767.h"
-#include "../../matched/include/Obj10942.h"
-#include "../../matched/include/Obj05552.h"
-#include "../../matched/include/Obj25768.h"
-#include "../../matched/include/Obj14715.h"
-#include "../../matched/include/Obj01591.h"
-#include "../../matched/include/Obj25769.h"
-#include "../../matched/include/Obj25770.h"
-#include "../../matched/include/Obj10945.h"
-#include "../../matched/include/Obj01783.h"
-#include "../../matched/include/Obj10946.h"
-#include "../../matched/include/Obj25771.h"
-#include "../../matched/include/Obj14716.h"
-#include "../../matched/include/Obj05553.h"
-#include "../../matched/include/Obj14717.h"
-#include "../../matched/include/Obj00051.h"
-#include "../../matched/include/Obj05554.h"
-#include "../../matched/include/Obj14718.h"
-#include "../../matched/include/Obj14719.h"
-#include "../../matched/include/Obj08428.h"
-#include "../../matched/include/Obj10948.h"
-#include "../../matched/include/Obj05555.h"
-#include "../../matched/include/Obj03943.h"
-#include "../../matched/include/Obj25779.h"
-#include "../../matched/include/Obj04637.h"
-#include "../../matched/include/Obj10949.h"
-#include "../../matched/include/Obj14720.h"
-#include "../../matched/include/Obj10950.h"
-#include "../../matched/include/Obj03375.h"
-#include "../../matched/include/Obj02553.h"
-#include "../../matched/include/Obj02927.h"
-#include "../../matched/include/Obj05556.h"
-#include "../../matched/include/Obj00690.h"
-#include "../../matched/include/Obj25787.h"
-#include "../../matched/include/Obj25788.h"
-#include "../../matched/include/Obj25789.h"
-#include "../../matched/include/Obj25790.h"
-#include "../../matched/include/Obj25791.h"
-#include "../../matched/include/Obj25792.h"
-#include "../../matched/include/Obj25793.h"
-#include "../../matched/include/Obj25794.h"
-#include "../../matched/include/Obj25795.h"
-#include "../../matched/include/Obj08427.h"
-#include "../../matched/include/Obj14721.h"
-#include "../../matched/include/Obj25797.h"
-#include "../../matched/include/Obj06711.h"
-#include "../../matched/include/Obj25799.h"
 
-#define REC1(w, j, i) ((struct Rec *)((char *)(w) + (j) * 0x80 + (i) * 16))
+#define REC1(w, j, i) ((struct BeaconDetailGraWinRec *)((char *)(w) + (j) * 0x80 + (i) * 16))
 #define HANDLE(p, k) (*(int *)((p) + (k)))
 #define ARG(p, k) (*(int *)((p) + (k) + 0xC))
-#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); func_020409B4(BMP_WIN_GetBgLayer(d)); } while (0)
-struct Obj0203159C;
-struct S021BC6B4;
-struct S020315D4;
+#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); BG_SYS_PushTile(BMP_WIN_GetBgLayer(d)); } while (0)
+struct ProcOwner;
+struct GflHeap;
 struct Tcbl;
 struct PrintSys;
 struct Queue;
-struct Rec;
-struct BigObj;
+struct GameData;
 struct GfFont;
 struct WordSet;
 struct MsgBank;
 struct U16Vec;
-struct S02031140;
+struct Tcbl;
 struct ArcFile;
 struct NitroFileHeader;
 struct Descriptor;
 struct Cfg;
 struct CharBuf;
-struct Obj;
+struct ClactActor;
 struct PmsDraw;
 struct Actor;
 struct DispVram;
@@ -298,67 +246,52 @@ struct Bank;
 struct Ctx;
 struct Bits;
 struct Vec2;
-struct Sub0204A9D0;
+struct BeaconDetailGraTransfer;
 struct Bmp;
-struct Obj0202DCC4;
-struct Obj0202DC98;
-struct S;
-struct R;
+struct BeaconDetailGraPmsDraw;
+struct BeaconDetailGraPmsDraw;
+struct TouchBar;
+struct TouchBar;
 struct TcblNode;
-struct S02030FB4;
+struct Tcbl;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef struct {unsigned char *f0;unsigned f4;int f8;unsigned fC,f10,f14;int f18,f1c;} A;
+struct TouchBarParam { unsigned char *f0; unsigned f4; int f8; unsigned fC,f10,f14; int f18,f1c; };
 
-typedef struct R R;
 
-typedef struct S S;
 
-typedef struct { unsigned char a,b,c,pad; unsigned short first,second,third; } Config_021BBD80;
 
 typedef signed int     s32;
 
-typedef struct {unsigned char a,b,c,pad;u16 first,second,third;} Config_021BC454;
 
-typedef struct { struct Descriptor *window; struct CharBuf *buffer; struct Descriptor *copy; unsigned char state; } Window_021BBD80;
 
-typedef struct {short x,y,z;unsigned char a,b;} Position;
+struct BeaconDetailGraPosition { short x,y,z; unsigned char a,b; };
 
-struct S021BC6B4
-{
-    char pad[0x264];
-    void *slots[2];
-};
 
-typedef struct {struct Descriptor *window;struct CharBuf *buffer;struct Descriptor *copy;unsigned char state;} Window_021BC6D8;
 
-struct Entry { unsigned id; char fields[32]; unsigned a,b; };
+struct BeaconDetailGraBgEntry { unsigned id; char fields[32]; unsigned a,b; };
 
-struct Block { unsigned w[8]; };
+struct BeaconDetailGraRenderBlock { unsigned w[8]; };
 
-struct Object { unsigned char bytes[0x124]; void *menu; };
 
-struct Four_021BCF08 { unsigned short a; unsigned char b, c; };
 
-struct Rec { void *d; int h; int u, v; };
+struct BeaconDetailGraWinRec { void *d; int h; int u, v; };
 
-struct Rec32 { void *d; int h; char pad[24]; };
+struct BeaconDetailGraWinRec32 { void *d; int h; char pad[24]; };
 
-struct Win { struct Rec a[4]; struct Rec32 b; struct Rec32 c; };
+struct BeaconDetailGraWinSet { struct BeaconDetailGraWinRec a[4]; struct BeaconDetailGraWinRec32 b; struct BeaconDetailGraWinRec32 c; };
 
-struct Four_021BD07C { unsigned short a; unsigned char b,c; };
 
 enum Index { IndexZero=0 };
 
-struct Pair { u16 a,b; };
+struct BeaconDetailGraPair { u16 a,b; };
 
-struct Quad { u16 a,b,c,d; };
+struct BeaconDetailGraQuad { u16 a,b,c,d; };
 
-struct Rgb555 { u16 r:5,g:5,b:5,pad:1; };
 
 typedef signed short s16;
 
@@ -366,13 +299,147 @@ typedef signed char s8;
 
 typedef void (*TcblFunc)(struct TcblNode *,void *);
 
-typedef struct Work{int arg;u8 *owner;int *counter;} Work;
+struct BeaconDetailGraPrintTask { int arg; u8 *owner; int *counter; };
+
+/*
+ * One real struct per object in this overlay.  The old per-function
+ * ObjNNNNN matched-include views are folded into these.
+ */
+struct ProcOwner;              /* PROCSYS_AllocProcWork owner (0x0203159C) */
+struct GflHeap;                /* GFL heap handle (0x020315D4) */
+struct TouchBar;               /* touch bar instance (TOUCHBAR_*) */
+struct GameBeaconRecord;       /* one GAME_BEACON_ACCESSOR record */
+struct BeaconDetailGraTransfer; /* CLACT_TransferCharacter arg (0x0204A9D0) */
+struct BeaconDetailGraPmsDraw;  /* PMS_DRAW instance (0x0202DCC4) */
+
+/* CLACT palette/character/cellanim descriptor (configA/configB). */
+struct ClactResConfig { u8 a,b,c,pad; u16 first,second,third; };
+
+/* A BMP window plus its back buffer and blit source. 16 bytes. */
+struct BeaconDetailGraWindow {
+    struct Descriptor *window;
+    struct CharBuf *buffer;
+    struct Descriptor *copy;
+    u8 state;
+};
+
+/* Colour/palette pair from d_021BDD8A. 4 bytes. */
+struct BeaconDetailGraColorPair { u16 color; u8 index, pad; };
+
+/* A registered CLACT palette/character/cellanimation triple. 12 bytes. */
+struct BeaconDetailGraActor { u32 palette; u32 character; u32 cellAnim; };
+
+/* A loaded graphic resource: unpacked data and its archive handle. 8 bytes. */
+struct BeaconDetailGraGfx { void *data; void *handle; };
+
+/* The 16-byte graphics system block allocated by Create (main->clactObj). */
+struct BeaconDetailGraGfxSys { u32 bgInit; void *clactUnit; void *clactRenderer; void *task; };
+
+/* A BMP window handle, viewed as a pointer or as a word. */
+union BeaconDetailGraWin { void *window; u32 handle; };
+
+/* One of the two 128-byte detail pages. */
+struct BeaconDetailGraEntry {
+    struct BeaconDetailGraWindow win[4]; /* 0x00 */
+    struct BeaconDetailGraWindow winA;   /* 0x40 */
+    struct BeaconDetailGraWindow winB;   /* 0x50 */
+    struct BeaconDetailGraWindow winC;   /* 0x60 */
+    union BeaconDetailGraWin iconWindow; /* 0x70 */
+    void *actorA;                        /* 0x74 */
+    void *actorB;                        /* 0x78 */
+    u8 appearance;                       /* 0x7C */
+    u8 hasSecondActor;                   /* 0x7D */
+    u8 layer;                            /* 0x7E */
+    u8 pad_7F;
+};
+
+/* Tail of a drawn window record. */
+struct BeaconDetailGraWinTarget { void *window; u8 pending; };
+struct BeaconDetailGraWinRecord { void *f0; void *f4; struct BeaconDetailGraWinTarget target; };
+
+/* The CLACT unit/renderer block (main->clactObj + 4). */
+struct BeaconDetailGraClact { void *unit; void *renderer; };
+
+/* The config object passed to Init (main->config), mode at +9. */
+struct BeaconDetailGraConfig { u8 pad_00[9]; u8 mode; };
+
+/* An unpacked G2d resource; the payload pointer lives at +0xC. */
+struct BeaconDetailGraRes { u8 pad_00[12]; void *data; };
+
+union BeaconDetailGraFont { void *ptr; u32 handle; };
+union BeaconDetailGraTrainer { u32 handle; void *set; };
+
+/* The main 620-byte beacon-detail graphics work object. */
+struct BeaconDetailGraWork {
+    u16 heapId;            /* 0x000 */
+    u16 gfxHeapId;         /* 0x002 */
+    int state;             /* 0x004 */
+    u8 pad_08[4];
+    int subMode;           /* 0x00C */
+    int fadeMode;          /* 0x010 */
+    void *config;          /* 0x014 */
+    void *tcbl;            /* 0x018 */
+    void *townInfo;        /* 0x01C */
+    u8 pad_20[4];
+    void *infoQueue;       /* 0x024 */
+    void *beaconRecord;    /* 0x028 */
+    u16 level;             /* 0x02C */
+    u8 slotIndex;          /* 0x02E */
+    u8 slotMax;            /* 0x02F */
+    u8 cursor;             /* 0x030 */
+    u8 slotOrder[16];      /* 0x031 */
+    u8 pad_41[15];
+    void *clactObj;        /* 0x050 */
+    void *arcFile;         /* 0x054 */
+    union BeaconDetailGraTrainer trainer; /* 0x058 */
+    struct BeaconDetailGraActor actors[4]; /* 0x05C */
+    struct BeaconDetailGraGfx gfxChars[16]; /* 0x08C */
+    void *paletteFile;     /* 0x10C */
+    void *paletteData;     /* 0x110 */
+    void *paletteHandle;   /* 0x114 */
+    void *charFile;        /* 0x118 */
+    void *charData;        /* 0x11C */
+    void *charHandle;      /* 0x120 */
+    void *touchBar;        /* 0x124 */
+    union BeaconDetailGraFont font; /* 0x128 */
+    void *printQue;        /* 0x12C */
+    void *msgBank;         /* 0x130 */
+    void *msgBank2;        /* 0x134 */
+    void *wordSet;         /* 0x138 */
+    void *textBuf;         /* 0x13C */
+    void *textBuf2;        /* 0x140 */
+    void *textBuf3;        /* 0x144 */
+    void *infoWindow;      /* 0x148 */
+    void *detailWindow;    /* 0x14C */
+    u8 pad_150[8];
+    void *pmsDraw;         /* 0x158 */
+    struct BeaconDetailGraEntry entries[2]; /* 0x15C */
+    short mapX;            /* 0x25C */
+    short mapY;            /* 0x25E */
+    u8 mapVisible;         /* 0x260 */
+    u8 pad_261[3];
+    void *mapActors[2];    /* 0x264 */
+};
+
+/* TCBL task work buffers used by the slide/fade/timer tasks. */
+struct BeaconDetailGraFadeTask {
+    u8 direction; u8 count; u8 elapsed; s8 position; s8 step; u8 pad_05[3]; int *counter;
+};
+struct BeaconDetailGraTimerTask {
+    u8 step; u8 count; u8 pad_02[2]; int timer; void *owner; int *counter;
+};
+struct BeaconDetailGraSlideTask {
+    u8 index; u8 count; u8 pad_02[2]; s16 offset; s16 delta; u8 pad_08[4]; void *entry; void *owner; int *counter;
+};
+struct BeaconDetailGraSlotTask {
+    u8 step; u8 pad_01[2]; u8 index; u8 direction; u8 flags; u8 pad_06[2]; int wait; u8 pad_0C[4]; void *owner; int *counter;
+};
 
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *,int,int);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct GflHeap *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 extern void TCBL_Main(struct Tcbl *);
@@ -383,11 +450,11 @@ extern void FADE_Start(unsigned,int,int,int);
 extern int FADE_IsActive(void);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
 extern u8 *GAME_BEACON_ACCESSOR_AllocInfo(u32);
-extern u32 GAME_DATA_GetItemUseWork(const struct BigObj *);
+extern u32 GAME_DATA_GetItemUseWork(const struct GameData *);
 extern u32 BEACON_STATUS_GetLog(u32 a);
 extern u8 GAME_BEACON_ACCESSOR_TableGetCount(u8 *);
-extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *,struct Rec *,u16 *,int);
-extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec *);
+extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *,struct GameBeaconRecord *,u16 *,int);
+extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct GameBeaconRecord *);
 extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *);
 extern signed char MSG_SPEED_GetWait(void);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
@@ -402,25 +469,25 @@ extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
 extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void TCBL_Destroy(struct S02031140 *);
+extern void TCBL_Destroy(struct Tcbl *);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
 extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *,void **);
 extern void func_0207D63C(u32 *,u32,u32,int,int);
-extern R *TOUCHBAR_Create(A *,int);
+extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParam *,int);
 extern void TOUCHBAR_Delete(unsigned char *);
-extern void TOUCHBAR_Update(struct S *p);
+extern void TOUCHBAR_Update(struct TouchBar *p);
 extern signed int CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned short e, unsigned short f, unsigned short g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -438,17 +505,17 @@ extern void BMP_Clear(struct CharBuf *,unsigned char);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void CLACT_DeleteActor(struct Obj *p);
+extern struct ClactActor *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern void CLACT_SetActorPaletteOffset(struct ClactActor *o, u32 v, u32 flag);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
+extern void CLACT_DeleteActor(struct ClactActor *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern struct PmsDraw *PMS_DRAW_Create(u32,u32,u32,u32,u8,u8,u16);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *,u8);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *,u16);
 extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
-extern void PMS_DRAW_Delete(struct Obj *p);
+extern void PMS_DRAW_Delete(struct ClactActor *p);
 extern int sub_0202DBC4(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
@@ -466,13 +533,13 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
+extern struct ClactActor *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -504,38 +571,38 @@ extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_SetSlotPokeData(struct WordSet *p, u32 i, u32 a);
 extern void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct Vec2 *delta, u32 which);
 extern void func_02045CAC(struct MsgBank*,u32,void*);
 extern void WORDSET_CopyTaggedText(struct WordSet*,void*,void*);
-extern void CLACT_TransferCharacter(int,struct Sub0204A9D0*);
+extern void CLACT_TransferCharacter(int,struct BeaconDetailGraTransfer*);
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
-extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *, int, u32);
+extern u32 sub_0202DCC4(const struct BeaconDetailGraPmsDraw *, u32);
+extern void PMS_DRAW_SetVisible(struct BeaconDetailGraPmsDraw *, int, u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void func_02040618(u32,u32,u32);
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
 extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
 extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
-extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *,void *);
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct GameBeaconRecord *,void *);
 extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0);
 extern void STRBUF_Clear(struct U16Vec *);
 extern void WORDSET_SetSlotFromMsg38(struct WordSet *,u32,u32);
 extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int a0);
 extern void WORDSET_SetSlotFromMsg2B(struct WordSet *,u32,u32);
-extern void GAME_BEACON_ACCESSOR_GetPlayTime(const struct S *p, u16 *a, u16 *b);
+extern void GAME_BEACON_ACCESSOR_GetPlayTime(const struct GameBeaconRecord *p, u16 *a, u16 *b);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
 extern void WORDSET_DeleteMsgdataF094(struct WordSet *,u32,u32,u32);
-extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p);
-extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(const struct S *p);
-extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *,u32);
-extern void PMS_DRAW_Clear(struct Obj0202DC98 *,int,u32);
-extern void GAME_BEACON_ACCESSOR_GetDetailsPms(const struct R *p, struct Quad *q);
+extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct GameBeaconRecord *p);
+extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(const struct GameBeaconRecord *p);
+extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *,u32);
+extern void PMS_DRAW_Clear(struct BeaconDetailGraPmsDraw *,int,u32);
+extern void GAME_BEACON_ACCESSOR_GetDetailsPms(const struct GameBeaconRecord *p, struct BeaconDetailGraQuad *q);
 extern void PMS_DRAW_Print(u32,u32,u32,u32);
-extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct S *);
+extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct GameBeaconRecord *);
 extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
 extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(void *);
@@ -543,102 +610,102 @@ extern unsigned short GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const struct Bit
 extern int TOWNMAP_GRH_FindRecordIndex(int,int);
 extern u16 TOWNMAP_GRH_GetTownInfoValue(char *,int,int);
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
-extern void *TCBL_GetWork(struct S02030FB4 *);
+extern void *TCBL_GetWork(struct Tcbl *);
 extern void TCBL_DeleteTask(struct TcblNode*);
 extern void TOUCHBAR_SetAllButtonsEnabled(u8 *, u32);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void BEACON_DETAIL_GRA_PrintWaitTask(int,int **);
-int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config);
-int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *p);
+int BEACON_DETAIL_GRA_Init(struct ProcOwner *obj,int unused1,void *config);
+int BEACON_DETAIL_GRA_Exit(struct GflHeap *heap,int unused1,int unused2,char *p);
 int BEACON_DETAIL_GRA_Main(int unused0,int *state,int unused2,char *p);
-int func_021BBF0C(char *p);
-int func_021BBF14(char *p);
-int func_021BBF28(unsigned char *p);
-int func_021BBF60(char *p);
-int func_021BBF98(char *p);
-void func_021BBFEC(u8 *p);
+int BEACON_DETAIL_GRA_StateInteract(char *p);
+int BEACON_DETAIL_GRA_StateClose(char *p);
+int BEACON_DETAIL_GRA_StateInit(unsigned char *p);
+int BEACON_DETAIL_GRA_StateFadeIn(char *p);
+int BEACON_DETAIL_GRA_StateFadeOut(char *p);
+void BEACON_DETAIL_GRA_LoadBeaconInfo(u8 *p);
 void BEACON_DETAIL_GRA_Delete(char *p);
-void func_021BC0C8(char *p);
-void func_021BC178(char *p);
-void func_021BC1E4(char *p,u16 heap);
-void func_021BC378(char *p);
-R *func_021BC398(int manager,int heap);
-void func_021BC3D4(unsigned char *p);
-void func_021BC3DC(S *p);
-void func_021BC3E4(unsigned short *p,int *out,const Config_021BBD80 *cfg,void *handle);
-void func_021BC43C(void *unused, char *p);
-void func_021BC454(char *p,u32 handle);
-void func_021BC56C(char *p);
-void func_021BC5C4(Window_021BBD80 *p,unsigned char layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height);
-unsigned func_021BC614(unsigned short *p,void *manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag);
-void func_021BC650(char *p);
-void func_021BC6B4(struct S021BC6B4 *p);
-void func_021BC6D8(char *p);
-u32 func_021BC6FC(u32 *p);
-void func_021BC70C(char *p);
-void func_021BC8A8(char *p);
-int func_021BC920(u32 *p);
+void BEACON_DETAIL_GRA_CreateObjects(char *p);
+void BEACON_DETAIL_GRA_DeleteObjects(char *p);
+void BEACON_DETAIL_GRA_LoadBackground(char *p,u16 heap);
+void BEACON_DETAIL_GRA_FreeBackground(char *p);
+struct TouchBar *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap);
+void BEACON_DETAIL_GRA_DeleteTouchBar(unsigned char *p);
+void BEACON_DETAIL_GRA_UpdateTouchBar(struct TouchBar *p);
+void BEACON_DETAIL_GRA_RegisterActorGfx(unsigned short *p,int *out,const struct ClactResConfig *cfg,void *handle);
+void BEACON_DETAIL_GRA_ReleaseActorGfx(void *unused, char *p);
+void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p,u32 handle);
+void BEACON_DETAIL_GRA_FreeTrainerGfx(char *p);
+void BEACON_DETAIL_GRA_CreateWindow(struct BeaconDetailGraWindow *p,unsigned char layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height);
+unsigned BEACON_DETAIL_GRA_CreatePositionedActor(unsigned short *p,void *manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag);
+void BEACON_DETAIL_GRA_CreateDetailActors(char *p);
+void BEACON_DETAIL_GRA_DeleteDetailActors(struct BeaconDetailGraWork *p);
+void BEACON_DETAIL_GRA_CreateInfoWindow(char *p);
+u32 BEACON_DETAIL_GRA_DeleteInfoWindow(u32 *p);
+void BEACON_DETAIL_GRA_CreateListWindows(char *p);
+void BEACON_DETAIL_GRA_DeleteListWindows(char *p);
+int BEACON_DETAIL_GRA_IsPmsActive(u32 *p);
 void *BEACON_DETAIL_GRA_Create(int a,int heap);
-void func_021BC9D0(unsigned *p);
-void func_021BCA24(char *p);
-void *func_021BCA38(char *p);
+void BEACON_DETAIL_GRA_Destroy(unsigned *p);
+void BEACON_DETAIL_GRA_Draw(char *p);
+void *BEACON_DETAIL_GRA_GetClactUnit(char *p);
 void BEACON_DETAIL_GRA_Task(void *unused, char *p);
-void func_021BCA58(void *p,int heap);
-void func_021BCAB8(void *p);
-void func_021BCAF0(void *p);
-void func_021BCAF4(void *a0);
-void func_021BCAFC(void **p,void *a,int heap);
-void func_021BCB70(char *p);
-void func_021BCB90(void *a0);
-void func_021BCB98(void *a0);
-u32 func_021BCBA0(u32*p);
-void func_021BCBA4(unsigned char *p);
-int func_021BCC10(unsigned char *p);
-void func_021BCCBC(u8*p);
-int func_021BCCC4(u8*p);
-void func_021BCD00(int a);
-void func_021BCD08(void *p,unsigned mode,unsigned a,unsigned b);
-void func_021BCD60(unsigned char *p);
-int func_021BCDC0(void *a0);
-const u8*func_021BCDDC(u32 n);
-void func_021BCE04(void *p,void *q);
-void func_021BCE7C(void *p, unsigned short value);
-void func_021BCE8C(void *a0, short a1, short a2, int a3);
-void func_021BCEA4(u8*p, u8 n);
-void func_021BCED0(u8*p,u32 n);
-void func_021BCF08(char *p);
-void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e);
-void func_021BD0E4(char *p, u8 index, u32 enable);
-void func_021BD13C(u8*p,int a);
-void func_021BD174(char *p,void *record,u16 unused,u8 slot);
-void func_021BD448(char *p);
-void func_021BD668(char *owner, int direction, int *counter);
+void BEACON_DETAIL_GRA_InitBgSystem(void *p,int heap);
+void BEACON_DETAIL_GRA_ExitBgSystem(void *p);
+void BEACON_DETAIL_GRA_Noop(void *p);
+void BEACON_DETAIL_GRA_UpdateBg(void *a0);
+void BEACON_DETAIL_GRA_InitClact(void **p,void *a,int heap);
+void BEACON_DETAIL_GRA_ExitClact(char *p);
+void BEACON_DETAIL_GRA_DrawClact(void *a0);
+void BEACON_DETAIL_GRA_VBlankClact(void *a0);
+u32 BEACON_DETAIL_GRA_ReadPtr(u32*p);
+void BEACON_DETAIL_GRA_SetupBeaconList(unsigned char *p);
+int BEACON_DETAIL_GRA_UpdateInteract(unsigned char *p);
+void BEACON_DETAIL_GRA_RefreshButtons(u8*p);
+int BEACON_DETAIL_GRA_IsTouchOnActor(u8*p);
+void BEACON_DETAIL_GRA_PlaySe(int a);
+void BEACON_DETAIL_GRA_LoadPalette(void *p,unsigned mode,unsigned a,unsigned b);
+void BEACON_DETAIL_GRA_UpdateButtons(unsigned char *p);
+int BEACON_DETAIL_GRA_GetPmVersionClass(void *a0);
+const u8*BEACON_DETAIL_GRA_FindAppearanceType(u32 n);
+void BEACON_DETAIL_GRA_SetNameSlots(void *p,void *q);
+void BEACON_DETAIL_GRA_SetActorAnim(void *p, unsigned short value);
+void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3);
+void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n);
+void BEACON_DETAIL_GRA_TransferChar(u8*p,u32 n);
+void BEACON_DETAIL_GRA_InitWindows(char *p);
+void BEACON_DETAIL_GRA_DrawWindowRecord(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e);
+void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable);
+void BEACON_DETAIL_GRA_MoveActor(u8*p,int a);
+void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot);
+void BEACON_DETAIL_GRA_UpdateSlotInfo(char *p);
+void BEACON_DETAIL_GRA_AddFadeTask(char *owner, int direction, int *counter);
 void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p);
-void func_021BD6F0(char*p);
-void func_021BD6FC(char *owner, int *counter);
-int func_021BD73C(char *p);
-void func_021BD768(struct TcblNode *task, void *data);
-void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *counter);
-void func_021BD854(struct TcblNode *task, char *p);
-void func_021BD89C(char*p,int a);
-void func_021BD8A8(char *owner, int direction, int *counter);
-void func_021BD948(struct TcblNode *task,char *work);
-void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
-void func_021BDAA0(u8 *p,int arg,int *counter);
+void BEACON_DETAIL_GRA_AddTimerTask(char*p);
+void BEACON_DETAIL_GRA_AddTimerTaskEx(char *owner, int *counter);
+int BEACON_DETAIL_GRA_UpdateTimer(char *p);
+void BEACON_DETAIL_GRA_TimerCallback(struct TcblNode *task, void *data);
+void BEACON_DETAIL_GRA_AddSlideTask(char *owner, u8 index, int position, u8 direction, int *counter);
+void BEACON_DETAIL_GRA_SlideCallback(struct TcblNode *task, char *p);
+void BEACON_DETAIL_GRA_AddSlotSlideTask(char*p,int a);
+void BEACON_DETAIL_GRA_AddSlotSlideTaskEx(char *owner, int direction, int *counter);
+void BEACON_DETAIL_GRA_SlotSlideCallback(struct TcblNode *task,char *work);
+void BEACON_DETAIL_GRA_DrawRecord(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
+void BEACON_DETAIL_GRA_AddPrintWaitTask(u8 *p,int arg,int *counter);
 extern unsigned char ov067_id[],ov072_id[];
 extern unsigned char ov072_id[],ov067_id[];
 extern const unsigned char d_021BDB4C[];
-extern const Config_021BC454 configA,configB;
+extern const struct ClactResConfig configA,configB;
 extern char d_021BDDC0[];
 extern unsigned d_021BDBD8[];
 extern const unsigned d_021BDBAC[];
-extern const struct Entry d_021BDC28[];
+extern const struct BeaconDetailGraBgEntry d_021BDC28[];
 extern const unsigned d_021BDBBC[];
-extern const struct Block d_021BDC08;
+extern const struct BeaconDetailGraRenderBlock d_021BDC08;
 extern const u8 d_021BDDA2[];
 extern const u8 d_021BDD92[];
-extern const struct Four_021BCF08 d_021BDD8A[];
+extern const struct BeaconDetailGraColorPair d_021BDD8A[];
 extern const u8 d_021BDD88[];
 
 
@@ -646,7 +713,7 @@ extern const u8 d_021BDD88[];
 
 
 
-int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config)
+int BEACON_DETAIL_GRA_Init(struct ProcOwner *obj,int unused1,void *config)
 {
     char *p;
     func_02034AC4((int)ov067_id);
@@ -654,18 +721,18 @@ int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config)
     GFL_HEAP_CreateChildHeap(1,119,3<<16);
     p=PROCSYS_AllocProcWork(obj,620,119);
     MI_CpuFill8(p,0,620);
-    ((struct Obj00366 *)p)->f14=config;
-    ((struct Obj00366 *)p)->f0=119;
-    ((struct Obj00366 *)p)->f2=0x8077;
-    ((struct Obj00366 *)p)->f50=BEACON_DETAIL_GRA_Create(0,((struct Obj00366 *)p)->f0);
-    func_021BBFEC((u8 *)p);
-    func_021BC0C8(p);
-    func_021BC1E4(p,((struct Obj00366 *)p)->f0);
-    func_021BC6D8(p);
-    func_021BC454(p,(u32)(((struct Obj00366 *)p)->f54));
-    func_021BC650(p);
-    func_021BC70C(p);
-    ((struct Obj00366 *)p)->f124=(void *)func_021BC398((int)(func_021BCA38(((struct Obj00366 *)p)->f50)), ((struct Obj00366 *)p)->f0);
+    ((struct BeaconDetailGraWork *)p)->config=config;
+    ((struct BeaconDetailGraWork *)p)->heapId=119;
+    ((struct BeaconDetailGraWork *)p)->gfxHeapId=0x8077;
+    ((struct BeaconDetailGraWork *)p)->clactObj=BEACON_DETAIL_GRA_Create(0,((struct BeaconDetailGraWork *)p)->heapId);
+    BEACON_DETAIL_GRA_LoadBeaconInfo((u8 *)p);
+    BEACON_DETAIL_GRA_CreateObjects(p);
+    BEACON_DETAIL_GRA_LoadBackground(p,((struct BeaconDetailGraWork *)p)->heapId);
+    BEACON_DETAIL_GRA_CreateInfoWindow(p);
+    BEACON_DETAIL_GRA_LoadTrainerGfx(p,(u32)(((struct BeaconDetailGraWork *)p)->arcFile));
+    BEACON_DETAIL_GRA_CreateDetailActors(p);
+    BEACON_DETAIL_GRA_CreateListWindows(p);
+    ((struct BeaconDetailGraWork *)p)->touchBar=(void *)BEACON_DETAIL_GRA_CreateTouchBar((int)(BEACON_DETAIL_GRA_GetClactUnit(((struct BeaconDetailGraWork *)p)->clactObj)), ((struct BeaconDetailGraWork *)p)->heapId);
     return 1;
 }
 
@@ -674,17 +741,17 @@ int BEACON_DETAIL_GRA_Init(struct Obj0203159C *obj,int unused1,void *config)
 
 
 
-int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *p)
+int BEACON_DETAIL_GRA_Exit(struct GflHeap *heap,int unused1,int unused2,char *p)
 {
-    func_021BC3D4(((struct Obj01437 *)p)->f124);
-    func_021BC8A8(p);
-    func_021BC6B4((struct S021BC6B4 *)p);
-    func_021BC56C(p);
-    func_021BC6FC((unsigned *)p);
-    func_021BC378(p);
-    func_021BC178(p);
+    BEACON_DETAIL_GRA_DeleteTouchBar(((struct BeaconDetailGraWork *)p)->touchBar);
+    BEACON_DETAIL_GRA_DeleteListWindows(p);
+    BEACON_DETAIL_GRA_DeleteDetailActors((struct BeaconDetailGraWork *)p);
+    BEACON_DETAIL_GRA_FreeTrainerGfx(p);
+    BEACON_DETAIL_GRA_DeleteInfoWindow((unsigned *)p);
+    BEACON_DETAIL_GRA_FreeBackground(p);
+    BEACON_DETAIL_GRA_DeleteObjects(p);
     BEACON_DETAIL_GRA_Delete(p);
-    func_021BC9D0(*(unsigned * *)&((struct Obj01437 *)p)->f50);
+    BEACON_DETAIL_GRA_Destroy(*(unsigned * *)&((struct BeaconDetailGraWork *)p)->clactObj);
     func_020315D4(heap);
     GFL_HEAP_DeleteChecked(119);
     func_02034A5C((int)ov072_id);
@@ -699,20 +766,20 @@ int BEACON_DETAIL_GRA_Exit(struct S020315D4 *heap,int unused1,int unused2,char *
 
 int BEACON_DETAIL_GRA_Main(int unused0,int *state,int unused2,char *p)
 {
-    if (((struct Obj03374 *)p)->f10) return 1;
-    if (*state>=2 && *state<=3) func_021BC3DC((S *)(((struct Obj03374 *)p)->f124));
+    if (((struct BeaconDetailGraWork *)p)->fadeMode) return 1;
+    if (*state>=2 && *state<=3) BEACON_DETAIL_GRA_UpdateTouchBar((struct TouchBar *)(((struct BeaconDetailGraWork *)p)->touchBar));
     switch (*state) {
-    case 0: *state=func_021BBF28((unsigned char *)p); break;
-    case 1: *state=func_021BBF60(p); break;
-    case 2: *state=func_021BBF0C(p); break;
-    case 3: *state=func_021BBF14(p); break;
-    case 4: *state=func_021BBF98(p); break;
+    case 0: *state=BEACON_DETAIL_GRA_StateInit((unsigned char *)p); break;
+    case 1: *state=BEACON_DETAIL_GRA_StateFadeIn(p); break;
+    case 2: *state=BEACON_DETAIL_GRA_StateInteract(p); break;
+    case 3: *state=BEACON_DETAIL_GRA_StateClose(p); break;
+    case 4: *state=BEACON_DETAIL_GRA_StateFadeOut(p); break;
     case 5: return 1;
     }
-    TCBL_Main(*(struct Tcbl * *)&((struct Obj03374 *)p)->f18);
-    PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C);
-    func_021BC920((unsigned *)p);
-    func_021BCA24(*(char * *)&((struct Obj03374 *)p)->f50);
+    TCBL_Main(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)p)->tcbl);
+    PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)p)->printQue);
+    BEACON_DETAIL_GRA_IsPmsActive((unsigned *)p);
+    BEACON_DETAIL_GRA_Draw(*(char * *)&((struct BeaconDetailGraWork *)p)->clactObj);
     return 0;
 }
 
@@ -724,9 +791,9 @@ int BEACON_DETAIL_GRA_Main(int unused0,int *state,int unused2,char *p)
 /*
  * follower: 021BBF0C pool-and-bx thunk forwarding to 021BCC10.
  */
-int func_021BBF0C(char *p)
+int BEACON_DETAIL_GRA_StateInteract(char *p)
 {
-    return func_021BCC10((unsigned char *)p);
+    return BEACON_DETAIL_GRA_UpdateInteract((unsigned char *)p);
 }
 
 
@@ -738,11 +805,11 @@ int func_021BBF0C(char *p)
 /*
  * Addresses are Black-image addresses.
  */
-int func_021BBF14(char *p)
+int BEACON_DETAIL_GRA_StateClose(char *p)
 {
-    if (((struct Obj25767 *)p)->fC != 0)
+    if (((struct BeaconDetailGraWork *)p)->subMode != 0)
         return 3;
-    func_021BCCBC((u8 *)p);
+    BEACON_DETAIL_GRA_RefreshButtons((u8 *)p);
     return 2;
 }
 
@@ -751,34 +818,34 @@ int func_021BBF14(char *p)
 
 
 
-int func_021BBF28(unsigned char *p){switch(((struct Obj03374 *)p)->f4){case 0:func_021BCBA4(p);(((struct Obj03374 *)p)->f4)++;break;case 1:if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C)){((struct Obj03374 *)p)->f4=0;return 1;}break;}return 0;}
+int BEACON_DETAIL_GRA_StateInit(unsigned char *p){switch(((struct BeaconDetailGraWork *)p)->state){case 0:BEACON_DETAIL_GRA_SetupBeaconList(p);(((struct BeaconDetailGraWork *)p)->state)++;break;case 1:if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)p)->printQue)){((struct BeaconDetailGraWork *)p)->state=0;return 1;}break;}return 0;}
 
 
 
 
 
 
-int func_021BBF60(char *p){switch(((struct Obj10942 *)p)->f4){case 0:FADE_Start(3,16,0,0);(((struct Obj10942 *)p)->f4)++;break;case 1:if(FADE_IsActive()==0){((struct Obj10942 *)p)->f4=0;return 2;}break;}return 1;}
+int BEACON_DETAIL_GRA_StateFadeIn(char *p){switch(((struct BeaconDetailGraWork *)p)->state){case 0:FADE_Start(3,16,0,0);(((struct BeaconDetailGraWork *)p)->state)++;break;case 1:if(FADE_IsActive()==0){((struct BeaconDetailGraWork *)p)->state=0;return 2;}break;}return 1;}
 
 
 
 
 
 
-int func_021BBF98(char *p)
+int BEACON_DETAIL_GRA_StateFadeOut(char *p)
 {
-    switch (((struct Obj05552 *)p)->f4) {
+    switch (((struct BeaconDetailGraWork *)p)->state) {
     case 0:
-        if (((struct Obj25768 *)(*(char * *)&((struct Obj05552 *)p)->f14))->f9==0) {
-            func_021BC3DC((S *)(((struct Obj05552 *)p)->f124));
-            if (TOUCHBAR_GetPressedButtonIdIfDone(*(unsigned char * *)&((struct Obj05552 *)p)->f124)!=1) break;
+        if (((struct BeaconDetailGraConfig *)(*(char * *)&((struct BeaconDetailGraWork *)p)->config))->mode==0) {
+            BEACON_DETAIL_GRA_UpdateTouchBar((struct TouchBar *)(((struct BeaconDetailGraWork *)p)->touchBar));
+            if (TOUCHBAR_GetPressedButtonIdIfDone(*(unsigned char * *)&((struct BeaconDetailGraWork *)p)->touchBar)!=1) break;
         }
         FADE_Start(3,0,16,0);
-        (((struct Obj05552 *)p)->f4)++;
+        (((struct BeaconDetailGraWork *)p)->state)++;
         break;
     case 1:
         if (FADE_IsActive()==0) {
-            ((struct Obj05552 *)p)->f4=0;
+            ((struct BeaconDetailGraWork *)p)->state=0;
             return 5;
         }
         break;
@@ -798,17 +865,17 @@ int func_021BBF98(char *p)
  * Trailing 021BC0B2..021BC0B4 is zero alignment padding.
  * lever: array index uses p[47]++ so byte count advances before the store.
  */
-void func_021BBFEC(u8 *p)
+void BEACON_DETAIL_GRA_LoadBeaconInfo(u8 *p)
 {
     int i,count;
     *(u8 **)(p+40)=GAME_BEACON_ACCESSOR_AllocInfo(*(u16 *)p);
-    *(u32 *)(p+32)=GAME_DATA_GetItemUseWork(*(const struct BigObj **)(*(u8 **)(p+20)+4));
+    *(u32 *)(p+32)=GAME_DATA_GetItemUseWork(*(const struct GameData **)(*(u8 **)(p+20)+4));
     *(void **)(p+36)=(void *)BEACON_STATUS_GetLog((u32)(*(void **)(p+32)));
     count=GAME_BEACON_ACCESSOR_TableGetCount(*(u8 **)(p+36));
     p[48]=255;
     for(i=0;i<count;i++){
-        GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue **)(p+36),*(struct Rec **)(p+40),(u16 *)(p+44),i);
-        if(GAME_BEACON_ACCESSOR_IsInfoInvalid(*(struct Rec **)(p+40))==0 && GAME_BEACON_ACCESSOR_IsDistributionAction(*(u8 **)(p+40))==0){
+        GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue **)(p+36),*(struct GameBeaconRecord **)(p+40),(u16 *)(p+44),i);
+        if(GAME_BEACON_ACCESSOR_IsInfoInvalid(*(struct GameBeaconRecord **)(p+40))==0 && GAME_BEACON_ACCESSOR_IsDistributionAction(*(u8 **)(p+40))==0){
             if((*(u8 **)(p+20))[8]==i)p[48]=p[47];
             p[p[47]++ +49]=i;
         }
@@ -827,8 +894,8 @@ void func_021BBFEC(u8 *p)
 
 void BEACON_DETAIL_GRA_Delete(char *p)
 {
-    TOWNMAP_GRH_FreeTownInfo((void *)(((struct Obj14715 *)p)->f1C));
-    func_020307B0((void *)(((struct Obj14715 *)p)->f28));
+    TOWNMAP_GRH_FreeTownInfo((void *)(((struct BeaconDetailGraWork *)p)->townInfo));
+    func_020307B0((void *)(((struct BeaconDetailGraWork *)p)->beaconRecord));
 }
 
 
@@ -836,19 +903,19 @@ void BEACON_DETAIL_GRA_Delete(char *p)
 
 
 
-void func_021BC0C8(char *p)
+void BEACON_DETAIL_GRA_CreateObjects(char *p)
 {
-    *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=TCBL_Create(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
-    ((struct Obj00366 *)p)->f54=func_020490F4(173,((struct Obj00366 *)p)->f0);
+    *(struct Tcbl * *)&((struct BeaconDetailGraWork *)p)->tcbl=TCBL_Create(((struct BeaconDetailGraWork *)p)->heapId,((struct BeaconDetailGraWork *)p)->heapId,64,128);
+    ((struct BeaconDetailGraWork *)p)->arcFile=func_020490F4(173,((struct BeaconDetailGraWork *)p)->heapId);
     GF_FONT_SetTextColor(7,8,15);
-    ((struct Obj00366 *)p)->f12C=PRINTSYS_QUE_CreateEx(2048,((struct Obj00366 *)p)->f0);
-    *(struct GfFont * *)&((struct Obj00366 *)p)->f128=GF_FONT_Create(23,0,0,0,((struct Obj00366 *)p)->f0);
-    *(struct WordSet * *)&((struct Obj00366 *)p)->f138=WORDSET_Create(8,64,((struct Obj00366 *)p)->f0);
-    *(struct MsgBank * *)&((struct Obj00366 *)p)->f130=func_02045B38(0,2,7,((struct Obj00366 *)p)->f0);
-    *(struct MsgBank * *)&((struct Obj00366 *)p)->f134=func_02045B38(0,2,231,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f13C=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f140=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f144=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
+    ((struct BeaconDetailGraWork *)p)->printQue=PRINTSYS_QUE_CreateEx(2048,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct GfFont * *)&((struct BeaconDetailGraWork *)p)->font.ptr=GF_FONT_Create(23,0,0,0,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet=WORDSET_Create(8,64,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank=func_02045B38(0,2,7,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank2=func_02045B38(0,2,231,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf=STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf2=STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
+    *(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf3=STRBUF_Create(109,((struct BeaconDetailGraWork *)p)->heapId);
 }
 
 
@@ -856,20 +923,20 @@ void func_021BC0C8(char *p)
 
 
 
-void func_021BC178(char *p)
+void BEACON_DETAIL_GRA_DeleteObjects(char *p)
 {
-    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f144);
-    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f140);
-    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f13C);
-    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f134);
-    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f130);
-    WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj01437 *)p)->f138);
-    GF_FONT_Delete(((struct Obj01437 *)p)->f128);
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
-    PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf3);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf2);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf);
+    MSGDATA_Delete(*(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank2);
+    MSGDATA_Delete(*(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank);
+    WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet);
+    GF_FONT_Delete(((struct BeaconDetailGraWork *)p)->font.ptr);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)p)->printQue);
+    PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)p)->printQue);
     GF_FONT_SetDefaultTextColor();
-    TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
-    ARC_TOOL_DeleteHandle(((struct Obj01437 *)p)->f54);
+    TCBL_Destroy(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)p)->tcbl);
+    ARC_TOOL_DeleteHandle(((struct BeaconDetailGraWork *)p)->arcFile);
 }
 
 
@@ -877,29 +944,29 @@ void func_021BC178(char *p)
 
 
 
-void func_021BC1E4(char *p,u16 heap)
+void BEACON_DETAIL_GRA_LoadBackground(char *p,u16 heap)
 {
     struct ArcFile *arc;
     arc=func_020490F4(85,heap);
     func_02049B68(arc,0,0,0,512,heap);
-    func_02049B68(((struct Obj01591 *)p)->f54,28,4,0,512,heap);
-    func_02049658(((struct Obj01591 *)p)->f54,30,4,0,0,1,heap);
-    func_02049658(((struct Obj01591 *)p)->f54,30,5,0,0,1,heap);
-    func_02049658(((struct Obj01591 *)p)->f54,30,7,0,0,1,heap);
-    func_020498F4(((struct Obj01591 *)p)->f54,32,4,0,0,1,heap);
-    func_020498F4(((struct Obj01591 *)p)->f54,32,5,0,0,1,heap);
-    func_020498F4(((struct Obj01591 *)p)->f54,33,7,0,0,1,heap);
+    func_02049B68(((struct BeaconDetailGraWork *)p)->arcFile,28,4,0,512,heap);
+    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,30,4,0,0,1,heap);
+    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,30,5,0,0,1,heap);
+    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,30,7,0,0,1,heap);
+    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,32,4,0,0,1,heap);
+    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,32,5,0,0,1,heap);
+    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,33,7,0,0,1,heap);
     BG_SYS_FillTileMap(5,0,0,32,24,1);
-    func_020409B4(5);
-    func_02049658(((struct Obj01591 *)p)->f54,31,1,0,0,1,heap);
-    func_020498F4(((struct Obj01591 *)p)->f54,34,1,0,2048,1,heap);
+    BG_SYS_PushTile(5);
+    func_02049658(((struct BeaconDetailGraWork *)p)->arcFile,31,1,0,0,1,heap);
+    func_020498F4(((struct BeaconDetailGraWork *)p)->arcFile,34,1,0,2048,1,heap);
     func_02049658(arc,5,2,0,0,0,heap);
     func_020498F4(arc,17,2,0,2048,0,heap);
     func_02049658(arc,7,3,0,0,0,heap);
     func_020498F4(arc,16,3,0,2048,0,heap);
-    ((struct Obj01591 *)p)->f120=ARC_TOOL_LoadHandleMember(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
-    NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct Obj01591 *)p)->f120,(void **)(p+280));
-    ((struct Obj01591 *)p)->f11C=((struct Obj25769 *)(*(char * *)&((struct Obj01591 *)p)->f118))->fC;
+    ((struct BeaconDetailGraWork *)p)->charHandle=ARC_TOOL_LoadHandleMember(*(struct ArcFile * *)&((struct BeaconDetailGraWork *)p)->arcFile,29,((struct BeaconDetailGraWork *)p)->heapId);
+    NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct BeaconDetailGraWork *)p)->charHandle,(void **)(p+280));
+    ((struct BeaconDetailGraWork *)p)->charData=((struct BeaconDetailGraRes *)(*(char * *)&((struct BeaconDetailGraWork *)p)->charFile))->data;
     ARC_TOOL_DeleteHandle(arc);
     func_0207D63C((u32 *)0x04000050,2,30,11,5);
     func_0207D63C((u32 *)0x04001050,3,31,13,3);
@@ -911,9 +978,9 @@ void func_021BC1E4(char *p,u16 heap)
 
 
 
-void func_021BC378(char *p)
+void BEACON_DETAIL_GRA_FreeBackground(char *p)
 {
-    func_020307B0(((struct Obj25770 *)p)->f120);
+    func_020307B0(((struct BeaconDetailGraWork *)p)->charHandle);
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned short *)0x04000050 = 0;
 }
@@ -923,28 +990,28 @@ void func_021BC378(char *p)
 
 
 
-R *func_021BC398(int manager,int heap){A a;enum {Zero} zero=Zero;MI_CpuFill8(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create(&a,heap);}
+struct TouchBar *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap){struct TouchBarParam a;enum {Zero} zero=Zero;MI_CpuFill8(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create(&a,heap);}
 
 
 
 
 
 
-void func_021BC3D4(unsigned char *p){TOUCHBAR_Delete(p);}
+void BEACON_DETAIL_GRA_DeleteTouchBar(unsigned char *p){TOUCHBAR_Delete(p);}
 
 
 
 
 
 
-void func_021BC3DC(S *p){TOUCHBAR_Update(p);}
+void BEACON_DETAIL_GRA_UpdateTouchBar(struct TouchBar *p){TOUCHBAR_Update(p);}
 
 
 
 
 
 
-void func_021BC3E4(unsigned short *p,int *out,const Config_021BBD80 *cfg,void *handle)
+void BEACON_DETAIL_GRA_RegisterActorGfx(unsigned short *p,int *out,const struct ClactResConfig *cfg,void *handle)
 {
     MI_CpuFill8(out,0,12);
     out[0]=CLACT_RegisterPaletteEx(handle,cfg->first,cfg->a,(unsigned short)(cfg->b<<5),0,cfg->c,*p);
@@ -958,11 +1025,11 @@ void func_021BC3E4(unsigned short *p,int *out,const Config_021BBD80 *cfg,void *h
 
 
 
-void func_021BC43C(void *unused, char *p)
+void BEACON_DETAIL_GRA_ReleaseActorGfx(void *unused, char *p)
 {
-    CLACT_ReleaseCellAnim(((struct Obj10945 *)p)->f8);
-    CLACT_ReleaseCharacter(((struct Obj10945 *)p)->f4);
-    CLACT_ReleasePalette(((struct Obj10945 *)p)->f0);
+    CLACT_ReleaseCellAnim(((struct BeaconDetailGraActor *)p)->cellAnim);
+    CLACT_ReleaseCharacter(((struct BeaconDetailGraActor *)p)->character);
+    CLACT_ReleasePalette(((struct BeaconDetailGraActor *)p)->palette);
 }
 
 
@@ -970,7 +1037,7 @@ void func_021BC43C(void *unused, char *p)
 
 
 /*
- * lever: two Config_021BC454 locals preserve separate frame objects; p+i*8+144
+ * lever: two struct ClactResConfig locals preserve separate frame objects; p+i*8+144
  * retains per-iteration base addition, and q=p+i*12 holds the row base.
  * Prototype: 0202DA04's complete legacy body consumes only input0;
  * 0202DA48/0202DA18 leave returned r0 live and this caller stores it.
@@ -981,30 +1048,30 @@ void func_021BC43C(void *unused, char *p)
  * Prototype: 0202DA04's complete legacy body consumes only input0;
  * 0202DA48/0202DA18 leave returned r0 live and this caller stores it.
  */
-void func_021BC454(char *p,u32 handle)
+void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p,u32 handle)
 {
-    Config_021BC454 a,b;
+    struct ClactResConfig a,b;
     struct ArcFile *arc;
     int i;
-    ((struct Obj01783 *)p)->f58=POKEGRA_OpenTrainerHandle(((struct Obj01783 *)p)->f0);
+    ((struct BeaconDetailGraWork *)p)->trainer.handle=POKEGRA_OpenTrainerHandle(((struct BeaconDetailGraWork *)p)->heapId);
     a=configA;
-    func_021BC3E4((u16 *)p, (int *)(p+92), (const Config_021BBD80 *)&a, (void *)handle);
+    BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p, (int *)(p+92), (const struct ClactResConfig *)&a, (void *)handle);
     b=configB;
-    arc=func_020490F4(32,((struct Obj01783 *)p)->f2);
-    func_021BC3E4((u16 *)p, (int *)(p+128), (const Config_021BBD80 *)&b, (void *)((u32)arc));
-    ((struct Obj01783 *)p)->f114=ARC_TOOL_LoadHandleMember(arc,0,((struct Obj01783 *)p)->f0);
-    NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
-    ((struct Obj01783 *)p)->f110=((struct Obj25771 *)(*(char * *)&((struct Obj01783 *)p)->f10C))->fC;
+    arc=func_020490F4(32,((struct BeaconDetailGraWork *)p)->gfxHeapId);
+    BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p, (int *)(p+128), (const struct ClactResConfig *)&b, (void *)((u32)arc));
+    ((struct BeaconDetailGraWork *)p)->paletteHandle=ARC_TOOL_LoadHandleMember(arc,0,((struct BeaconDetailGraWork *)p)->heapId);
+    NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct BeaconDetailGraWork *)p)->paletteHandle,(void **)(p+268));
+    ((struct BeaconDetailGraWork *)p)->paletteData=((struct BeaconDetailGraRes *)(*(char * *)&((struct BeaconDetailGraWork *)p)->paletteFile))->data;
     for(i=0;i<16;i++){
-        *(void **)(p+i*8+144)=ARC_TOOL_LoadHandleMember(arc,i+49,((struct Obj01783 *)p)->f0);
+        *(void **)(p+i*8+144)=ARC_TOOL_LoadHandleMember(arc,i+49,((struct BeaconDetailGraWork *)p)->heapId);
         NNS_G2dGetUnpackedCharacterData(*(struct NitroFileHeader **)(p+i*8+144),(void **)(p+140+i*8));
     }
     ARC_TOOL_DeleteHandle(arc);
     for(i=0;i<2;i++){
         char *q=p+i*12;
-        ((struct Obj10946 *)q)->f6C=POKEGRA_RegisterTrainerCgr(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);
-        ((struct Obj10946 *)q)->f68=(u32)POKEGRA_RegisterTrainerPalette(((struct Obj01783 *)p)->f58,i+2,1,(u16)((i+8)<<5),((struct Obj01783 *)p)->f0);
-        ((struct Obj10946 *)q)->f70=POKEGRA_RegisterTrainerCellAnim(i+2,0,1,((struct Obj01783 *)p)->f0);
+        ((struct BeaconDetailGraWork *)q)->actors[1].character=POKEGRA_RegisterTrainerCgr(((struct BeaconDetailGraWork *)p)->trainer.handle,i+2,1,((struct BeaconDetailGraWork *)p)->heapId);
+        ((struct BeaconDetailGraWork *)q)->actors[1].palette=(u32)POKEGRA_RegisterTrainerPalette(((struct BeaconDetailGraWork *)p)->trainer.handle,i+2,1,(u16)((i+8)<<5),((struct BeaconDetailGraWork *)p)->heapId);
+        ((struct BeaconDetailGraWork *)q)->actors[1].cellAnim=POKEGRA_RegisterTrainerCellAnim(i+2,0,1,((struct BeaconDetailGraWork *)p)->heapId);
     }
 }
 
@@ -1012,22 +1079,22 @@ void func_021BC454(char *p,u32 handle)
 
 
 
-void func_021BC56C(char *p)
+void BEACON_DETAIL_GRA_FreeTrainerGfx(char *p)
 {
     int i;
-    for(i=0;i<2;i++) func_021BC43C(p,p+0x68+i*12);
+    for(i=0;i<2;i++) BEACON_DETAIL_GRA_ReleaseActorGfx(p,p+0x68+i*12);
     for(i=0;i<16;i++) func_020307B0(*(void **)(p+0x90+i*8));
-    func_020307B0(((struct Obj14716 *)p)->f114);
-    func_021BC43C(p,p+0x80);
-    func_021BC43C(p,p+0x5c);
-    ARC_TOOL_DeleteHandle(((struct Obj14716 *)p)->f58);
+    func_020307B0(((struct BeaconDetailGraWork *)p)->paletteHandle);
+    BEACON_DETAIL_GRA_ReleaseActorGfx(p,p+0x80);
+    BEACON_DETAIL_GRA_ReleaseActorGfx(p,p+0x5c);
+    ARC_TOOL_DeleteHandle(((struct BeaconDetailGraWork *)p)->trainer.set);
 }
 
 
 
 
 
-void func_021BC5C4(Window_021BBD80 *p,unsigned char layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height)
+void BEACON_DETAIL_GRA_CreateWindow(struct BeaconDetailGraWindow *p,unsigned char layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height)
 {
     struct Descriptor *window;
     p->window=(struct Descriptor *)BMP_WIN_Create(layer,x,y,width,height,palette,1);
@@ -1038,43 +1105,43 @@ void func_021BC5C4(Window_021BBD80 *p,unsigned char layer,unsigned char palette,
     window=p->window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
 }
 
 
 
 
 
-unsigned func_021BC614(unsigned short *p,void *manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag){Position pos;pos.x=x;pos.y=y;pos.z=z;pos.b=b;pos.a=a;return (unsigned)CLACT_CreateActor(manager,r[1],r[0],r[2],&pos,flag,*p);}
+unsigned BEACON_DETAIL_GRA_CreatePositionedActor(unsigned short *p,void *manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag){struct BeaconDetailGraPosition pos;pos.x=x;pos.y=y;pos.z=z;pos.b=b;pos.a=a;return (unsigned)CLACT_CreateActor(manager,r[1],r[0],r[2],&pos,flag,*p);}
 
 
 
 
-void func_021BC650(char *p)
+void BEACON_DETAIL_GRA_CreateDetailActors(char *p)
 {
-    void *q=func_021BCA38(((struct Obj00366 *)p)->f50);
-    void *a=(void *)func_021BC614((short unsigned int *)p,(void *)q,(unsigned int *)(p+0x80),128,120,0,0,2,0);
-    ((struct Obj00366 *)p)->f264=a;
+    void *q=BEACON_DETAIL_GRA_GetClactUnit(((struct BeaconDetailGraWork *)p)->clactObj);
+    void *a=(void *)BEACON_DETAIL_GRA_CreatePositionedActor((short unsigned int *)p,(void *)q,(unsigned int *)(p+0x80),128,120,0,0,2,0);
+    ((struct BeaconDetailGraWork *)p)->mapActors[0]=a;
     CLACT_SetActorPaletteOffset(a,0,1);
-    ((struct Obj00366 *)p)->f268=(void *)func_021BC614((short unsigned int *)p,(void *)q,(unsigned int *)(p+0x5c),96,120,0,1,2,0);
+    ((struct BeaconDetailGraWork *)p)->mapActors[1]=(void *)BEACON_DETAIL_GRA_CreatePositionedActor((short unsigned int *)p,(void *)q,(unsigned int *)(p+0x5c),96,120,0,1,2,0);
 }
 
 
 
 
 
-void func_021BC6B4(struct S021BC6B4 *p)
+void BEACON_DETAIL_GRA_DeleteDetailActors(struct BeaconDetailGraWork *p)
 {
     int i;
     for (i = 0; i < 2; i++)
     {
-        CLACT_SetActorDrawEnable(p->slots[i], 0);
-        CLACT_DeleteActor(p->slots[i]);
+        CLACT_SetActorDrawEnable(p->mapActors[i], 0);
+        CLACT_DeleteActor(p->mapActors[i]);
     }
 }
 
 
-void func_021BC6D8(char *p){func_021BC5C4((Window_021BBD80 *)((Window_021BC6D8 *)(p+0x148)), 1, 11, 2, 22, 28, 6);}
+void BEACON_DETAIL_GRA_CreateInfoWindow(char *p){BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)((struct BeaconDetailGraWindow *)(p+0x148)), 1, 11, 2, 22, 28, 6);}
 
 
 
@@ -1085,7 +1152,7 @@ void func_021BC6D8(char *p){func_021BC5C4((Window_021BBD80 *)((Window_021BC6D8 *
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021BC6FC(u32 *p)
+u32 BEACON_DETAIL_GRA_DeleteInfoWindow(u32 *p)
 {
     return BMP_WIN_Delete((struct Descriptor *)p[0x52]);
 }
@@ -1093,12 +1160,12 @@ u32 func_021BC6FC(u32 *p)
 
 
 
-void func_021BC70C(char *p)
+void BEACON_DETAIL_GRA_CreateListWindows(char *p)
 {
     void *manager;
     int i,j,layer;
     char *q;
-    manager=func_021BCA38(*(void **)(p+80));
+    manager=BEACON_DETAIL_GRA_GetClactUnit(*(void **)(p+80));
     *(struct PmsDraw **)(p+344)=PMS_DRAW_Create((u32)manager,1,*(u32 *)(p+300),*(u32 *)(p+296),10,2,*(u16 *)p);
     PMS_DRAW_SetNullColorPalette(*(struct PmsDraw **)(p+344),4);
     PMS_DRAW_SetPrintColor(*(struct PmsDraw **)(p+344),15812);
@@ -1108,14 +1175,14 @@ void func_021BC70C(char *p)
         q=p+348+i*128;
         q[126]=(u8)layer;
         *(u32 *)(q+112)=BMP_WIN_Create((u8)layer,2,15,28,4,i,1);
-        for(j=0;j<4;j++)func_021BC5C4((Window_021BBD80 *)(q+j*16),layer,i,2,j*2+1,19,2);
-        func_021BC5C4((Window_021BBD80 *)(q+64),layer,i,2,9,19,2);
-        func_021BC5C4((Window_021BBD80 *)(q+80),layer,i,3,11,28,4);
-        func_021BC5C4((Window_021BBD80 *)(q+96),layer,i,4,19,27,4);
-        *(void **)(q+120)=(void *)func_021BC614((unsigned short *)p,manager,(unsigned *)(p+104+i*12),220,44,0,1,i,1);
+        for(j=0;j<4;j++)BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+j*16),layer,i,2,j*2+1,19,2);
+        BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+64),layer,i,2,9,19,2);
+        BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+80),layer,i,3,11,28,4);
+        BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+96),layer,i,4,19,27,4);
+        *(void **)(q+120)=(void *)BEACON_DETAIL_GRA_CreatePositionedActor((unsigned short *)p,manager,(unsigned *)(p+104+i*12),220,44,0,1,i,1);
         CLACT_SetActorObjMode(*(struct Actor **)(q+120),0);
         CLACT_SetActorDrawEnable(*(void **)(q+120),0);
-        *(void **)(q+116)=(void *)func_021BC614((unsigned short *)p,manager,(unsigned *)(p+92),200,80,6,0,i,1);
+        *(void **)(q+116)=(void *)BEACON_DETAIL_GRA_CreatePositionedActor((unsigned short *)p,manager,(unsigned *)(p+92),200,80,6,0,i,1);
         CLACT_SetActorObjMode(*(struct Actor **)(q+116),1);
         CLACT_SetActorDrawEnable(*(void **)(q+116),0);
     }
@@ -1124,20 +1191,20 @@ void func_021BC70C(char *p)
 
 
 
-void func_021BC8A8(char *p)
+void BEACON_DETAIL_GRA_DeleteListWindows(char *p)
 {
     int i=0,j;
     char *base=p+0x15c;
     for(;i<2;i++) {
         char *q=base+i*128;
-        CLACT_SetActorDrawEnable(((struct Obj05553 *)q)->f78,0); CLACT_DeleteActor(((struct Obj05553 *)q)->f78);
-        CLACT_SetActorDrawEnable(((struct Obj05553 *)q)->f74,0); CLACT_DeleteActor(((struct Obj05553 *)q)->f74);
-        BMP_WIN_Delete(((struct Obj05553 *)q)->f60);
+        CLACT_SetActorDrawEnable(((struct BeaconDetailGraEntry *)q)->actorB,0); CLACT_DeleteActor(((struct BeaconDetailGraEntry *)q)->actorB);
+        CLACT_SetActorDrawEnable(((struct BeaconDetailGraEntry *)q)->actorA,0); CLACT_DeleteActor(((struct BeaconDetailGraEntry *)q)->actorA);
+        BMP_WIN_Delete(((struct BeaconDetailGraEntry *)q)->winC.window);
         for(j=0;j<2;j++) BMP_WIN_Delete(*(void **)(q+0x40+j*16));
         for(j=0;j<4;j++) BMP_WIN_Delete(*(void **)(q+j*16));
-        BMP_WIN_Delete(((struct Obj05553 *)q)->f70);
+        BMP_WIN_Delete(((struct BeaconDetailGraEntry *)q)->iconWindow.window);
     }
-    PMS_DRAW_Delete(((struct Obj01437 *)p)->f158);
+    PMS_DRAW_Delete(((struct BeaconDetailGraWork *)p)->pmsDraw);
 }
 
 
@@ -1149,7 +1216,7 @@ void func_021BC8A8(char *p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021BC920(u32 *p)
+int BEACON_DETAIL_GRA_IsPmsActive(u32 *p)
 {
     return sub_0202DBC4(p[0x56]);
 }
@@ -1175,8 +1242,8 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021BCA58(p,heap);
-    func_021BCAFC((void **)(p+1),d_021BDBD8,heap);
+    BEACON_DETAIL_GRA_InitBgSystem(p,heap);
+    BEACON_DETAIL_GRA_InitClact((void **)(p+1),d_021BDBD8,heap);
     p[3]=(unsigned)func_020056A0((void (*)(void *, void *))BEACON_DETAIL_GRA_Task,p,0);
     return p;
 }
@@ -1184,11 +1251,11 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
 
 
 
-void func_021BC9D0(unsigned *p)
+void BEACON_DETAIL_GRA_Destroy(unsigned *p)
 {
     func_02030EAC((void *)p[3]);
-    func_021BCB70((char *)(p+1));
-    func_021BCAB8(p);
+    BEACON_DETAIL_GRA_ExitClact((char *)(p+1));
+    BEACON_DETAIL_GRA_ExitBgSystem(p);
     GF_FONT_SetDefaultTextColor();
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
@@ -1202,16 +1269,16 @@ void func_021BC9D0(unsigned *p)
 
 
 
-void func_021BCA24(char *p)
+void BEACON_DETAIL_GRA_Draw(char *p)
 {
-    func_021BCB90(p + 4);
-    func_021BCAF0(p);
+    BEACON_DETAIL_GRA_DrawClact(p + 4);
+    BEACON_DETAIL_GRA_Noop(p);
 }
 
 
 
 
-void *func_021BCA38(char *p){return (void *)func_021BCBA0((u32 *)(p+4));}
+void *BEACON_DETAIL_GRA_GetClactUnit(char *p){return (void *)BEACON_DETAIL_GRA_ReadPtr((u32 *)(p+4));}
 
 
 
@@ -1219,14 +1286,14 @@ void *func_021BCA38(char *p){return (void *)func_021BCBA0((u32 *)(p+4));}
 
 void BEACON_DETAIL_GRA_Task(void *unused, char *p)
 {
-    func_021BCAF4(p);
-    func_021BCB98(p + 4);
+    BEACON_DETAIL_GRA_UpdateBg(p);
+    BEACON_DETAIL_GRA_VBlankClact(p + 4);
 }
 
 
 
 
-void func_021BCA58(void *p,int heap)
+void BEACON_DETAIL_GRA_InitBgSystem(void *p,int heap)
 {
     unsigned i;
     MI_CpuFill8(p,0,4);
@@ -1234,7 +1301,7 @@ void func_021BCA58(void *p,int heap)
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BDBAC);
     for(i=0;i<8;i++) {
-        const struct Entry *e=&d_021BDC28[i];
+        const struct BeaconDetailGraBgEntry *e=&d_021BDC28[i];
         unsigned id=e->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
         BG_SYS_FreeSlot(id);
@@ -1245,22 +1312,22 @@ void func_021BCA58(void *p,int heap)
 
 
 
-void func_021BCAB8(void *p){unsigned base=(unsigned)d_021BDC28;unsigned i;for(i=0;i<8;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void BEACON_DETAIL_GRA_ExitBgSystem(void *p){unsigned base=(unsigned)d_021BDC28;unsigned i;for(i=0;i<8;i++)BG_SYS_FreeLayerBuf((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 
 
 
-void func_021BCAF0(void *p) {}
+void BEACON_DETAIL_GRA_Noop(void *p) {}
 
 
 
-void func_021BCAF4(void *a0){BG_SYS_Update();}
+void BEACON_DETAIL_GRA_UpdateBg(void *a0){BG_SYS_Update();}
 
 
 
-void func_021BCAFC(void **p,void *a,int heap)
+void BEACON_DETAIL_GRA_InitClact(void **p,void *a,int heap)
 {
-    struct Block b;
+    struct BeaconDetailGraRenderBlock b;
     MI_CpuFill8(p,0,8);
     CLACT_InitSystem((const struct Cfg *)d_021BDBBC,(unsigned int)a,heap);
     p[0]=CLACT_CreateUnit(128,0,heap);
@@ -1275,69 +1342,69 @@ void func_021BCAFC(void **p,void *a,int heap)
 
 
 
-void func_021BCB70(char *p)
+void BEACON_DETAIL_GRA_ExitClact(char *p)
 {
-    CLACT_DeleteRenderer(((struct Obj14717 *)p)->f4);
-    CLACT_DeleteUnit(((struct Obj14717 *)p)->f0);
+    CLACT_DeleteRenderer(((struct BeaconDetailGraClact *)p)->renderer);
+    CLACT_DeleteUnit(((struct BeaconDetailGraClact *)p)->unit);
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 8);
 }
 
 
 
-void func_021BCB90(void *a0){CLACT_DrawSystem();}
+void BEACON_DETAIL_GRA_DrawClact(void *a0){CLACT_DrawSystem();}
 
 
 
-void func_021BCB98(void *a0){CLACT_VBlankSystem();}
+void BEACON_DETAIL_GRA_VBlankClact(void *a0){CLACT_VBlankSystem();}
 
 
 
-u32 func_021BCBA0(u32*p){return *p;}
+u32 BEACON_DETAIL_GRA_ReadPtr(u32*p){return *p;}
 
 
 
-void func_021BCBA4(unsigned char *p)
+void BEACON_DETAIL_GRA_SetupBeaconList(unsigned char *p)
 {
-    func_021BCF08((char *)p);
-    GAME_BEACON_ACCESSOR_TableRingGet(((struct Obj00051 *)p)->f24,((struct Obj00051 *)p)->f28,(u16 *)(p+0x2c),*(p+p[0x30]+0x31));
-    func_021BD174((char *)p,((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f2C,p[0x2e]);
-    func_021BD0E4((char *)p,p[0x2e],1);
-    func_021BD0E4((char *)p,p[0x2e]^1,0);
-    func_021BD448((char *)p); func_021BCD60(p);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00051 *)p)->f2);
+    BEACON_DETAIL_GRA_InitWindows((char *)p);
+    GAME_BEACON_ACCESSOR_TableRingGet(((struct BeaconDetailGraWork *)p)->infoQueue,((struct BeaconDetailGraWork *)p)->beaconRecord,(u16 *)(p+0x2c),*(p+p[0x30]+0x31));
+    BEACON_DETAIL_GRA_SetupSlot((char *)p,((struct BeaconDetailGraWork *)p)->beaconRecord,((struct BeaconDetailGraWork *)p)->level,p[0x2e]);
+    BEACON_DETAIL_GRA_SetSlotVisible((char *)p,p[0x2e],1);
+    BEACON_DETAIL_GRA_SetSlotVisible((char *)p,p[0x2e]^1,0);
+    BEACON_DETAIL_GRA_UpdateSlotInfo((char *)p); BEACON_DETAIL_GRA_UpdateButtons(p);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct BeaconDetailGraWork *)p)->gfxHeapId);
 }
 
 
 
-int func_021BCC10(unsigned char *p)
+int BEACON_DETAIL_GRA_UpdateInteract(unsigned char *p)
 {
-    int state=TOUCHBAR_GetPressedButtonIdIfPressing(((struct Obj05554 *)p)->f124);
+    int state=TOUCHBAR_GetPressedButtonIdIfPressing(((struct BeaconDetailGraWork *)p)->touchBar);
     unsigned keys=KEY_GetTrg();
-    if(ICA_ANIME_GetUnk330((const struct Ctx *)**(void ** *)&((struct Obj05554 *)p)->f14)) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
+    if(ICA_ANIME_GetUnk330((const struct Ctx *)**(void ** *)&((struct BeaconDetailGraWork *)p)->config)) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
     if(state==1) { (*(unsigned char **)(p+0x14))[9]=0; return 4; }
-    if(state==3 && p[0x30]) { func_021BD89C((char *)p,1); return 3; }
-    if(state==2 && p[0x30]<p[0x2f]-1) { func_021BD89C((char *)p,0); return 3; }
+    if(state==3 && p[0x30]) { BEACON_DETAIL_GRA_AddSlotSlideTask((char *)p,1); return 3; }
+    if(state==2 && p[0x30]<p[0x2f]-1) { BEACON_DETAIL_GRA_AddSlotSlideTask((char *)p,0); return 3; }
     if(!p[0x260]) return 2;
-    if(func_021BCCC4(p) || (keys&1)) { func_021BCD00(1356); func_021BD6F0((char *)p); return 3; }
+    if(BEACON_DETAIL_GRA_IsTouchOnActor(p) || (keys&1)) { BEACON_DETAIL_GRA_PlaySe(1356); BEACON_DETAIL_GRA_AddTimerTask((char *)p); return 3; }
     return 2;
 }
 
 
 
-void func_021BCCBC(u8*p){func_021BCD60(p);}
+void BEACON_DETAIL_GRA_RefreshButtons(u8*p){BEACON_DETAIL_GRA_UpdateButtons(p);}
 
 
 
-int func_021BCCC4(u8*p){u32 x,y;if(TOUCHPANEL_GetPointTrg(&x,&y)){if((u32)(x-(((struct Obj14718 *)p)->f25C-12))<=24 && (u32)(y-(((struct Obj14718 *)p)->f25E-16))<=32)return 1;}return 0;}
+int BEACON_DETAIL_GRA_IsTouchOnActor(u8*p){u32 x,y;if(TOUCHPANEL_GetPointTrg(&x,&y)){if((u32)(x-(((struct BeaconDetailGraWork *)p)->mapX-12))<=24 && (u32)(y-(((struct BeaconDetailGraWork *)p)->mapY-16))<=32)return 1;}return 0;}
 
 
 
-void func_021BCD00(int a){GFL_USE_PlaySeDefaultVolume(a);}
+void BEACON_DETAIL_GRA_PlaySe(int a){GFL_USE_PlaySeDefaultVolume(a);}
 
 
 
-void func_021BCD08(void *p,unsigned mode,unsigned a,unsigned b)
+void BEACON_DETAIL_GRA_LoadPalette(void *p,unsigned mode,unsigned a,unsigned b)
 {
     unsigned x=a*2,y=b*2;
     DWCi_ScreenDC_FlushRange(p,y);
@@ -1351,13 +1418,13 @@ void func_021BCD08(void *p,unsigned mode,unsigned a,unsigned b)
 
 
 
-void func_021BCD60(unsigned char *p)
+void BEACON_DETAIL_GRA_UpdateButtons(unsigned char *p)
 {
-    TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,1,1);
-    if(p[0x30]) TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,3,1);
-    else TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,3,0);
-    if(p[0x30]<p[0x2f]-1) TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,2,1);
-    else TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,2,0);
+    TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)p)->touchBar,1,1);
+    if(p[0x30]) TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)p)->touchBar,3,1);
+    else TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)p)->touchBar,3,0);
+    if(p[0x30]<p[0x2f]-1) TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)p)->touchBar,2,1);
+    else TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)p)->touchBar,2,0);
 }
 
 
@@ -1375,7 +1442,7 @@ void func_021BCD60(unsigned char *p)
  *
  * Addresses are Black-image addresses.
  */
-int func_021BCDC0(void *a0)
+int BEACON_DETAIL_GRA_GetPmVersionClass(void *a0)
 {
     switch (GAME_BEACON_ACCESSOR_GetPmVersion(a0)) {
     case 0x15:
@@ -1389,11 +1456,11 @@ int func_021BCDC0(void *a0)
 
 
 
-const u8*func_021BCDDC(u32 n){u32 i;for(i=0;i<6;i++){if(n==d_021BDDA2[i*3])return d_021BDDA2+i*3;}return d_021BDDA2;}
+const u8*BEACON_DETAIL_GRA_FindAppearanceType(u32 n){u32 i;for(i=0;i<6;i++){if(n==d_021BDDA2[i*3])return d_021BDDA2+i*3;}return d_021BDDA2;}
 
 
 
-void func_021BCE04(void *p,void *q)
+void BEACON_DETAIL_GRA_SetNameSlots(void *p,void *q)
 {
     switch(GAME_BEACON_ACCESSOR_GetDetailsType(p)) {
     case 0: case 1:
@@ -1414,7 +1481,7 @@ void func_021BCE04(void *p,void *q)
 
 
 
-void func_021BCE7C(void *p, unsigned short value)
+void BEACON_DETAIL_GRA_SetActorAnim(void *p, unsigned short value)
 {
     CLACT_SetActorAnimSeq(p, value);
     CLACT_RestartActorAnim(p);
@@ -1423,7 +1490,7 @@ void func_021BCE7C(void *p, unsigned short value)
 
 
 
-void func_021BCE8C(void *a0, short a1, short a2, int a3)
+void BEACON_DETAIL_GRA_SetActorPos(void *a0, short a1, short a2, int a3)
 {
     u16 tmp[2];
     tmp[0] = a1;
@@ -1519,11 +1586,11 @@ void func_021BCE8C(void *a0, short a1, short a2, int a3)
  *     func_02045E04(dest, index);
  * }
  */
-void func_021BCEA4(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+void BEACON_DETAIL_GRA_PrintMsg(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));WORDSET_CopyTaggedText(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
 
 
 
-void func_021BCED0(u8*p,u32 n){CLACT_TransferCharacter(((struct Obj14719 *)p)->f84,*(struct Sub0204A9D0**)((u32)p+n*8+0x8c));func_021BCD08((u8*)*(void* *)&((struct Obj14719 *)p)->f110+(d_021BDD92[n]&15)*32,2,160,16);}
+void BEACON_DETAIL_GRA_TransferChar(u8*p,u32 n){CLACT_TransferCharacter(((struct BeaconDetailGraWork *)p)->actors[3].character,*(struct BeaconDetailGraTransfer**)((u32)p+n*8+0x8c));BEACON_DETAIL_GRA_LoadPalette((u8*)*(void* *)&((struct BeaconDetailGraWork *)p)->paletteData+(d_021BDD92[n]&15)*32,2,160,16);}
 
 
 
@@ -1542,52 +1609,52 @@ void func_021BCED0(u8*p,u32 n){CLACT_TransferCharacter(((struct Obj14719 *)p)->f
  *   propagation off a for loop gets an entry guard), x and j as separate counters, j = 0 set only before loop 3
  *   (set before loop 2 it was loaded from x's slot), record address as off + (u32)&w[j] for the add order.
  */
-void func_021BCF08(char *p)
+void BEACON_DETAIL_GRA_InitWindows(char *p)
 {
-    struct Win *w3;
-    struct Win *w2;
-    struct Win *w;
+    struct BeaconDetailGraWinSet *w3;
+    struct BeaconDetailGraWinSet *w2;
+    struct BeaconDetailGraWinSet *w;
     int i, j;
     u8 b;
     u16 a;
-    struct Rec *rec;
+    struct BeaconDetailGraWinRec *rec;
     int off;
     int x;
 
     i = 0;
-    w = (struct Win *)(p + 0x15C);
+    w = (struct BeaconDetailGraWinSet *)(p + 0x15C);
 
     do {
         func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), i, (void *)ARG(p, 0x130));
-        b = d_021BDD8A[i % 2].b;
+        b = d_021BDD8A[i % 2].index;
         off = i * 16;
-        a = d_021BDD8A[i % 2].a;
+        a = d_021BDD8A[i % 2].color;
         j = 0;
         do {
-            rec = (struct Rec *)(off + (u32)&w[j]);
+            rec = (struct BeaconDetailGraWinRec *)(off + (u32)&w[j]);
             BMP_Clear((struct CharBuf *)rec->h, b);
-            func_021BDA54(p, (char *)rec, 0, 0, ARG(p, 0x130), a);
+            BEACON_DETAIL_GRA_DrawRecord(p, (char *)rec, 0, 0, ARG(p, 0x130), a);
             CALLS(rec);
             j++;
         } while (j < 2);
         i++;
     } while (i < 4);
     func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), 7, (void *)ARG(p, 0x130));
-    w2 = (struct Win *)(p + 0x130 + 0x2C);
+    w2 = (struct BeaconDetailGraWinSet *)(p + 0x130 + 0x2C);
 
     x = 0;
     do {
         BMP_Clear((struct CharBuf *)w2[x].b.h, 3);
-        func_021BDA54(p, (char *)&w2[x].b, 0, 0, ARG(p, 0x130), 0x3DC3);
+        BEACON_DETAIL_GRA_DrawRecord(p, (char *)&w2[x].b, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w2[x].b);
         x++;
     } while (x < 2);
     func_02045CAC((struct MsgBank *)HANDLE(p, 0x130), 9, (void *)ARG(p, 0x130));
-    w3 = (struct Win *)(p + 0x130 + 0x2C);
+    w3 = (struct BeaconDetailGraWinSet *)(p + 0x130 + 0x2C);
     j = 0;
     do {
         BMP_Clear((struct CharBuf *)w3[j].c.h, 3);
-        func_021BDA54(p, (char *)&w3[j].c, 0, 0, ARG(p, 0x130), 0x3DC3);
+        BEACON_DETAIL_GRA_DrawRecord(p, (char *)&w3[j].c, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w3[j].c);
         j++;
     } while (j < 2);
@@ -1603,27 +1670,27 @@ void func_021BCF08(char *p)
 
 
 
-void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
+void BEACON_DETAIL_GRA_DrawWindowRecord(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
 {
     void *x;
-    BMP_FillRect(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
-    func_021BDA54(p,(char *)q,b,0,v,d_021BDD8A[e].a);
+    BMP_FillRect(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].index);
+    BEACON_DETAIL_GRA_DrawRecord(p,(char *)q,b,0,v,d_021BDD8A[e].color);
     x=q[0];
-    BMP_WIN_TransferChars(x); BMP_WIN_MakeScreen(x); func_020409B4(BMP_WIN_GetBgLayer(x));
+    BMP_WIN_TransferChars(x); BMP_WIN_MakeScreen(x); BG_SYS_PushTile(BMP_WIN_GetBgLayer(x));
 }
 
 
 
-void func_021BD0E4(char *p, u8 index, u32 enable)
+void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable)
 {
     char *entry;
     entry = p + 0x15c + index * 128;
-    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08428 *)entry)->f78, enable);
-    if (((struct Obj08428 *)entry)->f7D != 0)
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
-    if (sub_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158, index) != 0)
-        PMS_DRAW_SetVisible(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
-    BG_SYS_SetPlaneVisible(((struct Obj08428 *)entry)->f7E, (u8)enable);
+    CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)entry)->actorB, enable);
+    if (((struct BeaconDetailGraEntry *)entry)->hasSecondActor != 0)
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)entry)->actorA, enable);
+    if (sub_0202DCC4(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index) != 0)
+        PMS_DRAW_SetVisible(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index, enable);
+    BG_SYS_SetPlaneVisible(((struct BeaconDetailGraEntry *)entry)->layer, (u8)enable);
 }
 
 
@@ -1631,15 +1698,15 @@ void func_021BD0E4(char *p, u8 index, u32 enable)
 /*
  * prototype: 021BCE8C coordinate parameters are signed short: original uses asrs #16 before each call; same-overlay matched caller 021BD448 declares s16.
  */
-void func_021BD13C(u8*p,int a){func_02040618(p[0x7e],3,-a);func_021BCE8C(*(void* *)&((struct Obj10948 *)p)->f78,220,a+44,1);func_021BCE8C(*(void* *)&((struct Obj10948 *)p)->f74,200,a+80,1);}
+void BEACON_DETAIL_GRA_MoveActor(u8*p,int a){BG_SYS_FillScrollArea(p[0x7e],3,-a);BEACON_DETAIL_GRA_SetActorPos(*(void* *)&((struct BeaconDetailGraEntry *)p)->actorB,220,a+44,1);BEACON_DETAIL_GRA_SetActorPos(*(void* *)&((struct BeaconDetailGraEntry *)p)->actorA,200,a+80,1);}
 
 
 
-void func_021BD174(char *p,void *record,u16 unused,u8 slot)
+void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
 {
-    struct Pair colors;
-    struct Quad data;
-    struct Pair counts;
+    struct BeaconDetailGraPair colors;
+    struct BeaconDetailGraQuad data;
+    struct BeaconDetailGraPair counts;
     char *q=(char *)p+0x15c+slot*128;
     u32 subtype;
     u16 value;
@@ -1648,92 +1715,92 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     GAME_BEACON_ACCESSOR_GetFavoriteColorRgb((int)(&colors.a),(int)record);
     PALANM_BlendColors(&colors.a,&colors.b,1,3,0);
     position=slot*16;
-    func_021BCD08(&colors,1,(u16)(position+1),2);
-    func_021BCD08(*(char * *)&((struct Obj00051 *)p)->f11C+func_021BCDC0(record)*32,1,(u16)(position+10),2);
-    GAME_BEACON_ACCESSOR_GetPlayerName(record,((struct Obj00051 *)p)->f13C);
-    func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
+    BEACON_DETAIL_GRA_LoadPalette(&colors,1,(u16)(position+1),2);
+    BEACON_DETAIL_GRA_LoadPalette(*(char * *)&((struct BeaconDetailGraWork *)p)->charData+BEACON_DETAIL_GRA_GetPmVersionClass(record)*32,1,(u16)(position+10),2);
+    GAME_BEACON_ACCESSOR_GetPlayerName(record,((struct BeaconDetailGraWork *)p)->textBuf);
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)q,*(int *)&((struct BeaconDetailGraWork *)p)->textBuf,6,48,13,2,0);
     subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond((int)record);
-    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
-    else {WORDSET_SetSlotFromMsg38(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
-    func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
+    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf2);
+    else {WORDSET_SetSlotFromMsg38(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,subtype);BEACON_DETAIL_GRA_PrintMsg((u8 *)p,5);}
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+16),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,6,48,13,2,1);
     subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst((int)record);
-    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
-    else {WORDSET_SetSlotFromMsg2B(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
-    func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
+    if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf2);
+    else {WORDSET_SetSlotFromMsg2B(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,subtype);BEACON_DETAIL_GRA_PrintMsg((u8 *)p,4);}
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+32),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,6,48,13,2,0);
     GAME_BEACON_ACCESSOR_GetPlayTime(record,&counts.b,&counts.a);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
-    func_021BCEA4((u8 *)p,6);
-    func_021BD07C((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,2,counts.b,3,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,3,counts.a,2,2,1);
+    BEACON_DETAIL_GRA_PrintMsg((u8 *)p,6);
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+48),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,6,48,13,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
-    WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
-    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
-    func_021BCEA4((u8 *)p,8);
-    func_021BD07C((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
-    func_021BCEA4((u8 *)p,10);
-    func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
-    if(PMS_DRAW_IsActive(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) PMS_DRAW_Clear(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
+    WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,value);
+    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
+    BEACON_DETAIL_GRA_PrintMsg((u8 *)p,8);
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+80),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,0,0,28,4,0);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
+    BEACON_DETAIL_GRA_PrintMsg((u8 *)p,10);
+    BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+96),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,21,0,6,4,0);
+    if(PMS_DRAW_IsActive(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw,slot)!=0) PMS_DRAW_Clear(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw,slot,1);
     GAME_BEACON_ACCESSOR_GetDetailsPms(record,&data);
-    PMS_DRAW_Print(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
-    ((struct Obj05555 *)q)->f7C=GAME_BEACON_ACCESSOR_GetTrainerAppearance(record);
+    PMS_DRAW_Print(*(u32 *)&((struct BeaconDetailGraWork *)p)->pmsDraw,((struct BeaconDetailGraEntry *)q)->iconWindow.handle,(u32)&data,slot);
+    ((struct BeaconDetailGraEntry *)q)->appearance=GAME_BEACON_ACCESSOR_GetTrainerAppearance(record);
     index=slot*12;
-    POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,CURSOR_MOVE_GetTableGroup(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
+    POKEGRA_LoadTrainerGraphics(((struct BeaconDetailGraWork *)p)->trainer.set,CURSOR_MOVE_GetTableGroup(((struct BeaconDetailGraEntry *)q)->appearance),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct BeaconDetailGraWork *)p)->gfxHeapId);
     subtype=GAME_BEACON_ACCESSOR_GetResearchTeamRank(record);
-    if(subtype==0) {CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
-    func_021BCE7C(((struct Obj05555 *)q)->f74,(u8)(subtype+1));
-    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj05555 *)q)->f74,1);
+    if(subtype==0) {CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)q)->actorA,0);return;}
+    BEACON_DETAIL_GRA_SetActorAnim(((struct BeaconDetailGraEntry *)q)->actorA,(u8)(subtype+1));
+    CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)q)->actorA,1);
 }
 
 
 
-void func_021BD448(char *p)
+void BEACON_DETAIL_GRA_UpdateSlotInfo(char *p)
 {
     const u8 *type;
     u32 value;
     int index,high;
     struct Descriptor *d;
-    GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue * *)&((struct Obj00051 *)p)->f24,*(struct Rec * *)&((struct Obj00051 *)p)->f28,(u16 *)(p+44),*(u8 *)((u32)p+((struct Obj00051 *)p)->f30+49));
-    type=func_021BCDDC(GAME_BEACON_ACCESSOR_GetDetailsType(*(const char * *)&((struct Obj00051 *)p)->f28));
-    func_021BCED0((u8 *)p,GAME_BEACON_ACCESSOR_GetTrainerAppearance(*(struct S * *)&((struct Obj00051 *)p)->f28));
-    value=GAME_BEACON_ACCESSOR_GetZoneId(*(struct Bits * *)&((struct Obj00051 *)p)->f28);
-    index=TOWNMAP_GRH_FindRecordIndex(*(int *)&((struct Obj00051 *)p)->f1C,GAME_BEACON_ACCESSOR_GetTownmapRootZoneId((const struct Bits *)(*(const char * *)&((struct Obj00051 *)p)->f28)));
-    if(index==0xffff || TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,16)!=0xffff || value>=427) {
-        ((struct Obj00051 *)p)->f260=0;
-        *(volatile s16 *)&((struct Obj00051 *)p)->f25E=0;
-        ((struct Obj00051 *)p)->f25C=*(volatile s16 *)&((struct Obj00051 *)p)->f25E;
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f264,0);
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f268,0);
+    GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue * *)&((struct BeaconDetailGraWork *)p)->infoQueue,*(struct GameBeaconRecord * *)&((struct BeaconDetailGraWork *)p)->beaconRecord,(u16 *)(p+44),*(u8 *)((u32)p+((struct BeaconDetailGraWork *)p)->cursor+49));
+    type=BEACON_DETAIL_GRA_FindAppearanceType(GAME_BEACON_ACCESSOR_GetDetailsType(*(const char * *)&((struct BeaconDetailGraWork *)p)->beaconRecord));
+    BEACON_DETAIL_GRA_TransferChar((u8 *)p,GAME_BEACON_ACCESSOR_GetTrainerAppearance(*(struct GameBeaconRecord * *)&((struct BeaconDetailGraWork *)p)->beaconRecord));
+    value=GAME_BEACON_ACCESSOR_GetZoneId(*(struct Bits * *)&((struct BeaconDetailGraWork *)p)->beaconRecord);
+    index=TOWNMAP_GRH_FindRecordIndex(*(int *)&((struct BeaconDetailGraWork *)p)->townInfo,GAME_BEACON_ACCESSOR_GetTownmapRootZoneId((const struct Bits *)(*(const char * *)&((struct BeaconDetailGraWork *)p)->beaconRecord)));
+    if(index==0xffff || TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct BeaconDetailGraWork *)p)->townInfo,index,16)!=0xffff || value>=427) {
+        ((struct BeaconDetailGraWork *)p)->mapVisible=0;
+        *(volatile s16 *)&((struct BeaconDetailGraWork *)p)->mapY=0;
+        ((struct BeaconDetailGraWork *)p)->mapX=*(volatile s16 *)&((struct BeaconDetailGraWork *)p)->mapY;
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraWork *)p)->mapActors[0],0);
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraWork *)p)->mapActors[1],0);
     } else {
-        ((struct Obj00051 *)p)->f260=1;
-        ((struct Obj00051 *)p)->f25C=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,2);
-        ((struct Obj00051 *)p)->f25E=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,3)-16;
-        if(((struct Obj00051 *)p)->f25E<32) ((struct Obj00051 *)p)->f25E=32;
-        else if(((struct Obj00051 *)p)->f25E>152) ((struct Obj00051 *)p)->f25E=152;
-        if(((struct Obj00051 *)p)->f25C<16) ((struct Obj00051 *)p)->f25C=16;
-        else if(((struct Obj00051 *)p)->f25C>240) ((struct Obj00051 *)p)->f25C=240;
-        func_021BCE8C(((struct Obj00051 *)p)->f264,((struct Obj00051 *)p)->f25C,((struct Obj00051 *)p)->f25E,0);
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f264,1);
+        ((struct BeaconDetailGraWork *)p)->mapVisible=1;
+        ((struct BeaconDetailGraWork *)p)->mapX=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct BeaconDetailGraWork *)p)->townInfo,index,2);
+        ((struct BeaconDetailGraWork *)p)->mapY=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct BeaconDetailGraWork *)p)->townInfo,index,3)-16;
+        if(((struct BeaconDetailGraWork *)p)->mapY<32) ((struct BeaconDetailGraWork *)p)->mapY=32;
+        else if(((struct BeaconDetailGraWork *)p)->mapY>152) ((struct BeaconDetailGraWork *)p)->mapY=152;
+        if(((struct BeaconDetailGraWork *)p)->mapX<16) ((struct BeaconDetailGraWork *)p)->mapX=16;
+        else if(((struct BeaconDetailGraWork *)p)->mapX>240) ((struct BeaconDetailGraWork *)p)->mapX=240;
+        BEACON_DETAIL_GRA_SetActorPos(((struct BeaconDetailGraWork *)p)->mapActors[0],((struct BeaconDetailGraWork *)p)->mapX,((struct BeaconDetailGraWork *)p)->mapY,0);
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraWork *)p)->mapActors[0],1);
         if(type[2]!=0) {
-            func_021BCE8C(((struct Obj00051 *)p)->f268,((struct Obj00051 *)p)->f25C-24,((struct Obj00051 *)p)->f25E,0);
-            func_021BCE7C(((struct Obj00051 *)p)->f268,(u8)(type[2]-1));
+            BEACON_DETAIL_GRA_SetActorPos(((struct BeaconDetailGraWork *)p)->mapActors[1],((struct BeaconDetailGraWork *)p)->mapX-24,((struct BeaconDetailGraWork *)p)->mapY,0);
+            BEACON_DETAIL_GRA_SetActorAnim(((struct BeaconDetailGraWork *)p)->mapActors[1],(u8)(type[2]-1));
         }
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj00051 *)p)->f268,type[2]!=0);
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraWork *)p)->mapActors[1],type[2]!=0);
     }
-    BMP_Clear(*(struct CharBuf * *)&((struct Obj00051 *)p)->f14C,15);
-    high=(u8)(((struct Obj00051 *)p)->f2C>>8);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,high,2,0,1);
-    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,(u8)((struct Obj00051 *)p)->f2C,2,2,1);
-    func_021BCEA4((u8 *)p,(high/12)+13);
-    func_021BDA54(p,p+0x148,0,0,*(u32 *)&((struct Obj00051 *)p)->f140,0x1d0f);
-    func_021BCE04(((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f138);
-    func_021BCEA4((u8 *)p,type[1]);
-    func_021BDA54(p,p+0x148,0,16,*(u32 *)&((struct Obj00051 *)p)->f140,0x1d0f);
-    d=*(struct Descriptor * *)&((struct Obj00051 *)p)->f148;
+    BMP_Clear(*(struct CharBuf * *)&((struct BeaconDetailGraWork *)p)->detailWindow,15);
+    high=(u8)(((struct BeaconDetailGraWork *)p)->level>>8);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,high,2,0,1);
+    WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,(u8)((struct BeaconDetailGraWork *)p)->level,2,2,1);
+    BEACON_DETAIL_GRA_PrintMsg((u8 *)p,(high/12)+13);
+    BEACON_DETAIL_GRA_DrawRecord(p,p+0x148,0,0,*(u32 *)&((struct BeaconDetailGraWork *)p)->textBuf2,0x1d0f);
+    BEACON_DETAIL_GRA_SetNameSlots(((struct BeaconDetailGraWork *)p)->beaconRecord,((struct BeaconDetailGraWork *)p)->wordSet);
+    BEACON_DETAIL_GRA_PrintMsg((u8 *)p,type[1]);
+    BEACON_DETAIL_GRA_DrawRecord(p,p+0x148,0,16,*(u32 *)&((struct BeaconDetailGraWork *)p)->textBuf2,0x1d0f);
+    d=*(struct Descriptor * *)&((struct BeaconDetailGraWork *)p)->infoWindow;
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen((struct Cfg *)d);
-    func_020409B4(BMP_WIN_GetBgLayer(d));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(d));
 }
 
 
@@ -1741,63 +1808,63 @@ void func_021BD448(char *p)
 /*
  * lever: the signed byte step derives -8 from live 64 with subs #72; u8 emits movs #248.
  */
-void func_021BD668(char *owner, int direction, int *counter)
+void BEACON_DETAIL_GRA_AddFadeTask(char *owner, int direction, int *counter)
 {
     char *work;
-    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, (void (*)(struct TcblNode *, void *))BEACON_DETAIL_GRA_Callback, 12, 0));
+    work = TCBL_GetWork((struct Tcbl *)TCBL_AddTask(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)owner)->tcbl, (void (*)(struct TcblNode *, void *))BEACON_DETAIL_GRA_Callback, 12, 0));
     MI_CpuFill8(work, 0, 12);
-    ((struct Obj03943 *)work)->f0 = direction;
-    if (((struct Obj03943 *)work)->f0 == 0) {
-        ((struct Obj03943 *)work)->f3 = 0;
-        ((struct Obj03943 *)work)->f4 = 8;
+    ((struct BeaconDetailGraFadeTask *)work)->direction = direction;
+    if (((struct BeaconDetailGraFadeTask *)work)->direction == 0) {
+        ((struct BeaconDetailGraFadeTask *)work)->position = 0;
+        ((struct BeaconDetailGraFadeTask *)work)->step = 8;
     } else {
-        ((struct Obj03943 *)work)->f3 = 64;
-        ((struct Obj03943 *)work)->f4 = -8;
+        ((struct BeaconDetailGraFadeTask *)work)->position = 64;
+        ((struct BeaconDetailGraFadeTask *)work)->step = -8;
     }
-    ((struct Obj03943 *)work)->f1 = 8;
-    func_021BCD00(1357);
-    *(int * *)&((struct Obj03943 *)work)->f8 = counter;
+    ((struct BeaconDetailGraFadeTask *)work)->count = 8;
+    BEACON_DETAIL_GRA_PlaySe(1357);
+    *(int * *)&((struct BeaconDetailGraFadeTask *)work)->counter = counter;
     ++*counter;
 }
 
 
 
-void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct Obj04637 *)p)->f3=((struct Obj04637 *)p)->f3+((struct Obj04637 *)p)->f4;func_02040618(1,3,((struct Obj04637 *)p)->f3);}else{--**(u32* *)&((struct Obj04637 *)p)->f8;TCBL_DeleteTask(task);}}
+void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct BeaconDetailGraFadeTask *)p)->position=((struct BeaconDetailGraFadeTask *)p)->position+((struct BeaconDetailGraFadeTask *)p)->step;BG_SYS_FillScrollArea(1,3,((struct BeaconDetailGraFadeTask *)p)->position);}else{--**(u32* *)&((struct BeaconDetailGraFadeTask *)p)->counter;TCBL_DeleteTask(task);}}
 
 
 
-void func_021BD6F0(char*p){func_021BD6FC(p,(int*)(p+12));}
+void BEACON_DETAIL_GRA_AddTimerTask(char*p){BEACON_DETAIL_GRA_AddTimerTaskEx(p,(int*)(p+12));}
 
 
 
 /*
  * region evidence: ov067 labels 021B64A8; its filed/full body reads the supplied object in r0 and enable in r1.
  */
-void func_021BD6FC(char *owner, int *counter)
+void BEACON_DETAIL_GRA_AddTimerTaskEx(char *owner, int *counter)
 {
     char *work;
-    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj14720 *)owner)->f18, func_021BD768, 16, 0));
+    work = TCBL_GetWork((struct Tcbl *)TCBL_AddTask(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)owner)->tcbl, BEACON_DETAIL_GRA_TimerCallback, 16, 0));
     MI_CpuFill8(work, 0, 16);
-    *(char * *)&((struct Obj10949 *)work)->f8 = owner;
-    ((struct Obj10949 *)work)->f1 = 150;
-    TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct Obj14720 *)owner)->f124, 0);
-    *(int * *)&((struct Obj10949 *)work)->fC = counter;
+    *(char * *)&((struct BeaconDetailGraTimerTask *)work)->owner = owner;
+    ((struct BeaconDetailGraTimerTask *)work)->count = 150;
+    TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct BeaconDetailGraWork *)owner)->touchBar, 0);
+    *(int * *)&((struct BeaconDetailGraTimerTask *)work)->counter = counter;
     ++*counter;
 }
 
 
 
 
-int func_021BD73C(char *p)
+int BEACON_DETAIL_GRA_UpdateTimer(char *p)
 {
     unsigned char c;
     if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 1) != 0)
     {
-        ((struct Obj10950 *)p)->f1 = 0;
+        ((struct BeaconDetailGraTimerTask *)p)->count = 0;
         return 0;
     }
-    c = ((struct Obj10950 *)p)->f1;
-    ((struct Obj10950 *)p)->f1 = c - 1;
+    c = ((struct BeaconDetailGraTimerTask *)p)->count;
+    ((struct BeaconDetailGraTimerTask *)p)->count = c - 1;
     if (c != 0)
     {
         return 1;
@@ -1807,29 +1874,29 @@ int func_021BD73C(char *p)
 
 
 
-void func_021BD768(struct TcblNode *task, void *data)
+void BEACON_DETAIL_GRA_TimerCallback(struct TcblNode *task, void *data)
 {
     char *p = data;
-    switch (((struct Obj03375 *)p)->f0) {
+    switch (((struct BeaconDetailGraTimerTask *)p)->step) {
     case 0:
-        func_021BD668(((struct Obj03375 *)p)->f8, 0, (int *)(p + 4));
-        ++((struct Obj03375 *)p)->f0;
+        BEACON_DETAIL_GRA_AddFadeTask(((struct BeaconDetailGraTimerTask *)p)->owner, 0, (int *)(p + 4));
+        ++((struct BeaconDetailGraTimerTask *)p)->step;
         break;
     case 1:
-        if (((struct Obj03375 *)p)->f4 == 0)
-            ++((struct Obj03375 *)p)->f0;
+        if (((struct BeaconDetailGraTimerTask *)p)->timer == 0)
+            ++((struct BeaconDetailGraTimerTask *)p)->step;
         break;
     case 2:
-        if (func_021BD73C(p) == 0) {
-            func_021BD668(((struct Obj03375 *)p)->f8, 1, (int *)(p + 4));
-            ++((struct Obj03375 *)p)->f0;
+        if (BEACON_DETAIL_GRA_UpdateTimer(p) == 0) {
+            BEACON_DETAIL_GRA_AddFadeTask(((struct BeaconDetailGraTimerTask *)p)->owner, 1, (int *)(p + 4));
+            ++((struct BeaconDetailGraTimerTask *)p)->step;
         }
         break;
     case 3:
-        if (((struct Obj03375 *)p)->f4 != 0)
+        if (((struct BeaconDetailGraTimerTask *)p)->timer != 0)
             break;
     default:
-        --**(int * *)&((struct Obj03375 *)p)->fC;
+        --**(int * *)&((struct BeaconDetailGraTimerTask *)p)->counter;
         TCBL_DeleteTask(task);
         break;
     }
@@ -1840,69 +1907,69 @@ void func_021BD768(struct TcblNode *task, void *data)
 /*
  * lever: u8 direction puts the r3 home first; caller 021BD948 supplies ldrb direction in r3.
  */
-void func_021BD7D4(char *owner, u8 index, int position, u8 direction, int *counter)
+void BEACON_DETAIL_GRA_AddSlideTask(char *owner, u8 index, int position, u8 direction, int *counter)
 {
     char *work;
-    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD854, 24, 0));
+    work = TCBL_GetWork((struct Tcbl *)TCBL_AddTask(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)owner)->tcbl, (void (*)(struct TcblNode *, void *))BEACON_DETAIL_GRA_SlideCallback, 24, 0));
     MI_CpuFill8(work, 0, 24);
-    *(char * *)&((struct Obj02553 *)work)->fC = owner + 0x15c + index * 128;
-    ((struct Obj02553 *)work)->f0 = index;
-    ((struct Obj02553 *)work)->f4 = (1 - position) * -192;
+    *(char * *)&((struct BeaconDetailGraSlideTask *)work)->entry = owner + 0x15c + index * 128;
+    ((struct BeaconDetailGraSlideTask *)work)->index = index;
+    ((struct BeaconDetailGraSlideTask *)work)->offset = (1 - position) * -192;
     if (direction == 0)
-        ((struct Obj02553 *)work)->f6 -= 8;
+        ((struct BeaconDetailGraSlideTask *)work)->delta -= 8;
     else
-        ((struct Obj02553 *)work)->f6 += 8;
-    ((struct Obj02553 *)work)->f1 = 24;
-    func_021BD13C(((struct Obj02553 *)work)->fC, ((struct Obj02553 *)work)->f4);
+        ((struct BeaconDetailGraSlideTask *)work)->delta += 8;
+    ((struct BeaconDetailGraSlideTask *)work)->count = 24;
+    BEACON_DETAIL_GRA_MoveActor(((struct BeaconDetailGraSlideTask *)work)->entry, ((struct BeaconDetailGraSlideTask *)work)->offset);
     if (position != 1)
-        func_021BD0E4(owner, ((struct Obj02553 *)work)->f0, 1);
-    *(char * *)&((struct Obj02553 *)work)->f10 = owner;
-    *(int * *)&((struct Obj02553 *)work)->f14 = counter;
+        BEACON_DETAIL_GRA_SetSlotVisible(owner, ((struct BeaconDetailGraSlideTask *)work)->index, 1);
+    *(char * *)&((struct BeaconDetailGraSlideTask *)work)->owner = owner;
+    *(int * *)&((struct BeaconDetailGraSlideTask *)work)->counter = counter;
     ++*counter;
 }
 
 
 
-void func_021BD854(struct TcblNode *task, char *p)
+void BEACON_DETAIL_GRA_SlideCallback(struct TcblNode *task, char *p)
 {
     u8 count;
-    count = ((struct Obj02927 *)p)->f1;
-    ((struct Obj02927 *)p)->f1 = count - 1;
+    count = ((struct BeaconDetailGraSlideTask *)p)->count;
+    ((struct BeaconDetailGraSlideTask *)p)->count = count - 1;
     if (count != 0) {
-        ((struct Obj02927 *)p)->f4 += ((struct Obj02927 *)p)->f6;
-        func_021BD13C(((struct Obj02927 *)p)->fC, ((struct Obj02927 *)p)->f4);
+        ((struct BeaconDetailGraSlideTask *)p)->offset += ((struct BeaconDetailGraSlideTask *)p)->delta;
+        BEACON_DETAIL_GRA_MoveActor(((struct BeaconDetailGraSlideTask *)p)->entry, ((struct BeaconDetailGraSlideTask *)p)->offset);
         return;
     }
-    if (((struct Obj02927 *)p)->f4 != 0)
-        func_021BD0E4(((struct Obj02927 *)p)->f10, ((struct Obj02927 *)p)->f0, 0);
-    --**(int * *)&((struct Obj02927 *)p)->f14;
+    if (((struct BeaconDetailGraSlideTask *)p)->offset != 0)
+        BEACON_DETAIL_GRA_SetSlotVisible(((struct BeaconDetailGraSlideTask *)p)->owner, ((struct BeaconDetailGraSlideTask *)p)->index, 0);
+    --**(int * *)&((struct BeaconDetailGraSlideTask *)p)->counter;
     TCBL_DeleteTask(task);
 }
 
 
 
-void func_021BD89C(char*p,int a){func_021BD8A8(p,a,(int*)(p+12));}
+void BEACON_DETAIL_GRA_AddSlotSlideTask(char*p,int a){BEACON_DETAIL_GRA_AddSlotSlideTaskEx(p,a,(int*)(p+12));}
 
 
 
-void func_021BD8A8(char *owner, int direction, int *counter)
+void BEACON_DETAIL_GRA_AddSlotSlideTaskEx(char *owner, int direction, int *counter)
 {
     char *work;
-    work = TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj00051 *)owner)->f18, (void (*)(struct TcblNode *, void *))func_021BD948, 24, 0));
+    work = TCBL_GetWork((struct Tcbl *)TCBL_AddTask(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)owner)->tcbl, (void (*)(struct TcblNode *, void *))BEACON_DETAIL_GRA_SlotSlideCallback, 24, 0));
     MI_CpuFill8(work, 0, 24);
-    ((struct Obj05556 *)work)->f4 = direction;
+    ((struct BeaconDetailGraSlotTask *)work)->direction = direction;
     if (direction == 0) {
-        ((struct Obj05556 *)work)->f3 = ((struct Obj00051 *)owner)->f30 + 1;
-        TOUCHBAR_SetButtonEnabled(((struct Obj00051 *)owner)->f124, 3, 0);
+        ((struct BeaconDetailGraSlotTask *)work)->index = ((struct BeaconDetailGraWork *)owner)->cursor + 1;
+        TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)owner)->touchBar, 3, 0);
     } else {
-        ((struct Obj05556 *)work)->f3 = ((struct Obj00051 *)owner)->f30 - 1;
-        TOUCHBAR_SetButtonEnabled(((struct Obj00051 *)owner)->f124, 2, 0);
+        ((struct BeaconDetailGraSlotTask *)work)->index = ((struct BeaconDetailGraWork *)owner)->cursor - 1;
+        TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)owner)->touchBar, 2, 0);
     }
-    TOUCHBAR_SetButtonEnabled(((struct Obj00051 *)owner)->f124, 1, 0);
-    GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue * *)&((struct Obj00051 *)owner)->f24, *(struct Rec * *)&((struct Obj00051 *)owner)->f28, (u16 *)(owner + 0x2c), *(u8 *)(owner + 0x31 + ((struct Obj05556 *)work)->f3));
-    func_021BD174(owner, ((struct Obj00051 *)owner)->f28, ((struct Obj00051 *)owner)->f2C, ((struct Obj00051 *)owner)->f2E ^ 1);
-    *(char * *)&((struct Obj05556 *)work)->f10 = owner;
-    *(int * *)&((struct Obj05556 *)work)->f14 = counter;
+    TOUCHBAR_SetButtonEnabled(((struct BeaconDetailGraWork *)owner)->touchBar, 1, 0);
+    GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue * *)&((struct BeaconDetailGraWork *)owner)->infoQueue, *(struct GameBeaconRecord * *)&((struct BeaconDetailGraWork *)owner)->beaconRecord, (u16 *)(owner + 0x2c), *(u8 *)(owner + 0x31 + ((struct BeaconDetailGraSlotTask *)work)->index));
+    BEACON_DETAIL_GRA_SetupSlot(owner, ((struct BeaconDetailGraWork *)owner)->beaconRecord, ((struct BeaconDetailGraWork *)owner)->level, ((struct BeaconDetailGraWork *)owner)->slotIndex ^ 1);
+    *(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner = owner;
+    *(int * *)&((struct BeaconDetailGraSlotTask *)work)->counter = counter;
     ++*counter;
 }
 
@@ -1911,36 +1978,36 @@ void func_021BD8A8(char *owner, int direction, int *counter)
 /*
  * Lever: explicit case 3 plus default preserves four switch arms; BD7D4 u8 index preserves the original XOR truncation pair, own int index notwithstanding.
  */
-void func_021BD948(struct TcblNode *task,char *work)
+void BEACON_DETAIL_GRA_SlotSlideCallback(struct TcblNode *task,char *work)
 {
-    if(((struct Obj00690 *)work)->f5==0) {
-        if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj25787 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124)!=-1)
-            ((struct Obj00690 *)work)->f5=1;
+    if(((struct BeaconDetailGraSlotTask *)work)->flags==0) {
+        if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->touchBar)!=-1)
+            ((struct BeaconDetailGraSlotTask *)work)->flags=1;
     }
-    if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct Obj25788 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f12C)==0) return;
-    switch(((struct Obj00690 *)work)->f0) {
+    if(PRINTSYS_QUE_IsFinished(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->printQue)==0) return;
+    switch(((struct BeaconDetailGraSlotTask *)work)->step) {
     case 0:
-        if(((struct Obj00690 *)work)->f5==0) break;
-        TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct Obj25789 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124,0);
-        ++((struct Obj00690 *)work)->f0;
+        if(((struct BeaconDetailGraSlotTask *)work)->flags==0) break;
+        TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->touchBar,0);
+        ++((struct BeaconDetailGraSlotTask *)work)->step;
         return;
     case 1:
-        func_021BD7D4(*(char * *)&((struct Obj00690 *)work)->f10,((struct Obj25790 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E,1,((struct Obj00690 *)work)->f4,(int *)(work+8));
-        func_021BD7D4(*(char * *)&((struct Obj00690 *)work)->f10,((struct Obj25791 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E^1,d_021BDD88[((struct Obj00690 *)work)->f4],((struct Obj00690 *)work)->f4,(int *)(work+8));
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj25792 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f264,0);
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj25793 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f268,0);
-        ++((struct Obj00690 *)work)->f0;
+        BEACON_DETAIL_GRA_AddSlideTask(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner,((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->slotIndex,1,((struct BeaconDetailGraSlotTask *)work)->direction,(int *)(work+8));
+        BEACON_DETAIL_GRA_AddSlideTask(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner,((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->slotIndex^1,d_021BDD88[((struct BeaconDetailGraSlotTask *)work)->direction],((struct BeaconDetailGraSlotTask *)work)->direction,(int *)(work+8));
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->mapActors[0],0);
+        CLACT_SetActorDrawEnable(*(struct ClactActor * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->mapActors[1],0);
+        ++((struct BeaconDetailGraSlotTask *)work)->step;
         return;
     case 2:
-        if(((struct Obj00690 *)work)->f8!=0) break;
-        ((struct Obj25794 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f2E^=1;
-        ((struct Obj25795 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f30=((struct Obj00690 *)work)->f3;
-        func_021BD448(((struct Obj00690 *)work)->f10);
-        ++((struct Obj00690 *)work)->f0;
+        if(((struct BeaconDetailGraSlotTask *)work)->wait!=0) break;
+        ((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->slotIndex^=1;
+        ((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->cursor=((struct BeaconDetailGraSlotTask *)work)->index;
+        BEACON_DETAIL_GRA_UpdateSlotInfo(((struct BeaconDetailGraSlotTask *)work)->owner);
+        ++((struct BeaconDetailGraSlotTask *)work)->step;
         return;
     case 3:
     default:
-        --**(int * *)&((struct Obj00690 *)work)->f14;
+        --**(int * *)&((struct BeaconDetailGraSlotTask *)work)->counter;
         TCBL_DeleteTask(task);
         break;
     }
@@ -1951,21 +2018,21 @@ void func_021BD948(struct TcblNode *task,char *work)
 /*
  * lever: u16 c moves its r3 spill before the handle load and restores call setup; u32 leaves 24 concrete bytes different.
  */
-void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
+void BEACON_DETAIL_GRA_DrawRecord(char *owner, char *record, u32 b, u16 c, u32 d, u16 f)
 {
     void *handle;
-    handle = ((struct Obj14721 *)owner)->f12C;
-    PRINTSYS_PrintQueColor(handle, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj08427 *)record)->f8), b, c, d, ((struct Obj14721 *)owner)->f128, f);
-    ((struct Obj08427 *)record)->fC = 1;
-    func_021BDAA0((u8 *)owner, (int)record, (int *)(owner + 12));
+    handle = ((struct BeaconDetailGraWork *)owner)->printQue;
+    PRINTSYS_PrintQueColor(handle, (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct BeaconDetailGraWinRecord *)record)->target.window), b, c, d, ((struct BeaconDetailGraWork *)owner)->font.handle, f);
+    ((struct BeaconDetailGraWinRecord *)record)->target.pending = 1;
+    BEACON_DETAIL_GRA_AddPrintWaitTask((u8 *)owner, (int)record, (int *)(owner + 12));
 }
 
 
 
-void func_021BDAA0(u8 *p,int arg,int *counter)
+void BEACON_DETAIL_GRA_AddPrintWaitTask(u8 *p,int arg,int *counter)
 {
-    Work *work;
-    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)BEACON_DETAIL_GRA_PrintWaitTask,12,0));
+    struct BeaconDetailGraPrintTask *work;
+    work=TCBL_GetWork((struct Tcbl *)TCBL_AddTask(*(struct Tcbl * *)&((struct BeaconDetailGraWork *)p)->tcbl,(TcblFunc)BEACON_DETAIL_GRA_PrintWaitTask,12,0));
     MI_CpuFill8(work,0,12);
     work->owner=p;
     work->arg=arg;
@@ -1976,11 +2043,11 @@ void func_021BDAA0(u8 *p,int arg,int *counter)
 void BEACON_DETAIL_GRA_PrintWaitTask(int a, int **b)
 {
     u8   *s = (u8 *)b[0] + 8;
-    int   q = ((struct Obj25799 *)((char *)b[1]))->f12C;
+    void *q = ((struct BeaconDetailGraWork *)((char *)b[1]))->printQue;
 
     if (s[4]) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj06711 *)s)->f0))) == 0) {
-            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06711 *)s)->f0);
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct BeaconDetailGraWinTarget *)s)->window))) == 0) {
+            BMP_WIN_TransferChars((struct Descriptor *)((struct BeaconDetailGraWinTarget *)s)->window);
             s[4] = 0;
         }
     }

@@ -246,6 +246,22 @@ ov133 into `dup_fitting.c` and `dup_fitting_item.c`, and arm9
 `misc_savedata_2.c`; each piece keeps the module prefix of the original it
 belongs to.
 
+Wave 10 applied it to the 22 `Obj`-removal lanes (ov093, ov112, ov116, ov121,
+ov122, ov128, ov129, ov175, ov176, ov185, ov204, ov214, ov216 and ov225, the two
+mixed rest blocks, and the arm9 and ov009 continuations), taking 15 regions to
+zero views. The two opaque PROSYS spellings `struct Obj0203159C` and
+`struct S020315D4` became the one name `struct Proc` across 886 references in 325
+files. The applied names fit the table above, so no new convention was needed.
+The same wave folded four standing per-file `*_shared_types.h` into their owner
+headers and added three owner headers (ov176 `livebattlematch_shared_types.h`,
+ov185 `br_pokesearch_types.h`, ov223 `psel_types.h`).
+
+The wave 10 gap-fix lanes then merged arm9 `ui_p02.c` into one whole `ui.c` and
+split the ov194 `namein_graphic` range into five originals at their real
+boundaries (`namein_graphic_main.c`, `namein_graphic_field.c`,
+`namein_graphic.c`, `namein_data.c`, `nsbtx_to_clwk.c`); each piece keeps the
+module prefix of the original it belongs to, and no new convention was needed.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

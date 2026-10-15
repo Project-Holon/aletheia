@@ -14,9 +14,9 @@
  * symbols:
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
- *   g_021A5170  0x021A5170  data
- *   g_021A518C  0x021A518C  data
- *   g_021A51B8  0x021A51B8  data
+ *   gGpiPeerDebugOpNotRemoved  0x021A5170  data
+ *   gGpiPeerDebugOpRemoveNotInList  0x021A518C  data
+ *   gGpiPeerDebugOpRemoved  0x021A51B8  data
  */
 
 struct GPIPeerOp {
@@ -33,20 +33,20 @@ struct GPIPeer {
 
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gsifree(void *ptr);
-extern char g_021A5170[];
-extern char g_021A518C[];
-extern char g_021A51B8[];
+extern char gGpiPeerDebugOpNotRemoved[];
+extern char gGpiPeerDebugOpRemoveNotInList[];
+extern char gGpiPeerDebugOpRemoved[];
 
 void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation)
 {
     struct GPIPeerOp *aPrevOp;
 
     if (peer == 0 || operation == 0) {
-        gsDebugFormat(1, (char *)4, 2, g_021A5170);
+        gsDebugFormat(1, (char *)4, 2, gGpiPeerDebugOpNotRemoved);
         return;
     }
     if (peer->head == 0) {
-        gsDebugFormat(1, (char *)4, 2, g_021A5170);
+        gsDebugFormat(1, (char *)4, 2, gGpiPeerDebugOpNotRemoved);
         return;
     }
     if (peer->first == peer->last && peer->first == operation) {
@@ -62,13 +62,13 @@ void gpiPeerRemoveOp(struct GPIPeer *peer, struct GPIPeerOp *operation)
         aPrevOp = peer->first;
         while (aPrevOp->pnext != operation) {
             if (aPrevOp->pnext == 0) {
-                gsDebugFormat(1, (char *)4, 1, g_021A518C);
+                gsDebugFormat(1, (char *)4, 1, gGpiPeerDebugOpRemoveNotInList);
                 return;
             }
             aPrevOp = aPrevOp->pnext;
         }
         aPrevOp->pnext = operation->pnext;
     }
-    gsDebugFormat(1, (char *)4, 8, g_021A51B8);
+    gsDebugFormat(1, (char *)4, 8, gGpiPeerDebugOpRemoved);
     gsifree(operation);
 }

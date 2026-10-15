@@ -16,7 +16,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetVisibleLayer  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -30,7 +30,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 typedef unsigned int   u32;
 extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -46,7 +46,7 @@ void FIELD_PLACE_NAME_SetupWindow(int *p)
     r4 = p[9];
     BMP_WIN_TransferChars((struct Descriptor *)r4);
     BMP_WIN_MakeScreen((struct Cfg *)r4);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r4));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)r4));
     BG_SYS_SetVisibleLayer(3, 1);
     func_02040588(3, 0);
     func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);

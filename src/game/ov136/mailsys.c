@@ -84,7 +84,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
@@ -104,8 +104,8 @@
  */
 #include "mail_types.h"
 
-struct S020315D4;
-struct Obj0203159C;
+struct Proc;
+struct Proc;
 
 typedef int (*MailEditModeHandler)(struct MailEditProc *proc);
 
@@ -114,8 +114,8 @@ extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern void func_02008FA8(struct Mail *mail, u32 value);
 extern u32 func_020307B0(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_020315D4(struct S020315D4 *v);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+extern void func_020315D4(struct Proc *v);
 extern void func_0203084C(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
@@ -174,7 +174,7 @@ extern void *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbu
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 APP_TASKMENU_WIN_IsFinish(struct AppTaskMenuWin *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct AppTaskMenuWin *obj);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
@@ -566,7 +566,7 @@ void MAILSYS_PrintMessageText(struct MailEditProc *proc, int msgId)
     win = proc->win[6];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
 }
 
 int MAILSYS_StepIncompleteNotice(struct MailEditProc *proc)
@@ -598,7 +598,7 @@ int MAILSYS_StepIncompleteNotice(struct MailEditProc *proc)
         BMP_MENUWORK_DrawWindowBorder(proc->win[6], 2);
         win = proc->win[6];
         BMP_WIN_ClearScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
         MAILSYS_ResetCursorBlend(proc);
         proc->subStep = 0;
         proc->mode = proc->prevMode;
@@ -678,7 +678,7 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
         BMP_MENUWORK_DrawWindowBorder(proc->win[6], 2);
         win = proc->win[6];
         BMP_WIN_ClearScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
         proc->subStep = 0;
         if (r == 0) {
             proc->draft->result = 0xFFFF;

@@ -22,7 +22,7 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   FIELD_MSGBG_CreateBottomMsgWin  0x021907A8  thumb  ov021
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
@@ -78,7 +78,7 @@ void INTRUDE_FIELD_InitStartParam(void *p);
 u32 FIELDMAP_GetMsgBg(u8 *p);
 int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 int FIELD_MSGBG_CreateBottomMsgWin(void *a0, int a1);
-struct WordSet *GF_FONT_Create_EC64(u32 heap);
+struct WordSet *WORDSET_CreateDefault(u32 heap);
 void GFL_USE_PlaySeDefaultVolume(u32 a);
 u8 GAME_DATA_GetIntrudeIdByte(void *p);
 int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
@@ -135,7 +135,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         g = (void *)FIELDMAP_GetMsgBg(t);
         c->f0 = FIELD_MSGBG_CreateMsgData((int)g, 0x2D);
         c->f4 = FIELD_MSGBG_CreateBottomMsgWin(g, c->f0);
-        c->f8 = (int)GF_FONT_Create_EC64(4);
+        c->f8 = (int)WORDSET_CreateDefault(4);
         GFL_USE_PlaySeDefaultVolume(0x547);
         if (w == 0 || GAME_DATA_GetIntrudeIdByte(s) == GAME_DATA_GetExitMode(s)) {
             FIELD_MSGBG_MsgWinPrintMsg(c->f4, 0, 0, 0x49);

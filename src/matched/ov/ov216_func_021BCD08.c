@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD08
+ * function: BEACON_DETAIL_GRA_LoadPalette
  * address: 0x021BCD08
  * packet: pkt_ov216_021BCD08
  * region: ov216
@@ -19,7 +19,7 @@ extern void GX_LoadBGPltt(void *,unsigned,unsigned);
 extern void func_0207E468(void *,unsigned,unsigned);
 extern void GX_LoadOBJPltt(void *,unsigned,unsigned);
 extern void func_0207E5D0(void *,unsigned,unsigned);
-void func_021BCD08(void *p,unsigned mode,unsigned a,unsigned b)
+void BEACON_DETAIL_GRA_LoadPalette(void *p,unsigned mode,unsigned a,unsigned b)
 {
     unsigned x=a*2,y=b*2;
     DWCi_ScreenDC_FlushRange(p,y);

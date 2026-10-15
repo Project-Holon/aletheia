@@ -2,7 +2,7 @@
 #define OV009_DWC_CNT_TYPES_H
 /*
  * DWC main control block (ov009, dwc_main.o): the 0x1250-byte block that
- * g_021AA878.st points to, allocated by DWC_InitFriendsMatch. It embeds the
+ * gDwcGlobalState.st points to, allocated by DWC_InitFriendsMatch. It embeds the
  * login control (dwc_login_types.h), the friend control (opaque here), the
  * match control (dwc_match_ctl_types.h) and the transport info
  * (TransInfo, dwc_transport.c, 0x728 bytes).
@@ -11,7 +11,7 @@
 #include "dwc_login_types.h"
 #include "dwc_match_ctl_types.h"
 
-/* g_021AA878: the DWC global, one per process. */
+/* gDwcGlobalState: the DWC global, one per process. */
 struct DWCstDwcCnt;
 
 typedef struct DwcGlobal {

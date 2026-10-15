@@ -1,5 +1,5 @@
 /*
- * function: func_021D91BC
+ * function: MYSTERY_InitScroll
  * address: 0x021D91BC
  * packet: pkt_ov121_021D91BC
  * region: ov121
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021D6C58 0x021D6C58 thumb ov121
+ *   MYSTERY_GetClactActor 0x021D6C58 thumb ov121
  *   CLACT_GetActorPos 0x0204B53C arm
  *   func_02005728 0x02005728 thumb
  */
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef signed short s16;
 extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
-extern void *func_021D6C58(u8 *p, int i);
+extern void *MYSTERY_GetClactActor(u8 *p, int i);
 struct Actor;
 struct Pt;
 extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern u32 func_02005728(u32 range);
-void func_021D91BC(u8 *p,void *q,u16 h)
+void MYSTERY_InitScroll(u8 *p,void *q,u16 h)
 {
     int i;
     u8 *r;
@@ -36,7 +36,7 @@ void func_021D91BC(u8 *p,void *q,u16 h)
     ((struct Obj06447 *)p)->f14=-819;
     ((struct Obj06447 *)p)->f124=h;
     for(i=0;i<32;i++) {
-        CLACT_GetActorPos(func_021D6C58(((struct Obj06447 *)p)->f118,i+1),(struct Pt *)xy);
+        CLACT_GetActorPos(MYSTERY_GetClactActor(((struct Obj06447 *)p)->f118,i+1),(struct Pt *)xy);
         r=p+i*4;
         ((struct Obj13941 *)r)->f18=xy[1]<<12;
         ((struct Obj13941 *)r)->f98=func_02005728(4096)+6554;

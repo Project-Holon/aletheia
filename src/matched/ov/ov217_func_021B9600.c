@@ -26,8 +26,8 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern u32 RESEARCH_TOP_DestroyCommon(u32 a0);
 extern u32 RESEARCH_TOP_DestroyListView(u32 a0);
 extern u32 RESEARCH_TOP_ExitBackgrounds();
@@ -36,7 +36,7 @@ u32 RESEARCH_TOP_ReleaseProc(u32 a0, u32 a1, u32 a2, u32 a3)
     RESEARCH_TOP_DestroyListView(a3);
     RESEARCH_TOP_DestroyCommon(a3);
     RESEARCH_TOP_ExitBackgrounds();
-    func_020315D4((struct S020315D4 *)a0);
+    func_020315D4((struct Proc *)a0);
     return 1;
 }
 

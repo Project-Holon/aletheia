@@ -62,9 +62,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj0203159C;
+struct Proc;
 struct Ctx;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern u32 PMSI_PARAM_GetInputMode(const u8 *);
 extern u32 PMSI_PARAM_GetUiInputMode(void *);
 struct Input;
@@ -82,7 +82,7 @@ extern void PMS_INPUT_SetSubHandler(u8 *,u32);
 extern void PMS_INPUT_SubHandleOpen(u8 *p, int *q);
 extern const u8 gPmsInputButtonRects[];
 extern const char gPmsInputFileName[];
-u8 *PMS_INPUT_Create(struct Obj0203159C *owner,u8 *input)
+u8 *PMS_INPUT_Create(struct Proc *owner,u8 *input)
 {
     u8 *p;
     struct Ctx *q;

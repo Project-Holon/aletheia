@@ -17,34 +17,34 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02034AC4 0x02034AC4 arm
- *   func_021E8A3C 0x021E8A3C thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
  *   func_02034A5C  0x02034A5C  arm
  *   func_020315D4  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   ov177_id       0x000000B1  data
  *   ov67_id        0x00000043  data
- *   func_021E8A80 0x021E8A80 thumb ov177
- *   func_021E8A90 0x021E8A90 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_InvokeCallback 0x021E8A80 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull 0x021E8A90 thumb ov177
  *   WIFIBATTLEMATCH_GRAPHIC_Create  0x021E5440  thumb  ov177
  *   WIFIBATTLEMATCH_GRAPHIC_Delete  0x021E54E0  thumb  ov177
  *   WIFIBATTLEMATCH_GRAPHIC_Draw  0x021E5534  thumb  ov177
- *   func_021E5980  0x021E5980  thumb  ov177
+ *   WIFIBATTLEMATCH_VIEW_UpdateAnimation  0x021E5980  thumb  ov177
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera  0x021E5548  thumb  ov177
- *   func_021E567C  0x021E567C  thumb  ov177
- *   func_021E5868 0x021E5868 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_Create  0x021E567C  thumb  ov177
+ *   WIFIBATTLEMATCH_VIEW_Delete 0x021E5868 thumb ov177
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   func_021E8568 0x021E8568 thumb ov177
- *   func_021E8628  0x021E8628  thumb
+ *   WIFIBATTLEMATCH_UTIL_Create 0x021E8568 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_Delete  0x021E8628  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   func_021E867C  0x021E867C  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_Main  0x021E867C  thumb  ov177
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_021E8AA8 0x021E8AA8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_02034714 0x02034714 arm
@@ -55,24 +55,24 @@
  *   func_020307B0 0x020307B0 arm
  *   APP_ENV_InitParentalControl 0x0202EB44 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
- *   func_0217D398 0x0217D398 thumb ov176
- *   func_0217D434 0x0217D434 thumb ov176
- *   func_0217D44C 0x0217D44C thumb ov176
- *   func_0217D410 0x0217D410 thumb ov176
+ *   DIGITALCARDCHECK_Create 0x0217D398 thumb ov176
+ *   DIGITALCARDCHECK_DeleteAlt 0x0217D434 thumb ov176
+ *   DIGITALCARDCHECK_GetProcResult 0x0217D44C thumb ov176
+ *   DIGITALCARDCHECK_Delete 0x0217D410 thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetCard 0x0200B1D4 thumb
- *   func_021E88B0 0x021E88B0 thumb ov177
- *   func_021E89D0 0x021E89D0 thumb ov177
- *   func_021E8A00 0x021E8A00 thumb ov177
- *   func_021E8738  0x021E8738  thumb  ov177
- *   func_021E8844 0x021E8844 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateMenu 0x021E88B0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu 0x021E89D0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_UpdateMenu 0x021E8A00 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_PrintMessage  0x021E8738  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   LIVEBATTLEMATCH_FLOW_Create 0x0217B984 thumb ov176
  *   LIVEBATTLEMATCH_FLOW_Delete 0x0217BA9C thumb ov176
  *   LIVEBATTLEMATCH_FLOW_Release 0x0217BAF4 thumb ov176
  *   LIVEBATTLEMATCH_FLOW_GetResult 0x0217BB3C thumb ov176
  */
-#include "battle_championship_flow_shared_types.h"
+#include "livebattlematch_shared_types.h"
 
 struct ProcOwner;
 
@@ -95,13 +95,13 @@ typedef struct {
 typedef struct {
     u16 heapId;          /* 00 heap the flow runs on (0x4e) */
     u8  pad_2[2];
-    void *proc;          /* 04 sub proc created by func_021E8A3C */
-    void *printSys;      /* 08 print system created by func_021E8568 */
+    void *proc;          /* 04 sub proc created by WIFIBATTLEMATCH_UTIL_CreateCallback */
+    void *printSys;      /* 08 print system created by WIFIBATTLEMATCH_UTIL_Create */
     void *font;          /* 0C font created by GF_FONT_Create */
     void *msgBank;       /* 10 message bank created by func_02045B38 */
     void *printQue;      /* 14 print queue created by PRINTSYS_QUE_Create */
     u8  pad_18[8];
-    int view;            /* 20 view object created by func_021E567C */
+    int view;            /* 20 view object created by WIFIBATTLEMATCH_VIEW_Create */
     int graphic;         /* 24 graphic object created by WIFIBATTLEMATCH_GRAPHIC_Create */
     BattleChampionshipFlowContext *context; /* 28 the caller supplied context */
     int flow;            /* 2C the second flow object (menu or live match) */
@@ -111,8 +111,8 @@ typedef struct {
 /* The menu work of the first flow (0x3c bytes), built by BATTLE_CHAMPIONSHIP_FLOW_CreateMenu and
  * driven by the BATTLE_CHAMPIONSHIP_FLOW_MenuMain / BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse / BATTLE_CHAMPIONSHIP_FLOW_MenuExtra state machines. */
 typedef struct {
-    void *proc;          /* 00 proc created by func_021E8A3C */
-    void *window;        /* 04 window returned by func_021E88B0 */
+    void *proc;          /* 00 proc created by WIFIBATTLEMATCH_UTIL_CreateCallback */
+    void *window;        /* 04 window returned by WIFIBATTLEMATCH_UTIL_CreateMenu */
     int index;           /* 08 index last drawn */
     void *msgBank;       /* 0C message bank created by func_02045B38 */
     int result;          /* 10 menu result read by BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult */
@@ -126,10 +126,10 @@ typedef struct {
     void *save;          /* 30 save control (from the context) */
     u16 heapId;          /* 34 heap the menu runs on */
     u8  pad_36[2];
-    int cardCheck;       /* 38 digital card check created by func_0217D398 */
+    int cardCheck;       /* 38 digital card check created by DIGITALCARDCHECK_Create */
 } BattleChampionshipFlowMenu;
 
-/* 32-byte menu/flow descriptor passed to BATTLE_CHAMPIONSHIP_FLOW_CreateMenu and func_0217D398. */
+/* 32-byte menu/flow descriptor passed to BATTLE_CHAMPIONSHIP_FLOW_CreateMenu and DIGITALCARDCHECK_Create. */
 typedef struct {
     int mode;            /* 00 */
     int printSys;        /* 04 */
@@ -149,7 +149,7 @@ extern void MI_CpuFill8(void *,int,unsigned);
 
 extern int func_02034AC4(signed int);
 
-extern int *func_021E8A3C(int a, int b, int c);
+extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 
 extern void BTLV_CORE_IsSlotKind1Index15(int);
 
@@ -159,9 +159,9 @@ extern void func_020315D4(struct Proc *);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
-extern void BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(int *),BATTLE_CHAMPIONSHIP_FLOW_UpdateText(int *),func_021E8A80(FlowCallback *);
+extern void BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(int *),BATTLE_CHAMPIONSHIP_FLOW_UpdateText(int *),WIFIBATTLEMATCH_UTIL_InvokeCallback(FlowCallback *);
 
-extern int func_021E8A90(int **);
+extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **);
 
 extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, int heap);
 
@@ -169,13 +169,13 @@ extern void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p);
 
 extern void WIFIBATTLEMATCH_GRAPHIC_Draw(u8 *p);
 
-extern void func_021E5980(int);
+extern void WIFIBATTLEMATCH_VIEW_UpdateAnimation(int);
 
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 
-extern u32 *func_021E567C(int unused, int mode, int heap);
+extern u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
 
-extern void func_021E5868(void *);
+extern void WIFIBATTLEMATCH_VIEW_Delete(void *);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
@@ -183,9 +183,9 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
-extern void *func_021E8568(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
+extern void *WIFIBATTLEMATCH_UTIL_Create(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
 
-extern void func_021E8628(u32 a);
+extern void WIFIBATTLEMATCH_UTIL_Delete(u32 a);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
@@ -193,13 +193,13 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern void func_021E867C(char *p);
+extern void WIFIBATTLEMATCH_UTIL_Main(char *p);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-extern void func_021E8AA0(int *p, int v);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
-extern void func_021E8AA8(int a);
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
@@ -217,13 +217,13 @@ extern int APP_ENV_InitParentalControl(void);
 
 extern void BATTLE_REC_ClearWork(void);
 
-extern int func_0217D398(BattleChampionshipFlowConfig *,int);
+extern int DIGITALCARDCHECK_Create(BattleChampionshipFlowConfig *,int);
 
-extern void func_0217D434(int *p);
+extern void DIGITALCARDCHECK_DeleteAlt(int *p);
 
-extern int func_0217D44C(int *p);
+extern int DIGITALCARDCHECK_GetProcResult(int *p);
 
-extern void func_0217D410(int *p);
+extern void DIGITALCARDCHECK_Delete(int *p);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -231,15 +231,15 @@ extern void *BATTLE_COMPETITION_GetFromSave(void *);
 
 extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *arr, u32 index);
 
-extern void *func_021E88B0(Desc *,u8,u8,u8,u32,int);
+extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(Desc *,u8,u8,u8,u32,int);
 
-extern void func_021E89D0(void *);
+extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
 
-extern int func_021E8A00(void *);
+extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(void *);
 
-extern void func_021E8738(int *p, int a, int b, int c);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 
-extern int func_021E8844(const int *);
+extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 
 int BATTLE_CHAMPIONSHIP_FLOW_Create(void *a,void *b,void *context);
 
@@ -348,7 +348,7 @@ int BATTLE_CHAMPIONSHIP_FLOW_Create(void *owner,void *unused,void *context)
     BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic((int *)work);
     BATTLE_CHAMPIONSHIP_FLOW_CreateView((int *)work);
     BATTLE_CHAMPIONSHIP_FLOW_CreateText(work);
-    ((BattleChampionshipFlowWork *)work)->proc=func_021E8A3C((int)work,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
+    ((BattleChampionshipFlowWork *)work)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((int)work,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
     return 1;
 }
 
@@ -365,7 +365,7 @@ int BATTLE_CHAMPIONSHIP_FLOW_Delete(int owner, int unused, int unused2, int *wor
     return 1;
 }
 
-int BATTLE_CHAMPIONSHIP_FLOW_IsFinished(u32 unused,u32 unused2,u32 unused3,int *work) {BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(work);BATTLE_CHAMPIONSHIP_FLOW_UpdateText(work);func_021E8A80(*(FlowCallback * *)&((BattleChampionshipFlowWork *)work)->proc);if(func_021E8A90(*(int ** *)&((BattleChampionshipFlowWork *)work)->proc)) return 1;return 0;}
+int BATTLE_CHAMPIONSHIP_FLOW_IsFinished(u32 unused,u32 unused2,u32 unused3,int *work) {BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(work);BATTLE_CHAMPIONSHIP_FLOW_UpdateText(work);WIFIBATTLEMATCH_UTIL_InvokeCallback(*(FlowCallback * *)&((BattleChampionshipFlowWork *)work)->proc);if(WIFIBATTLEMATCH_UTIL_IsCallbackNull(*(int ** *)&((BattleChampionshipFlowWork *)work)->proc)) return 1;return 0;}
 
 void BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic(int *work)
 {
@@ -382,7 +382,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(int *work)
 {
     if (((BattleChampionshipFlowWork *)work)->graphic) {
         WIFIBATTLEMATCH_GRAPHIC_Draw((u8 *)(((BattleChampionshipFlowWork *)work)->graphic));
-        func_021E5980((int)((BattleChampionshipFlowWork *)work)->view);
+        WIFIBATTLEMATCH_VIEW_UpdateAnimation((int)((BattleChampionshipFlowWork *)work)->view);
     }
 }
 
@@ -395,10 +395,10 @@ void BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(int *work)
  */
 void BATTLE_CHAMPIONSHIP_FLOW_CreateView(int *work)
 {
-    ((BattleChampionshipFlowWork *)work)->view = (int)func_021E567C(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((BattleChampionshipFlowWork *)work)->graphic)), 1, ((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->view = (int)WIFIBATTLEMATCH_VIEW_Create(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((BattleChampionshipFlowWork *)work)->graphic)), 1, ((BattleChampionshipFlowWork *)work)->heapId);
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *work) {func_021E5868((void *)((BattleChampionshipFlowWork *)work)->view);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *work) {WIFIBATTLEMATCH_VIEW_Delete((void *)((BattleChampionshipFlowWork *)work)->view);}
 
 /*
  * trailing: two bytes alignment padding at 0x0217AF9A.
@@ -408,12 +408,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_CreateText(char *work)
     ((BattleChampionshipFlowWork *)work)->font=GF_FONT_Create(0x17,0,0,0,((BattleChampionshipFlowWork *)work)->heapId);
     ((BattleChampionshipFlowWork *)work)->msgBank=func_02045B38(0,2,4,((BattleChampionshipFlowWork *)work)->heapId);
     ((BattleChampionshipFlowWork *)work)->printQue=(void *)PRINTSYS_QUE_Create((void *)(((BattleChampionshipFlowWork *)work)->heapId));
-    ((BattleChampionshipFlowWork *)work)->printSys=func_021E8568(0,15,14,10,((BattleChampionshipFlowWork *)work)->printQue,((BattleChampionshipFlowWork *)work)->font,((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->printSys=WIFIBATTLEMATCH_UTIL_Create(0,15,14,10,((BattleChampionshipFlowWork *)work)->printQue,((BattleChampionshipFlowWork *)work)->font,((BattleChampionshipFlowWork *)work)->heapId);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *work)
 {
-    func_021E8628((u32)((BattleChampionshipFlowWork *)work)->printSys);
+    WIFIBATTLEMATCH_UTIL_Delete((u32)((BattleChampionshipFlowWork *)work)->printSys);
     PRINTSYS_QUE_Delete((struct PrintSys *)(((BattleChampionshipFlowWork *)work)->printQue));
     MSGDATA_Delete((struct Rec *)(((BattleChampionshipFlowWork *)work)->msgBank));
     GF_FONT_Delete((void *)(((BattleChampionshipFlowWork *)work)->font));
@@ -421,7 +421,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *work)
 
 void BATTLE_CHAMPIONSHIP_FLOW_UpdateText(int *work)
 {
-    func_021E867C((char *)(((BattleChampionshipFlowWork *)work)->printSys));
+    WIFIBATTLEMATCH_UTIL_Main((char *)(((BattleChampionshipFlowWork *)work)->printSys));
     PRINTSYS_QUE_Main((struct PrintSys *)(((BattleChampionshipFlowWork *)work)->printQue));
 }
 
@@ -429,15 +429,15 @@ void BATTLE_CHAMPIONSHIP_FLOW_SelectFlow(void *proc,int unused,char *work)
 {
     switch(((BattleChampionshipFlowContext *)(*(char * *)&((BattleChampionshipFlowWork *)work)->context))->mode){
     case 0: case 1: case 2:
-        func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu); break;
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu); break;
     case 3: case 4: case 5: case 6:
-        func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch); break;
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch); break;
     }
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_End(void *proc)
 {
-    func_021E8AA8((int)proc);
+    WIFIBATTLEMATCH_UTIL_ClearCallback((int)proc);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *proc,int *state,char *work)
@@ -445,7 +445,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *proc,int *state,char *work)
     switch(*state){
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if(!FADE_IsActive()) *state=2; break;
-    case 2: func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
     default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
@@ -460,7 +460,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *proc,int *state,char *work)
         *state=1;
         break;
     case 1: if(!FADE_IsActive()) *state=2; break;
-    case 2: func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_End); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_End); break;
     default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
@@ -498,11 +498,11 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *proc,int *state,BattleChampionshipF
         break;
     case 2:
         BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu((int *)work->flow);
-        func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
         BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu((int *)work->flow);
-        func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch);
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch);
         break;
     }
 }
@@ -543,12 +543,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *proc,int *state,BattleChampion
         break;
     case 2:
         LIVEBATTLEMATCH_FLOW_Delete((int *)work->flow);
-        func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
         work->useAltFlow=1;
         LIVEBATTLEMATCH_FLOW_Delete((int *)work->flow);
-        func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
         break;
     }
 }
@@ -561,7 +561,7 @@ void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const BattleChampionshipFlowConfig *co
     *(BattleChampionshipFlowConfig *)(menu+0x14)=*config;
     ((BattleChampionshipFlowMenu *)menu)->heapId=heap;
     ((BattleChampionshipFlowMenu *)menu)->msgBank=func_02045B38(0,3,0x9e,heap);
-    ((BattleChampionshipFlowMenu *)menu)->proc=func_021E8A3C((int)menu,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
+    ((BattleChampionshipFlowMenu *)menu)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((int)menu,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
     return menu;
 }
 
@@ -572,11 +572,11 @@ void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {BTLV_CORE_IsSlotKind1Index1
  */
 void BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback(FlowCallback **callback)
 {
-    func_021E8A80(*callback);
+    WIFIBATTLEMATCH_UTIL_InvokeCallback(*callback);
 }
 
 /*
- *   func_021E8A90 (0x021E8A90) stays wildcarded because the target is an
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull (0x021E8A90) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
@@ -584,7 +584,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_InvokeCallback(FlowCallback **callback)
  */
 int BATTLE_CHAMPIONSHIP_FLOW_GetMenuResult(int *work)
 {
-    if (func_021E8A90((int **)(((BattleChampionshipFlowMenu *)work)->proc)))
+    if (WIFIBATTLEMATCH_UTIL_IsCallbackNull((int **)(((BattleChampionshipFlowMenu *)work)->proc)))
         return ((BattleChampionshipFlowMenu *)work)->result;
     return 0;
 }
@@ -593,18 +593,18 @@ void BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase(int proc, int unused, int *work)
 {
     switch (((BattleChampionshipFlowMenu *)work)->phase) {
     case 0:
-        func_021E8AA0((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);
         break;
     case 1:
-        func_021E8AA0((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
         break;
     case 2:
-        func_021E8AA0((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
         break;
     }
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_EndMenu(int proc) {func_021E8AA8(proc);}
+void BATTLE_CHAMPIONSHIP_FLOW_EndMenu(int proc) {WIFIBATTLEMATCH_UTIL_ClearCallback(proc);}
 
 void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int proc, unsigned *state, int *work)
 {
@@ -617,9 +617,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int proc, unsigned *state, int *work)
         result = BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(work);
         if (result != -1) {
             switch (result) {
-            case 0: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
-            case 1: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra); break;
-            case 2: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm); break;
+            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm); break;
             case 3: BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,1); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(work);
@@ -628,7 +628,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int proc, unsigned *state, int *work)
     }
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,1);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
+void BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,1);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
 
 /*
  * extent: stale 0217B550 data label splits its final twelve pool bytes; real next function is separately filed 0217B55C.
@@ -645,12 +645,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse(int proc,unsigned *state,int *work)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_InitParentalControl()==0) func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_InitParentalControl()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,2);}
                 break;
-            case 1: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
-            case 2: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1); break;
-            case 3: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1); break;
+            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(work);
         }
@@ -662,7 +662,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuClose(int proc,int *state,int *work)
 {
     switch(*state) {
     case 0: BATTLE_CHAMPIONSHIP_FLOW_SetOption(work,8); *state=1; break;
-    case 1: if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
+    case 1: if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
     }
 }
 
@@ -680,16 +680,16 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1(int proc, int *state, char *work)
         config.view = (int)((BattleChampionshipFlowMenu *)work)->view;
         config.graphic = (int)((BattleChampionshipFlowMenu *)work)->graphic;
         config.save = (int)((BattleChampionshipFlowMenu *)work)->save;
-        ((BattleChampionshipFlowMenu *)work)->cardCheck = func_0217D398(&config, ((BattleChampionshipFlowMenu *)work)->heapId);
+        ((BattleChampionshipFlowMenu *)work)->cardCheck = DIGITALCARDCHECK_Create(&config, ((BattleChampionshipFlowMenu *)work)->heapId);
         (*state)++;
         break;
     case 1:
-        func_0217D434((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
-        if (func_0217D44C((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck))) (*state)++;
+        DIGITALCARDCHECK_DeleteAlt((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
+        if (DIGITALCARDCHECK_GetProcResult((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck))) (*state)++;
         break;
     case 2:
-        func_0217D410((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
-        func_021E8AA0((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
+        DIGITALCARDCHECK_Delete((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
         break;
     }
 }
@@ -708,16 +708,16 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2(int proc, int *state, char *work)
         config.view = (int)((BattleChampionshipFlowMenu *)work)->view;
         config.graphic = (int)((BattleChampionshipFlowMenu *)work)->graphic;
         config.save = (int)((BattleChampionshipFlowMenu *)work)->save;
-        ((BattleChampionshipFlowMenu *)work)->cardCheck = func_0217D398(&config, ((BattleChampionshipFlowMenu *)work)->heapId);
+        ((BattleChampionshipFlowMenu *)work)->cardCheck = DIGITALCARDCHECK_Create(&config, ((BattleChampionshipFlowMenu *)work)->heapId);
         (*state)++;
         break;
     case 1:
-        func_0217D434((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
-        if (func_0217D44C((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck))) (*state)++;
+        DIGITALCARDCHECK_DeleteAlt((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
+        if (DIGITALCARDCHECK_GetProcResult((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck))) (*state)++;
         break;
     case 2:
-        func_0217D410((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
-        func_021E8AA0((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
+        DIGITALCARDCHECK_Delete((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc, (int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
         break;
     }
 }
@@ -734,12 +734,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int proc,unsigned *state,int *work)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_InitParentalControl()==0) func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_InitParentalControl()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,3);}
                 break;
-            case 1: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm); break;
-            case 2: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2); break;
-            case 3: func_021E8AA0((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2); break;
+            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(work);
         }
@@ -747,9 +747,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int proc,unsigned *state,int *work)
     }
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,15);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);break;}}
+void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,15);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);break;}}
 
-void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption((int *)work,22);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) func_021E8AA0(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
+void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption((int *)work,22);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
 
 static inline void selected(Desc *rec,void *cardBase,int index)
 {
@@ -795,24 +795,24 @@ void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *work, int index)
     case 0: width=28;height=(rec.count&127)*2;x=2;y=9-(height>>1);break;
     case 1: width=12;height=(rec.count&127)*2;x=19;y=17-height;break;
     }
-    ((BattleChampionshipFlowMenu *)work)->window=func_021E88B0((Desc *)&rec, x, y, width, height, ((BattleChampionshipFlowMenu *)work)->heapId);
+    ((BattleChampionshipFlowMenu *)work)->window=WIFIBATTLEMATCH_UTIL_CreateMenu((Desc *)&rec, x, y, width, height, ((BattleChampionshipFlowMenu *)work)->heapId);
     ((BattleChampionshipFlowMenu *)work)->index=index;
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_HideWindow(int *work) {func_021E89D0((void *)((BattleChampionshipFlowMenu *)work)->window);}
+void BATTLE_CHAMPIONSHIP_FLOW_HideWindow(int *work) {WIFIBATTLEMATCH_UTIL_DeleteMenu((void *)((BattleChampionshipFlowMenu *)work)->window);}
 
-unsigned BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(int *work) {return func_021E8A00((void *)((BattleChampionshipFlowMenu *)work)->window);}
+unsigned BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(int *work) {return WIFIBATTLEMATCH_UTIL_UpdateMenu((void *)((BattleChampionshipFlowMenu *)work)->window);}
 
 void BATTLE_CHAMPIONSHIP_FLOW_SetOption(int *work, int option)
 {
-    func_021E8738((int *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), *(int *)&((BattleChampionshipFlowMenu *)work)->msgBank2, option, 1);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), *(int *)&((BattleChampionshipFlowMenu *)work)->msgBank2, option, 1);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption(int *work, int option)
 {
-    func_021E8738((int *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), (int)((BattleChampionshipFlowMenu *)work)->msgBank, option, 1);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), (int)((BattleChampionshipFlowMenu *)work)->msgBank, option, 1);
 }
 
-int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *work) {return func_021E8844(*(int * *)&((BattleChampionshipFlowMenu *)work)->printSys);}
+int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *work) {return WIFIBATTLEMATCH_UTIL_GetBusy(*(int * *)&((BattleChampionshipFlowMenu *)work)->printSys);}
 
-void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *work,int result) {((BattleChampionshipFlowMenu *)work)->result=result;func_021E8AA0((int *)((BattleChampionshipFlowMenu *)work)->proc,(int)BATTLE_CHAMPIONSHIP_FLOW_EndMenu);}
+void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *work,int result) {((BattleChampionshipFlowMenu *)work)->result=result;WIFIBATTLEMATCH_UTIL_SetCallback((int *)((BattleChampionshipFlowMenu *)work)->proc,(int)BATTLE_CHAMPIONSHIP_FLOW_EndMenu);}

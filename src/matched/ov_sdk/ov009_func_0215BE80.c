@@ -15,17 +15,17 @@
  *   dhcp_setcommon            0x0215BC04  arm  ov009
  *   pad_mem            0x0215BD58  arm  ov009
  *   CPS_SocWrite            0x0215B470  arm  ov009
- *   g_021A878E               0x021A878E  data
- *   g_021A826C               0x021A826C  data
+ *   gCpsDhcpBuffer               0x021A878E  data
+ *   gCpsNetVars               0x021A826C  data
  */
 
 extern unsigned char *dhcp_setcommon(unsigned char *d, int type);
 extern unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
 extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
-extern unsigned char g_021A878E[];
-extern unsigned char g_021A826C;
+extern unsigned char gCpsDhcpBuffer[];
+extern unsigned char gCpsNetVars;
 
-#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
+#define NV(off, type) (*(type *)((char *)&gCpsNetVars + (off)))
 #define HI16(x) ((unsigned short)((x) >> 16))
 #define LO16(x) ((unsigned short)(x))
 
@@ -34,7 +34,7 @@ unsigned long dhcp_send_request(int mode)
 	unsigned char *buf;
 	unsigned char *d;
 
-	buf = g_021A878E;
+	buf = gCpsDhcpBuffer;
 	d = dhcp_setcommon(buf, 3);
 	if (mode == 0) {
 		d[0] = 0x32;

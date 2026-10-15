@@ -18,15 +18,15 @@
  *   DWC_Auth_SetCalInfoToHttp  0x02179218  arm  ov009
  *   wcslen  0x02096578  arm
  *   gDwcAuthGlobal  0x021AB184  data  ov009
- *   g_021A23E8  0x021A23E8  data  ov009
- *   g_021A23F4  0x021A23F4  data  ov009
- *   g_021A23FC  0x021A23FC  data  ov009
- *   g_021A2404  0x021A2404  data  ov009
+ *   gDwcAuthPostValueAcctCreate  0x021A23E8  data  ov009
+ *   gDwcAuthPostLabelAction  0x021A23F4  data  ov009
+ *   gDwcAuthPostValueLogin  0x021A23FC  data  ov009
+ *   gDwcAuthPostLabelGsbrcd  0x021A2404  data  ov009
  *   gDwcWiFiInfo  0x021AB190  data  ov009
- *   g_021ACE70  0x021ACE70  data  ov009
- *   g_021A240C  0x021A240C  data  ov009
- *   g_021A2410  0x021A2410  data  ov009
- *   g_021A2418  0x021A2418  data  ov009
+ *   gDwcAuthAllowEssId  0x021ACE70  data  ov009
+ *   gDwcAuthPostValueIsWfc  0x021A240C  data  ov009
+ *   gDwcAuthPostLabelIsWfc  0x021A2410  data  ov009
+ *   gDwcAuthPostLabelIngamesn  0x021A2418  data  ov009
  */
 
 #include "../include/G_DWCWFCUtil.h"
@@ -50,15 +50,15 @@ extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int all
 extern int wcslen(const u16 *s);
 
 extern struct DWCWFCUtil gDwcAuthGlobal;
-extern char g_021A23E8[];
-extern char g_021A23F4[];
-extern char g_021A23FC[];
-extern char g_021A2404[];
+extern char gDwcAuthPostValueAcctCreate[];
+extern char gDwcAuthPostLabelAction[];
+extern char gDwcAuthPostValueLogin[];
+extern char gDwcAuthPostLabelGsbrcd[];
 extern char gDwcWiFiInfo[];
-extern int g_021ACE70;
-extern char g_021A240C[];
-extern char g_021A2410[];
-extern char g_021A2418[];
+extern int gDwcAuthAllowEssId;
+extern char gDwcAuthPostValueIsWfc[];
+extern char gDwcAuthPostLabelIsWfc[];
+extern char gDwcAuthPostLabelIngamesn[];
 
 int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn)
 {
@@ -66,31 +66,31 @@ int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ing
 
     if (gDwcAuthGlobal.userid == 0)
     {
-        if (DWC_Http_Add_PostBase64Item(http, g_021A23F4, g_021A23E8, strlen((const u8 *)g_021A23E8)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelAction, gDwcAuthPostValueAcctCreate, strlen((const u8 *)gDwcAuthPostValueAcctCreate)) != 0)
             return 8;
     }
     else
     {
-        if (DWC_Http_Add_PostBase64Item(http, g_021A23F4, g_021A23FC, strlen((const u8 *)g_021A23FC)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelAction, gDwcAuthPostValueLogin, strlen((const u8 *)gDwcAuthPostValueLogin)) != 0)
             return 8;
-        if (DWC_Http_Add_PostBase64Item(http, g_021A2404, gsbrcd, strlen((const u8 *)gsbrcd)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelGsbrcd, gsbrcd, strlen((const u8 *)gsbrcd)) != 0)
             return 8;
     }
 
     if (!DWC_Auth_GetCalInfoFromWiFiInfo(&calinfo, (struct DWCWiFiInfo *)gDwcWiFiInfo))
         return 5;
-    if (!DWC_Auth_SetCalInfoToHttp(http, &calinfo, g_021ACE70))
+    if (!DWC_Auth_SetCalInfoToHttp(http, &calinfo, gDwcAuthAllowEssId))
         return 8;
 
     if (gDwcAuthGlobal.f0 == 1)
     {
-        if (DWC_Http_Add_PostBase64Item(http, g_021A2410, g_021A240C, strlen((const u8 *)g_021A240C)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelIsWfc, gDwcAuthPostValueIsWfc, strlen((const u8 *)gDwcAuthPostValueIsWfc)) != 0)
             return 8;
     }
 
     if (wcslen(ingamesn) != 0)
     {
-        if (DWC_Http_Add_PostBase64Item(http, g_021A2418, (char *)ingamesn, wcslen(ingamesn) * 2) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelIngamesn, (char *)ingamesn, wcslen(ingamesn) * 2) != 0)
             return 8;
     }
     return 0;

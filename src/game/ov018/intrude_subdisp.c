@@ -142,7 +142,7 @@
  *   BMP_OAM_CreateSys  0x02025538  thumb
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -167,11 +167,11 @@
  *   func_02040588            0x02040588  arm
  *   d_0218370C               0x0218370C  data  a4
  *   d_0218372C               0x0218372C  data  a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -380,7 +380,7 @@ void GAME_COMM_ClearPlayerStatus(void *p);
 void *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(void *a);
 extern int GAME_DATA_GetIntrudeCount(const void *p);
 extern void *EVENT_MAPCHANGE_CreateIntrudeWarpEvent();
-extern IntrudeZoneInfo *INTRUDE_FIELD_FindZonePos(int zoneId);
+extern IntrudeZonePos *INTRUDE_FIELD_FindZonePos(int zoneId);
 extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const void *q, u16 s, int t);
 extern u32 FIELDMAP_GetVReq(void *p);
 extern void BTL_CLIENT_StepSetAbilityWithPopup();
@@ -431,7 +431,7 @@ extern void CLACT_SetUnitRenderer(void *bank, void *p);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -453,11 +453,11 @@ void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(unsigned int);
+extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_MakeScreen(void *cfg);
 extern u8 BMP_WIN_GetBgLayer(void *p);
-extern void func_020409B4(unsigned int);
+extern void BG_SYS_PushTile(unsigned int);
 extern u32 BMP_WIN_Delete(void *d);
 extern struct ClactRes *CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, u16 e, u16 f, u16 g);
 extern struct ClactRes *CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
@@ -1039,7 +1039,7 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *a0, void *a1, u16 a2, int a3)
 void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *a0, void *a1, int a2)
 {
     IntrudeCommSys *sys;
-    IntrudeZoneInfo *q;
+    IntrudeZonePos *q;
     VecFx32 v;
     u16 s;
 
@@ -1409,7 +1409,7 @@ void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work)
     work->bmpOamSys = BMP_OAM_CreateSys(0x70, work->clactUnit);
     work->tcbl = TCBL_Create(0x70, 0x70, 4, 0x20);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x70);
-    work->wordSet = GF_FONT_Create_EC64(0x70);
+    work->wordSet = WORDSET_CreateDefault(0x70);
     work->printQue = PRINTSYS_QUE_Create(0x70);
     work->msgData = func_02045B38(0, 2, 0x2D, 0x70);
     work->msgDataDetail = func_02045B38(0, 2, 0x42, 0x70);
@@ -1479,8 +1479,8 @@ void INTRUDE_SUBDISP_BgExit(IntrudeSubdispWork *work)
 {
     func_02040588(6, 0);
     func_02040588(7, 0);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
 }
 
 
@@ -1495,13 +1495,13 @@ void INTRUDE_SUBDISP_BmpWinSetup(IntrudeSubdispWork *work)
     work->titlePending = zero;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     win = BMP_WIN_Create(6, 1, 0x12, 0x1e, 4, 14, 1);
     work->infoWin = win;
     work->infoPending = zero;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
 }
 
 
@@ -1854,9 +1854,9 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
     int k;
     struct ClactActor *mark;
     IntrudePeer *peer;
-    IntrudeZoneInfo *prev;
+    IntrudeZonePos *prev;
     u16 prevZone;
-    IntrudeZoneInfo *town;
+    IntrudeZonePos *town;
     struct ClactActor *icon;
     IntrudeSubdispPosPair pair;
 
@@ -1989,7 +1989,7 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target,
     IntrudeSubdispPos pos;
     int sel;
     int idx;
-    IntrudeZoneInfo *town;
+    IntrudeZonePos *town;
     int i;
     int v;
     struct ClactActor *actor;
@@ -2151,9 +2151,9 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
     int msg;
     struct PrintQue *printQue;
     void *wordArg;
-    IntrudeZoneInfo *zone1;
-    IntrudeZoneInfo *zone2;
-    IntrudeZoneInfo *town;
+    IntrudeZonePos *zone1;
+    IntrudeZonePos *zone2;
+    IntrudeZonePos *town;
     IntrudeSubdispMsgReq req;
     VecFx32 pos;
 
@@ -2231,7 +2231,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
                && (work->town.sessionState == 3 || prev != work->town.sessionState)) {
         if (work->town.sessionState == 3 && sys != 0 && work->town.selection->kind != 4) {
             IntrudePeer *peer;
-            IntrudeZoneInfo *peerTown;
+            IntrudeZonePos *peerTown;
             void *fieldMap;
 
             fieldMap = ICA_ANIME_GetField20(work->gameSystem);
@@ -2411,7 +2411,7 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     struct ClactActor *actor;
     int zone;
     const IntrudeTownEntry *entry;
-    IntrudeZoneInfo *town;
+    IntrudeZonePos *town;
 
     fieldObj = FIELDMAP_GetSubscreen(ICA_ANIME_GetField20(work->gameSystem));
     ICA_ANIME_GetField24(work->gameSystem);
@@ -2704,7 +2704,7 @@ void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode)
     if (mode == 1) {
         func_02041B6C(6);
     } else {
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
     }
 }
 

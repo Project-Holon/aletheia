@@ -17,7 +17,7 @@
  *   func_021843E8  0x021843E8  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   gsifree  0x0217EAE0  arm  ov009
- *   g_021A4D90  0x021A4D90  data
+ *   gGpiKeysErrorInvalidName  0x021A4D90  data
  *   func_0218D864  0x0218D864  arm  ov009
  */
 
@@ -32,7 +32,7 @@ extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void 
 extern void *func_02184208(void *array, int n);
 extern void gsifree(void *ptr);
 extern int func_0218D864(void *elem1, void *elem2);
-extern char g_021A4D90[];
+extern char gGpiKeysErrorInvalidName[];
 
 int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **keyValue)
 {
@@ -41,7 +41,7 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
     int anIndex;
 
     if (keyName == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A4D90);
+        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorInvalidName);
         return 2;
     }
     aKey.name = goastrdup(keyName);

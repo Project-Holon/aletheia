@@ -80,7 +80,7 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   tbl_02202BB8  0x02202BB8  data
  *   func_02030EAC  0x02030EAC  arm
  *   BMP_WIN_Exit  0x020450C8  arm
@@ -142,7 +142,7 @@ struct ProcSystem;
 
 struct S020314B8;
 
-struct S020315D4;
+struct Proc;
 
 struct DispVram;
 
@@ -250,7 +250,7 @@ extern void func_0203133C(struct S020314B8 *p);
 
 extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -338,7 +338,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 
@@ -930,7 +930,7 @@ void WORLDTRADE_DeleteTimeIcon(Work *p)
         TIME_ICON_Delete((u8 *)(p->xDF8));
         p->xDF8 = 0;
         BMP_WIN_MakeScreen((struct Cfg *)(p->frame));
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)(p->frame)));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)(p->frame)));
     }
 }
 

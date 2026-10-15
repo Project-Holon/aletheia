@@ -28,8 +28,8 @@ extern const Pair d_021E38E0;
 typedef unsigned int   u32;
 struct Obj24810;
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 extern void BR_CODEIN_UploadStepFadeIn(int,int *,char *);
@@ -38,7 +38,7 @@ extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
 extern void BR_UTIL_StartEffect(int,int,Pair *);
-int BR_CODEIN_UploadCreate(struct Obj0203159C *obj,int unused,char *arg)
+int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
 {
     char *p;
     int i;

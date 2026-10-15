@@ -14,7 +14,7 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   func_021B7068  0x021B7068  thumb  ov071
+ *   MONOLITH_TOOL_DeleteCursor  0x021B7068  thumb  ov071
  *   MONOLITH_TOOL_SLOT_SELECT_FreeCursor  0x021B7BE4  thumb  ov071
  *   MONOLITH_TOOL_SLOT_SELECT_FreeButtons  0x021B7B9C  thumb  ov071
  *   MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons  0x021B7AAC  thumb  ov071
@@ -30,19 +30,19 @@ typedef unsigned int u32;
 
 struct PrintSys;
 struct Rec3;
-struct S020315D4;
+struct Proc;
 struct U16Vec;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void func_021B7068(void *a);
+extern void MONOLITH_TOOL_DeleteCursor(void *a);
 extern void MONOLITH_TOOL_SLOT_SELECT_FreeCursor(void *a);
 extern void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(char *p);
 extern void MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons(void **p);
 extern void MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow(void *a);
 extern void MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds(void);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 int MONOLITH_TOOL_SLOT_SELECT_Exit(void *a, void *b, char *c, char *d)
 {
@@ -53,7 +53,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Exit(void *a, void *b, char *c, char *d)
         PRINTSYS_PrintStreamDelete(((struct Obj06184 *)d)->f8);
     if (((struct Obj06184 *)d)->f4 != 0)
         STRBUF_Delete(((struct Obj06184 *)d)->f4);
-    func_021B7068(((struct Obj06184 *)d)->f7C);
+    MONOLITH_TOOL_DeleteCursor(((struct Obj06184 *)d)->f7C);
     MONOLITH_TOOL_SLOT_SELECT_FreeCursor(d);
     MONOLITH_TOOL_SLOT_SELECT_FreeButtons(d);
     MONOLITH_TOOL_SLOT_SELECT_FreeSlotIcons((void **)d);

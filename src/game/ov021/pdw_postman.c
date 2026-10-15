@@ -17,13 +17,13 @@
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   sPdwPostmanFileName     0x021DE288  data   ov021  a1
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
@@ -132,7 +132,7 @@ extern u32 func_020307B0(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *msgData);
 extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
@@ -141,7 +141,7 @@ extern void STRBUF_Delete(struct StrBuf *strBuf);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern void func_020409B4(u32 bgFrame);
+extern void BG_SYS_PushTile(u32 bgFrame);
 extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height);
 extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
 extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, u16 y, struct StrBuf *str);
@@ -199,7 +199,7 @@ PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostm
     listWin->items = items;
     listWin->itemCount = itemCount;
     listWin->msgData = func_02045B38(0, 3, 0x13B, heapId);
-    listWin->wordSet = GF_FONT_Create_EC64(heapId);
+    listWin->wordSet = WORDSET_CreateDefault(heapId);
     listWin->strBuf = STRBUF_Create(0x80, heapId);
     listWin->expandBuf = STRBUF_Create(0x80, heapId);
     height = (itemCount * PDW_POSTMAN_LINE_HEIGHT + 7) & ~7;
@@ -212,7 +212,7 @@ int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin)
 {
     FIELD_MSGBG_ClearMsgWin(listWin->msgWin);
     FIELD_MSGBG_DeleteMsgWin(listWin->msgWin);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     STRBUF_Delete(listWin->strBuf);
     STRBUF_Delete(listWin->expandBuf);
     WORDSET_DeleteStrbufED04(listWin->wordSet);
@@ -236,7 +236,7 @@ void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
     }
     MSGDATA_Delete(itemNames);
-    func_020409B4(BMP_WIN_GetBgLayer(FIELD_MSGBG_GetMsgWinBmpWin(listWin->msgWin)));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(FIELD_MSGBG_GetMsgWinBmpWin(listWin->msgWin)));
 }
 
 /*

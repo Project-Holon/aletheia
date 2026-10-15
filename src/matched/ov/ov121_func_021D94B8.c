@@ -1,5 +1,5 @@
 /*
- * function: func_021D94B8
+ * function: MYSTERY_PollOamSprite
  * address: 0x021D94B8
  * packet: pkt_ov121_021D94B8
  * region: ov121
@@ -9,12 +9,12 @@
  * status: EXACT
  * interfaces: named the callee's boolean return; the tail jump forwards it unchanged.
  * symbols:
- *   func_021DA9F8 0x021DA9F8 thumb ov121
+ *   MYSTERY_UTIL_IsMenuFinished 0x021DA9F8 thumb ov121
  */
 #include "../include/Obj22871.h"
 typedef unsigned char  u8;
-extern int func_021DA9F8(u8 *p);
-int func_021D94B8(char *p)
+extern int MYSTERY_UTIL_IsMenuFinished(u8 *p);
+int MYSTERY_PollOamSprite(char *p)
 {
-    return func_021DA9F8(((struct Obj22871 *)p)->f4);
+    return MYSTERY_UTIL_IsMenuFinished(((struct Obj22871 *)p)->f4);
 }

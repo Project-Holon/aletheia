@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E5D40   0x021E5D40  thumb
- *   func_021E89D0   0x021E89D0  thumb
- *   func_021E8A00   0x021E8A00  thumb
+ *   WIFIBATTLEMATCH_VIEW_DeleteMainWindow   0x021E5D40  thumb
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu   0x021E89D0  thumb
+ *   WIFIBATTLEMATCH_UTIL_UpdateMenu   0x021E8A00  thumb
  *   func_021E5EF8   0x021E5EF8  thumb
- *   func_021E5F24   0x021E5F24  thumb
+ *   WIFIBATTLEMATCH_VIEW_DrawStatusWindow   0x021E5F24  thumb
  *
  * Field query: if the +0x30 pointer is live, hand it to the ov175-adjacent
  *     routine at 0x021E8A00 and return its result, else -1.  WIFIBATTLEMATCH_NET_DeleteCompSprite is
@@ -24,14 +24,14 @@
 
 typedef unsigned long u32;
 
-extern int func_021E8A00(u32 p);
+extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(u32 p);
 
 int WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(char *obj)
 {
     u32 p = ((struct Obj24309 *)obj)->f30;
 
     if (p != 0)
-        return func_021E8A00(p);
+        return WIFIBATTLEMATCH_UTIL_UpdateMenu(p);
     return -1;
 }
 

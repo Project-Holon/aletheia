@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F10
+ * function: BTL_REC_SEL_SetEntryB
  * address:  0x021B9F10
  * packet:   pkt_021B9F10
  * region:   ov214
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj14698.h"
 
-void func_021B9F10(int unused, char *b, int c, int d)
+void BTL_REC_SEL_SetEntryB(int unused, char *b, int c, int d)
 {
     ((struct Obj14698 *)b)->f40 = c;
     ((struct Obj14698 *)b)->f44 = d;

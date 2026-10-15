@@ -1,5 +1,5 @@
 /*
- * function: func_021F20E4
+ * function: BEACON_VIEW_WindowBTask
  * address:  0x021F20E4
  * packet:   pkt_ov032_021F20E4
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F20E4 0x021F20E4 thumb
+ *   BEACON_VIEW_WindowBTask 0x021F20E4 thumb
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -39,7 +39,7 @@ extern void func_02041B6C(u32 bit);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021F20E4(void *task, char *q)
+void BEACON_VIEW_WindowBTask(void *task, char *q)
 {
     u8 *s;
     u32 v;

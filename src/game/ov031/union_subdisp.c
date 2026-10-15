@@ -70,7 +70,7 @@
  *   sUnionSubdispBgTemplate5     0x021F1050  data  ov031  a4
  *   sUnionSubdispBgTemplate6     0x021F1070  data  ov031  a4
  *   sUnionSubdispBgTemplate7     0x021F1090  data  ov031  a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BMP_WIN_Create  0x020450F0  arm
@@ -177,7 +177,7 @@ extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(unsigned int);
+extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void BG_SYS_DeleteHalf(u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -564,9 +564,9 @@ void UNION_SUBDISP_ExitBgs(UnionSubdispWork *work)
     func_02040588(5, 0);
     func_02040588(6, 0);
     func_02040588(7, 0);
-    func_020403F4(5);
-    func_020403F4(6);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(7);
 }
 
 

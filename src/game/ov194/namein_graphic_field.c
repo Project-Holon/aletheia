@@ -1,5 +1,5 @@
 /*
- * file:     namein_graphic_p02.c
+ * file:     namein_graphic_field.c
  * unit:     yes
  * function: NAMEIN_GRAPHIC_FadeCellColor, NAMEIN_GRAPHIC_InitInputField, NAMEIN_GRAPHIC_DeleteInputField, NAMEIN_GRAPHIC_RefreshInputField, NAMEIN_GRAPHIC_Backspace, NAMEIN_GRAPHIC_AppendChar, NAMEIN_GRAPHIC_AppendCandidate, NAMEIN_GRAPHIC_ApplyConversion, NAMEIN_GRAPHIC_RevertChar, NAMEIN_GRAPHIC_IsFieldDrawDone, NAMEIN_GRAPHIC_CopyToStrbuf, NAMEIN_GRAPHIC_ClearSecondary, NAMEIN_GRAPHIC_CommitSecondary, NAMEIN_GRAPHIC_ClearPrimary, NAMEIN_GRAPHIC_AppendString, NAMEIN_GRAPHIC_IsFieldFull, NAMEIN_GRAPHIC_GetLength, NAMEIN_GRAPHIC_GetSecondaryLength, NAMEIN_GRAPHIC_PickCandidate, NAMEIN_GRAPHIC_HasNonSpace, NAMEIN_GRAPHIC_InitPicker, NAMEIN_GRAPHIC_LoadGrid, NAMEIN_GRAPHIC_ClearPicker, NAMEIN_GRAPHIC_PickerToChar, NAMEIN_GRAPHIC_FindCellAtPoint, NAMEIN_GRAPHIC_PickerMove, NAMEIN_GRAPHIC_DrawCellTips, NAMEIN_GRAPHIC_PickerGetBox, NAMEIN_GRAPHIC_FindCellByValue, NAMEIN_GRAPHIC_ConvertCellMode, NAMEIN_GRAPHIC_KanaGetBox, NAMEIN_GRAPHIC_SymbolGetBox, NAMEIN_GRAPHIC_KanaMove, NAMEIN_GRAPHIC_SymbolMove, NAMEIN_GRAPHIC_GridValue, NAMEIN_GRAPHIC_ComputeGridValue
  * address:  0x021F1D58
@@ -20,7 +20,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Create  0x020457B0  arm
  *   NAMEIN_GRAPHIC_LoadCharMember  0x021F4DBC  thumb  ov194
  *   NAMEIN_GRAPHIC_LoadPairMember  0x021F4F50  thumb  ov194
@@ -145,7 +145,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int NAMEIN_GRAPHIC_LoadCharMember(int a, int b);
 extern int NAMEIN_GRAPHIC_LoadPairMember(int a);
@@ -278,7 +278,7 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
     *(int *)(p + 0x40) = h;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     *(int *)(p + 0x2c) = *(int *)(p + 0x40);
     *(u8 *)(p + 0x30) = i;
     *(int *)(p + 0x3c) = (int)STRBUF_Create(0xe, f);

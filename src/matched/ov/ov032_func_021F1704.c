@@ -1,5 +1,5 @@
 /*
- * function: func_021F1704
+ * function: BEACON_VIEW_IconSlideTask
  * address:  0x021F1704
  * packet:   pkt_ov032_021F1704
  * region:   ov032
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F1704 0x021F1704 thumb
- *   func_021F1218 0x021F1218 thumb
- *   func_021F0EDC 0x021F0EDC thumb
+ *   BEACON_VIEW_IconSlideTask 0x021F1704 thumb
+ *   BEACON_VIEW_SetEntryPosition 0x021F1218 thumb
+ *   BEACON_VIEW_ResetEntry 0x021F0EDC thumb
  *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj00225.h"
@@ -20,12 +20,12 @@
 
 typedef unsigned char u8;
 
-extern void func_021F1218(char *p, short x, short y);
-extern void func_021F0EDC(char *p);
+extern void BEACON_VIEW_SetEntryPosition(char *p, short x, short y);
+extern void BEACON_VIEW_ResetEntry(char *p);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021F1704(void *h, char *t)
+void BEACON_VIEW_IconSlideTask(void *h, char *t)
 {
     u8 *e;
 
@@ -41,10 +41,10 @@ void func_021F1704(void *h, char *t)
             int y = ((struct Obj00710 *)t)->f18 + ((struct Obj00710 *)t)->f20;
             ((struct Obj00710 *)t)->f14 = x;
             ((struct Obj00710 *)t)->f18 = y;
-            func_021F1218((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), (short)(x >> 12), (short)(y >> 12));
+            BEACON_VIEW_SetEntryPosition((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), (short)(x >> 12), (short)(y >> 12));
             return;
         }
-        func_021F1218((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), ((struct Obj00710 *)t)->f10, ((struct Obj00710 *)t)->f12);
+        BEACON_VIEW_SetEntryPosition((char *)(*(u8 * *)&((struct Obj00710 *)t)->f8), ((struct Obj00710 *)t)->f10, ((struct Obj00710 *)t)->f12);
         e = *(u8 * *)&((struct Obj00710 *)t)->f8;
         if (e[2] == 0 || e[2] == 5) {
             ((struct Obj00710 *)t)->f0 = ((struct Obj00710 *)t)->f0 + 1;
@@ -56,7 +56,7 @@ void func_021F1704(void *h, char *t)
         e = *(u8 * *)&((struct Obj00710 *)t)->f8;
         if (((struct Obj00225 *)e)->f2C != 0)
             return;
-        func_021F0EDC((char *)e);
+        BEACON_VIEW_ResetEntry((char *)e);
         break;
     }
     **(int * *)&((struct Obj00710 *)t)->f24 = **(int * *)&((struct Obj00710 *)t)->f24 - 1;

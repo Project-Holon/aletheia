@@ -1,5 +1,5 @@
 /*
- * function: func_021BA644
+ * function: MANUAL_COMMON_ResetTouchbar
  * address: 0x021BA644
  * packet: pkt_ov225_021BA644
  * region: ov225
@@ -12,7 +12,7 @@
  */
 typedef unsigned char u8;
 
-void func_021BA644(char *p)
+void MANUAL_COMMON_ResetTouchbar(char *p)
 {
     int z = 0;
     int m = z - 1;

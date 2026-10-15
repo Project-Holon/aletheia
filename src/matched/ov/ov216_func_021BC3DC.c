@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3DC
+ * function: BEACON_DETAIL_GRA_UpdateTouchBar
  * address: 0x021BC3DC
  * packet: pkt_ov216_021BC3DC
  * region: ov216
@@ -12,4 +12,4 @@
  */
 typedef struct S S;
 extern void TOUCHBAR_Update(struct S *p);
-void func_021BC3DC(S *p){TOUCHBAR_Update(p);}
+void BEACON_DETAIL_GRA_UpdateTouchBar(S *p){TOUCHBAR_Update(p);}

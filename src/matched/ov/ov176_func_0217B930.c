@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8A00 0x021E8A00 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_UpdateMenu 0x021E8A00 thumb ov177
  */
-extern int func_021E8A00(int);
-unsigned BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(int *p) {return func_021E8A00(p[1]);}
+extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(int);
+unsigned BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(int *p) {return WIFIBATTLEMATCH_UTIL_UpdateMenu(p[1]);}

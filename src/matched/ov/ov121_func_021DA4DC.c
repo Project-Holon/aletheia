@@ -1,5 +1,5 @@
 /*
- * function: func_021DA4DC
+ * function: MYSTERY_UTIL_CreateDetailWindow
  * address: 0x021DA4DC
  * packet: pkt_ov121_021DA4DC
  * region: ov121
@@ -16,7 +16,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021DA1BC 0x021DA1BC thumb ov121
+ *   MYSTERY_UTIL_CreateWindowList 0x021DA1BC thumb ov121
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Clone 0x02045874 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -90,7 +90,7 @@ extern struct E d_021DF76C[];
 extern struct E d_021DF770[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,int,int);
-extern void *func_021DA1BC(void *,const char *,u32,u16,u8,u32,u32,int,u16);
+extern void *MYSTERY_UTIL_CreateWindowList(void *,const char *,u32,u16,u8,u32,u32,int,u16);
 struct MsgBank;
 struct Obj;
 struct U16Vec;
@@ -102,7 +102,7 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-struct Out *func_021DA4DC(const struct In *in, u16 heap)
+struct Out *MYSTERY_UTIL_CreateDetailWindow(const struct In *in, u16 heap)
 {
     struct Tbl t;
     struct Pt pt;
@@ -140,7 +140,7 @@ struct Out *func_021DA4DC(const struct In *in, u16 heap)
     }
     c = in->f26;
     w = in->f24;
-    out->f0 = func_021DA1BC(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
+    out->f0 = MYSTERY_UTIL_CreateWindowList(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
     for (i = 0; i < out->fC; i++)
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->f8].a;

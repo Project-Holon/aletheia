@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA760",
-    "func_021BA894"
+    "MANUAL_COMMON_UpdateListWork",
+    "MANUAL_COMMON_ListWorkTaskNoop"
+   ],
+   "addresses": [
+    "0x021BA760",
+    "0x021BA894"
    ]
   }
  ]

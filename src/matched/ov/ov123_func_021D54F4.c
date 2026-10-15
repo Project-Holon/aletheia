@@ -22,7 +22,7 @@
  *   GF_FONT_ResetTextColor  0x0201DD60  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   PRINTSYS_QUE_Create  0x0201C440  thumb  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
@@ -37,7 +37,7 @@ struct R;
 struct Tcbl;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_ResetTextColor(void);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -55,7 +55,7 @@ u8 *GSYNC_MESSAGE_InitSystem(u32 heap,u32 bank)
     u8 *p;
     p=func_02030734(heap,0xb4,1,d_021DAA30,0x96);
     ((struct Obj00499 *)p)->fB0=heap;
-    ((struct Obj00499 *)p)->f24=GF_FONT_Create_EC64(((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f24=WORDSET_CreateDefault(((struct Obj00499 *)p)->fB0);
     BMP_WIN_Init(((struct Obj00499 *)p)->fB0); GF_FONT_ResetTextColor();
     ((struct Obj00499 *)p)->f84=TCBL_Create(((struct Obj00499 *)p)->fB0,((struct Obj00499 *)p)->fB0,2,0);
     ((struct Obj00499 *)p)->f88=PRINTSYS_QUE_Create((void *)(u32)((struct Obj00499 *)p)->fB0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021E777C
+ * function: WIFIBATTLEMATCH_VIEW_StepRecordWindow
  * address: 0x021E777C
  * packet: pkt_ov177_021E777C
  * region: ov177
@@ -35,7 +35,7 @@ extern int func_0209C2B0(int, int);
 typedef unsigned int   u32;
 extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-int func_021E777C(Work *p)
+int WIFIBATTLEMATCH_VIEW_StepRecordWindow(Work *p)
 {
     int done;
     int shift;

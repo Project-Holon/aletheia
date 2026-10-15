@@ -1,5 +1,5 @@
 /*
- * function: func_021DA454
+ * function: WF2DMAP_SCENE_CreateTextOam
  * address: 0x021DA454
  * packet: pkt_ov129_021DA454
  * region: ov129
@@ -47,7 +47,7 @@ extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021DA454(u8 *p, int i, int a2, int a3, int a4)
+void WF2DMAP_SCENE_CreateTextOam(u8 *p, int i, int a2, int a3, int a4)
 {
     void *bank,*msg,*bmp;
     struct Param q;

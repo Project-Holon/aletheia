@@ -1,5 +1,5 @@
 /*
- * function: func_021E88B0
+ * function: WIFIBATTLEMATCH_UTIL_CreateMenu
  * address: 0x021E88B0
  * packet: pkt_ov177_021E88B0
  * region: ov177
@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
@@ -45,13 +45,13 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *BMP_MENUWORK_Create(u32,u16);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *BMP_MENULIST_Create(Config *,u16,u16,u16);
 extern void func_02020CF8(struct Obj *p, int heap);
 extern void func_02020D10(u8 *p, u32 v);
-Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
+Work *WIFIBATTLEMATCH_UTIL_CreateMenu(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
 {
     Work *out;
     void *q;
@@ -66,7 +66,7 @@ Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
     q=out->win;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    func_020409B4(BMP_WIN_GetBgLayer(q));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
     out->win2=out->win;
     out->flag=0;
     out->entries=BMP_MENUWORK_Create(p->count,heap);

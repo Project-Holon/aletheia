@@ -16,7 +16,7 @@
  *   d_021DA710 0x021DA710 data a4
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
@@ -35,7 +35,7 @@ struct BgTemplate {
 extern const struct BgTemplate d_021DA690, d_021DA6B0, d_021DA6D0, d_021DA6F0, d_021DA710;
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern void BG_SYS_FreeSlot(u32);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_SetVisibleLayer(int, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32, u32, u32, u32);
@@ -46,25 +46,25 @@ void GSYNC_MENU_InitBgLayers(char *a0)
     b[4] = d_021DA690;
     BG_SYS_InitBgLayer(0, &b[4], 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     BG_SYS_SetVisibleLayer(0, 0);
     func_02040588(0, 1);
     b[3] = d_021DA6B0;
     BG_SYS_InitBgLayer(4, &b[3], 0);
     func_02040588(4, 1);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     b[2] = d_021DA6D0;
     BG_SYS_InitBgLayer(5, &b[2], 0);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 32, 32, 17);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     func_02040588(5, 1);
     b[1] = d_021DA6F0;
     BG_SYS_InitBgLayer(6, &b[1], 0);
     func_02040588(6, 1);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     b[0] = d_021DA710;
     BG_SYS_InitBgLayer(7, &b[0], 0);
     func_02040588(7, 1);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }

@@ -21,16 +21,16 @@
  *   current_time     0x0217f264  arm
  *   sendto           0x0217eca4  arm
  *   FIFOAddRear      0x0219d4b4  arm
- *   g_021A80E8       0x021a80e8  data
- *   g_021A80F8       0x021a80f8  data
+ *   gSbQueryBasicInfo       0x021a80e8  data
+ *   gSbQueryStatus       0x021a80f8  data
  *   SocketStartUp    0x0217f25c  arm
  *   socket           0x0217eb18  arm
  *   FIFOClear        0x0219d5b0  arm
  *   __GSIACResult    0x021acef8  data
  *   closesocket      0x0217eb2c  arm
  *   QEStartQuery  0x0219D5C4  arm  ov009
- *   g_021A7C90  0x021A7C90  data
- *   g_021A8104  0x021A8104  data
+ *   gQr2RegKeys  0x021A7C90  data
+ *   gSbQuerySplitNum  0x021A8104  data
  *   atoi  0x020964E0  arm
  *   FIFORemove  0x0219D544  arm  ov009
  *   NTSLengthSB  0x0219F978  arm  ov009
@@ -42,7 +42,7 @@
  *   current_time  0x0217F264  arm  ov009
  *   strstr                   0x02094b20  arm
  *   SBServerParseKeyVals     0x0219e33c  arm
- *   g_021A8110               0x021a8110  data
+ *   gSbQueryFinal               0x021a8110  data
  *   CanReceiveOnSocket       0x0217ef50  arm
  *   recvfrom                 0x0217ec60  arm
  *   ParseSingleQR2Reply      0x0219d9d8  arm
@@ -95,12 +95,12 @@ int ParseSingleICMPReply(SBQueryEngine *engine, SBServer *server, char *data, in
 void SBQueryEngineThink(SBQueryEngine *engine);
 void SBQueryEngineAddQueryKey(SBQueryEngine *engine, unsigned char key);
 void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
-extern unsigned char g_021A80E8[];
-extern unsigned char g_021A80F8[];
+extern unsigned char gSbQueryBasicInfo[];
+extern unsigned char gSbQueryStatus[];
 extern int __GSIACResult;
-extern char *g_021A7C90[];
-extern char g_021A8104[];
-extern char g_021A8110[];
+extern char *gQr2RegKeys[];
+extern char gSbQuerySplitNum[];
+extern char gSbQueryFinal[];
 
 
 
@@ -254,12 +254,12 @@ static void QEStartQuery(SBQueryEngine *engine, SBServer *server)
 
     if (server->state & 4)
     {
-        __memcpy(queryBuffer, g_021A80E8, 13);
+        __memcpy(queryBuffer, gSbQueryBasicInfo, 13);
         queryLen = 13;
     }
     else
     {
-        __memcpy(queryBuffer, g_021A80F8, 8);
+        __memcpy(queryBuffer, gSbQueryStatus, 8);
         queryLen = 8;
     }
 
@@ -399,14 +399,14 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
             dlen = NTSLengthSB(data, len);
             if (dlen < 0)
                 break;
-            if (!qr2_internal_is_master_only_key(g_021A7C90[engine->serverkeys[i]]))
-                func_0219E01C(server, g_021A7C90[engine->serverkeys[i]], data);
+            if (!qr2_internal_is_master_only_key(gQr2RegKeys[engine->serverkeys[i]]))
+                func_0219E01C(server, gQr2RegKeys[engine->serverkeys[i]], data);
             data += dlen;
             len -= dlen;
         }
         server->state |= 0x01 | 0x40;
     } else {
-        if (*data && strncmp((const u8 *)g_021A8104, (const u8 *)data, 8) == 0) {
+        if (*data && strncmp((const u8 *)gSbQuerySplitNum, (const u8 *)data, 8) == 0) {
             SBServerParseQR2FullKeysSplit(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;
@@ -427,7 +427,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
 static void ParseSingleGOAReply(SBQueryEngine *engine,
                                 SBServer *server, char *data, int len)
 {
-    int isfinal = strstr(data, g_021A8110) != 0;
+    int isfinal = strstr(data, gSbQueryFinal) != 0;
     unsigned char flags;
 
     SBServerParseKeyVals(server, data);

@@ -21,14 +21,14 @@
  *       --func PROCSYS_FreeProcWork --addr 0x020315D4 --cc 1.1p1
  */
 
-struct S020315D4 {
+struct Proc {
     char  pad[0x14];
     void *field14;
 };
 
 extern void ENV_SetResourceSet(void *p);
 
-void PROCSYS_FreeProcWork(struct S020315D4 *p)
+void PROCSYS_FreeProcWork(struct Proc *p)
 {
     ENV_SetResourceSet(p->field14);
     p->field14 = 0;

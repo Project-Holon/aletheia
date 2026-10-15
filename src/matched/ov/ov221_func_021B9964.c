@@ -24,7 +24,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -63,7 +63,7 @@ extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -95,7 +95,7 @@ void CHIHOU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
         BMP_Clear(BMP_WIN_GetBmp(p->ptr[i]), 0);
         BMP_WIN_TransferChars(p->ptr[i]);
     }
-    ws = (u32)GF_FONT_Create_EC64(p->heap);
+    ws = (u32)WORDSET_CreateDefault(p->heap);
     t = (u32)func_02045EC0(p->bank, 0);
     x = (u32)STRBUF_Create(0x20, p->heap);
     WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);

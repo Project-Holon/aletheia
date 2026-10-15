@@ -1,5 +1,5 @@
 /*
- * function: func_021BE430
+ * function: INTRO_CMD_CmdWaitInput
  * address:  0x021BE430
  * packet:   pkt_021BE430
  * region:   ov204
@@ -23,7 +23,7 @@ typedef signed char    s8;
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 
-u32 func_021BE430(void)
+u32 INTRO_CMD_CmdWaitInput(void)
 {
     if (TOUCHPANEL_GetTrg() != 0 || KEY_GetTrg() != 0) {
         return 1;

@@ -18,9 +18,9 @@
  *   strncpy        0x02094860  arm
  *   strtoul        0x02095EAC  arm
  *   DWCi_MatchGPRecvBuddyMsgCallback  0x0216EAB8  arm  ov009
- *   g_021A2030     0x021A2030  data
- *   g_021A2038     0x021A2038  data
- *   g_021AA878     0x021AA878  data
+ *   gDwcPrefixGpcm     0x021A2030  data
+ *   gDwcPrefixMat     0x021A2038  data
+ *   gDwcGlobalState     0x021AA878  data
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -41,9 +41,9 @@ typedef struct {
     volatile u8 mode;   /* volatile: the image reloads it for each compare */
 } Ctl;
 
-extern char g_021A2030[];
-extern char g_021A2038[];
-extern struct DwcGlobal g_021AA878;
+extern char gDwcPrefixGpcm[];
+extern char gDwcPrefixMat[];
+extern struct DwcGlobal gDwcGlobalState;
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern char *strchr(const char *s, int c);
 extern char *strncpy(char *d, const char *s, unsigned long n);
@@ -57,9 +57,9 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
     char version[12] = {0};
 
     message = arg->message;
-    if (memcmp(message, g_021A2030, strlen(g_021A2030)) != 0)
+    if (memcmp(message, gDwcPrefixGpcm, strlen(gDwcPrefixGpcm)) != 0)
         return;
-    message += strlen(g_021A2030);
+    message += strlen(gDwcPrefixGpcm);
     len = strchr(message, 'v') - message;
     strncpy(version, message, len);
     if (len > 10)
@@ -67,13 +67,13 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
     if (strtoul(version, 0, 10) != 90)
         return;
     message += len + 1;
-    if (memcmp(message, g_021A2038, strlen(g_021A2038)) != 0)
+    if (memcmp(message, gDwcPrefixMat, strlen(gDwcPrefixMat)) != 0)
         return;
-    if (((Ctl *)g_021AA878.st)->state != 4) {
-        if (((Ctl *)g_021AA878.st)->state != 5)
+    if (((Ctl *)gDwcGlobalState.st)->state != 4) {
+        if (((Ctl *)gDwcGlobalState.st)->state != 5)
             return;
-        if (((Ctl *)g_021AA878.st)->mode != 2 && ((Ctl *)g_021AA878.st)->mode != 3)
+        if (((Ctl *)gDwcGlobalState.st)->mode != 2 && ((Ctl *)gDwcGlobalState.st)->mode != 3)
             return;
     }
-    DWCi_MatchGPRecvBuddyMsgCallback(pconnection, arg->profile, message + strlen(g_021A2038));
+    DWCi_MatchGPRecvBuddyMsgCallback(pconnection, arg->profile, message + strlen(gDwcPrefixMat));
 }

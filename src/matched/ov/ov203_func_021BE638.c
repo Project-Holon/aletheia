@@ -1,5 +1,5 @@
 /*
- * function: func_021BE638
+ * function: DEMO3D_ENGINE_SetMode
  * address: 0x021BE638
  * packet: pkt_ov203_021BE638
  * region: ov203
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 
-void func_021BE638(char *p,int a) { ((struct Obj25317 *)p)->f8=a; }
+void DEMO3D_ENGINE_SetMode(char *p,int a) { ((struct Obj25317 *)p)->f8=a; }

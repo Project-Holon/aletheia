@@ -1,5 +1,5 @@
 /*
- * function: func_021F0F44
+ * function: BEACON_VIEW_GetEntry
  * address: 0x021F0F44
  * packet: pkt_ov032_021F0F44
  * region: ov032
@@ -12,7 +12,7 @@
  */
 
 typedef unsigned char u8;
-u8 *func_021F0F44(u8 *p, int a)
+u8 *BEACON_VIEW_GetEntry(u8 *p, int a)
 {
     int i;
     for (i = 0; i < 5; i++) {

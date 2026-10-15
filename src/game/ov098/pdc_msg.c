@@ -23,7 +23,7 @@
  *   CONFIG_GetTextSpeed 0x02008374 thumb
  *   MSG_SPEED_GetWaitForSpeed 0x02013080 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   func_020496E4 0x020496E4 arm
@@ -31,14 +31,14 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   gPdcMsgSrcName 0x021B6E74 data a4
  *   gPdcMsgBgTemplate 0x021B6E24 data a4
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_02045EC0  0x02045EC0  arm
@@ -76,7 +76,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern u32 CONFIG_GetTextSpeed(struct Config *config);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 textSpeed);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 func_020496E4(u32, u32, u32, u32, u32, u16);
@@ -84,12 +84,12 @@ extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u3
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 charBase);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern void BMP_WIN_DrawFrame(struct BmpWin *window, u16 frameIndex, u32 palette);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void PRINTSYS_PrintStreamDelete(void *stream);
-extern void func_020403F4(int);
+extern void BG_SYS_FreeLayerBuf(int);
 extern void MSGDATA_Delete(struct MsgBank *msgBank);
 extern void BMP_WIN_Delete(struct BmpWin *window);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -149,7 +149,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     msg->font = font;
     msg->textSpeed = MSG_SPEED_GetWaitForSpeed(CONFIG_GetTextSpeed(config));
     msg->strbuf = STRBUF_Create(0x100, heapId);
-    msg->wordSet = GF_FONT_Create_EC64(heapId);
+    msg->wordSet = WORDSET_CreateDefault(heapId);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 32, 32, 17);
     BG_SYS_Init(1, 0, 1, 0);
     frameIndex = func_020496E4(11, 89, 1, 0, 0, msg->heapId);
@@ -157,7 +157,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
     msg->window = BMP_WIN_Create(1, 1, 19, 30, 4, 0, 0);
     BMP_WIN_MakeScreen(msg->window);
     BMP_WIN_DrawFrame(msg->window, frameIndex, 0);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     func_02040588(1, 0);
     PDC_MSG_InitBlend(&msg->blend, msg->window);
     return msg;
@@ -168,7 +168,7 @@ void PDC_MSG_Delete(struct PdcMsg *msg)
     STRBUF_Delete(msg->strbuf);
     WORDSET_DeleteStrbufED04(msg->wordSet);
     if (msg->printStream) PRINTSYS_PrintStreamDelete(msg->printStream);
-    func_020403F4(1);
+    BG_SYS_FreeLayerBuf(1);
     MSGDATA_Delete(msg->msgBank);
     BMP_WIN_Delete(msg->window);
     func_020307B0(msg);
@@ -318,7 +318,7 @@ void PDC_MSG_StartPrint(struct PdcMsg *msg, int waitFrames)
         PRINTSYS_Print(BMP_WIN_GetBmp(msg->window), 0, 0,
                       msg->strbuf, msg->font);
         BMP_WIN_MakeScreen(msg->window);
-        func_020409B4(1);
+        BG_SYS_PushTile(1);
         BMP_WIN_TransferChars(msg->window);
         msg->instant = 1;
     }

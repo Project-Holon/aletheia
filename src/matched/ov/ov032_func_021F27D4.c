@@ -1,5 +1,5 @@
 /*
- * function: func_021F27D4
+ * function: BEACON_VIEW_InitWorkFromSave
  * address:  0x021F27D4
  * packet:   pkt_ov032_021F27D4
  * region:   ov032
@@ -26,7 +26,7 @@
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  *
  * symbols:
- *   func_021F27D4  0x021F27D4  thumb
+ *   BEACON_VIEW_InitWorkFromSave  0x021F27D4  thumb
  *   GAME_DATA_GetItemUseWork  0x02012A54  thumb
  *   BEACON_STATUS_GetLog  0x020275A8  thumb
  *   GAME_BEACON_ACCESSOR_TableGetCount  0x02165B04  thumb  ov010
@@ -82,7 +82,7 @@ extern u8 *GAME_BEACON_ACCESSOR_AllocInfo(u32 heap);
 extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void BEACON_VIEW_CountDifferingRecords(u8 *p, u8 *a, u8 *b);
 
-void func_021F27D4(u8 *p)
+void BEACON_VIEW_InitWorkFromSave(u8 *p)
 {
     u32 sv;
     u32 s2;

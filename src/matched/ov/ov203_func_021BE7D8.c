@@ -1,5 +1,5 @@
 /*
- * function: func_021BE7D8
+ * function: DEMO3D_ENGINE_GetAnimeKind
  * address: 0x021BE7D8
  * packet: pkt_ov203_021BE7D8
  * region: ov203
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE79C 0x021BE79C thumb ov203
+ *   DEMO3D_ENGINE_ClampAnimeId 0x021BE79C thumb ov203
  *   d_021C186C 0x021C186C data a4
  */
 typedef unsigned char u8;
@@ -17,6 +17,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
-extern unsigned func_021BE79C(unsigned);
+extern unsigned DEMO3D_ENGINE_ClampAnimeId(unsigned);
 extern char d_021C186C[];
-u8 func_021BE7D8(unsigned x) { return *(u32 *)(d_021C186C+func_021BE79C(x)*20); }
+u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x) { return *(u32 *)(d_021C186C+DEMO3D_ENGINE_ClampAnimeId(x)*20); }

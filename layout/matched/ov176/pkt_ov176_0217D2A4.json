@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0217D2A4",
-    "func_0217D2B0"
+    "DIGITALCARDCHECK_IsRecord3DoneA",
+    "DIGITALCARDCHECK_IsRecord3DoneB"
+   ],
+   "addresses": [
+    "0x0217D2A4",
+    "0x0217D2B0"
    ]
   }
  ]

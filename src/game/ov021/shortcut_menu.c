@@ -40,7 +40,7 @@
  *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   func_02040588  0x02040588  arm
  *   gShortcutMenuFileName     0x021DE498  data  ov021  a1
  *   gShortcutMenuBgTemplate     0x021DAA60  data  a4
@@ -55,7 +55,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
@@ -64,7 +64,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020202FC  0x020202FC  thumb
  *   func_02020324  0x02020324  thumb
@@ -265,7 +265,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -277,7 +277,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_02030EAC(struct Node *n);
@@ -286,7 +286,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
-extern void func_020409B4(unsigned int index);
+extern void BG_SYS_PushTile(unsigned int index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_02020350(struct Obj *obj, u32 what);
 extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
@@ -396,12 +396,12 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     func_0207D63C(0x04000050, 2, 1, 12, 4);
     switch (mode) {
     case 0:
-        func_02040618(1, 3, -0xC0);
+        BG_SYS_FillScrollArea(1, 3, -0xC0);
         func_02040588(1, 0);
         menu->state = 0;
         break;
     case 1:
-        func_02040618(1, 3, 0);
+        BG_SYS_FillScrollArea(1, 3, 0);
         func_02040588(1, 1);
         menu->state = 3;
         break;
@@ -428,7 +428,7 @@ void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
     CLACT_ReleaseCellAnim(menu->cellResId);
     CLACT_DeleteUnit(menu->actorBank);
     BG_SYS_SetTileUnit(1, 1, 0);
-    func_020403F4(1);
+    BG_SYS_FreeLayerBuf(1);
     func_020307B0(menu);
 }
 
@@ -480,7 +480,7 @@ void SHORTCUT_MENU_Main(ShortcutMenu *menu)
         menu->state = 5;
         break;
     case 5:
-        func_02040618(1, 3, menu->scrollFrame * 0xC0 / 4 - 0xC0);
+        BG_SYS_FillScrollArea(1, 3, menu->scrollFrame * 0xC0 / 4 - 0xC0);
         if ((menu->scrollFrame)-- == 0) {
             menu->state = 0;
         }
@@ -556,7 +556,7 @@ void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct Ms
     menu->window = window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer(window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
     menu->printWindow = menu->window;
     menu->printBusy = 0;
     SHORTCUT_MENU_CreateList(menu, savedState[0], savedState[1], heapId);
@@ -877,7 +877,7 @@ void SHORTCUT_MENU_ScrollStep(void *task, ShortcutMenu *menu)
         offset = 0;
         menu->scrollDone = 1;
     }
-    func_02040618(1, 3, offset);
+    BG_SYS_FillScrollArea(1, 3, offset);
 }
 
 /*

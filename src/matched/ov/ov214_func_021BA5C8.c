@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5C8
+ * function: BTL_REC_SEL_PrintList
  * address: 0x021BA5C8
  * packet: pkt_ov214_021BA5C8
  * region: ov214
@@ -12,7 +12,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   func_021BA4E8 0x021BA4E8 thumb ov214
+ *   BTL_REC_SEL_ShowWindows 0x021BA4E8 thumb ov214
  */
 #include "../include/Obj02552.h"
 typedef unsigned short u16;
@@ -25,8 +25,8 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintQueColor(void*,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 struct S;
-extern void func_021BA4E8(void *unused, struct S *p);
-void func_021BA5C8(void*obj,char*p)
+extern void BTL_REC_SEL_ShowWindows(void *unused, struct S *p);
+void BTL_REC_SEL_PrintList(void*obj,char*p)
 {
     void*h;
     h=func_02045EC0(*(void* *)&((struct Obj02552 *)p)->f58,19);
@@ -37,5 +37,5 @@ void func_021BA5C8(void*obj,char*p)
     PRINTSYS_PrintQueColor(*(void* *)&((struct Obj02552 *)p)->f10,(unsigned)BMP_WIN_GetBmp(*(void* *)&((struct Obj02552 *)p)->f90),4,1,(unsigned)h,((struct Obj02552 *)p)->f8,0x440);
     STRBUF_Delete(h);
     ((struct Obj02552 *)p)->fA0=0;
-    func_021BA4E8(obj,(struct S *)p);
+    BTL_REC_SEL_ShowWindows(obj,(struct S *)p);
 }

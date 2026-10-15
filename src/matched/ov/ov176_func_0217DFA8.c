@@ -1,5 +1,5 @@
 /*
- * function: func_0217DFA8
+ * function: LIVEBATTLEMATCH_IRC_DeleteWindow
  * address:  0x0217DFA8
  * packet:   pkt_0217DFA8
  * region:   ov176
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E89D0  0x021E89D0  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu  0x021E89D0  thumb  ov177
  */
 #include "../include/Obj00348.h"
 
-extern void func_021E89D0(int);
+extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(int);
 
-void func_0217DFA8(int *p)
+void LIVEBATTLEMATCH_IRC_DeleteWindow(int *p)
 {
     if (*(int *)&((struct Obj00348 *)p)->fC) {
-        func_021E89D0(*(int *)&((struct Obj00348 *)p)->fC);
+        WIFIBATTLEMATCH_UTIL_DeleteMenu(*(int *)&((struct Obj00348 *)p)->fC);
         *(int *)&((struct Obj00348 *)p)->fC = 0;
     }
 }

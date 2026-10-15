@@ -22,11 +22,11 @@
  *   gpiSetErrorString  0x02193734  arm   ov009
  *   gsimalloc  0x0217EAB0  arm   ov009
  *   gpiBuddyDeletedLocally  0x02189300  arm   ov009
- *   g_021A4450     0x021A4450  data
- *   g_021A4280     0x021A4280  data
- *   g_021A4458     0x021A4458  data
- *   g_021A4460     0x021A4460  data
- *   g_021A42BC     0x021A42BC  data
+ *   gGpiBuddyKeyBdy     0x021A4450  data
+ *   gGpiBuddyErrorUnexpectedData     0x021A4280  data
+ *   gGpiBuddyKeyList     0x021A4458  data
+ *   gGpiBuddyComma     0x021A4460  data
+ *   gGpiBuddyErrorOutOfMemory     0x021A42BC  data
  *
  * The 28-byte byte-store zero loop after gsimalloc is __builtin__clear on
  * the new GPIBuddyStatus (no memset call in the object).
@@ -63,11 +63,11 @@ extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern void gpiSetErrorString(void **connection, char *errorString);
 extern void *gsimalloc(unsigned long size);
 extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
-extern char g_021A4450[];
-extern char g_021A4280[];
-extern char g_021A4458[];
-extern char g_021A4460[];
-extern char g_021A42BC[];
+extern char gGpiBuddyKeyBdy[];
+extern char gGpiBuddyErrorUnexpectedData[];
+extern char gGpiBuddyKeyList[];
+extern char gGpiBuddyComma[];
+extern char gGpiBuddyErrorOutOfMemory[];
 
 int gpiProcessRecvBuddyList(void **connection, char *input)
 {
@@ -85,16 +85,16 @@ int gpiProcessRecvBuddyList(void **connection, char *input)
     if (gpiCheckForError(connection, input, 1))
         return 4;
 
-    if (!gpiValueForKeyWithIndex(input, g_021A4450, &index, buffer, sizeof(buffer))) {
-        gpiSetError(connection, 1, g_021A4280);
+    if (!gpiValueForKeyWithIndex(input, gGpiBuddyKeyBdy, &index, buffer, sizeof(buffer))) {
+        gpiSetError(connection, 1, gGpiBuddyErrorUnexpectedData);
         gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     num = atoi(buffer);
 
-    str = strstr(input, g_021A4458);
+    str = strstr(input, gGpiBuddyKeyList);
     if (str == 0) {
-        gpiSetError(connection, 1, g_021A4280);
+        gpiSetError(connection, 1, gGpiBuddyErrorUnexpectedData);
         gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
@@ -107,8 +107,8 @@ int gpiProcessRecvBuddyList(void **connection, char *input)
             buffer[j] = '\0';
             index += j;
         } else {
-            if (!gpiValueForKeyWithIndex(input, g_021A4460, &index, buffer, sizeof(buffer))) {
-                gpiSetError(connection, 1, g_021A4280);
+            if (!gpiValueForKeyWithIndex(input, gGpiBuddyComma, &index, buffer, sizeof(buffer))) {
+                gpiSetError(connection, 1, gGpiBuddyErrorUnexpectedData);
                 gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
@@ -117,12 +117,12 @@ int gpiProcessRecvBuddyList(void **connection, char *input)
         profileid = atoi(buffer);
         profile = gpiProfileListAdd(connection, profileid);
         if (profile == 0) {
-            gpiSetErrorString(connection, g_021A42BC);
+            gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
             return 1;
         }
         profile->buddyStatus = (GPIBuddyStatus *)gsimalloc(sizeof(GPIBuddyStatus));
         if (profile->buddyStatus == 0) {
-            gpiSetErrorString(connection, g_021A42BC);
+            gpiSetErrorString(connection, gGpiBuddyErrorOutOfMemory);
             return 1;
         }
         __builtin__clear(profile->buddyStatus, sizeof(GPIBuddyStatus));

@@ -12,10 +12,10 @@
  * sdk:      GSMD5Print (md5c)
  *
  * symbols:
- *   g_021A1A40  0x021A1A40 data
+ *   gMd5cHexDigits  0x021A1A40 data
  */
 
-extern char g_021A1A40[];
+extern char gMd5cHexDigits[];
 
 void GSMD5Print(unsigned char * digest, char * output)
 {
@@ -23,8 +23,8 @@ void GSMD5Print(unsigned char * digest, char * output)
 
     for (i = 0; i < 16; i++)
     {
-        output[i * 2] = g_021A1A40[digest[i] / 16];
-        output[i * 2 + 1] = g_021A1A40[digest[i] % 16];
+        output[i * 2] = gMd5cHexDigits[digest[i] / 16];
+        output[i * 2 + 1] = gMd5cHexDigits[digest[i] % 16];
     }
     output[32] = 0;
 }

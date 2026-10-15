@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BA4
+ * function: MANUAL_COMMON_DeleteMenuTable
  * address: 0x021B9BA4
  * packet: pkt_ov225_021B9BA4
  * region: ov225
@@ -14,4 +14,4 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-void func_021B9BA4(char *p) {func_020307B0(((struct Obj08466 *)p)->fC);func_020307B0(((struct Obj08466 *)p)->f8);func_020307B0(((struct Obj08466 *)p)->f4);func_020307B0(((struct Obj08466 *)p)->f0);func_020307B0(p);}
+void MANUAL_COMMON_DeleteMenuTable(char *p) {func_020307B0(((struct Obj08466 *)p)->fC);func_020307B0(((struct Obj08466 *)p)->f8);func_020307B0(((struct Obj08466 *)p)->f4);func_020307B0(((struct Obj08466 *)p)->f0);func_020307B0(p);}

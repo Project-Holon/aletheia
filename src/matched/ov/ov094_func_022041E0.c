@@ -11,7 +11,7 @@
  *   func_020498F4 0x020498F4 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_SetUnitDrawEnable 0x0204B22C arm
  *   BTLV_INPUT_RestoreWindowPalette 0x02206A58 thumb ov094
  *   BTLV_INPUT_StartBgWipeTask 0x022044C0 thumb ov094
@@ -45,7 +45,7 @@ struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 struct Obj;
 extern void BTLV_INPUT_RestoreWindowPalette(char *p);
@@ -62,7 +62,7 @@ void BTLV_INPUT_ListScreenOpenInstantTask(void *h, Ctx *c)
         func_020498F4((void *)c->main->f48, 0x64, 4, 0, 0, 0, c->main->h240);
         BMP_WIN_MakeScreen(c->main->obj228);
         BTLV_INPUT_RestoreWindowPalette((char *)c->main);
-        func_020409B4(6);
+        BG_SYS_PushTile(6);
         BTLV_INPUT_StartBgWipeTask(c->main, d_0220A4EC[c->main->mode].a, d_0220A4EC[c->main->mode].b, 8, 8);
         BTLV_INPUT_StartPaletteCycleTask(c->main, 0, 0);
         BTLV_INPUT_StartPaletteFlashTask(c->main, 0);

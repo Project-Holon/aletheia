@@ -13,6 +13,7 @@
  *
  * symbols:
  *   DWCi_StopLogin  0x0216A3B8  arm  ov009
+ *   gDwcGlobalState  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -38,7 +39,7 @@ typedef struct DwcState {
 
 typedef struct DwcGlobal DwcGlobal;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 extern void DWCi_StopLogin(int error, int errorCode);
 

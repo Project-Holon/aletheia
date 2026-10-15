@@ -25,7 +25,7 @@
  *   CTVT_CALL_PrintTimeMessage  0x021BD134  thumb  ov172
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -58,7 +58,7 @@ extern u32 COMM_TVT_SYS_GetHostBusy(void *c);
 extern void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, u32 msgId);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *o, unsigned int k);
@@ -91,7 +91,7 @@ void CTVT_CALL_Init(void *a0, u8 *p)
     if (*(u32 *)(o + 4) != 2 && *(u32 *)(o + 4) != 3 && COMM_TVT_SYS_GetHostBusy(a0) == 0) {
         func_02049658((void *)owner, 0xb, 4, 0, 0xa << 10, 0, v);
         func_020498F4((void *)owner, 0x12, 4, 0, 0, 0, v);
-        func_020409B4(4);
+        BG_SYS_PushTile(4);
     }
     d.b = 3;
     for (i = 0; i < 15; i++) {

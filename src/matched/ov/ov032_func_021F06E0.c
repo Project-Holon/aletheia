@@ -14,7 +14,7 @@
  *   GAME_BEACON_ACCESSOR_GetLanguage  0x02165C50  thumb  ov010
  *   BEACON_VIEW_AddHistoryId  0x021F079C  thumb  ov032
  *   _u32_div_f     0x0209C2B0  arm
- *   func_021F0820  0x021F0820  thumb  ov032
+ *   BEACON_VIEW_HasRepeatedDigits  0x021F0820  thumb  ov032
  */
 #include "../include/Obj00007.h"
 
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern void BEACON_VIEW_CountDifferingRecords(u8 *p, u8 *a, u8 *b);
 extern u32 GAME_BEACON_ACCESSOR_GetLanguage(u32 x);
 extern void BEACON_VIEW_AddHistoryId(u8 *p, int k);
-extern int func_021F0820(u32 x);
+extern int BEACON_VIEW_HasRepeatedDigits(u32 x);
 
 void BEACON_VIEW_UpdateAchievements(u8 *p, u32 x, int y)
 {
@@ -43,7 +43,7 @@ void BEACON_VIEW_UpdateAchievements(u8 *p, u32 x, int y)
         BEACON_VIEW_AddHistoryId(p, 4);
     if (p[0x58] != v[0] && v[0] == 0x14)
         BEACON_VIEW_AddHistoryId(p, 5);
-    if (func_021F0820(((struct Obj00007 *)p)->f2D4) != 0)
+    if (BEACON_VIEW_HasRepeatedDigits(((struct Obj00007 *)p)->f2D4) != 0)
         BEACON_VIEW_AddHistoryId(p, 6);
     p[0x58] = v[0];
     p[0x59] = v[1];

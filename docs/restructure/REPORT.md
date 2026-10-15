@@ -7,17 +7,18 @@ frozen per-function record. Function renaming ran in the cleanup phase after thi
 ## Where it stands
 
 TUs that are one file (`python tools/tucount.py`; counted from the files, a
-TU split at a real boundary counts once as split):
+TU split at a real boundary counts once as split). Current figures at the wave 10
+commit (2026-10-15):
 
 | Area | Whole | Percent |
 |---|---|---|
-| ARM9 | 397 / 398 | 99.7% |
-| Overlays | 1371 / 1374 | 99.8% |
+| ARM9 | 332 / 332 | 100% |
+| Overlays | 828 / 828 | 100% |
 | twl | 48 / 48 | 100% |
 | ITCM | 4 / 4 | 100% |
-| **Total** | **1820 / 1824** | **99.8%** |
+| **Total** | **1212 / 1212** | **100%** |
 
-Round 17 drops the old 1816 estimate (the user, 2026-10-12: the estimate may
+Round 17 dropped the old 1816 estimate (the user, 2026-10-12: the estimate may
 move freely with evidence). The figure is now the file count itself.
 
 Denominator change in round 16 (+2 TUs): arm9 `app_keycursor.c` (out of
@@ -193,14 +194,44 @@ Current report: `gamegaps.tsv` / `gamegaps_summary.txt` in this folder.
   all 29 of unit_0273042C, func_02701AA0, func_02731AF0, and 3 in unit_0272E9E8
   (`src/matched/twl*`, shard `twl_sys` re-verified).
 
-### 2. TUs still split (20)
-List: `split_tus.tsv`; blockers in each TU's `MERGE.md`.
+### 2. TUs still split (0)
+List: `split_tus.tsv` is empty; no `src/game` TU has a `_pNN.c` part or a member
+folder. `tucount.py` reports 1212 / 1212, split 0.
+- FIX1 (2026-10-15): arm9 `ui` closed. `ui_p02.c` (0x020353B0..0x02035750,
+  17 functions) was merged into one whole `ui.c` (0x02034E24..0x02035750, 54
+  functions, byte-exact; `ui_p02.c` deleted). The merge needed one `gUiState`
+  view (`struct UiCtx *ctx` at +0x00, the input-bounds callback at +0x04).
+- FIX1 (2026-10-15): ov194 `namein_graphic` merge REFUSED, not byte-exact.
+  The p01/p02/p03 union (0x021F1440..0x021F5304, 143 functions) compiles but
+  DIFFs by 33 bytes in 8 runs: the p01->p02 seam pool word `0x021F5780` at
+  0x021F1D50 and a +4 byte literal-pool shift in p01's last function
+  (NAMEIN_GRAPHIC_UpdateCursor) that moves p02's function addresses by +4.
+  Merging p01+p02 alone also DIFFs, so the seam is a real boundary, not a cut
+  artefact. See S/FIX1/report.md.
+- FIX3 (2026-10-15): ov194 `namein_graphic` split RESOLVED by splitting, not
+  merging (FIX1's negative stands). The `__FILE__` anchors name three originals
+  inside `namein_graphic_p03.c`, so the three parts were cut at the real
+  boundaries into whole files (see S/FIX3/report.md). The range
+  0x021F1440..0x021F5304 is now five whole TUs, each byte-exact:
+  - `namein_graphic_main.c` 0x021F1440..0x021F1D58, 12 fns (was `_p01`).
+  - `namein_graphic_field.c` 0x021F1D58..0x021F2F8C, 36 fns (was `_p02`).
+  - `namein_graphic.c` 0x021F2F8C..0x021F4D20, 69 fns (anchor
+    `namein_graphic.c` at function 0x021F4AE4).
+  - `namein_data.c` 0x021F4D20..0x021F513C, 23 fns (anchor `namein_data.c`
+    at function 0x021F4D3C).
+  - `nsbtx_to_clwk.c` 0x021F513C..0x021F5304, 3 fns (anchor
+    `nsbtx_to_clwk.c` at function 0x021F51E4).
+  The cuts inside `_p03` are at function starts and each piece is byte-exact;
+  the exact original extents of `namein_graphic.c` and `namein_data.c` are not
+  fully pinned (the anchors sit on arbitrary allocating functions, not
+  necessarily the first), so the two cut addresses carry an evidence gap
+  recorded in S/FIX3/open_items.tsv.
 - Real boundaries (evidence in MERGE.md): arm9 button_man (compiler change,
   arm7tdmi part), unit_02061B2C and unit_02064D70 (compiler change),
   unit_02060468 (two library objects), unit_020911D4 (libc and fdlibm files,
   interleaved runtime members); ov016 unit_021B97A8, unit_021BA2F8 (static vs
   extern helper, -ipa settings); ov021 field_effect (second entry label);
-  ov067 ui_scene, ov194 namein_graphic, ov021 fld_trade, ov038 unit_021F36C0
+  ov067 ui_scene, ov021 fld_trade, ov038 unit_021F36C0
   (callers compiled against a different declaration than the callee).
 - Waiting on an unmatched function: ov013 unit_021B3018 (0x021B3084, 6 bytes,
   alias set), ov070 itemmenu (0x021B86B8, 44 bytes, register colouring).

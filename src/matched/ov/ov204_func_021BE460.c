@@ -1,5 +1,5 @@
 /*
- * function: func_021BE460
+ * function: INTRO_CMD_CmdSub
  * address: 0x021BE460
  * packet: pkt_ov204_021BE460
  * region: ov204
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C09D4 0x021C09D4 data a4
+ *   gIntroCmdHandlerTable 0x021C09D4 data a4
  */
-extern int (*const d_021C09D4[])(char *,int);
-int func_021BE460(char *p,int *state,int *q){d_021C09D4[q[0]](p,q[1]);return 1;}
+extern int (*const gIntroCmdHandlerTable[])(char *,int);
+int INTRO_CMD_CmdSub(char *p,int *state,int *q){gIntroCmdHandlerTable[q[0]](p,q[1]);return 1;}

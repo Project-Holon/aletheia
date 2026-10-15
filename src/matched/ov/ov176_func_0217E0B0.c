@@ -1,5 +1,5 @@
 /*
- * function: func_0217E0B0
+ * function: LIVEBATTLEMATCH_IRC_StartSession
  * address: 0x0217E0B0
  * packet: pkt_ov176_0217E0B0
  * region: ov176
@@ -17,7 +17,7 @@
  *   d_0217E564 0x0217E564 data a4
  *   d_0217E630 0x0217E630 data a4
  *   d_0217E544 0x0217E544 data a4
- *   func_0217E524 0x0217E524 thumb ov176
+ *   LIVEBATTLEMATCH_IRC_OnFilter 0x0217E524 thumb ov176
  */
 struct Req;
 extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
@@ -30,8 +30,8 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern const unsigned d_0217E564[];
 extern int d_0217E630;
 extern const unsigned d_0217E544[];
-extern int func_0217E524(int a, int b);
-int func_0217E0B0(unsigned *p)
+extern int LIVEBATTLEMATCH_IRC_OnFilter(int a, int b);
+int LIVEBATTLEMATCH_IRC_StartSession(unsigned *p)
 {
     switch (*p) {
     case 0:
@@ -45,7 +45,7 @@ int func_0217E0B0(unsigned *p)
         break;
     case 2:
         GFL_NET_COMMAND_AddCommandTable(0x1F00, (u32)d_0217E544, 4, (u32)p);
-        IRCNET_SetFilter((int)func_0217E524);
+        IRCNET_SetFilter((int)LIVEBATTLEMATCH_IRC_OnFilter);
         *p = 3;
         break;
     case 3:

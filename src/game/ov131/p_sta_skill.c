@@ -17,7 +17,7 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -55,7 +55,7 @@
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -194,7 +194,7 @@ struct PStaSkillWork {
 /* Library functions: parameter names are guesses from the callers. */
 extern void func_020307B0(void *ptr);
 extern void CLACT_SetActorAnimSeq(struct Obj *obj, u16 animSeq);
-extern void func_020409B4(u32 bgLayer);
+extern void BG_SYS_PushTile(u32 bgLayer);
 extern struct Obj *CLACT_CreateActor(void *clunit, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, const StaOamActorPos *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorAutoAnim(struct Obj *obj, u32 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *obj, u32 visible);
@@ -219,7 +219,7 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void func_02041B6C(u32 bgLayer);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padMode, u32 flag);
 extern int TOUCHPANEL_GetTrg(void);
@@ -550,7 +550,7 @@ void P_STA_SKILL_HideStatsPage(PStatusWork *wk, PStaSkillWork *work)
     u8 i;
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_HideSlot(wk,work,&work->slot[i]);
     BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
     func_02041B6C(4);
     CLACT_SetActorDrawEnable(work->statsObj,0);
@@ -576,7 +576,7 @@ void P_STA_SKILL_ApplyStatsScreen(PStatusWork *wk, PStaSkillWork *work)
         win=work->win[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     }
     BG_SYS_DecodeTile(6,(u8 *)work->statsPlttData+12,((StaGraphicsFile *)work->statsPlttData)->dataSize);
     func_02041B6C(6);
@@ -613,7 +613,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
         win=work->win[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     }
     i=0;
     BG_SYS_PushTileSource(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize,0);
@@ -665,37 +665,37 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
     nature=func_02017E1C(pp,112,0);
     one=1;
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],110,25,one,15424);
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,160,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],words,119,89,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],117,93,one,1088);
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,161,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_HP_LABEL],words,118,121,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_ATTACK],111,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,one));
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,162,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_ATTACK],words,120,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_DEFENSE],112,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,2));
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,163,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_DEFENSE],words,121,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SP_ATTACK],113,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,3));
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,165,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SP_ATTACK],words,122,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SP_DEFENSE],114,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,4));
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,166,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SP_DEFENSE],words,123,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
     P_STATUS_PrintMsgToWin(wk,work->win[STA_SKILL_WIN_SPEED],115,one,one,P_STA_SKILL_GetNatureStatColor(wk,work,nature,5));
-    words=GF_FONT_Create_EC64(wk->heapId);
+    words=WORDSET_CreateDefault(wk->heapId);
     WORDSET_SetSlotNumber(words,0,func_02017E1C(pp,164,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(wk,work->win[STA_SKILL_WIN_SPEED],words,124,105,one,1088);
     WORDSET_DeleteStrbufED04(words);
@@ -763,7 +763,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     power=WAZA_TOOL_GetPower(moveId);
     if(power<=1) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 154, 87, one, 1088);
     else {
-        powerWords=GF_FONT_Create_EC64(wk->heapId);
+        powerWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(powerWords,0,power,3,one,one);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_SKILL_WIN_MOVE_POWER],powerWords,150,81,one,1088);
         WORDSET_DeleteStrbufED04(powerWords);
@@ -772,7 +772,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     accuracy=WAZA_TOOL_GetParam(moveId,4);
     if(WAZA_TOOL_IsAlwaysHit(moveId)==1 || accuracy==0) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_ACCURACY], 154, 87, 1, 1088);
     else {
-        accuracyWords=GF_FONT_Create_EC64(wk->heapId);
+        accuracyWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(accuracyWords,0,accuracy,3,1,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_SKILL_WIN_MOVE_ACCURACY],accuracyWords,151,81,1,1088);
         WORDSET_DeleteStrbufED04(accuracyWords);
@@ -852,7 +852,7 @@ void P_STA_SKILL_HideMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     u8 i;
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_HideSlot(wk,work,&work->slot[i]);
     BG_SYS_SetTileEntry(1,0,0,0,19,21,16);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
     func_02041B6C(4);
     CLACT_SetActorDrawEnable(work->statsObj,0);
@@ -1462,12 +1462,12 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
     MSGDATA_Delete(nameBank);
     if(moveId!=0) {
         P_STATUS_PrintMsg(wk,slot->nameBmp,135,13,17,1088);
-        ppWords=GF_FONT_Create_EC64(wk->heapId);
+        ppWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(ppWords,0,curPP,3,1,1);
         P_STATUS_PrintWordSetMsgRight(wk,slot->nameBmp,ppWords,136,57,17,1088);
         WORDSET_DeleteStrbufED04(ppWords);
         P_STATUS_PrintMsg(wk,slot->nameBmp,117,57,17,1088);
-        maxPPWords=GF_FONT_Create_EC64(wk->heapId);
+        maxPPWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(maxPPWords,0,maxPP,3,1,1);
         P_STATUS_PrintWordSetMsg(wk,slot->nameBmp,maxPPWords,141,61,17,1088);
         WORDSET_DeleteStrbufED04(maxPPWords);

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BCB98",
-    "func_021BCBA0"
+    "BEACON_DETAIL_GRA_VBlankClact",
+    "BEACON_DETAIL_GRA_ReadPtr"
+   ],
+   "addresses": [
+    "0x021BCB98",
+    "0x021BCBA0"
    ]
   }
  ]

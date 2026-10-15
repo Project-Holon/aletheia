@@ -14,7 +14,7 @@
  *
  * symbols:
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -34,7 +34,7 @@
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_0204BA00 0x0204BA00 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
@@ -112,7 +112,7 @@ struct NitroFileHeader;
 
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
@@ -152,7 +152,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_0204BA00(struct ClActor *a, const struct Cmd *cmd);
 
@@ -407,7 +407,7 @@ void GSYNC_DISP_Exit(GsyncDispWork *disp)
     CLACT_DeleteUnit(disp->clactUnit);
     CLACT_ExitSystem();
     BG_SYS_SetTileUnit(1,1,0); BG_SYS_SetTileUnit(6,1,0);
-    func_020403F4(5); func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4);
     func_02040588(5,0); BG_SYS_Delete(); func_020307B0(disp);
     func_02034A5C((int)ov_id);
 }
@@ -415,15 +415,15 @@ void GSYNC_DISP_Exit(GsyncDispWork *disp)
 void GSYNC_DISP_InitBgLayers(GsyncDispWork *disp)
 {
     struct BgTemplate bgTemplates[7];
-    bgTemplates[6]=gGsyncDispBgTemplates[0]; BG_SYS_InitBgLayer(0, &bgTemplates[6], 0); func_02040588(0,1); func_020409B4(0);
-    bgTemplates[5]=gGsyncDispBgTemplates[1]; BG_SYS_InitBgLayer(1, &bgTemplates[5], 0); func_02040588(1,1); func_020409B4(1);
-    bgTemplates[4]=gGsyncDispBgTemplates[2]; BG_SYS_InitBgLayer(3, &bgTemplates[4], 0); func_02040588(3,1); func_020409B4(3);
-    bgTemplates[3]=gGsyncDispBgTemplates[3]; BG_SYS_InitBgLayer(4, &bgTemplates[3], 0); func_02040588(4,1); func_020409B4(4);
+    bgTemplates[6]=gGsyncDispBgTemplates[0]; BG_SYS_InitBgLayer(0, &bgTemplates[6], 0); func_02040588(0,1); BG_SYS_PushTile(0);
+    bgTemplates[5]=gGsyncDispBgTemplates[1]; BG_SYS_InitBgLayer(1, &bgTemplates[5], 0); func_02040588(1,1); BG_SYS_PushTile(1);
+    bgTemplates[4]=gGsyncDispBgTemplates[2]; BG_SYS_InitBgLayer(3, &bgTemplates[4], 0); func_02040588(3,1); BG_SYS_PushTile(3);
+    bgTemplates[3]=gGsyncDispBgTemplates[3]; BG_SYS_InitBgLayer(4, &bgTemplates[3], 0); func_02040588(4,1); BG_SYS_PushTile(4);
     bgTemplates[2]=gGsyncDispBgTemplates[4]; BG_SYS_InitBgLayer(5, &bgTemplates[2], 0);
-    BG_SYS_Init(5,0,1,0); BG_SYS_SetTileEntry(5,0,0,0,32,32,17); func_02040588(5,1); func_020409B4(5);
+    BG_SYS_Init(5,0,1,0); BG_SYS_SetTileEntry(5,0,0,0,32,32,17); func_02040588(5,1); BG_SYS_PushTile(5);
     bgTemplates[1]=gGsyncDispBgTemplates[5]; BG_SYS_InitBgLayer(6, &bgTemplates[1], 0); func_02040588(6,1);
-    BG_SYS_Init(6,0,1,0); BG_SYS_SetTileEntry(6,0,0,0,32,32,17); func_020409B4(6);
-    bgTemplates[0]=gGsyncDispBgTemplates[6]; BG_SYS_InitBgLayer(7, &bgTemplates[0], 0); func_02040588(7,1); func_020409B4(7);
+    BG_SYS_Init(6,0,1,0); BG_SYS_SetTileEntry(6,0,0,0,32,32,17); BG_SYS_PushTile(6);
+    bgTemplates[0]=gGsyncDispBgTemplates[6]; BG_SYS_InitBgLayer(7, &bgTemplates[0], 0); func_02040588(7,1); BG_SYS_PushTile(7);
 }
 
 void GSYNC_DISP_VBlankTask(void *unused, GsyncDispWork *disp)

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7118
+ * function: MONOLITH_TOOL_CreateActorAt
  * address:  0x021B7118
  * packet:   pkt_ov071_021B7118
  * region:   ov071
@@ -25,7 +25,7 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned int);
 extern const Rect d_021BA804;
 
-struct Obj *func_021B7118(int *p, int x, int y, int w)
+struct Obj *MONOLITH_TOOL_CreateActorAt(int *p, int x, int y, int w)
 {
     Rect r;
     struct Obj *h;

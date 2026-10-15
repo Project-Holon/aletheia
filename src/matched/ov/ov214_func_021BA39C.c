@@ -1,6 +1,6 @@
 /*
  * unit: no
- * function: func_021BA39C
+ * function: BTL_REC_SEL_Noop
  * address: 0x021BA39C
  * packet: pkt_ov214_021BA39C
  * region: ov214
@@ -10,4 +10,4 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021BA39C(int unused, char *p){}
+void BTL_REC_SEL_Noop(int unused, char *p){}

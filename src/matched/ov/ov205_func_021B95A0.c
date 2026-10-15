@@ -20,8 +20,8 @@
 typedef unsigned short u16;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void func_02082A7C(unsigned,void *,unsigned);
 typedef unsigned char  u8;
 struct Big;

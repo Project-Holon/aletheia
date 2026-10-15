@@ -37,7 +37,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021BA3FC 0x021BA3FC data a4
  *   d_021BA458 0x021BA458 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -94,7 +94,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -201,7 +201,7 @@ void TH_AWARD_GRAPHIC_SetupBg(void *p, unsigned heap)
 }
 
 
-void TH_AWARD_GRAPHIC_CleanupBg(void*p){u32 i;for(i=0;i<3;i++)func_020403F4((u8)d_021BA458[i][0]);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void TH_AWARD_GRAPHIC_CleanupBg(void*p){u32 i;for(i=0;i<3;i++)BG_SYS_FreeLayerBuf((u8)d_021BA458[i][0]);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 
 void TH_AWARD_GRAPHIC_Noop(void *p){}

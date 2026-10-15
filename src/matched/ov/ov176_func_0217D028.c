@@ -1,5 +1,5 @@
 /*
- * function: func_0217D028
+ * function: DIGITALCARDCHECK_CreateRecord
  * address: 0x0217D028
  * packet: pkt_ov176_0217D028
  * region: ov176
@@ -25,7 +25,7 @@
  *   REGULATION_Card_GetCupName 0x0200B074 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   REGULATION_Card_GetValue 0x0200B078 thumb
- *   func_021E6118 0x021E6118 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateDateWindow 0x021E6118 thumb ov177
  */
 #include "../include/Obj00053.h"
 typedef unsigned char u8;
@@ -53,8 +53,8 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 *REGULATION_Card_GetCupName(struct Reg2 *p);
 extern void MI_CpuCopy8(int, void *, u32);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
-extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
-void func_0217D028(u8 *p)
+extern char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
+void DIGITALCARDCHECK_CreateRecord(u8 *p)
 {
     Record rec;
     void *base;
@@ -82,5 +82,5 @@ void func_0217D028(u8 *p)
     c = REGULATION_Card_GetValue(((struct Obj00053 *)p)->f38, 7);
     rec.f98 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
     rec.fa8 = REGULATION_Card_GetValue(((struct Obj00053 *)p)->f38, 11);
-    *(int *)&((struct Obj00053 *)p)->f10 = (int)func_021E6118((char *)(&rec), (void *)x, (void *)table, (void *)(((struct Obj00053 *)p)->f1B0), ((struct Obj00053 *)p)->f1A8, (void *)(*(int *)&((struct Obj00053 *)p)->f1AC), (void *)(*(int *)&((struct Obj00053 *)p)->f24), (void *)(((struct Obj00053 *)p)->f2C), (void *)aux, 0, ((struct Obj00053 *)p)->f1C8);
+    *(int *)&((struct Obj00053 *)p)->f10 = (int)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), (void *)x, (void *)table, (void *)(((struct Obj00053 *)p)->f1B0), ((struct Obj00053 *)p)->f1A8, (void *)(*(int *)&((struct Obj00053 *)p)->f1AC), (void *)(*(int *)&((struct Obj00053 *)p)->f24), (void *)(((struct Obj00053 *)p)->f2C), (void *)aux, 0, ((struct Obj00053 *)p)->f1C8);
 }

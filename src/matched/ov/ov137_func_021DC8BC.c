@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 int GURU2_EntryProcExit(void *obj,int a,int b,u8 *p) { func_0203133C(((struct Obj23666 *)p)->f20); func_020315D4(obj); return 1; }

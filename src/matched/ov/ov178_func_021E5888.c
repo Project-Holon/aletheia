@@ -19,8 +19,8 @@ typedef unsigned int u32;
 
 extern void PARTY_STATUS_DestroySubWork(void **pp, u32 *c);
 extern void PARTY_STATUS_ExitSubWork(int *p, void *c);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 
 int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d)

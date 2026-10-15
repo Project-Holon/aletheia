@@ -1,5 +1,5 @@
 /*
- * function: func_021F25D4
+ * function: BEACON_VIEW_TaskStateArrowAnim
  * address: 0x021F25D4
  * packet: pkt_ov032_021F25D4
  * region: ov032
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void BEACON_VIEW_SetArrowAnim(u8 *, int, u32);
 extern int BEACON_VIEW_IsArrowAnimActive(char *p, int i);
-int func_021F25D4(u8 *p, int *st)
+int BEACON_VIEW_TaskStateArrowAnim(u8 *p, int *st)
 {
     switch (st[0]) {
     case 0:

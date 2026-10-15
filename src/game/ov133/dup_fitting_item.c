@@ -26,7 +26,7 @@
  *   MUSICAL_MCSS_GetElemField 0x021F4EE0 thumb ov112
  */
 #include "dup_fitting_types.h"
-#include "dup_fitting_shared_types.h"
+#include "dup_fitting_types.h"
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
 

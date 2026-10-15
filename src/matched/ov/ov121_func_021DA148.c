@@ -1,5 +1,5 @@
 /*
- * function: func_021DA148
+ * function: MYSTERY_UTIL_DeleteMenu
  * address: 0x021DA148
  * packet: pkt_ov121_021DA148
  * region: ov121
@@ -27,4 +27,4 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-void func_021DA148(u8 *p) { BMP_MENULIST_Delete(((struct Obj06448 *)p)->f10,0,0); BMP_MENUWORK_Delete(((struct Obj06448 *)p)->f14); BMP_MENUWORK_DrawWindowBorder(((struct Obj06448 *)p)->f0,0); BMP_WIN_ClearScreen(((struct Obj06448 *)p)->f0); BMP_WIN_Delete(((struct Obj06448 *)p)->f0); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteMenu(u8 *p) { BMP_MENULIST_Delete(((struct Obj06448 *)p)->f10,0,0); BMP_MENUWORK_Delete(((struct Obj06448 *)p)->f14); BMP_MENUWORK_DrawWindowBorder(((struct Obj06448 *)p)->f0,0); BMP_WIN_ClearScreen(((struct Obj06448 *)p)->f0); BMP_WIN_Delete(((struct Obj06448 *)p)->f0); func_020307B0(p); }

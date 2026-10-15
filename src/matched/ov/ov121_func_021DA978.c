@@ -1,5 +1,5 @@
 /*
- * function: func_021DA978
+ * function: MYSTERY_UTIL_UpdateActorPair
  * address:  0x021DA978
  * packet:   pkt_021DA978
  * region:   ov121
@@ -25,7 +25,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Obj;
 extern void BMP_OAM_UploadChars(struct Obj *o);
 
-void func_021DA978(char *p)
+void MYSTERY_UTIL_UpdateActorPair(char *p)
 {
     BMP_Clear((struct CharBuf *)(((struct Obj10415 *)p)->f0), (unsigned char)(((struct Obj10415 *)p)->f4 & 0x1f));
     BMP_OAM_UploadChars(((struct Obj10415 *)p)->f1C);

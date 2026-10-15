@@ -1,5 +1,5 @@
 /*
- * function: func_021BC454
+ * function: BEACON_DETAIL_GRA_LoadTrainerGfx
  * address: 0x021BC454
  * packet: pkt_ov216_021BC454
  * region: ov216
@@ -16,7 +16,7 @@
  *   configA 0x021BDB28 data a2
  *   configB 0x021BDB34 data a2
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
- *   func_021BC3E4 0x021BC3E4 thumb ov216
+ *   BEACON_DETAIL_GRA_RegisterActorGfx 0x021BC3E4 thumb ov216
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   NNS_G2dGetUnpackedPaletteData 0x02062A98 arm
@@ -35,7 +35,7 @@ typedef struct {unsigned char a,b,c,pad;u16 first,second,third;} Config;
 struct ArcFile;struct NitroFileHeader;
 extern const Config configA,configB;
 extern int POKEGRA_OpenTrainerHandle(int a0);
-extern void func_021BC3E4(u16 *,int *,const Config *,u32);
+extern void BEACON_DETAIL_GRA_RegisterActorGfx(u16 *,int *,const Config *,u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
 extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *,void **);
@@ -45,17 +45,17 @@ extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 typedef signed int     s32;
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
-void func_021BC454(char *p,u32 handle)
+void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p,u32 handle)
 {
     Config a,b;
     struct ArcFile *arc;
     int i;
     ((struct Obj01783 *)p)->f58=POKEGRA_OpenTrainerHandle(((struct Obj01783 *)p)->f0);
     a=configA;
-    func_021BC3E4((u16 *)p,(int *)(p+92),&a,handle);
+    BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p,(int *)(p+92),&a,handle);
     b=configB;
     arc=func_020490F4(32,((struct Obj01783 *)p)->f2);
-    func_021BC3E4((u16 *)p,(int *)(p+128),&b,(u32)arc);
+    BEACON_DETAIL_GRA_RegisterActorGfx((u16 *)p,(int *)(p+128),&b,(u32)arc);
     ((struct Obj01783 *)p)->f114=ARC_TOOL_LoadHandleMember(arc,0,((struct Obj01783 *)p)->f0);
     NNS_G2dGetUnpackedPaletteData(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
     ((struct Obj01783 *)p)->f110=((struct Obj25771 *)(*(char * *)&((struct Obj01783 *)p)->f10C))->fC;

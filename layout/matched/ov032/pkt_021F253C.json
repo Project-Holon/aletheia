@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "BEACON_VIEW_RequestTransition",
-    "func_021F2544"
+    "BEACON_VIEW_ClearEndRequest"
    ],
    "addresses": [
     "0x021F253C",

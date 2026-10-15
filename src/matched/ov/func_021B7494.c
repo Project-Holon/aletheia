@@ -14,7 +14,7 @@
  * symbols:
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
@@ -33,7 +33,7 @@ struct U16Vec;
 struct WordSet;
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 func_020307B0(void *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int FIELD_MSGBG_DeleteMsgWin(void *a);
@@ -43,7 +43,7 @@ int PDW_POSTMAN_DeleteListWin(void *a)
 {
 FIELD_MSGBG_ClearMsgWin((u8 *)(((struct Obj04890 *)((u8 *)(a)))->fC));
 FIELD_MSGBG_DeleteMsgWin((void *)(((struct Obj04890 *)((u8 *)(a)))->fC));
-func_020409B4(1);
+BG_SYS_PushTile(1);
 STRBUF_Delete((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f18));
 STRBUF_Delete((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f1C));
 WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj04890 *)((u8 *)(a)))->f14));

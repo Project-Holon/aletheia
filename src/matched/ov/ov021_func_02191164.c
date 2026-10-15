@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020409B4  0x020409B4  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  * Addresses are Black-image addresses.
@@ -41,10 +41,10 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *a);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 
 void FIELD_MSGBG_ClearInfoSysWin(P *p)
 {
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->f00)), 0xFF);
-    func_020409B4((u8)p->f14->f02);
+    BG_SYS_PushTile((u8)p->f14->f02);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217E45C
+ * function: LIVEBATTLEMATCH_IRC_RecvHandler0
  * address: 0x0217E45C
  * packet: pkt_ov176_0217E45C
  * region: ov176
@@ -19,7 +19,7 @@ struct Entry;
 struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
-void func_0217E45C(u32 a, void *b, void *c, u8 *p, struct Entry *e)
+void LIVEBATTLEMATCH_IRC_RecvHandler0(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
     if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
         if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle()))

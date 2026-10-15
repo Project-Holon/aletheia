@@ -14,7 +14,7 @@
  * symbols:
  *   sendto  0x0217ECA4  arm  ov009
  *   current_time  0x0217F264  arm  ov009
- *   g_021ACF7C     0x021ACF7C  data
+ *   gGsAvailableCheck     0x021ACF7C  data
  *   g_021ACF80     0x021ACF80  data
  *   g_021ACF88     0x021ACF88  data
  */
@@ -27,7 +27,7 @@ typedef struct {
     int len;
     int time;
 } AC;
-extern AC g_021ACF7C;
+extern AC gGsAvailableCheck;
 extern struct SOCSockAddrIn g_021ACF80;
 extern char g_021ACF88[];
 struct SOCSockAddr;
@@ -36,6 +36,6 @@ extern unsigned int current_time(void);
 
 void func_0217C704(void)
 {
-    sendto(g_021ACF7C.sock, g_021ACF88, g_021ACF7C.len, 0, (struct SOCSockAddr *)((char *)&g_021ACF80), 8);
-    g_021ACF7C.time = current_time();
+    sendto(gGsAvailableCheck.sock, g_021ACF88, gGsAvailableCheck.len, 0, (struct SOCSockAddr *)((char *)&g_021ACF80), 8);
+    gGsAvailableCheck.time = current_time();
 }

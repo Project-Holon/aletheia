@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: callee of func_021BCDC0 (ov216) +0002. Coherent
+ * Recursive MATCH unblocker: callee of BEACON_DETAIL_GRA_GetPmVersionClass (ov216) +0002. Coherent
  * Thumb code in ov010 (ARM data in ov009), so the ov010 shard makes that site
  * attest as `matched`.
  */

@@ -81,8 +81,8 @@ extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
 extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
 //P
 extern void  func_02034A5C(s32 id);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *p, u32 v, u32 size);
 extern struct G02146248 _GameSystemGlobal;
 struct Blk34;

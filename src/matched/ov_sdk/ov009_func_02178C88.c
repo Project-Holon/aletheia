@@ -13,27 +13,27 @@
  *
  * symbols:
  *   DWC_Auth_SetCustomNas  0x02177EC8  arm
- *   g_021A2424     0x021A2424  data
- *   g_021A244C     0x021A244C  data
- *   g_021A2470     0x021A2470  data
+ *   gDwcAuthNasUrlTest     0x021A2424  data
+ *   gDwcAuthNasUrlDev     0x021A244C  data
+ *   gDwcAuthNasUrlProd     0x021A2470  data
  */
 
 extern void DWC_Auth_SetCustomNas(int v);
-extern char g_021A2424[];
-extern char g_021A244C[];
-extern char g_021A2470[];
+extern char gDwcAuthNasUrlTest[];
+extern char gDwcAuthNasUrlDev[];
+extern char gDwcAuthNasUrlProd[];
 
 int DWCi_Auth_InitInterface(int auth_server)
 {
 	switch (auth_server) {
 	case 0:
-		DWC_Auth_SetCustomNas((int)g_021A2424);
+		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlTest);
 		break;
 	case 2:
-		DWC_Auth_SetCustomNas((int)g_021A244C);
+		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlDev);
 		break;
 	case 1:
-		DWC_Auth_SetCustomNas((int)g_021A2470);
+		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlProd);
 		break;
 	default:
 		return 0;

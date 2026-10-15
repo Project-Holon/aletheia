@@ -14,11 +14,11 @@
  * symbols:
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021B8A70  0x021B8A70  thumb  ov071
- *   func_021B8ADC  0x021B8ADC  thumb  ov071
- *   func_021B8B08  0x021B8B08  thumb  ov071
- *   func_021B8EC4  0x021B8EC4  thumb  ov071
- *   func_021B8C0C  0x021B8C0C  thumb  ov071
+ *   MONOLITH_TOOL_STATS_InitBackgrounds  0x021B8A70  thumb  ov071
+ *   MONOLITH_TOOL_STATS_LoadGraphics  0x021B8ADC  thumb  ov071
+ *   MONOLITH_TOOL_STATS_CreateWindows  0x021B8B08  thumb  ov071
+ *   MONOLITH_TOOL_STATS_CreateCursor  0x021B8EC4  thumb  ov071
+ *   MONOLITH_TOOL_STATS_Draw  0x021B8C0C  thumb  ov071
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -42,16 +42,16 @@ typedef struct {
 typedef unsigned int   u32;
 struct Descriptor;
 struct PrintSys;
-struct Obj0203159C;
-int MONOLITH_TOOL_STATS_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
+struct Proc;
+int MONOLITH_TOOL_STATS_Create(struct Proc *a, int *b, C *c, u8 *d)
 {
-    extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+    extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
     extern void MI_CpuFill8(void *, int, int);
-    extern void func_021B8A70(void);
-    extern void func_021B8ADC(char *p);
-    extern void func_021B8B08(Q *, u8 *);
-    extern void func_021B8EC4(void *p, int a);
-    extern void func_021B8C0C(C *, Q *, u8 *);
+    extern void MONOLITH_TOOL_STATS_InitBackgrounds(void);
+    extern void MONOLITH_TOOL_STATS_LoadGraphics(char *p);
+    extern void MONOLITH_TOOL_STATS_CreateWindows(Q *, u8 *);
+    extern void MONOLITH_TOOL_STATS_CreateCursor(void *p, int a);
+    extern void MONOLITH_TOOL_STATS_Draw(C *, Q *, u8 *);
     extern void *BMP_WIN_GetBmp(struct Descriptor *p);
     extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
     extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -65,11 +65,11 @@ int MONOLITH_TOOL_STATS_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
     case 0:
         m = PROCSYS_AllocProcWork(a, 0x50, 0x61);
         MI_CpuFill8(m, 0, 0x50);
-        func_021B8A70();
-        func_021B8ADC((char *)c->f4);
-        func_021B8B08(c->f4, m);
-        func_021B8EC4(c, (int)m);
-        func_021B8C0C(c, c->f4, m);
+        MONOLITH_TOOL_STATS_InitBackgrounds();
+        MONOLITH_TOOL_STATS_LoadGraphics((char *)c->f4);
+        MONOLITH_TOOL_STATS_CreateWindows(c->f4, m);
+        MONOLITH_TOOL_STATS_CreateCursor(c, (int)m);
+        MONOLITH_TOOL_STATS_Draw(c, c->f4, m);
         *b = *b + 1;
         break;
     case 1:

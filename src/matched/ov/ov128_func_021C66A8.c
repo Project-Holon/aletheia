@@ -18,16 +18,16 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   d_021CA664 0x021CA664 data a4
- *   d_021CA718 0x021CA718 data a4
+ *   gWf2dmapDispConfig 0x021CA664 data a4
+ *   gWf2dmapBgTemplates 0x021CA718 data a4
  */
 #include "../include/Obj04504.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u32 a,b,c,d;} DispConfig;
-extern const DispConfig d_021CA664;
-extern const u8 d_021CA718[][32];
+extern const DispConfig gWf2dmapDispConfig;
+extern const u8 gWf2dmapBgTemplates[][32];
 extern void BG_SYS_Create(u32);
 struct BgTemplate;
 struct DispConfig;
@@ -44,10 +44,10 @@ void Wf2dmapFriend_InitBg(char *p,int heap)
     DispConfig config;
     int i;
     BG_SYS_Create(heap);
-    config=d_021CA664;
+    config=gWf2dmapDispConfig;
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&config));
     for(i=0;i<5;i++) {
-        BG_SYS_InitBgLayer((u8)i,(const struct BgTemplate *)d_021CA718[i],0);
+        BG_SYS_InitBgLayer((u8)i,(const struct BgTemplate *)gWf2dmapBgTemplates[i],0);
         BG_SYS_InitRun(i,32,0,heap);
         BG_SYS_ClearLayer((u8)i,0);
         func_02040588(i,1);

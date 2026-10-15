@@ -12,23 +12,23 @@
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   func_021B82A4  0x021B82A4  thumb  ov071
- *   func_021B82FC  0x021B82FC  thumb  ov071
+ *   MONOLITH_TOOL_MENU_UpdateButtons  0x021B82A4  thumb  ov071
+ *   MONOLITH_TOOL_MENU_UpdateCursor  0x021B82FC  thumb  ov071
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020355D8  0x020355D8  arm
  *   KEY_GetRepeat  0x0203633C  arm
  *   KEY_GetTrg  0x020362DC  arm
- *   func_021B6B98  0x021B6B98  thumb  ov071
+ *   MONOLITH_TOOL_HighlightButtonPulse  0x021B6B98  thumb  ov071
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
- *   func_021B83CC  0x021B83CC  thumb  ov071
- *   func_021B6BEC  0x021B6BEC  thumb  ov071
+ *   MONOLITH_TOOL_MENU_ShowMessage  0x021B83CC  thumb  ov071
+ *   MONOLITH_TOOL_HighlightButtonFlash  0x021B6BEC  thumb  ov071
  *   MONOLITH_TOOL_StartBlink  0x021B7108  thumb  ov071
- *   func_021B6C74  0x021B6C74  thumb  ov071
+ *   MONOLITH_TOOL_GetHighlightMode  0x021B6C74  thumb  ov071
  *   MONOLITH_TOOL_IsBlinking  0x021B7114  thumb  ov071
- *   func_021B8434  0x021B8434  thumb  ov071
+ *   MONOLITH_TOOL_MENU_IsMessageDone  0x021B8434  thumb  ov071
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   func_021B8440  0x021B8440  thumb  ov071
+ *   MONOLITH_TOOL_MENU_HideMessage  0x021B8440  thumb  ov071
  *   d_021BA978     0x021BA978  data  a4
  *   d_021BA9F8     0x021BA9F8  data  a4
  *   d_021BA9C8     0x021BA9C8  data  a4
@@ -67,23 +67,23 @@ extern int d_021BA9C8[][4];
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
-extern void func_021B82A4(int *a, char *p);
-extern void func_021B82FC(void *p);
+extern void MONOLITH_TOOL_MENU_UpdateButtons(int *a, char *p);
+extern void MONOLITH_TOOL_MENU_UpdateCursor(void *p);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_020355D8(u8 v);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
-extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
+extern void MONOLITH_TOOL_HighlightButtonPulse(void *p, int *tbl, int n, int sel, int c);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
-extern void func_021B83CC(void *w, void *x, unsigned y);
-extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
+extern void MONOLITH_TOOL_MENU_ShowMessage(void *w, void *x, unsigned y);
+extern void MONOLITH_TOOL_HighlightButtonFlash(void *p, int *tbl, int n, int sel, int c);
 extern void MONOLITH_TOOL_StartBlink(void *);
-extern u8 func_021B6C74(void *p, int i);
+extern u8 MONOLITH_TOOL_GetHighlightMode(void *p, int i);
 extern int MONOLITH_TOOL_IsBlinking(void *);
-extern int func_021B8434(u8 *p, u8 *q);
+extern int MONOLITH_TOOL_MENU_IsMessageDone(u8 *p, u8 *q);
 extern int TOUCHPANEL_GetTrg(void);
-extern void func_021B8440(void *w);
+extern void MONOLITH_TOOL_MENU_HideMessage(void *w);
 
 int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
 {
@@ -93,8 +93,8 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
     int t;
 
     r = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(*c->f0));
-    func_021B82A4((int *)c, (char *)d);
-    func_021B82FC(d);
+    MONOLITH_TOOL_MENU_UpdateButtons((int *)c, (char *)d);
+    MONOLITH_TOOL_MENU_UpdateCursor(d);
     if (c->f2e == 1) {
         return 1;
     }
@@ -114,7 +114,7 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         if (t > 0 && d->armed == 1) {
             func_020355D8(0);
             d->armed = 0;
-            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            MONOLITH_TOOL_HighlightButtonPulse(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
             break;
         }
@@ -129,14 +129,14 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
             if (d->sel >= d_021BA978[d->kind]) {
                 d->sel = 0;
             }
-            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            MONOLITH_TOOL_HighlightButtonPulse(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
         } else if (keys & 0x40) {
             d->sel--;
             if (d->sel < 0) {
                 d->sel = d_021BA978[d->kind] - 1;
             }
-            func_021B6B98(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            MONOLITH_TOOL_HighlightButtonPulse(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             GFL_USE_PlaySeDefaultVolume(0x548);
         }
         break;
@@ -148,13 +148,13 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
             }
             if (r != 0 && INTRUDE_COMM_IsSessionActive(r + 0x1ac) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x54c);
-                func_021B83CC(d, c->f4, 4);
+                MONOLITH_TOOL_MENU_ShowMessage(d, c->f4, 4);
                 *state = 3;
                 break;
             }
         }
         if (d->res != 3) {
-            func_021B6BEC(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
+            MONOLITH_TOOL_HighlightButtonFlash(c, (int *)d, d_021BA978[d->kind], d->sel, 3);
             GFL_USE_PlaySeDefaultVolume(0x54c);
         } else {
             MONOLITH_TOOL_StartBlink(d->f34);
@@ -164,7 +164,7 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         break;
     case 2:
         if (d->res != 3) {
-            if (func_021B6C74(c, 3) != 2) {
+            if (MONOLITH_TOOL_GetHighlightMode(c, 3) != 2) {
                 c->f2c = d->res + 1;
                 return 1;
             }
@@ -176,9 +176,9 @@ int MONOLITH_TOOL_MENU_Update(int a, int *state, C *c, D *d)
         }
         break;
     case 3:
-        if (func_021B8434(c->f4, (u8 *)d) == 1) {
+        if (MONOLITH_TOOL_MENU_IsMessageDone(c->f4, (u8 *)d) == 1) {
             if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 3) != 0) {
-                func_021B8440(d);
+                MONOLITH_TOOL_MENU_HideMessage(d);
                 GFL_USE_PlaySeDefaultVolume(0x547);
                 *state = 0;
             }

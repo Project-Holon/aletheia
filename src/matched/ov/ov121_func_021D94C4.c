@@ -1,5 +1,5 @@
 /*
- * function: func_021D94C4
+ * function: MYSTERY_MeasureGraChar
  * address: 0x021D94C4
  * packet: pkt_ov121_021D94C4
  * region: ov121
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 extern void POKEGRA_ConvertCharTo2D(void *,u16);
 extern u32 func_020307B0(void *p);
-unsigned func_021D94C4(int id,int heap)
+unsigned MYSTERY_MeasureGraChar(int id,int heap)
 {
     unsigned result=48;
     int found=0;

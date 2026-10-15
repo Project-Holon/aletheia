@@ -13,17 +13,17 @@
  *
  * symbols:
  *   func_020923F0                  0x020923F0  arm
- *   g_021ACF7C                     0x021ACF7C  data
+ *   gGsAvailableCheck                     0x021ACF7C  data
  *   g_021ACF84                     0x021ACF84  data
- *   g_021A370C                     0x021A370C  data
+ *   gGsAvailableMagic                     0x021A370C  data
  */
 
 struct SOCSockAddrIn { unsigned char len; unsigned char family; unsigned short port; unsigned long addr; };
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern unsigned short g_021ACF7C[];
+extern unsigned short gGsAvailableCheck[];
 extern unsigned char g_021ACF84[];
-extern char g_021A370C[];
+extern char gGsAvailableMagic[];
 
 int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices)
 {
@@ -32,9 +32,9 @@ int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disa
         return 1;
     if (func_020923F0((const u8 *)(&address->addr), g_021ACF84, 4) != 0)
         return 1;
-    if (address->port != g_021ACF7C[3])
+    if (address->port != gGsAvailableCheck[3])
         return 1;
-    if (func_020923F0((const u8 *)packet, (const u8 *)g_021A370C, 3) != 0)
+    if (func_020923F0((const u8 *)packet, (const u8 *)gGsAvailableMagic, 3) != 0)
         return 1;
     bitfield = (packet[3] << 24) & 0xff000000;
     bitfield |= (packet[4] << 16) & 0xff0000;

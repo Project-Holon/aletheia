@@ -15,12 +15,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct S020314B8; struct S020315D4;
+struct S020314B8; struct Proc;
 extern void ZUKAN_FreeIdList(u8 *);
 extern void func_0203133C(struct S020314B8 *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-int ZUKAN_Delete(struct S020315D4 *obj, void *b, void *c, u8 *p) {
+int ZUKAN_Delete(struct Proc *obj, void *b, void *c, u8 *p) {
     ZUKAN_FreeIdList(p);
     func_0203133C(*(struct S020314B8 * *)&((struct Obj08416 *)p)->f4);
     func_020315D4(obj);

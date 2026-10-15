@@ -21,7 +21,7 @@
  *   C_GEAR_CountCellsOfKind  0x021F0D80  thumb  ov029
  *   C_GEAR_IsColumnRowValid  0x021EFEC0  thumb  ov029
  *   C_GEAR_SetCellKind  0x021F2AEC  thumb  ov029
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   C_GEAR_IsAnyIndicatorShown  0x021F2DA8  thumb  ov029
  *   C_GEAR_SetPaintModeIcon  0x021F1910  thumb  ov029
@@ -44,7 +44,7 @@ extern int C_GEAR_CountCellsOfKind(void *p, int k);
 extern int C_GEAR_IsColumnRowValid(int a, int b);
 struct Sub020090B0Obj;
 extern void C_GEAR_SetCellKind(unsigned char *p, int a1, int a2, int a3, int k);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int C_GEAR_IsAnyIndicatorShown(u8 *p);
 extern void C_GEAR_SetPaintModeIcon(char *p, int on);
@@ -77,7 +77,7 @@ void C_GEAR_HandleButton(u8 *p, int key)
             ((struct Obj00042 *)p)->f2CE = y;
             if ((C_GEAR_CountCellsOfKind(p, r) > 1 || r == 4) && C_GEAR_IsColumnRowValid(c, d) != 0) {
                 C_GEAR_SetCellKind((unsigned char *)p, *(int *)&((struct Obj00042 *)p)->f20, c, d, (r + 1) % 5);
-                func_020409B4(4);
+                BG_SYS_PushTile(4);
                 GFL_USE_PlaySeDefaultVolume(0x628);
             }
         } else if (C_GEAR_IsAnyIndicatorShown(p) == 0) {

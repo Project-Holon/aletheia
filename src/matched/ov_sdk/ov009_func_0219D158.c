@@ -13,25 +13,25 @@
  *
  * symbols:
  *   gsDebugFormat  0x0217D254  arm  ov009
- *   g_021A8088  0x021A8088  data
- *   g_021A80A0  0x021A80A0  data
- *   g_021A80CC  0x021A80CC  data
- *   g_021A7C90  0x021A7C90  data
+ *   gQr2RegKeysDebugRegister  0x021A8088  data
+ *   gQr2RegKeysDebugInvalid  0x021A80A0  data
+ *   gQr2RegKeysDebugRegistered  0x021A80CC  data
+ *   gQr2RegKeys  0x021A7C90  data
  */
 
-extern char g_021A8088[];
-extern char g_021A80A0[];
-extern char g_021A80CC[];
-extern char *g_021A7C90[254];
+extern char gQr2RegKeysDebugRegister[];
+extern char gQr2RegKeysDebugInvalid[];
+extern char gQr2RegKeysDebugRegistered[];
+extern char *gQr2RegKeys[254];
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 
 void qr2_register_keyA(int keyid, char *key)
 {
-    gsDebugFormat(3, (char *)4, 0x40, g_021A8088);
+    gsDebugFormat(3, (char *)4, 0x40, gQr2RegKeysDebugRegister);
     if (keyid < 0x32 || keyid > 0xfe) {
-        gsDebugFormat(3, (char *)4, 2, g_021A80A0, keyid, key);
+        gsDebugFormat(3, (char *)4, 2, gQr2RegKeysDebugInvalid, keyid, key);
         return;
     }
-    gsDebugFormat(3, (char *)4, 0x10, g_021A80CC, keyid, key);
-    g_021A7C90[keyid] = key;
+    gsDebugFormat(3, (char *)4, 0x10, gQr2RegKeysDebugRegistered, keyid, key);
+    gQr2RegKeys[keyid] = key;
 }

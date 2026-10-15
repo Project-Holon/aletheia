@@ -1,5 +1,5 @@
 /*
- * function: func_021BF00C
+ * function: INTRO_CMD_AddCommand
  * address:  0x021BF00C
  * packet:   pkt_021BF00C
  * region:   ov204
@@ -22,7 +22,7 @@ struct Q021BF00C
     unsigned char b : 1;
 };
 
-int func_021BF00C(struct S021BF00C *p, struct Q021BF00C *q)
+int INTRO_CMD_AddCommand(struct S021BF00C *p, struct Q021BF00C *q)
 {
     int i;
     for (i = 0; i < 8; i++)

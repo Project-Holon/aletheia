@@ -15,7 +15,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj08347.h"
 
@@ -27,7 +27,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void SHINKA_DEMO_LoadSprites(int a, char *b)
 {
@@ -37,5 +37,5 @@ void SHINKA_DEMO_LoadSprites(int a, char *b)
     func_02049658(h, 5, 2, 0, 0, 0, ((struct Obj08347 *)b)->f2);
     func_020498F4(h, 4, 2, 0, 0, 0, ((struct Obj08347 *)b)->f2);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 }

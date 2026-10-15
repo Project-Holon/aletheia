@@ -18,15 +18,15 @@
 
 typedef unsigned int u32;
 
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 struct Sub02007084Ctrl;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *BEACON_GetBlock(void *sys);
 
-int STARTMENU_BattleFlagProcInit(struct Obj0203159C *a0)
+int STARTMENU_BattleFlagProcInit(struct Proc *a0)
 {
     u32 *q = PROCSYS_AllocProcWork(a0, 0x5c, 1);
 

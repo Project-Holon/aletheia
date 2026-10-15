@@ -35,8 +35,8 @@
  */
 #include "cdemo_types.h"
 
-struct Obj0203159C;
-struct S020315D4;
+struct ProcSystem;
+struct Proc;
 struct DispVram;
 struct Mtx22;
 struct Node;
@@ -47,10 +47,10 @@ typedef struct {int m[4];} Mtx;
 typedef unsigned char  u8;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern int CDEMO_WIPE_RunScript(char *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void GX_SetGraphicsMode(int,int,int);
@@ -63,7 +63,7 @@ extern unsigned int func_020307B0(void *p);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern int func_020056A0(void *, int *, int);
 extern void func_02030EAC(struct Node *n);
-int CDEMO_MAIN_Create(struct Obj0203159C *p, u32 b, u32 c);
+int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c);
 int CDEMO_MAIN_Update(int a, int b, int c, int d);
 int CDEMO_MAIN_Destroy(void *p);
 void CDEMO_MAIN_SetupVram(void);
@@ -77,7 +77,7 @@ extern unsigned char d_021B6B00[];
 extern int d_021B68E4[];
 
 
-int CDEMO_MAIN_Create(struct Obj0203159C *p, u32 b, u32 c)
+int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c)
 {
     struct CdemoState *r;
 

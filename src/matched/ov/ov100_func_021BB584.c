@@ -34,7 +34,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct TaskMenu;struct WordSet;struct PrintSys;struct Node;struct Bank;struct S020315D4;
+struct TaskMenu;struct WordSet;struct PrintSys;struct Node;struct Bank;struct Proc;
 extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
@@ -49,7 +49,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 enum Offset { Words=0x28c };
 enum Zero { Clear=0 };
@@ -57,7 +57,7 @@ enum PrintOffset { PrintBase=0xcb4 };
 static inline struct PrintSys *printSys(u8 *p) { enum PrintOffset t=PrintBase; t+=4; return *(struct PrintSys **)(p+t); }
 static inline struct Node *node(u8 *p,enum Offset off) { return *(struct Node **)(p+(off+0x80)); }
 static inline void clearNode(u8 *p,enum Offset off,enum Zero zero) { *(int *)(p+(off+0x80))=zero; *(int *)(p+(off+0x84))=zero; }
-int IRCBATTLEMATCH_ProcExit(struct S020315D4 *a,int b,int c,u8 *p)
+int IRCBATTLEMATCH_ProcExit(struct Proc *a,int b,int c,u8 *p)
 {
     u16 off;
     long zero;

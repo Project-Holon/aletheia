@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BE148",
-    "func_021BE150",
-    "func_021BE158"
+    "DEMO3D_GRAPHIC_DrawEnd",
+    "DEMO3D_GRAPHIC_DeleteDouble3d",
+    "DEMO3D_GRAPHIC_DeleteCamera"
+   ],
+   "addresses": [
+    "0x021BE148",
+    "0x021BE150",
+    "0x021BE158"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0E0
+ * function: DEMO3D_GRAPHIC_DrawClact
  * address: 0x021BE0E0
  * packet: pkt_ov203_021BE0E0
  * region: ov203
@@ -12,4 +12,4 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  */
 extern void CLACT_DrawSystem(void);
-void func_021BE0E0(void *a0){CLACT_DrawSystem();}
+void DEMO3D_GRAPHIC_DrawClact(void *a0){CLACT_DrawSystem();}

@@ -17,7 +17,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   sWindowTemplates  0x021BA874  data  a4
  */
 
@@ -49,7 +49,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 
 void BSUBWAY_RECORD_LIST_CreateWindows(Obj *o)
 {
@@ -66,7 +66,7 @@ void BSUBWAY_RECORD_LIST_CreateWindows(Obj *o)
         h = o->a[i];
         BMP_WIN_TransferChars((struct Descriptor *)h);
         BMP_WIN_MakeScreen((struct Cfg *)h);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     }
     for (j = 0; j < 10; j++) {
         o->b[j] = (int)BMP_WIN_Create((u8)1, (int)2, (int)1, (int)10, (int)2, 1, (int)1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F23F8
+ * function: BEACON_VIEW_MainPrintQueue
  * address: 0x021F23F8
  * packet: pkt_ov032_021F23F8
  * region: ov032
@@ -18,7 +18,7 @@
 struct PrintSys;
 typedef unsigned int   u32;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-u32 func_021F23F8(char *p);
+u32 BEACON_VIEW_MainPrintQueue(char *p);
 
 /*
  * Byte-correct; the only wildcards are the bls to two unlabelled arm9
@@ -35,7 +35,7 @@ u32 func_021F23F8(char *p);
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
  *   0x020275A8/AC/B8/D0 (asm/layout, not this lane) is the only blocker.
  */
-u32 func_021F23F8(char *p)
+u32 BEACON_VIEW_MainPrintQueue(char *p)
 {
     return PRINTSYS_QUE_Main(*(struct PrintSys **)(p + 0xB4));
 }

@@ -186,7 +186,7 @@
  *   POKETRADE_2D_CreateBoxIconActors 0x021E467C thumb ov119
  *   POKETRADE_2D_LoadMainGfxAndMessageWindow 0x021E3F74 thumb ov119
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   func_02030734 0x02030734 arm
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   func_02012944 0x02012944 thumb
@@ -322,11 +322,11 @@
 
 struct Mon;
 
-struct Obj0203159C;
+struct Proc;
 
 struct McssSys;
 
-struct S020315D4;
+struct Proc;
 
 
 
@@ -677,7 +677,7 @@ extern void POKETRADE_2D_LoadMainGfxAndMessageWindow(void *);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 
@@ -721,7 +721,7 @@ extern void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern int func_02034AC4(int);
 
@@ -813,7 +813,7 @@ extern void POKETRADE_3D_Delete3DScene(char *);
 
 extern void func_02030EAC(struct Node *n);
 
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
@@ -3318,8 +3318,8 @@ void POKETRADE_PROC_VBlank(int a, char *p)
 {
     CLACT_VBlankSystem();
     if (((TradeWork *)p)->redrawNeeded) {
-        func_02040618(7, 0, ((TradeWork *)p)->scrollSub);
-        func_02040618(5, 0, ((TradeWork *)p)->scrollSub);
+        BG_SYS_FillScrollArea(7, 0, ((TradeWork *)p)->scrollSub);
+        BG_SYS_FillScrollArea(5, 0, ((TradeWork *)p)->scrollSub);
         ((TradeWork *)p)->redrawNeeded = 0;
     }
 }

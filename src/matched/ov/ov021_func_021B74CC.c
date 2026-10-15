@@ -18,7 +18,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
 
@@ -56,7 +56,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 void PDW_POSTMAN_PrintListWin(Obj *p)
 {
@@ -73,5 +73,5 @@ void PDW_POSTMAN_PrintListWin(Obj *p)
         FIELD_MSGBG_MsgWinPrintStr(p->f0C, 0x6c, i * 14, p->f1C);
     }
     MSGDATA_Delete(msg);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)p->f0C)));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)p->f0C)));
 }

@@ -21,11 +21,11 @@
  *   func_0218FFFC  0x0218FFFC  arm   ov009
  *   func_021841B0  0x021841B0  arm   ov009
  *   gpiFixBuddyIndices  0x021890A4  arm   ov009
- *   g_021A446C     0x021A446C  data
- *   g_021A44AC     0x021A44AC  data
- *   g_021A424C     0x021A424C  data
- *   g_021A44B8     0x021A44B8  data
- *   g_021A4270     0x021A4270  data
+ *   gGpiBuddyErrorInvalidProfile     0x021A446C  data
+ *   gGpiBuddyKeyDelBuddy     0x021A44AC  data
+ *   gGpiBuddyKeySessKey     0x021A424C  data
+ *   gGpiBuddyKeyDelProfileId     0x021A44B8  data
+ *   gGpiBuddyKeyFinal     0x021A4270  data
  *
  * The object frees buddyStatusInfo, clears the pointer, then reads
  * extendedInfoKeys through it; the C keeps that order.
@@ -81,11 +81,11 @@ extern void gsifree(void *ptr);
 extern int func_0218FFFC(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
 extern void func_021841B0(void *array);
 extern int gpiFixBuddyIndices(int unused, struct GPIProfile *profile, int baseIndex);
-extern char g_021A446C[];
-extern char g_021A44AC[];
-extern char g_021A424C[];
-extern char g_021A44B8[];
-extern char g_021A4270[];
+extern char gGpiBuddyErrorInvalidProfile[];
+extern char gGpiBuddyKeyDelBuddy[];
+extern char gGpiBuddyKeySessKey[];
+extern char gGpiBuddyKeyDelProfileId[];
+extern char gGpiBuddyKeyFinal[];
 
 int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
 {
@@ -94,17 +94,17 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
     int index;
 
     if (!func_0218FD9C(connection, profile, &pProfile)) {
-        gpiSetErrorString((int *)connection, (int)g_021A446C);
+        gpiSetErrorString((int *)connection, (int)gGpiBuddyErrorInvalidProfile);
         return 2;
     }
 
     if (sendServerRequest == 1) {
-        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A44AC);
-        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyDelBuddy);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeySessKey);
         gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->sessKey);
-        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A44B8);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyDelProfileId);
         gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), pProfile->profileId);
-        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyFinal);
     }
     gpiBuddyDeletedLocally(connection, profile, 1);
 

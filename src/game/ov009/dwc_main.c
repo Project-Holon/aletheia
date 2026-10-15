@@ -50,6 +50,14 @@
  *   gt2CloseConnectionHard  0x02195DC4  arm
  *   gt2CloseAllConnectionsHard  0x02195DE4  arm
  *   gt2AddressToString  0x02198620  arm
+ *   gDwcPrefixScm  0x021A2028  data
+ *   gDwcPrefixScn  0x021A202C  data
+ *   gDwcPrefixGpcm  0x021A2030  data
+ *   gDwcPrefixMat  0x021A2038  data
+ *   gDwcGlobalState  0x021AA878  data
+ *   gDwcNodeAidList  0x021AA880  data
+ *   gDwcConnectionArray  0x021AA8A0  data
+ *   gDwcNodeInfoBuffer  0x021AA920  data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
@@ -230,14 +238,14 @@ unsigned char DWCi_GetServerOrSubServerAID(void);
 int DWCi_DeleteAID(unsigned char aid);
 extern char gcd_gamename[];
 extern char gcd_secret_key[];
-extern struct DwcGlobal g_021AA878;
-extern char g_021A2028[];
-extern char g_021A202C[];
-extern char g_021A2030[];
-extern char g_021A2038[];
-extern void *g_021AA8A0[32];
-extern unsigned char g_021AA880[];
-extern char g_021AA920[];
+extern struct DwcGlobal gDwcGlobalState;
+extern char gDwcPrefixScm[];
+extern char gDwcPrefixScn[];
+extern char gDwcPrefixGpcm[];
+extern char gDwcPrefixMat[];
+extern void *gDwcConnectionArray[32];
+extern unsigned char gDwcNodeAidList[];
+extern char gDwcNodeInfoBuffer[];
 
 
 void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID,
@@ -246,54 +254,54 @@ void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID,
 {
     int len;
 
-    g_021AA878.st = DWC_Alloc(4, sizeof(DWCstDwcCnt));
-    MI_CpuFill8(g_021AA878.st, 0, sizeof(DWCstDwcCnt));
+    gDwcGlobalState.st = DWC_Alloc(4, sizeof(DWCstDwcCnt));
+    MI_CpuFill8(gDwcGlobalState.st, 0, sizeof(DWCstDwcCnt));
     DWC_ClearError();
 
-    g_021AA878.st->gt2Socket = 0;
-    g_021AA878.st->gt2Callbacks.connected = DWCi_GT2ConnectedCallback;
-    g_021AA878.st->gt2Callbacks.received = DWCi_GT2ReceivedCallback;
-    g_021AA878.st->gt2Callbacks.closed = DWCi_GT2ClosedCallback;
-    g_021AA878.st->gt2Callbacks.ping = DWCi_GT2PingCallback;
-    g_021AA878.st->sendBufSize =
+    gDwcGlobalState.st->gt2Socket = 0;
+    gDwcGlobalState.st->gt2Callbacks.connected = DWCi_GT2ConnectedCallback;
+    gDwcGlobalState.st->gt2Callbacks.received = DWCi_GT2ReceivedCallback;
+    gDwcGlobalState.st->gt2Callbacks.closed = DWCi_GT2ClosedCallback;
+    gDwcGlobalState.st->gt2Callbacks.ping = DWCi_GT2PingCallback;
+    gDwcGlobalState.st->sendBufSize =
         sendBufSize == 0 ? 0x2000 : (unsigned long)sendBufSize;
-    g_021AA878.st->recvBufSize =
+    gDwcGlobalState.st->recvBufSize =
         recvBufSize == 0 ? 0x2000 : (unsigned long)recvBufSize;
-    g_021AA878.st->gp = 0;
-    g_021AA878.st->userdata = userdata;
-    g_021AA878.st->state = 0;
-    g_021AA878.st->prevState = 0;
-    g_021AA878.st->closeAllHard = 0;
-    g_021AA878.st->profileID = 0;
-    g_021AA878.st->gameName = gcd_gamename;
-    g_021AA878.st->secretKey = gcd_secret_key;
-    g_021AA878.st->loginCallback = 0;
-    g_021AA878.st->loginParam = 0;
-    g_021AA878.st->updateCallback = 0;
-    g_021AA878.st->updateParam = 0;
-    g_021AA878.st->matchedCallback = 0;
-    g_021AA878.st->matchedParam = 0;
-    g_021AA878.st->closedCallback = 0;
-    g_021AA878.st->closedParam = 0;
+    gDwcGlobalState.st->gp = 0;
+    gDwcGlobalState.st->userdata = userdata;
+    gDwcGlobalState.st->state = 0;
+    gDwcGlobalState.st->prevState = 0;
+    gDwcGlobalState.st->closeAllHard = 0;
+    gDwcGlobalState.st->profileID = 0;
+    gDwcGlobalState.st->gameName = gcd_gamename;
+    gDwcGlobalState.st->secretKey = gcd_secret_key;
+    gDwcGlobalState.st->loginCallback = 0;
+    gDwcGlobalState.st->loginParam = 0;
+    gDwcGlobalState.st->updateCallback = 0;
+    gDwcGlobalState.st->updateParam = 0;
+    gDwcGlobalState.st->matchedCallback = 0;
+    gDwcGlobalState.st->matchedParam = 0;
+    gDwcGlobalState.st->closedCallback = 0;
+    gDwcGlobalState.st->closedParam = 0;
 
     DWCi_ClearGT2ConnectionList();
 
-    DWCi_LoginInit(&g_021AA878.st->login, userdata,
-                   &g_021AA878.st->gp, productID, userdata->gamecode,
-                   g_021AA878.st->playerName,
+    DWCi_LoginInit(&gDwcGlobalState.st->login, userdata,
+                   &gDwcGlobalState.st->gp, productID, userdata->gamecode,
+                   gDwcGlobalState.st->playerName,
                    DWCi_LoginCallback, 0);
 
-    DWCi_FriendInit(g_021AA878.st->friendCnt,
-                    &g_021AA878.st->gp,
-                    g_021AA878.st->playerName,
+    DWCi_FriendInit(gDwcGlobalState.st->friendCnt,
+                    &gDwcGlobalState.st->gp,
+                    gDwcGlobalState.st->playerName,
                     friendList, friendListLen);
 
-    DWCi_MatchInit(&g_021AA878.st->match,
-                   &g_021AA878.st->gp, &g_021AA878.st->gt2Socket,
-                   &g_021AA878.st->gt2Callbacks, gcd_gamename,
+    DWCi_MatchInit(&gDwcGlobalState.st->match,
+                   &gDwcGlobalState.st->gp, &gDwcGlobalState.st->gt2Socket,
+                   &gDwcGlobalState.st->gt2Callbacks, gcd_gamename,
                    gcd_secret_key, friendList, friendListLen);
 
-    DWCi_InitTransport(g_021AA878.st->transInfo);
+    DWCi_InitTransport(gDwcGlobalState.st->transInfo);
 
     if (strlen(secretKey) >= 0x100)
         len = 0xff;
@@ -309,52 +317,52 @@ void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID,
  */
 void DWC_ShutdownFriendsMatch(void)
 {
-    if (g_021AA878.st == 0)
+    if (gDwcGlobalState.st == 0)
         return;
-    if (g_021AA878.st->match.qr2Obj != 0) {
-        qr2_shutdown(g_021AA878.st->match.qr2Obj);
-        g_021AA878.st->match.qr2Obj = 0;
+    if (gDwcGlobalState.st->match.qr2Obj != 0) {
+        qr2_shutdown(gDwcGlobalState.st->match.qr2Obj);
+        gDwcGlobalState.st->match.qr2Obj = 0;
     }
-    g_021AA878.st->match.qr2ShutdownReq = 0;
-    if (g_021AA878.st->match.sbObj != 0) {
-        ServerBrowserFree(g_021AA878.st->match.sbObj);
-        g_021AA878.st->match.sbObj = 0;
+    gDwcGlobalState.st->match.qr2ShutdownReq = 0;
+    if (gDwcGlobalState.st->match.sbObj != 0) {
+        ServerBrowserFree(gDwcGlobalState.st->match.sbObj);
+        gDwcGlobalState.st->match.sbObj = 0;
     }
     func_02176B34();
     DWCi_BeginCloseStatsConnection();
     CloseStatsConnection();
     DWCi_EndCloseStatsConnection();
-    if (g_021AA878.st->gp != 0) {
-        func_0218597C(&g_021AA878.st->gp, 0, 0, 0);
-        func_0218597C(&g_021AA878.st->gp, 3, 0, 0);
-        func_0218597C(&g_021AA878.st->gp, 1, 0, 0);
-        func_0218597C(&g_021AA878.st->gp, 2, 0, 0);
-        func_02185948(&g_021AA878.st->gp);
-        gpDestroy(&g_021AA878.st->gp);
-        g_021AA878.st->gp = 0;
+    if (gDwcGlobalState.st->gp != 0) {
+        func_0218597C(&gDwcGlobalState.st->gp, 0, 0, 0);
+        func_0218597C(&gDwcGlobalState.st->gp, 3, 0, 0);
+        func_0218597C(&gDwcGlobalState.st->gp, 1, 0, 0);
+        func_0218597C(&gDwcGlobalState.st->gp, 2, 0, 0);
+        func_02185948(&gDwcGlobalState.st->gp);
+        gpDestroy(&gDwcGlobalState.st->gp);
+        gDwcGlobalState.st->gp = 0;
     }
     DWCi_ShutdownLogin();
     DWCi_ShutdownFriend();
     func_0216F334();
     DWCi_ShutdownTransport();
-    if (g_021AA878.st->gt2Socket != 0) {
-        gt2CloseSocket(g_021AA878.st->gt2Socket);
-        g_021AA878.st->gt2Socket = 0;
+    if (gDwcGlobalState.st->gt2Socket != 0) {
+        gt2CloseSocket(gDwcGlobalState.st->gt2Socket);
+        gDwcGlobalState.st->gt2Socket = 0;
     }
-    func_0205A1B0(4, g_021AA878.st, 0);
-    g_021AA878.st = 0;
+    func_0205A1B0(4, gDwcGlobalState.st, 0);
+    gDwcGlobalState.st = 0;
 }
 
 
 void DWC_ProcessFriendsMatch(void)
 {
     DWC_UpdateConnection();
-    if (g_021AA878.st == 0 || g_021AA878.st->state == 0)
+    if (gDwcGlobalState.st == 0 || gDwcGlobalState.st->state == 0)
         return;
     if (DWCi_IsError())
         return;
 
-    switch (g_021AA878.st->state)
+    switch (gDwcGlobalState.st->state)
     {
     case 0:
         break;
@@ -362,22 +370,22 @@ void DWC_ProcessFriendsMatch(void)
         switch (GSIAvailableCheckThink())
         {
         case 1:
-            if (DWCi_HandleGPError(gpInitialize(&g_021AA878.st->gp,
-                    g_021AA878.st->login.productID, 0x10, 0xb)))
+            if (DWCi_HandleGPError(gpInitialize(&gDwcGlobalState.st->gp,
+                    gDwcGlobalState.st->login.productID, 0x10, 0xb)))
                 return;
-            if (DWCi_HandleGPError(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
                     0, DWCi_GPErrorCallback, 0)))
                 return;
-            if (DWCi_HandleGPError(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
                     3, (void (*)(void **, void *, void *))DWCi_GPRecvBuddyMessageCallback, 0)))
                 return;
-            if (DWCi_HandleGPError(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
                     7, DWCi_GPRecvBuddyAuthCallback, 0)))
                 return;
-            if (DWCi_HandleGPError(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
                     1, DWCi_GPRecvBuddyRequestCallback, 0)))
                 return;
-            if (DWCi_HandleGPError(gpSetCallback(&g_021AA878.st->gp,
+            if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
                     2, DWCi_GPRecvBuddyStatusCallback, 0)))
                 return;
             DWCi_SetState(2);
@@ -407,22 +415,22 @@ void DWC_ProcessFriendsMatch(void)
         DWCi_TransportProcess();
         DWCi_FriendProcess();
         /* stand-in: the image reloads qr2MatchType for each compare */
-        if (*(volatile u8 *)&g_021AA878.st->match.qr2MatchType == 2
-                || *(volatile u8 *)&g_021AA878.st->match.qr2MatchType == 3)
+        if (*(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchType == 2
+                || *(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchType == 3)
             DWCi_MatchProcess(1);
-        else if (*(int *)g_021AA878.st != 0)
+        else if (*(int *)gDwcGlobalState.st != 0)
             DWCi_MatchProcess(0);
         break;
     }
 
-    if (g_021AA878.st->match.qr2ShutdownReq == 1)
+    if (gDwcGlobalState.st->match.qr2ShutdownReq == 1)
     {
-        if (g_021AA878.st->match.qr2Obj != 0)
+        if (gDwcGlobalState.st->match.qr2Obj != 0)
         {
-            qr2_shutdown(g_021AA878.st->match.qr2Obj);
-            g_021AA878.st->match.qr2Obj = 0;
+            qr2_shutdown(gDwcGlobalState.st->match.qr2Obj);
+            gDwcGlobalState.st->match.qr2Obj = 0;
         }
-        g_021AA878.st->match.qr2ShutdownReq = 0;
+        gDwcGlobalState.st->match.qr2ShutdownReq = 0;
     }
 }
 
@@ -438,24 +446,24 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
 
     if (!ingamesn)
         return 0;
-    if (DWCi_IsError() || g_021AA878.st->state != 0)
+    if (DWCi_IsError() || gDwcGlobalState.st->state != 0)
         return 0;
-    g_021AA878.st->loginCallback = callback;
-    g_021AA878.st->loginParam = param;
+    gDwcGlobalState.st->loginCallback = callback;
+    gDwcGlobalState.st->loginParam = param;
     if (!ingamesn || ingamesn[0] == 0) {
         len = 0;
     } else {
-        MIi_CpuClear16(0, g_021AA878.st->playerName, 0x34);
+        MIi_CpuClear16(0, gDwcGlobalState.st->playerName, 0x34);
         len = (u32)DWCi_WStrLen(ingamesn) > 25 ? 25 : (u32)DWCi_WStrLen(ingamesn);
-        MIi_CpuCopy16(ingamesn, g_021AA878.st->playerName, len * 2);
+        MIi_CpuCopy16(ingamesn, gDwcGlobalState.st->playerName, len * 2);
     }
-    g_021AA878.st->playerName[len] = 0;
+    gDwcGlobalState.st->playerName[len] = 0;
     if (DWC_GetInetStatus() != 4) {
         DWCi_StopLogin(2, -60010);
         return 0;
     }
     DWCi_SetState(1);
-    GSIStartAvailableCheckA(g_021AA878.st->gameName);
+    GSIStartAvailableCheckA(gDwcGlobalState.st->gameName);
     return 1;
 }
 
@@ -467,11 +475,11 @@ int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void 
  */
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam)
 {
-	if (DWCi_IsError() || g_021AA878.st->state < 3 || DWCi_IsServerUpdating())
+	if (DWCi_IsError() || gDwcGlobalState.st->state < 3 || DWCi_IsServerUpdating())
 		return 0;
-	g_021AA878.st->updateCallback = updateCallback;
-	g_021AA878.st->updateParam = updateParam;
-	DWCi_UpdateServersAsync(g_021AA878.st->login.authToken, g_021AA878.st->login.partnerChallenge, DWCi_UpdateServersCallback, 0, statusCallback, statusParam, deleteCallback, deleteParam);
+	gDwcGlobalState.st->updateCallback = updateCallback;
+	gDwcGlobalState.st->updateParam = updateParam;
+	DWCi_UpdateServersAsync(gDwcGlobalState.st->login.authToken, gDwcGlobalState.st->login.partnerChallenge, DWCi_UpdateServersCallback, 0, statusCallback, statusParam, deleteCallback, deleteParam);
 	return 1;
 }
 
@@ -483,11 +491,11 @@ int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, 
  */
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
 {
-	if (DWCi_IsError() || g_021AA878.st->state != 3)
+	if (DWCi_IsError() || gDwcGlobalState.st->state != 3)
 		return 0;
 	DWCi_ClearGT2ConnectionList();
-	g_021AA878.st->matchedCallback = matchedCallback;
-	g_021AA878.st->matchedParam = matchedParam;
+	gDwcGlobalState.st->matchedCallback = matchedCallback;
+	gDwcGlobalState.st->matchedParam = matchedParam;
 	DWCi_SetState(4);
 	DWCi_CustomCommonInit(0);
 	DWCi_ConnectToAnybodyAsync(topology, maxEntry - 1, addFilter, DWCi_MatchedCallback, 0, newClientCallback, newClientParam, evalCallback, evalParam, attemptCallback, connectionUserData, attemptParam);
@@ -502,11 +510,11 @@ int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFil
  */
 int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
 {
-	if (DWCi_IsError() || g_021AA878.st->state != 3)
+	if (DWCi_IsError() || gDwcGlobalState.st->state != 3)
 		return 0;
 	DWCi_ClearGT2ConnectionList();
-	g_021AA878.st->matchedCallback = matchedCallback;
-	g_021AA878.st->matchedParam = matchedParam;
+	gDwcGlobalState.st->matchedCallback = matchedCallback;
+	gDwcGlobalState.st->matchedParam = matchedParam;
 	DWCi_SetState(4);
 	DWCi_CustomCommonInit(2);
 	DWCi_SetupGameServer(topology, (unsigned char)(maxEntry - 1), DWCi_MatchedCallback, 0, newClientCallback, newClientParam, attemptCallback, connectionUserData, attemptParam);
@@ -532,23 +540,23 @@ int DWC_ConnectToGameServerAsync(
 
     buddyIdx = -1;
 
-    if (DWCi_IsError() || g_021AA878.st->state != 3)
+    if (DWCi_IsError() || gDwcGlobalState.st->state != 3)
         return 0;
 
     DWCi_ClearGT2ConnectionList();
-    g_021AA878.st->matchedCallback = matchedCallback;
-    g_021AA878.st->matchedParam = matchedParam;
+    gDwcGlobalState.st->matchedCallback = matchedCallback;
+    gDwcGlobalState.st->matchedParam = matchedParam;
     DWCi_SetState(4);
 
     dwcError = DWCi_GetProfileIDFromList(serverIndex);
-    if (dwcError == 0 || !gpIsBuddy(&g_021AA878.st->gp, dwcError))
+    if (dwcError == 0 || !gpIsBuddy(&gDwcGlobalState.st->gp, dwcError))
     {
         dwcError = 0xb;
         goto error;
     }
 
-    gpGetBuddyIndex(&g_021AA878.st->gp, dwcError, &buddyIdx);
-    gpGetBuddyStatus(&g_021AA878.st->gp, buddyIdx, &status);
+    gpGetBuddyIndex(&gDwcGlobalState.st->gp, dwcError, &buddyIdx);
+    gpGetBuddyStatus(&gDwcGlobalState.st->gp, buddyIdx, &status);
     if (status.status != 6)
     {
         dwcError = 0xb;
@@ -562,9 +570,9 @@ int DWC_ConnectToGameServerAsync(
         goto error;
     }
 
-    DWC_GetCommonValueString(g_021A2028, valueStr, status.statusString, 0x2f);
+    DWC_GetCommonValueString(gDwcPrefixScm, valueStr, status.statusString, 0x2f);
     maxEntry = (unsigned char)strtoul(valueStr, 0, 10);
-    DWC_GetCommonValueString(g_021A202C, valueStr, status.statusString, 0x2f);
+    DWC_GetCommonValueString(gDwcPrefixScn, valueStr, status.statusString, 0x2f);
     numEntry = (unsigned char)strtoul(valueStr, 0, 10);
     if (numEntry == maxEntry)
     {
@@ -581,9 +589,9 @@ int DWC_ConnectToGameServerAsync(
 
 error:
     DWCi_SetError(dwcError, 0);
-    g_021AA878.st->matchedCallback(dwcError, 0, 1, 0, 0,
-                                    g_021AA878.st->matchedParam);
-    if (g_021AA878.st != 0 && g_021AA878.st->state == 4)
+    gDwcGlobalState.st->matchedCallback(dwcError, 0, 1, 0, 0,
+                                    gDwcGlobalState.st->matchedParam);
+    if (gDwcGlobalState.st != 0 && gDwcGlobalState.st->state == 4)
     {
         DWCi_SetState(3);
         DWCi_GPSetServerStatus(1);
@@ -600,10 +608,10 @@ error:
  */
 int DWC_SetConnectionClosedCallback(MatchedCallback callback, void *param)
 {
-    if (g_021AA878.st == 0)
+    if (gDwcGlobalState.st == 0)
         return 0;
-    g_021AA878.st->closedCallback = callback;
-    g_021AA878.st->closedParam = param;
+    gDwcGlobalState.st->closedCallback = callback;
+    gDwcGlobalState.st->closedParam = param;
     return 1;
 }
 
@@ -619,14 +627,14 @@ int DWC_CloseAllConnectionsHard(void)
     int i;
     int anyGT2ConnectionExist = 0;
 
-    g_021AA878.st->match.cancelFromConnection = 1;
+    gDwcGlobalState.st->match.cancelFromConnection = 1;
     if (DWC_CancelMatch())
         return 1;
-    if (g_021AA878.st == 0 || DWCi_IsError() ||
-        (g_021AA878.st->state != 4 && g_021AA878.st->state != 5))
+    if (gDwcGlobalState.st == 0 || DWCi_IsError() ||
+        (gDwcGlobalState.st->state != 4 && gDwcGlobalState.st->state != 5))
         return -1;
     for (i = 0; i < 32; i++) {
-        if (g_021AA8A0[i] != 0) {
+        if (gDwcConnectionArray[i] != 0) {
             anyGT2ConnectionExist = 1;
             break;
         }
@@ -642,16 +650,16 @@ int DWC_CloseAllConnectionsHard(void)
         DWCi_CloseMatch();
         return 1;
     }
-    g_021AA878.st->closeAllHard = 1;
-    gt2CloseAllConnectionsHard((int *)g_021AA878.st->gt2Socket);
+    gDwcGlobalState.st->closeAllHard = 1;
+    gt2CloseAllConnectionsHard((int *)gDwcGlobalState.st->gt2Socket);
     while (DWCi_NodeInfoList_GetCount() > 1) {
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
-            if (pNodeInfo->profileID != g_021AA878.st->profileID)
+            if (pNodeInfo->profileID != gDwcGlobalState.st->profileID)
                 DWCi_GT2ClosedProcess(0, 0, 1, pNodeInfo->aid);
         }
     }
-    g_021AA878.st->closeAllHard = 0;
+    gDwcGlobalState.st->closeAllHard = 0;
     DWCi_NodeInfoList_Clear();
     DWCi_SetMatchStatus(0);
     DWCi_CloseMatch();
@@ -681,7 +689,7 @@ int DWC_GetNumConnectionHost(void)
 {
     int num;
 
-    if (g_021AA878.st == 0 || DWCi_IsGetAIDValid() == 0) {
+    if (gDwcGlobalState.st == 0 || DWCi_IsGetAIDValid() == 0) {
         num = 0;
     } else {
         num = DWCi_NodeInfoList_GetCount();
@@ -698,10 +706,10 @@ unsigned char DWC_GetMyAID(void)
 {
     DWCstNodeInfo *node;
 
-    if (g_021AA878.st == 0 || DWCi_IsGetAIDValid() == 0) {
+    if (gDwcGlobalState.st == 0 || DWCi_IsGetAIDValid() == 0) {
         return 0xff;
     }
-    node = DWCi_NodeInfoList_GetNodeInfoForProfileID(g_021AA878.st->profileID);
+    node = DWCi_NodeInfoList_GetNodeInfoForProfileID(gDwcGlobalState.st->profileID);
     if (node == 0) {
         return 0xff;
     }
@@ -717,14 +725,14 @@ int DWC_GetAIDList(unsigned char **out)
 {
     int i;
 
-    if (g_021AA878.st == 0 || DWCi_IsGetAIDValid() == 0) {
+    if (gDwcGlobalState.st == 0 || DWCi_IsGetAIDValid() == 0) {
         return 0;
     }
-    MI_CpuFill8(g_021AA880, 0, 0x20);
+    MI_CpuFill8(gDwcNodeAidList, 0, 0x20);
     for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
-        g_021AA880[i] = DWCi_NodeInfoList_GetNodeInfoForIndex(i)->aid;
+        gDwcNodeAidList[i] = DWCi_NodeInfoList_GetNodeInfoForIndex(i)->aid;
     }
-    *out = g_021AA880;
+    *out = gDwcNodeAidList;
     return DWCi_NodeInfoList_GetCount();
 }
 
@@ -738,7 +746,7 @@ int DWC_GetAIDBitmap(void)
     unsigned char *list;
     int n;
 
-    if (g_021AA878.st == 0 || DWCi_IsGetAIDValid() == 0) {
+    if (gDwcGlobalState.st == 0 || DWCi_IsGetAIDValid() == 0) {
         return 0;
     }
     n = DWC_GetAIDList(&list);
@@ -752,7 +760,7 @@ int DWC_GetAIDBitmap(void)
  */
 int DWC_IsValidAID(unsigned char aid)
 {
-	if (g_021AA878.st == 0)
+	if (gDwcGlobalState.st == 0)
 		return 0;
 	if (aid == DWC_GetMyAID())
 		return 0;
@@ -765,7 +773,7 @@ int DWC_IsValidAID(unsigned char aid)
 
 int DWC_GetState(void)
 {
-    DWCstDwcCnt *p = g_021AA878.st;
+    DWCstDwcCnt *p = gDwcGlobalState.st;
 
     return p != 0 ? p->state : 0;
 }
@@ -777,7 +785,7 @@ int DWC_GetState(void)
  */
 unsigned char DWC_GetServerAID(void)
 {
-    DWCstDwcCnt *p = g_021AA878.st;
+    DWCstDwcCnt *p = gDwcGlobalState.st;
     DWCstNodeInfo *node;
 
     if (p == 0 || p->match.state == 0 || p->match.state == 9 ||
@@ -795,13 +803,13 @@ unsigned char DWC_GetServerAID(void)
 
 int DWC_IsServerMyself(void)
 {
-    if (g_021AA878.st == 0) {
+    if (gDwcGlobalState.st == 0) {
         return 0;
     }
     if (DWC_GetServerAID() == 0xff) {
         return 0;
     }
-    return g_021AA878.st->match.qr2HostState == 2;
+    return gDwcGlobalState.st->match.qr2HostState == 2;
 }
 
 
@@ -814,14 +822,14 @@ int DWCi_GT2Startup(void)
 	int gt2Result;
 	unsigned short baseport;
 
-	if (g_021AA878.st->gt2Socket != 0)
+	if (gDwcGlobalState.st->gt2Socket != 0)
 		return 0;
 	baseport = func_021685CC(0x4000) + 0xc000;
-	gt2Result = gt2CreateSocket(&g_021AA878.st->gt2Socket, gt2AddressToString(0, baseport, 0), g_021AA878.st->sendBufSize, g_021AA878.st->recvBufSize, DWCi_GT2SocketErrorCallback);
+	gt2Result = gt2CreateSocket(&gDwcGlobalState.st->gt2Socket, gt2AddressToString(0, baseport, 0), gDwcGlobalState.st->sendBufSize, gDwcGlobalState.st->recvBufSize, DWCi_GT2SocketErrorCallback);
 	if (DWCi_HandleGT2Error(gt2Result))
 		return gt2Result;
-	gt2Listen(g_021AA878.st->gt2Socket, func_0216E5B0);
-	gt2SetUnrecognizedMessageCallback(g_021AA878.st->gt2Socket, DWCi_GT2UnrecognizedMessageCallback);
+	gt2Listen(gDwcGlobalState.st->gt2Socket, func_0216E5B0);
+	gt2SetUnrecognizedMessageCallback(gDwcGlobalState.st->gt2Socket, DWCi_GT2UnrecognizedMessageCallback);
 	return gt2Result;
 }
 
@@ -834,12 +842,12 @@ void *DWCi_GetGT2Connection(unsigned char aid)
 {
     int i;
 
-    if (g_021AA878.st == 0) {
+    if (gDwcGlobalState.st == 0) {
         return 0;
     }
     for (i = 0; i < 0x20; i++) {
-        if (g_021AA8A0[i] != 0 && aid == gt2GetConnectionData(g_021AA8A0[i])->aid) {
-            return g_021AA8A0[i];
+        if (gDwcConnectionArray[i] != 0 && aid == gt2GetConnectionData(gDwcConnectionArray[i])->aid) {
+            return gDwcConnectionArray[i];
         }
     }
     return 0;
@@ -867,15 +875,15 @@ int DWCi_GT2GetConnectionListIdx(void)
     int i;
 
     for (i = 0; i < 0x20; i++)
-        if (g_021AA8A0[i] == 0) return i;
+        if (gDwcConnectionArray[i] == 0) return i;
     return -1;
 }
 
 
 void DWCi_ClearGT2ConnectionList(void)
 {
-    MIi_CpuClear32(0, g_021AA8A0, 0x80);
-    MIi_CpuClear32(0, g_021AA920, 0x100);
+    MIi_CpuClear32(0, gDwcConnectionArray, 0x80);
+    MIi_CpuClear32(0, gDwcNodeInfoBuffer, 0x100);
 }
 
 
@@ -884,7 +892,7 @@ void DWCi_ClearGT2ConnectionList(void)
  */
 void **DWCi_GetGT2ConnectionByIdx(int i)
 {
-    return &g_021AA8A0[i];
+    return &gDwcConnectionArray[i];
 }
 
 
@@ -896,7 +904,7 @@ void **DWCi_GetGT2ConnectionByProfileID(int pid, int flag)
     int i;
 
     for (i = 0; i < 0x20; i++) {
-        if (g_021AA8A0[i] != 0 && pid == gt2GetConnectionData(g_021AA8A0[i])->profileID) {
+        if (gDwcConnectionArray[i] != 0 && pid == gt2GetConnectionData(gDwcConnectionArray[i])->profileID) {
             return DWCi_GetGT2ConnectionByIdx(i);
         }
     }
@@ -909,7 +917,7 @@ void **DWCi_GetGT2ConnectionByProfileID(int pid, int flag)
  */
 void *DWCi_GetConnectionInfoByIdx(int i)
 {
-    return g_021AA920 + i * 8;
+    return gDwcNodeInfoBuffer + i * 8;
 }
 
 
@@ -921,8 +929,8 @@ int DWCi_IsValidAID(unsigned char aid)
 	int i;
 
 	for (i = 0; i < 0x20; i++) {
-		if (g_021AA8A0[i] != 0) {
-			if (aid == gt2GetConnectionData(g_021AA8A0[i])->aid)
+		if (gDwcConnectionArray[i] != 0) {
+			if (aid == gt2GetConnectionData(gDwcConnectionArray[i])->aid)
 				return 1;
 		}
 	}
@@ -938,8 +946,8 @@ int DWCi_IsValidAID(unsigned char aid)
  */
 void DWCi_SetState(int v)
 {
-    g_021AA878.st->prevState = g_021AA878.st->state;
-    g_021AA878.st->state = v;
+    gDwcGlobalState.st->prevState = gDwcGlobalState.st->state;
+    gDwcGlobalState.st->state = v;
 }
 
 
@@ -994,14 +1002,14 @@ int DWCi_HandleGPError(int result)
     case 3: dwcError = 6; errorCode = -10; break;
     case 4: dwcError = 6; errorCode = -20; break;
     }
-    switch (g_021AA878.st->state) {
+    switch (gDwcGlobalState.st->state) {
     case 1:
         errorCode += (int)0xffff11b8;
         DWCi_StopLogin(dwcError, errorCode);
         break;
     case 2:
         errorCode += (int)0xffff11b8;
-        if (g_021AA878.st->login.state < 1)
+        if (gDwcGlobalState.st->login.state < 1)
             DWCi_StopLogin(dwcError, errorCode);
         break;
     case 4:
@@ -1075,9 +1083,9 @@ int DWCi_CloseConnectionHard(unsigned char aid)
     void *conn;
     DWCstNodeInfo *node;
 
-    if (g_021AA878.st == 0 || DWCi_IsError() != 0 ||
-        (g_021AA878.st->state != 4 &&
-         g_021AA878.st->state != 5)) {
+    if (gDwcGlobalState.st == 0 || DWCi_IsError() != 0 ||
+        (gDwcGlobalState.st->state != 4 &&
+         gDwcGlobalState.st->state != 5)) {
         return -1;
     }
     conn = DWCi_GetGT2Connection(aid);
@@ -1100,14 +1108,14 @@ int DWCi_CloseConnectionHard(unsigned char aid)
 void DWCi_LoginCallback(int error, int profileID, void *param)
 {
 	if (error == 0) {
-		g_021AA878.st->profileID = profileID;
+		gDwcGlobalState.st->profileID = profileID;
 		DWCi_SetState(3);
 		DWCi_InitGPProcessCount();
 	} else {
 		DWCi_SetState(0);
 	}
-	if (g_021AA878.st->loginCallback != 0)
-		g_021AA878.st->loginCallback(error, profileID, g_021AA878.st->loginParam);
+	if (gDwcGlobalState.st->loginCallback != 0)
+		gDwcGlobalState.st->loginCallback(error, profileID, gDwcGlobalState.st->loginParam);
 }
 
 
@@ -1116,7 +1124,7 @@ void DWCi_LoginCallback(int error, int profileID, void *param)
 
 void DWCi_UpdateServersCallback(int error, int isChanged)
 {
-    DWCstDwcCnt *p = g_021AA878.st;
+    DWCstDwcCnt *p = gDwcGlobalState.st;
 
     p->updateCallback(error, isChanged, p->updateParam);
 }
@@ -1131,16 +1139,16 @@ void DWCi_UpdateServersCallback(int error, int isChanged)
 void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int index, void *param)
 {
 	if (error == 0 && cancel != 0) {
-		if (g_021AA878.st->match.state == 0) {
+		if (gDwcGlobalState.st->match.state == 0) {
 			DWCi_SetState(3);
 			func_0216EC18();
 		}
 	} else if (error == 0) {
 		DWCi_SetState(5);
 	}
-	if (g_021AA878.st->match.cancelFromConnection == 0)
-		((void (*)(int, int, int, int, int, void *))g_021AA878.st->matchedCallback)(error, cancel, self, isServer, index, g_021AA878.st->matchedParam);
-	if (error != 0 && g_021AA878.st != 0 && (unsigned int)(g_021AA878.st->state - 4) <= 1)
+	if (gDwcGlobalState.st->match.cancelFromConnection == 0)
+		((void (*)(int, int, int, int, int, void *))gDwcGlobalState.st->matchedCallback)(error, cancel, self, isServer, index, gDwcGlobalState.st->matchedParam);
+	if (error != 0 && gDwcGlobalState.st != 0 && (unsigned int)(gDwcGlobalState.st->state - 4) <= 1)
 		DWCi_SetState(3);
 }
 
@@ -1169,9 +1177,9 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
     char version[12] = {0};
 
     message = arg->message;
-    if (memcmp(message, g_021A2030, strlen(g_021A2030)) != 0)
+    if (memcmp(message, gDwcPrefixGpcm, strlen(gDwcPrefixGpcm)) != 0)
         return;
-    message += strlen(g_021A2030);
+    message += strlen(gDwcPrefixGpcm);
     len = strchr(message, 'v') - message;
     strncpy(version, message, len);
     if (len > 10)
@@ -1179,16 +1187,16 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
     if (strtoul(version, 0, 10) != 90)
         return;
     message += len + 1;
-    if (memcmp(message, g_021A2038, strlen(g_021A2038)) != 0)
+    if (memcmp(message, gDwcPrefixMat, strlen(gDwcPrefixMat)) != 0)
         return;
-    if (g_021AA878.st->state != 4) {
-        if (g_021AA878.st->state != 5)
+    if (gDwcGlobalState.st->state != 4) {
+        if (gDwcGlobalState.st->state != 5)
             return;
         /* stand-in: the image reloads qr2MatchType for each compare */
-        if (*(volatile u8 *)&g_021AA878.st->match.qr2MatchType != 2 && *(volatile u8 *)&g_021AA878.st->match.qr2MatchType != 3)
+        if (*(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchType != 2 && *(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchType != 3)
             return;
     }
-    DWCi_MatchGPRecvBuddyMsgCallback(pconnection, arg->profile, message + strlen(g_021A2038));
+    DWCi_MatchGPRecvBuddyMsgCallback(pconnection, arg->profile, message + strlen(gDwcPrefixMat));
 }
 
 
@@ -1267,11 +1275,11 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         }
 
         profileID = DWCi_DeleteAID(aid);
-        g_021AA878.st->match.suspendBitmap &= ~(1 << aid);
+        gDwcGlobalState.st->match.suspendBitmap &= ~(1 << aid);
 
-        if (g_021AA878.st->match.suspendActive != 0 && isServer) {
+        if (gDwcGlobalState.st->match.suspendActive != 0 && isServer) {
             if (!DWCi_IsBackupMine())
-                g_021AA878.st->match.suspendRestart = 1;
+                gDwcGlobalState.st->match.suspendRestart = 1;
         }
 
         i = 0;
@@ -1280,56 +1288,56 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
             profileID = gt2GetConnectionData(DWCi_GetGT2Connection(aid))->profileID;
 
         if (!isPseudClose)
-            g_021AA8A0[conninfo->index] = 0;
+            gDwcConnectionArray[conninfo->index] = 0;
     }
 
-    if (g_021AA878.st->match.isFirstServer == 1 && DWC_IsServerMyself())
-        g_021AA878.st->match.isFirstServer = 1;
+    if (gDwcGlobalState.st->match.isFirstServer == 1 && DWC_IsServerMyself())
+        gDwcGlobalState.st->match.isFirstServer = 1;
     /* stand-in: the image reloads qr2MatchTypeExt for each compare */
-    else if ((*(volatile u8 *)&g_021AA878.st->match.qr2MatchTypeExt == 3 || *(volatile u8 *)&g_021AA878.st->match.qr2MatchTypeExt == 2))
-        g_021AA878.st->match.isFirstServer = 0;
+    else if ((*(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchTypeExt == 3 || *(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchTypeExt == 2))
+        gDwcGlobalState.st->match.isFirstServer = 0;
     else if (DWC_GetNumConnectionHost() == 1)
-        g_021AA878.st->match.isFirstServer = 1;
+        gDwcGlobalState.st->match.isFirstServer = 1;
     else
-        g_021AA878.st->match.isFirstServer = 0;
+        gDwcGlobalState.st->match.isFirstServer = 0;
 
     if (DWCi_IsBackupMine()) {
         DWCstNodeInfo *pNodeInfo;
 
-        g_021AA878.st->match.serverDownBase = 0;
+        gDwcGlobalState.st->match.serverDownBase = 0;
 
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); ) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
 
-            if (pNodeInfo->profileID != g_021AA878.st->match.profileID &&
+            if (pNodeInfo->profileID != gDwcGlobalState.st->match.profileID &&
                 DWCi_GetGT2Connection(pNodeInfo->aid) == 0) {
-                if (g_021AA878.st->closedCallback != 0) {
-                    g_021AA878.st->closedCallback(dwcError, reason == 0, isServer,
+                if (gDwcGlobalState.st->closedCallback != 0) {
+                    gDwcGlobalState.st->closedCallback(dwcError, reason == 0, isServer,
                                           pNodeInfo->aid,
                                           DWCi_GetFriendListIndex(pNodeInfo->profileID),
-                                          g_021AA878.st->closedParam);
+                                          gDwcGlobalState.st->closedParam);
                 }
                 DWCi_DeleteAID(pNodeInfo->aid);
             } else {
                 pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
-                g_021AA878.st->match.serverDownBase |= 1 << pNodeInfo->aid;
+                gDwcGlobalState.st->match.serverDownBase |= 1 << pNodeInfo->aid;
                 i++;
             }
         }
     }
 
     if (reason != 0 && DWC_IsServerMyself() == 1) {
-        g_021AA878.st->match.serverPollingTime = 0;
+        gDwcGlobalState.st->match.serverPollingTime = 0;
 
         if (DWCi_IsFullMesh()) {
-            if (g_021AA878.st->match.state == 0x10 && g_021AA878.st->match.cmdCnt.command == 8) {
-                g_021AA878.st->match.cmdCnt.sendTime = 0;
+            if (gDwcGlobalState.st->match.state == 0x10 && gDwcGlobalState.st->match.cmdCnt.command == 8) {
+                gDwcGlobalState.st->match.cmdCnt.sendTime = 0;
             }
         }
     }
 
-    if (g_021AA878.st->closeAllHard == 0 && g_021AA878.st->state == 5 && aidValid == 0) {
-        if (!(g_021AA878.st->match.qr2MatchType == 2 && dwcError == 0))
+    if (gDwcGlobalState.st->closeAllHard == 0 && gDwcGlobalState.st->state == 5 && aidValid == 0) {
+        if (!(gDwcGlobalState.st->match.qr2MatchType == 2 && dwcError == 0))
             return;
 
         DWCi_GPSetServerStatus(-1);
@@ -1347,8 +1355,8 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         return;
     }
 
-    if (g_021AA878.st->match.qr2MatchType == 2) {
-        if (g_021AA878.st->closeAllHard == 0)
+    if (gDwcGlobalState.st->match.qr2MatchType == 2) {
+        if (gDwcGlobalState.st->closeAllHard == 0)
             DWCi_GPSetServerStatus(-1);
         else if (DWCi_NodeInfoList_GetCount() == 1)
             DWCi_GPSetServerStatus(1);
@@ -1356,34 +1364,34 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         DWCi_GPSetServerStatus(1);
     }
 
-    if (g_021AA878.st->match.qr2HostState == 2)
-        qr2_send_statechanged(g_021AA878.st->match.qr2Obj);
+    if (gDwcGlobalState.st->match.qr2HostState == 2)
+        qr2_send_statechanged(gDwcGlobalState.st->match.qr2Obj);
 
-    if (g_021AA878.st->closedCallback != 0 && aidValid != 0) {
-        g_021AA878.st->closedCallback(dwcError, reason == 0, isServer, aid,
+    if (gDwcGlobalState.st->closedCallback != 0 && aidValid != 0) {
+        gDwcGlobalState.st->closedCallback(dwcError, reason == 0, isServer, aid,
                               DWCi_GetFriendListIndex(profileID),
-                              g_021AA878.st->closedParam);
+                              gDwcGlobalState.st->closedParam);
     }
 
-    if (g_021AA878.st->closeAllHard == 0 && g_021AA878.st->match.qr2MatchType == 2)
+    if (gDwcGlobalState.st->closeAllHard == 0 && gDwcGlobalState.st->match.qr2MatchType == 2)
         return;
 
     if (DWCi_StopMeshMaking() == 1)
         DWCi_SetMatchStatus(1);
 
     if (DWCi_NodeInfoList_GetCount() == 1) {
-        if (g_021AA878.st->closeAllHard != 0) {
+        if (gDwcGlobalState.st->closeAllHard != 0) {
             DWCi_NNFreeNegotiateList();
             DWCi_SetState(3);
             DWCi_ClearQR2Key();
-            g_021AA878.st->match.qr2HostState = 0;
+            gDwcGlobalState.st->match.qr2HostState = 0;
         } else {
             DWCi_SetMatchStatus(0xb);
         }
         return;
     }
 
-    if (g_021AA878.st->match.qr2MatchType == 3 && isServer && DWCi_NodeInfoList_GetCount() >= 1) {
+    if (gDwcGlobalState.st->match.qr2MatchType == 3 && isServer && DWCi_NodeInfoList_GetCount() >= 1) {
         if (DWCi_NodeInfoList_GetCount() == 1 && DWCi_IsServerChangeEnabled())
             DWCi_SetMatchStatus(0xb);
         else
@@ -1408,9 +1416,9 @@ void DWCi_GT2PingCallback(void *connection, int latency)
 void DWCi_GT2SocketErrorCallback(void *socket)
 {
     gt2GetSocketSOCKET(socket);
-    g_021AA878.lastSocketError = GOAGetLastError();
+    gDwcGlobalState.lastSocketError = GOAGetLastError();
     func_02059F54(9, (int)0xfffe8515);
-    *(int *)g_021AA878.st = 0;
+    *(int *)gDwcGlobalState.st = 0;
 }
 
 
@@ -1420,8 +1428,8 @@ void DWCi_GT2SocketErrorCallback(void *socket)
  */
 void DWCi_CustomCommonInit(unsigned char v)
 {
-    g_021AA878.st->match.qr2MatchTypeExt = v;
-    g_021AA878.st->match.connectGroupID = 0;
+    gDwcGlobalState.st->match.qr2MatchTypeExt = v;
+    gDwcGlobalState.st->match.connectGroupID = 0;
 }
 
 
@@ -1444,7 +1452,7 @@ unsigned char DWCi_GetServerOrSubServerAID(void)
 int DWCi_IsGetAIDValid(void)
 {
     int r = 1;
-    DWCstDwcCnt *p = g_021AA878.st;
+    DWCstDwcCnt *p = gDwcGlobalState.st;
 
     if (p->match.qr2MatchTypeExt != 2)
         if (p->match.connectionEstablished == 0) r = 0;

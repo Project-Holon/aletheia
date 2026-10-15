@@ -1,5 +1,5 @@
 /*
- * function: func_021BC378
+ * function: BEACON_DETAIL_GRA_FreeBackground
  * address:  0x021BC378
  * packet:   pkt_021BC378
  * region:   ov216
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BC378(char *p)
+void BEACON_DETAIL_GRA_FreeBackground(char *p)
 {
     func_020307B0(((struct Obj25770 *)p)->f120);
     *(volatile unsigned short *)0x04001050 = 0;

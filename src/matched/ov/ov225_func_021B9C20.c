@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C20
+ * function: MANUAL_COMMON_GetEntryCount
  * address: 0x021B9C20
  * packet: pkt_ov225_021B9C20
  * region: ov225
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj26135.h"
 typedef unsigned short u16;
-u16 func_021B9C20(const char *p) {return **(u16 * *)&((struct Obj26135 *)p)->f4;}
+u16 MANUAL_COMMON_GetEntryCount(const char *p) {return **(u16 * *)&((struct Obj26135 *)p)->f4;}

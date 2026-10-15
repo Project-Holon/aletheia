@@ -24,8 +24,8 @@
 typedef unsigned short u16;
 struct Obj24810;
 extern unsigned BR_PROC_SYS_GetSlotId(struct Obj24810 *p);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, int, unsigned int);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 typedef unsigned int   u32;

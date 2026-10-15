@@ -1,5 +1,5 @@
 /*
- * function: func_021BE3A4
+ * function: INTRO_CMD_CmdBgmChange
  * address:  0x021BE3A4
  * packet:   pkt_021BE3A4
  * region:   ov204
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 
-u32 func_021BE3A4(u32 a, u32 b, u32 *c)
+u32 INTRO_CMD_CmdBgmChange(u32 a, u32 b, u32 *c)
 {
     GFL_USE_CancelChangeAndPlayBgm(*c, 0xffff);
     return 1;

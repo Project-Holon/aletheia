@@ -24,7 +24,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   g_7A20 0x021C7A20 data
  *   g_7A20b 0x021C7A20 data
  */
@@ -67,7 +67,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 typedef enum { SLOT_ZERO = 0 } SlotIndex;
 
 void MB_SEQ_CreateWindows(u8 *p)
@@ -93,9 +93,9 @@ void MB_SEQ_CreateWindows(u8 *p)
     t = ((struct Obj23544 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f44;
     BMP_WIN_TransferChars(t);
     BMP_WIN_MakeScreen(t);
-    func_020409B4(BMP_WIN_GetBgLayer(t));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(t));
     t = ((struct Obj23545 *)(*(u8 * *)&((struct Obj02866 *)p)->f8))->f48;
     BMP_WIN_TransferChars(t);
     BMP_WIN_MakeScreen(t);
-    func_020409B4(BMP_WIN_GetBgLayer(t));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(t));
 }

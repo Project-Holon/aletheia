@@ -14,7 +14,7 @@
  * symbols:
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02017E88 0x02017E88 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -43,7 +43,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 func_02017E88(void *,u32,void *);
 extern u32 POKE_TOOL_IsBoxShiny(void *);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -76,7 +76,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
     u32 species;
     if(((struct Obj00112 *)p)->f38==0) {
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->fC,8,1,1,0x3c40);
-        ws=GF_FONT_Create_EC64(((struct Obj00112 *)p)->f0);
+        ws=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         v=func_02017E88(mon,5,0);
         pal=0x440;
         if(((struct Obj23145 *)(*(u8 * *)&((struct Obj00112 *)p)->f8))->f18==0) v=(*(u16 **)(q+8))[v];
@@ -98,7 +98,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f14,12,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f18,13,1,1,0x3c40);
         v2=STRBUF_Create(0x20,((struct Obj00112 *)p)->f0);
-        ws2=GF_FONT_Create_EC64(((struct Obj00112 *)p)->f0);
+        ws2=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         r=func_02017E88(mon,0x9a,v2);
         if(r==0) pal=0x14c0;
         else if(r==1) pal=0xc80;
@@ -108,7 +108,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         WORDSET_DeleteStrbufED04(ws2);
         STRBUF_Delete(v2);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f1C,15,1,1,0x3c40);
-        ws3=GF_FONT_Create_EC64(((struct Obj00112 *)p)->f0);
+        ws3=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         x=func_02017E88(mon,7,0);
         WORDSET_SetSlotNumber(ws3,0,x,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f1C,ws3,16,0x41,1,0x440);
@@ -124,13 +124,13 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         C=A-s18;
         if(n==100) C=0;
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f20,17,1,1,0x3c40);
-        ws4=GF_FONT_Create_EC64(((struct Obj00112 *)p)->f0);
+        ws4=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         WORDSET_SetSlotNumber(ws4,0,s18,7,0,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f24,ws4,18,1,1,0x440);
         WORDSET_DeleteStrbufED04(ws4);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f28,19,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f2C,20,1,1,0x440);
-        ws5=GF_FONT_Create_EC64(((struct Obj00112 *)p)->f0);
+        ws5=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         WORDSET_SetSlotNumber(ws5,0,C,6,0,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f2C,ws5,21,0x21,1,0x440);
         WORDSET_DeleteStrbufED04(ws5);

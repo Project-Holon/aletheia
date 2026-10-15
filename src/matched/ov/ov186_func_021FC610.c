@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  *   d_0220099C 0x0220099C data a4
  */
@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 id;u8 rest[40];} Record;
 extern const Record d_0220099C[];
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
-void BR_GRAPHIC_Begin3d(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)func_020403F4((u8)id);}GX_SetGraphicsMode(1,0,1);}
+void BR_GRAPHIC_Begin3d(u32 a, u16 b){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)BG_SYS_FreeLayerBuf((u8)id);}GX_SetGraphicsMode(1,0,1);}

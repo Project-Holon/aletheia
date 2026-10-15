@@ -70,7 +70,7 @@
  *   gOptionMenuBgLayers  0x021BB614  data  a4
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -126,7 +126,7 @@
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   BMP_WIN_GetPalette  0x02045778  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   func_02045CAC  0x02045CAC  arm
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
@@ -281,7 +281,7 @@ extern void func_020307B0(void *p);
 extern struct BmpWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWindow *window);
 extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
-extern void func_020403F4(u32 a);
+extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern struct StringBuf *func_02045EC0(struct MsgBank *msgBank, u32 index);
@@ -332,7 +332,7 @@ extern struct StringBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void PRINTSYS_CTRL_Init(PrintWaitState *waitState, u32 v);
 extern u8 BMP_WIN_GetPalette(struct BmpWindow *window);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWindow *window, int a1, int a2, int palette);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 extern void func_02045CAC(struct MsgBank *msgBank, u32 index, struct StringBuf *dest);
 extern void PRINTSYS_PrintQue(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct StringBuf *str, struct GfFont *font);
@@ -697,7 +697,7 @@ void OPTION_MENU_ExitGfx(OptionMenuGfx *gfx)
     i = 0;
     BG_SYS_SetTileUnit(3, 1, 0);
     for (i = 0; i < 6; i++) {
-        func_020403F4((u8)gOptionMenuBgLayers[i].layerId);
+        BG_SYS_FreeLayerBuf((u8)gOptionMenuBgLayers[i].layerId);
     }
     BMP_WIN_Exit();
     BG_SYS_Delete();
@@ -1053,7 +1053,7 @@ void OPTION_MENU_InitTextBox(OptionMenuTextBox *box, struct BmpWindow *window, s
     printWindow = box->window;
     BMP_WIN_TransferChars(printWindow);
     BMP_WIN_MakeScreen(printWindow);
-    func_020409B4(BMP_WIN_GetBgLayer(printWindow));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(printWindow));
     box->printWindow = box->window;
     box->printing = 0;
 }

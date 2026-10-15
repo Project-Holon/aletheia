@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BF4
+ * function: MONOLITH_TOOL_STATS_DeleteWindows
  * address: 0x021B8BF4
  * packet: pkt_ov071_021B8BF4
  * region: ov071
@@ -15,4 +15,4 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021B8BF4(void **p) { int i; for (i=0;i<6;i++) BMP_WIN_Delete(p[i]); }
+void MONOLITH_TOOL_STATS_DeleteWindows(void **p) { int i; for (i=0;i<6;i++) BMP_WIN_Delete(p[i]); }

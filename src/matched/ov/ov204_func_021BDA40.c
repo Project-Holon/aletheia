@@ -1,5 +1,5 @@
 /*
- * function: func_021BDA40
+ * function: INTRO_GRAPHIC_Create
  * address: 0x021BDA40
  * packet: pkt_ov204_021BDA40
  * region: ov204
@@ -12,35 +12,35 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BDC18 0x021BDC18 thumb ov204
+ *   INTRO_GRAPHIC_CreateDisplay 0x021BDC18 thumb ov204
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   INTRO_MCSS_Create 0x021BF594 thumb ov204
  *   INTRO_G3D_Create 0x021BF8DC thumb ov204
  *   INTRO_PARTICLE_Create 0x021BFC24 thumb ov204
- *   func_021BEF20 0x021BEF20 thumb ov204
+ *   INTRO_CMD_Create 0x021BEF20 thumb ov204
  *   ov067_id 0x00000043 data
  */
 #include "../include/Obj00689.h"
 #include "../include/Obj25331.h"
 #include "../include/Obj25332.h"
 #include "../include/Obj25333.h"
-struct Obj0203159C; struct GfFont; struct MsgBank;
+struct Proc; struct GfFont; struct MsgBank;
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 typedef unsigned short u16;
-extern void *func_021BDC18(int swap, int mode, u16 heap);
+extern void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
 extern struct MsgBank *func_02045B38(unsigned, unsigned, unsigned, unsigned);
 extern void *INTRO_MCSS_Create(unsigned int heap, int kind);
 typedef unsigned int   u32;
 extern char *INTRO_G3D_Create(void *owner, int kind, u32 heap);
 extern char *INTRO_PARTICLE_Create(void *owner, unsigned heap);
-extern char *func_021BEF20(void *, unsigned, unsigned, char *, unsigned, unsigned short);
+extern char *INTRO_CMD_Create(void *, unsigned, unsigned, char *, unsigned, unsigned short);
 extern const char ov067_id[];
-int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
+int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
 {
     char *p;
     func_02034AC4((int)ov067_id);
@@ -49,12 +49,12 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
     MI_CpuFill8(p, 0, 0x24);
     ((struct Obj00689 *)p)->f0 = 111;
     *(char * *)&((struct Obj00689 *)p)->f4 = args;
-    *(unsigned char * *)&((struct Obj00689 *)p)->f8 = func_021BDC18(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);
+    *(unsigned char * *)&((struct Obj00689 *)p)->f8 = INTRO_GRAPHIC_CreateDisplay(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);
     *(struct GfFont * *)&((struct Obj00689 *)p)->fC = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00689 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00689 *)p)->f10 = func_02045B38(0, 2, 65, ((struct Obj00689 *)p)->f0);
     *(char * *)&((struct Obj00689 *)p)->f18 = INTRO_MCSS_Create(((struct Obj00689 *)p)->f0, ((struct Obj25332 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8);
     ((struct Obj00689 *)p)->f1C = INTRO_G3D_Create(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj25333 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8, ((struct Obj00689 *)p)->f0);
     ((struct Obj00689 *)p)->f20 = INTRO_PARTICLE_Create(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
-    *(char * *)&((struct Obj00689 *)p)->f14 = func_021BEF20(((struct Obj00689 *)p)->f1C, *(unsigned *)&((struct Obj00689 *)p)->f20, *(unsigned *)&((struct Obj00689 *)p)->f18, *(char * *)&((struct Obj00689 *)p)->f4, *(unsigned *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
+    *(char * *)&((struct Obj00689 *)p)->f14 = INTRO_CMD_Create(((struct Obj00689 *)p)->f1C, *(unsigned *)&((struct Obj00689 *)p)->f20, *(unsigned *)&((struct Obj00689 *)p)->f18, *(char * *)&((struct Obj00689 *)p)->f4, *(unsigned *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
     return 1;
 }

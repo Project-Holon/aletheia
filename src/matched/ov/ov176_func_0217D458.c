@@ -1,5 +1,5 @@
 /*
- * function: func_0217D458
+ * function: DIGITALCARDCHECK_SelectPhase
  * address: 0x0217D458
  * packet: pkt_ov176_0217D458
  * region: ov176
@@ -12,13 +12,13 @@
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetCard 0x0200B1D4 thumb
  *   REGULATION_Card_GetValue 0x0200B078 thumb
- *   func_021E8AA0 0x021E8AA0 thumb ov177
- *   func_0217D4FC 0x0217D4FC thumb ov176
- *   func_0217D730 0x0217D730 thumb ov176
- *   func_0217D964 0x0217D964 thumb ov176
- *   func_0217DA38 0x0217DA38 thumb ov176
- *   func_0217DB0C 0x0217DB0C thumb ov176
- *   func_0217DBE0 0x0217DBE0 thumb ov176
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
+ *   DIGITALCARDCHECK_Phase1 0x0217D4FC thumb ov176
+ *   DIGITALCARDCHECK_Phase2 0x0217D730 thumb ov176
+ *   DIGITALCARDCHECK_Phase3 0x0217D964 thumb ov176
+ *   DIGITALCARDCHECK_Phase4 0x0217DA38 thumb ov176
+ *   DIGITALCARDCHECK_Phase5 0x0217DB0C thumb ov176
+ *   DIGITALCARDCHECK_Phase6 0x0217DBE0 thumb ov176
  */
 #include "../include/Obj14366.h"
 struct Big;
@@ -30,14 +30,14 @@ struct Rec160;
 struct Reg2;
 extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
-extern void func_021E8AA0(int *p, int v);
-extern void func_0217D4FC(int *a, int *state, int *p);
-extern void func_0217D730(int *a, int *state, int *p);
-extern void func_0217D964(int *a, int *state, int *p);
-extern void func_0217DA38(int sys, int *state, int *p);
-extern void func_0217DB0C(int sys, int *state, int *p);
-extern void func_0217DBE0(int a, int *state, int *p);
-void func_0217D458(int a, int unused, char *p)
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
+extern void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p);
+extern void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p);
+extern void DIGITALCARDCHECK_Phase3(int *a, int *state, int *p);
+extern void DIGITALCARDCHECK_Phase4(int sys, int *state, int *p);
+extern void DIGITALCARDCHECK_Phase5(int sys, int *state, int *p);
+extern void DIGITALCARDCHECK_Phase6(int a, int *state, int *p);
+void DIGITALCARDCHECK_SelectPhase(int a, int unused, char *p)
 {
     void *m;
     unsigned x;
@@ -46,24 +46,24 @@ void func_0217D458(int a, int unused, char *p)
     x = REGULATION_Card_GetValue(m, 2);
     y = REGULATION_Card_GetValue(m, 10);
     if (x && y == 1) {
-        func_021E8AA0((int *)a, (int)func_0217D4FC);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_Phase1);
         return;
     }
     if (x && y == 2) {
-        func_021E8AA0((int *)a, (int)func_0217D730);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_Phase2);
         return;
     }
     if (x && y == 3) {
-        func_021E8AA0((int *)a, (int)func_0217D964);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_Phase3);
         return;
     }
     if (x && y == 4) {
-        func_021E8AA0((int *)a, (int)func_0217DA38);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_Phase4);
         return;
     }
     if (x && y == 5) {
-        func_021E8AA0((int *)a, (int)func_0217DB0C);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_Phase5);
         return;
     }
-    func_021E8AA0((int *)a, (int)func_0217DBE0);
+    WIFIBATTLEMATCH_UTIL_SetCallback((int *)a, (int)DIGITALCARDCHECK_Phase6);
 }

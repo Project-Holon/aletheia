@@ -17,7 +17,7 @@
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  *   MI_CpuCopy8  0x02082D44  arm  arm9
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -76,7 +76,7 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
  *   BG_SYS_DeleteHalf  0x0203FB44  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -179,7 +179,7 @@
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   TCBL_Main  0x020310C4  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -381,7 +381,7 @@ extern struct WifiList *GAME_DATA_GetField1A0(const struct GameData *gameData);
 extern u32 WIH_DWC_PollStatus(struct WifiList *wifiList);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void func_02040618(u32 frame, u32 op, u32 value);
+extern void BG_SYS_FillScrollArea(u32 frame, u32 op, u32 value);
 extern void TCBL_Main(struct Tcbl *tcbl);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void CLACT_DrawSystem(void);
@@ -394,7 +394,7 @@ extern void TIME_ICON_Delete(struct TimeIcon *icon);
 extern u32 func_020307B0(void *ptr);
 extern int APP_KEYCURSOR_Delete(struct AppKeyCursor *cursor);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
-extern void func_020403F4(u32 frame);
+extern void BG_SYS_FreeLayerBuf(u32 frame);
 extern void PRINTSYS_QUE_Clear(struct PrintQue *printQue);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
@@ -460,7 +460,7 @@ struct PartyInfo;
 extern struct ArcHandle *func_020490F4(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 func_020409B4(u32 bgId);
+extern u32 BG_SYS_PushTile(u32 bgId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void DC_FlushRange(void *p, u32 size);
 extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
@@ -629,31 +629,31 @@ void IRCBATTLEMENU_InitBgLayers(IrcBattleMenuWork *work)
     mainBg0 = sBgTemplateMain0;
     BG_SYS_InitBgLayer(0, &mainBg0, 0);
     BG_SYS_FreeSlot(0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     func_02040588(0, 1);
     mainBg1 = sBgTemplateMain1;
     BG_SYS_InitBgLayer(1, &mainBg1, 0);
     BG_SYS_FreeSlot(1);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     func_02040588(1, 1);
     subBg0 = sBgTemplateSub0;
     BG_SYS_InitBgLayer(4, &subBg0, 0);
     func_02040588(4, 1);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     subBg1 = sBgTemplateSub1;
     BG_SYS_InitBgLayer(5, &subBg1, 0);
     func_02040588(5, 1);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     subBg2 = sBgTemplateSub2;
     BG_SYS_InitBgLayer(6, &subBg2, 0);
     func_02040588(6, 1);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     subBg3 = sBgTemplateSub3;
     BG_SYS_InitBgLayer(7, &subBg3, 0);
     func_02040588(7, 1);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
 }
 
 /* Loads palette bank "bank" (1: BG, 3: OBJ) through the palette fade system, dimmed over "rows" rows of 16 colors. */
@@ -899,8 +899,8 @@ void IRCBATTLEMENU_FreeMenuGraphics(IrcBattleMenuWork *work)
     BG_SYS_SetTileUnit(5, 1, 0);
     frameChar = work->winFrameChar;
     BG_SYS_DeleteHalf(5, (u16)frameChar, (u16)(frameChar >> 16));
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
     STRBUF_Delete(work->message);
@@ -1736,7 +1736,7 @@ u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
     if (work->taskMenuWin != 0) {
         APP_TASKMENU_WIN_Update(work->taskMenuWin);
     }
-    func_02040618(4, 3, work->bgAnimCount);
+    BG_SYS_FillScrollArea(4, 3, work->bgAnimCount);
     work->bgAnimCount = work->bgAnimCount - 1;
     TCBL_Main(work->tcbl);
     PRINTSYS_QUE_Main(work->printQue);
@@ -1776,7 +1776,7 @@ int IRCBATTLEMENU_Exit(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     }
     APP_KEYCURSOR_Delete(work->keyCursor);
     TCBL_Destroy(work->tcbl);
-    func_020403F4(7);
+    BG_SYS_FreeLayerBuf(7);
     PRINTSYS_QUE_Clear(work->printQue);
     PRINTSYS_QUE_Delete(work->printQue);
     if (work->msgWin != 0) {

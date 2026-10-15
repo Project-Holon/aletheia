@@ -13,7 +13,7 @@
  * padding before the next function, not a follower.
  *
  * symbols:
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   PLIST_MESSAGE_OpenWindow  0x021BB714  thumb  ov091
  *   PLIST_MESSAGE_PrintText  0x021BB7E8  thumb  ov091
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void PLIST_MESSAGE_OpenWindow(void *a, u32 *s, u32 k);
@@ -37,7 +37,7 @@ extern void POKELIST_RefreshCursor(u8 *p);
 
 void POKELIST_SetupModeScreen(u8 *p)
 {
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     switch (((struct Obj20857 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f34) {
     case 0:
         PLIST_MESSAGE_OpenWindow(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);

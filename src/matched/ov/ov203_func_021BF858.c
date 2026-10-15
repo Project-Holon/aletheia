@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   TCBL_Main 0x020310C4 arm
- *   func_021BE990 0x021BE990 thumb ov203
+ *   DEMO3D_DATA_GetAnimIndex 0x021BE990 thumb ov203
  *   DEMO3D_CMDSYS_Dispatch 0x021BF9B8 thumb ov203
  */
 typedef struct {int kind,time;int values[8];} Record;
@@ -17,7 +17,7 @@ typedef struct {int heaps;int config;int ended;int done;int previous;int index;c
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern void DEMO3D_CMDSYS_Dispatch(Context *,int,Record *);
-extern Record *func_021BE990(int);
+extern Record *DEMO3D_DATA_GetAnimIndex(int);
 void DEMO3D_CMDSYS_Update(Context *p,int time,int flag)
 {
     Record *r;
@@ -26,7 +26,7 @@ void DEMO3D_CMDSYS_Update(Context *p,int time,int flag)
     p->flags[2]=flag?1:0;
     TCBL_Main(p->task);
     if(p->ended==0 && time!=-4096) {
-        r=func_021BE990(p->config)+p->index;
+        r=DEMO3D_DATA_GetAnimIndex(p->config)+p->index;
         time>>=12;
         if(r->time==time && p->previous!=time) {
             i=0;

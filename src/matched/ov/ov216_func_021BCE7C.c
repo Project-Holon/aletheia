@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE7C
+ * function: BEACON_DETAIL_GRA_SetActorAnim
  * address:  0x021BCE7C
  * packet:   pkt_021BCE7C
  * region:   ov216
@@ -22,7 +22,7 @@ struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 
-void func_021BCE7C(void *p, unsigned short value)
+void BEACON_DETAIL_GRA_SetActorAnim(void *p, unsigned short value)
 {
     CLACT_SetActorAnimSeq(p, value);
     CLACT_RestartActorAnim(p);

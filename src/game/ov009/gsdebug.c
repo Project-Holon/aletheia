@@ -17,14 +17,14 @@
  *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
- *   g_021AD000     0x021AD000  data
- *   g_021AD008     0x021AD008  data
- *   g_021AD020     0x021AD020  data
+ *   gGsDebugState     0x021AD000  data
+ *   gGsDebugCriticalSection     0x021AD008  data
+ *   gGsDebugEnabled     0x021AD020  data
  *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   OS_SPrintf                  0x02084F40  arm
- *   g_020A61DC                     0x020A61DC  data
- *   g_021A3710                     0x021A3710  data
- *   g_021A3718                     0x021A3718  data
+ *   gCtypeMap                     0x020A61DC  data
+ *   gGsDebugHexFormat2                     0x021A3710  data
+ *   gGsDebugMsgFmt                     0x021A3718  data
  */
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 typedef char *va_list;
@@ -45,12 +45,12 @@ void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args);
 void gsDebugFormat(int cat, int type, int level, const char *fmt, ...);
 void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen);
 void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
-extern GSIDebugState g_021AD000;
-extern int g_021AD008[];
-extern unsigned char g_021AD020[][5];
-extern const unsigned short g_020A61DC[];
-extern char g_021A3710[];
-extern char g_021A3718[];
+extern GSIDebugState gGsDebugState;
+extern int gGsDebugCriticalSection[];
+extern unsigned char gGsDebugEnabled[][5];
+extern const unsigned short gCtypeMap[];
+extern char gGsDebugHexFormat2[];
+extern char gGsDebugMsgFmt[];
 
 
 
@@ -76,19 +76,19 @@ void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args)
 {
     unsigned char enabled;
 
-    if (g_021AD000.initialized == 0) {
-        g_021AD000.initialized = 1;
-        gsiInitializeCriticalSection(g_021AD008);
+    if (gGsDebugState.initialized == 0) {
+        gGsDebugState.initialized = 1;
+        gsiInitializeCriticalSection(gGsDebugCriticalSection);
     }
-    gsiEnterCriticalSection(g_021AD008);
-    enabled = g_021AD020[cat][type];
+    gsiEnterCriticalSection(gGsDebugCriticalSection);
+    enabled = gGsDebugEnabled[cat][type];
     if (enabled & level) {
-        if (g_021AD000.callback != 0)
-            g_021AD000.callback(cat, type, level, fmt, args);
+        if (gGsDebugState.callback != 0)
+            gGsDebugState.callback(cat, type, level, fmt, args);
         else
             gsiDebugCallback(cat, type, level, (int)fmt, (int)args);
     }
-    gsiLeaveCriticalSection(g_021AD008);
+    gsiLeaveCriticalSection(gGsDebugCriticalSection);
 }
 
 
@@ -108,7 +108,7 @@ void gsDebugFormat(int cat, int type, int level, const char *fmt, ...)
 }
 
 
-static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x10)); }
+static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (gCtypeMap[c] & 0x10)); }
 
 
 
@@ -132,7 +132,7 @@ void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen)
     while (theInLen--) {
         unsigned char aChar = (unsigned char)(*theInStream++);
 
-        OS_SPrintf(theOutStream, g_021A3710, aChar);
+        OS_SPrintf(theOutStream, gGsDebugHexFormat2, aChar);
         if (isgraph(aChar))
             *(aTextOutStream++) = (char)aChar;
         else
@@ -164,7 +164,7 @@ void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuf
         if (n >= 16)
             n = 16;
         HexEncode16(aReadPos, aHexStr, n);
-        gsDebugFormat(theCat, theType, theLevel, g_021A3718, aHexStr);
+        gsDebugFormat(theCat, theType, theLevel, gGsDebugMsgFmt, aHexStr);
         aBytesLeft -= n;
         aReadPos += n;
     }

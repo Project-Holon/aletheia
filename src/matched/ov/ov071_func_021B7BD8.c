@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B7070(word at 0x4, a + 0x24).
+ * Tail call to MONOLITH_TOOL_CreateBlink(word at 0x4, a + 0x24).
  *
  * symbols:
- *   func_021B7070  0x021B7070  thumb  ov071
+ *   MONOLITH_TOOL_CreateBlink  0x021B7070  thumb  ov071
  */
 #include "../include/Obj20703.h"
 
 void MONOLITH_TOOL_SLOT_SELECT_CreateCursor(void *p, int a)
 {
-    void func_021B7070(int *p, int *out);
-    func_021B7070(((struct Obj20703 *)p)->f4, (int *)(a + 0x24));
+    void MONOLITH_TOOL_CreateBlink(int *p, int *out);
+    MONOLITH_TOOL_CreateBlink(((struct Obj20703 *)p)->f4, (int *)(a + 0x24));
 }

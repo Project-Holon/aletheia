@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB70
+ * function: BEACON_DETAIL_GRA_ExitClact
  * address:  0x021BCB70
  * packet:   pkt_021BCB70
  * region:   ov216
@@ -24,7 +24,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BCB70(char *p)
+void BEACON_DETAIL_GRA_ExitClact(char *p)
 {
     CLACT_DeleteRenderer(((struct Obj14717 *)p)->f4);
     CLACT_DeleteUnit(((struct Obj14717 *)p)->f0);

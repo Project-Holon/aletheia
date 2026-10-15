@@ -25,9 +25,9 @@
  *   PMSIV_CATEGORY_MakeTitleWindow 0x021BB5A0 thumb ov110
  *   PMSIV_CATEGORY_MakeListWindow 0x021BB5E0 thumb ov110
  *   PMSIV_CATEGORY_CreateCursor 0x021BB61C thumb ov110
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   func_0207D658 0x0207D658 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,9 +39,9 @@ extern u8 *PMSIV_CATEGORY_MakeKanaWindow(u8 *, u8 *);
 extern u8 *PMSIV_CATEGORY_MakeTitleWindow(u8 *, u8 *);
 extern void PMSIV_CATEGORY_MakeListWindow(u8 *);
 extern void PMSIV_CATEGORY_CreateCursor(u8 *);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern void func_0207D658(u32, int, int);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 #define WININ (*(volatile u16 *)0x04000048)
 #define WINOUT (*(volatile u16 *)0x0400004a)
 static inline void inside(int wnd, int effect)
@@ -67,8 +67,8 @@ void PMSIV_CATEGORY_Setup(u8 *p, u32 data)
     q = (u32)PMSIV_CATEGORY_MakeKanaWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeTitleWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeListWindow(p);
-    func_02040618(1, 0, -4);
-    func_02040618(1, 3, 16);
+    BG_SYS_FillScrollArea(1, 0, -4);
+    BG_SYS_FillScrollArea(1, 3, 16);
     PMSIV_CATEGORY_CreateCursor(p);
     func_0207D658(0x04000050, 2, -10);
     inside(31, 1);
@@ -76,5 +76,5 @@ void PMSIV_CATEGORY_Setup(u8 *p, u32 data)
     *(volatile u16 *)0x04000040 = 255;
     *(volatile u16 *)0x04000044 = 168;
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0xe000) | 0x2000;
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }

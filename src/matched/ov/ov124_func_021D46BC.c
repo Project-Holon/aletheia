@@ -15,7 +15,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
@@ -56,7 +56,7 @@ struct Cfg;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -82,8 +82,8 @@ void CG_HELP_InitWindows(char *p)
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj00068 *)p)->f20), 0);
     BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)&((struct Obj00068 *)p)->f20);
     BMP_WIN_MakeScreen((struct Cfg *)(*(u32 *)&((struct Obj00068 *)p)->f20));
-    func_020409B4(5);
-    func_020409B4(4);
+    BG_SYS_PushTile(5);
+    BG_SYS_PushTile(4);
     ((struct Obj00068 *)p)->f1C = 0;
     req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 24);
     req.color = 0x39e3;

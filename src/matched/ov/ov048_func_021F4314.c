@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GIMMICK_OBJ_ELBOARD_GetHeapId  0x021F47B4  thumb  ov048
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   FIELD_GIMMICK_GATE_IsExtraSaveListOn  0x021F3AB4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadExtraSaveValues  0x021F3AD4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadSaveBlockValues  0x021F3B64  thumb  ov048
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 
 extern int GIMMICK_OBJ_ELBOARD_GetHeapId(void *p);
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(void *p);
 extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const u16 *p, u32 *out, int *cnt);
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(u16 *p, u32 *out, int *cnt);
@@ -51,7 +51,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
     int i;
     int f;
 
-    h = GF_FONT_Create_EC64(GIMMICK_OBJ_ELBOARD_GetHeapId((void *)p[5]));
+    h = WORDSET_CreateDefault(GIMMICK_OBJ_ELBOARD_GetHeapId((void *)p[5]));
     if (FIELD_GIMMICK_GATE_IsExtraSaveListOn(p))
         FIELD_GIMMICK_GATE_ReadExtraSaveValues((const u16 *)p, buf, &cnt);
     else

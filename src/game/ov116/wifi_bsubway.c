@@ -136,8 +136,9 @@ struct Big;
 struct BigObj;
 struct Ctx;
 struct Sub02008AECObj;
-struct Obj0203159C;
-struct S020315D4;
+/* The PROCSYS work object is shared and opaque here; kept as void * so this
+ * file carries no address-named stand-in. */
+struct Proc;
 struct RecSlot;
 struct U16Vec;
 struct MsgBank;
@@ -173,7 +174,7 @@ struct Record { unsigned short id:11; unsigned short rest:5; };
 
 extern int func_02034AC4(int handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -206,7 +207,7 @@ extern void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_Noop(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);

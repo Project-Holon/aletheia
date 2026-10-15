@@ -24,7 +24,7 @@
  *   TALKMSGWIN_Delete  0x02194798  thumb  ov021
  *   TCBL_Destroy  0x02031140  arm
  *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -46,7 +46,7 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   BMP_FillRect  0x02043AF4  arm  arm9
  *   BMP_MENULIST_Create  0x0201FF30  thumb
  *   func_02020CF8  0x02020CF8  thumb
@@ -84,7 +84,7 @@
  *   TALKMSGWIN_Reprint  0x0219499C  thumb  ov021
  *   TALKMSGWIN_IsShown  0x02194974  thumb  ov021
  *   TALKMSGWIN_GetPrintStream  0x02194984  thumb  ov021
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   TALKMSGWIN_AddFrameWindow  0x02194A00  thumb  ov021
  *   TALKMSGWIN_DeleteFrameWindow  0x02194A48  thumb  ov021
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb  ov021
@@ -219,7 +219,7 @@ extern void FIELD_MSGBG_LoadWindowGraphicsStepFn(int bgFrame, int heapId, int st
 extern void TALKMSGWIN_Delete(struct TalkMsgWinSys *talkSys);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
 extern void BG_SYS_SetTileUnit(u32 frame, u32 visible, u32 mode);
-extern void func_020403F4(u32 frame);
+extern void BG_SYS_FreeLayerBuf(u32 frame);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -241,7 +241,7 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgData *msgData, u32 msgId, struct Strbuf *dest);
 extern void PRINTSYS_PrintQue(struct PrintQue *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font);
 extern void PRINTSYS_PrintQueColor(struct PrintQue *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern u32 func_020409B4(u32 frame);
+extern u32 BG_SYS_PushTile(u32 frame);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
@@ -293,7 +293,7 @@ extern struct BmpWin *TALKMSGWIN_GetBmpWin(struct TalkMsgWinSys *talkSys, u32 in
 extern void TALKMSGWIN_Reprint(struct TalkMsgWinSys *talkSys, int index, struct Strbuf *str, u32 wait);
 extern int TALKMSGWIN_IsShown(struct TalkMsgWinSys *talkSys, int index);
 extern struct PrintStream *TALKMSGWIN_GetPrintStream(struct TalkMsgWinSys *talkSys, u32 index);
-extern void func_02040618(u32 frame, u32 op, u32 value);
+extern void BG_SYS_FillScrollArea(u32 frame, u32 op, u32 value);
 extern struct BmpWin *TALKMSGWIN_AddFrameWindow(struct TalkMsgWinSys *talkSys, u8 x, u8 y, u8 width, u8 height, u32 winType);
 extern u32 TALKMSGWIN_DeleteFrameWindow(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
 extern int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
@@ -541,10 +541,10 @@ void FIELD_MSGBG_Delete(FieldMsgBg *msgBg)
     }
     if (msgBg->bgFrame != 0xff) {
         BG_SYS_SetTileUnit(msgBg->bgFrame, 1, 0);
-        func_020403F4((u8)msgBg->bgFrame);
+        BG_SYS_FreeLayerBuf((u8)msgBg->bgFrame);
     }
     if (msgBg->bgFrameSys != 0xff) {
-        func_020403F4((u8)msgBg->bgFrameSys);
+        BG_SYS_FreeLayerBuf((u8)msgBg->bgFrameSys);
     }
     do {
         if (msgPrint->strBuf != 0) {
@@ -570,7 +570,7 @@ void FIELD_MSGBG_ReleaseBg(FieldMsgBg *msgBg)
     }
     if (msgBg->bgFrame != 0xff) {
         BG_SYS_SetTileUnit(msgBg->bgFrame, 1, 0);
-        func_020403F4((u8)msgBg->bgFrame);
+        BG_SYS_FreeLayerBuf((u8)msgBg->bgFrame);
         msgBg->bgFrame = 0xff;
     }
 }
@@ -578,7 +578,7 @@ void FIELD_MSGBG_ReleaseBg(FieldMsgBg *msgBg)
 int FIELD_MSGBG_ReleaseSysFrame(FieldMsgBg *msgBg)
 {
     if (msgBg->bgFrameSys != 0xff) {
-        func_020403F4((u8)msgBg->bgFrameSys);
+        BG_SYS_FreeLayerBuf((u8)msgBg->bgFrameSys);
         msgBg->bgFrameSys = 0xff;
         return 1;
     }
@@ -765,13 +765,13 @@ u32 FIELD_MSGBG_IsMsgPrintTransDone(FieldMsgPrint *msgPrint)
 int FIELD_MSGBG_ClearMsgPrint(FieldMsgPrint *msgPrint)
 {
     BMP_Clear(BMP_WIN_GetBmp(msgPrint->bmpWin), 255);
-    return func_020409B4(BMP_WIN_GetBgLayer(msgPrint->bmpWin));
+    return BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgPrint->bmpWin));
 }
 
 void FIELD_MSGBG_FillMsgPrint(FieldMsgPrint *msgPrint, int x, int y, int width, int height)
 {
     BMP_FillRect(BMP_WIN_GetBmp(msgPrint->bmpWin), (s16)x, (s16)y, (u16)width, (u16)height, 0xFF);
-    func_020409B4(BMP_WIN_GetBgLayer(msgPrint->bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgPrint->bmpWin));
 }
 
 struct PrintQue *FIELD_MSGBG_GetMsgPrintQue(FieldMsgPrint *msgPrint)
@@ -823,7 +823,7 @@ int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin)
 int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId)
 {
     FIELD_MSGBG_MsgPrintPrintMsg(msgWin->msgPrint, x, y, msgId);
-    return func_020409B4(BMP_WIN_GetBgLayer(msgWin->bmpWin));
+    return BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgWin->bmpWin));
 }
 
 void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str)
@@ -1280,7 +1280,7 @@ FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *m
 void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin)
 {
     BMP_Clear(BMP_WIN_GetBmp(sysWin->bmpWin), 0xFF);
-    func_020409B4((u8)sysWin->msgBg->bgFrame);
+    BG_SYS_PushTile((u8)sysWin->msgBg->bgFrame);
 }
 
 /* Reached from EVENT_PERAP_RECORD_Main. */
@@ -1371,7 +1371,7 @@ void FIELD_MSGBG_SysWinDrawCursor(FieldSysWin *sysWin)
 void FIELD_MSGBG_ClearInfoSysWin(FieldSysWin *sysWin)
 {
     BMP_Clear(BMP_WIN_GetBmp(sysWin->bmpWin), 0xFF);
-    func_020409B4((u8)sysWin->msgBg->bgFrame);
+    BG_SYS_PushTile((u8)sysWin->msgBg->bgFrame);
 }
 
 void FIELD_MSGBG_InfoSysWinPrintStrNow(FieldSysWin *sysWin, u32 x, int y, struct Strbuf *str)
@@ -1464,7 +1464,7 @@ u32 FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str)
     struct BmpWin *bmpWin = TALKMSGWIN_GetBmpWin(talkWin->talkSys, talkWin->index);
     BMP_Clear(BMP_WIN_GetBmp(bmpWin), 255);
     TALKMSGWIN_Reprint(talkWin->talkSys, talkWin->index, str, FIELD_MSGBG_KeyWaitGetCharWait(&talkWin->msgBg->keyWait));
-    return func_020409B4(BMP_WIN_GetBgLayer(bmpWin));
+    return BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin)
@@ -1479,7 +1479,7 @@ u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin)
     }
     stream = TALKMSGWIN_GetPrintStream(talkWin->talkSys, talkWin->index);
     state = PRINTSYS_PrintStreamGetState(stream);
-    func_02040618(1, 3, talkWin->shakeOffset);
+    BG_SYS_FillScrollArea(1, 3, talkWin->shakeOffset);
     if (talkWin->shakeOffset < 0) {
         talkWin->shakeOffset += 2;
         if (talkWin->shakeOffset > 0) {
@@ -1519,7 +1519,7 @@ u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin)
     case 2:
         if (talkWin->shakeOffset != 0) {
             talkWin->shakeOffset = 0;
-            func_02040618(1, 3, talkWin->shakeOffset);
+            BG_SYS_FillScrollArea(1, 3, talkWin->shakeOffset);
         }
         return 1;
     }
@@ -1580,7 +1580,7 @@ int FIELD_MSGBG_DeletePlainWin(FieldPlainWin *plainWin)
 void FIELD_MSGBG_ClearPlainWin(FieldPlainWin *plainWin)
 {
     BMP_Clear(BMP_WIN_GetBmp(plainWin->bmpWin), 0xFF);
-    func_020409B4((u8)plainWin->msgBg->bgFrame);
+    BG_SYS_PushTile((u8)plainWin->msgBg->bgFrame);
 }
 
 void FIELD_MSGBG_OpenPlainWin(FieldPlainWin *plainWin)
@@ -1627,7 +1627,7 @@ u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin)
     KEY_GetCont();
     state = FIELD_MSGBG_MsgStreamMain(plainWin->stream);
     plainWin->streamState = PRINTSYS_PrintStreamGetState(plainWin->stream->stream);
-    func_02040618(1, 3, plainWin->shakeOffset);
+    BG_SYS_FillScrollArea(1, 3, plainWin->shakeOffset);
     if (plainWin->shakeOffset < 0) {
         plainWin->shakeOffset += 2;
         if (plainWin->shakeOffset > 0) {
@@ -1651,7 +1651,7 @@ u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin)
     case 2:
         if (plainWin->shakeOffset != 0) {
             plainWin->shakeOffset = 0;
-            func_02040618(1, 3, plainWin->shakeOffset);
+            BG_SYS_FillScrollArea(1, 3, plainWin->shakeOffset);
         }
         return 1;
     }
@@ -1807,8 +1807,8 @@ FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct G
     bgWin->msgBg = msgBg;
     bgWin->font = font;
     bgWin->scrollY = -48;
-    func_02040618((u8)msgBg->bgFrame, 0, 0);
-    func_02040618((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
+    BG_SYS_FillScrollArea((u8)msgBg->bgFrame, 0, 0);
+    BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
     bgWin->bmpWin = BMP_WIN_Create((u8)msgBg->bgFrame, 2, 0x13, 0x1c, 4, 9, 1);
     bgWin->nextBmp = BMP_Create(0x1c, 4, 0x20, msgBg->heapId);
     bgWin->prevBmp = BMP_Create(0x1c, 4, 0x20, msgBg->heapId);
@@ -1821,7 +1821,7 @@ FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct G
     width = BMP_WIN_GetWidth(bgWin->bmpWin);
     height = BMP_WIN_GetHeight(bgWin->bmpWin);
     FIELD_MSGBG_DrawBgWinFrame((u8)msgBg->bgFrame, x, y, width, height, 0x33, 9);
-    func_020409B4((u8)msgBg->bgFrame);
+    BG_SYS_PushTile((u8)msgBg->bgFrame);
     FIELD_MSGBG_InitCursor(&bgWin->cursor, bgWin->msgBg);
     msgBg->windowKind = 11;
     FIELD_MSGBG_SetBlend(0);
@@ -1849,8 +1849,8 @@ void FIELD_MSGBG_DeleteBgWin(FieldBgWin *bgWin)
     BG_SYS_SetTileEntry((u8)bgWin->msgBg->bgFrame, 0, x, y, width, height, 0x11);
     BMP_WIN_TransferChars(bgWin->bmpWin);
     BMP_WIN_Delete(bgWin->bmpWin);
-    func_020409B4((u8)bgWin->msgBg->bgFrame);
-    func_02040618((u8)bgWin->msgBg->bgFrame, 3, 0);
+    BG_SYS_PushTile((u8)bgWin->msgBg->bgFrame);
+    BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, 0);
     BMP_Delete(bgWin->prevBmp);
     BMP_Delete(bgWin->nextBmp);
     if (bgWin->lineStr != 0) {
@@ -1868,7 +1868,7 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
         bgWin->lineStr = STRBUF_Create(STRBUF_GetLength(str) + 2, bgWin->msgBg->heapId);
         FIELD_MSGBG_PrintTwoLines(BMP_WIN_GetBmp(bgWin->bmpWin), bgWin->font, bgWin->str, bgWin->lineStr, &bgWin->lineIndex, 15);
         BMP_WIN_TransferChars(bgWin->bmpWin);
-        func_020409B4((u8)bgWin->msgBg->bgFrame);
+        BG_SYS_PushTile((u8)bgWin->msgBg->bgFrame);
         bgWin->seq++;
         break;
     case 1:
@@ -1877,7 +1877,7 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
             bgWin->scrollY = 0;
             bgWin->seq++;
         }
-        func_02040618((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
+        BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
         break;
     case 2:
         if (FIELD_MSGBG_IsLineMissing(bgWin->str, bgWin->lineStr, bgWin->lineIndex) == 1) {
@@ -1904,7 +1904,7 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
             bgWin->rollOffset += 4;
         }
         BMP_WIN_TransferChars(bgWin->bmpWin);
-        func_020409B4((u8)bgWin->msgBg->bgFrame);
+        BG_SYS_PushTile((u8)bgWin->msgBg->bgFrame);
         break;
     case 5:
         if ((KEY_GetTrg() & 0xf3) == 0) {
@@ -1916,7 +1916,7 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
         if (bgWin->scrollY <= -48) {
             bgWin->scrollY = -48;
         }
-        func_02040618((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
+        BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
         if (bgWin->scrollY == -48) {
             bgWin->seq++;
             return 1;
@@ -2121,7 +2121,7 @@ FieldSpWin *FIELD_MSGBG_CreateSpWin(FieldMsgBg *msgBg, u32 frameType, u32 x, u16
     FIELD_MSGBG_LoadSpWinPalette(msgBg->bgFrame, 9, msgBg->heapId);
     BMP_WIN_MakeScreen(spWin->bmpWin);
     BMP_WIN_TransferChars(spWin->bmpWin);
-    func_020409B4((u8)msgBg->bgFrame);
+    BG_SYS_PushTile((u8)msgBg->bgFrame);
     FIELD_MSGBG_InitCursor(&spWin->cursor, msgBg);
     msgBg->windowKind = 0xB;
     FIELD_MSGBG_SetBlend(0);
@@ -2142,7 +2142,7 @@ void FIELD_MSGBG_DeleteSpWin(FieldSpWin *spWin)
     height = BMP_WIN_GetHeight(spWin->bmpWin);
     BG_SYS_SetTileEntry((u8)spWin->msgBg->bgFrame, 0, x, y, width, height, 0x11);
     BMP_WIN_TransferChars(spWin->bmpWin);
-    func_020409B4((u8)spWin->msgBg->bgFrame);
+    BG_SYS_PushTile((u8)spWin->msgBg->bgFrame);
     FIELD_MSGBG_ExitCursor(&spWin->cursor);
     BMP_Delete(spWin->frameBmp);
     BMP_WIN_Delete(spWin->bmpWin);
@@ -2154,7 +2154,7 @@ void FIELD_MSGBG_SpWinPrintStr(FieldSpWin *spWin, u16 x, u16 y, struct Strbuf *s
     FieldMsgBg *msgBg = spWin->msgBg;
     FIELD_MSGBG_PrintLines(x, y, BMP_WIN_GetBmp(spWin->bmpWin), msgBg->font, str, msgBg->heapId);
     BMP_WIN_TransferChars(spWin->bmpWin);
-    func_020409B4((u8)spWin->msgBg->bgFrame);
+    BG_SYS_PushTile((u8)spWin->msgBg->bgFrame);
 }
 
 int FIELD_MSGBG_SpWinWaitKey(FieldSpWin *spWin)
@@ -2318,7 +2318,7 @@ void FIELD_MSGBG_DrawSysWindowFrame(struct BmpWin *bmpWin)
     BG_SYS_SetTileEntry(bgFrame, 0x2b, x - 1, y + height, 1, 1, 13);
     BG_SYS_SetTileEntry(bgFrame, 0x2d, x, y + height, width, 1, 13);
     BG_SYS_SetTileEntry(bgFrame, 0x30, x + width, y + height, 1, 1, 13);
-    func_020409B4(bgFrame);
+    BG_SYS_PushTile(bgFrame);
 }
 
 struct BmpWin *FIELD_MSGBG_CreateSysFrameWindow(u8 x, u8 y, u8 width, u8 height, u32 heapId)
@@ -2347,7 +2347,7 @@ void FIELD_MSGBG_ClearSysWindowFrame(struct BmpWin *bmpWin)
     width = BMP_WIN_GetWidth(bmpWin);
     height = BMP_WIN_GetHeight(bmpWin);
     BG_SYS_SetTileEntry(bgFrame, 0, (u8)(x - 1), (u8)(y - 1), (u8)(width + 2), (u8)(height + 2), 0);
-    func_020409B4(bgFrame);
+    BG_SYS_PushTile(bgFrame);
 }
 
 void FIELD_MSGBG_DeleteSysFrameWindow(struct BmpWin *bmpWin)
@@ -2372,8 +2372,8 @@ void FIELD_MSGBG_InitBgTwoLayerTalk(FieldMsgBg *msgBg, int loadTalkSys)
     BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrameSys, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4((u8)msgBg->bgFrame);
-    func_020409B4((u8)msgBg->bgFrameSys);
+    BG_SYS_PushTile((u8)msgBg->bgFrame);
+    BG_SYS_PushTile((u8)msgBg->bgFrameSys);
     if (loadTalkSys)
         FIELD_MSGBG_LoadWindowGraphicsAll(msgBg->bgFrame, msgBg->heapId);
     if (msgBg->g3dCamera != 0) {
@@ -2409,8 +2409,8 @@ void FIELD_MSGBG_InitBgTwoLayer(FieldMsgBg *msgBg, int loadTalkSys)
     BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrameSys, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4((u8)msgBg->bgFrame);
-    func_020409B4((u8)msgBg->bgFrameSys);
+    BG_SYS_PushTile((u8)msgBg->bgFrame);
+    BG_SYS_PushTile((u8)msgBg->bgFrameSys);
     if (loadTalkSys)
         FIELD_MSGBG_LoadWindowGraphicsAll(msgBg->bgFrame, msgBg->heapId);
     if (msgBg->g3dCamera != 0) {
@@ -2440,7 +2440,7 @@ void FIELD_MSGBG_InitBgOneLayer(FieldMsgBg *msgBg)
     BG_SYS_InitBgLayer((u8)msgBg->bgFrame, (const struct BgTemplate *)&msgTemplate, 0);
     BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4((u8)msgBg->bgFrame);
+    BG_SYS_PushTile((u8)msgBg->bgFrame);
     FIELD_MSGBG_LoadWindowGraphicsAll(msgBg->bgFrame, msgBg->heapId);
     if (msgBg->g3dCamera != 0) {
         talkParam.heapId = msgBg->heapId;
@@ -2482,7 +2482,7 @@ void FIELD_MSGBG_SetupSysFrameBg(int useTemplate)
         REG_BG2CNT = (REG_BG2CNT & 0x43) | 0x1F10;
     }
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_0207D63C(REG_BLDCNT_ADDR, 4, 0x1b, 0x10, 4);
     BG_SYS_SetVisibleLayer(2, 2);
     func_02040588(2, 1);
@@ -2493,7 +2493,7 @@ void FIELD_MSGBG_SetupSysFrame(FieldMsgBg *msgBg)
     if (msgBg->sysFrameReq != 0) {
         msgBg->sysFrameReq = 0;
         if (msgBg->bgFrameSys == 0xFF) {
-            func_020403F4(2);
+            BG_SYS_FreeLayerBuf(2);
             FIELD_MSGBG_SetupSysFrameBg(1);
             msgBg->bgFrameSys = 2;
         } else {
@@ -2540,7 +2540,7 @@ void FIELD_MSGBG_ReloadBg(FieldMsgBg *msgBg)
     BG_SYS_SetTileUnit(msgBg->bgFrame, 1, 0);
     BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4((u8)msgBg->bgFrame);
+    BG_SYS_PushTile((u8)msgBg->bgFrame);
     FIELD_MSGBG_LoadWindowGraphicsAll(msgBg->bgFrame, msgBg->heapId);
     TALKMSGWIN_ReloadFrameGraphics(msgBg->talkSys);
 }
@@ -2554,7 +2554,7 @@ struct BmpWin *FIELD_MSGBG_CreateWindow(int frame, int unusedHeapId, int x, int 
     BMP_Clear(BMP_WIN_GetBmp(bmpWin), 0xff);
     BMP_WIN_MakeScreen(bmpWin);
     BMP_WIN_TransferChars(bmpWin);
-    func_020409B4((u8)frame);
+    BG_SYS_PushTile((u8)frame);
     framePalette = 0xd;
     if (palette != FIELD_MSGBG_PALETTE_SYSTEM) {
         framePalette = 0xa;

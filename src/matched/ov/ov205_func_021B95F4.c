@@ -23,7 +23,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   SAVE_SCREEN_SnapshotParty 0x021B9A68 thumb ov205
  *   SAVE_SCREEN_SetTrainerDate 0x021B9A94 thumb ov205
@@ -63,7 +63,7 @@ extern void SAVE_SCREEN_PrintEntry(char *,u32,u32,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern int GAME_DATA_SaveStart(int);
 extern void SAVE_SCREEN_SnapshotParty(char *);
 extern void SAVE_SCREEN_SetTrainerDate(char *);
@@ -107,7 +107,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,const char *context,char *p)
         if(((struct Obj00419 *)p)->f40!=0){ (*state)++; break; }
         {
             GFL_USE_PlaySeDefaultVolume(0x54c);SAVE_SCREEN_PrintEntry(p,3,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=4;*state=13;GAME_DATA_SaveStart(*(int *)&((struct Obj00419 *)p)->f4);
         }
         break;
@@ -137,11 +137,11 @@ int SAVE_SCREEN_Main(void *unused,State *state,const char *context,char *p)
         TIME_ICON_Delete(((struct Obj00419 *)p)->f30);
         if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f34!=0){
             SAVE_SCREEN_PrintEntry(p,4,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=8;*state=13;GFL_USE_PlaySeDefaultVolume(0x558);
         }else{
             SAVE_SCREEN_PrintEntry(p,5,0,0);
-            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);func_020409B4(BMP_WIN_GetBgLayer(obj));
+            obj=((struct Obj00419 *)p)->f1C;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
             ((struct Obj00419 *)p)->f44=8;*state=13;
         }
         break;

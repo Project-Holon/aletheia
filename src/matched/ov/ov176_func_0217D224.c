@@ -1,5 +1,5 @@
 /*
- * function: func_0217D224
+ * function: DIGITALCARDCHECK_DeleteRecord2
  * address: 0x0217D224
  * packet: pkt_ov176_0217D224
  * region: ov176
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021E7710 0x021E7710 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_DeleteRecordWindow 0x021E7710 thumb ov177
  */
 #include "../include/Obj10702.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021E7710(char *);
-void func_0217D224(int *p) {if(*(char * *)&((struct Obj10702 *)p)->f14) {func_021E7710(*(char * *)&((struct Obj10702 *)p)->f14);((struct Obj10702 *)p)->f14=0;}}
+extern void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *);
+void DIGITALCARDCHECK_DeleteRecord2(int *p) {if(*(char * *)&((struct Obj10702 *)p)->f14) {WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(*(char * *)&((struct Obj10702 *)p)->f14);((struct Obj10702 *)p)->f14=0;}}

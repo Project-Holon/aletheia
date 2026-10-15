@@ -1,5 +1,5 @@
 /*
- * function: func_021B6FE0
+ * function: MONOLITH_TOOL_UpdateSlotIconState
  * address: 0x021B6FE0
  * packet: pkt_ov071_021B6FE0
  * region: ov071
@@ -19,4 +19,4 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
-void func_021B6FE0(void *p, u8 *q, int i) { Value v; if((q+i)[6]==1) v=V5; else if((q+i)[6]==2) v=V4; else {CLACT_SetActorDrawEnable(p,0);return;} CLACT_SetActorDrawEnable(p,1);CLACT_ChangeActorAnimSeq(p,v); }
+void MONOLITH_TOOL_UpdateSlotIconState(void *p, u8 *q, int i) { Value v; if((q+i)[6]==1) v=V5; else if((q+i)[6]==2) v=V4; else {CLACT_SetActorDrawEnable(p,0);return;} CLACT_SetActorDrawEnable(p,1);CLACT_ChangeActorAnimSeq(p,v); }

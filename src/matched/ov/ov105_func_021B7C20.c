@@ -13,7 +13,7 @@
  * GF_FONT_Create 0x0201D7EC thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
  * func_02045B38 0x02045B38 arm
- * GF_FONT_Create_EC64 0x0201EC64 thumb
+ * WORDSET_CreateDefault 0x0201EC64 thumb
  */
 typedef unsigned int u32;
 struct GfFont;
@@ -24,7 +24,7 @@ extern void GF_FONT_InitTextColor(void);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 void IRC_RESULT_InitTextSystem(u32 *p, int flag, int heap) {
  MI_CpuFill8(p, 0, 0x10);
  GF_FONT_InitTextColor();
@@ -33,5 +33,5 @@ void IRC_RESULT_InitTextSystem(u32 *p, int flag, int heap) {
  }
  p[2] = PRINTSYS_QUE_Create((void *)heap);
  p[1] = (u32)func_02045B38(0, 2, 0x33, heap);
- p[3] = (u32)GF_FONT_Create_EC64(heap);
+ p[3] = (u32)WORDSET_CreateDefault(heap);
 }

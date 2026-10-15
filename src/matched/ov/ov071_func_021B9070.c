@@ -31,7 +31,7 @@
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   INTRUDE_COMM_GetWorkIfRunning 0x02158344 thumb ov010
  *   INTRUDE_COMM_SendPairMessage 0x02174660 thumb ov011
- *   func_021B6C7C 0x021B6C7C thumb ov071
+ *   MONOLITH_TOOL_UpdateHighlight 0x021B6C7C thumb ov071
  *   MONOLITH_TOOL_UpdateMarker 0x021B9BD8 thumb ov071
  *   MONOLITH_TOOL_UpdateBackButton 0x021B9BAC thumb ov071
  *   MONOLITH_TOOL_LIST_ShowMessage 0x021B9798 thumb ov071
@@ -45,13 +45,13 @@
  *   MONOLITH_TOOL_UpdateBgScroll 0x021BA11C thumb ov071
  *   MONOLITH_TOOL_UpdateRows 0x021BA140 thumb ov071
  *   MONOLITH_TOOL_ApplyCursorChange 0x021BA01C thumb ov071
- *   func_021B6B58 0x021B6B58 thumb ov071
- *   func_021B6C74 0x021B6C74 thumb ov071
- *   func_021B7194 0x021B7194 thumb ov071
- *   func_021B7204 0x021B7204 thumb ov071
- *   func_021B71FC 0x021B71FC thumb ov071
- *   func_021B6C30 0x021B6C30 thumb ov071
- *   func_021B6B98 0x021B6B98 thumb ov071
+ *   MONOLITH_TOOL_SetButtonVisible 0x021B6B58 thumb ov071
+ *   MONOLITH_TOOL_GetHighlightMode 0x021B6C74 thumb ov071
+ *   MONOLITH_TOOL_OpenTaskMenu 0x021B7194 thumb ov071
+ *   MONOLITH_TOOL_UpdateTaskMenu 0x021B7204 thumb ov071
+ *   MONOLITH_TOOL_CloseTaskMenu 0x021B71FC thumb ov071
+ *   MONOLITH_TOOL_SetButtonPulse 0x021B6C30 thumb ov071
+ *   MONOLITH_TOOL_HighlightButtonPulse 0x021B6B98 thumb ov071
  *   MONOLITH_TOOL_LIST_ShowFormattedMessage 0x021B9818 thumb ov071
  *   MONOLITH_TOOL_IsBlinking 0x021B7114 thumb ov071
  *   MONOLITH_TOOL_UpdateScrollArrows 0x021B9C30 thumb ov071
@@ -74,7 +74,7 @@ typedef enum { FALSE, TRUE } Bool;
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
-extern void func_021B6C7C(int *p, int idx);
+extern void MONOLITH_TOOL_UpdateHighlight(int *p, int idx);
 extern void MONOLITH_TOOL_UpdateMarker(char *p);
 extern void MONOLITH_TOOL_UpdateBackButton(void *p, int a);
 struct Descriptor;
@@ -105,14 +105,14 @@ extern int MONOLITH_TOOL_ScrollBy(u8 *p, int d);
 extern void MONOLITH_TOOL_UpdateBgScroll(char *p);
 extern void MONOLITH_TOOL_UpdateRows(u8 *p);
 extern void MONOLITH_TOOL_ApplyCursorChange(void *a, u8 *p);
-extern void func_021B6B58(void **p, int v);
-extern u8 func_021B6C74(void *,int);
+extern void MONOLITH_TOOL_SetButtonVisible(void **p, int v);
+extern u8 MONOLITH_TOOL_GetHighlightMode(void *,int);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_021B7194(int *p, void *arg1, u32 heap);
-extern int func_021B7204(int a, int b, void *p, int *q);
-extern void func_021B71FC(void *p);
-extern void func_021B6C30(int *p, int flag, int index);
-extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
+extern void *MONOLITH_TOOL_OpenTaskMenu(int *p, void *arg1, u32 heap);
+extern int MONOLITH_TOOL_UpdateTaskMenu(int a, int b, void *p, int *q);
+extern void MONOLITH_TOOL_CloseTaskMenu(void *p);
+extern void MONOLITH_TOOL_SetButtonPulse(int *p, int flag, int index);
+extern void MONOLITH_TOOL_HighlightButtonPulse(void *p, int *tbl, int n, int sel, int c);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void MONOLITH_TOOL_LIST_ShowFormattedMessage(char *a, char *b, u32 c);
@@ -144,7 +144,7 @@ int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
     int active,result,off;
     unsigned short flip;
     initial=INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0)));
-    func_021B6C7C((int *)c,1); func_021B6C7C((int *)c,3);
+    MONOLITH_TOOL_UpdateHighlight((int *)c,1); MONOLITH_TOOL_UpdateHighlight((int *)c,3);
     MONOLITH_TOOL_UpdateMarker((char *)o); MONOLITH_TOOL_UpdateBackButton(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
     if (o[0x28c]!=0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)handle,(void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x288))))==0) {
@@ -183,30 +183,30 @@ int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
             CP(8)[1]=*(u32 *)(o+(W(0x2f4)<<2)+0xec);
             CP(8)[2]=*(u32 *)(o+(W(0x2f4)<<2)+0x1b4);
             if (*(u32 *)(o+(W(0x2f4)<<2)+0x1b4)==0) {
-                func_021B6B58((void **)(o+8),1); goto selected;
+                MONOLITH_TOOL_SetButtonVisible((void **)(o+8),1); goto selected;
             }
         }
-        func_021B6B58((void **)(o+8),0);
+        MONOLITH_TOOL_SetButtonVisible((void **)(o+8),0);
 selected:
         if (W(0x300)!=0xffff) { GFL_USE_PlaySeDefaultVolume(0x54c); *state=5; }
         break;
     case 5:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
+        if (MONOLITH_TOOL_GetHighlightMode(c,1)!=2 && MONOLITH_TOOL_GetHighlightMode(c,3)!=2) {
             MONOLITH_TOOL_LIST_ShowMessage((char *)o,(char *)CP(4),0x20); ++*state;
         } break;
     case 6:
         if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1) {
             if (W(0x310)!=0) func_02034714((const char *)d_021BABFC,0,(const char *)d_021BABFC);
-            W(0x310)=(u32)func_021B7194((int *)CP(4),(void *)W(0x30c),0x61); ++*state;
+            W(0x310)=(u32)MONOLITH_TOOL_OpenTaskMenu((int *)CP(4),(void *)W(0x30c),0x61); ++*state;
         } break;
     case 7:
-        if (func_021B7204(C(4),4,(void *)W(0x310),&result)==1) {
-            func_021B71FC((void *)W(0x310)); W(0x310)=0; MONOLITH_TOOL_LIST_HideMessage((char *)o);
+        if (MONOLITH_TOOL_UpdateTaskMenu(C(4),4,(void *)W(0x310),&result)==1) {
+            MONOLITH_TOOL_CloseTaskMenu((void *)W(0x310)); W(0x310)=0; MONOLITH_TOOL_LIST_HideMessage((char *)o);
             if (result==1) *state=8;
-            else { W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3); *state=4; }
+            else { W(0x300)=0xffff; MONOLITH_TOOL_SetButtonPulse((int *)c,1,1); MONOLITH_TOOL_HighlightButtonPulse(c,(int *)(o+8),1,0xff,3); *state=4; }
         } break;
     case 8:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
+        if (MONOLITH_TOOL_GetHighlightMode(c,1)!=2 && MONOLITH_TOOL_GetHighlightMode(c,3)!=2) {
             WORDSET_SetSlotFromMsgA0((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
             MONOLITH_TOOL_LIST_ShowFormattedMessage((char *)o,(char *)CP(4),0x23); *state=9;
         } break;
@@ -235,13 +235,13 @@ write10:
             save=GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
             GAME_COMM_PushPairMessage(save,GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
-            W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3);
+            W(0x300)=0xffff; MONOLITH_TOOL_SetButtonPulse((int *)c,1,1); MONOLITH_TOOL_HighlightButtonPulse(c,(int *)(o+8),1,0xff,3);
             if (TOUCHPANEL_GetTrg()!=0) *state=16;
             else *state=17;
         } break;
     case 16: if (TOUCHPANEL_GetCont()==0) *state=17; break;
     case 17:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2 && MONOLITH_TOOL_IsBlinking(o+0x298)==0) {
+        if (MONOLITH_TOOL_GetHighlightMode(c,1)!=2 && MONOLITH_TOOL_GetHighlightMode(c,3)!=2 && MONOLITH_TOOL_IsBlinking(o+0x298)==0) {
             c[0x2c]=0; return 1;
         } break;
     }

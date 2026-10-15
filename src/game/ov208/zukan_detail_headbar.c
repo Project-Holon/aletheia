@@ -30,7 +30,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Update 0x021BE7A4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   func_02040804 0x02040804 arm
  *   BG_SYS_ResetSlot 0x02041EE4 arm
@@ -93,7 +93,7 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
@@ -183,7 +183,7 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
 {
     struct Ov208Icon *p=func_02030734(heap,0x34,1,d_021C8DFC,120);
     p->heap=heap;p->font=arg;p->state=0;p->kind=5;
-    func_02040618(5,3,24);
+    BG_SYS_FillScrollArea(5,3,24);
     BG_SYS_SetVisibleLayer(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
     func_021BE920(p);

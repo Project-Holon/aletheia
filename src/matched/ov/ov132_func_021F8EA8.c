@@ -23,7 +23,7 @@
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_SetUp 0x02048B44 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   d_021FDBEC 0x021FDBEC data a4
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
@@ -51,7 +51,7 @@ extern void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x);
 extern void G3D_CAMERA_SetEye(void *, const Vec *);
 extern void G3D_CAMERA_SetUp(void *, const Vec *);
 extern void G3D_CAMERA_Reset(struct Light *l);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 #define FX(x) ((int)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 void STA_ACTING_UpdateCamera(u8 *p)
 {
@@ -97,12 +97,12 @@ void STA_ACTING_UpdateCamera(u8 *p)
         G3D_CAMERA_SetEye(*(void **)(p + 0xA8), &scale);
         G3D_CAMERA_SetUp(*(void **)(p + 0xA8), &translation);
         G3D_CAMERA_Reset(*(void **)(p + 0xA8));
-        func_02040618(2, 0, *(u16 *)(p + 4));
+        BG_SYS_FillScrollArea(2, 0, *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetElemFrame(*(void **)(p + 0x40), *(u16 *)(p + 4));
         STA_ACT_OBJ_SetCount(*(void **)(p + 0x54), *(u16 *)(p + 4));
         STA_ACT_AUDIENCE_SetBgScroll(*(void **)(p + 0xB8), *(u16 *)(p + 4));
     }
     if (*(u16 *)(p + 8) == 224) *(int *)(p + 0xC) = 0;
-    func_02040618(2, 3, *(u16 *)(p + 8));
+    BG_SYS_FillScrollArea(2, 3, *(u16 *)(p + 8));
 }

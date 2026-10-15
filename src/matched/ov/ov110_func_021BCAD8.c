@@ -11,7 +11,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj00295.h"
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 void PMSIV_MENU_HideAll(Object *p) {
     int i;
     for(i=0;i<3;i++) {
@@ -32,6 +32,6 @@ void PMSIV_MENU_HideAll(Object *p) {
     }
     for(i=0;i<8;i++) CLACT_SetActorDrawEnable(p->items[i],0);
     for(i=0;i<2;i++) CLACT_SetActorDrawEnable(p->other[i],0);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     CLACT_SetActorDrawEnable(((struct Obj00295 *)p)->f28,0);
 }

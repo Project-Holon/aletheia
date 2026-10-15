@@ -1,5 +1,5 @@
 /*
- * function: func_021DA3FC
+ * function: WF2DMAP_SCENE_RegisterCompressedPalette
  * address: 0x021DA3FC
  * packet: pkt_ov129_021DA3FC
  * region: ov129
@@ -22,4 +22,4 @@ typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021DA3FC(u8 *p) { void *f; f=func_020490F4(23,50); ((struct Obj23118 *)p)->f30C=CLACT_RegisterPaletteCompressed(f,5,0,128,50); ARC_TOOL_DeleteHandle(f); }
+void WF2DMAP_SCENE_RegisterCompressedPalette(u8 *p) { void *f; f=func_020490F4(23,50); ((struct Obj23118 *)p)->f30C=CLACT_RegisterPaletteCompressed(f,5,0,128,50); ARC_TOOL_DeleteHandle(f); }

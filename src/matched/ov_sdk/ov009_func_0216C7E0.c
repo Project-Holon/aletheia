@@ -13,20 +13,20 @@
  * current object.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
 
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 void DWCi_CustomCommonInit(unsigned char v)
 {
-    char *p = *(char **)(((char *)&g_021AA878) + 4);
+    char *p = *(char **)(((char *)&gDwcGlobalState) + 4);
 
     *(unsigned char *)(p + 0x365) = v;
-    p = *(char **)(((char *)&g_021AA878) + 4);
+    p = *(char **)(((char *)&gDwcGlobalState) + 4);
     *(int *)(p + 0xae8) = 0;
 }
 

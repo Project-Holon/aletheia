@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8AA0 0x021E8AA0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
  *   LIVEBATTLEMATCH_FLOW_Main 0x0217BBDC thumb ov176
  *   LIVEBATTLEMATCH_FLOW_Sub 0x0217CC78 thumb ov176
  *   LIVEBATTLEMATCH_FLOW_Battle 0x0217C2EC thumb ov176
@@ -17,10 +17,10 @@
  *   REGULATION_Card_GetValue 0x0200B078 thumb
  *   func_02034714 0x02034714 arm
  *   d_0217E618 0x0217E618 data a4
- *   func_021E8AA8 0x021E8AA8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  */
 #include "../include/Obj14363.h"
-extern void func_021E8AA0(int *p, int v);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 typedef signed int     s32;
 typedef unsigned char  u8;
 struct Reg2;
@@ -35,15 +35,15 @@ extern const char d_0217E618[];
 void LIVEBATTLEMATCH_FLOW_SelectPhase(int p,int *state,char *q)
 {
     switch(((struct Obj14363 *)q)->f1A0) {
-    case 0: func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Main); break;
+    case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Main); break;
     case 1:
-        if(REGULATION_Card_GetValue((struct Reg2 *)(((struct Obj14363 *)q)->f38),10)==3) func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub);
-        else func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Battle);
+        if(REGULATION_Card_GetValue((struct Reg2 *)(((struct Obj14363 *)q)->f38),10)==3) WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub);
+        else WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Battle);
         break;
-    case 2: func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Card); break;
-    case 3: func_021E8AA0((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Card); break;
+    case 3: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub); break;
     default: func_02034714(d_0217E618,0,d_0217E618); break;
     }
 }
-extern void func_021E8AA8(int);
-void LIVEBATTLEMATCH_FLOW_End(int p) {func_021E8AA8(p);}
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int);
+void LIVEBATTLEMATCH_FLOW_End(int p) {WIFIBATTLEMATCH_UTIL_ClearCallback(p);}

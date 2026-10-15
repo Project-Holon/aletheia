@@ -1,5 +1,5 @@
 /*
- * function: func_021BA43C
+ * function: BTL_REC_SEL_DeleteWindowList
  * address:  0x021BA43C
  * packet:   pkt_021BA43C
  * region:   ov214
@@ -17,7 +17,7 @@ struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-void func_021BA43C(int unused, char *p)
+void BTL_REC_SEL_DeleteWindowList(int unused, char *p)
 {
     unsigned char i;
     for (i = 0; i < 4; i++)

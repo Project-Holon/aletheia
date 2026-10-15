@@ -26,7 +26,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   STRBUF_Delete 0x02045808 arm
  * Addresses are Black-image addresses.
  */
@@ -56,7 +56,7 @@ extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 void SCRCMD_PROC_FLD_PrintOwnedWindow(char *w, u16 b)
@@ -74,7 +74,7 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(char *w, u16 b)
     bg = ((struct Obj02712 *)w)->f170;
     BMP_WIN_TransferChars((struct Descriptor *)bg);
     BMP_WIN_MakeScreen((struct Cfg *)bg);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
     STRBUF_Delete((struct U16Vec *)t6);
     STRBUF_Delete((struct U16Vec *)t7);
 }

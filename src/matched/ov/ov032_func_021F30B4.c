@@ -1,5 +1,5 @@
 /*
- * function: func_021F30B4
+ * function: BEACON_VIEW_DeleteWindows
  * address: 0x021F30B4
  * packet: pkt_ov032_021F30B4
  * region: ov032
@@ -14,7 +14,7 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-void func_021F30B4(char *p)
+void BEACON_VIEW_DeleteWindows(char *p)
 {
     int i;
     for (i = 0; i < 3; i++)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF4C4",
+   "name": "DEMO3D_DATA_TaskFade",
    "address": "0x021BF4C4",
    "kind": "game",
    "region": "ov203",

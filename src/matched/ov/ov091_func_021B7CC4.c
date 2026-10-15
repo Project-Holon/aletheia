@@ -15,7 +15,7 @@
  *   func_02009050 0x02009050 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0200902C 0x0200902C thumb
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_020307B0 0x020307B0 arm
  *   POKELIST_EnterMenuPhase 0x021B907C thumb ov091
  *   POKELIST_OpenContextMenu 0x021B8180 thumb ov091
@@ -56,7 +56,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Sub02008F80Obj;
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern u32 FILE_UTIL_Check136C(u16);
@@ -107,7 +107,7 @@ void POKELIST_ApplySelection(u8 *p)
     if (S[0x63] == 1) { p[0xc]=0x13; return; }
     switch (T(0x34)) {
     case 0: case 1: case 18: case 21: case 22: case 23: case 25:
-        POKELIST_EnterMenuPhase(p); func_020409B4(0); POKELIST_OpenContextMenu(p); return;
+        POKELIST_EnterMenuPhase(p); BG_SYS_PushTile(0); POKELIST_OpenContextMenu(p); return;
     case 5:
         if (PLIST_MENU_IsSpecialItemKind((short unsigned int *)p,H(0x44)) == 1) {
             POKELIST_EnterMenuPhase(p); POKELIST_OpenContextMenu(p); return;

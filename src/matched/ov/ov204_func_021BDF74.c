@@ -1,5 +1,5 @@
 /*
- * function: func_021BDF74
+ * function: INTRO_GRAPHIC_DeleteClact
  * address:  0x021BDF74
  * packet:   pkt_021BDF74
  * region:   ov204
@@ -27,7 +27,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(u8 *, u32, u32);
 
-void func_021BDF74(u8 *p)
+void INTRO_GRAPHIC_DeleteClact(u8 *p)
 {
     CLACT_DeleteUnit((struct Bank *)(((struct Obj25335 *)p)->f0));
     CLACT_ExitSystem();

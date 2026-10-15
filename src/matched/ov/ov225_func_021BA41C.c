@@ -1,5 +1,5 @@
 /*
- * function: func_021BA41C
+ * function: MANUAL_COMMON_LoadTouchbarActors
  * address: 0x021BA41C
  * packet: pkt_ov225_021BA41C
  * region: ov225
@@ -23,7 +23,7 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   d_021BBF14 0x021BBF14 data a4
+ *   gManualCommonActorEntries 0x021BBF14 data a4
  */
 #include "../include/Obj02562.h"
 #include "../include/Obj10983.h"
@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern const u8 d_021BBF14[];
+extern const u8 gManualCommonActorEntries[];
 extern u32 APP_ICON_GetArchiveId(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
@@ -52,7 +52,7 @@ extern u32 MANUAL_GRAPHIC_GetClactUnit(const u8 *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
-void func_021BA41C(char *p)
+void MANUAL_COMMON_LoadTouchbarActors(char *p)
 {
     u8 i;
     void *loader;
@@ -66,7 +66,7 @@ void func_021BA41C(char *p)
     for(i=0;i<2;i++) {
         char *parent=*(char * *)&((struct Obj02562 *)p)->f0;
         char *dest=p+i*4;
-        *(struct Obj * *)&((struct Obj10983 *)dest)->f38=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14803 *)parent)->f8),((struct Obj02562 *)p)->f2C,((struct Obj02562 *)p)->f30,((struct Obj02562 *)p)->f34,&d_021BBF14[i*28],1,((struct Obj14803 *)parent)->f4);
+        *(struct Obj * *)&((struct Obj10983 *)dest)->f38=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct Obj14803 *)parent)->f8),((struct Obj02562 *)p)->f2C,((struct Obj02562 *)p)->f30,((struct Obj02562 *)p)->f34,&gManualCommonActorEntries[i*28],1,((struct Obj14803 *)parent)->f4);
         CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,0);
         CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,1);
     }

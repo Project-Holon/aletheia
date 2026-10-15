@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD73C",
+   "name": "BEACON_DETAIL_GRA_UpdateTimer",
    "address": "0x021BD73C",
    "kind": "game",
    "region": "ov216",

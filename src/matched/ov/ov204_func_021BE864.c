@@ -1,5 +1,5 @@
 /*
- * function: func_021BE864
+ * function: INTRO_CMD_CmdSetVisible
  * address:  0x021BE864
  * packet:   pkt_021BE864
  * region:   ov204
@@ -16,7 +16,7 @@
 
 extern void INTRO_G3D_SetVisible(char *p, int v);
 
-int func_021BE864(char *a, int b, int *p)
+int INTRO_CMD_CmdSetVisible(char *a, int b, int *p)
 {
     INTRO_G3D_SetVisible((char *)(((struct Obj25370 *)a)->fC), *p);
     return 1;

@@ -9,8 +9,8 @@
  * status: EXACT*
  * symbols:
  *   BMP_WIN_Exit 0x020450C8 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  */
-typedef unsigned int u32;extern void BMP_WIN_Exit(void);extern void func_020403F4(u32);extern void BG_SYS_Delete(void);
-void GURU2_MAIN_ExitBg(char *p){BMP_WIN_Exit();func_020403F4(1);func_020403F4(2);func_020403F4(3);func_020403F4(6);func_020403F4(7);BG_SYS_Delete();}
+typedef unsigned int u32;extern void BMP_WIN_Exit(void);extern void BG_SYS_FreeLayerBuf(u32);extern void BG_SYS_Delete(void);
+void GURU2_MAIN_ExitBg(char *p){BMP_WIN_Exit();BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(7);BG_SYS_Delete();}

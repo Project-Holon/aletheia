@@ -1,5 +1,5 @@
 /*
- * function: func_021D9E04
+ * function: MYSTERY_UTIL_DeleteMenuWindow
  * address: 0x021D9E04
  * packet: pkt_ov121_021D9E04
  * region: ov121
@@ -32,7 +32,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *, u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-void func_021D9E04(u8 *p)
+void MYSTERY_UTIL_DeleteMenuWindow(u8 *p)
 {
     if (((struct Obj02180 *)p)->f8) {
         PRINTSYS_PrintStreamDelete(((struct Obj02180 *)p)->f8);

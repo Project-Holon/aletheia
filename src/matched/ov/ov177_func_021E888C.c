@@ -1,5 +1,5 @@
 /*
- * function: func_021E888C
+ * function: WIFIBATTLEMATCH_UTIL_ShowMenu
  * address:  0x021E888C
  * packet:   pkt_ov177_021E888C
  * region:   ov177
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E88B0  0x021E88B0  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateMenu  0x021E88B0  thumb  ov177
  */
 
 typedef struct {
@@ -18,11 +18,11 @@ typedef struct {
     unsigned int f1c;
 } S;
 
-extern void func_021E88B0(S *, int, unsigned char, int, int, int);
+extern void WIFIBATTLEMATCH_UTIL_CreateMenu(S *, int, unsigned char, int, int, int);
 
-void func_021E888C(S *p, int a)
+void WIFIBATTLEMATCH_UTIL_ShowMenu(S *p, int a)
 {
     int v = (p->f1c & 0x7f) << 1;
 
-    func_021E88B0(p, 0x13, 0x11 - v, 0xc, v, a);
+    WIFIBATTLEMATCH_UTIL_CreateMenu(p, 0x13, 0x11 - v, 0xc, v, a);
 }

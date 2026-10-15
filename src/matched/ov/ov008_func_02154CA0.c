@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *ctx)

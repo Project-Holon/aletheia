@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E7710",
-    "func_021E7774"
+    "WIFIBATTLEMATCH_VIEW_DeleteRecordWindow",
+    "WIFIBATTLEMATCH_VIEW_UpdateRecordWindow"
+   ],
+   "addresses": [
+    "0x021E7710",
+    "0x021E7774"
    ]
   }
  ]

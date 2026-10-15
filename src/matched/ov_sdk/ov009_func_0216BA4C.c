@@ -21,7 +21,7 @@
  *   DWCi_GT2SocketErrorCallback  0x0216C7A8  arm  ov009
  *   func_0216E5B0  0x0216E5B0  arm  ov009
  *   DWCi_GT2UnrecognizedMessageCallback  0x0216E4C0  arm  ov009
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -47,7 +47,7 @@ typedef struct DwcState {
 
 typedef struct DwcGlobal DwcGlobal;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 extern unsigned long func_021685CC(unsigned long max);
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
@@ -64,13 +64,13 @@ int DWCi_GT2Startup(void)
 	int gt2Result;
 	unsigned short baseport;
 
-	if (((DwcState *)g_021AA878.st)->gt2Socket != 0)
+	if (((DwcState *)gDwcGlobalState.st)->gt2Socket != 0)
 		return 0;
 	baseport = func_021685CC(0x4000) + 0xc000;
-	gt2Result = gt2CreateSocket(&((DwcState *)g_021AA878.st)->gt2Socket, gt2AddressToString(0, baseport, 0), ((DwcState *)g_021AA878.st)->outSize, ((DwcState *)g_021AA878.st)->inSize, DWCi_GT2SocketErrorCallback);
+	gt2Result = gt2CreateSocket(&((DwcState *)gDwcGlobalState.st)->gt2Socket, gt2AddressToString(0, baseport, 0), ((DwcState *)gDwcGlobalState.st)->outSize, ((DwcState *)gDwcGlobalState.st)->inSize, DWCi_GT2SocketErrorCallback);
 	if (DWCi_HandleGT2Error(gt2Result))
 		return gt2Result;
-	gt2Listen(((DwcState *)g_021AA878.st)->gt2Socket, (int)func_0216E5B0);
-	gt2SetUnrecognizedMessageCallback(((DwcState *)g_021AA878.st)->gt2Socket, (int)DWCi_GT2UnrecognizedMessageCallback);
+	gt2Listen(((DwcState *)gDwcGlobalState.st)->gt2Socket, (int)func_0216E5B0);
+	gt2SetUnrecognizedMessageCallback(((DwcState *)gDwcGlobalState.st)->gt2Socket, (int)DWCi_GT2UnrecognizedMessageCallback);
 	return gt2Result;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F30D4
+ * function: BEACON_VIEW_LoadResList
  * address:  0x021F30D4
  * packet:   pkt_ov032_021F30D4
  * region:   ov032
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F30D4  0x021F30D4  thumb
+ *   BEACON_VIEW_LoadResList  0x021F30D4  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   CLACT_RegisterPalette  0x0204ABF0  arm
@@ -42,7 +42,7 @@ extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
+void BEACON_VIEW_LoadResList(char *this, ResList *out, const ResSpec *spec, void *arc)
 {
     int i;
 

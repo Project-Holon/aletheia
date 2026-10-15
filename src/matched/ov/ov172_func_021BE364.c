@@ -25,14 +25,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *GAME_DATA_Create(u16 heap);
 extern unsigned int KEY_GetCont(void);
 extern void CTVT_CALL_WorkInit(char *self);
 extern u8 d_021C724C[];
-int COMM_TVT_SYS_ProcInit(struct Obj0203159C *obj,int unused,u8 *arg)
+int COMM_TVT_SYS_ProcInit(struct Proc *obj,int unused,u8 *arg)
 {
     u8 *p;
     if (arg && ((struct Obj24143 *)arg)->f4==3) GFL_HEAP_CreateChildHeap(1,109,0xd0000);

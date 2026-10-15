@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDDC
+ * function: BEACON_DETAIL_GRA_FindAppearanceType
  * address: 0x021BCDDC
  * packet: pkt_ov216_021BCDDC
  * region: ov216
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 d_021BDDA2[];
-const u8*func_021BCDDC(u32 n){u32 i;for(i=0;i<6;i++){if(n==d_021BDDA2[i*3])return d_021BDDA2+i*3;}return d_021BDDA2;}
+const u8*BEACON_DETAIL_GRA_FindAppearanceType(u32 n){u32 i;for(i=0;i<6;i++){if(n==d_021BDDA2[i*3])return d_021BDDA2+i*3;}return d_021BDDA2;}

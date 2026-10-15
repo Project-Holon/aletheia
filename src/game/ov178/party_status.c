@@ -59,12 +59,12 @@
  *   WIFIBATTLEMATCH_NET_SendRegDataAlt 0x021DC200 thumb ov175
  *   WIFIBATTLEMATCH_NET_TakeRegBuffer 0x021DC240 thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteNetContext 0x021D9EA0 thumb ov175
- *   func_0217E00C  0x0217E00C  thumb  ov176
+ *   LIVEBATTLEMATCH_IRC_Create  0x0217E00C  thumb  ov176
  *   ov176_id       0x000000B0  data
- *   func_0217E258 0x0217E258 thumb ov176
- *   func_0217E298 0x0217E298 thumb ov176
- *   func_0217E074 0x0217E074 thumb ov176
- *   func_0217E058   0x0217E058  thumb
+ *   LIVEBATTLEMATCH_IRC_SendSaveData 0x0217E258 thumb ov176
+ *   LIVEBATTLEMATCH_IRC_RecvSaveData 0x0217E298 thumb ov176
+ *   LIVEBATTLEMATCH_IRC_NoOp 0x0217E074 thumb ov176
+ *   LIVEBATTLEMATCH_IRC_Delete   0x0217E058  thumb
  */
 
 typedef struct PartyStatusObj1 {
@@ -143,11 +143,11 @@ typedef struct PartyStatusObj7 {
     void *f0;
 } PartyStatusObj7;
 
-struct Obj0203159C;
+struct Proc;
 struct Party;
 struct PartyMon;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 struct Big;
 struct Sub02008700Obj;
 struct Blk37;
@@ -195,7 +195,7 @@ typedef struct {
 
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern void *PROCSYS_Create(int a0);
 extern void *POKEPARTY_GetMember(void *,unsigned);
@@ -203,7 +203,7 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void PLIST_COMM_End(void *);
 extern void func_02034A5C(s32 handle);
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned);
 extern int GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
@@ -227,17 +227,17 @@ extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,
 extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32,void *,u32,u16);
 extern u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *,u32),WIFIBATTLEMATCH_NET_TakeRegBuffer(char *,u32);
 extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
-extern void *func_0217E00C(int unused, int heap);
-extern int func_0217E258(int unused, int arg);
-extern int func_0217E298(u8 *p, const void *q);
-extern void func_0217E074(void *);
-extern void func_0217E058(int);
+extern void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap);
+extern int LIVEBATTLEMATCH_IRC_SendSaveData(int unused, int arg);
+extern int LIVEBATTLEMATCH_IRC_RecvSaveData(u8 *p, const void *q);
+extern void LIVEBATTLEMATCH_IRC_NoOp(void *);
+extern void LIVEBATTLEMATCH_IRC_Delete(int);
 int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q);
 int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusObj1 *p);
 int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p);
 void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out);
 void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4);
-int PARTY_STATUS_CreateSub(struct Obj0203159C *a, int b, int *p);
+int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p);
 int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d);
 int PARTY_STATUS_UpdateSub(u32 a, u32 b, u32 *c, void *d);
 void PARTY_STATUS_Noop(int a0, int *a1, int a2);
@@ -463,7 +463,7 @@ void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4)
 /*
  * Allocate the 0x58-byte subobject and dispatch on track[1].
  */
-int PARTY_STATUS_CreateSub(struct Obj0203159C *a, int b, int *p)
+int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p)
 {
     int h;
     GFL_HEAP_CreateChildHeap(1, 0x58, 0x10000);
@@ -576,7 +576,7 @@ void PARTY_STATUS_DestroySubWork(void **pp, u32 *c)
 void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v)
 {
     func_02034AC4((u32)ov176_id);
-    *out = (u32)func_0217E00C(*(u32 *)*pp, v);
+    *out = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*pp, v);
 }
 
 
@@ -588,16 +588,16 @@ unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state)
  case 0:++*state;break;
  case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
  case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
- case 3:if(func_0217E258((int)(*d),c[3])!=0)++*state;break;
- case 4:if(func_0217E298(*d,(const void *)c[4])!=0)++*state;break;
+ case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData((int)(*d),c[3])!=0)++*state;break;
+ case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData(*d,(const void *)c[4])!=0)++*state;break;
  case 5:return 1;
  }
- func_0217E074(*d);return 0;
+ LIVEBATTLEMATCH_IRC_NoOp(*d);return 0;
 }
 
 
 void PARTY_STATUS_ExitSubWork(int *p, void *c)
 {
-    func_0217E058(*p);
+    LIVEBATTLEMATCH_IRC_Delete(*p);
     func_02034A5C((int)ov176_id);
 }

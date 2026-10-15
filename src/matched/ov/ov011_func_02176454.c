@@ -38,8 +38,8 @@ typedef struct {
 } Arg;
 
 extern u8 d_02177010[];
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *PROCSYS_Create(int heap);
 struct Ctx;
@@ -57,7 +57,7 @@ extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-int INTRUDE_COMM_PartyProcInit(struct Obj0203159C *a0, int a1, Arg *arg)
+int INTRUDE_COMM_PartyProcInit(struct Proc *a0, int a1, Arg *arg)
 {
     u8 *w;
     int n;

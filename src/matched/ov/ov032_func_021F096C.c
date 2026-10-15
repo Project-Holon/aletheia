@@ -1,5 +1,5 @@
 /*
- * function: func_021F096C
+ * function: BEACON_VIEW_HitTestIcon
  * address:  0x021F096C
  * packet:   pkt_ov032_021F096C
  * region:   ov032
@@ -15,7 +15,7 @@
  * `k = 0` ahead of the fan pointer keeps `movs r4, #0` first.
  *
  * symbols:
- *   func_021F089C  0x021F089C  thumb  ov032
+ *   BEACON_VIEW_PointInTriangle  0x021F089C  thumb  ov032
  *   d_021F356C     0x021F356C  data  a4
  *   d_021F3538     0x021F3538  data  a1
  */
@@ -24,11 +24,11 @@ typedef unsigned char u8;
 
 typedef struct { int x, y; } Vec2;
 
-extern int func_021F089C(void *pt, int *tri);
+extern int BEACON_VIEW_PointInTriangle(void *pt, int *tri);
 extern Vec2 d_021F356C[2][5];
 extern u8 d_021F3538[][3];
 
-int func_021F096C(u8 *p, void *pt)
+int BEACON_VIEW_HitTestIcon(u8 *p, void *pt)
 {
     int flags;
     int j;
@@ -49,7 +49,7 @@ int func_021F096C(u8 *p, void *pt)
                 t[0] = v[d_021F3538[k][0]];
                 t[1] = v[d_021F3538[k][1]];
                 t[2] = v[d_021F3538[k][2]];
-                if (func_021F089C(pt, (int *)t))
+                if (BEACON_VIEW_PointInTriangle(pt, (int *)t))
                     return 1 - j;
             }
         }

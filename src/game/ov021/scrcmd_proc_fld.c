@@ -45,7 +45,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
@@ -88,7 +88,7 @@
  *   d_021D9430     0x021D9430  data  a1
  *   FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries 0x02186670 thumb ov020
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   TCBL_Create 0x0203101C arm
  *   TCBL_Destroy 0x02031140 arm
@@ -403,7 +403,7 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
@@ -440,7 +440,7 @@ extern u32 GPOWER_ApplyShopPrice(u32 v);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries(char *base, char *out, u16 *cnt, int n, u16 id);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -905,7 +905,7 @@ void SCRCMD_PROC_FLD_PollItemList(ShopWork *shop)
         window = (void *)shop->windows[SHOP_WIN_LIST];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        func_020409B4(BMP_WIN_GetBgLayer(window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
         shop->introShown = shop->introShown + 1;
     }
     selection = BMP_MENULIST_Main(shop->listMenu);
@@ -1254,7 +1254,7 @@ int SCRCMD_PROC_FLD_AllocShopResources(ShopWork *shop, int shopKind)
 {
     shop->shopMsgBank = func_02045B38(0, 3, 423, shop->heapId);
     shop->itemMsgBank = func_02045B38(0, 2, 53, shop->heapId);
-    shop->wordSet = GF_FONT_Create_EC64(shop->heapId);
+    shop->wordSet = WORDSET_CreateDefault(shop->heapId);
     shop->textBuffer = STRBUF_Create(200, shop->heapId);
     shop->tcbList = TCBL_Create(shop->heapId, shop->heapId, 32, 32);
     shop->cancelText = func_02045EC0(shop->shopMsgBank, 29);
@@ -1468,16 +1468,16 @@ void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *shop)
         window = shop->windows[SHOP_WIN_MONEY];
         BMP_WIN_TransferChars((struct Descriptor *)window);
         BMP_WIN_MakeScreen((struct Cfg *)window);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     } else {
         window = shop->windows[SHOP_WIN_HEADER];
         BMP_WIN_TransferChars((struct Descriptor *)window);
         BMP_WIN_MakeScreen((struct Cfg *)window);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
         window = shop->windows[SHOP_WIN_MONEY];
         BMP_WIN_TransferChars((struct Descriptor *)window);
         BMP_WIN_MakeScreen((struct Cfg *)window);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     }
 }
 
@@ -1524,7 +1524,7 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     window = shop->windows[SHOP_WIN_MONEY];
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     STRBUF_Delete((struct U16Vec *)expandedText);
     STRBUF_Delete((struct U16Vec *)formatText);
 }
@@ -1557,7 +1557,7 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
     window = shop->windows[SHOP_WIN_OWNED];
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     STRBUF_Delete((struct U16Vec *)expandedText);
     STRBUF_Delete((struct U16Vec *)formatText);
 }
@@ -1584,7 +1584,7 @@ void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId)
     window = shop->windows[SHOP_WIN_DESCRIPTION];
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
 
@@ -1616,7 +1616,7 @@ void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price
     window = shop->windows[SHOP_WIN_QUANTITY];
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
     STRBUF_Delete((struct U16Vec *)text);
     STRBUF_Delete((struct U16Vec *)totalFormat);
     STRBUF_Delete((struct U16Vec *)quantityFormat);
@@ -1827,7 +1827,7 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     window = shop->windows[SHOP_WIN_MESSAGE];
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
 
@@ -1882,7 +1882,7 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
     window = shop->windows[SHOP_WIN_MESSAGE];
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
 

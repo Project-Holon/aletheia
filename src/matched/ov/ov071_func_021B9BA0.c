@@ -13,19 +13,19 @@
  * Two thunks advancing a pointer by 8.
  *
  * symbols:
- *   func_021B6B38  0x021B6B38  thumb  ov071
- *   func_021B6B70  0x021B6B70  thumb  ov071
+ *   MONOLITH_TOOL_FreeButton  0x021B6B38  thumb  ov071
+ *   MONOLITH_TOOL_IsButtonUploaded  0x021B6B70  thumb  ov071
  */
 
 void MONOLITH_TOOL_DeleteBackButton(void *p)
 {
-    void func_021B6B38(void **p);
-    func_021B6B38((void **)((char *)p + 8));
+    void MONOLITH_TOOL_FreeButton(void **p);
+    MONOLITH_TOOL_FreeButton((void **)((char *)p + 8));
 }
 
 typedef unsigned char  u8;
 void MONOLITH_TOOL_UpdateBackButton(void *p, int a)
 {
-    int func_021B6B70(void **p, u8 *q);
-    func_021B6B70(p, (u8 *)(a + 8));
+    int MONOLITH_TOOL_IsButtonUploaded(void **p, u8 *q);
+    MONOLITH_TOOL_IsButtonUploaded(p, (u8 *)(a + 8));
 }

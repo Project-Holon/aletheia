@@ -1,5 +1,5 @@
 /*
- * function: func_021BF320
+ * function: DEMO3D_DATA_MessageMain
  * address: 0x021BF320
  * packet: pkt_ov203_021BF320
  * region: ov203
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BF470 0x021BF470 thumb
+ *   DEMO3D_DATA_DeleteMessageWindow 0x021BF470 thumb
  *   TCBL_DeleteTask 0x02031194 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
@@ -35,7 +35,7 @@ struct Cfg;
 struct Config { u16 a0,a2; u32 a4,a8,ac,a10,a14; s8 a18; u8 pad[7]; u32 a20,a24; };
 struct Context { struct Config *cfg; int state,count,limit; u32 file,index,base; void *desc; u32 printer; void *text; };
 struct Rec;
-extern void func_021BF470(char *p);
+extern void DEMO3D_DATA_DeleteMessageWindow(char *p);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 extern void *MSGDATA_AllocString(struct MsgBank *,u32);
@@ -50,11 +50,11 @@ extern void BMP_MENUWORK_DrawWindowEx(void *,u32,u32,u32);
 extern u32 sub_02045C04(struct Rec *rec);
 extern void BG_SYS_SetVisibleLayer(int,u16);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-void func_021BF320(struct TcblNode *task, struct Context *ctx)
+void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Context *ctx)
 {
     struct Config *cfg = ctx->cfg;
     if (cfg->ac != 0) {
-        func_021BF470((char *)ctx);
+        DEMO3D_DATA_DeleteMessageWindow((char *)ctx);
         TCBL_DeleteTask(task);
         return;
     }
@@ -79,7 +79,7 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
     }
     case 1:
         if (ctx->count++ >= ctx->limit) {
-            func_021BF470((char *)ctx);
+            DEMO3D_DATA_DeleteMessageWindow((char *)ctx);
             TCBL_DeleteTask(task);
         }
         break;

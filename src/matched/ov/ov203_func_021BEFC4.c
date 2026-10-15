@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFC4
+ * function: DEMO3D_DATA_CreateBrightnessFade
  * address: 0x021BEFC4
  * packet: pkt_ov203_021BEFC4
  * region: ov203
@@ -12,7 +12,7 @@
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BF0B4 0x021BF0B4 thumb
+ *   DEMO3D_DATA_BrightnessFadeMain 0x021BF0B4 thumb
  *   FX_Div 0x0207C768 arm
  *   BRIGHTNESS_Set 0x02023F60 thumb
  *   _fflt 0x0209BDBC arm
@@ -29,15 +29,15 @@ struct Work { struct Owner *owner; int state,mask,kind,duration,start,end,curren
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void func_021BF0B4(struct TcblNode *node, int *s);
+extern void DEMO3D_DATA_BrightnessFadeMain(struct TcblNode *node, int *s);
 extern u32 FX_Div(u32,u32);
 extern void BRIGHTNESS_Set(u32,u32,u32);
-void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int duration,int *counter)
+void DEMO3D_DATA_CreateBrightnessFade(struct Owner *owner,int mask,int kind,int start,int end,int duration,int *counter)
 {
     struct Work *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(struct TcblNode *, void *))func_021BF0B4,0x28,0));
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(struct TcblNode *, void *))DEMO3D_DATA_BrightnessFadeMain,0x28,0));
     MI_CpuFill8(work,0,0x28);
     work->owner=owner;
     work->mask=mask;

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021AD0F4  0x021AD0F4  data
+ *   gGsSocketError  0x021AD0F4  data
  *   SOC_Close        0x0215f644 arm
  *   SOCL_IsReleased  0x0215e7c8 arm
  *   CheckRcode       0x0217eb00 arm
@@ -26,15 +26,15 @@
  *   SOC_Poll  0x0215FBCC  arm  ov009
  *   SOC_Fcntl  0x0215F854  arm  ov009
  *   gsDebugFormat  0x0217D254  arm  ov009
- *   g_021A3740     0x021A3740  data
- *   g_021A374C     0x021A374C  data
- *   g_021A375C     0x021A375C  data
- *   g_021A3784     0x021A3784  data
+ *   gGsSocketBlockingStr     0x021A3740  data
+ *   gGsSocketNonBlockingStr     0x021A374C  data
+ *   gGsSetSockBlockingFmt     0x021A375C  data
+ *   gGsSetSockBlockingFailFmt     0x021A3784  data
  *   setsockopt       0x0217ecf8 arm
  *   GSISocketSelect  0x0217ed64 arm
  *   func_0215EF48                  0x0215EF48  arm ov009
  *   SOC_U32to4U8                  0x0215FBAC  arm ov009
- *   g_021A37BC                     0x021A37BC  data
+ *   gGsLocalhostName                     0x021A37BC  data
  *   _ZZ12getlocalhostvE9aliases_0 0x021AD0F4  data
  *   _ZZ12getlocalhostvE9localhost_0 0x021AD0FC  data
  *   _ZZ12getlocalhostvE5ips_2_1   0x021AD10C  data
@@ -127,12 +127,12 @@ int CanSendOnSocket(int sock);
  */
 struct SOCHostEnt *getlocalhost(void);
 int IsPrivateIP(struct SOCInAddr * addr);
-extern char g_021AD0F4[];
-extern char g_021A3740[];
-extern char g_021A374C[];
-extern char g_021A375C[];
-extern char g_021A3784[];
-extern char g_021A37BC[];
+extern char gGsSocketError[];
+extern char gGsSocketBlockingStr[];
+extern char gGsSocketNonBlockingStr[];
+extern char gGsSetSockBlockingFmt[];
+extern char gGsSetSockBlockingFailFmt[];
+extern char gGsLocalhostName[];
 
 
 
@@ -140,7 +140,7 @@ extern char g_021A37BC[];
 int CheckRcode(int rcode, int fallback)
 {
     if (rcode < 0) {
-        *(int *)(g_021AD0F4 + 0x4) = rcode;
+        *(int *)(gGsSocketError + 0x4) = rcode;
         return fallback;
     }
     return rcode;
@@ -305,7 +305,7 @@ int inet_addr(int addrString)
 
 int GOAGetLastError(int sock)
 {
-    return *(int *)(g_021AD0F4 + 4);
+    return *(int *)(gGsSocketError + 4);
 }
 
 
@@ -371,10 +371,10 @@ int SetSockBlocking(int sock, int isblocking)
         val |= 4;
     rcode = SOC_Fcntl(sock, 4, val);
     if (rcode == 0) {
-        gsDebugFormat(12, 0, 0x10, g_021A375C, sock, isblocking ? g_021A3740 : g_021A374C);
+        gsDebugFormat(12, 0, 0x10, gGsSetSockBlockingFmt, sock, isblocking ? gGsSocketBlockingStr : gGsSocketNonBlockingStr);
         return 1;
     }
-    gsDebugFormat(12, 0, 0x10, g_021A3784, sock, isblocking ? g_021A3740 : g_021A374C);
+    gsDebugFormat(12, 0, 0x10, gGsSetSockBlockingFailFmt, sock, isblocking ? gGsSocketBlockingStr : gGsSocketNonBlockingStr);
     return 0;
 }
 
@@ -427,7 +427,7 @@ struct SOCHostEnt *getlocalhost(void)
     static unsigned int ips_2[5];
     static unsigned char *ipPtrs_1[6];
 
-    localhost.name = g_021A37BC;
+    localhost.name = gGsLocalhostName;
     localhost.aliases = aliases_0;
     localhost.addrType = 2;
     localhost.length = 0;

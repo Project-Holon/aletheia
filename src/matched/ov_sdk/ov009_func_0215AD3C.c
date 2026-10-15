@@ -16,11 +16,11 @@
  *   func_020870D0  0x020870D0  arm
  *   func_02157390  0x02157390  arm  ov009
  *   gMslRefToken  0x02150FEC  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 extern char gMslRefToken[];
-extern char g_021A826C[];
+extern char gCpsNetVars[];
 extern void CPSi_SslClose(void *soc);
 extern unsigned long long func_020870D0(void);
 extern void func_02157390(void);
@@ -35,7 +35,7 @@ void CPS_TcpClose(void)
     if (*(unsigned char *)(soc + 9) != 0)
         CPSi_SslClose(soc);
     start = (unsigned long)(func_020870D0() >> 16);
-    while ((*(int (**)(void))(g_021A826C + 0x18))() != 0 && *(unsigned char *)(soc + 8) != 0 &&
+    while ((*(int (**)(void))(gCpsNetVars + 0x18))() != 0 && *(unsigned char *)(soc + 8) != 0 &&
            (int)((unsigned long)(func_020870D0() >> 16) - start) < 0x27)
         func_02157390();
     *(unsigned char *)(soc + 8) = 0;

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020422D4  0x020422D4  arm
+ *   BG_SYS_GetModeValue  0x020422D4  arm
  *
  * The text-screen fill of the three blitters BG_SYS_SetTileEntry dispatches to.
  * Like BG_SYS_BlitPixelsEx it takes the slot's sub-object (slot + 8), so the
@@ -56,7 +56,7 @@ struct Screen {
     u8   size_code;
 };
 
-extern void func_020422D4(u32 mode, u8 *a, u8 *b);
+extern void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 
 void BG_SYS_BlitTileMapEx(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u32 mode)
@@ -72,7 +72,7 @@ void BG_SYS_BlitTileMapEx(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
         return;
     }
 
-    func_020422D4(s->size_code, &width, &height);
+    BG_SYS_GetModeValue(s->size_code, &width, &height);
 
     for (y = y0; y < y0 + h; y++) {
         if (y >= height) {

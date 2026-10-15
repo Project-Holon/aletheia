@@ -56,6 +56,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -104,7 +105,7 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 struct Obj;
@@ -272,7 +273,7 @@ int CTVT_DRAW_Main(void *a0, char *p)
         if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00140 *)p)->f4C))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f4C);
             BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f4C));
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             ((struct Obj00140 *)p)->f40 = 0;
         }
     }
@@ -281,7 +282,7 @@ int CTVT_DRAW_Main(void *a0, char *p)
         if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)t, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00140 *)p)->f50))) == 0) {
             BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f50);
             BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f50));
-            func_020409B4(0);
+            BG_SYS_PushTile(0);
             ((struct Obj00140 *)p)->f44 = 0;
         }
     }

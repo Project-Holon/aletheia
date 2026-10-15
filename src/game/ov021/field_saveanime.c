@@ -63,8 +63,7 @@ struct Bmp;
 struct GameSystem;
 struct GameData;
 struct Sub0200852CObj;
-struct Obj020437AC;
-struct Obj00020;
+struct FieldMap;
 struct CharBuf;
 struct Light;
 struct VecFx32;
@@ -109,8 +108,8 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void BMP_Delete(struct Obj020437AC *p);
-extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void BMP_Delete(struct Bmp *p);
+extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void *FIELDMAP_GetCamera(void *p);
 extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
 extern void func_02048AD0(struct Light *l);
@@ -201,7 +200,7 @@ void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId)
 
 u32 FIELD_SAVEANIME_DeleteResource(FieldSaveAnime *work)
 {
-    BMP_Delete((struct Obj020437AC *)work->charData);
+    BMP_Delete((struct Bmp *)work->charData);
     work->charData = 0;
     return 0;
 }

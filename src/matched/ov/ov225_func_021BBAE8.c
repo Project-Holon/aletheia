@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B9CDC 0x021B9CDC thumb ov225
- *   func_021B9E80 0x021B9E80 thumb ov225
+ *   MANUAL_COMMON_GetDefaultId 0x021B9CDC thumb ov225
+ *   MANUAL_COMMON_SetScreenId 0x021B9E80 thumb ov225
  *   TCB_DeleteTask 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -20,9 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021B9CDC(void *);
-extern void func_021B9E80(char *,u32);
+extern int MANUAL_COMMON_GetDefaultId(void *);
+extern void MANUAL_COMMON_SetScreenId(char *,u32);
 struct Node;
 extern void TCB_DeleteTask(struct Node *);
 extern u32 func_020307B0(void *p);
-void MANUAL_CATEGORY_DeleteOption(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }
+void MANUAL_CATEGORY_DeleteOption(char *p) { MANUAL_COMMON_SetScreenId(*(char * *)&((struct Obj10985 *)p)->f4,MANUAL_COMMON_GetDefaultId(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); TCB_DeleteTask(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }

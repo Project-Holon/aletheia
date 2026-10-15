@@ -1,5 +1,5 @@
 /*
- * function: func_021BB258
+ * function: MANUAL_COMMON_IndexToY
  * address: 0x021BB258
  * packet: pkt_ov225_021BB258
  * region: ov225
@@ -11,7 +11,7 @@
  * extent: 90 compiled bytes followed by two zero alignment bytes at 021BB2B2.
  */
 typedef unsigned short u16;
-u16 func_021BB258(void *p, u16 count, u16 index)
+u16 MANUAL_COMMON_IndexToY(void *p, u16 count, u16 index)
 {
     u16 result, low, high;
     if (index == 0) result = 17;

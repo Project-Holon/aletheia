@@ -26,8 +26,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void IRC_COMPATIBLE_StepRunnerInit(u8 *,int);
@@ -39,7 +39,7 @@ extern void IRC_COMPATIBLE_HandleEntry(u8 *p, u16 *state);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 extern const char IRC_COMPATIBLE_SourceFileName[];
-int IRC_COMPATIBLE_ProcInit(struct Obj0203159C *a,int b,int c)
+int IRC_COMPATIBLE_ProcInit(struct Proc *a,int b,int c)
 {
     u8 *p;
     int handle;

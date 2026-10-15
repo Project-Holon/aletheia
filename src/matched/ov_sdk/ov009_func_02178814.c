@@ -21,14 +21,14 @@
  *   func_0217A7C8  0x0217A7C8  arm  ov009
  *   gDwcAuthGlobal     0x021AB184  data ov009
  *   errno     0x02153FAC  data
- *   g_021A2394     0x021A2394  data ov009
- *   g_021A239C     0x021A239C  data ov009
- *   g_021A23A8     0x021A23A8  data ov009
- *   g_021A23B4     0x021A23B4  data ov009
- *   g_021A23BC     0x021A23BC  data ov009
- *   g_021A23C4     0x021A23C4  data ov009
- *   g_021A23D0     0x021A23D0  data ov009
- *   g_021A23DC     0x021A23DC  data ov009
+ *   gDwcAuthLabelDate     0x021A2394  data ov009
+ *   gDwcAuthLabelHttpResult     0x021A239C  data ov009
+ *   gDwcAuthLabelReturnCd     0x021A23A8  data ov009
+ *   gDwcAuthLabelToken     0x021A23B4  data ov009
+ *   gDwcAuthLabelLocator     0x021A23BC  data ov009
+ *   gDwcAuthLabelChallenge     0x021A23C4  data ov009
+ *   gDwcAuthLabelDateTime     0x021A23D0  data ov009
+ *   gDwcAuthLabelSetCookie     0x021A23DC  data ov009
  */
 
 #include "../include/G_DWCWFCUtil.h"
@@ -64,14 +64,14 @@ extern int func_0217A7C8(DWCHttp *http, char *label, char *buffer, int buffer_le
 
 extern struct DWCWFCUtil gDwcAuthGlobal;
 extern int errno;
-extern char g_021A2394[];
-extern char g_021A239C[];
-extern char g_021A23A8[];
-extern char g_021A23B4[];
-extern char g_021A23BC[];
-extern char g_021A23C4[];
-extern char g_021A23D0[];
-extern char g_021A23DC[];
+extern char gDwcAuthLabelDate[];
+extern char gDwcAuthLabelHttpResult[];
+extern char gDwcAuthLabelReturnCd[];
+extern char gDwcAuthLabelToken[];
+extern char gDwcAuthLabelLocator[];
+extern char gDwcAuthLabelChallenge[];
+extern char gDwcAuthLabelDateTime[];
+extern char gDwcAuthLabelSetCookie[];
 
 int DWCi_Auth_FillResult(void)
 {
@@ -79,13 +79,13 @@ int DWCi_Auth_FillResult(void)
     int returncode;
 
     endptr = 0;
-    endptr = func_0217A728(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A2394);
+    endptr = func_0217A728(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelDate);
     if (endptr != 0)
         func_02168250(endptr);
 
     endptr = 0;
     errno = 0;
-    returncode = atoi((u32)func_0217A728(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A239C));
+    returncode = atoi((u32)func_0217A728(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelHttpResult));
     if (errno == 0x22) {
         ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20101;
         return 12;
@@ -94,7 +94,7 @@ int DWCi_Auth_FillResult(void)
         ((DWCAuth *)gDwcAuthGlobal.auth)->error = returncode + 23000;
         return 18;
     }
-    if (func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23A8, ((DWCAuth *)gDwcAuthGlobal.auth)->retcode, 4) <= 0) {
+    if (func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelReturnCd, ((DWCAuth *)gDwcAuthGlobal.auth)->retcode, 4) <= 0) {
         ((DWCAuth *)gDwcAuthGlobal.auth)->error = 20101;
         return 14;
     }
@@ -110,11 +110,11 @@ int DWCi_Auth_FillResult(void)
         ((DWCAuth *)gDwcAuthGlobal.auth)->f117f[0] = 0;
         ((DWCAuth *)gDwcAuthGlobal.auth)->f1010[0] = 0;
         ((DWCAuth *)gDwcAuthGlobal.auth)->f1188[0] = 0;
-        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23B4, ((DWCAuth *)gDwcAuthGlobal.auth)->f1052, 0x12d);
-        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23BC, ((DWCAuth *)gDwcAuthGlobal.auth)->f101f, 0x33);
-        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23C4, ((DWCAuth *)gDwcAuthGlobal.auth)->f117f, 9);
-        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23D0, ((DWCAuth *)gDwcAuthGlobal.auth)->f1010, 0xf);
-        func_0217A7C8(((DWCAuth *)gDwcAuthGlobal.auth)->http, g_021A23DC, ((DWCAuth *)gDwcAuthGlobal.auth)->f1188, 0x41);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelToken, ((DWCAuth *)gDwcAuthGlobal.auth)->f1052, 0x12d);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelLocator, ((DWCAuth *)gDwcAuthGlobal.auth)->f101f, 0x33);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelChallenge, ((DWCAuth *)gDwcAuthGlobal.auth)->f117f, 9);
+        func_0217A77C(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelDateTime, ((DWCAuth *)gDwcAuthGlobal.auth)->f1010, 0xf);
+        func_0217A7C8(((DWCAuth *)gDwcAuthGlobal.auth)->http, gDwcAuthLabelSetCookie, ((DWCAuth *)gDwcAuthGlobal.auth)->f1188, 0x41);
         ((DWCAuth *)gDwcAuthGlobal.auth)->f11b3 = 0;
         if (returncode != 40)
             gDwcAuthGlobal.state = 1;

@@ -22,7 +22,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_Callback  0x0201EE60  thumb
@@ -66,7 +66,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
@@ -117,7 +117,7 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     W(0x24) = 0;
     PRINTSYS_QUE_Clear((struct PrintSys *)W(0x34));
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0);
-    win = GF_FONT_Create_EC64(*heap);
+    win = WORDSET_CreateDefault(*heap);
     str = func_02045EC0((struct MsgBank *)W(0xc), 0xbd);
     buf = STRBUF_Create(0x40, *heap);
     WORDSET_Callback(win, 0, id);

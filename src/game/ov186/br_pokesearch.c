@@ -27,7 +27,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   STRBUF_Create 0x020457B0 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02045CAC 0x02045CAC arm
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
@@ -76,7 +76,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern void * MI_CpuFill8(void *,u32,u32);
 
@@ -392,7 +392,7 @@ void BR_POKESEARCH_DestroyGroupWindows(struct BrPokeSearch *ps)
         BR_UTIL_Delete(ps->groupWin[i]);
         ps->groupWin[i]=0;
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     BR_RES_ApplyBgSet(ps->res,20);
 }
 

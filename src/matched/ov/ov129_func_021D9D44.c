@@ -1,5 +1,5 @@
 /*
- * function: func_021D9D44
+ * function: WF2DMAP_SCENE_CreateExtraActors
  * address:  0x021D9D44
  * packet:   pkt_ov129_021D9D44
  * region:   ov129
@@ -39,7 +39,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021D9D44(char *p)
+void WF2DMAP_SCENE_CreateExtraActors(char *p)
 {
     L s;
     int h = ((struct Obj00913 *)p)->f25C;

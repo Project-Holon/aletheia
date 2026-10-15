@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA88
+ * function: MANUAL_COMMON_DeleteListWorkMenu
  * address: 0x021BAA88
  * packet: pkt_ov225_021BAA88
  * region: ov225
@@ -26,4 +26,4 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BG_SYS_SetFlagField06(u32);
-void func_021BAA88(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); BG_SYS_SetFlagField06(5); }
+void MANUAL_COMMON_DeleteListWorkMenu(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); BG_SYS_SetFlagField06(5); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1C0
+ * function: MANUAL_COMMON_TouchbarNoop
  * address: 0x021BA1C0
  * packet: pkt_ov225_021BA1C0
  * region: ov225
@@ -10,4 +10,4 @@
  * symbols:
 
  */
-void func_021BA1C0(void *a0){}
+void MANUAL_COMMON_TouchbarNoop(void *a0){}

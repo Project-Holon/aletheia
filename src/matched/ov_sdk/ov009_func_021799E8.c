@@ -38,8 +38,8 @@
  *   CPS_TcpShutdown  0x0215AD00  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   func_0217A0C8  0x0217A0C8  arm  ov009
- *   g_021A2590     0x021A2590  data ov009
- *   g_021A82BC     0x021A82BC  data ov009
+ *   gDwcHttpRootCaList     0x021A2590  data ov009
+ *   gCpsMyIp     0x021A82BC  data ov009
  */
 
 typedef struct DWCHttpBuffer {
@@ -129,8 +129,8 @@ extern void CPS_TcpShutdown(void);
 extern void CPS_TcpClose(void);
 extern int func_0217A0C8(int result);
 
-extern SOCLCaInfo *g_021A2590[12];
-extern unsigned long g_021A82BC;
+extern SOCLCaInfo *gDwcHttpRootCaList[12];
+extern unsigned long gCpsMyIp;
 
 void DWCi_Http_Thread(void *arg)
 {
@@ -166,7 +166,7 @@ void DWCi_Http_Thread(void *arg)
         con->auth_callback = func_0217A0C8;
         con->server_name = http->hostname;
         soc->con = con;
-        CPS_SetRootCa((int)g_021A2590, 12);
+        CPS_SetRootCa((int)gDwcHttpRootCaList, 12);
         CPS_SetSsl(1);
     }
 
@@ -196,7 +196,7 @@ void DWCi_Http_Thread(void *arg)
     lastactivetime = func_020870D0();
 
     for (;;) {
-        if (g_021A82BC == 0) {
+        if (gCpsMyIp == 0) {
             http->error = 5;
             goto fail;
         }

@@ -52,6 +52,7 @@
  *   APP_ICON_GetTypeAnimFileId  0x02027600  thumb  arm9
  *   APP_ICON_GetMoveKindPaletteOffset  0x02027604  thumb  arm9
  *   APP_ICON_GetMoveKindCellFileId  0x02027610  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -92,7 +93,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -175,7 +176,7 @@ void ITEMMENU_SetupGraphics(u8 *p)
     v = func_02049740(h, 0x1C, 1, 0, 0, *(u16 *)(p + 0x544));
     *(u32 *)(p + 0x804) = v;
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 0x1D, 1, 0, (u16)v + 0x8000, 0, 0, *(u16 *)(p + 0x544));
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
     *(u32 *)(p + 0x55C) = CLACT_RegisterPaletteEx(h, 0x13, 0, 0x140, 0, 3, *(u16 *)(p + 0x544));
     *(u32 *)(p + 0x564) = CLACT_RegisterCharacter(h, 0x14, 0, 0, *(u16 *)(p + 0x544));
     *(u32 *)(p + 0x570) = CLACT_RegisterCellAnim(h, 0x17, 0x1A, *(u16 *)(p + 0x544));

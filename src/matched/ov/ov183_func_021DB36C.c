@@ -18,10 +18,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-struct S020315D4;
+struct Proc;
 extern void BR_UTIL_DeleteHandles(char *);
 extern void BR_UTIL_DeleteTask(void *p);
 struct PrintSys;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void func_020315D4(struct S020315D4 *);
-int BR_CODEIN_SidebarDestroy(struct S020315D4 *task,int b,int c,char *p) { BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f14); BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f18); PRINTSYS_QUE_Delete(((struct Obj08308 *)p)->fC); BR_UTIL_DeleteTask((void *)(((struct Obj08308 *)p)->f0)); func_020315D4(task); return 1; }
+extern void func_020315D4(struct Proc *);
+int BR_CODEIN_SidebarDestroy(struct Proc *task,int b,int c,char *p) { BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f14); BR_UTIL_DeleteHandles(*(char * *)&((struct Obj08308 *)p)->f18); PRINTSYS_QUE_Delete(((struct Obj08308 *)p)->fC); BR_UTIL_DeleteTask((void *)(((struct Obj08308 *)p)->f0)); func_020315D4(task); return 1; }

@@ -38,7 +38,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   d_021DF634 0x021DF634 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -57,7 +57,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021D9580 0x021D9580 thumb ov121
+ *   MYSTERY_SetupDisplay3d 0x021D9580 thumb ov121
  *   d_021DF574 0x021DF574 data a4
  *   d_021DF58C 0x021DF58C data a4
  *   d_021DF580 0x021DF580 data a4
@@ -69,7 +69,7 @@
  *   PARTICLE_Main 0x02050BE8 arm
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  */
-#include "mystery_graphic_shared_types.h"
+#include "mystery_net_types.h"
 
 struct DispVram;
 
@@ -127,7 +127,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const void *tmpl, u32 type);
 
 extern void BG_SYS_FreeSlot(u8);
 
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BMP_WIN_Exit(void);
 
@@ -157,7 +157,7 @@ extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void func_021D9580(void);
+extern void MYSTERY_SetupDisplay3d(void);
 
 extern void G3D_SYSTEM_Init(int, int, int, int, int, u32, void (*)(void));
 
@@ -341,7 +341,7 @@ void MYSTERY_GRAPHIC_InitBg(void *p, u32 a)
  */
 void MYSTERY_GRAPHIC_ExitBg(void *p) {
     u32 i=0;
-    do { func_020403F4((u8)d_021DF634[i].id); ++i; } while(i<7);
+    do { BG_SYS_FreeLayerBuf((u8)d_021DF634[i].id); ++i; } while(i<7);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     MI_CpuFill8(p,0,4);
@@ -385,7 +385,7 @@ unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p) { return *p; }
 
 void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap)
 {
-    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, func_021D9580);
+    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, MYSTERY_SetupDisplay3d);
     p[0] = (u32)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
                          d_021DF574, d_021DF58C, d_021DF580, heap);
     p[1] = 1;

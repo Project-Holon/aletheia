@@ -59,7 +59,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_02012944  0x02012944  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -283,15 +283,8 @@ typedef struct IntrudeStartParam {
     u8 pad0F;
 } IntrudeStartParam;
 
-/* One zone of the Entralink with the tile position of its anchor (0x0C bytes). */
-typedef struct IntrudeZonePos {
-    u32 zoneId : 10;
-    u32 rest : 22;
-    s16 tileX;
-    s16 tileY;
-    s16 tileZ;
-    u16 pad0A;
-} IntrudeZonePos;
+/* IntrudeZonePos (the Entralink zone table entry, 0x0C bytes) is shared with the
+ * sub screen and lives in intrude_field_types.h. */
 
 /* Position that a visit offer waits at, per offer index. */
 typedef struct IntrudeTilePos {
@@ -421,7 +414,7 @@ extern struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 a1, u3
 /* MyStatus, Pokemon and message helpers */
 extern u8 func_02008530(const struct PlayerStatus *status);
 extern u8 func_02008550(const struct PlayerStatus *status);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
@@ -845,7 +838,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
         work->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x2D);
         work->msgWin = FIELD_MSGBG_CreateBottomMsgWin(msgBg, work->msgData);
-        work->wordSet = GF_FONT_Create_EC64(4);
+        work->wordSet = WORDSET_CreateDefault(4);
         if (intrudeWork->localPeer.intrudeId == GAME_DATA_GetOwnNetId(gameData)) {
             if (work->sessionBusy == 1)
                 FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4F);

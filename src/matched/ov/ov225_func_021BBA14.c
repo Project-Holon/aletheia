@@ -12,9 +12,9 @@
  * followers: parent cleared 021BBA64 tail stub and 021BBA70 empty Thumb leaf.
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_021BA740 0x021BA740 thumb ov225
+ *   MANUAL_COMMON_DeleteListWork 0x021BA740 thumb ov225
  *   func_020307B0 0x020307B0 arm
- *   func_021BA760 0x021BA760 thumb ov225
+ *   MANUAL_COMMON_UpdateListWork 0x021BA760 thumb ov225
  */
 #include "../include/Obj01790.h"
 #include "../include/Obj26296.h"
@@ -27,10 +27,10 @@
 typedef unsigned short u16;
 struct Node;
 extern void func_02030EAC(struct Node *);
-extern void func_021BA740(char *);
+extern void MANUAL_COMMON_DeleteListWork(char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern int func_021BA760(char *p);
+extern int MANUAL_COMMON_UpdateListWork(char *p);
 void MANUAL_CATEGORY_DeleteDetailList(char *p)
 {
     func_02030EAC(*(struct Node * *)&((struct Obj01790 *)p)->f20);
@@ -41,13 +41,13 @@ void MANUAL_CATEGORY_DeleteDetailList(char *p)
         ((struct Obj26299 *)(*(char * *)&((struct Obj01790 *)p)->f0))->fC = 1;
         ((struct Obj26301 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f10 = *(u16 *)(*(char * *)&((struct Obj01790 *)p)->f10 + ((struct Obj26300 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f8 * 8);
     }
-    func_021BA740(*(char * *)&((struct Obj01790 *)p)->f1C);
+    MANUAL_COMMON_DeleteListWork(*(char * *)&((struct Obj01790 *)p)->f1C);
     func_020307B0(((struct Obj01790 *)p)->f10);
     func_020307B0(p);
 }
 int MANUAL_CATEGORY_IsDetailFinished(char *p)
 {
-    return func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
+    return MANUAL_COMMON_UpdateListWork(*(char * *)&((struct Obj26302 *)p)->f1C);
 }
 void MANUAL_CATEGORY_DetailTaskNoop(void)
 {

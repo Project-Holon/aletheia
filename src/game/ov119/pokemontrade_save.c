@@ -206,7 +206,7 @@
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   STRBUF_Create 0x020457B0 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -743,7 +743,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 
@@ -1813,7 +1813,7 @@ void POKETRADE_SAVE_CloseMessageWindowClear(char *p) { if(*(int *)&((TradeWork *
 
 void POKETRADE_SAVE_CreateMessageResources(char *p)
 {
-    (*(void * *)&((TradeWork *)p)->wordSet)=GF_FONT_Create_EC64(((TradeWork *)p)->heapId);
+    (*(void * *)&((TradeWork *)p)->wordSet)=WORDSET_CreateDefault(((TradeWork *)p)->heapId);
     (*(void * *)&((TradeWork *)p)->messageBank)=func_02045B38(0,2,159,((TradeWork *)p)->heapId);
     ((TradeWork *)p)->font=GF_FONT_Create(23,0,0,0,((TradeWork *)p)->heapId);
     (*(void * *)&((TradeWork *)p)->infoTextOut)=STRBUF_Create(128,((TradeWork *)p)->heapId);

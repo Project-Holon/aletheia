@@ -1,5 +1,5 @@
 /*
- * function: func_021E7CF0
+ * function: WIFIBATTLEMATCH_VIEW_GetEntryValue
  * address: 0x021E7CF0
  * packet: pkt_ov177_021E7CF0
  * region: ov177
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned func_021E7CF0(void *p, unsigned short v, unsigned short w)
+unsigned WIFIBATTLEMATCH_VIEW_GetEntryValue(void *p, unsigned short v, unsigned short w)
 {
     if (v >= 1000) {
         return 5;

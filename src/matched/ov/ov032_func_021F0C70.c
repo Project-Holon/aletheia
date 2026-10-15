@@ -1,5 +1,5 @@
 /*
- * function: func_021F0C70
+ * function: BEACON_VIEW_UpdateTaskMenuButtons
  * address:  0x021F0C70
  * packet:   pkt_ov032_021F0C70
  * region:   ov032
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0C70  0x021F0C70  thumb
+ *   BEACON_VIEW_UpdateTaskMenuButtons  0x021F0C70  thumb
  *   APP_TASKMENU_WIN_IsUpdateTrans  0x0202846C  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_021F0DD8  0x021F0DD8  thumb  ov032
+ *   BEACON_VIEW_PlaySe  0x021F0DD8  thumb  ov032
  */
 
 typedef unsigned char u8;
@@ -25,9 +25,9 @@ extern u32 APP_TASKMENU_WIN_IsUpdateTrans(u8 *p);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 APP_TASKMENU_WIN_IsTouch(void **p);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void func_021F0DD8(unsigned int a);
+extern void BEACON_VIEW_PlaySe(unsigned int a);
 
-int func_021F0C70(char *p, int flag)
+int BEACON_VIEW_UpdateTaskMenuButtons(char *p, int flag)
 {
     int s;
     char *q;
@@ -51,11 +51,11 @@ int func_021F0C70(char *p, int flag)
     for (i = 0; i < n; i++) {
         if (APP_TASKMENU_WIN_IsTouch((void **)(*(u32 **)(q + i * 16))) != 0) {
             if (i < n - 1) {
-                func_021F0DD8(0x54c);
+                BEACON_VIEW_PlaySe(0x54c);
                 s = i;
             } else {
                 APP_TASKMENU_WIN_SetDecide(*(char **)(q + i * 16), 1);
-                func_021F0DD8(0x54c);
+                BEACON_VIEW_PlaySe(0x54c);
                 s = i;
             }
         }

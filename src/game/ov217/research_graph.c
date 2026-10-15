@@ -21,7 +21,7 @@
  *   func_020307B0 0x020307B0 arm
  *   NNS_G2dGetUnpackedScreenData 0x02062B30 arm
  *   BG_SYS_DrawTile 0x02041090 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   RESEARCH_COMMON_GetHeapId  0x021C09AC  thumb  ov217
  *   RESEARCH_COMMON_UpdatePaletteAnime 0x021C09D0 thumb ov217
@@ -258,10 +258,11 @@
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   RESEARCH_GRAPH_GetContext  0x021BF734  thumb  ov217
  *   func_02030734  0x02030734  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
 #include "../../matched/include/G_E.h"
 #include "../../matched/include/G_Bg.h"
@@ -366,7 +367,7 @@ extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 
-extern int func_020409B4(int);
+extern int BG_SYS_PushTile(int);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -722,7 +723,7 @@ void RESEARCH_GRAPH_ClearPalAnm(void *p);
 
 void RESEARCH_GRAPH_ClearPaletteAnime(void *p);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -2093,7 +2094,7 @@ int RESEARCH_GRAPH_DrawIndexCursor(char *p)
         RESEARCH_GRAPH_SetHighlightA((u32)p);
         break;
     }
-    return func_020409B4(2);
+    return BG_SYS_PushTile(2);
 }
 
 void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
@@ -2115,7 +2116,7 @@ void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p)
         RESEARCH_GRAPH_SetHighlightB((u32)p);
         break;
     }
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
 }
 
 void RESEARCH_GRAPH_CycleGroup(char *p, int a)
@@ -2444,7 +2445,7 @@ void RESEARCH_GRAPH_LoadBackground(char *p)
     file=ARC_TOOL_LoadHandleMember(arc,id,((struct ResearchObjB *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(file,&out);
     BG_SYS_DrawTile(2,(unsigned)out+12,0,0,32,32);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_020307B0(file);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -3167,7 +3168,7 @@ void RESEARCH_GRAPH_ClearWordSet(void *p)
 
 void RESEARCH_GRAPH_CreateWordSet(u32 a0)
 {
-    ((struct ResearchObjB *)a0)->wordSet = (void *)GF_FONT_Create_EC64(((struct ResearchObjB *)a0)->heapId);
+    ((struct ResearchObjB *)a0)->wordSet = (void *)WORDSET_CreateDefault(((struct ResearchObjB *)a0)->heapId);
 }
 
 void RESEARCH_GRAPH_DeleteWordSet(u8 *a0)
@@ -3427,13 +3428,13 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void func_0207D63C(u32 *, u32, u32, int, int);
 
-extern u32 func_020403F4();
+extern u32 BG_SYS_FreeLayerBuf();
 
 extern void CLACT_ReleasePalette(u32 i);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void BMP_Delete(struct Obj020437AC *);
+extern void BMP_Delete(struct Bmp *);
 
 extern struct DispConfig d_021C366C;
 
@@ -3481,11 +3482,11 @@ void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p)
 u32 RESEARCH_GRAPH_ExitOverlayBackgrounds()
 {
     BMP_WIN_Exit();
-    func_020403F4(0);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(7);
-    return func_020403F4(6);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(7);
+    return BG_SYS_FreeLayerBuf(6);
 }
 
 void RESEARCH_GRAPH_LoadBackground6(char *p)
@@ -3497,7 +3498,7 @@ void RESEARCH_GRAPH_LoadBackground6(char *p)
     blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 13, ((struct ResearchObjB *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
     BG_SYS_DrawTile(6, (u32)((char *)out + 12), 0, 0, 32, 24);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_020307B0((void *)((u32)blob));
     ARC_TOOL_DeleteHandle(h);
 }
@@ -3539,7 +3540,7 @@ void RESEARCH_GRAPH_LoadBackground2(char *p)
     blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 7, ((struct ResearchObjB *)p)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
     BG_SYS_DrawTile(2, (u32)((char *)out + 12), 0, 0, 32, 32);
-    func_020409B4(2);
+    BG_SYS_PushTile(2);
     func_020307B0((void *)((u32)blob));
     ARC_TOOL_DeleteHandle(h);
 }
@@ -3762,7 +3763,7 @@ void RESEARCH_GRAPH_DrawBmps(u8 *p)
             text=func_02045EC0(*(struct MsgBank **)(p+12+q->bank*4),q->index);
             PRINTSYS_PrintColor(((struct ResearchObjB *)dest)->bmps[0],q->px,q->py,text,(void *)((struct ResearchObjB *)p)->font,color);
             func_020307B0(text);
-            BMP_Delete((struct Obj020437AC *)bmp);
+            BMP_Delete((struct Bmp *)bmp);
         }
     }
 }
@@ -3826,7 +3827,7 @@ void RESEARCH_GRAPH_DrawBadge(u8 *p)
             BMP_Blit(bmp, *(struct Bmp **)(p + 0x3B4), (tab.rows[i].cells[j] % 3) * 8, (tab.rows[i].cells[j] / 3) * 8, j * 8, y, 8, 8, 0);
         }
     }
-    BMP_Delete((struct Obj020437AC *)bmp);
+    BMP_Delete((struct Bmp *)bmp);
     color = ((E->r & 31) << 10) | ((E->g & 31) << 5) | (E->b & 31);
     text = func_02045EC0(*(struct MsgBank **)(p + 12 + E->bank * 4), E->index);
     PRINTSYS_PrintColor(*(void **)(p + 0x3B4), E->px, E->py, text, *(void **)(p + 8), color);
@@ -3837,7 +3838,7 @@ void RESEARCH_GRAPH_DeleteBmps(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        BMP_Delete((struct Obj020437AC *)p[i + 0xEC]);
+        BMP_Delete((struct Bmp *)p[i + 0xEC]);
 }
 
 void RESEARCH_GRAPH_CreateOamSys(u8 *p)

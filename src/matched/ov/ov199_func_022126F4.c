@@ -1,5 +1,5 @@
 /*
- * function: func_022126F4
+ * function: WIFIBATTLEMATCH_SYS_WaitTask
  * address: 0x022126F4
  * packet: pkt_ov199_022126F4
  * region: ov199
@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02213754 0x02213754 thumb ov199
- *   func_02213800 0x02213800 thumb ov199
+ *   WIFIBATTLEMATCH_SYS_RunScreen 0x02213754 thumb ov199
+ *   WIFIBATTLEMATCH_SYS_GetResult 0x02213800 thumb ov199
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  */
 #include "../include/Obj08367.h"
 struct S;
-extern int func_02213754(struct S *s);
-extern int func_02213800(char *p);
+extern int WIFIBATTLEMATCH_SYS_RunScreen(struct S *s);
+extern int WIFIBATTLEMATCH_SYS_GetResult(char *p);
 typedef unsigned int   u32;
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-int func_022126F4(int unused,int *state,int unused2,char *p)
+int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p)
 {
     switch(*state) {
     case 0:
-        if(func_02213754((struct S *)(((struct Obj08367 *)p)->f18))) *state=1;
+        if(WIFIBATTLEMATCH_SYS_RunScreen((struct S *)(((struct Obj08367 *)p)->f18))) *state=1;
         if(((struct Obj08367 *)p)->f1CC) --((struct Obj08367 *)p)->f1CC;
         {
-            int x=func_02213800((char *)(((struct Obj08367 *)p)->f18));
+            int x=WIFIBATTLEMATCH_SYS_GetResult((char *)(((struct Obj08367 *)p)->f18));
             if(x==2 || x==0) GFL_NET_ERR_ShowScreen(0);
         }
         break;

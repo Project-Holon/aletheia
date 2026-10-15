@@ -15,6 +15,8 @@
  *   MIi_CpuClear16  0x02082A48  arm
  *   BG_SYS_ResolveScroll  0x02042218  arm
  *   BG_SYS_RotScale  0x020423D4  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_SetupLayer  0x02042FF8  arm
  *
  * bg_sys.c: initialise one BG layer from its template.  Program BGxCNT of
  * layer bgId (0..3 main, 4..7 sub) through the TwlSDK gx_bgcnt.h inline
@@ -96,10 +98,10 @@ extern struct BgSys *g_02146A44;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void func_02040618(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
 extern int BG_SYS_ResolveScroll(int a0, int a1);
 extern void BG_SYS_RotScale(u32 bgId);
-extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
+extern void BG_SYS_SetupLayer(u32 bgId, u32 offset, u32 size);
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
 
@@ -392,14 +394,14 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
         g_02146A44->bgs[bgId].unk_17 = 0x40;
     }
 
-    func_02040618(bgId, 0, tmpl->unk_00);
-    func_02040618(bgId, 3, tmpl->unk_04);
+    BG_SYS_FillScrollArea(bgId, 0, tmpl->unk_00);
+    BG_SYS_FillScrollArea(bgId, 3, tmpl->unk_04);
     BG_SYS_RotScale(bgId);
 
     g_02146A44->unk_170[bgId] = tmpl->unk_13 << 14;
     g_02146A44->unk_190[bgId] = tmpl->unk_12 << 11;
     g_02146A44->unk_1b0[bgId] = tmpl->unk_14;
 
-    func_02042FF8(bgId, 0, tmpl->bufSize);
+    BG_SYS_SetupLayer(bgId, 0, tmpl->bufSize);
 }
 

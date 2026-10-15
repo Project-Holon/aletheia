@@ -1,5 +1,5 @@
 /*
- * function: func_021BE61C
+ * function: INTRO_CMD_CmdPrintAndMepachi
  * address: 0x021BE61C
  * packet: pkt_ov204_021BE61C
  * region: ov204
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 extern int INTRO_MSG_UpdatePrint(char *a);
 extern void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag);
 extern u32 INTRO_MSG_GetPrintState(u8 *p);
-int func_021BE61C(char *p, int *state, unsigned *q)
+int INTRO_CMD_CmdPrintAndMepachi(char *p, int *state, unsigned *q)
 {
     unsigned index = q[0];
     unsigned other = q[1];

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA058
+ * function: BTL_REC_SEL_MainTcbl
  * address: 0x021BA058
  * packet: pkt_ov214_021BA058
  * region: ov214
@@ -17,4 +17,4 @@ struct Tcbl;
 extern void TCBL_Main(struct Tcbl *);
 typedef unsigned char  u8;
 extern u8 func_02035630(void);
-void func_021BA058(int unused,char *p){TCBL_Main(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);if(func_02035630()==30)TCBL_Main(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);}
+void BTL_REC_SEL_MainTcbl(int unused,char *p){TCBL_Main(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);if(func_02035630()==30)TCBL_Main(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);}

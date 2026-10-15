@@ -17,13 +17,13 @@
 #include "../include/Obj07738.h"
 typedef unsigned int u32;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 struct U16Vec;
 extern void func_0203133C(struct S020314B8 *);
 extern void STRBUF_Delete(struct U16Vec *);
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-int EVENT_BATTLE_RETURN_Exit(struct S020315D4 *p, u32 b, u32 c, u32 d)
+int EVENT_BATTLE_RETURN_Exit(struct Proc *p, u32 b, u32 c, u32 d)
 {
     func_0203133C(*(struct S020314B8 * *)&((struct Obj07738 *)d)->f40);
     if (*(struct U16Vec * *)&((struct Obj07738 *)d)->f2C) STRBUF_Delete(*(struct U16Vec * *)&((struct Obj07738 *)d)->f2C);

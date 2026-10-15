@@ -55,7 +55,7 @@
  *   func_02049740 0x02049740 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   func_02040588 0x02040588 arm
  *   func_02030734 0x02030734 arm
@@ -77,7 +77,7 @@
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   d_0220BABC 0x0220BABC data a4
  *   d_0220BB18 0x0220BB18 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -95,10 +95,10 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 struct GfFont;
-struct Obj0203159C;
+struct Proc;
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 struct DispVram;
 struct Bank;
 struct BgTemplate;
@@ -153,7 +153,7 @@ typedef char ZukanTorokuBgEntry_size_check[(sizeof(ZukanTorokuBgEntry) == 44) ? 
 
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *);
@@ -168,7 +168,7 @@ extern void func_021BA2CC(char *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void func_02034A5C(int);
 extern void func_021BA374(char *);
@@ -194,7 +194,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -212,7 +212,7 @@ extern void BMP_WIN_Init(int);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -398,7 +398,7 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
     work->bgHandle=func_02049740(r,17,1,2048,0,work->heapId);
     func_020498F4(r,(int)39,(int)1,(u16)work->bgHandle,(int)1536,(int)0,(unsigned)work->heapId);
     ARC_TOOL_DeleteHandle(r);
-    func_020409B4(1);
+    BG_SYS_PushTile(1);
 }
 
 
@@ -516,7 +516,7 @@ void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap)
 }
 
 
-void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display){u32 i;for(i=0;i<4;i++)func_020403F4((u8)d_0220BB18[i].bgId);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(display,0,4);}
+void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display){u32 i;for(i=0;i<4;i++)BG_SYS_FreeLayerBuf((u8)d_0220BB18[i].bgId);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(display,0,4);}
 
 
 

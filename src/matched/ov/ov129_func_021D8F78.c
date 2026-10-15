@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D9F40 0x021D9F40 thumb ov129
- *   func_021DA004 0x021DA004 thumb ov129
+ *   WF2DMAP_SCENE_UpdateCursorAnim 0x021D9F40 thumb ov129
+ *   WF2DMAP_SCENE_UpdateOam 0x021DA004 thumb ov129
  *   d_021DA718 0x021DA718 data a4 ov129
  */
 typedef unsigned char u8;
@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int (*d_021DA718[])(char *);
-extern void func_021D9F40(char *),func_021DA004(char *);
-int WF2DMAP_SCENE_Dispatch(char *p) { int v; v=d_021DA718[*(u32 *)(p+0x22c)](p); func_021D9F40(p); func_021DA004(p); return v; }
+extern void WF2DMAP_SCENE_UpdateCursorAnim(char *),WF2DMAP_SCENE_UpdateOam(char *);
+int WF2DMAP_SCENE_Dispatch(char *p) { int v; v=d_021DA718[*(u32 *)(p+0x22c)](p); WF2DMAP_SCENE_UpdateCursorAnim(p); WF2DMAP_SCENE_UpdateOam(p); return v; }

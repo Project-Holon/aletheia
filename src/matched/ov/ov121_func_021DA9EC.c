@@ -1,5 +1,5 @@
 /*
- * function: func_021DA9EC
+ * function: MYSTERY_UTIL_SetFlag
  * address: 0x021DA9EC
  * packet: pkt_ov121_021DA9EC
  * region: ov121
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021DA9EC(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }
+void MYSTERY_UTIL_SetFlag(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }

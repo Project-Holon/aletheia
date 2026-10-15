@@ -15,11 +15,11 @@
  *   strzcpy  0x0219327C  arm   ov009
  *   gpiAppendStringToBuffer  0x0218946C  arm   ov009
  *   gpiAppendIntToBuffer  0x0218949C  arm   ov009
- *   g_021A4278     0x021A4278  data  ov009
- *   g_021A424C     0x021A424C  data  ov009
- *   g_021A4464     0x021A4464  data  ov009
- *   g_021A42CC     0x021A42CC  data  ov009
- *   g_021A4270     0x021A4270  data  ov009
+ *   gGpiBuddyKeyBm     0x021A4278  data  ov009
+ *   gGpiBuddyKeySessKey     0x021A424C  data  ov009
+ *   gGpiBuddyKeyT     0x021A4464  data  ov009
+ *   gGpiBuddyKeyMsg     0x021A42CC  data  ov009
+ *   gGpiBuddyKeyFinal     0x021A4270  data  ov009
  */
 
 typedef struct GPIConnection {
@@ -32,11 +32,11 @@ typedef struct GPIConnection {
 extern void strzcpy(char *p, int b, int n);
 extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
 extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
-extern char g_021A4278[];
-extern char g_021A424C[];
-extern char g_021A4464[];
-extern char g_021A42CC[];
-extern char g_021A4270[];
+extern char gGpiBuddyKeyBm[];
+extern char gGpiBuddyKeySessKey[];
+extern char gGpiBuddyKeyT[];
+extern char gGpiBuddyKeyMsg[];
+extern char gGpiBuddyKeyFinal[];
 
 int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message)
 {
@@ -45,14 +45,14 @@ int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *
 
     iconnection = (GPIConnection *)*connection;
     strzcpy(buffer, (int)message, 3501);
-    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4278);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyBm);
     gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), type);
-    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A424C);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeySessKey);
     gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->f198);
-    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4464);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyT);
     gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), profileid);
-    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A42CC);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyMsg);
     gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), buffer);
-    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4270);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyFinal);
     return 0;
 }

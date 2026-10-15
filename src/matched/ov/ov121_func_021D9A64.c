@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A64
+ * function: MYSTERY_UTIL_ShowMessage
  * address: 0x021D9A64
  * packet: pkt_ov121_021D9A64
  * region: ov121
@@ -12,7 +12,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021D9BC0 0x021D9BC0 thumb ov121
+ *   MYSTERY_UTIL_ComputeTextPosition 0x021D9BC0 thumb ov121
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  */
 #include "../include/Obj01057.h"
@@ -27,15 +27,15 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021D9BC0(void *, int, Pair *);
+extern void MYSTERY_UTIL_ComputeTextPosition(void *, int, Pair *);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021D9A64(u8 *p, u16 a, int b, int c)
+void MYSTERY_UTIL_ShowMessage(u8 *p, u16 a, int b, int c)
 {
     Pair xy;
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj01057 *)p)->fC), ((struct Obj01057 *)p)->f16 & 31);
     MSGDATA_ReadString((struct MsgBank *)a, b, ((struct Obj01057 *)p)->f10);
-    func_021D9BC0(p, c, &xy);
+    MYSTERY_UTIL_ComputeTextPosition(p, c, &xy);
     q = ((struct Obj01057 *)p)->f8;
     PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
                  (u32)(((struct Obj01057 *)p)->f10), c, ((struct Obj01057 *)p)->f16);

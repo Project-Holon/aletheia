@@ -11,7 +11,7 @@
  * symbols:
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021BA7A4 0x021BA7A4 thumb ov218
+ *   UN_SELECT_SetupDisplay 0x021BA7A4 thumb ov218
  *   d_021BAE94 0x021BAE94 data a4
  *   d_021BAE88 0x021BAE88 data a4
  *   d_021BAEA0 0x021BAEA0 data a4
@@ -20,11 +20,11 @@
 typedef struct Vec3 { unsigned x, y, z; } Vec3;
 extern const Vec3 d_021BAE94, d_021BAE88, d_021BAEA0;
 extern const short d_020A1EB8[];
-extern void func_021BA7A4(void);
+extern void UN_SELECT_SetupDisplay(void);
 extern void G3D_SYSTEM_Init(unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned, void (*)(void));
 extern unsigned *G3D_CAMERA_Create(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, const Vec3 *, const Vec3 *, const Vec3 *, unsigned);
 void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
 {
-    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, func_021BA7A4);
+    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, UN_SELECT_SetupDisplay);
     *out = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, &d_021BAE94, &d_021BAE88, &d_021BAEA0, heap);
 }

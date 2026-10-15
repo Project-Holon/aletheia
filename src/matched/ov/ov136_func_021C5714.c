@@ -9,22 +9,22 @@
  * status: EXACT
  * symbols:
  *   MB_SEQ_FreeBgs 0x021C5714 thumb
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  */
 typedef unsigned int u32;
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_Delete(void);
 
 void MB_SEQ_FreeBgs(void *a0)
 {
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     BG_SYS_Delete();
 }

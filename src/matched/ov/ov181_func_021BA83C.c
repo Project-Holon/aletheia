@@ -14,7 +14,7 @@
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
- *   func_02040860 0x02040860 arm
+ *   BG_SYS_SetScrollRegs 0x02040860 arm
  */
 #include "../include/Obj00682.h"
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern void func_0207D63C(unsigned, int, int, int, int);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *, unsigned, const void *, const void *, u8);
-extern void func_02040860(unsigned, unsigned, unsigned, unsigned);
+extern void BG_SYS_SetScrollRegs(unsigned, unsigned, unsigned, unsigned);
 int STAFF_ROLL_StepWindowSlide(char *p)
 {
     struct Mtx22 matrix;
@@ -49,7 +49,7 @@ int STAFF_ROLL_StepWindowSlide(char *p)
         if (v >= 16) {
             *(volatile u16 *)0x04000052 = 16;
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
             *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
             *(u16 *)&((struct Obj00682 *)p)->f2DA = 0xa6;
             ++((struct Obj00682 *)p)->f2CE;
@@ -57,7 +57,7 @@ int STAFF_ROLL_StepWindowSlide(char *p)
             *(volatile u16 *)0x04000052 = v | ((16 - v) << 8);
             scale = 8 - ((struct Obj00682 *)p)->f2D0 / 2;
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;
     case 2:
@@ -76,7 +76,7 @@ int STAFF_ROLL_StepWindowSlide(char *p)
             *(volatile u16 *)0x04000050 = 0;
             BG_SYS_SetMainPlaneVisible(8, 0);
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
             STAFF_ROLL_ReloadGraphics(p, 0);
             *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
             ((struct Obj00682 *)p)->f2CE = 0;
@@ -85,7 +85,7 @@ int STAFF_ROLL_StepWindowSlide(char *p)
             *(volatile u16 *)0x04000052 = (16 - v) | (v << 8);
             scale = ((struct Obj00682 *)p)->f2D0 / 2 + 1;
             BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
-            func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
+            BG_SYS_SetScrollRegs(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;
     }

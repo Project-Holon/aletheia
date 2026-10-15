@@ -39,7 +39,7 @@ extern void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *);
 extern void NAMEIN_GRAPHIC_DeleteGrid(u8 *);
 struct PrintSys;
 struct Rec;
-struct S020315D4;
+struct Proc;
 struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -56,7 +56,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32);
 int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
 {

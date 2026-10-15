@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_CreateActor 0x0204B294 arm
- *   d_021CA6C8 0x021CA6C8 data a2
+ *   gWf2dmapEntrySlotPos 0x021CA6C8 data a2
  */
 #include "../include/Obj05382.h"
 #include "../include/Obj14043.h"
@@ -18,13 +18,13 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y,z;u8 a,b;} Point;
-extern const s16 d_021CA6C8[][5];
+extern const s16 gWf2dmapEntrySlotPos[][5];
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 void Wf2dmapFriend_CreateEntryActor(char *p,char *q,int unused,int i,u16 h) {
  Point pt;
- pt.x=(((struct Obj14043 *)p)->f0+d_021CA6C8[i][0])*8+16;
- pt.y=(((struct Obj14043 *)p)->f2+d_021CA6C8[i][1])*8+16;
+ pt.x=(((struct Obj14043 *)p)->f0+gWf2dmapEntrySlotPos[i][0])*8+16;
+ pt.y=(((struct Obj14043 *)p)->f2+gWf2dmapEntrySlotPos[i][1])*8+16;
  pt.z=0;pt.a=8;pt.b=1;
  *(void **)(p+44+i*4)=CLACT_CreateActor((void *)((struct Obj05382 *)q)->f13C,((struct Obj05382 *)q)->f144,((struct Obj05382 *)q)->f14C,((struct Obj05382 *)q)->f154,&pt,0,h);
 }

@@ -20,6 +20,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 
 typedef signed char s8;
@@ -55,7 +56,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 extern void WORLDTRADE_TITLE_CreateMenuWindow(u8 *p, u32 k);
 
@@ -68,28 +69,28 @@ void WORLDTRADE_BOX_CreateWindows(Work *p)
     w = p->win0;
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_020409B4(BMP_WIN_GetBgLayer(w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
 
     p->win1 = (void *)BMP_WIN_Create(0, 2, 0x15, 0x1B, 2, 0xD, 1);
     BMP_Clear(BMP_WIN_GetBmp(p->win1), 0);
     w = p->win1;
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_020409B4(BMP_WIN_GetBgLayer(w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
 
     p->win2 = (void *)BMP_WIN_Create(0, 2, 0x13, 0x1B, 4, 0xD, 1);
     BMP_Clear(BMP_WIN_GetBmp(p->win2), 0);
     w = p->win1;
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_020409B4(BMP_WIN_GetBgLayer(w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
 
     p->win3 = (void *)BMP_WIN_Create(1, 0x18, 0x10, 6, 2, 0, 1);
     BMP_Clear(BMP_WIN_GetBmp(p->win3), 4);
     w = p->win3;
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    func_020409B4(BMP_WIN_GetBgLayer(w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
 
     WORLDTRADE_INPUT_PrintStringAlignedLine(p->win3, (u32)p->strs, 0, 1, 1, 0x3DC4, (u32)p->g);
     if (p->mode == 5) {

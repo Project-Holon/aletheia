@@ -1,5 +1,5 @@
 /*
- * function: func_021E8A90
+ * function: WIFIBATTLEMATCH_UTIL_IsCallbackNull
  * address:  0x021E8A90
  * packet:   pkt_021E8A90
  * region:   ov177
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E8A90   0x021E8A90  thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_IsCallbackNull   0x021E8A90  thumb ov177
  *
- * Unlabelled ov177 leaf hidden in a word run (it follows func_021E8A80):
+ * Unlabelled ov177 leaf hidden in a word run (it follows WIFIBATTLEMATCH_UTIL_InvokeCallback):
  * loads the word its argument points at and returns 1 when it is zero.
  * Matched to supply the `matched` witness for the four pending callers.
  */
 
-int func_021E8A90(int **p)
+int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **p)
 {
     return *p == 0;
 }

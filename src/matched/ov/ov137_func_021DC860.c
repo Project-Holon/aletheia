@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 extern void *PROCSYS_Create(int a0);
 int GURU2_EntryProcInit(void *obj,int a,u8 *ctx) { u8 *p=PROCSYS_AllocProcWork(obj,36,4); MI_CpuFill8(p,0,36); ((struct Obj10612 *)p)->f10=((struct Obj23664 *)ctx)->f4; ((struct Obj10612 *)p)->f8=ctx; ((struct Obj10612 *)p)->f20=PROCSYS_Create(1); return 1; }

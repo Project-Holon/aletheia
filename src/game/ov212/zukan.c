@@ -85,13 +85,13 @@
 #include "../../matched/include/Obj08418.h"
 #include "zukan_shared_types.h"
 
-struct Obj0203159C;
+struct Proc;
 
 struct Blk37;
 
 struct S020314B8;
 
-struct S020315D4;
+struct Proc;
 
 struct Obj020314F4;
 
@@ -104,7 +104,7 @@ struct Obj021C8F98 {
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Proc *,unsigned,unsigned);
 
 extern void MI_CpuFill8(void *,unsigned char,unsigned);
 
@@ -114,7 +114,7 @@ extern unsigned PROCSYS_Main(void *);
 
 extern void func_0203133C(struct S020314B8 *);
 
-extern void func_020315D4(struct S020315D4 *);
+extern void func_020315D4(struct Proc *);
 
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 
@@ -142,11 +142,11 @@ extern void BG_SYS_ResetSlot(u32,u32,u32);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx);
+int ZUKAN_Create(struct Proc *obj,int unused,char *ctx);
 
 int ZUKAN_Update(int a,int b,int c,unsigned char *p);
 
-int ZUKAN_Delete(struct S020315D4 *obj, void *b, void *c, u8 *p);
+int ZUKAN_Delete(struct Proc *obj, void *b, void *c, u8 *p);
 
 void ZUKAN_FreeIdList(u8 *p);
 
@@ -214,7 +214,7 @@ extern unsigned char ov208_id[];
  * 31324 forwards r0 to matched 31354(int), which returns allocation.
  * 3064C visibly receives three inputs here; retain caller's r2 size.
  */
-int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx)
+int ZUKAN_Create(struct Proc *obj,int unused,char *ctx)
 {
     char *p;
     GFL_HEAP_CreateChildHeap(1,105,0x8000);
@@ -238,7 +238,7 @@ int ZUKAN_Create(struct Obj0203159C *obj,int unused,char *ctx)
 
 int ZUKAN_Update(int a,int b,int c,unsigned char *p){if(((struct Obj08415 *)p)->f1C==9)return 1;((struct Obj08415 *)p)->f8=PROCSYS_Main(((struct Obj08415 *)p)->f4);((struct Obj08415 *)p)->f1C=(*(unsigned (**)(unsigned char *))(d_021C9944+*(unsigned *)(p+28)*4))(p);return 0;}
 
-int ZUKAN_Delete(struct S020315D4 *obj, void *b, void *c, u8 *p) {
+int ZUKAN_Delete(struct Proc *obj, void *b, void *c, u8 *p) {
     ZUKAN_FreeIdList(p);
     func_0203133C(*(struct S020314B8 * *)&((struct Obj08416 *)p)->f4);
     func_020315D4(obj);

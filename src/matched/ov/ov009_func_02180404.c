@@ -12,13 +12,13 @@
  * Address of the module state object.
  *
  * symbols:
- *   g_021AD188  0x021AD188  data
+ *   gGsUdpEngineContext  0x021AD188  data
  */
 
-extern char g_021AD188[];
+extern char gGsUdpEngineContext[];
 
 void *gsUdpEngineContext(void)
 {
-    return g_021AD188;
+    return gGsUdpEngineContext;
 }
 

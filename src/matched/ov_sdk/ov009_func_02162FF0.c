@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_02162FD8  0x02162FD8  arm  ov009
- *   g_021A1E28     0x021A1E28  data ov009
- *   g_021A1DA8     0x021A1DA8  data ov009
+ *   gMd5TTable     0x021A1E28  data ov009
+ *   gMd5Permutation     0x021A1DA8  data ov009
  *
  * Table-driven MD5 block: four rounds of four iterations, each iteration
  * doing four steps indexed through itab (message word) and ktab (constant).
@@ -27,8 +27,8 @@ typedef struct CPSMd5Ctx {
 } CPSMd5Ctx;
 
 extern void func_02162FD8(void *a, void *b, int n);
-extern unsigned long g_021A1E28[64];
-extern unsigned char g_021A1DA8[64];
+extern unsigned long gMd5TTable[64];
+extern unsigned char gMd5Permutation[64];
 
 #define ROTL(v, s)  (((v) << (s)) | ((v) >> (32 - (s))))
 
@@ -38,7 +38,7 @@ extern unsigned char g_021A1DA8[64];
 #define I(x, y, z)  ((y) ^ ((x) | ~(z)))
 
 #define STEP(f, a, b, c, d, k, s) \
-    a += f(b, c, d) + x[g_021A1DA8[k]] + g_021A1E28[k]; \
+    a += f(b, c, d) + x[gMd5Permutation[k]] + gMd5TTable[k]; \
     a = ROTL(a, s) + b
 
 void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m)

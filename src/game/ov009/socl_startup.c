@@ -18,11 +18,11 @@
  *   SOCLi_StartupCommandPacketQueue  0x0215CD3C  arm  ov009
  *   func_0215D070  0x0215D070  arm  ov009
  *   WCM_GetApMacAddress  0x02166384  arm  ov009
- *   g_020050C4  0x020050C4  data
- *   g_021A1D14  0x021A1D14  data
- *   g_021A827C  0x021A827C  data
- *   g_021A8298  0x021A8298  data
- *   g_021A82DC  0x021A82DC  data
+ *   gSoclStartupSdkRef  0x020050C4  data
+ *   gSoclUdpSendSocketParam  0x021A1D14  data
+ *   gCpsNetMask  0x021A827C  data
+ *   gCpsGateway  0x021A8298  data
+ *   gCpsDnsIp  0x021A82DC  data
  *   MI_CpuFill8                 0x02082BCC arm
  *   CPS_SetThreadPriority       0x021576C8 arm
  *   WCM_SetRecvDCFCallback      0x02166424 arm
@@ -42,8 +42,8 @@
  *   SOCLiDhcpState              0x021AA448 data
  *   SOCLiUDPSendSocket          0x021AA44C data
  *   SOCLiCPSConfig              0x021AA450 data
- *   g_021A1CFC                  0x021A1CFC data
- *   g_021A82BC                  0x021A82BC data
+ *   SOCLSocketParamTCP                  0x021A1CFC data
+ *   gCpsMyIp                  0x021A82BC data
  */
 typedef struct SoclSocketParam {
     unsigned long word[16];
@@ -102,8 +102,8 @@ static u32 SOCLiRequestedIP = 0;
 static void *SOCLiUDPSendSocket = 0;
 static u32 SOCLiYieldWait = 0;
 
-extern SoclSocketParam g_021A1CFC;
-extern u32 g_021A82BC;
+extern SoclSocketParam SOCLSocketParamTCP;
+extern u32 gCpsMyIp;
 
 void MI_CpuFill8(void *dstp, u8 data, u32 size);
 void CPS_SetThreadPriority(u32 new_prio);
@@ -123,11 +123,11 @@ extern void SOCLi_CleanupCPS(void);
 extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
 extern void *func_0215D070(void *param);
 extern unsigned char *WCM_GetApMacAddress(void);
-extern char g_020050C4[42];
-extern int g_021A1D14;
-extern u32 g_021A827C;
-extern u32 g_021A8298;
-extern u32 g_021A82DC[2];
+extern char gSoclStartupSdkRef[42];
+extern int gSoclUdpSendSocketParam;
+extern u32 gCpsNetMask;
+extern u32 gCpsGateway;
+extern u32 gCpsDnsIp[2];
 int SOCL_Startup(SOCLConfig *socl_config);
 int SOCLi_StartupSOCL(void);
 void SOCLi_SetMyIP(void);
@@ -142,7 +142,7 @@ int SOCL_Startup(SOCLConfig *socl_config)
 {
 	int result;
 
-	OSi_ReferSymbol(g_020050C4);
+	OSi_ReferSymbol(gSoclStartupSdkRef);
 	if (SOCLiConfigPtr != 0) {
 		return 0;
 	}
@@ -167,7 +167,7 @@ int SOCLi_StartupSOCL(void)
 
 	r = SOCLi_StartupCommandPacketQueue(SOCLiConfigPtr->cmd_packet_max);
 	if (r >= 0) {
-		SOCLiUDPSendSocket = func_0215D070(&g_021A1D14);
+		SOCLiUDPSendSocket = func_0215D070(&gSoclUdpSendSocketParam);
 	}
 	return r;
 }
@@ -203,10 +203,10 @@ static void SOCLi_StartupCPS(void)
     } else if (mss < 0x240) {
         mss = 0x240;
     }
-    ((u16 *)&g_021A1CFC)[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
+    ((u16 *)&SOCLSocketParamTCP)[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
     cps_config->mymss = (u32)(mss - 0x28);
-    ((u16 *)&g_021A1CFC)[2] = (u16)((mss - 0x28) * 2);
-    g_021A82BC = 0;
+    ((u16 *)&SOCLSocketParamTCP)[2] = (u16)((mss - 0x28) * 2);
+    gCpsMyIp = 0;
     if (socl_config->use_dhcp != 0) {
         cps_config->mode = 0;
         SOCLiDhcpState = 1;
@@ -229,11 +229,11 @@ static void SOCLi_StartupCPS(void)
  */
 void SOCLi_SetMyIP(void)
 {
-	g_021A82BC = SOCLiConfigPtr->host_ip.addr;
-	g_021A827C = SOCLiConfigPtr->host_ip.mask;
-	g_021A8298 = SOCLiConfigPtr->host_ip.gateway;
-	g_021A82DC[0] = SOCLiConfigPtr->host_ip.dns;
-	g_021A82DC[1] = SOCLiConfigPtr->host_ip.dns2;
+	gCpsMyIp = SOCLiConfigPtr->host_ip.addr;
+	gCpsNetMask = SOCLiConfigPtr->host_ip.mask;
+	gCpsGateway = SOCLiConfigPtr->host_ip.gateway;
+	gCpsDnsIp[0] = SOCLiConfigPtr->host_ip.dns;
+	gCpsDnsIp[1] = SOCLiConfigPtr->host_ip.dns2;
 	SOCLiDhcpState |= 2;
 }
 

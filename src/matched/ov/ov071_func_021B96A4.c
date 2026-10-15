@@ -17,7 +17,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  */
 #include "../include/Obj04341.h"
 
@@ -36,7 +36,7 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 
 void MONOLITH_TOOL_LIST_InitWindows(char *a, void **b)
 {
@@ -46,7 +46,7 @@ void MONOLITH_TOOL_LIST_InitWindows(char *a, void **b)
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj04341 *)a)->f280), 0xff);
     ((struct Obj04341 *)a)->f284 = (void *)BMP_WIN_Create(4, 0, 0, 0x20, 3, 0xd, 1);
     BMP_WIN_MakeScreen(((struct Obj04341 *)a)->f284);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     ((struct Obj04341 *)a)->f288 = ((struct Obj04341 *)a)->f284;
     ((struct Obj04341 *)a)->f28C = 0;
 }

@@ -15,7 +15,7 @@
  * BG_SYS_GetBuf 0x0204162C arm
  * BG_SYS_DrawTileEx 0x020410D0 arm
  * BG_SYS_FillTileMap 0x020413B0 arm
- * func_020409B4 0x020409B4 arm
+ * BG_SYS_PushTile 0x020409B4 arm
  * func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ extern u8 BG_SYS_GetField16(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FillTileMap(u8,u8,u8,u8,u8,u8);
-extern void func_020409B4(u8);
+extern void BG_SYS_PushTile(u8);
 extern u32 func_020307B0(void *p);
 void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8 l,u8 m,int n,u16 o) {
  void *handle;
@@ -45,7 +45,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(int a,int b,int c,int d,u8 e,u8 f
  if(BG_SYS_GetBuf((u8)c)) {
   BG_SYS_DrawTileEx((u8)c,i,j,k,l,(u32)(data+12),e,f,g,h);
   BG_SYS_FillTileMap(c,i,j,k,l,m);
-  func_020409B4(c);
+  BG_SYS_PushTile(c);
  }
  func_020307B0(handle);
 }

@@ -17,7 +17,7 @@
  *   CPSi_SslWrite2  0x02162CA0  arm  ov009
  *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
  *   gMslRefToken  0x02150FEC  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 struct Soc {
@@ -45,7 +45,7 @@ extern void send_ping(unsigned char *pattern, unsigned long len, struct Soc *soc
 extern unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct CPSSoc *soc);
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern struct ThreadInfo gMslRefToken;
-extern unsigned char g_021A826C;
+extern unsigned char gCpsNetVars;
 
 unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2)
 {
@@ -71,7 +71,7 @@ unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned cha
 		} else {
 			total_written = CPSi_TcpWrite2Raw(buf, len, buf2, len2, (struct _CPSSoc *)soc);
 		}
-		if (!g_021A826C)
+		if (!gCpsNetVars)
 			return total_written;
 	}
 	return 0;

@@ -22,13 +22,13 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  */
 typedef unsigned char u8;
-struct S020315D4;
+struct Proc;
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(u8 *p);
 extern void WIFI_BSUBWAY_GRAPHIC_Noop(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
 extern void WIFI_BSUBWAY_StatusDelete(unsigned char *a);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);

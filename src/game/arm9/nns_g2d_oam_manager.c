@@ -92,7 +92,7 @@ struct Span {
     u32 live;
 };
 
-struct Win02063294 { u32 bank; u16 min_oam; u16 max_oam; u16 cur_oam; };
+struct OamWindow { u32 bank; u16 min_oam; u16 max_oam; u16 cur_oam; };
 
 typedef int BOOL;
 
@@ -125,54 +125,56 @@ typedef struct NNSG2dOamManagerInstance {
 
 typedef void (OBJLoadFunction)(const void *pSrc, u32 offset, u32 szByte);
 
-struct Res {
-    u16 f0;
-    u16 f2;
-    int f4;
-    u32 f8;
-    int fc;
-    u32 f10;
-    void *f14;
+struct VramResource {
+    u16  width;   /* +0x00 pixel width */
+    u16  height;  /* +0x02 pixel height */
+    int  offset;  /* +0x04 destination offset */
+    u32  bank;    /* +0x08 2D/3D VRAM control word, 0 selects the size-code path */
+    int  pad_fc;  /* +0x0c never read */
+    u32  size;    /* +0x10 source size in bytes */
+    void *src;    /* +0x14 source pointer */
 };
 
-struct Out {
-    int f0, f4, f8;
-    int fc;
-    int f10;
-    int f14;
-    int f18;
-    int f1c;
-    u32 f20;
+struct VramHandle {
+    int vramAddrMode0;  /* +0x00 destination for mode 0, written by NNSi_G2dSetVramHandle */
+    int vramAddrMode1;  /* +0x04 mode 1 */
+    int vramAddrMode2;  /* +0x08 mode 2 */
+    int heightCode;     /* +0x0c GX size code of the resource height */
+    int widthCode;      /* +0x10 GX size code of the resource width */
+    int offset;         /* +0x14 */
+    int reserved18;     /* +0x18 written 0, never read */
+    int isSet;          /* +0x1c written 1, never read */
+    u32 bank;           /* +0x20 */
 };
 
-typedef struct UnkSelf02063E54 {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-} UnkSelf02063E54;
+typedef struct VramResourceSel {
+    u32 formatCode;  /* +0x00 format code copied to the handle */
+    u32 handle;      /* +0x04 non-zero selects the func_0207F* upload path */
+    u32 size;        /* +0x08 source size in bytes */
+    u32 src;         /* +0x0c source pointer */
+} VramResourceSel;
 
-typedef struct UnkOut02063E54 {
-    u32 f0;
-    u32 f4;
-} UnkOut02063E54;
+typedef struct VramHandleSel {
+    u32 formatCode;  /* +0x00 */
+    u32 handle;      /* +0x04 */
+} VramHandleSel;
 
-typedef struct Self02063F4C {
-    u32 f0;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-} Self02063F4C;
+typedef struct VramResourceList {
+    u32 formatCode;  /* +0x00 format code, 3 selects the 0x20 element step */
+    u32 handle;      /* +0x04 non-zero selects the func_0207F* upload path */
+    u32 size;        /* +0x08 source size in bytes */
+    u32 src;         /* +0x0c source base pointer */
+} VramResourceList;
 
-typedef struct Out02063F4C {
-    u32 f0;
-    u32 f4;
-} Out02063F4C;
+typedef struct VramHandleList {
+    u32 formatCode;  /* +0x00 */
+    u32 handle;      /* +0x04 */
+} VramHandleList;
 
-typedef struct List02063F4C {
+typedef struct VramResourceIndices {
     u16  count;
     u16 *items;
-} List02063F4C;
+} VramResourceIndices;
 
 extern void sub_02082A60(void *src, u32 dest);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
@@ -203,7 +205,7 @@ void NNSi_G2dCpuLoadOamSub(void *src, u32 offset);
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset);
 void NNS_G2dInitOamManagerModule(void);
 u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 which);
-u32 NNSi_G2dEntryOamManagerOam(struct Win02063294 *win, GXOamAttr *src, u32 mode);
+u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode);
 u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
 void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound);
 void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan);
@@ -216,11 +218,11 @@ void NNSi_G2dInitVramHandleEx(u32 *p);
 void NNSi_G2dSetVramHandleEx(char *p, int i, int v);
 int NNSi_G2dGetVramHandleEx(char *p, int i);
 int NNSi_G2dIsVramHandleSetEx(char *p, int i);
-void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *out);
-void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *out);
-void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out);
-void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out);
-void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 base, int sel, Out02063F4C *out);
+void NNSi_G2dLoadVramResourceMain(struct VramResource *r, u32 dst, int mode, struct VramHandle *out);
+void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, int mode, struct VramHandle *out);
+void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct VramHandle *out);
+void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramHandleSel *out);
+void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *list, u32 base, int sel, VramHandleList *out);
 extern OamCache g_02146BC8[3];
 extern u16 g_02146BC4;
 extern OBJLoadFunction *g_020A81E4[5];  /* GetOBJLoadFunction_'s funcTbl */
@@ -459,7 +461,7 @@ u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 whic
  *   python3 tools/match.py one --src src/matched/NNSi_G2dEntryOamManagerOam.c
  *       --func NNSi_G2dEntryOamManagerOam --addr 0x02063294 --arm --cc ../2.0/sp2
  */
-u32 NNSi_G2dEntryOamManagerOam(struct Win02063294 *win, GXOamAttr *src, u32 mode)
+u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode)
 {
     u16 max_oam = win->max_oam;
     u16 cur_oam = *(volatile u16 *)&win->cur_oam;
@@ -966,9 +968,9 @@ int NNSi_G2dIsVramHandleSetEx(char *p, int i){ int v = *(int *)(p + i * 4 + 8); 
  * bytes against the original's 556; under ../2.0/sp2 the same C is 556
  * bytes, 0 mismatches.  See docs/FRONTEND-PINS.md.
  */
-void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dLoadVramResourceMain(struct VramResource *r, u32 dst, int mode, struct VramHandle *out)
 {
-    u32 bank = r->f8;
+    u32 bank = r->bank;
 
     switch (mode) {
     case 0:
@@ -980,23 +982,23 @@ void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *
         *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & 0xFFCFFFEF) | bank;
         break;
     }
-    DC_FlushRange(r->f14, r->f10);
+    DC_FlushRange(r->src, r->size);
     switch (mode) {
     case 0:
         GX_BeginLoadTex();
-        GX_LoadTex(r->f14, dst, r->f10);
+        GX_LoadTex(r->src, dst, r->size);
         GX_EndLoadTex();
         break;
     case 1:
-        GX_LoadOBJ(r->f14, dst, r->f10);
+        GX_LoadOBJ(r->src, dst, r->size);
         break;
     case 2:
-        GXS_LoadOBJ(r->f14, dst, r->f10);
+        GXS_LoadOBJ(r->src, dst, r->size);
         break;
     }
-    if (r->f8 == 0) {
+    if (r->bank == 0) {
         int a, b;
-        switch (r->f2) {
+        switch (r->height) {
         case 1:    a = 0; break;
         case 2:    a = 1; break;
         case 4:    a = 2; break;
@@ -1005,8 +1007,8 @@ void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *
         case 0x20: a = 5; break;
         default:   a = 0; break;
         }
-        out->fc = a;
-        switch (r->f0) {
+        out->heightCode = a;
+        switch (r->width) {
         case 1:    b = 0; break;
         case 2:    b = 1; break;
         case 4:    b = 2; break;
@@ -1015,15 +1017,15 @@ void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *
         case 0x20: b = 5; break;
         default:   b = 0; break;
         }
-        out->f10 = b;
+        out->widthCode = b;
     } else {
-        out->fc = r->f2;
-        out->f10 = r->f0;
+        out->heightCode = r->height;
+        out->widthCode = r->width;
     }
-    out->f14 = r->f4;
-    out->f18 = 0;
-    out->f1c = 1;
-    out->f20 = r->f8;
+    out->offset = r->offset;
+    out->reserved18 = 0;
+    out->isSet = 1;
+    out->bank = r->bank;
     NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
@@ -1033,9 +1035,9 @@ void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct Out *
 
 
 
-void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, int mode, struct VramHandle *out)
 {
-    u32 bank = r->f8;
+    u32 bank = r->bank;
 
     switch (mode) {
     case 0:
@@ -1047,23 +1049,23 @@ void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *o
         *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & 0xFFCFFFEF) | bank;
         break;
     }
-    DC_FlushRange(r->f14, r->f10);
+    DC_FlushRange(r->src, r->size);
     switch (mode) {
     case 0:
         GX_BeginLoadTex();
-        GX_LoadTex(r->f14, dst, r->f10);
+        GX_LoadTex(r->src, dst, r->size);
         GX_EndLoadTex();
         break;
     case 1:
-        GX_LoadOBJ(r->f14, dst, r->f10);
+        GX_LoadOBJ(r->src, dst, r->size);
         break;
     case 2:
-        GXS_LoadOBJ(r->f14, dst, r->f10);
+        GXS_LoadOBJ(r->src, dst, r->size);
         break;
     }
-    if (r->f8 == 0) {
+    if (r->bank == 0) {
         int a, b;
-        switch (r->f2) {
+        switch (r->height) {
         case 1:    a = 0; break;
         case 2:    a = 1; break;
         case 4:    a = 2; break;
@@ -1072,8 +1074,8 @@ void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *o
         case 0x20: a = 5; break;
         default:   a = 0; break;
         }
-        out->fc = a;
-        switch (r->f0) {
+        out->heightCode = a;
+        switch (r->width) {
         case 1:    b = 0; break;
         case 2:    b = 1; break;
         case 4:    b = 2; break;
@@ -1082,15 +1084,15 @@ void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *o
         case 0x20: b = 5; break;
         default:   b = 0; break;
         }
-        out->f10 = b;
+        out->widthCode = b;
     } else {
-        out->fc = r->f2;
-        out->f10 = r->f0;
+        out->heightCode = r->height;
+        out->widthCode = r->width;
     }
-    out->f14 = r->f4;
-    out->f18 = 0;
-    out->f1c = 1;
-    out->f20 = r->f8;
+    out->offset = r->offset;
+    out->reserved18 = 0;
+    out->isSet = 1;
+    out->bank = r->bank;
     NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
@@ -1114,12 +1116,12 @@ void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct Out *o
  * bytes against the original's 468; under ../2.0/sp2 the same C is 468
  * bytes, 0 mismatches.  See docs/FRONTEND-PINS.md.
  */
-void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out)
+void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct VramHandle *out)
 {
     u32 bank;
 
-    DC_FlushRange(r->f14, r->f10);
-    bank = r->f8;
+    DC_FlushRange(r->src, r->size);
+    bank = r->bank;
     switch (mode) {
     case 0:
         break;
@@ -1130,9 +1132,9 @@ void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out
         *(volatile u32 *)0x04001000 = (*(volatile u32 *)0x04001000 & 0xFFCFFFEF) | bank;
         break;
     }
-    if (r->f8 == 0) {
+    if (r->bank == 0) {
         int a, b;
-        switch (r->f2) {
+        switch (r->height) {
         case 1:    a = 0; break;
         case 2:    a = 1; break;
         case 4:    a = 2; break;
@@ -1141,8 +1143,8 @@ void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out
         case 0x20: a = 5; break;
         default:   a = 0; break;
         }
-        out->fc = a;
-        switch (r->f0) {
+        out->heightCode = a;
+        switch (r->width) {
         case 1:    b = 0; break;
         case 2:    b = 1; break;
         case 4:    b = 2; break;
@@ -1151,15 +1153,15 @@ void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out
         case 0x20: b = 5; break;
         default:   b = 0; break;
         }
-        out->f10 = b;
+        out->widthCode = b;
     } else {
-        out->fc = r->f2;
-        out->f10 = r->f0;
+        out->heightCode = r->height;
+        out->widthCode = r->width;
     }
-    out->f14 = r->f4;
-    out->f18 = 0;
-    out->f1c = 1;
-    out->f20 = r->f8;
+    out->offset = r->offset;
+    out->reserved18 = 0;
+    out->isSet = 1;
+    out->bank = r->bank;
     NNSi_G2dSetVramHandle((int *)out, mode, dst);
 }
 
@@ -1167,17 +1169,17 @@ void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct Out *out
 
 
 
-void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
+void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 a1, int sel, VramHandleSel *out)
 {
-    u32 a = self->fC;
-    u32 b = self->f8;
+    u32 a = self->src;
+    u32 b = self->size;
 
     DWCi_ScreenDC_FlushRange((const void *)a, b);
 
     switch (sel) {
     case 1:
-        if (self->f4 != 0) {
-            func_0207F47C(self->f4);
+        if (self->handle != 0) {
+            func_0207F47C(self->handle);
             func_0207F4C4(a, a1, b);
             func_0207F560();
         } else {
@@ -1185,8 +1187,8 @@ void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOu
         }
         break;
     case 2:
-        if (self->f4 != 0) {
-            func_0207F6A8(self->f4);
+        if (self->handle != 0) {
+            func_0207F6A8(self->handle);
             func_0207F6C0(a, a1, b);
             func_0207F754();
         } else {
@@ -1200,8 +1202,8 @@ void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOu
         break;
     }
 
-    out->f0 = self->f0;
-    out->f4 = self->f4;
+    out->formatCode = self->formatCode;
+    out->handle = self->handle;
     NNSi_G2dSetVramHandleEx((char *)out, sel, a1);
 }
 
@@ -1211,17 +1213,17 @@ void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOu
 /*
  * The LIST form of src/matched/NNSi_G2dLoadVramResourceBySel.c: the same three-arm dispatch on
  * `sel`, the same twelve callees in the same order, the same
- * `out->f0 = self->f0; out->f4 = self->f4; NNSi_G2dSetVramHandleEx(out, sel, base);`
+ * `out->formatCode = self->formatCode; out->handle = self->handle; NNSi_G2dSetVramHandleEx(out, sel, base);`
  * tail -- but run once per entry of a (count, u16 *items) list instead of once
  * per call.  Reading it as "NNSi_G2dLoadVramResourceBySel with a loop around it" is what made
  * the body writable at all; every callee declaration below is lifted unchanged
  * from that already-exact sibling.
  *
- * THE ELEMENT SIZE, and what `self->f0 == 3` means.  Both operands of the
+ * THE ELEMENT SIZE, and what `self->formatCode == 3` means.  Both operands of the
  * per-entry address arithmetic are scaled by one `step` that is 0x20 when
- * self->f0 == 3 and 0x200 otherwise (`moveq r8, #0x20` / `movne r8, #0x200`,
+ * self->formatCode == 3 and 0x200 otherwise (`moveq r8, #0x20` / `movne r8, #0x200`,
  * one predicated pair at 0x02063F68 and 0x02063F80 that the two `mul`s then
- * consume).  self->f0 is also the word copied to out->f0, so it is a format
+ * consume).  self->formatCode is also the word copied to out->formatCode, so it is a format
  * code and not a count -- the same field NNSi_G2dLoadVramResourceBySel copies out untouched.
  *
  * FOUR THINGS THE BYTES FORCED, in the order they cost time:
@@ -1239,7 +1241,7 @@ void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOu
  *      around the increment is.
  *
  *   3. DECLARATION ORDER.  `d` (the destination product) must be declared
- *      BEFORE `a` (the self->fC base).  Declared the other way round the two
+ *      BEFORE `a` (the self->src base).  Declared the other way round the two
  *      swap registers, giving `mul r5, r8, r7` / `mov r0, r4` /
  *      `add r0, r4, r5` for the image's `mul r4, r8, r7` / `mov r0, r5` /
  *      `add r0, r5, r4` -- 14 concrete bytes and nothing else, exactly
@@ -1273,8 +1275,8 @@ void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOu
  *       --func NNSi_G2dLoadVramResourceList --addr 0x02063F4C --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 356 = original 356, 13 of 13 sites resolved
  */
-void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
-                   Out02063F4C *out)
+void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *list, u32 base, int sel,
+                   VramHandleList *out)
 {
     u32 step;
     u16 n;
@@ -1283,19 +1285,19 @@ void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 ba
     u32 a;
     u32 t;
 
-    step = (self->f0 == 3) ? 0x20 : 0x200;
+    step = (self->formatCode == 3) ? 0x20 : 0x200;
     n = list->count;
     i = 0;
     if (n != 0) {
         do {
-            a = self->fC;
+            a = self->src;
             d = step * i;
             t = step * list->items[i];
-            DWCi_ScreenDC_FlushRange((const void *)a, self->f8);
+            DWCi_ScreenDC_FlushRange((const void *)a, self->size);
             switch (sel) {
             case 1:
-                if (self->f4 != 0) {
-                    func_0207F47C(self->f4);
+                if (self->handle != 0) {
+                    func_0207F47C(self->handle);
                     func_0207F4C4(a + d, base + t, step);
                     func_0207F560();
                 } else {
@@ -1303,8 +1305,8 @@ void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 ba
                 }
                 break;
             case 2:
-                if (self->f4 != 0) {
-                    func_0207F6A8(self->f4);
+                if (self->handle != 0) {
+                    func_0207F6A8(self->handle);
                     func_0207F6C0(a + d, base + t, step);
                     func_0207F754();
                 } else {
@@ -1322,7 +1324,7 @@ void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 ba
             i = i + 1;
         } while (n > i);
     }
-    out->f0 = self->f0;
-    out->f4 = self->f4;
-    NNSi_G2dSetVramHandleEx((char *)((UnkOut02063E54 *)((char *)out)), sel, base);
+    out->formatCode = self->formatCode;
+    out->handle = self->handle;
+    NNSi_G2dSetVramHandleEx((char *)((VramHandleSel *)((char *)out)), sel, base);
 }

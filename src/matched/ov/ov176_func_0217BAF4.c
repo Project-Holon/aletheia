@@ -8,25 +8,25 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E8A80 0x021E8A80 thumb ov177
- *   func_0217E074 0x0217E074 thumb ov176
- *   func_021E7E08 0x021E7E08 thumb ov177
- *   func_021E64C0 0x021E64C0 thumb ov177
- *   func_021E7774 0x021E7774 thumb ov177
- *   func_021E84F8 0x021E84F8 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_InvokeCallback 0x021E8A80 thumb ov177
+ *   LIVEBATTLEMATCH_IRC_NoOp 0x0217E074 thumb ov176
+ *   WIFIBATTLEMATCH_VIEW_Noop 0x021E7E08 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_UpdatePokeList 0x021E64C0 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_UpdateRecordWindow 0x021E7774 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_UpdatePartyWindow 0x021E84F8 thumb ov177
  */
-extern void func_021E8A80(int);
-extern void func_0217E074(int);
-extern void func_021E7E08(int);
-extern int func_021E64C0(unsigned char *, void *);
-extern int func_021E7774(void *p, void *mgr);
-extern int func_021E84F8(char *p, void *q);
+extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(int);
+extern void LIVEBATTLEMATCH_IRC_NoOp(int);
+extern void WIFIBATTLEMATCH_VIEW_Noop(int);
+extern int WIFIBATTLEMATCH_VIEW_UpdatePokeList(unsigned char *, void *);
+extern int WIFIBATTLEMATCH_VIEW_UpdateRecordWindow(void *p, void *mgr);
+extern int WIFIBATTLEMATCH_VIEW_UpdatePartyWindow(char *p, void *q);
 void LIVEBATTLEMATCH_FLOW_Release(int *p)
 {
-    func_021E8A80(p[0]);
-    func_0217E074(p[3]);
-    func_021E7E08(p[7]);
-    if (p[4]) func_021E64C0((unsigned char *)p[4], (void *)p[0x6B]);
-    if (p[5]) func_021E7774((void *)p[5], (void *)p[0x6B]);
-    if (p[6]) func_021E84F8((char *)p[6], (void *)p[0x6B]);
+    WIFIBATTLEMATCH_UTIL_InvokeCallback(p[0]);
+    LIVEBATTLEMATCH_IRC_NoOp(p[3]);
+    WIFIBATTLEMATCH_VIEW_Noop(p[7]);
+    if (p[4]) WIFIBATTLEMATCH_VIEW_UpdatePokeList((unsigned char *)p[4], (void *)p[0x6B]);
+    if (p[5]) WIFIBATTLEMATCH_VIEW_UpdateRecordWindow((void *)p[5], (void *)p[0x6B]);
+    if (p[6]) WIFIBATTLEMATCH_VIEW_UpdatePartyWindow((char *)p[6], (void *)p[0x6B]);
 }

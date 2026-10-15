@@ -54,7 +54,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -65,7 +65,7 @@
  *   PRINTSYS_PrintQue  0x0201C6FC  thumb
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
@@ -209,7 +209,7 @@ u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 void *BMP_WIN_GetBmp(struct BmpWin *p);
 void BMP_Clear(void *buf, u8 value);
 void BMP_WIN_MakeScreen(struct BmpWin *win);
-void func_020409B4(u32 index);
+void BG_SYS_PushTile(u32 index);
 struct StrBuf *func_02045EC0(struct MsgBank *bank, u32 index);
 struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 void WORDSET_CopyTaggedText(struct WordSet *ws, struct StrBuf *dst, struct StrBuf *src);
@@ -220,7 +220,7 @@ void PRINTSYS_CTRL_Init(u8 *cursorState, u32 v);
 void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, struct StrBuf *s, u32 e);
 int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWin *, struct BmpWin *);
 void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-struct WordSet *GF_FONT_Create_EC64(u32 heap);
+struct WordSet *WORDSET_CreateDefault(u32 heap);
 u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(MbMenuTemplate *tmpl, struct TaskMenuRes *res);
@@ -403,7 +403,7 @@ void MB_UTIL_MSG_SetWindowLayout(MbMsgWork *work, int layout)
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0);
     BMP_WIN_TransferChars(work->window);
     BMP_WIN_MakeScreen(work->window);
-    func_020409B4(work->bgFrame);
+    BG_SYS_PushTile(work->bgFrame);
 }
 
 void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
@@ -473,7 +473,7 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
     work->printQueued = 1;
     if (work->layout == 8) {
         TALKMSGWIN_DrawWindowFrame(work->talkWin, work->window, 0);
-        func_020409B4(work->bgFrame);
+        BG_SYS_PushTile(work->bgFrame);
     } else {
         BMP_MENUWORK_DrawWindow(work->window, 1, 1, 0xD);
     }
@@ -484,7 +484,7 @@ void MB_UTIL_MSG_ClearWindow(MbMsgWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0);
     if (work->layout == 8) {
         TALKMSGWIN_ClearWindowFrame(work->talkWin, work->window);
-        func_020409B4(work->bgFrame);
+        BG_SYS_PushTile(work->bgFrame);
     } else {
         BMP_MENUWORK_DrawWindowBorder(work->window, 1);
     }
@@ -497,7 +497,7 @@ void MB_UTIL_MSG_ClearWindow(MbMsgWork *work)
 void MB_UTIL_MSG_CreateWordSet(MbMsgWork *work)
 {
     if (work->wordSet == 0) {
-        work->wordSet = GF_FONT_Create_EC64(work->heapId);
+        work->wordSet = WORDSET_CreateDefault(work->heapId);
     }
 }
 
@@ -633,7 +633,7 @@ void MB_UTIL_MSG_SetKeyWaitFlag(MbMsgWork *work, int flag)
 {
     work->keyWaitFlag = flag;
     BMP_WIN_MakeScreen(work->window);
-    func_020409B4(work->bgFrame);
+    BG_SYS_PushTile(work->bgFrame);
 }
 
 void MB_UTIL_MSG_SetTimeIconPending(MbMsgWork *work, int pending) { work->timeIconPending = pending; }

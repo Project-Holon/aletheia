@@ -15,7 +15,7 @@
  *   func_02184144  0x02184144  arm  ov009
  *   gpiSetErrorString  0x02193734  arm  ov009
  *   gpiStatusInfoKeyFree  0x0218D7CC  arm  ov009
- *   g_021A4D80  0x021A4D80  data
+ *   gGpiKeysErrorOutOfMemory  0x021A4D80  data
  */
 
 struct GPIConnection {
@@ -26,7 +26,7 @@ struct GPIConnection {
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
 extern void gpiSetErrorString(int *p, int b);
 extern void gpiStatusInfoKeyFree(void *element);
-extern char g_021A4D80[];
+extern char gGpiKeysErrorOutOfMemory[];
 
 int gpiStatusInfoKeysInit(void **connection)
 {
@@ -36,6 +36,6 @@ int gpiStatusInfoKeysInit(void **connection)
     iconnection->statusInfoKeys = func_02184144(8, result, gpiStatusInfoKeyFree);
     if (iconnection->statusInfoKeys != 0)
         return 0;
-    gpiSetErrorString((int *)connection, (int)g_021A4D80);
+    gpiSetErrorString((int *)connection, (int)gGpiKeysErrorOutOfMemory);
     return result;
 }

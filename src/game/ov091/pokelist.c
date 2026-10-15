@@ -99,7 +99,7 @@
  *   BMP_WIN_Init  0x02045088  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207D63C  0x0207D63C  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -124,7 +124,7 @@
  *   d_021BEAD0     0x021BEAD0  data  a4
  *   d_021BEAC4     0x021BEAC4  data  a4
  *   CLACT_ExitSystem  0x0204A5AC  arm
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   PARTICLE_ExitManager 0x02050ED4 arm
@@ -133,7 +133,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   CLACT_CreateActor  0x0204B294  arm
@@ -219,8 +219,8 @@
  *   POKELIST_SetHeldItem 0x021BA624 thumb ov091
  *   PLIST_MESSAGE_CreateWordSet 0x021BB97C thumb ov091
  *   PLIST_MESSAGE_SetWordSetPokemon 0x021BB99C thumb ov091
- *   func_021BB9AC 0x021BB9AC thumb ov091
- *   func_021BB9BC 0x021BB9BC thumb ov091
+ *   PLIST_MESSAGE_SetWordSetItem 0x021BB9AC thumb ov091
+ *   PLIST_MESSAGE_SetWordSetItemAlt 0x021BB9BC thumb ov091
  *   PLIST_MESSAGE_SetWordSetMove 0x021BB9CC thumb ov091
  *   PLIST_MESSAGE_DestroyWordSet 0x021BB98C thumb ov091
  *   PLIST_MENU_ApplyArceusPlateForm 0x021BC24C thumb ov091
@@ -316,7 +316,7 @@
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -447,8 +447,8 @@
 #define reg_GX_POWCNT (*(volatile u16 *)0x04000304)
 struct Party;
 struct PartyMon;
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 struct TaskMenu;
 struct Descriptor;
 struct Node;
@@ -527,7 +527,7 @@ typedef struct {
 } PokelistActorTemplate;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
@@ -540,7 +540,7 @@ extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_02005728(u32 range);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 extern void func_020355D8(int a);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern u32 POKEPARTY_GetCount(void *);
 extern u8 func_020355C4(void);
@@ -595,7 +595,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -606,7 +606,7 @@ extern int G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, voi
 extern void func_02048AD0(struct Light *l);
 extern void PARTICLE_InitManager(u32 heap);
 extern void CLACT_ExitSystem(void);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void PARTICLE_ExitManager(void);
@@ -615,7 +615,7 @@ extern void G3D_SYSTEM_Exit(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32 which, unsigned char enable);
 extern void BG_SYS_FreeSlot(unsigned);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
@@ -682,8 +682,8 @@ extern void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *m);
 extern void PLIST_MENU_ShowItemUsedThenContinue(PokelistWork *work);
 extern void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, u32 s);
 extern void PLIST_MESSAGE_SetWordSetPokemon(PokelistWork *work, int b, int c, int d);
-extern void func_021BB9AC(PokelistWork *work, int b, int c, int d);
-extern void func_021BB9BC(PokelistWork *work, u32 b, u32 c, int d);
+extern void PLIST_MESSAGE_SetWordSetItem(PokelistWork *work, int b, int c, int d);
+extern void PLIST_MESSAGE_SetWordSetItemAlt(PokelistWork *work, u32 b, u32 c, int d);
 extern void PLIST_MESSAGE_SetWordSetMove(PokelistWork *work, int b, int c, int d);
 extern void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, u32 s);
 extern void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *m);
@@ -764,7 +764,7 @@ extern void PLIST_MENU_BeginExitWait(PokelistWork *work);
 extern int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *mon);
 extern int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *mon);
 extern void PLIST_PLATE_Delete(PokelistWork *work, struct PlistPlate *plate);
-int POKELIST_Init(struct Obj0203159C *procObj, int *seq, PokelistArg *arg, PokelistWork *work);
+int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork *work);
 int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_InitWork(PokelistWork *work);
@@ -894,7 +894,7 @@ extern const u8 d_021BEAAA[];
  *   their frame order); t[4] spelled `k + 0xff11` (pool word, then +0xee
  *   for t[5]); `k = 0` before the b49 clear loop, which stores k.
  */
-int POKELIST_Init(struct Obj0203159C *procObj, int *seq, PokelistArg *arg, PokelistWork *work)
+int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork *work)
 {
     PokelistNickname b;
     PokelistNickname d;
@@ -1010,7 +1010,7 @@ int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work)
         func_020307B0(work->arg->party);
         func_020307B0(work->arg);
     }
-    func_020315D4((struct S020315D4 *)procObj);
+    func_020315D4((struct Proc *)procObj);
     GFL_HEAP_DeleteChecked(0x17);
     return 1;
 }
@@ -1507,8 +1507,8 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     POKELIST_SetupBgPlanes(work);
     func_0207D63C(0x04000050, 0x14, 8, 0x10, 10);
     func_0207D63C(0x04001050, 4, 8, 0x10, 10);
-    func_02040618(2, 0, 0x80);
-    func_02040618(1, 0, 0x80);
+    BG_SYS_FillScrollArea(2, 0, 0x80);
+    BG_SYS_FillScrollArea(1, 0, 0x80);
     b = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), work->heapId);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -1559,13 +1559,13 @@ void POKELIST_ShutdownDisplay(PokelistWork *work)
     NNS_GfdResetVramTransferTaskQueue();
     CLACT_ExitSystem();
     POKELIST_ShutdownBgPlane0(work);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     BMP_WIN_Exit();
     BG_SYS_Delete();
 }
@@ -1575,16 +1575,16 @@ void POKELIST_ShutdownDisplay(PokelistWork *work)
 
 void POKELIST_ShutdownBgPlane0(PokelistWork *work)
 {
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(0);
 }
 
 
 
-void POKELIST_ShutdownLight(PokelistWork *work) { PARTICLE_ExitManager(); G3D_CAMERA_Delete((void *)(work->light)); G3D_SYSTEM_Exit(); func_020403F4(0); func_0207D63C(0x04000050,20,8,16,10); }
+void POKELIST_ShutdownLight(PokelistWork *work) { PARTICLE_ExitManager(); G3D_CAMERA_Delete((void *)(work->light)); G3D_SYSTEM_Exit(); BG_SYS_FreeLayerBuf(0); func_0207D63C(0x04000050,20,8,16,10); }
 
 
 
-void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { BG_SYS_InitBgLayer(id,work,type); func_02040588(id,1); BG_SYS_FreeSlot(id); func_020409B4(id); }
+void POKELIST_LoadBgPlane(const void *work, unsigned id,unsigned type) { BG_SYS_InitBgLayer(id,work,type); func_02040588(id,1); BG_SYS_FreeSlot(id); BG_SYS_PushTile(id); }
 
 
 
@@ -1771,7 +1771,7 @@ void POKELIST_StartMode(PokelistWork *work)
         }
         work->arg->exitCode=10;
         PLIST_MESSAGE_CloseWindow(work,(u32 *)work->messageWindow); PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
-        func_021BB9AC(work,work->messageWindow,(u32)0,(u16)work->arg->itemId);
+        PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,(u32)0,(u16)work->arg->itemId);
         POKELIST_ShowMessage(work,0xb3,1,POKELIST_EndMessageToExit);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); work->nextPhase=work->phase; work->phase=0; return;
     case 7: case 8:
@@ -1800,7 +1800,7 @@ void POKELIST_StartMode(PokelistWork *work)
                 POKELIST_SetHeldItem(work,(void *)work->selectedMon,work->arg->itemId);
                 PLIST_PLATE_Redraw(work,work->plates[work->selectedSlot]);
                 PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
-                func_021BB9AC(work,work->messageWindow,(u32)1,(u16)work->arg->itemId);
+                PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,(u32)1,(u16)work->arg->itemId);
                 PLIST_MENU_ApplyArceusPlateForm(work,(void *)work->selectedMon,(u16)work->arg->itemId);
                 PLIST_MENU_ApplyGenesectDriveForm(work,(void *)work->selectedMon,work->arg->itemId);
                 if (PLIST_DEMO_CheckGiratinaToOrigin(work,(void *)work->selectedMon)==1) {
@@ -1809,7 +1809,7 @@ void POKELIST_StartMode(PokelistWork *work)
                 PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); work->arg->mode=0;
             } else {
                 PLIST_MESSAGE_CreateWordSet(work,work->messageWindow); PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
-                func_021BB9BC(work,work->messageWindow,1,(u16)old);
+                PLIST_MESSAGE_SetWordSetItemAlt(work,work->messageWindow,1,(u16)old);
                 POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu); PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow);
             }
         }
@@ -1822,12 +1822,12 @@ void POKELIST_StartMode(PokelistWork *work)
         if (old == 0) {
             id=0x56;
             PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
-            func_021BB9AC(work,work->messageWindow,(u32)1,(u16)work->arg->itemId);
+            PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,(u32)1,(u16)work->arg->itemId);
         } else {
             id=0x40;
             PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
-            func_021BB9AC(work,work->messageWindow,(u32)1,(u16)old);
-            func_021BB9AC(work,work->messageWindow,(u32)2,(u16)work->arg->itemId);
+            PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,(u32)1,(u16)old);
+            PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,(u32)2,(u16)work->arg->itemId);
         }
         POKELIST_SetHeldItem(work,(void *)work->selectedMon,work->arg->itemId);
         PLIST_PLATE_Redraw(work,work->plates[work->selectedSlot]);
@@ -1852,7 +1852,7 @@ void POKELIST_StartMode(PokelistWork *work)
  */
 void POKELIST_SetupModeScreen(PokelistWork *work)
 {
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     switch (work->arg->mode) {
     case 0:
         PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 0);
@@ -1922,7 +1922,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
     if (work->arg->closeRequested == 1) { work->phase=0x13; return; }
     switch ((u32)work->arg->mode) {
     case 0: case 1: case 18: case 21: case 22: case 23: case 25:
-        POKELIST_EnterMenuPhase(work); func_020409B4(0); POKELIST_OpenContextMenu(work); return;
+        POKELIST_EnterMenuPhase(work); BG_SYS_PushTile(0); POKELIST_OpenContextMenu(work); return;
     case 5:
         if (PLIST_MENU_IsSpecialItemKind(work,work->arg->itemId) == 1) {
             POKELIST_EnterMenuPhase(work); POKELIST_OpenContextMenu(work); return;
@@ -1960,7 +1960,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
             PLIST_PLATE_Redraw(work,work->plates[work->selectedSlot]);
             PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
             PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
-            func_021BB9AC(work,work->messageWindow,1,work->arg->itemId);
+            PLIST_MESSAGE_SetWordSetItem(work,work->messageWindow,1,work->arg->itemId);
             PLIST_MENU_ApplyArceusPlateForm(work,(void *)work->selectedMon,(u16)work->arg->itemId);
             PLIST_MENU_ApplyGenesectDriveForm(work,(void *)work->selectedMon,work->arg->itemId);
             if (PLIST_DEMO_CheckGiratinaToOrigin(work,(void *)work->selectedMon) == 1) {
@@ -1974,7 +1974,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
         }
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon(work,work->messageWindow,0,work->selectedMon);
-        func_021BB9BC(work,work->messageWindow,1,(u16)old);
+        PLIST_MESSAGE_SetWordSetItemAlt(work,work->messageWindow,1,(u16)old);
         POKELIST_ShowMessage(work,0x3a,0,POKELIST_OpenTakeItemMenu);
         PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
     case 14:
@@ -2035,7 +2035,7 @@ void POKELIST_OpenContextMenu(PokelistWork *work)
 {
     int buf[8];
 
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     switch (work->arg->mode) {
     case 0:
         if (PLIST_PLATE_IsEgg(work, work->plates[work->selectedSlot]) == 1) {
@@ -2871,7 +2871,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 2);
         PLIST_MESSAGE_PrintText(work, (u32 *)work->messageWindow, 19);
         PLIST_MENU_Open(work, work->contextMenu, local.itemsForChoice4.v);
-        func_020409B4(0);
+        BG_SYS_PushTile(0);
         return;
     case 5:
         local.itemsForChoice5 = d_021BEC1C;
@@ -2879,7 +2879,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         PLIST_MESSAGE_OpenWindow(work, (u32 *)work->messageWindow, 2);
         PLIST_MESSAGE_PrintText(work, (u32 *)work->messageWindow, 19);
         PLIST_MENU_Open(work, work->contextMenu, local.itemsForChoice5.v);
-        func_020409B4(0);
+        BG_SYS_PushTile(0);
         return;
     case 0:
         work->phase = 19;
@@ -2957,7 +2957,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
         PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
         PLIST_MESSAGE_SetWordSetPokemon(work, work->messageWindow, 0, work->selectedMon);
-        func_021BB9AC(work, work->messageWindow, 1, (u16)monValue);
+        PLIST_MESSAGE_SetWordSetItem(work, work->messageWindow, 1, (u16)monValue);
         if (PLIST_DEMO_CheckGiratinaToAltered(work, (void *)work->selectedMon) == 1) {
             PLIST_DEMO_ApplyGiratinaAlteredForm(work, (void *)work->selectedMon);
             POKELIST_ShowMessage(work, 0x3e, 1, POKELIST_EndMessageToEvolve);
@@ -2997,7 +2997,7 @@ void POKELIST_DispatchMenuChoice(PokelistWork *work)
         if (work->arg->mode == 5) {
             if (PLIST_DEMO_CheckItemUsable((void *)work->selectedMon, work->arg->itemId, (u16)(work->menuChoice - 16), work->heapId) == 1) {
                 monValue = func_02017E1C((void *)work->selectedMon, work->menuChoice + 0x26, 0);
-                func_020409B4(0);
+                BG_SYS_PushTile(0);
                 PLIST_MENU_StartItemUse(work, monValue);
                 PLIST_DEMO_UseItemOnMon((void *)work->selectedMon, work->arg->itemId, (u16)(work->menuChoice - 16), work->arg->itemUseParam, work->heapId);
                 PLIST_PLATE_Redraw(work, work->plates[work->selectedSlot]);
@@ -3351,7 +3351,7 @@ void POKELIST_CloseMessageIfItemInBag(PokelistWork *work)
     }
     PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
-    func_021BB9AC(work, work->messageWindow, 0, work->arg->itemId);
+    PLIST_MESSAGE_SetWordSetItem(work, work->messageWindow, 0, work->arg->itemId);
     POKELIST_ShowMessage(work, 0xb3, 1, POKELIST_EndMessageToExit);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -3459,8 +3459,8 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
             evolveKindOne = PLIST_DEMO_CheckGiratinaToOrigin(work, (void *)work->selectedMon);
             evolveKindTwo = PLIST_DEMO_CheckGiratinaToAltered(work, (void *)work->selectedMon);
             PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
-            func_021BB9AC(work, work->messageWindow, 1, (u16)heldItem);
-            func_021BB9AC(work, work->messageWindow, 2, (u16)(work->arg->itemId));
+            PLIST_MESSAGE_SetWordSetItem(work, work->messageWindow, 1, (u16)heldItem);
+            PLIST_MESSAGE_SetWordSetItem(work, work->messageWindow, 2, (u16)(work->arg->itemId));
             if (work->arg->mode == 0xa) {
                 work->arg->mode = 0;
                 if (evolveKindOne == 1) {

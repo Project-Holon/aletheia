@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4AC
+ * function: INTRO_CMD_CmdDrawWindowBorder
  * address: 0x021BE4AC
  * packet: pkt_ov204_021BE4AC
  * region: ov204
@@ -13,4 +13,4 @@
 #include "../include/Obj25352.h"
 typedef unsigned char  u8;
 extern void INTRO_MSG_DrawWindowBorder(u8 *p);
-int func_021BE4AC(char *p,int *state,int *q){INTRO_MSG_DrawWindowBorder((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}
+int INTRO_CMD_CmdDrawWindowBorder(char *p,int *state,int *q){INTRO_MSG_DrawWindowBorder((u8 *)(*(char * *)&((struct Obj25352 *)p)->f18));return 1;}

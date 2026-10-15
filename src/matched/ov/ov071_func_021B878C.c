@@ -1,5 +1,5 @@
 /*
- * function: func_021B878C
+ * function: MONOLITH_TOOL_SUMMARY_FreeLabel
  * address:  0x021B878C
  * packet:   pkt_ov071_021B878C
  * region:   ov071
@@ -15,7 +15,7 @@
  *   MONOLITH_TOOL_FreeLabel  0x021B6EEC  thumb  ov071
  */
 
-void func_021B878C(void *p)
+void MONOLITH_TOOL_SUMMARY_FreeLabel(void *p)
 {
     void MONOLITH_TOOL_FreeLabel(void **p);
     MONOLITH_TOOL_FreeLabel((void **)((char *)p + 0x18));

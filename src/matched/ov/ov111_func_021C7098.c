@@ -108,8 +108,8 @@ extern void VIEWER_TEXT_FreeBgResources(Work *p);
 extern void VIEWER_TEXT_ExitBg(Work *p);
 extern void VIEWER_TEXT_FreeResources(Work *p);
 extern void VIEWER_ACTOR_SetRtcDate(Work *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void *func_0203084C(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 

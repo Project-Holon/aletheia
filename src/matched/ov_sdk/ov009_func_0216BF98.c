@@ -15,16 +15,16 @@
  * the stored context word at +0x7c (r2 is left as the third argument).
  *
  * symbols:
- *   g_021AA878     0x021AA878  data
+ *   gDwcGlobalState     0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 void DWCi_UpdateServersCallback(int error, int isChanged)
 {
-    char *p = *(char **)(((char *)&g_021AA878) + 4);
+    char *p = *(char **)(((char *)&gDwcGlobalState) + 4);
 
     ((void (*)(int, int, int))*(void **)(p + 0x78))(error, isChanged,
         *(int *)(p + 0x7c));

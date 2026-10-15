@@ -25,13 +25,13 @@ typedef unsigned int   u32;
 struct Party;
 struct PartyMon;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void PLIST_COMM_End(void *);
 extern void func_02034A5C(s32 handle);
 extern unsigned ov090_id[];
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned);
 int PARTY_STATUS_Destroy(void *handle,int unused,char *q,char *p)
 {

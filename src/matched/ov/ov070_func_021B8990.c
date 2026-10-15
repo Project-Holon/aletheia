@@ -127,8 +127,8 @@ extern void BUTTON_MAN_Delete(void *p);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *a);
+struct Proc;
+extern void func_020315D4(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int a);
 
 int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)

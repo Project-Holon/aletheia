@@ -111,7 +111,7 @@
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  *   MIi_CpuCopy16  0x02082A60  arm  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
@@ -151,7 +151,7 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
@@ -238,7 +238,7 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
     str1 = STRBUF_Create(0x10, p->heap);
     m0 = func_02045EC0(p->msgdata, 0);
     m1 = func_02045EC0(p->msgdata, 1);
-    font = (int)GF_FONT_Create_EC64(p->heap);
+    font = (int)WORDSET_CreateDefault(p->heap);
     str2 = STRBUF_Create(0x10, p->heap);
     m2 = func_02045EC0(p->msgdata, 2);
     CLACT_SetUnitDrawEnable(p->sys, 0);

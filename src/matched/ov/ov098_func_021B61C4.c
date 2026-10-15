@@ -16,8 +16,8 @@
  *   ov094_id 0x0000005E data
  */
 extern void PDC_MAIN_Delete(unsigned p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void func_02034A5C(int);
 extern char ov094_id[];

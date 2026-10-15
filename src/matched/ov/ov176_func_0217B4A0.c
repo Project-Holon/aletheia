@@ -15,7 +15,7 @@
  *   BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult 0x0217B930 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_HideWindow 0x0217B924 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_FinishMenu 0x0217B970 thumb ov176
- *   func_021E8AA0 0x021E8AA0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
  *   BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse 0x0217B7A0 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_MenuClose 0x0217B55C thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1 0x0217B594 thumb ov176
@@ -30,7 +30,7 @@ extern unsigned BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_HideWindow(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *,int);
 typedef unsigned char  u8;
-extern void func_021E8AA0(int *p, int v);
+extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 extern void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *p, int *state, u8 *q);
 extern void BATTLE_CHAMPIONSHIP_FLOW_MenuClose(int p, int *state, int *q);
 extern void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1(int p, int *state, char *q);
@@ -49,12 +49,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse(int p,unsigned *state,int *q)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_InitParentalControl()==0) func_021E8AA0((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_InitParentalControl()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(q,2);}
                 break;
-            case 1: func_021E8AA0((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
-            case 2: func_021E8AA0((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1); break;
-            case 3: func_021E8AA0((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1); break;
+            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(q);
         }

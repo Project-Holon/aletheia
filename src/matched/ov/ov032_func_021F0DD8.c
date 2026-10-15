@@ -1,5 +1,5 @@
 /*
- * function: func_021F0DD8
+ * function: BEACON_VIEW_PlaySe
  * address:  0x021F0DD8
  * packet:   pkt_ov032_021F0DD8
  * region:   ov032
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0DD8 0x021F0DD8 thumb
+ *   BEACON_VIEW_PlaySe 0x021F0DD8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int a);
 
-void func_021F0DD8(unsigned int a)
+void BEACON_VIEW_PlaySe(unsigned int a)
 {
     GFL_USE_PlaySeDefaultVolume(a);
 }

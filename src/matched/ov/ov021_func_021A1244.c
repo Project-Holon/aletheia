@@ -18,7 +18,7 @@
  *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
  *   INFOWIN_Exit  0x02024DCC  thumb
  *   FIELD_MENU_Delete  0x021A84BC  thumb  ov021
- *   func_020403F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  * Addresses are Black-image addresses.
  */
 
@@ -36,7 +36,7 @@ extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 FIELD_MENU_GetLayoutType(void *a, void *b, u32 c);
 extern int INFOWIN_Exit(void);
 extern void FIELD_MENU_Delete(struct Obj *p);
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 
 void FIELD_SUBSCREEN_ExitMenu(u32 *p)
 {
@@ -47,5 +47,5 @@ void FIELD_SUBSCREEN_ExitMenu(u32 *p)
     if (FIELD_MENU_GetLayoutType((void *)c, (void *)GAME_DATA_GetEventWork((const struct BigObj *)c), b) != 1)
         INFOWIN_Exit();
     FIELD_MENU_Delete((struct Obj *)p[8]);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(4);
 }

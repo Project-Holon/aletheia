@@ -26,8 +26,8 @@ extern void GFL_USE_SetBgmPlayerParam(void *);
 extern void COMPATIBLE_IRC_SYS_Delete(void *);
 extern void IRC_COMPATIBLE_StepRunnerExit(u8 *);
 extern u32 func_020307B0(void *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 int PDC_MSG_PrintMessage2(int a,int b,int c,u8 *d) {
  GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); COMPATIBLE_IRC_SYS_Delete(((struct Obj13717 *)d)->f0); IRC_COMPATIBLE_StepRunnerExit(d+4); func_020307B0(((struct Obj13717 *)d)->f3C); func_020315D4((void *)a); GFL_HEAP_DeleteChecked(58); return 1;

@@ -13,9 +13,9 @@
  * ABI: coordinates are byte locals; X/width/height externs are widened because original has no call-site narrowing.
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021E88B0 0x021E88B0 thumb ov177
- *   func_021E89D0 0x021E89D0 thumb ov177
- *   func_021E8A00 0x021E8A00 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateMenu 0x021E88B0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_DeleteMenu 0x021E89D0 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_UpdateMenu 0x021E8A00 thumb ov177
  */
 #include "../include/Obj00053.h"
 #include "../include/Obj24418.h"
@@ -25,9 +25,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f00, f04, f08, option0, option1, option2, f18, count; u16 f20, f22, f24, f26; u32 f28; u16 f2c, f2e; } Menu;
 extern void MI_CpuFill8(void *, int, u32);
-extern void *func_021E88B0(Menu *, int, u8, int, int, int);
-extern void func_021E89D0(void *);
-extern int func_021E8A00(void *);
+extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(Menu *, int, u8, int, int, int);
+extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
+extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(void *);
 void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode)
 {
     Menu rec;
@@ -59,8 +59,8 @@ void LIVEBATTLEMATCH_FLOW_DrawMenu(u8 *p, int mode)
     case 0: width = 28; height = rec.count * 2; x = 2; y = 9 - height / 2; break;
     case 1: width = 12; height = rec.count * 2; x = 19; y = 17 - height; break;
     }
-    ((struct Obj00053 *)p)->f4 = func_021E88B0(&rec, x, y, width, height, ((struct Obj00053 *)p)->f1C8);
+    ((struct Obj00053 *)p)->f4 = WIFIBATTLEMATCH_UTIL_CreateMenu(&rec, x, y, width, height, ((struct Obj00053 *)p)->f1C8);
     ((struct Obj00053 *)p)->f8 = mode;
 }
-void LIVEBATTLEMATCH_FLOW_HideWindow(int *p) { func_021E89D0((void *)p[1]); }
-int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p) { return func_021E8A00((void *)p[1]); }
+void LIVEBATTLEMATCH_FLOW_HideWindow(int *p) { WIFIBATTLEMATCH_UTIL_DeleteMenu((void *)p[1]); }
+int LIVEBATTLEMATCH_FLOW_GetWindowResult(int *p) { return WIFIBATTLEMATCH_UTIL_UpdateMenu((void *)p[1]); }

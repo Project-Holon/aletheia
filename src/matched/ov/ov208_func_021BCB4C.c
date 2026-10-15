@@ -33,7 +33,7 @@ extern void ZUKAN_DETAIL_COMMON_DeleteContext(void *);
 struct Node;
 struct Ov208Mgr;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Mgr *m);
 extern void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Mgr *m);
 extern void func_02030EAC(struct Node *n);
@@ -41,7 +41,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int ZUKAN_DETAIL_MAIN_Exit(void *a,int b,int c,char *p)
 {

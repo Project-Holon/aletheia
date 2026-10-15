@@ -25,7 +25,7 @@
  *   BTLV_SCU_InitMsgWinFade 0x021ED76C thumb ov093
  *   BTLV_SCU_InitMonSlots 0x021ED930 thumb ov093
  *   BTLV_SCU_InitNamePlates 0x021EDB3C thumb ov093
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gBtlvScuBgTemplateMsg 0x021F3930 data a4
@@ -62,7 +62,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BTLV_SCU_InitMsgWinFade(struct S *s, int a);
 extern void BTLV_SCU_InitMonSlots(char *s);
 extern void BTLV_SCU_InitNamePlates(struct S *s, char *a1);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
@@ -95,9 +95,9 @@ void BTLV_SCU_SetupDisplay(u8 *p)
     BTLV_SCU_InitMsgWinFade((struct S *)(p + 0x154), (int)(((struct Obj00970 *)p)->f0));
     BTLV_SCU_InitMonSlots((char *)p);
     BTLV_SCU_InitNamePlates((struct S *)p, ((struct Obj00970 *)p)->f14);
-    func_020409B4(1);
-    func_020409B4(2);
-    func_020409B4(3);
+    BG_SYS_PushTile(1);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(3);
     func_02040588(0, 1);
     func_02040588(1, 1);
     func_02040588(2, 1);

@@ -1251,7 +1251,7 @@ void PALANM_RequestFullTransfer(PaletteFade *o, int v)
 }
 
 /*
- * Witness leaf for ov071 func_021B6C7C (tiny unlabelled arm9 leaf).
+ * Witness leaf for ov071 MONOLITH_TOOL_UpdateHighlight (tiny unlabelled arm9 leaf).
  */
 u16 PALANM_GetColor(PaletteFadeWork *s, int idx, int which, u16 pos)
 {

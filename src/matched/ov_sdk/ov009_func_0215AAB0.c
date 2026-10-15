@@ -14,11 +14,11 @@
  * symbols:
  *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   gMslRefToken  0x02150FEC  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 extern char gMslRefToken[];
-extern char g_021A826C[];
+extern char gCpsNetVars[];
 extern unsigned short CPS_SocGetEport(void);
 
 void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
@@ -28,7 +28,7 @@ void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned
     if (soc == 0)
         return;
     if (remote_ip == 0x7f000001)
-        remote_ip = *(unsigned long *)(g_021A826C + 0x50);
+        remote_ip = *(unsigned long *)(gCpsNetVars + 0x50);
     *(unsigned short *)(soc + 0x1a) = remote_port;
     *(unsigned short *)(soc + 0x18) = *(unsigned short *)(soc + 0x1a);
     *(unsigned long *)(soc + 0x20) = remote_ip;

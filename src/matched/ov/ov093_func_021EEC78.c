@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_MAIN_CheckSetupStatusFlag  0x021BA1A8  thumb  ov093
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
  *   gBtlMsgState     0x021F6398  data  ov093  a4
@@ -39,7 +39,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -53,7 +53,7 @@ void BTL_MSG_Init(u32 a, u32 b, u32 c, u32 d)
     gBtlMsgState.f54 = b;
     gBtlMsgFlags.f18 = BTL_MAIN_CheckSetupStatusFlag((char **)a, 0x200);
     gBtlMsgFlags.f1a = 0;
-    gBtlMsgState.f08 = (u32)GF_FONT_Create_EC64(d);
+    gBtlMsgState.f08 = (u32)WORDSET_CreateDefault(d);
     gBtlMsgState.f0c = (u32)STRBUF_Create(0x200 >> 1, d);
     for (i = 0; i < 8; i++) {
         gBtlMsgState.t[i] = (u32)func_02045B38(0, 2, sBtlMsgBankFileIds[i], d);

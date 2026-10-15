@@ -10,14 +10,14 @@
  * symbols:
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  */
 #include "../include/Obj24620.h"
 typedef unsigned char  u8;
 extern void BR_UTIL_Delete(u8 *p);
 extern void BR_BTN_DeleteObject(char *p);
-extern void func_020409B4(unsigned int);
+extern void BG_SYS_PushTile(unsigned int);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 int BR_CODEIN_CodeDeleteButtons(char *p, char *q)
 {
@@ -34,7 +34,7 @@ int BR_CODEIN_CodeDeleteButtons(char *p, char *q)
             *(void **)(p + i * 4 + 12) = 0;
         }
     }
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
     BR_RES_ApplyBgSet(((struct Obj24620 *)q)->f8, 26);
     return 1;
 }

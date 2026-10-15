@@ -1,5 +1,5 @@
 /*
- * function: func_021DA958
+ * function: MYSTERY_UTIL_DeleteActorPair
  * address: 0x021DA958
  * packet: pkt_ov121_021DA958
  * region: ov121
@@ -25,4 +25,4 @@ extern void BMP_OAM_Delete(struct Grid *g);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-void func_021DA958(u8 *p) { BMP_OAM_Delete(((struct Obj10414 *)p)->f1C); BMP_Delete(((struct Obj10414 *)p)->f0); STRBUF_Delete(((struct Obj10414 *)p)->f18); func_020307B0(p); }
+void MYSTERY_UTIL_DeleteActorPair(u8 *p) { BMP_OAM_Delete(((struct Obj10414 *)p)->f1C); BMP_Delete(((struct Obj10414 *)p)->f0); STRBUF_Delete(((struct Obj10414 *)p)->f18); func_020307B0(p); }

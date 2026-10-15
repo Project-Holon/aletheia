@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C60
+ * function: MYSTERY_TransferPalette
  * address: 0x021D6C60
  * packet: pkt_ov121_021D6C60
  * region: ov121
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void CLACT_TransferPalette(void *,void *,int);
 extern u32 func_020307B0(void *p);
-void func_021D6C60(u8 *p,int heap)
+void MYSTERY_TransferPalette(u8 *p,int heap)
 {
     void *out;
     void *raw;

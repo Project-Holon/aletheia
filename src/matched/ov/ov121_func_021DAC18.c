@@ -1,5 +1,5 @@
 /*
- * function: func_021DAC18
+ * function: MYSTERY_ALBUM_Create
  * address: 0x021DAC18
  * packet: pkt_ov121_021DAC18
  * region: ov121
@@ -13,20 +13,20 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02082A7C 0x02082A7C arm
  *   func_0203084C 0x0203084C arm
- *   func_02040618 0x02040618 arm
- *   func_021DBDF4 0x021DBDF4 thumb ov121
- *   func_021DA854 0x021DA854 thumb ov121
- *   func_021DB018 0x021DB018 thumb ov121
- *   func_021DB478 0x021DB478 thumb ov121
- *   func_021DA1BC 0x021DA1BC thumb ov121
- *   func_021DCFC8 0x021DCFC8 thumb ov121
- *   func_021DBDBC 0x021DBDBC thumb ov121
- *   func_021DBF04 0x021DBF04 thumb ov121
- *   func_021DC02C 0x021DC02C thumb ov121
- *   func_021DD24C 0x021DD24C thumb ov121
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   MYSTERY_ALBUM_SetupEntry 0x021DBDF4 thumb ov121
+ *   MYSTERY_UTIL_CreateTask 0x021DA854 thumb ov121
+ *   MYSTERY_ALBUM_Setup 0x021DB018 thumb ov121
+ *   MYSTERY_ALBUM_SetCursor 0x021DB478 thumb ov121
+ *   MYSTERY_UTIL_CreateWindowList 0x021DA1BC thumb ov121
+ *   MYSTERY_ALBUM_CreateSlotWork 0x021DCFC8 thumb ov121
+ *   MYSTERY_ALBUM_CountValidCards 0x021DBDBC thumb ov121
+ *   MYSTERY_ALBUM_IsEntryValid 0x021DBF04 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryCard 0x021DC02C thumb ov121
+ *   MYSTERY_ALBUM_CreateAlbumView 0x021DD24C thumb ov121
  *   MYSTERY_ALBUM_RequestSetup 0x021DE0AC thumb ov121
- *   func_021DC08C 0x021DC08C thumb ov121
- *   func_021DCEC4 0x021DCEC4 thumb ov121
+ *   MYSTERY_ALBUM_SelectHandler 0x021DC08C thumb ov121
+ *   MYSTERY_ALBUM_SingleHandler 0x021DCEC4 thumb ov121
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DF8FC 0x021DF8FC data a4
  *   d_021DF890 0x021DF890 data a4
@@ -46,25 +46,25 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *,int,int);
 extern void func_02082A7C(int,void *,int);
 extern void *func_0203084C(u32 heapId);
-extern void func_02040618(u32,u32,u32);
+extern void BG_SYS_FillScrollArea(u32,u32,u32);
 struct Obj;
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern u32 MYSTERY_DATA_IsCardExist(u8 *p, u32 a);
 extern int MYSTERY_DATA_GetCard(char *p, int idx, void *buf);
-extern void func_021DBDF4(char *,const Record *,char *,u16);
-extern void *func_021DA854(void *,void *,u16);
-extern void func_021DB018(u8 *p, u16 heap);
-extern void func_021DB478(char *,int,int,int,u16);
-extern void *func_021DA1BC(void *,const char *,u32,u16,u16,u32,u32,int,u16);
-extern void *func_021DCFC8(const Desc *,u16);
-extern u32 func_021DBDBC(u32 p);
-extern int func_021DBF04(int *p);
-extern char *func_021DC02C(void *);
-extern void *func_021DD24C(void *,void *,void *,u16);
+extern void MYSTERY_ALBUM_SetupEntry(char *,const Record *,char *,u16);
+extern void *MYSTERY_UTIL_CreateTask(void *,void *,u16);
+extern void MYSTERY_ALBUM_Setup(u8 *p, u16 heap);
+extern void MYSTERY_ALBUM_SetCursor(char *,int,int,int,u16);
+extern void *MYSTERY_UTIL_CreateWindowList(void *,const char *,u32,u16,u16,u32,u32,int,u16);
+extern void *MYSTERY_ALBUM_CreateSlotWork(const Desc *,u16);
+extern u32 MYSTERY_ALBUM_CountValidCards(u32 p);
+extern int MYSTERY_ALBUM_IsEntryValid(int *p);
+extern char *MYSTERY_ALBUM_GetEntryCard(void *);
+extern void *MYSTERY_ALBUM_CreateAlbumView(void *,void *,void *,u16);
 extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
-extern void func_021DC08C(void *task, u32 *state, char *p);
-extern void func_021DCEC4(void *arg, int *state, char *p);
-char *func_021DAC18(const Input *src,u16 heap)
+extern void MYSTERY_ALBUM_SelectHandler(void *task, u32 *state, char *p);
+extern void MYSTERY_ALBUM_SingleHandler(void *arg, int *state, char *p);
+char *MYSTERY_ALBUM_Create(const Input *src,u16 heap)
 {
     char *out;
     int count=0;
@@ -87,32 +87,32 @@ char *func_021DAC18(const Input *src,u16 heap)
         if(MYSTERY_DATA_IsCardExist(((struct Obj00910 *)out)->fC,i)) {
             count++;
             MYSTERY_DATA_GetCard(((struct Obj00910 *)out)->fC,i,&record);
-            func_021DBDF4(out+40+i*0xdc,&record,out,heap);
+            MYSTERY_ALBUM_SetupEntry(out+40+i*0xdc,&record,out,heap);
         }
     }
-    callback=(void *)func_021DC08C;
-    if(((struct Obj00910 *)out)->f0) callback=(void *)func_021DCEC4;
-    ((struct Obj00910 *)out)->fAC4=func_021DA854(out,callback,heap);
-    func_021DB018((u8 *)out,heap);
-    func_021DB478(out,1,0,((struct Obj00910 *)out)->fAC8,heap);
+    callback=(void *)MYSTERY_ALBUM_SelectHandler;
+    if(((struct Obj00910 *)out)->f0) callback=(void *)MYSTERY_ALBUM_SingleHandler;
+    ((struct Obj00910 *)out)->fAC4=MYSTERY_UTIL_CreateTask(out,callback,heap);
+    MYSTERY_ALBUM_Setup((u8 *)out,heap);
+    MYSTERY_ALBUM_SetCursor(out,1,0,((struct Obj00910 *)out)->fAC8,heap);
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
-    ((struct Obj00910 *)out)->fAB8=func_021DA1BC(0,table,n,1,3,((struct Obj00910 *)out)->f14,((struct Obj00910 *)out)->f1C,*(int *)&((struct Obj00910 *)out)->f10,heap);
+    ((struct Obj00910 *)out)->fAB8=MYSTERY_UTIL_CreateWindowList(0,table,n,1,3,((struct Obj00910 *)out)->f14,((struct Obj00910 *)out)->f1C,*(int *)&((struct Obj00910 *)out)->f10,heap);
     MI_CpuFill8(&d,0,48);
     d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
     d.w[6]=((struct Obj00910 *)out)->f8;d.w[7]=*(u32 *)&((struct Obj00910 *)out)->fC;d.w[8]=((struct Obj00910 *)out)->f1C;
     d.w[9]=((struct Obj00910 *)out)->f10;d.w[10]=((struct Obj00910 *)out)->f14;d.w[11]=((struct Obj00910 *)out)->f18;
-    ((struct Obj00910 *)out)->fAB0=func_021DCFC8(&d,heap);
-    if(func_021DBDBC((u32)out)) {
+    ((struct Obj00910 *)out)->fAB0=MYSTERY_ALBUM_CreateSlotWork(&d,heap);
+    if(MYSTERY_ALBUM_CountValidCards((u32)out)) {
         for(j=0;j<12;j++) {
-            if(func_021DBF04((int *)(out+40+j*0xdc)))
-                *(void **)(out+0xa7c+j*4)=func_021DD24C(func_021DC02C(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
+            if(MYSTERY_ALBUM_IsEntryValid((int *)(out+40+j*0xdc)))
+                *(void **)(out+0xa7c+j*4)=MYSTERY_ALBUM_CreateAlbumView(MYSTERY_ALBUM_GetEntryCard(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
         }
         MYSTERY_ALBUM_RequestSetup(((struct Obj00910 *)out)->fA7C,0);
         func_0203084C(29);
     }
-    func_02040618(3,3,0);
-    func_02040618(7,3,0);
+    BG_SYS_FillScrollArea(3,3,0);
+    BG_SYS_FillScrollArea(7,3,0);
     return out;
 }
 

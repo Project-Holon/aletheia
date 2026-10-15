@@ -1,5 +1,5 @@
 /*
- * function: func_021E7E3C
+ * function: WIFIBATTLEMATCH_VIEW_CreatePartyWindow
  * address: 0x021E7E3C
  * packet: pkt_ov177_021E7E3C
  * region: ov177
@@ -33,7 +33,7 @@
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
- *   GF_FONT_Create_EC64  0x0201EC64  thumb  arm9
+ *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
@@ -42,6 +42,8 @@
  *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb  arm9
  *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb  arm9
  *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb  arm9
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * The temporary heap id is formed twice: once through an inline that
  * rewrites its own parameter (the image copies heap before the and), held
@@ -110,7 +112,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern void *CLACT_CreateActor(void *, void *, void *, void *, const Request *, unsigned short, unsigned);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void *GF_FONT_Create_EC64(u16);
+extern void *WORDSET_CreateDefault(u16);
 extern void *STRBUF_Create(unsigned capacity, u16 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -118,7 +120,7 @@ struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 extern void PRINTSYS_PrintQueColor(unsigned print, void *bmp, short x, short y, void *str, unsigned font, u16 color);
@@ -130,10 +132,10 @@ extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 struct Actor; struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 extern void func_0207D63C(int, int, int, int, int);
-Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned print, void *msg, unsigned heap)
+Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused, unsigned font, unsigned print, void *msg, unsigned heap)
 {
     Work *work;
     void *party;
@@ -193,7 +195,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
             }
         }
     }
-    fmt = GF_FONT_Create_EC64((u16)((heap & 0x7FFF) | 0x8000));
+    fmt = WORDSET_CreateDefault((u16)((heap & 0x7FFF) | 0x8000));
     buf = STRBUF_Create(0x80, (u16)((heap & 0x7FFF) | 0x8000));
     sLevel = func_02045EC0(msg, 0x63);
     sMale = func_02045EC0(msg, 0x64);
@@ -205,7 +207,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
             win = work->win[i];
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen(win);
-            func_020409B4((int)BMP_WIN_GetBgLayer(win));
+            BG_SYS_PushTile((int)BMP_WIN_GetBgLayer(win));
             work->ent[i].win = work->win[i];
             work->ent[i].shown = 0;
             if (func_02017E1C(mon, 0x6E, 0) == 0) {
@@ -235,8 +237,8 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
             CLACT_AddActorSurfacePos(work->spr[i], (const struct Vec2 *)(&pos), 0);
         }
     }
-    func_02040618((int)2, (int)0, (int)(-0x100));
-    func_02040618((int)1, (int)0, (int)(-0x100));
+    BG_SYS_FillScrollArea((int)2, (int)0, (int)(-0x100));
+    BG_SYS_FillScrollArea((int)1, (int)0, (int)(-0x100));
     func_020307B0(party);
     func_0207D63C(0x04000050, 4, 8, 15, 3);
     return work;

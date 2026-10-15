@@ -127,11 +127,9 @@
 #include "../../matched/include/Obj22556.h"
 #include "../../matched/include/Obj13839.h"
 #include "../../matched/include/Obj10318.h"
-#include "../../matched/include/Obj00904.h"
 #include "../../matched/include/Obj02169.h"
 #include "../../matched/include/Obj03248.h"
 #include "../../matched/include/Obj13841.h"
-#include "../../matched/include/Obj22558.h"
 #include "../../matched/include/Obj13842.h"
 #include "../../matched/include/Obj22559.h"
 #include "../../matched/include/Obj08027.h"
@@ -147,15 +145,8 @@
 #include "../../matched/include/Obj08031.h"
 #include "../../matched/include/Obj22564.h"
 #include "../../matched/include/Obj04463.h"
-#include "../../matched/include/Obj22565.h"
 #include "../../matched/include/Obj10324.h"
-#include "../../matched/include/Obj22566.h"
 #include "../../matched/include/Obj08033.h"
-#include "../../matched/include/Obj13844.h"
-#include "../../matched/include/Obj13845.h"
-#include "../../matched/include/Obj13846.h"
-#include "../../matched/include/Obj22568.h"
-#include "../../matched/include/Obj10327.h"
 
 #define E (*(u8 **)(q + off + 0x84))
 #define EA (*(u8 **)(q + off + 0xA8))
@@ -830,30 +821,30 @@ void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *q)
     Vec_021F6F64 *a;
     Vec_021F6F64 *b;
     int angle;
-    a=(Vec_021F6F64 *)MUSICAL_MCSS_GetRenderFlags(*(u8 * *)&((struct Obj00904 *)q)->f58);
-    b=(Vec_021F6F64 *)MUSICAL_MCSS_GetRenderMatrix(*(char * *)&((struct Obj00904 *)q)->f58);
+    a=(Vec_021F6F64 *)MUSICAL_MCSS_GetRenderFlags(*(u8 * *)&((Elem *)q)->renderElem);
+    b=(Vec_021F6F64 *)MUSICAL_MCSS_GetRenderMatrix(*(char * *)&((Elem *)q)->renderElem);
     VEC_Add((const Vec_021F6F64 *)((Vec_021F6F64 *)(q+24)), (const Vec_021F6F64 *)((Vec_021F6F64 *)(q+48)), (Vec_021F6F64 *)&pos);
-    angle=((struct Obj00904 *)q)->f48;
+    angle=((Elem *)q)->angle;
     delta.x=0;
     delta.y=b->y;
     func_0207AF38(&matrix,-table[(angle>>4)*2],table[(angle>>4)*2+1]);
     MTX_MultVec33((const Vec_021F6F64 *)&delta, &matrix, (Vec_021F6F64 *)(q+60));
     VEC_Subtract((const Vec_021F6F64 *)&delta, (const Vec_021F6F64 *)((Vec_021F6F64 *)(q+60)), (Vec_021F6F64 *)(q+60));
-    pos.x=(pos.x-a->x-((struct Obj00904 *)q)->f3C)/16;
-    pos.y=(0xc0000-(pos.y-a->y+((struct Obj00904 *)q)->f40))/16;
-    MUSICAL_MCSS_GetRenderPos(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&pos));
-    MUSICAL_MCSS_SetRenderFrame(*(int * *)&((struct Obj00904 *)q)->f58,((struct Obj00904 *)q)->f48);
-    scale.x=((struct Obj00904 *)q)->f24<<4;
-    scale.y=((struct Obj00904 *)q)->f28<<4;
-    scale.z=((struct Obj00904 *)q)->f2C<<4;
-    if(((struct Obj00904 *)q)->f54==1) scale.x*=-1;
-    MUSICAL_MCSS_GetRenderRot(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&scale));
-    ((struct Obj00904 *)q)->f4=0;
-    if(((struct Obj00904 *)q)->f4C==1) {
-        ((struct Obj00904 *)q)->f50+=(u16)func_020056EC(2);
-        if(((struct Obj00904 *)q)->f50>120) MUSICAL_MCSS_GetRenderSize(*(int *)&((struct Obj00904 *)q)->f58,1);
-        else MUSICAL_MCSS_GetRenderSize(*(int *)&((struct Obj00904 *)q)->f58,0);
-        if(((struct Obj00904 *)q)->f50>125) ((struct Obj00904 *)q)->f50=func_020056EC(120)/3U;
+    pos.x=(pos.x-a->x-((Elem *)q)->f3C)/16;
+    pos.y=(0xc0000-(pos.y-a->y+((Elem *)q)->f40))/16;
+    MUSICAL_MCSS_GetRenderPos(*(int * *)&((Elem *)q)->renderElem,(int *)(&pos));
+    MUSICAL_MCSS_SetRenderFrame(*(int * *)&((Elem *)q)->renderElem,((Elem *)q)->angle);
+    scale.x=((Elem *)q)->scaleX<<4;
+    scale.y=((Elem *)q)->scaleY<<4;
+    scale.z=((Elem *)q)->scaleZ<<4;
+    if(((Elem *)q)->f54==1) scale.x*=-1;
+    MUSICAL_MCSS_GetRenderRot(*(int * *)&((Elem *)q)->renderElem,(int *)(&scale));
+    ((Elem *)q)->f04=0;
+    if(((Elem *)q)->f4C==1) {
+        ((Elem *)q)->f50+=(u16)func_020056EC(2);
+        if(((Elem *)q)->f50>120) MUSICAL_MCSS_GetRenderSize(*(int *)&((Elem *)q)->renderElem,1);
+        else MUSICAL_MCSS_GetRenderSize(*(int *)&((Elem *)q)->renderElem,0);
+        if(((Elem *)q)->f50>125) ((Elem *)q)->f50=func_020056EC(120)/3U;
     }
 }
 
@@ -1167,7 +1158,7 @@ void STA_ACT_LIGHT_HandleElemAnim(char *p,char *q,int index)
 
 int STA_ACT_LIGHT_NoOp2(char *p,char *q)
 {
-    if(((struct Obj22558 *)q)->f104!=0) return 1;
+    if(((Elem *)q)->active!=0) return 1;
     return 0;
 }
 
@@ -1362,7 +1353,7 @@ void STA_ACT_LIGHT_AnimF(char *p,char *q)
     t->count++;
     if(t->count>=180) {
         MUSICAL_MCSS_SetElemVisible((u8 *)(((struct Obj04463 *)p)->f10),(u8 *)(*(int *)(q+0x84+t->index*4)),0);
-        ((struct Obj22565 *)q)->f104=0;
+        ((Elem *)q)->active=0;
         ((struct Obj04463 *)p)->f43C-=1;
         if(((struct Obj04463 *)p)->f43C==0) GFL_USE_StopSeSlot(2);
     }
@@ -1385,7 +1376,7 @@ void STA_ACT_LIGHT_AnimH(char *p, char *q) {
     u16 angle = ((int)t->count << 11) % 65536;
     t->count++;
     if (t->count >= 0xb4) {
-        ((struct Obj22566 *)q)->f104 = 0;
+        ((Elem *)q)->active = 0;
         ((struct Obj10324 *)p)->f43C -= 1;
         if (((struct Obj10324 *)p)->f43C == 0) GFL_USE_StopSeSlot(2);
         return;
@@ -1429,7 +1420,7 @@ void STA_ACT_LIGHT_ElemOpD(void *unused,u32 *p,const u32 *q) { p[12]=q[0]; p[13]
 
 
 
-void STA_ACT_LIGHT_CallElemA(int a,u8 *p) { MUSICAL_MCSS_GetRenderFieldA(((struct Obj13844 *)p)->f58); ((struct Obj13844 *)p)->f4C=1; }
+void STA_ACT_LIGHT_CallElemA(int a,u8 *p) { MUSICAL_MCSS_GetRenderFieldA(((Elem *)p)->renderElem); ((Elem *)p)->f4C=1; }
 
 
 
@@ -1459,12 +1450,12 @@ void STA_ACT_LIGHT_CallElemC(int a, Obj *b, unsigned int c)
 void STA_ACT_LIGHT_SetElemVisibleB(char *p, char *q, int v) {
     int i;
     int value = v;
-    MUSICAL_MCSS_SetRenderMode((int *)(((struct Obj13846 *)q)->f58), value);
+    MUSICAL_MCSS_SetRenderMode((int *)(((Elem *)q)->renderElem), value);
     for (i = 0; i < 9; i++) {
         if (((Slot_021F7C90 *)(q + i * 4))->a != 0 && ((Slot_021F7C90 *)(q + i * 4))->b == 1)
-            MUSICAL_MCSS_SetElemVisible((u8 *)(((struct Obj13845 *)p)->f10), (u8 *)(((Slot_021F7C90 *)(q + i * 4))->a), value);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(((Elem *)p)->f10), (u8 *)(((Slot_021F7C90 *)(q + i * 4))->a), value);
     }
-    BILLBOARD_SetElemVisible((void *)(((struct Obj13845 *)p)->f8), ((struct Obj13846 *)q)->f5C, (u32 *)(&v));
+    BILLBOARD_SetElemVisible((void *)(((Elem *)p)->flag), ((Elem *)q)->billboardIdx, (u32 *)(&v));
 }
 
 
@@ -1472,7 +1463,7 @@ void STA_ACT_LIGHT_SetElemVisibleB(char *p, char *q, int v) {
 /*
  * extent: Existing matched follower ov112_func_021F812C.c follows.
  */
-int STA_ACT_LIGHT_CallElemD(int a,u8 *p) { return MUSICAL_MCSS_GetRenderHandle(((struct Obj22568 *)p)->f58); }
+int STA_ACT_LIGHT_CallElemD(int a,u8 *p) { return MUSICAL_MCSS_GetRenderHandle(((Elem *)p)->renderElem); }
 
 
 
@@ -1489,7 +1480,7 @@ int STA_ACT_LIGHT_ElemOpE(int unused, int *p, int flag)
 
 
 
-void STA_ACT_LIGHT_CallElemE(int a,u8 *p,int b) { ((struct Obj10327 *)p)->f8=b; MUSICAL_MCSS_ResetRender2((int)(((struct Obj10327 *)p)->f58),b); ((struct Obj10327 *)p)->f4=1; }
+void STA_ACT_LIGHT_CallElemE(int a,u8 *p,int b) { ((Elem *)p)->flag=b; MUSICAL_MCSS_ResetRender2((int)(((Elem *)p)->renderElem),b); ((Elem *)p)->f04=1; }
 
 
 

@@ -49,7 +49,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   func_0207D658 0x0207D658 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -108,8 +108,8 @@
  *   BMP_WIN_GetPosY 0x02045760 arm
  *   BG_SYS_Get 0x020416D4 arm
  *   PMS_WORD_LoadString 0x02024838 thumb
- *   BG_SYS_GetScrollX_1648 0x02041648 arm
- *   BG_SYS_GetScrollY_1664 0x02041664 arm
+ *   BG_SYS_GetChannelScrollX 0x02041648 arm
+ *   BG_SYS_GetChannelScrollY 0x02041664 arm
  *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
  *   _s32_div_f 0x0209C0A4 arm
  */
@@ -213,7 +213,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -264,8 +264,8 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const ScreenPos *delta, u32 which);
 extern u8 BG_SYS_Get(u32);
 extern void PMS_WORD_LoadString(u32, void *, u32);
-extern unsigned int BG_SYS_GetScrollX_1648(u8 channel);
-extern u32 BG_SYS_GetScrollY_1664(u8 channel);
+extern unsigned int BG_SYS_GetChannelScrollX(u8 channel);
+extern u32 BG_SYS_GetChannelScrollY(u8 channel);
 extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *arg, int priority);
 extern int _s32_div_f(int, int);
 extern void func_0207D658(u32 addr, int plane, int brightness);
@@ -328,7 +328,7 @@ void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle)
     func_020498F4((void *)arcHandle, 25, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
     func_020498F4((void *)arcHandle, 25, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
     p->bgOffset = -192;
-    func_02040618(4, 3, p->bgOffset);
+    BG_SYS_FillScrollArea(4, 3, p->bgOffset);
     func_02049658((void *)arcHandle, 14, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
     func_02049658((void *)arcHandle, 14, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
     p->windows[0] = BMP_WIN_Create(0, 3, 1, 28, 4, 0, 1);
@@ -425,7 +425,7 @@ int PMSIV_EDIT_StepPanelScroll(struct PmsivEdit *p)
     else delta = 8;
     p->bgOffset = p->bgOffset + delta;
     p->scrollOffset = p->scrollOffset + delta;
-    func_02040618(4, 3, p->bgOffset);
+    BG_SYS_FillScrollArea(4, 3, p->bgOffset);
     for (i = 0; i < PMSIV_EDIT_SCREEN_COUNT; i++) {
         short pos = CLACT_GetActorSurfacePosAxis(p->cursors[i], i, 1) - delta;
         CLACT_SetActorSurfacePosAxis(p->cursors[i], pos, i, 1);
@@ -777,10 +777,10 @@ void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int
 {
     scroll->layer = layer;
     if (axis == 0) {
-        scroll->current = BG_SYS_GetScrollX_1648(layer);
+        scroll->current = BG_SYS_GetChannelScrollX(layer);
         scroll->axis = 0;
     } else {
-        scroll->current = BG_SYS_GetScrollY_1664(layer);
+        scroll->current = BG_SYS_GetChannelScrollY(layer);
         scroll->axis = 3;
     }
     scroll->target = (scroll->current + step) & 511;
@@ -814,10 +814,10 @@ void PMSIV_BGSCROLL_Task(void *task, void *arg)
     struct PmsivBgScroll *scroll = arg;
     if (scroll->framesLeft) {
         scroll->current += scroll->step;
-        func_02040618((u8)(scroll->layer), (u8)(scroll->axis), (int)(scroll->current >> 12));
+        BG_SYS_FillScrollArea((u8)(scroll->layer), (u8)(scroll->axis), (int)(scroll->current >> 12));
         --scroll->framesLeft;
     } else {
-        func_02040618((u8)(scroll->layer), (u8)(scroll->axis), (int)(scroll->target));
+        BG_SYS_FillScrollArea((u8)(scroll->layer), (u8)(scroll->axis), (int)(scroll->target));
     }
 }
 

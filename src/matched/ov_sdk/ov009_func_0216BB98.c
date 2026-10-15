@@ -13,16 +13,16 @@
  *
  * symbols:
  *   MIi_CpuClear32     0x02082A7C  arm
- *   g_021AA8A0         0x021AA8A0  data
- *   g_021AA920         0x021AA920  data
+ *   gDwcConnectionArray         0x021AA8A0  data
+ *   gDwcNodeInfoBuffer         0x021AA920  data
  */
 
 extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
-extern char g_021AA8A0[];
-extern char g_021AA920[];
+extern char gDwcConnectionArray[];
+extern char gDwcNodeInfoBuffer[];
 
 void DWCi_ClearGT2ConnectionList(void)
 {
-    MIi_CpuClear32(0, g_021AA8A0, 0x80);
-    MIi_CpuClear32(0, g_021AA920, 0x100);
+    MIi_CpuClear32(0, gDwcConnectionArray, 0x80);
+    MIi_CpuClear32(0, gDwcNodeInfoBuffer, 0x100);
 }

@@ -11,7 +11,7 @@
  * lever: observed 44-byte table rows use a typed Row pointer; integer address
  * arithmetic swaps base/index colours, Row member access is EXACT.
  * symbols:
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -20,10 +20,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020403F4(u32);
+extern void BG_SYS_FreeLayerBuf(u32);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void MI_CpuFill8(void *,int,u32);
 typedef struct {u32 id; u32 rest[10];} Row;
 extern Row gPmsSelectGraphicBgRows[];
-void PMS_SELECT_GRAPHIC_ExitSceneBgs(void *p) { const Row *base; unsigned long i; base=gPmsSelectGraphicBgRows; for(i=0;i<6;i++) func_020403F4((u8)base[i].id); BMP_WIN_Exit(); BG_SYS_Delete(); MI_CpuFill8(p,0,4); }
+void PMS_SELECT_GRAPHIC_ExitSceneBgs(void *p) { const Row *base; unsigned long i; base=gPmsSelectGraphicBgRows; for(i=0;i<6;i++) BG_SYS_FreeLayerBuf((u8)base[i].id); BMP_WIN_Exit(); BG_SYS_Delete(); MI_CpuFill8(p,0,4); }

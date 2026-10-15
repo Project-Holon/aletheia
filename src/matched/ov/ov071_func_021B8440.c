@@ -1,5 +1,5 @@
 /*
- * function: func_021B8440
+ * function: MONOLITH_TOOL_MENU_HideMessage
  * address:  0x021B8440
  * packet:   pkt_ov071_021B8440
  * region:   ov071
@@ -36,7 +36,7 @@ struct Rec3;
 struct U16Vec;
 typedef unsigned char  u8;
 struct CharBuf;
-void func_021B8440(W *w)
+void MONOLITH_TOOL_MENU_HideMessage(W *w)
 {
     extern void *BMP_WIN_GetBmp(struct Descriptor *p);
     extern void func_02034714(const char *expr, u32 line, const char *file);

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BE0EC, func_021BE100, func_021BE108
+ * function: INTRO_GRAPHIC_DrawCamera, INTRO_GRAPHIC_DrawEnd, INTRO_GRAPHIC_NoOp
  * address: 0x021BE0EC
  * packet: pkt_ov204_021BE0EC
  * region: ov204
@@ -21,7 +21,7 @@ struct Light;
 extern void *G3D_CAMERA_Reset(struct Light *);
 extern void G3D_SYSTEM_DrawStart(void *);
 extern void G3D_SYSTEM_ApplyLookAt(void);
-void func_021BE0EC(char *p){G3D_SYSTEM_DrawStart(G3D_CAMERA_Reset(*(struct Light * *)&((struct Obj25337 *)p)->f0));G3D_SYSTEM_ApplyLookAt();}
+void INTRO_GRAPHIC_DrawCamera(char *p){G3D_SYSTEM_DrawStart(G3D_CAMERA_Reset(*(struct Light * *)&((struct Obj25337 *)p)->f0));G3D_SYSTEM_ApplyLookAt();}
 extern void G3D_SYSTEM_DrawEnd(void);
-void func_021BE100(char *unused){G3D_SYSTEM_DrawEnd();}
-int func_021BE108(void){return 1;}
+void INTRO_GRAPHIC_DrawEnd(char *unused){G3D_SYSTEM_DrawEnd();}
+int INTRO_GRAPHIC_NoOp(void){return 1;}

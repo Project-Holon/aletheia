@@ -22,8 +22,8 @@ typedef unsigned int u32;
 extern void PLIST_COMM_End(void *);
 extern void func_02034A5C(int);
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern const char ov90_id[];
 int NET_PARTY_COMMAND_Exit(void *p,u32 a,u32 b,char *ctx) { PLIST_COMM_End(ctx+4); func_02034A5C((int)ov90_id); func_0203133C(((struct Obj23343 *)ctx)->fCC); func_020315D4(p); return 1; }

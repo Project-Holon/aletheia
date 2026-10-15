@@ -31,7 +31,7 @@
  *   COMM_TVT_SYS_GetSprites 0x021BDFFC thumb ov172
  *   DRAW_SYSTEM_PushStroke 0x021B6E88 thumb ov172
  *   func_020498F4 0x020498F4 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -115,6 +115,7 @@
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   COMM_TVT_SYS_GetInputLocked 0x021BE0C8 thumb ov172
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
  */
 #include "ctvt_types.h"
 
@@ -125,7 +126,7 @@ extern void *G2_GetBG2ScrPtr(void);
 extern u32 G2_GetBG3ScrPtr(void);
 extern s32 func_02061CA4(u32 dmaNo, u32 dest, u16 *src, s32 size);
 extern void func_020498F4(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void func_02040588(u32 which, u8 enable);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
@@ -133,7 +134,7 @@ extern struct ArcHandle *func_020490F4(u32 id, u32 heapId);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 func_02049990(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02040618(u32 a, u32 b, u32 c);
+extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
 extern void BG_SYS_ResetSlot(u32 a, u32 b, u32 c);
 extern void func_02041B6C(u32 layer);
@@ -268,7 +269,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
 
     heapId = COMM_TVT_SYS_GetHeapId(work);
     func_020498F4(COMM_TVT_SYS_GetArc(work), 0x10, 7, 0, 0, 0, heapId);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02040588(5, 0);
     {
         u32 t = REG_POWCNT1;
@@ -278,8 +279,8 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     BG_SYS_ClearSlot(0);
     func_02049990(arc, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, heapId);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
-    func_020409B4(0);
-    func_02040618(0, 3, 0);
+    BG_SYS_PushTile(0);
+    BG_SYS_FillScrollArea(0, 3, 0);
     ARC_TOOL_DeleteHandle(arc);
     d.x = 0x10;
     d.y = 0xcc;
@@ -394,16 +395,16 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
     BMP_MENUWORK_DrawWindowBorder(scene->helpWin, 0);
     win = scene->helpWin;
     BMP_WIN_ClearScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     BMP_WIN_Delete(scene->helpWin);
     win = scene->titleWin;
     BMP_WIN_ClearScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     BMP_WIN_Delete(scene->titleWin);
     win = scene->messageWin;
     if (win != 0) {
         BMP_WIN_ClearScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
         BMP_WIN_Delete(scene->messageWin);
         scene->messageWin = 0;
     }
@@ -420,10 +421,10 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
     CLACT_SetActorDrawEnable(scene->penPicker, 0);
     CLACT_DeleteActor(scene->penPicker);
     BG_SYS_ClearSlot(0);
-    func_020409B4(0);
-    func_02040618(0, 3, 0);
+    BG_SYS_PushTile(0);
+    BG_SYS_FillScrollArea(0, 3, 0);
     BG_SYS_ClearSlot(6);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_02040588(5, 1);
     REG_POWCNT1 |= 0x8000;
     COMM_TVT_SYS_ClearNameWindows(work);
@@ -593,7 +594,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
         if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(scene->titleWin)) == 0) {
             BMP_WIN_TransferChars(scene->titleWin);
             BMP_WIN_MakeScreen(scene->titleWin);
-            func_020409B4(4);
+            BG_SYS_PushTile(4);
             scene->titlePending = 0;
         }
     }
@@ -602,7 +603,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
         if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(scene->messageWin)) == 0) {
             BMP_WIN_TransferChars(scene->messageWin);
             BMP_WIN_MakeScreen(scene->messageWin);
-            func_020409B4(0);
+            BG_SYS_PushTile(0);
             scene->messagePending = 0;
         }
     }

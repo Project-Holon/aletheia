@@ -15,7 +15,7 @@
  * symbols:
  *   ptr_02146A44    0x02146A44  data
  *   MIi_CpuClear16  0x02082A48  arm
- *   func_020409B4   0x020409B4  arm
+ *   BG_SYS_PushTile   0x020409B4  arm
  *   func_02041B6C   0x02041B6C  arm
  *   G2_GetBG0CharPtr   0x0207E1F8  arm
  *   G2_GetBG1CharPtr   0x0207E24C  arm
@@ -46,7 +46,7 @@ struct Channel {
 
 extern struct Channel *ptr_02146A44;
 extern void MIi_CpuClear16(u16 val, void *dest, u32 size);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void func_02041B6C(u32 bit);
 
 void BG_SYS_ClearLayer(int channel, u16 val)
@@ -56,7 +56,7 @@ void BG_SYS_ClearLayer(int channel, u16 val)
         return;
     }
     MIi_CpuClear16(val, ch->field_08, ch->field_0c);
-    func_020409B4(channel);
+    BG_SYS_PushTile(channel);
 }
 
 void BG_SYS_ClearLayerEx(int channel, u16 val)

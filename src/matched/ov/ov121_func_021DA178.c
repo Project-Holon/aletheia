@@ -1,5 +1,5 @@
 /*
- * function: func_021DA178
+ * function: MYSTERY_UTIL_UpdateMenu
  * address: 0x021DA178
  * packet: pkt_ov121_021DA178
  * region: ov121
@@ -27,7 +27,7 @@ typedef signed int     s32;
 struct Obj;
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
-int func_021DA178(char *p)
+int MYSTERY_UTIL_UpdateMenu(char *p)
 {
     u32 q = ((struct Obj04493 *)p)->f4;
     int r;

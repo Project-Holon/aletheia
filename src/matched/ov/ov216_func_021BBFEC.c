@@ -1,5 +1,5 @@
 /*
- * function: func_021BBFEC
+ * function: BEACON_DETAIL_GRA_LoadBeaconInfo
  * address: 0x021BBFEC
  * packet: pkt_ov216_021BBFEC
  * region: ov216
@@ -37,7 +37,7 @@ extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec *);
 extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *);
 extern signed char MSG_SPEED_GetWait(void);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
-void func_021BBFEC(u8 *p)
+void BEACON_DETAIL_GRA_LoadBeaconInfo(u8 *p)
 {
     int i,count;
     *(u8 **)(p+40)=GAME_BEACON_ACCESSOR_AllocInfo(*(u16 *)p);

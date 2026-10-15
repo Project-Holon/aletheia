@@ -25,7 +25,7 @@
  *   APP_ICON_GetStatusFrameFileId  0x02027628  thumb
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   d_021C86E8     0x021C86E8  data  a4
  *
  * Addresses are Black-image addresses.
@@ -80,7 +80,7 @@ extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern const u32 d_021C86E8[][2];
 
 void VIEWER_MAIN_LoadBgResources(Work *p)
@@ -110,5 +110,5 @@ void VIEWER_MAIN_LoadBgResources(Work *p)
     ARC_UTIL_UploadBgCharFromArchive((void *)APP_ICON_GetArchiveId(), (void *)APP_ICON_GetStatusFrameFileId(), (void *)4, 0, 0, 0, p->heap);
     func_0204989C(APP_ICON_GetArchiveId(), APP_ICON_GetStatusDataFileId(), 4, 0, 0, 0, p->heap);
     BG_SYS_FillTileMap(4, 0, 0x15, 0x20, 3, 0xC);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }

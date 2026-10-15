@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   func_02045EC0  0x02045EC0  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
@@ -32,7 +32,7 @@ struct MsgBank;
 struct Obj;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *gSpeciesNameBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -48,7 +48,7 @@ void PLIST_PLATE_DrawEgg(u8 *a, u8 *s)
     u32 r6;
     u32 r7;
 
-    r6 = (u32)GF_FONT_Create_EC64(((struct Obj06211 *)a)->f0);
+    r6 = (u32)WORDSET_CreateDefault(((struct Obj06211 *)a)->f0);
     r7 = (u32)func_02045EC0(gSpeciesNameBank, 0x28a);
     WORDSET_SetSlotTag((struct WordSet *)r6, 0, (const void *)r7, 0, 1, 2);
     POKELIST_PrintExpandedTextMain(a, ((struct Obj03183 *)s)->f20, (void *)r6, 3, 0x29, 9, 0x440);

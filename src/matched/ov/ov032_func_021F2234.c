@@ -17,13 +17,13 @@
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   FIELDMAP_GetVReq 0x02188E30 thumb ov021
  *   func_020490F4 0x020490F4 arm
- *   func_021F27D4 0x021F27D4 thumb ov032
- *   func_021F2908 0x021F2908 thumb ov032
- *   func_021F2A8C 0x021F2A8C thumb ov032
- *   func_021F2C1C 0x021F2C1C thumb ov032
- *   func_021F2D20 0x021F2D20 thumb ov032
- *   func_021F2F44 0x021F2F44 thumb ov032
- *   func_021F3058 0x021F3058 thumb ov032
+ *   BEACON_VIEW_InitWorkFromSave 0x021F27D4 thumb ov032
+ *   BEACON_VIEW_CreateSubSystems 0x021F2908 thumb ov032
+ *   BEACON_VIEW_InitBackgrounds 0x021F2A8C thumb ov032
+ *   BEACON_VIEW_CreateTaskMenuRes 0x021F2C1C thumb ov032
+ *   BEACON_VIEW_LoadGraphics 0x021F2D20 thumb ov032
+ *   BEACON_VIEW_CreateActors 0x021F2F44 thumb ov032
+ *   BEACON_VIEW_CreateWindows 0x021F3058 thumb ov032
  *   BEACON_VIEW_InitList 0x021EFEC0 thumb ov032
  *   BEACON_VIEW_SetFadeState 0x021F0208 thumb ov032
  */
@@ -40,13 +40,13 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 FIELDMAP_GetVReq(u8 *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_021F27D4(u8 *p);
-extern void func_021F2908(char *p);
-extern void func_021F2A8C(u8 *p, void *h);
-extern void func_021F2C1C(char *p);
-extern void func_021F2D20(char *p, void *a);
-extern void func_021F2F44(char *p, void *a);
-extern void func_021F3058(char *p);
+extern void BEACON_VIEW_InitWorkFromSave(u8 *p);
+extern void BEACON_VIEW_CreateSubSystems(char *p);
+extern void BEACON_VIEW_InitBackgrounds(u8 *p, void *h);
+extern void BEACON_VIEW_CreateTaskMenuRes(char *p);
+extern void BEACON_VIEW_LoadGraphics(char *p, void *a);
+extern void BEACON_VIEW_CreateActors(char *p, void *a);
+extern void BEACON_VIEW_CreateWindows(char *p);
 extern void BEACON_VIEW_InitList(u8 *o);
 extern void BEACON_VIEW_SetFadeState(u8 *p, int flag);
 
@@ -65,13 +65,13 @@ char *BEACON_VIEW_Create(u32 a0, u32 a1)
     ((struct Obj00007 *)p)->f94 = 0x15;
     ((struct Obj00007 *)p)->f96 = 0x8070;
     ((struct Obj00007 *)p)->f9C = func_020490F4(0xad, ((struct Obj00007 *)p)->f98);
-    func_021F27D4((u8 *)p);
-    func_021F2908(p);
-    func_021F2A8C((u8 *)p, ((struct Obj00007 *)p)->f9C);
-    func_021F2C1C(p);
-    func_021F2D20(p, ((struct Obj00007 *)p)->f9C);
-    func_021F2F44(p, ((struct Obj00007 *)p)->f9C);
-    func_021F3058(p);
+    BEACON_VIEW_InitWorkFromSave((u8 *)p);
+    BEACON_VIEW_CreateSubSystems(p);
+    BEACON_VIEW_InitBackgrounds((u8 *)p, ((struct Obj00007 *)p)->f9C);
+    BEACON_VIEW_CreateTaskMenuRes(p);
+    BEACON_VIEW_LoadGraphics(p, ((struct Obj00007 *)p)->f9C);
+    BEACON_VIEW_CreateActors(p, ((struct Obj00007 *)p)->f9C);
+    BEACON_VIEW_CreateWindows(p);
     ((struct Obj00007 *)p)->f7A = 1;
     BEACON_VIEW_InitList((u8 *)p);
     ((struct Obj00007 *)p)->f7A = 0;

@@ -11,7 +11,7 @@
  * symbols:
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
@@ -70,7 +70,7 @@ struct WordSet;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 typedef signed short   s16;
 struct PalAnmSlot;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
@@ -107,7 +107,7 @@ void BTLV_INPUT_DrawTargetButtons(char *s, Out *out, const Info *p)
     k = (((struct Obj01909 *)s)->f50 == 2) ? 1 : 0;
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
     v = STRBUF_Create(12, (u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
-    h = (int)GF_FONT_Create_EC64((u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
+    h = (int)WORDSET_CreateDefault((u16)((((struct Obj01909 *)s)->f240 & 0x7fff) | 0x8000));
     GF_FONT_SetTextColor(1, 2, 0);
     for (i = 0; i < n; i++) {
         if (p->e[i].show != 0) {

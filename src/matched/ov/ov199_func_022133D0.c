@@ -1,5 +1,5 @@
 /*
- * function: func_022133D0
+ * function: WIFIBATTLEMATCH_SYS_FreePartyBuffers
  * address:  0x022133D0
  * packet:   pkt_022133D0
  * region:   ov199
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 
-void func_022133D0(u8 *p)
+void WIFIBATTLEMATCH_SYS_FreePartyBuffers(u8 *p)
 {
     func_020307B0((void *)(((struct Obj14579 *)p)->f28));
     func_020307B0((void *)(((struct Obj14579 *)p)->f2C));

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE13C
+ * function: DEMO3D_GRAPHIC_ApplyLookAt
  * address:  0x021BE13C
  * packet:   pkt_021BE13C
  * region:   ov203
@@ -17,7 +17,7 @@
 extern void G3D_SYSTEM_DrawStart(void *);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-void func_021BE13C(void *a)
+void DEMO3D_GRAPHIC_ApplyLookAt(void *a)
 {
     G3D_SYSTEM_DrawStart(a);
     G3D_SYSTEM_ApplyLookAt();

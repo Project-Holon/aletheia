@@ -22,6 +22,8 @@
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -40,13 +42,13 @@ struct Obj;
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 extern void BG_SYS_ClearSlot(u32 a);
-extern void func_02040618(u32 a, u32 b, u32 c);
+extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 void CTVT_DRAW_Exit(u16 *a0, char *p)
@@ -64,16 +66,16 @@ void CTVT_DRAW_Exit(u16 *a0, char *p)
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj01265 *)p)->f48), 0);
     r = ((struct Obj01265 *)p)->f48;
     BMP_WIN_ClearScreen((struct Descriptor *)r);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)r));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj01265 *)p)->f48));
     r = ((struct Obj01265 *)p)->f4C;
     BMP_WIN_ClearScreen((struct Descriptor *)r);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)r));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj01265 *)p)->f4C));
     r = ((struct Obj01265 *)p)->f50;
     if (r != 0) {
         BMP_WIN_ClearScreen((struct Descriptor *)r);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)r));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)r));
         BMP_WIN_Delete((struct Descriptor *)(((struct Obj01265 *)p)->f50));
         ((struct Obj01265 *)p)->f50 = 0;
     }
@@ -90,10 +92,10 @@ void CTVT_DRAW_Exit(u16 *a0, char *p)
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj01265 *)p)->f84, 0);
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f84));
     BG_SYS_ClearSlot(0);
-    func_020409B4(0);
-    func_02040618(0, 3, 0);
+    BG_SYS_PushTile(0);
+    BG_SYS_FillScrollArea(0, 3, 0);
     BG_SYS_ClearSlot(6);
-    func_020409B4(6);
+    BG_SYS_PushTile(6);
     func_02040588(5, 1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     COMM_TVT_SYS_ClearNameWindows((char *)a0);

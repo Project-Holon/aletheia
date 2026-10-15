@@ -19,7 +19,7 @@
  *   func_020307B0  0x020307B0  arm
  *   CLACT_SetSurfacePos 0x0204B09C arm
  *   sWf2dmapPaletteDesc 0x021C60C4 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_02041B6C 0x02041B6C arm
@@ -86,7 +86,7 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_020307B0(void *p);
 extern void CLACT_SetSurfacePos(void *,int,void *);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_InitBgLayer(u8,void *,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041B6C(u32 bit);
@@ -162,7 +162,7 @@ void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res)
     desc=sWf2dmapPaletteDesc;
     desc.bytes[1]=res[2]; desc.bytes[2]=res[3]; desc.bytes[3]=res[4];
     desc.bytes[8]=res[5]; desc.bytes[9]=res[6]; desc.bytes[10]=0; desc.tail=res[7];
-    func_020403F4((u8)id);
+    BG_SYS_FreeLayerBuf((u8)id);
     BG_SYS_InitBgLayer(id,&desc,0);
     func_02040588(id,1);
 }

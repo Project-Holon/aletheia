@@ -15,7 +15,7 @@
  *   gpiGetPeerByAddr  0x0218F0E8  arm
  *   SOC_InetNtoA      0x0215FA9C  arm
  *   gsDebugFormat     0x0217D254  arm
- *   g_021A5000        0x021A5000  data
+ *   gGpiPeerDebugLeft        0x021A5000  data
  */
 
 struct SOCInAddr {
@@ -33,7 +33,7 @@ extern struct GPIPeer_s *gpiGetPeerByAddr(void **connection, unsigned int ip,
 extern char *SOC_InetNtoA(struct SOCInAddr in);
 extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
                           char *theTokenStr, ...);
-extern char g_021A5000[];
+extern char gGpiPeerDebugLeft[];
 
 void gpiPeerLeftCallback(unsigned int ip, unsigned short port, void *unused,
                          void **connection)
@@ -45,7 +45,7 @@ void gpiPeerLeftCallback(unsigned int ip, unsigned short port, void *unused,
     aPeer = gpiGetPeerByAddr(connection, ip, port);
     if (aPeer == 0)
         return;
-    gsDebugFormat(1, 0, 8, g_021A5000, SOC_InetNtoA(anAddr), port,
+    gsDebugFormat(1, 0, 8, gGpiPeerDebugLeft, SOC_InetNtoA(anAddr), port,
                   aPeer->profile);
     aPeer->state = 0x6a;
 }

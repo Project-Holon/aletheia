@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF710",
+   "name": "DEMO3D_DATA_CreateFadeWork",
    "address": "0x021BF710",
    "kind": "game",
    "region": "ov203",

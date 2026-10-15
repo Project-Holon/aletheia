@@ -17,11 +17,11 @@
 #include "../include/Obj12441.h"
 typedef unsigned char u8;
 struct S020314B8;
-struct S020315D4;
+struct Proc;
 extern void func_0203133C(struct S020314B8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 int INTRUDE_LINK_ProcExit(void *p, int b, int c, u8 *q)
 {
     func_0203133C(((struct Obj12441 *)q)->fF4);

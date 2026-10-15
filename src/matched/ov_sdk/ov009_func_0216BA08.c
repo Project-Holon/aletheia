@@ -12,22 +12,22 @@
  * Whether this host is the match server.
  *
  * symbols:
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  *   DWC_GetServerAID  0x0216B9B0  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 extern unsigned char DWC_GetServerAID(void);
 
 int DWC_IsServerMyself(void)
 {
-    if (*(char **)(((char *)&g_021AA878) + 4) == 0) {
+    if (*(char **)(((char *)&gDwcGlobalState) + 4) == 0) {
         return 0;
     }
     if (DWC_GetServerAID() == 0xff) {
         return 0;
     }
-    return *(unsigned char *)(*(char **)(((char *)&g_021AA878) + 4) + 0x366) == 2;
+    return *(unsigned char *)(*(char **)(((char *)&gDwcGlobalState) + 4) + 0x366) == 2;
 }

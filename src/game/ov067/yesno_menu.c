@@ -22,7 +22,7 @@
  *   func_02049740  0x02049740  arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
@@ -109,7 +109,7 @@ extern void func_02049B68(void *arc, u32 plttId, u32 target, u32 offset, u32 siz
 extern u32 func_02049740(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
-extern void func_020409B4(u8 layer);
+extern void BG_SYS_PushTile(u8 layer);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *touchX, u32 *touchY);
@@ -216,7 +216,7 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     func_020498F4(arc, 0xa5, menu->buttonBgLayer, (u16)menu->buttonTileAlloc, 0x600, 0, menu->heapId);
     BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0, 0x20, 0xb, menu->yesPlttSlot);
     BG_SYS_FillTileMap(menu->buttonBgLayer, 0, 0xb, 0x20, 0xd, menu->noPlttSlot);
-    func_020409B4(menu->buttonBgLayer);
+    BG_SYS_PushTile(menu->buttonBgLayer);
     ARC_TOOL_DeleteHandle(arc);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->yesPlttSlot, menu->palette);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->noPlttSlot, menu->palette);

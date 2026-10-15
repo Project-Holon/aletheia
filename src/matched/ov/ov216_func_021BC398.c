@@ -1,5 +1,5 @@
 /*
- * function: func_021BC398
+ * function: BEACON_DETAIL_GRA_CreateTouchBar
  * address: 0x021BC398
  * packet: pkt_ov216_021BC398
  * region: ov216
@@ -17,4 +17,4 @@ typedef struct R R;
 extern const unsigned char d_021BDB4C[];
 extern void MI_CpuFill8(void *,int,int);
 extern R *TOUCHBAR_Create(A *,int);
-R *func_021BC398(int manager,int heap){A a;enum {Zero} zero=Zero;MI_CpuFill8(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create(&a,heap);}
+R *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap){A a;enum {Zero} zero=Zero;MI_CpuFill8(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create(&a,heap);}

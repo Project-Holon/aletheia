@@ -51,7 +51,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   PSEL_ClearWin3 0x021BB35C thumb ov223
- *   PSEL_NopAC6C 0x021BAC6C thumb ov223
+ *   PSEL_NopBgDelete 0x021BAC6C thumb ov223
  *   PSEL_IsBgReady 0x021BABFC thumb ov223
  *   PSEL_DeleteListAnime 0x021B98F4 thumb ov223
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -59,7 +59,7 @@
  *   PSEL_CreateUnits 0x021B9D9C thumb ov223
  *   PSEL_CreateUnits2 0x021BA984 thumb ov223
  *   PSEL_SetBgSys 0x021BAC70 thumb ov223
- *   PSEL_UpdateBgAD80 0x021BAD80 thumb ov223
+ *   PSEL_UploadBgPalette 0x021BAD80 thumb ov223
  *   PSEL_UpdateUnitAnime 0x021B9D4C thumb ov223
  *   PSEL_UpdateUnitPositions 0x021BA2B4 thumb ov223
  *   PSEL_UpdateSelectAnime 0x021B9A8C thumb ov223
@@ -74,7 +74,7 @@
  *   PSEL_SetUnitVisible 0x021BA81C thumb ov223
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   PSEL_ShowTaskRes 0x021BB3BC thumb ov223
- *   PSEL_UpdateB414 0x021BB414 thumb ov223
+ *   PSEL_UpdateTaskResWin 0x021BB414 thumb ov223
  *   PSEL_SetTaskResActive 0x021BB424 thumb ov223
  *   PSEL_DeleteTaskRes 0x021BB404 thumb ov223
  *   func_02041B6C 0x02041B6C arm
@@ -84,23 +84,23 @@
  *   PSEL_IsAnimTargetReached 0x021B9B4C thumb ov223
  *   func_020355D8 0x020355D8 arm
  *   func_020355C4 0x020355C4 arm
- *   PSEL_UpdateB134 0x021BB134 thumb ov223
+ *   PSEL_UpdateSubWindow 0x021BB134 thumb ov223
  *   PSEL_SetAnimTargetIndex 0x021B9C00 thumb ov223
  *   PSEL_StepAnimIndex 0x021B9C58 thumb ov223
  *   PSEL_ClearWin 0x021BB274 thumb ov223
- *   PSEL_UpdateB18C 0x021BB18C thumb ov223
+ *   PSEL_PrintSubWindow 0x021BB18C thumb ov223
  *   PM_VOICE_Play 0x02006984 thumb
  *   d_021BC75C 0x021BC75C data a4
  *   d_021BC794 0x021BC794 data a2
  *   d_021BC710 0x021BC710 data a2
- *   PSEL_NopADFC 0x021BADFC thumb ov223
- *   PSEL_UpdateBgAD68 0x021BAD68 thumb ov223
+ *   PSEL_NopBgUpdate 0x021BADFC thumb ov223
+ *   PSEL_ClearBgLayerEx 0x021BAD68 thumb ov223
  *   PSEL_DeleteActors 0x021BAA30 thumb ov223
  *   PSEL_DeleteUnits 0x021BA050 thumb ov223
  *   PSEL_DeleteSelectAnime 0x021B9A6C thumb ov223
- *   PSEL_UpdateB3AC 0x021BB3AC thumb ov223
+ *   PSEL_DeleteTaskResData 0x021BB3AC thumb ov223
  *   PSEL_DeleteWin 0x021BAEE0 thumb ov223
- *   PSEL_NopAB74 0x021BAB74 thumb ov223
+ *   PSEL_NopBgWindows 0x021BAB74 thumb ov223
  *   PSEL_DeleteG3dUtil 0x021B9848 thumb ov223
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -131,7 +131,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021BC934 0x021BC934 data a4
  *   d_021BC9B0 0x021BC9B0 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -157,6 +157,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
+#include "psel_types.h"
 
 struct MsgBank;
 struct U16Vec;
@@ -172,9 +173,6 @@ struct Bank;
 struct Cfg;
 struct Light;
 struct PselWork;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
 
 typedef struct Obj Obj;
 
@@ -191,18 +189,7 @@ struct TaskMenuTmpl {
     u8 unk13;
 };
 
-typedef unsigned int u32;
-
 struct Ent { u8 a, b, c, d, e; };
-
-typedef struct {
-    u16 src[16];
-    u16 dst[16];
-    u16 out[16];
-    u16 state;
-    u16 step;
-    u8 pad[0x30];
-} Fade;
 
 
 struct Colors {u16 b2,g2,r2,b1,g1,r1;};
@@ -210,8 +197,6 @@ struct Colors {u16 b2,g2,r2,b1,g1,r1;};
 enum Offset {OffsetZero=0};
 
 typedef enum { BIT8=8, BIT32=32 } Bits;
-
-typedef signed int     s32;
 
 typedef enum { TOON, HIGHLIGHT } Shading;
 
@@ -253,14 +238,14 @@ extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void PSEL_ClearWin3(char *p);
 extern void PSEL_DeleteListAnime(char *p);
-extern void PSEL_NopAC6C(unsigned char *);
+extern void PSEL_NopBgDelete(unsigned char *);
 extern int PSEL_IsBgReady(unsigned char *);
 extern void BMP_SetDisplaySwap(u32 swap);
 extern void PSEL_SetupSelectAnime(char *);
 extern void PSEL_CreateUnits(char *);
 extern void PSEL_CreateUnits2(char *);
 extern void PSEL_SetBgSys(const u16 *p);
-extern void PSEL_UpdateBgAD80(u16 *p);
+extern void PSEL_UploadBgPalette(u16 *p);
 extern void PSEL_StepAnimIndex(char *);
 extern void PSEL_UpdateSelectAnime(char *p);
 extern void PSEL_UpdateUnitAnime(char *);
@@ -274,25 +259,25 @@ extern void PSEL_UpdateActorPosition(char *);
 extern void PSEL_SelectUnit(char *,u32);
 extern void PSEL_SetUnitVisible(char *,u32);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern void PSEL_ShowTaskRes(char *),PSEL_UpdateB414(char *),PSEL_SetTaskResActive(char *),PSEL_DeleteTaskRes(char *),func_02041B6C(u32);
+extern void PSEL_ShowTaskRes(char *),PSEL_UpdateTaskResWin(char *),PSEL_SetTaskResActive(char *),PSEL_DeleteTaskRes(char *),func_02041B6C(u32);
 extern u32 PSEL_IsTaskResFinished(char *);
 extern void PSEL_SetAnimTarget(char *,int,int),PSEL_StepAnim(char *);
 extern int PSEL_IsAnimTargetReached(char *);
 extern void func_020355D8(u32);
-extern void PSEL_UpdateB134(char *);
+extern void PSEL_UpdateSubWindow(char *);
 extern void PSEL_SetAnimTargetIndex(char *,u32);
 extern void PSEL_ClearWin(char *);
-extern void PSEL_UpdateB18C(char *p, int idx);
+extern void PSEL_PrintSubWindow(char *p, int idx);
 extern u8 func_020355C4(void);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void PSEL_NopADFC(char *);
-extern void PSEL_UpdateBgAD68(char *);
+extern void PSEL_NopBgUpdate(char *);
+extern void PSEL_ClearBgLayerEx(char *);
 extern void PSEL_DeleteActors(char *);
 extern void PSEL_DeleteUnits(char *);
 extern void PSEL_DeleteSelectAnime(char *);
-extern int PSEL_UpdateB3AC(int *);
+extern int PSEL_DeleteTaskResData(int *);
 extern void PSEL_DeleteWin(char *p);
-extern void PSEL_NopAB74(int *);
+extern void PSEL_NopBgWindows(int *);
 extern void PSEL_DeleteG3dUtil(int *);
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -318,7 +303,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -407,85 +392,9 @@ extern const short d_020A1EB8[];
 extern int d_021BC91C[],d_021BC910[],d_021BC928[];
 
 /*
- * The psel work object: one 2168-byte record allocated by psel.c PSEL_Init.
- * The three 0x94-byte palette-fade slots and the menu-selection words share the
- * 0x74..0x230 region, so they are a union (the fade slots never touch their own
- * tail padding, which is where the selection words live).
+ * The psel work object and the graphic-system helpers live in psel_types.h so
+ * psel.c and psel_graphic.c share one owner struct.
  */
-struct PselWork {
-    u16 heapId; u16 pad02;            /* 0x00 */
-    void *config;                     /* 0x04 */
-    u32 fadeSpeed;                    /* 0x08 */
-    u32 subState;                     /* 0x0C */
-    u32 frame;                        /* 0x10 */
-    void *graphicSys;                 /* 0x14 */
-    void *font;                       /* 0x18 */
-    u32 printQue;                     /* 0x1C */
-    void *vblankNode;                 /* 0x20 */
-    u32 flags;                        /* 0x24 */
-    void *g3dUtil;                    /* 0x28 */
-    u16 unitId; u16 unitId2;          /* 0x2C, 0x2E */
-    u16 recBase; u16 selIndex;        /* 0x30, 0x32 */
-    u8 pad34[6];
-    u16 recordCount;                  /* 0x3A */
-    void *records;                    /* 0x3C */
-    void *animStream;                 /* 0x40 */
-    u32 animTableIndex;               /* 0x44 */
-    u16 animReverse; u16 pad4A;       /* 0x48 */
-    u32 animTarget;                   /* 0x4C */
-    u32 animFrame;                    /* 0x50 */
-    u8 pad54[0x20];                   /* 0x54..0x74 */
-    union {
-        Fade slots[3];                /* 0x74..0x230 */
-        struct {
-            u8 pad[0x1B4];
-            u32 menuSelected;         /* 0x228 */
-            u32 currentIndex;         /* 0x22C */
-        } state;
-    } fade;
-    u32 voicePending;                 /* 0x230 */
-    void *msgBank;                    /* 0x234 */
-    void *winMain;                    /* 0x238 */
-    void *winSub;                     /* 0x23C */
-    void *winExtra;                   /* 0x240 */
-    u32 winFlag;                      /* 0x244 */
-    u8 pad248[8];
-    void *printStream;                /* 0x250 */
-    void *tcbl;                       /* 0x254 */
-    void *strbuf;                     /* 0x258 */
-    void *taskRes;                    /* 0x25C */
-    void *win;                        /* 0x260 */
-    void *taskMenu;                   /* 0x264 */
-    u8 alpha; u8 pad269;              /* 0x268 */
-    u16 palBuf[4][128];               /* 0x26A..0x66A */
-    u16 palSrc[128];                  /* 0x66A..0x76A */
-    u16 palDst[128];                  /* 0x76A..0x86A */
-    u16 pad86A;
-    u32 fadeActive;                   /* 0x86C */
-    u8 fadeWeight;                    /* 0x870 */
-    u8 fadeSrcIndex;                  /* 0x871 */
-    u16 pad872;
-    u32 savedFadeSpeed;               /* 0x874 */
-};
-
-/* The 16-byte graphics system handle returned by PSEL_GRAPHIC_Create. */
-struct PselGraphicSystem {
-    u32 unused0;                      /* 0x00 */
-    u32 clactBank;                    /* 0x04 */
-    u32 camera;                       /* 0x08 */
-    u32 vblankNode;                   /* 0x0C */
-};
-
-/* A loaded archive member: its payload pointer sits at 0x0C. */
-struct PselResMember {
-    u8 pad0[0x0C];
-    u8 *data;
-};
-
-/* A single 32-bit CLACT/G3D handle the graphic helpers receive by address. */
-struct PselHandle {
-    u32 value;
-};
 
 
 
@@ -978,7 +887,7 @@ int PSEL_GRAPHIC_StateFadeOut(char *work, int *state)
 
 
 
-int PSEL_GRAPHIC_StateExit(unsigned char *work){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;PSEL_ClearWin3((char *)work);PSEL_NopAC6C(work);PSEL_IsBgReady(work);PSEL_DeleteListAnime((char *)work);((struct PselWork *)work)->frame=0;return 7;}
+int PSEL_GRAPHIC_StateExit(unsigned char *work){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;PSEL_ClearWin3((char *)work);PSEL_NopBgDelete(work);PSEL_IsBgReady(work);PSEL_DeleteListAnime((char *)work);((struct PselWork *)work)->frame=0;return 7;}
 
 
 
@@ -996,7 +905,7 @@ int PSEL_GRAPHIC_StateEnter(char *work)
 {
     BMP_SetDisplaySwap(0);
     BG_SYS_LoadPlttEntry(0,0x2f3b); BG_SYS_LoadPlttEntry(4,0x2f3b);
-    PSEL_SetupSelectAnime(work); PSEL_CreateUnits(work); PSEL_CreateUnits2(work); PSEL_SetBgSys((const u16 *)work); PSEL_UpdateBgAD80((u16 *)work); PSEL_GRAPHIC_InitFadePalettes(work);
+    PSEL_SetupSelectAnime(work); PSEL_CreateUnits(work); PSEL_CreateUnits2(work); PSEL_SetBgSys((const u16 *)work); PSEL_UploadBgPalette((u16 *)work); PSEL_GRAPHIC_InitFadePalettes(work);
     setFlagBits(work,BIT8); setFlagBits(work,BIT32);
     func_0207D63C((void *)0x04000050, 5, 63, 8, 8); func_0207D63C((void *)0x04001050, 4, 63, 8, 8);
     ((struct PselWork *)work)->frame=0;
@@ -1062,14 +971,14 @@ int PSEL_GRAPHIC_Main(char *work,u32 *state)
         }break;
     case 5:PSEL_ShowTaskRes(work);*state=6;break;
     case 6:
-        PSEL_UpdateB414(work);
+        PSEL_UpdateTaskResWin(work);
         if(KEY_GetTrg()!=0){((struct PselWork *)work)->fadeSpeed=0;if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(work);*state=7;}else{PSEL_DeleteTaskRes(work);func_02041B6C(3);*state=3;}}
         else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(work);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct PselWork *)work)->fade.state.menuSelected!=choice){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);dirty=1;}}break;
-    case 7:PSEL_UpdateB414(work);if(PSEL_IsTaskResFinished(work)){PSEL_DeleteTaskRes(work);func_02041B6C(3);*state=8;}break;
+    case 7:PSEL_UpdateTaskResWin(work);if(PSEL_IsTaskResFinished(work)){PSEL_DeleteTaskRes(work);func_02041B6C(3);*state=8;}break;
     case 8:PSEL_SetMode(work,(u32)20);PSEL_SetAnimTarget(work,*(int *)&((struct PselWork *)work)->fade.state.menuSelected,0);*state=9;break;
     case 9:PSEL_StepAnim(work);if(PSEL_IsModeDone(work)&&PSEL_IsAnimTargetReached(work))*state=10;break;
     case 10:func_020355D8(*(u32 *)&((struct PselWork *)work)->fadeSpeed);PSEL_GRAPHIC_OpenMenu(work);*state=11;break;
-    case 11:PSEL_GRAPHIC_UpdateMenu(work);if(PSEL_GRAPHIC_IsMenuFinished(work)){choice=PSEL_GRAPHIC_GetMenuChoice((int *)work);PSEL_GRAPHIC_CloseMenu(work);*(u32 *)&((struct PselWork *)work)->fadeSpeed=func_020355C4();if(choice){((struct PselWork *)work)->flags|=8;PSEL_UpdateB134(work);*state=14;}else{PSEL_SetMode(work,(u32)19);*state=12;}}break;
+    case 11:PSEL_GRAPHIC_UpdateMenu(work);if(PSEL_GRAPHIC_IsMenuFinished(work)){choice=PSEL_GRAPHIC_GetMenuChoice((int *)work);PSEL_GRAPHIC_CloseMenu(work);*(u32 *)&((struct PselWork *)work)->fadeSpeed=func_020355C4();if(choice){((struct PselWork *)work)->flags|=8;PSEL_UpdateSubWindow(work);*state=14;}else{PSEL_SetMode(work,(u32)19);*state=12;}}break;
     case 12:PSEL_SetAnimTarget(work,*(int *)&((struct PselWork *)work)->fade.state.menuSelected,1);*state=13;break;
     case 13:PSEL_StepAnim(work);if(PSEL_IsAnimTargetReached(work))*state=3;break;
     case 14:PSEL_SetAnimTargetIndex(work,((struct PselWork *)work)->fade.state.menuSelected);GFL_USE_PlaySeDefaultVolume(1976);*state=15;break;
@@ -1077,7 +986,7 @@ int PSEL_GRAPHIC_Main(char *work,u32 *state)
     case 16:PSEL_StepAnimIndex(work);*(int *)&((struct PselWork *)work)->frame=0;return 10;
     }
     if(dirty){((struct PselWork *)work)->flags|=32;PSEL_ClearWin(work);}
-    else if(((struct PselWork *)work)->voicePending!=0){((struct PselWork *)work)->flags|=16;PSEL_UpdateB18C(work,(u32)(((struct PselWork *)work)->fade.state.menuSelected));PM_VOICE_Play(d_021BC710[((struct PselWork *)work)->fade.state.menuSelected],0,64,0,0,0,0,0);}
+    else if(((struct PselWork *)work)->voicePending!=0){((struct PselWork *)work)->flags|=16;PSEL_PrintSubWindow(work,(u32)(((struct PselWork *)work)->fade.state.menuSelected));PM_VOICE_Play(d_021BC710[((struct PselWork *)work)->fade.state.menuSelected],0,64,0,0,0,0,0);}
     ((struct PselWork *)work)->voicePending=0;++((struct PselWork *)work)->frame;return 9;
 }
 
@@ -1105,7 +1014,7 @@ int PSEL_GRAPHIC_StateCleanup(char *work)
 {
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
-    PSEL_GRAPHIC_UpdateFadeNop(work); PSEL_NopADFC(work); PSEL_UpdateBgAD68(work);
+    PSEL_GRAPHIC_UpdateFadeNop(work); PSEL_NopBgUpdate(work); PSEL_ClearBgLayerEx(work);
     PSEL_DeleteActors(work); PSEL_DeleteUnits(work); PSEL_DeleteSelectAnime(work);
     ((struct PselWork *)work)->frame=0;
     return 12;
@@ -1117,7 +1026,7 @@ int PSEL_GRAPHIC_StateCleanup(char *work)
 
 int PSEL_GRAPHIC_Delete(int *work)
 {
-    PSEL_UpdateB3AC(work); PSEL_DeleteWin((char *)work); PSEL_NopAB74(work); PSEL_DeleteG3dUtil(work);
+    PSEL_DeleteTaskResData(work); PSEL_DeleteWin((char *)work); PSEL_NopBgWindows(work); PSEL_DeleteG3dUtil(work);
     func_02030EAC((void *)work[8]); PRINTSYS_QUE_Clear((struct PrintSys *)work[7]); PRINTSYS_QUE_Delete((struct PrintSys *)work[7]);
     GF_FONT_Delete((void *)work[6]); PSEL_GRAPHIC_Destroy((unsigned *)work[5]);
     return 13;
@@ -1287,7 +1196,7 @@ void PSEL_GRAPHIC_InitBg(void *sys,int heap)
 
 
 
-void PSEL_GRAPHIC_ExitBg(void *sys){unsigned i;for(i=0;i<7;i++)func_020403F4((unsigned char)d_021BC9B0[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(sys,0,4);}
+void PSEL_GRAPHIC_ExitBg(void *sys){unsigned i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf((unsigned char)d_021BC9B0[i].id);BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(sys,0,4);}
 
 
 

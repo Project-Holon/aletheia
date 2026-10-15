@@ -12,7 +12,7 @@
  * sdk:      get_seqno (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   g_021A826C  0x021A826C  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 struct net_vars {
@@ -22,10 +22,10 @@ struct net_vars {
     unsigned long long add;
 };
 
-extern struct net_vars g_021A826C;
+extern struct net_vars gCpsNetVars;
 
 unsigned long get_seqno(void)
 {
-    g_021A826C.seed = g_021A826C.mul * g_021A826C.seed + g_021A826C.add;
-    return (unsigned long)(g_021A826C.seed >> 32);
+    gCpsNetVars.seed = gCpsNetVars.mul * gCpsNetVars.seed + gCpsNetVars.add;
+    return (unsigned long)(gCpsNetVars.seed >> 32);
 }

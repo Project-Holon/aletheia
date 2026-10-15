@@ -14,9 +14,9 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  */
 #include "../include/Obj08473.h"
-struct S020314B8;struct U16Vec;struct S020315D4;
+struct S020314B8;struct U16Vec;struct Proc;
 extern void func_0203133C(struct S020314B8 *p);
 extern void STRBUF_Delete(struct U16Vec *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-int EVENT_PDC_RETURN_Exit(struct S020315D4 *a,void *b,void *c,char *p){func_0203133C(*(struct S020314B8 * *)&((struct Obj08473 *)p)->f34);if(*(struct U16Vec * *)&((struct Obj08473 *)p)->f28)STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08473 *)p)->f28);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08473 *)p)->f4);func_020315D4(a);GFL_HEAP_DeleteChecked(139);return 1;}
+int EVENT_PDC_RETURN_Exit(struct Proc *a,void *b,void *c,char *p){func_0203133C(*(struct S020314B8 * *)&((struct Obj08473 *)p)->f34);if(*(struct U16Vec * *)&((struct Obj08473 *)p)->f28)STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08473 *)p)->f28);STRBUF_Delete(*(struct U16Vec * *)&((struct Obj08473 *)p)->f4);func_020315D4(a);GFL_HEAP_DeleteChecked(139);return 1;}

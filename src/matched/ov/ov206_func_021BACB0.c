@@ -14,7 +14,7 @@
  *   func_021BAF7C 0x021BAF7C thumb
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   d_021BC110 0x021BC110 data a2
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -67,7 +67,7 @@ void func_021BACB0(char *p, int idx)
         func_020307B0(tab);
     }
     if (c != 0x3e7) {
-        h = (int)GF_FONT_Create_EC64(H(0));
+        h = (int)WORDSET_CreateDefault(H(0));
         if (idx == 0) {
             WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 0);
         } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD6C
+ * function: INTRO_GRAPHIC_Draw3dEnd
  * address: 0x021BDD6C
  * packet: pkt_ov204_021BDD6C
  * region: ov204
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE100 0x021BE100 thumb ov204
+ *   INTRO_GRAPHIC_DrawEnd 0x021BE100 thumb ov204
  */
-extern void func_021BE100(char *);
-void func_021BDD6C(char *p){func_021BE100(p+8);}
+extern void INTRO_GRAPHIC_DrawEnd(char *);
+void INTRO_GRAPHIC_Draw3dEnd(char *p){INTRO_GRAPHIC_DrawEnd(p+8);}

@@ -37,7 +37,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021BAEAC 0x021BAEAC data a4
  *   d_021BAF28 0x021BAF28 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   BG_SYS_Update 0x020419E4 arm
@@ -52,7 +52,7 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
- *   func_021BA7A4 0x021BA7A4 thumb ov218
+ *   UN_SELECT_SetupDisplay 0x021BA7A4 thumb ov218
  *   d_021BAE94 0x021BAE94 data a4
  *   d_021BAE88 0x021BAE88 data a4
  *   d_021BAEA0 0x021BAEA0 data a4
@@ -107,7 +107,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
-extern void func_020403F4(u8);
+extern void BG_SYS_FreeLayerBuf(u8);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
@@ -120,7 +120,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_021BA7A4(void);
+extern void UN_SELECT_SetupDisplay(void);
 extern void G3D_SYSTEM_Init(unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned, void (*)(void));
 extern unsigned *G3D_CAMERA_Create(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, const Vec3 *, const Vec3 *, const Vec3 *, unsigned);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -230,7 +230,7 @@ void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap)
     }
 }
 
-void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0;i<7;i++)func_020403F4(*(const u32 *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf(*(const u32 *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 /*
  * extent: 2 zero alignment bytes at 021BAA1A.
@@ -269,7 +269,7 @@ u32 UN_SELECT_GRAPHIC_GetValue(u32 *p){return *p;}
 
 void UN_SELECT_GRAPHIC_SetupCamera(unsigned **out, unsigned heap)
 {
-    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, func_021BA7A4);
+    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, UN_SELECT_SetupDisplay);
     *out = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 5461, 0, 4096, 4194304, 0, &d_021BAE94, &d_021BAE88, &d_021BAEA0, heap);
 }
 

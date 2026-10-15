@@ -10,7 +10,7 @@
  * lever: enum do-while preserves one-trip loop (124 vs112 B).
  * volatile: 021B976C BLDCNT store; 021B9770..021B9776 DISPCNT read and store
  * symbols:
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   ZENKOKU_ZUKAN_AWARD_DeleteActor 0x021B9D64 thumb ov222
  *   ZENKOKU_ZUKAN_AWARD_DeleteWindows 0x021B9B84 thumb ov222
  *   ZENKOKU_ZUKAN_AWARD_Noop 0x021B9960 thumb ov222
@@ -31,26 +31,26 @@ typedef unsigned int u32;
 typedef enum { COUNT=1 } LayerCount;
 typedef struct {u32 layer;u8 data[40];} Row;
 extern const Row d_021BA1F4[];
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void ZENKOKU_ZUKAN_AWARD_DeleteActor(char*);
 extern void ZENKOKU_ZUKAN_AWARD_DeleteWindows(char*);
 extern void ZENKOKU_ZUKAN_AWARD_Noop(char*);
 struct Node;
 struct PrintSys;
-struct S020315D4;
+struct Proc;
 extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char*);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p)
 {
  LayerCount i;
  i=0;
  do {
-  func_020403F4((u8)d_021BA1F4[i].layer);
+  BG_SYS_FreeLayerBuf((u8)d_021BA1F4[i].layer);
   i++;
  } while((u32)i<COUNT);
  *(volatile u16*)0x04001050=0;

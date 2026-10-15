@@ -13,9 +13,9 @@
  * symbols:
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
- *   d_021CA544 0x021CA544 data a1
- *   d_021CA4F7 0x021CA4F7 data a1
- *   d_021CA554 0x021CA554 data a1
+ *   gWf2dmapSliderTileX 0x021CA544 data a1
+ *   gWf2dmapSliderFlags 0x021CA4F7 data a1
+ *   gWf2dmapSliderTileY 0x021CA554 data a1
  */
 #include "../include/Obj02842.h"
 #include "../include/Obj10494.h"
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32);
-extern const u8 d_021CA544[],d_021CA4F7[],d_021CA554[];
+extern const u8 gWf2dmapSliderTileX[],gWf2dmapSliderFlags[],gWf2dmapSliderTileY[];
 void WF2DMAP_TOUCH_DrawSlider(u8 *p,u8 *q,int idx)
 {
     u16 *t;
@@ -40,9 +40,9 @@ void WF2DMAP_TOUCH_DrawSlider(u8 *p,u8 *q,int idx)
         return;
     }
     t=*(u16 * *)&((struct Obj10494 *)q)->f178;
-    BG_SYS_DrawTileEx(2,*(const u8 *)((u32)d_021CA544+((u32)((struct Obj02842 *)p)->f10<<3)+(u32)idx),20,
-        *(const u8 *)((u32)d_021CA554+((u32)((struct Obj02842 *)p)->f10<<3)+(u32)idx),4,(u32)((u8 *)t+12),
-        *(const u8 *)((u32)d_021CA544+((u32)((struct Obj02842 *)p)->f10<<3)+(u32)idx),
-        *(const u8 *)((u32)d_021CA4F7+(u32)((struct Obj02842 *)p)->f10),(u32)t[0]>>3,(u32)t[1]>>3);
+    BG_SYS_DrawTileEx(2,*(const u8 *)((u32)gWf2dmapSliderTileX+((u32)((struct Obj02842 *)p)->f10<<3)+(u32)idx),20,
+        *(const u8 *)((u32)gWf2dmapSliderTileY+((u32)((struct Obj02842 *)p)->f10<<3)+(u32)idx),4,(u32)((u8 *)t+12),
+        *(const u8 *)((u32)gWf2dmapSliderTileX+((u32)((struct Obj02842 *)p)->f10<<3)+(u32)idx),
+        *(const u8 *)((u32)gWf2dmapSliderFlags+(u32)((struct Obj02842 *)p)->f10),(u32)t[0]>>3,(u32)t[1]>>3);
     func_02041B6C(2);
 }

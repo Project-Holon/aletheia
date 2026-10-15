@@ -15,7 +15,7 @@
  *   strlen  0x0209477C  arm
  *   DWCi_Http_ReallocBuffer  0x0217A15C  arm  ov009
  *   OS_SNPrintf  0x02084F80  arm
- *   g_021A2694     0x021A2694  data
+ *   gDwcHttpValueFmt     0x021A2694  data
  */
 
 typedef struct {
@@ -23,7 +23,7 @@ typedef struct {
     char *cur;
     char *end;
 } Buf;
-extern char g_021A2694[];
+extern char gDwcHttpValueFmt[];
 typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size);
@@ -45,7 +45,7 @@ int DWC_Http_Add_Body(char *http, char *data)
         }
         buf_remain = temp_buffer->end - temp_buffer->cur;
     }
-    temp = OS_SNPrintf(temp_buffer->cur, buf_remain, g_021A2694, data);
+    temp = OS_SNPrintf(temp_buffer->cur, buf_remain, gDwcHttpValueFmt, data);
     if (temp != result_len) {
         return 1;
     }

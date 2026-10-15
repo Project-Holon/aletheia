@@ -18,7 +18,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02017E88 0x02017E88 thumb
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
@@ -48,7 +48,7 @@ extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern u32 func_02017E88(void *,u32,u32);
 extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 struct Struct36;
@@ -80,12 +80,12 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
         cell=*(void **)((p+i*4)+0xc);
         BMP_WIN_TransferChars(cell);
         BMP_WIN_MakeScreen(cell);
-        func_020409B4(BMP_WIN_GetBgLayer(cell));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(cell));
     }
     cell=((struct Obj05391 *)p)->f34;
     BMP_WIN_TransferChars(cell);
     BMP_WIN_MakeScreen(cell);
-    func_020409B4(BMP_WIN_GetBgLayer(cell));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(cell));
     if(((struct Obj01407 *)a)->f38==0) {
         first=func_02017E88(object,174,0);
         second=func_02017E88(object,175,0);

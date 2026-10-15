@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_Delete_03F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
 
  *
  * Poke the channel-selection helper with 2, 1, 0, 3 in turn.
  */
 
 typedef unsigned int   u32;
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 void WORLDTRADE_DEPOSIT_ExitBgPlanes(void)
 {
-    BG_SYS_Delete_03F4(2);
-    BG_SYS_Delete_03F4(1);
-    BG_SYS_Delete_03F4(0);
-    BG_SYS_Delete_03F4(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(3);
 }

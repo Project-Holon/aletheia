@@ -15,8 +15,8 @@
  * symbols:
  *   MSL_C_LIB_Calloc                  0x0209146C  arm
  *   _u32_div_f                     0x0209C2B0  arm
- *   d_021A3730                   0x021A3730  data
- *   g_021A3730  0x021A3730  data
+ *   gGsMemoryFuncs                   0x021A3730  data
+ *   gGsMemoryFuncs  0x021A3730  data
  */
 extern void *MSL_C_LIB_Calloc(unsigned long n, unsigned long size);
 void *_gsi_memalign(unsigned long boundary, unsigned long size);
@@ -24,8 +24,8 @@ void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void
 void gsimalloc(int a);
 void gsirealloc(int a, int b);
 void gsifree(void *p);
-extern void *d_021A3730[4];
-extern char g_021A3730[];
+extern void *gGsMemoryFuncs[4];
+extern void *gGsMemoryFuncs[4];
 
 
 /*
@@ -40,10 +40,10 @@ void *_gsi_memalign(unsigned long boundary, unsigned long size)
 
 void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long))
 {
-    d_021A3730[0] = p_malloc;
-    d_021A3730[1] = p_free;
-    d_021A3730[2] = p_realloc;
-    d_021A3730[3] = p_memalign;
+    gGsMemoryFuncs[0] = p_malloc;
+    gGsMemoryFuncs[1] = p_free;
+    gGsMemoryFuncs[2] = p_realloc;
+    gGsMemoryFuncs[3] = p_memalign;
 }
 
 
@@ -52,7 +52,7 @@ void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void
  */
 void gsimalloc(int a)
 {
-    (*(void (**)(int))g_021A3730)(a);
+    (*(void (**)(int))gGsMemoryFuncs)(a);
 }
 
 
@@ -61,7 +61,7 @@ void gsimalloc(int a)
  */
 void gsirealloc(int a, int b)
 {
-    (*(void (**)(int, int))(g_021A3730 + 8))(a, b);
+    (*(void (**)(int, int))((char *)gGsMemoryFuncs + 8))(a, b);
 }
 
 
@@ -74,5 +74,5 @@ void gsifree(void *p)
         return;
     }
 
-    (*(void (**)(void *))(g_021A3730 + 4))(p);
+    (*(void (**)(void *))((char *)gGsMemoryFuncs + 4))(p);
 }

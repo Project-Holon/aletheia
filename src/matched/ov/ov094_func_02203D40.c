@@ -17,7 +17,7 @@
  *   func_02040588 0x02040588 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BTLV_INPUT_DeleteTask 0x0220687C thumb ov094
  */
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ struct Descriptor;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 void BTLV_INPUT_MessageScreenOpenTask(void *h, Ctx *c)
 {
@@ -69,7 +69,7 @@ void BTLV_INPUT_MessageScreenOpenTask(void *h, Ctx *c)
     default:
         if (c->main->st == 0) {
             BMP_WIN_MakeScreen(c->main->obj228);
-            func_020409B4(6);
+            BG_SYS_PushTile(6);
             BMP_WIN_TransferChars(c->main->obj228);
             BTLV_INPUT_StartBgScrollOffsetTask(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
             BTLV_INPUT_DeleteTask((char *)c->main, h);

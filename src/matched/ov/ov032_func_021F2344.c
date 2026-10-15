@@ -12,29 +12,29 @@
  * symbols:
  *   BEACON_VIEW_Update 0x021F2344 thumb
  *   BEACON_VIEW_SetFadeState 0x021F0208 thumb ov032
- *   func_021F2544 0x021F2544 thumb ov032
+ *   BEACON_VIEW_ClearEndRequest 0x021F2544 thumb ov032
  *   TCBL_Main 0x020310C4 arm
- *   func_021F2674 0x021F2674 thumb ov032
- *   func_021F26D8 0x021F26D8 thumb ov032
- *   func_021F26F0 0x021F26F0 thumb ov032
- *   func_021F2714 0x021F2714 thumb ov032
- *   func_021F27B4 0x021F27B4 thumb ov032
- *   func_021F27CC 0x021F27CC thumb ov032
+ *   BEACON_VIEW_UpdateList 0x021F2674 thumb ov032
+ *   BEACON_VIEW_RunRecordArrival 0x021F26D8 thumb ov032
+ *   BEACON_VIEW_UpdateFadeWait 0x021F26F0 thumb ov032
+ *   BEACON_VIEW_UpdateSlide 0x021F2714 thumb ov032
+ *   BEACON_VIEW_RunPowerAnimStart 0x021F27B4 thumb ov032
+ *   BEACON_VIEW_RunSelect 0x021F27CC thumb ov032
  *   GAME_BEACON_ACCESSOR_TableAddNewLogs 0x02165888 thumb ov010
  */
 #include "../include/Obj00007.h"
 
 typedef unsigned char  u8;
 extern void BEACON_VIEW_SetFadeState(u8 *p, int flag);
-extern void func_021F2544(char *);
+extern void BEACON_VIEW_ClearEndRequest(char *);
 struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
-extern int func_021F2674(char *);
-extern int func_021F26D8(u8 *p);
-extern int func_021F26F0(u8 *p);
-extern int func_021F2714(char *);
-extern int func_021F27B4(u8 *p);
-extern int func_021F27CC(char *);
+extern int BEACON_VIEW_UpdateList(char *);
+extern int BEACON_VIEW_RunRecordArrival(u8 *p);
+extern int BEACON_VIEW_UpdateFadeWait(u8 *p);
+extern int BEACON_VIEW_UpdateSlide(char *);
+extern int BEACON_VIEW_RunPowerAnimStart(u8 *p);
+extern int BEACON_VIEW_RunSelect(char *);
 extern int GAME_BEACON_ACCESSOR_TableAddNewLogs(int a0);
 
 void BEACON_VIEW_Update(char *p, int a1)
@@ -60,7 +60,7 @@ void BEACON_VIEW_Update(char *p, int a1)
     }
     if (((struct Obj00007 *)p)->f70 != 0) {
         if (a1 == 0) {
-            func_021F2544(p);
+            BEACON_VIEW_ClearEndRequest(p);
             return;
         }
         return;
@@ -69,22 +69,22 @@ void BEACON_VIEW_Update(char *p, int a1)
         TCBL_Main((struct Tcbl *)(*(int *)&((struct Obj00007 *)p)->fA0));
         switch (((struct Obj00007 *)p)->f68) {
         case 0:
-            ((struct Obj00007 *)p)->f68 = func_021F2674(p);
+            ((struct Obj00007 *)p)->f68 = BEACON_VIEW_UpdateList(p);
             break;
         case 1:
-            ((struct Obj00007 *)p)->f68 = func_021F26D8((u8 *)p);
+            ((struct Obj00007 *)p)->f68 = BEACON_VIEW_RunRecordArrival((u8 *)p);
             break;
         case 2:
-            ((struct Obj00007 *)p)->f68 = func_021F26F0((u8 *)p);
+            ((struct Obj00007 *)p)->f68 = BEACON_VIEW_UpdateFadeWait((u8 *)p);
             break;
         case 3:
-            ((struct Obj00007 *)p)->f68 = func_021F2714(p);
+            ((struct Obj00007 *)p)->f68 = BEACON_VIEW_UpdateSlide(p);
             break;
         case 4:
-            ((struct Obj00007 *)p)->f68 = func_021F27B4((u8 *)p);
+            ((struct Obj00007 *)p)->f68 = BEACON_VIEW_RunPowerAnimStart((u8 *)p);
             break;
         case 5:
-            ((struct Obj00007 *)p)->f68 = func_021F27CC(p);
+            ((struct Obj00007 *)p)->f68 = BEACON_VIEW_RunSelect(p);
             break;
         case 6:
         case 7:

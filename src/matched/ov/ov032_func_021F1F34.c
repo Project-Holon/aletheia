@@ -1,5 +1,5 @@
 /*
- * function: func_021F1F34
+ * function: BEACON_VIEW_StartWindowATask
  * address:  0x021F1F34
  * packet:   pkt_ov032_021F1F34
  * region:   ov032
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F1F34 0x021F1F34 thumb
- *   func_021F1F9C 0x021F1F9C thumb
+ *   BEACON_VIEW_StartWindowATask 0x021F1F34 thumb
+ *   BEACON_VIEW_WindowATask 0x021F1F9C thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   TCBL_AddTask 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021F1F9C(void *task, u8 *s);
+extern void BEACON_VIEW_WindowATask(void *task, u8 *s);
 struct Chan02021FD8;
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
@@ -33,11 +33,11 @@ struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 
-void func_021F1F34(char *p, u8 *q, int *r)
+void BEACON_VIEW_StartWindowATask(char *p, u8 *q, int *r)
 {
     u8 *t;
 
-    t = TCBL_GetWork(TCBL_AddTask(((struct Obj20439 *)p)->fA0, (void *)func_021F1F9C, 0x14, 0));
+    t = TCBL_GetWork(TCBL_AddTask(((struct Obj20439 *)p)->fA0, (void *)BEACON_VIEW_WindowATask, 0x14, 0));
     MI_CpuFill8(t, 0, 0x14);
     *(char * *)&((struct Obj04312 *)t)->fC = p;
     *(u8 * *)&((struct Obj04312 *)t)->f8 = q;

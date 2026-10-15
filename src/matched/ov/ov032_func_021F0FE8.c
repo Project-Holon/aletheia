@@ -1,5 +1,5 @@
 /*
- * function: func_021F0FE8
+ * function: BEACON_VIEW_GetPmVersion
  * address: 0x021F0FE8
  * packet: pkt_ov032_021F0FE8
  * region: ov032
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 typedef struct S S;
 extern u32 GAME_BEACON_ACCESSOR_GetPmVersion(S *p);
-int func_021F0FE8(S *p)
+int BEACON_VIEW_GetPmVersion(S *p)
 {
     switch (GAME_BEACON_ACCESSOR_GetPmVersion(p)) {
     case 21: return 0;

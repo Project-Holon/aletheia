@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D6C
+ * function: MYSTERY_StartParticle
  * address:  0x021D6D6C
  * packet:   pkt_021D6D6C
  * region:   ov121
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
-int func_021D6D6C(void **p, int x)
+int MYSTERY_StartParticle(void **p, int x)
 {
     return PARTICLE_StartEffectWithCallback(*p, x, 0, (int)p);
 }

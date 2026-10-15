@@ -22,7 +22,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   WORLDTRADE_TITLE_ScrollBg 0x021FFFE8 thumb ov135
  *   WORLDTRADE_SUBLCD_SetSlotActorPositions 0x021FFD44 thumb ov135
  *   GXx_GetMasterBrightness_ 0x0207D55C arm
@@ -36,7 +36,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_InitRun  0x02040B94  arm
- *   BG_SYS_Delete_03F4  0x020403F4  arm
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02049B40 0x02049B40 arm
  *   WORLDTRADE_TITLE_LoadMainBgSwap 0x02200AB4 thumb ov135
  *   WORLDTRADE_TITLE_LoadSubBgSwap 0x02200B34 thumb ov135
@@ -188,7 +188,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_Delete_03F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
@@ -229,7 +229,7 @@ extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 
 struct Sub02008C20Obj;
 
@@ -614,9 +614,9 @@ void WORLDTRADE_SERVER_SetupBgPlanes(void)
 
 void WORLDTRADE_SERVER_ExitBgPlanes(void)
 {
-    BG_SYS_Delete_03F4(2);
-    BG_SYS_Delete_03F4(1);
-    BG_SYS_Delete_03F4(0);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
 }
 
 void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
@@ -646,7 +646,7 @@ void WORLDTRADE_SERVER_CreateWindows(Work *p)
     w = p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
 }
 
 /*

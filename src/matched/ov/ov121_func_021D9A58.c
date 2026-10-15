@@ -1,5 +1,5 @@
 /*
- * function: func_021D9A58
+ * function: MYSTERY_UTIL_ClearWindow
  * address: 0x021D9A58
  * packet: pkt_ov121_021D9A58
  * region: ov121
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 struct Descriptor;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-void func_021D9A58(u8 *p) { BMP_WIN_ClearScreen(((struct Obj22875 *)p)->fC); }
+void MYSTERY_UTIL_ClearWindow(u8 *p) { BMP_WIN_ClearScreen(((struct Obj22875 *)p)->fC); }

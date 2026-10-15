@@ -34,8 +34,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_0207D658 0x0207D658 arm
- *   func_02040618 0x02040618 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BC220 0x021BC220 data
  *   func_02030EAC 0x02030EAC arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
@@ -63,7 +63,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   gSpeciesNameBank 0x020A7370 data
@@ -437,8 +437,8 @@ extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **ou
 extern u32 func_020307B0(void *p);
 extern void *func_020056A0(void (*cb)(int, char *), void *arg, int pri);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_PushTile(u32 layer);
 extern void func_02030EAC(struct Node *n);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -464,7 +464,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
@@ -776,11 +776,11 @@ void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u3
         G2_SetWndOutsidePlane(0x1f, 0);
         func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
     }
-    func_02040618(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
-    func_02040618(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);
-    func_02040618(((struct Obj00022 *)p)->f4C, 3, -((struct Obj00022 *)p)->f1B4);
-    func_020409B4(((struct Obj00022 *)p)->f4D);
-    func_020409B4(((struct Obj00022 *)p)->f4E);
+    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4C, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_PushTile(((struct Obj00022 *)p)->f4D);
+    BG_SYS_PushTile(((struct Obj00022 *)p)->f4E);
     return p;
 }
 
@@ -1245,7 +1245,7 @@ void func_021BAA4C(char *p)
         func_020307B0(tab);
     }
     if (r7 != 0x3e7) {
-        h2 = (u32)GF_FONT_Create_EC64(((struct Obj00031 *)p)->f0);
+        h2 = (u32)WORDSET_CreateDefault(((struct Obj00031 *)p)->f0);
         WORDSET_SetSlotNumber((struct WordSet *)h2, 0, r7, 3, 2, 1);
         func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
         WORDSET_DeleteStrbufED04((struct WordSet *)h2);
@@ -1312,7 +1312,7 @@ void func_021BACB0(char *p, int idx)
         func_020307B0(tab);
     }
     if (c != 0x3e7) {
-        h = (int)GF_FONT_Create_EC64(H(0));
+        h = (int)WORDSET_CreateDefault(H(0));
         if (idx == 0) {
             WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 0);
         } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_0217E078
+ * function: LIVEBATTLEMATCH_IRC_CheckError
  * address: 0x0217E078
  * packet: pkt_ov176_0217E078
  * region: ov176
@@ -22,4 +22,4 @@ extern u32 func_0200FB24(void);
 extern int DELIVERY_IRC_Delete(void *a0);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-int func_0217E078(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {DELIVERY_IRC_Delete((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}
+int LIVEBATTLEMATCH_IRC_CheckError(u8 *p) {if(func_0200FB24()!=0) {if(((struct Obj10705 *)p)->f1018!=0) {DELIVERY_IRC_Delete((void *)(((struct Obj10705 *)p)->f1018));((struct Obj10705 *)p)->f1018=0;}func_0200FBB0();GFL_NET_ERR_ShowSimpleScreen();return 1;}return 0;}

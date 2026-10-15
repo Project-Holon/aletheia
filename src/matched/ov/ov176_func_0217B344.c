@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021E8A78 0x021E8A78 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_DeleteCallback 0x021E8A78 thumb ov177
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -16,8 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021E8A78(void *);
+extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *);
 struct Rec;
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
-void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);MSGDATA_Delete(((struct Obj14356 *)p)->fC);func_020307B0(p);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback(((struct Obj14356 *)p)->f0);MSGDATA_Delete(((struct Obj14356 *)p)->fC);func_020307B0(p);}

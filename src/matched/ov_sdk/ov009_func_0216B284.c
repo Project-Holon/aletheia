@@ -18,7 +18,7 @@
  *   DWCi_CustomCommonInit  0x0216C7E0  arm  ov009
  *   func_0216CF1C  0x0216CF1C  arm  ov009
  *   DWCi_MatchedCallback  0x0216BFB8  arm  ov009
- *   g_021AA878  0x021AA878  data
+ *   gDwcGlobalState  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -46,7 +46,7 @@ typedef struct DwcState {
 
 typedef struct DwcGlobal DwcGlobal;
 
-extern struct DwcGlobal g_021AA878;
+extern struct DwcGlobal gDwcGlobalState;
 
 extern int DWCi_IsError(void);
 extern void DWCi_ClearGT2ConnectionList(void);
@@ -57,11 +57,11 @@ extern void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, 
 
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
 {
-	if (DWCi_IsError() || ((DwcState *)g_021AA878.st)->state != 3)
+	if (DWCi_IsError() || ((DwcState *)gDwcGlobalState.st)->state != 3)
 		return 0;
 	DWCi_ClearGT2ConnectionList();
-	((DwcState *)g_021AA878.st)->matchedCallback = matchedCallback;
-	((DwcState *)g_021AA878.st)->matchedParam = matchedParam;
+	((DwcState *)gDwcGlobalState.st)->matchedCallback = matchedCallback;
+	((DwcState *)gDwcGlobalState.st)->matchedParam = matchedParam;
 	DWCi_SetState(4);
 	DWCi_CustomCommonInit(0);
 	func_0216CF1C(topology, maxEntry - 1, addFilter, DWCi_MatchedCallback, 0, newClientCallback, newClientParam, evalCallback, evalParam, attemptCallback, connectionUserData, attemptParam);

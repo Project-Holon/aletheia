@@ -42,22 +42,22 @@
  *   gsiSafeStrcpyA                0x021803BC arm ov009
  *   gpiSendBuddyMessage           0x021889A0 arm ov009
  *   memset                        0x020923B0 arm
- *   g_021A4278                    0x021A4278 data
- *   g_021A4280                    0x021A4280 data
- *   g_021A42B0                    0x021A42B0 data
- *   g_021A42B4                    0x021A42B4 data
- *   g_021A42BC                    0x021A42BC data
- *   g_021A42CC                    0x021A42CC data
- *   g_021A42D4                    0x021A42D4 data
- *   g_021A42E0                    0x021A42E0 data
- *   g_021A437C                    0x021A437C data
- *   g_021A4380                    0x021A4380 data
- *   g_021A4388                    0x021A4388 data
- *   g_021A4390                    0x021A4390 data
- *   g_021A4398                    0x021A4398 data
- *   g_021A439C                    0x021A439C data
- *   g_021A43A4                    0x021A43A4 data
- *   g_021A43A8                    0x021A43A8 data
+ *   gGpiBuddyKeyBm                    0x021A4278 data
+ *   gGpiBuddyErrorUnexpectedData                    0x021A4280 data
+ *   gGpiBuddyKeyF                    0x021A42B0 data
+ *   gGpiBuddyKeyDate                    0x021A42B4 data
+ *   gGpiBuddyErrorOutOfMemory                    0x021A42BC data
+ *   gGpiBuddyKeyMsg                    0x021A42CC data
+ *   gGpiBuddyFlagSigned                    0x021A42D4 data
+ *   gGpiBuddyDebugIgnoringStatus                    0x021A42E0 data
+ *   gGpiBuddyKeyS                    0x021A437C data
+ *   gGpiBuddyKeySs                    0x021A4380 data
+ *   gGpiBuddyKeyLs                    0x021A4388 data
+ *   gGpiBuddyKeyIp                    0x021A4390 data
+ *   gGpiBuddyKeyP                    0x021A4398 data
+ *   gGpiBuddyKeyQm                    0x021A439C data
+ *   gGpiBuddyKeyL                    0x021A43A4 data
+ *   gGpiBuddyStatusOne                    0x021A43A8 data
  */
 
 typedef struct GPIBuffer {
@@ -225,22 +225,22 @@ extern int gpiSendBuddyMessage(void **connection, int profileid, int type,
                                char *message, int sendOption, void *peerOp);
 #include "../../matched/arm9_sdk/libc/string.h"
 
-extern char g_021A4278[];             /* "\bm\"  */
-extern char g_021A4280[];             /* "Unexpected data was received ..." */
-extern char g_021A42B0[];             /* "\f\"  */
-extern char g_021A42B4[];             /* "\date\" */
-extern char g_021A42BC[];             /* "Out of memory." */
-extern char g_021A42CC[];             /* "\msg\" */
-extern char g_021A42D4[];             /* "|signed|" */
-extern char g_021A42E0[];             /* "Deliberately ignoring ..." */
-extern char g_021A437C[];             /* "|s|"  */
-extern char g_021A4380[];             /* "|ss|" */
-extern char g_021A4388[];             /* "|ls|" */
-extern char g_021A4390[];             /* "|ip|" */
-extern char g_021A4398[];             /* "|p|"  */
-extern char g_021A439C[];             /* "|qm|" */
-extern char g_021A43A4[];             /* "|l|"  */
-extern char g_021A43A8[];             /* "1"    */
+extern char gGpiBuddyKeyBm[];             /* "\bm\"  */
+extern char gGpiBuddyErrorUnexpectedData[];             /* "Unexpected data was received ..." */
+extern char gGpiBuddyKeyF[];             /* "\f\"  */
+extern char gGpiBuddyKeyDate[];             /* "\date\" */
+extern char gGpiBuddyErrorOutOfMemory[];             /* "Out of memory." */
+extern char gGpiBuddyKeyMsg[];             /* "\msg\" */
+extern char gGpiBuddyFlagSigned[];             /* "|signed|" */
+extern char gGpiBuddyDebugIgnoringStatus[];             /* "Deliberately ignoring ..." */
+extern char gGpiBuddyKeyS[];             /* "|s|"  */
+extern char gGpiBuddyKeySs[];             /* "|ss|" */
+extern char gGpiBuddyKeyLs[];             /* "|ls|" */
+extern char gGpiBuddyKeyIp[];             /* "|ip|" */
+extern char gGpiBuddyKeyP[];             /* "|p|"  */
+extern char gGpiBuddyKeyQm[];             /* "|qm|" */
+extern char gGpiBuddyKeyL[];             /* "|l|"  */
+extern char gGpiBuddyStatusOne[];             /* "1"    */
 
 typedef enum _GPResult {
     GP_NO_ERROR,
@@ -290,15 +290,15 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
     GPIConnection *iconnection = (GPIConnection *)*connection;
     char strTemp[256];
 
-    if (!gpiValueForKey(input, g_021A4278, buffer, sizeof(buffer)))
-        CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+    if (!gpiValueForKey(input, gGpiBuddyKeyBm, buffer, sizeof(buffer)))
+        CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
     type = atoi(buffer);
 
-    if (!gpiValueForKey(input, g_021A42B0, buffer, sizeof(buffer)))
-        CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+    if (!gpiValueForKey(input, gGpiBuddyKeyF, buffer, sizeof(buffer)))
+        CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
     profileid = atoi(buffer);
 
-    if (!gpiValueForKey(input, g_021A42B4, buffer, sizeof(buffer)))
+    if (!gpiValueForKey(input, gGpiBuddyKeyDate, buffer, sizeof(buffer)))
         date = gsiTimeNitro(0);
     else
         date = atoi(buffer);
@@ -310,12 +310,12 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvBuddyMessageArg *arg;
             arg = (GPRecvBuddyMessageArg *)gsimalloc(sizeof(GPRecvBuddyMessageArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
-            if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
-                CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
+            if (!gpiValueForKey(input, gGpiBuddyKeyMsg, buffer, sizeof(buffer)))
+                CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
             arg->message = (char *)gsimalloc(strlen(buffer) + 1);
             if (arg->message == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             strcpy(arg->message, buffer);
             arg->profileid = profileid;
             arg->date = (unsigned int)date;
@@ -329,12 +329,12 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvBuddyUTMArg *arg;
             arg = (GPRecvBuddyUTMArg *)gsimalloc(sizeof(GPRecvBuddyUTMArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
-            if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
-                CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
+            if (!gpiValueForKey(input, gGpiBuddyKeyMsg, buffer, sizeof(buffer)))
+                CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
             arg->message = (char *)gsimalloc(strlen(buffer) + 1);
             if (arg->message == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             strcpy(arg->message, buffer);
             arg->profileid = profileid;
             arg->date = (unsigned int)date;
@@ -345,16 +345,16 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
     case 2:
         profile = gpiProfileListAdd(connection, profileid);
         if (!profile)
-            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
-        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
-        str = strstr(buffer, g_021A42D4);
+            Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
+        if (!gpiValueForKey(input, gGpiBuddyKeyMsg, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
+        str = strstr(buffer, gGpiBuddyFlagSigned);
         if (!str)
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
         *str = 0;
         str += 8;
         if (strlen(str) != 32)
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
         freeclear(profile->authSig);
         profile->authSig = goastrdup(str);
         profile->requestCount++;
@@ -363,7 +363,7 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvBuddyRequestArg *arg;
             arg = (GPRecvBuddyRequestArg *)gsimalloc(sizeof(GPRecvBuddyRequestArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             strzcpy(arg->reason, buffer, 1025);
             arg->profileid = profileid;
             arg->date = (unsigned int)date;
@@ -377,7 +377,7 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvBuddyAuthArg *arg;
             arg = (GPRecvBuddyAuthArg *)gsimalloc(sizeof(GPRecvBuddyAuthArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             arg->profileid = profileid;
             arg->date = (unsigned int)date;
             CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 10));
@@ -390,7 +390,7 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvBuddyRevokeArg *arg;
             arg = (GPRecvBuddyRevokeArg *)gsimalloc(sizeof(GPRecvBuddyRevokeArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             arg->profileid = profileid;
             arg->date = (unsigned int)date;
             CHECK_RESULT(gpiAddCallback(connection, callback, arg, 0, 12));
@@ -400,9 +400,9 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
     case 100:
         profile = gpiProfileListAdd(connection, profileid);
         if (!profile)
-            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
         if (iconnection->connectState == 3 && profile->deletedLocally) {
-            gsDebugFormat(1, 4, 2, g_021A42E0, profileid);
+            gsDebugFormat(1, 4, 2, gGpiBuddyDebugIgnoringStatus, profileid);
             break;
         }
         if (profile->blocked)
@@ -410,7 +410,7 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
         if (!profile->buddyStatus) {
             profile->buddyStatus = (GPIBuddyStatus *)gsimalloc(sizeof(GPIBuddyStatus));
             if (!profile->buddyStatus)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             memset(profile->buddyStatus, 0, sizeof(GPIBuddyStatus));
             if (profile->buddyStatusInfo) {
                 profile->buddyStatus->buddyIndex = *(int *)profile->buddyStatusInfo;
@@ -421,28 +421,28 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
         }
         buddyStatus = profile->buddyStatus;
 
-        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        if (!gpiValueForKey(input, gGpiBuddyKeyMsg, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
 
-        if (!gpiValueForKey(buffer, g_021A437C, intValue, sizeof(intValue)))
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+        if (!gpiValueForKey(buffer, gGpiBuddyKeyS, intValue, sizeof(intValue)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
         buddyStatus->status = atoi(intValue);
 
         freeclear(buddyStatus->statusString);
-        if (!gpiValueForKey(buffer, g_021A4380, strTemp, 256))
+        if (!gpiValueForKey(buffer, gGpiBuddyKeySs, strTemp, 256))
             strTemp[0] = 0;
         buddyStatus->statusString = goastrdup(strTemp);
         if (!buddyStatus->statusString)
-            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
 
         freeclear(buddyStatus->locationString);
-        if (!gpiValueForKey(buffer, g_021A4388, strTemp, 256))
+        if (!gpiValueForKey(buffer, gGpiBuddyKeyLs, strTemp, 256))
             strTemp[0] = 0;
         buddyStatus->locationString = goastrdup(strTemp);
         if (!buddyStatus->locationString)
-            Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+            Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
 
-        if (!gpiValueForKey(buffer, g_021A4390, intValue, sizeof(intValue)))
+        if (!gpiValueForKey(buffer, gGpiBuddyKeyIp, intValue, sizeof(intValue)))
             buddyStatus->ip = 0;
         else
             buddyStatus->ip = (((unsigned int)atoi(intValue) >> 24) & 0xff) |
@@ -450,14 +450,14 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
                               (((unsigned int)atoi(intValue) << 8) & 0xff0000) |
                               (((unsigned int)atoi(intValue) << 24) & 0xff000000);
 
-        if (!gpiValueForKey(buffer, g_021A4398, intValue, sizeof(intValue)))
+        if (!gpiValueForKey(buffer, gGpiBuddyKeyP, intValue, sizeof(intValue)))
             buddyStatus->port = 0;
         else {
             port = (unsigned short)atoi(intValue);
             buddyStatus->port = (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00));
         }
 
-        if (!gpiValueForKey(buffer, g_021A439C, intValue, sizeof(intValue)))
+        if (!gpiValueForKey(buffer, gGpiBuddyKeyQm, intValue, sizeof(intValue)))
             buddyStatus->quietModeFlags = 0;
         else
             buddyStatus->quietModeFlags = atoi(intValue);
@@ -467,7 +467,7 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvBuddyStatusArg *arg;
             arg = (GPRecvBuddyStatusArg *)gsimalloc(sizeof(GPRecvBuddyStatusArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             arg->profileid = profileid;
             arg->buddyIndex = buddyStatus->buddyIndex;
             arg->date = (unsigned int)date;
@@ -476,16 +476,16 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
         break;
 
     case 101:
-        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
-        str = strstr(buffer, g_021A4398);
+        if (!gpiValueForKey(input, gGpiBuddyKeyMsg, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
+        str = strstr(buffer, gGpiBuddyKeyP);
         if (!str)
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
         str += 3;
         if (!*str)
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
         productID = atoi(str);
-        str = strstr(buffer, g_021A43A4);
+        str = strstr(buffer, gGpiBuddyKeyL);
         if (str)
             strzcpy(strTemp, str + 3, 256);
         else
@@ -495,7 +495,7 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
             GPRecvGameInviteArg *arg;
             arg = (GPRecvGameInviteArg *)gsimalloc(sizeof(GPRecvGameInviteArg));
             if (arg == 0)
-                Error(connection, GP_MEMORY_ERROR, g_021A42BC);
+                Error(connection, GP_MEMORY_ERROR, gGpiBuddyErrorOutOfMemory);
             arg->profileid = profileid;
             arg->productID = productID;
             gsiSafeStrcpyA(arg->location, strTemp, 256);
@@ -504,9 +504,9 @@ static GPResult gpiProcessRecvBuddyMessage(void **connection, char *input)
         break;
 
     case 102:
-        if (!gpiValueForKey(input, g_021A42CC, buffer, sizeof(buffer)))
-            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, g_021A4280);
-        gpiSendBuddyMessage(connection, profileid, 103, g_021A43A8, 0, 0);
+        if (!gpiValueForKey(input, gGpiBuddyKeyMsg, buffer, sizeof(buffer)))
+            CallbackFatalError(connection, GP_NETWORK_ERROR, 1, gGpiBuddyErrorUnexpectedData);
+        gpiSendBuddyMessage(connection, profileid, 103, gGpiBuddyStatusOne, 0, 0);
         break;
     }
 

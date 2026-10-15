@@ -1,5 +1,5 @@
 /*
- * function: func_0217E318
+ * function: LIVEBATTLEMATCH_IRC_CreateDelivery
  * address: 0x0217E318
  * packet: pkt_ov176_0217E318
  * region: ov176
@@ -29,7 +29,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E64C[];
 typedef unsigned char  u8;
 extern void *DELIVERY_IRC_Create(u8 *p);
-void func_0217E318(char *p, unsigned value)
+void LIVEBATTLEMATCH_IRC_CreateDelivery(char *p, unsigned value)
 {
     Config config;
     MI_CpuFill8(&config, 0, 0x7C);

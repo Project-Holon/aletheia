@@ -23,8 +23,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void EGG_DEMO_MAIN_Init(int a, char *p);
 extern int EGG_DEMO_MAIN_StartFadeOutBgm(int,char *);

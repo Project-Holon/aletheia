@@ -36,7 +36,7 @@
  *   d_021BC950 0x021BC950 data a4
  *   d_021BC970 0x021BC970 data a4
  *   d_021BC8F0 0x021BC8F0 data a4
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   open 0x020490F4 arm
  *   kind 0x02008550 thumb
@@ -118,7 +118,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_ClearLayerEx(int, u16);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),BG_SYS_Delete(void);
+extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),BG_SYS_FreeLayerBuf(unsigned),BG_SYS_Delete(void);
 extern void *open(u32,u16);
 extern int kind(void *);
 extern void palette(void *,u32,u32,u32,u32,u16);
@@ -224,7 +224,7 @@ void ZUKAN_SEARCH_SCREEN_InitBg(void)
 
 
 
-void ZUKAN_SEARCH_SCREEN_DeleteBg(void){BG_SYS_SetMainPlaneVisible(14,0);BG_SYS_SetSubPlaneVisible(10,0);func_020403F4(5);func_020403F4(7);func_020403F4(2);func_020403F4(1);func_020403F4(3);BG_SYS_Delete();}
+void ZUKAN_SEARCH_SCREEN_DeleteBg(void){BG_SYS_SetMainPlaneVisible(14,0);BG_SYS_SetSubPlaneVisible(10,0);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(7);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(3);BG_SYS_Delete();}
 
 
 

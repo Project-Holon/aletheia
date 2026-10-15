@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Count byte of the 30-record queue GAME_BEACON_ACCESSOR_TableRingGet reads (head at +0xB04,
- * count at +0xB05). Unlabelled leaf reached from ov032 func_021F27D4.
+ * count at +0xB05). Unlabelled leaf reached from ov032 BEACON_VIEW_InitWorkFromSave.
  */
 
 typedef unsigned char u8;

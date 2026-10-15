@@ -57,7 +57,7 @@
  *   FILE_UTIL_Check136C  0x0202136C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   FIELD_MSGBG_CreateMenuItemsFromTable  0x02190A28  thumb  ov021
@@ -183,7 +183,7 @@ extern u32 APP_ICON_GetItemFrameFileId(u32 a);
 extern u32 APP_ICON_GetItemPaletteFileId(void);
 extern u32 FILE_UTIL_Check136C(u16 v);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(void *owner);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 extern void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
@@ -610,7 +610,7 @@ void PARTY_SELECT_LIST_InitMessageResources(PartySelectList *list)
     FieldMsgBg *msgBg = FIELDMAP_GetMsgBg(list->owner);
     list->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x54);
     list->msgBg = msgBg;
-    list->wordSet = GF_FONT_Create_EC64(list->heapId);
+    list->wordSet = WORDSET_CreateDefault(list->heapId);
 }
 
 

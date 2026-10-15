@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F1004",
+   "name": "BEACON_VIEW_LoadEntryPanelColor",
    "address": "0x021F1004",
    "kind": "game",
    "region": "ov032",

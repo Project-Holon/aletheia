@@ -1,5 +1,5 @@
 /*
- * function: func_021BE874
+ * function: INTRO_CMD_CmdSetAnimFrame
  * address:  0x021BE874
  * packet:   pkt_021BE874
  * region:   ov204
@@ -16,7 +16,7 @@
 
 extern void INTRO_G3D_SetAnimFrame(char *p, unsigned value);
 
-int func_021BE874(char *a, int b, int *p)
+int INTRO_CMD_CmdSetAnimFrame(char *a, int b, int *p)
 {
     INTRO_G3D_SetAnimFrame((char *)(((struct Obj25372 *)a)->fC), *p);
     return 1;

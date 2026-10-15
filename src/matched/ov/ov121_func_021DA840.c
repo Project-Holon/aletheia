@@ -1,5 +1,5 @@
 /*
- * function: func_021DA840
+ * function: MYSTERY_UTIL_Update
  * address:  0x021DA840
  * packet:   pkt_021DA840
  * region:   ov121
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DA2C8  0x021DA2C8  thumb
+ *   MYSTERY_UTIL_IsWindowListDone  0x021DA2C8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_021DA2C8(u8 *p);
+extern int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 
-int func_021DA840(void **p)
+int MYSTERY_UTIL_Update(void **p)
 {
-    return func_021DA2C8(*p);
+    return MYSTERY_UTIL_IsWindowListDone(*p);
 }

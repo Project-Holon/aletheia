@@ -1,5 +1,5 @@
 /*
- * function: func_021E7AE0
+ * function: WIFIBATTLEMATCH_VIEW_UpdateRecordWindowInner
  * address: 0x021E7AE0
  * packet: pkt_ov177_021E7AE0
  * region: ov177
@@ -37,7 +37,7 @@ static inline int poll_entry(unsigned char *e, void *mgr)
     }
     return e[0x28] == 0;
 }
-int func_021E7AE0(unsigned char *p, void *mgr)
+int WIFIBATTLEMATCH_VIEW_UpdateRecordWindowInner(unsigned char *p, void *mgr)
 {
     int i;
     unsigned result = 1;

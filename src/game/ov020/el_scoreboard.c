@@ -118,7 +118,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_020127D0  0x020127D0  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
@@ -190,6 +190,7 @@
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   FIELDMAP_SetSubscreenBusy 0x02189A50 thumb ov021
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  */
 
 struct ArcHandle;
@@ -232,7 +233,7 @@ void BG_SYS_SetVramBanks(const struct DispVram *c);
 void BG_SYS_Create(u16 heapId);
 void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_020403F4(unsigned int i);
+extern void BG_SYS_FreeLayerBuf(unsigned int i);
 extern void BG_SYS_Delete(void);
 s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
@@ -449,11 +450,11 @@ void EL_SCOREBOARD_TeardownSharedDisplay(ElScoreboardWork *work)
 }
 
 /*
- * \n * symbols:\n *   func_020403F4  0x020403F4  arm\n *   BG_SYS_Delete  0x0203F9B4  arm\n
+ * \n * symbols:\n *   BG_SYS_FreeLayerBuf  0x020403F4  arm\n *   BG_SYS_Delete  0x0203F9B4  arm\n
  */
 void EL_SCOREBOARD_TeardownStandaloneDisplay(ElScoreboardWork *work)
 {
-    func_020403F4(3);
+    BG_SYS_FreeLayerBuf(3);
     BG_SYS_Delete();
 }
 

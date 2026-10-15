@@ -221,7 +221,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
@@ -233,7 +233,7 @@ extern void APP_TASKMENU_UpdateMenu(void *);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 

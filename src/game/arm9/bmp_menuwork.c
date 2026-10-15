@@ -22,7 +22,7 @@
  *   BMP_WIN_GetPosY 0x02045760 arm
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02030734        0x02030734  arm
  *   sBmpMenuWorkFile     0x020A7374  data
@@ -56,7 +56,7 @@ extern u8 BMP_WIN_GetDispWidth(struct BmpWin *p);
 
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *p);
 
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 
 extern void func_02041B6C(u32 bit);
 
@@ -326,7 +326,7 @@ void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u
     BMP_MENUWORK_DrawFrame(bgId, x, y, width, height, palette, tileBase);
 
     if (commitMode == 0) {
-        func_020409B4(bgId);
+        BG_SYS_PushTile(bgId);
     } else if (commitMode == 1) {
         func_02041B6C(bgId);
     }
@@ -380,7 +380,7 @@ void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode)
     height = BMP_WIN_GetDispHeight(desc);
     BG_SYS_SetTileEntry(bgId, 0, (u8)(x - 1), (u8)(y - 1), (u8)(width + 2), (u8)(height + 2), 0);
     if (commitMode == 0) {
-        func_020409B4(bgId);
+        BG_SYS_PushTile(bgId);
         return;
     }
     if (commitMode == 1) {

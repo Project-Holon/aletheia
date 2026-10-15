@@ -1,5 +1,5 @@
 /*
- * function: func_021BE560
+ * function: INTRO_CMD_CmdMoveSlot
  * address: 0x021BE560
  * packet: pkt_ov204_021BE560
  * region: ov204
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj25359.h"
 extern int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
-int func_021BE560(char *p,int *state,int *q){return INTRO_G3D_MoveSlot(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}
+int INTRO_CMD_CmdMoveSlot(char *p,int *state,int *q){return INTRO_G3D_MoveSlot(*(char * *)&((struct Obj25359 *)p)->f8,(unsigned char)q[0],q[1],q[2]);}

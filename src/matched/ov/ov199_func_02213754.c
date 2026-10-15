@@ -1,5 +1,5 @@
 /*
- * function: func_02213754
+ * function: WIFIBATTLEMATCH_SYS_RunScreen
  * address: 0x02213754
  * packet: pkt_ov199_02213754
  * region: ov199
@@ -33,7 +33,7 @@ typedef struct S {
 extern int PROCSYS_Main(int);
 extern int PROCSYS_Push(int, int, int, int);
 
-int func_02213754(S *s)
+int WIFIBATTLEMATCH_SYS_RunScreen(S *s)
 {
     switch (s->f1b) {
     case 0:

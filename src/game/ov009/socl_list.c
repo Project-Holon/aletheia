@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021AA4B4  0x021AA4B4  data
+ *   SOCLiSocketList  0x021AA4B4  data
  *   func_0215F2F4  0x0215F2F4  arm  ov009
- *   g_021AA4B8  0x021AA4B8  data
+ *   SOCLiTrashList  0x021AA4B8  data
  *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215F36C  0x0215F36C  arm  ov009
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -41,16 +41,15 @@ struct SOCLSocket **SOCLi_SocketGetNextPtr(struct SOCLSocket **next, struct SOCL
 void SOCLi_SocketUnregisterTrash(int a);
 int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 int SOCL_SocketIsInTrash(int b);
-extern char g_021AA4B4[];
-extern char g_021AA4B8[];
 extern struct SOCLSocket *SOCLiSocketList;
+extern char SOCLiTrashList[];
 
 
 
 
 void SOCLi_SocketRegister(int a)
 {
-    func_0215F2F4(g_021AA4B4, a);
+    func_0215F2F4((char *)&SOCLiSocketList, a);
 }
 
 
@@ -69,7 +68,7 @@ void SOCLi_SocketRegisterList(void **next, char *socket)
  */
 void SOCLi_SocketRegisterTrash(int a)
 {
-    func_0215F2F4(g_021AA4B8, a);
+    func_0215F2F4(SOCLiTrashList, a);
 }
 
 
@@ -80,7 +79,7 @@ void SOCLi_SocketRegisterTrash(int a)
  */
 void SOCLi_SocketUnregister(int a)
 {
-    SOCLi_SocketUnregisterList((Sock * *)((struct Sock **)g_021AA4B4), (Sock *)((struct Sock *)a));
+    SOCLi_SocketUnregisterList((Sock * *)((struct Sock **)&SOCLiSocketList), (Sock *)((struct Sock *)a));
 }
 
 
@@ -126,7 +125,7 @@ struct SOCLSocket **SOCLi_SocketGetNextPtr(struct SOCLSocket **next,
 
 void SOCLi_SocketUnregisterTrash(int a)
 {
-    SOCLi_SocketUnregisterList((Sock * *)((struct Sock **)g_021AA4B8), (Sock *)((struct Sock *)a));
+    SOCLi_SocketUnregisterList((Sock * *)((struct Sock **)SOCLiTrashList), (Sock *)((struct Sock *)a));
 }
 
 
@@ -146,5 +145,5 @@ int SOCL_SocketIsInvalid(struct SOCLSocket *socket)
  */
 int SOCL_SocketIsInTrash(int b)
 {
-    return (int)func_0215F36C((Sock * *)g_021AA4B8, (Sock *)b) != 0;
+    return (int)func_0215F36C((Sock * *)SOCLiTrashList, (Sock *)b) != 0;
 }

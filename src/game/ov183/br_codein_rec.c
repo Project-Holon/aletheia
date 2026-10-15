@@ -47,7 +47,7 @@ struct U16Vec;
 struct RecGet;
 struct MsgBank;
 struct WordSet;
-struct ObjC4;
+struct BattleRecSave;
 typedef unsigned short u16;
 
 typedef unsigned char u8;
@@ -77,7 +77,7 @@ extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n,
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BR_BTN_CreateObject(void *,void *,int,int,int,int,int,void *,u16);
 extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
-extern struct ObjC4 *BATTLE_REC_GetWork(void);
+extern struct BattleRecSave *BATTLE_REC_GetWork(void);
 extern void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
 extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);

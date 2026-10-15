@@ -21,7 +21,7 @@
  *   padding         0x021A1F28  data
  *   func_02163CF0  0x02163CF0  arm  ov009
  *   func_0216359C  0x0216359C  arm  ov009
- *   g_021A1F28  0x021A1F28  data
+ *   gSha1Pad  0x021A1F28  data
  */
 #include "cps_ssl_types.h"
 
@@ -47,7 +47,7 @@ void CPSi_sha1_calc(CPSSha1Ctx *ctx, void *data0, int datalen);
 void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest);
 void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
 extern unsigned char padding[64];
-extern unsigned char g_021A1F28[64];
+extern unsigned char gSha1Pad[64];
 
 
 /*
@@ -230,6 +230,6 @@ void CPSi_sha1_result(CPSSha1Ctx *ctx, unsigned char *digest)
  */
 void CPSi_sha1_result_prng(void *ctx, unsigned char *digest)
 {
-	func_02163CF0(ctx, g_021A1F28 + 1, 44);
+	func_02163CF0(ctx, gSha1Pad + 1, 44);
 	func_0216359C(digest, ctx, 20);
 }

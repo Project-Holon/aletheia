@@ -15,12 +15,12 @@
  *   send_arprequest  0x02157E54  arm  ov009
  *   OS_Sleep  0x02085A38  arm
  *   inq_arpcache  0x02157D8C  arm  ov009
- *   g_021A1CA8  0x021A1CA8  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsRetryDelays  0x021A1CA8  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
-extern unsigned long g_021A1CA8[];
-extern char g_021A826C[];
+extern unsigned long gCpsRetryDelays[];
+extern char gCpsNetVars[];
 extern void send_arprequest(unsigned long ip);
 extern void OS_Sleep(unsigned long msec);
 extern unsigned char *inq_arpcache(unsigned long ip);
@@ -33,8 +33,8 @@ unsigned long arprequest(unsigned long ip)
 
     for (retry1 = 0; retry1 < 6; retry1++) {
         send_arprequest(ip);
-        for (retry2 = 0; retry2 < g_021A1CA8[retry1] / 100; retry2++) {
-            if (*(unsigned long *)(g_021A826C + 0x50) == 0)
+        for (retry2 = 0; retry2 < gCpsRetryDelays[retry1] / 100; retry2++) {
+            if (*(unsigned long *)(gCpsNetVars + 0x50) == 0)
                 return 0;
             OS_Sleep(100);
             r = (long unsigned int)inq_arpcache(ip);

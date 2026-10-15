@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E867C  0x021E867C  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_Main  0x021E867C  thumb  ov177
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  */
 #include "../include/Obj04561.h"
 
 typedef unsigned int   u32;
 struct PrintSys;
-extern void func_021E867C(char *p);
+extern void WIFIBATTLEMATCH_UTIL_Main(char *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
 void BATTLE_CHAMPIONSHIP_FLOW_UpdateText(int *p)
 {
-    func_021E867C((char *)(((struct Obj04561 *)p)->f8));
+    WIFIBATTLEMATCH_UTIL_Main((char *)(((struct Obj04561 *)p)->f8));
     PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj04561 *)p)->f14));
 }

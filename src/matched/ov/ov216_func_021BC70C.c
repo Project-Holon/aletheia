@@ -1,5 +1,5 @@
 /*
- * function: func_021BC70C
+ * function: BEACON_DETAIL_GRA_CreateListWindows
  * address: 0x021BC70C
  * packet: pkt_ov216_021BC70C
  * region: ov216
@@ -18,14 +18,14 @@
  * keeping its full-word home at sp+18 before q's first definition.
  * Prototype: C5C4 layer is u8 here because this caller explicitly truncates.
  * symbols:
- *   func_021BCA38 0x021BCA38 thumb ov216
+ *   BEACON_DETAIL_GRA_GetClactUnit 0x021BCA38 thumb ov216
  *   PMS_DRAW_Create 0x0202DB0C thumb
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
  *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
  *   PMS_DRAW_SetFollowBgScroll 0x0202DE68 thumb
  *   BMP_WIN_Create 0x020450F0 arm
- *   func_021BC5C4 0x021BC5C4 thumb ov216
- *   func_021BC614 0x021BC614 thumb ov216
+ *   BEACON_DETAIL_GRA_CreateWindow 0x021BC5C4 thumb ov216
+ *   BEACON_DETAIL_GRA_CreatePositionedActor 0x021BC614 thumb ov216
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  */
@@ -34,22 +34,22 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct PmsDraw;struct Actor;struct Window;
 struct Obj;
-extern void *func_021BCA38(char *p);
+extern void *BEACON_DETAIL_GRA_GetClactUnit(char *p);
 extern struct PmsDraw *PMS_DRAW_Create(u32,u32,u32,u32,u8,u8,u16);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *,u8);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *,u16);
 extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void func_021BC5C4(struct Window *,u8,u8,u32,u8,u8,u8);
-extern void *func_021BC614(void *,void *,void *,short,short,u8,u8,u8,u16);
+extern void BEACON_DETAIL_GRA_CreateWindow(struct Window *,u8,u8,u32,u8,u8,u8);
+extern void *BEACON_DETAIL_GRA_CreatePositionedActor(void *,void *,void *,short,short,u8,u8,u8,u16);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BC70C(char *p)
+void BEACON_DETAIL_GRA_CreateListWindows(char *p)
 {
     void *manager;
     int i,j,layer;
     char *q;
-    manager=func_021BCA38(*(void **)(p+80));
+    manager=BEACON_DETAIL_GRA_GetClactUnit(*(void **)(p+80));
     *(struct PmsDraw **)(p+344)=PMS_DRAW_Create((u32)manager,1,*(u32 *)(p+300),*(u32 *)(p+296),10,2,*(u16 *)p);
     PMS_DRAW_SetNullColorPalette(*(struct PmsDraw **)(p+344),4);
     PMS_DRAW_SetPrintColor(*(struct PmsDraw **)(p+344),15812);
@@ -59,14 +59,14 @@ void func_021BC70C(char *p)
         q=p+348+i*128;
         q[126]=(u8)layer;
         *(u32 *)(q+112)=BMP_WIN_Create((u8)layer,2,15,28,4,i,1);
-        for(j=0;j<4;j++)func_021BC5C4((struct Window *)(q+j*16),layer,i,2,j*2+1,19,2);
-        func_021BC5C4((struct Window *)(q+64),layer,i,2,9,19,2);
-        func_021BC5C4((struct Window *)(q+80),layer,i,3,11,28,4);
-        func_021BC5C4((struct Window *)(q+96),layer,i,4,19,27,4);
-        *(void **)(q+120)=func_021BC614(p,manager,p+104+i*12,220,44,0,1,i,1);
+        for(j=0;j<4;j++)BEACON_DETAIL_GRA_CreateWindow((struct Window *)(q+j*16),layer,i,2,j*2+1,19,2);
+        BEACON_DETAIL_GRA_CreateWindow((struct Window *)(q+64),layer,i,2,9,19,2);
+        BEACON_DETAIL_GRA_CreateWindow((struct Window *)(q+80),layer,i,3,11,28,4);
+        BEACON_DETAIL_GRA_CreateWindow((struct Window *)(q+96),layer,i,4,19,27,4);
+        *(void **)(q+120)=BEACON_DETAIL_GRA_CreatePositionedActor(p,manager,p+104+i*12,220,44,0,1,i,1);
         CLACT_SetActorObjMode(*(struct Actor **)(q+120),0);
         CLACT_SetActorDrawEnable(*(void **)(q+120),0);
-        *(void **)(q+116)=func_021BC614(p,manager,p+92,200,80,6,0,i,1);
+        *(void **)(q+116)=BEACON_DETAIL_GRA_CreatePositionedActor(p,manager,p+92,200,80,6,0,i,1);
         CLACT_SetActorObjMode(*(struct Actor **)(q+116),1);
         CLACT_SetActorDrawEnable(*(void **)(q+116),0);
     }

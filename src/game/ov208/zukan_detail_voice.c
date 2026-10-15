@@ -21,7 +21,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   BG_SYS_SetVisibleLayer 0x0204047C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -41,7 +41,7 @@
  *   CLACT_RegisterPaletteEx        0x0204AC18  arm
  *   CLACT_RegisterCharacter        0x0204A6C8  arm
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
@@ -191,7 +191,7 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-extern void func_02040618(unsigned,unsigned,unsigned);
+extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetVisibleLayer(int,u16);
 
@@ -226,7 +226,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleasePalette(u32 i);
 
-extern void func_020409B4(u8 channel);
+extern void BG_SYS_PushTile(u8 channel);
 
 extern struct Obj *CLACT_CreateActor(u32 owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 
@@ -580,8 +580,8 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         *seq = 1;
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                func_02040618(i, 0, 0);
-                func_02040618(i, 3, 0);
+                BG_SYS_FillScrollArea(i, 0, 0);
+                BG_SYS_FillScrollArea(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
@@ -747,9 +747,9 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
 void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(void *unused, struct ZukanDetailVoice *voice)
 {
     if (voice->waveBgDirty != 0) {
-        func_02040618(3, 0, voice->scrollSubPixels - 1);
-        func_02040618(3, 3, 0);
-        func_020409B4(3);
+        BG_SYS_FillScrollArea(3, 0, voice->scrollSubPixels - 1);
+        BG_SYS_FillScrollArea(3, 3, 0);
+        BG_SYS_PushTile(3);
         voice->waveBgDirty = 0;
     }
     ZUKAN_DETAIL_COMMON_TransferPalettes(voice->palFade);

@@ -28,8 +28,8 @@
 typedef unsigned short u16;
 extern const u16 d_021B9B9C;
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
 extern void MI_CpuFill8(void *, int, int);
 typedef unsigned int   u32;
 struct GfFont;

@@ -47,8 +47,8 @@ extern void BEACON_SetRecorderFlag(struct Blk34 *p, u32 v);
 extern void BR_RES_ApplyBgSet(int,unsigned);
 extern void BR_RES_Delete(char *p);
 extern void BR_GRAPHIC_Destroy(char *);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
@@ -71,7 +71,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     BR_RES_ApplyBgSet(p[1],1);
     BR_RES_Delete((char *)p[1]);
     BR_GRAPHIC_Destroy((char *)p[0]);
-    func_020315D4((struct S020315D4 *)sys);
+    func_020315D4((struct Proc *)sys);
     GFL_HEAP_DeleteChecked(0x5a);
     return 1;
 }

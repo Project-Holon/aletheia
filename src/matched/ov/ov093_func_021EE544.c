@@ -16,9 +16,9 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  */
 
 typedef unsigned char u8;
@@ -35,10 +35,10 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
 {
@@ -56,13 +56,13 @@ int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
         f = BMP_WIN_GetHeight(c->f08) + 2;
         id = BMP_WIN_GetBgLayer(c->f08);
         BG_SYS_SetTileEntry(id, 0, (u8)a, (u8)b, (u8)e, (u8)f, 0);
-        func_020409B4(id);
+        BG_SYS_PushTile(id);
         GFL_USE_PlaySeDefaultVolume(0x547);
         (*st)++;
         break;
     case 1:
-        func_02040618(3, 0, -0x90);
-        func_02040618(3, 3, 0);
+        BG_SYS_FillScrollArea(3, 0, -0x90);
+        BG_SYS_FillScrollArea(3, 3, 0);
         (*st)++;
         break;
     case 2:

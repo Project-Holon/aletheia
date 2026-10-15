@@ -1,5 +1,5 @@
 /*
- * function: func_02213078
+ * function: WIFIBATTLEMATCH_SYS_BuildSyncCommand
  * address: 0x02213078
  * packet: pkt_ov199_02213078
  * region: ov199
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *, int, unsigned int);
 extern const char d_02213D04[];
-void *func_02213078(void *unused, int heap, char *p)
+void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, int heap, char *p)
 {
     unsigned int *work = func_02030734(heap, 0x1c, 0, d_02213D04, 0x5dc);
     MI_CpuFill8(work, 0, 0x1c);

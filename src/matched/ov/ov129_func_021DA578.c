@@ -1,5 +1,5 @@
 /*
- * function: func_021DA578
+ * function: WF2DMAP_SCENE_DrawMessage
  * address: 0x021DA578
  * packet: pkt_ov129_021DA578
  * region: ov129
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
@@ -21,7 +21,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -45,10 +45,10 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_020409B4(u32);
-void func_021DA578(void *p,int a,void *b,u32 c)
+extern void BG_SYS_PushTile(u32);
+void WF2DMAP_SCENE_DrawMessage(void *p,int a,void *b,u32 c)
 {
-    void *ws=GF_FONT_Create_EC64(50);
+    void *ws=WORDSET_CreateDefault(50);
     void *bank=func_02045B38(0,2,25,50);
     void *msg=func_02045EC0(bank,a);
     void *out=STRBUF_Create(88,50);
@@ -61,5 +61,5 @@ void func_021DA578(void *p,int a,void *b,u32 c)
     MSGDATA_Delete(bank);
     WORDSET_DeleteStrbufED04(ws);
     BMP_WIN_TransferChars(p);
-    func_020409B4(4);
+    BG_SYS_PushTile(4);
 }

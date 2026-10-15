@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021E8844 0x021E8844 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  */
 #include "../include/Obj01762.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021E8844(const int *);
-int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *p) {return func_021E8844(*(int * *)&((struct Obj01762 *)p)->f18);}
+extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
+int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *p) {return WIFIBATTLEMATCH_UTIL_GetBusy(*(int * *)&((struct Obj01762 *)p)->f18);}

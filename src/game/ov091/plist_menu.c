@@ -41,7 +41,7 @@
  *   func_020490F4  0x020490F4  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
@@ -111,7 +111,7 @@
  *   PLIST_MESSAGE_CreateWordSet  0x021BB97C  thumb
  *   PLIST_MESSAGE_DestroyWordSet  0x021BB98C  thumb
  *   PLIST_MESSAGE_SetWordSetPokemon  0x021BB99C  thumb
- *   func_021BB9AC  0x021BB9AC  thumb
+ *   PLIST_MESSAGE_SetWordSetItem  0x021BB9AC  thumb
  *   PLIST_MESSAGE_SetWordSetMove  0x021BB9CC  thumb
  *   PLIST_MESSAGE_SetWordSetValue  0x021BB9DC  thumb
  *   PLIST_MESSAGE_SetWordSetNumber  0x021BB9EC  thumb
@@ -178,7 +178,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *a);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
@@ -245,7 +245,7 @@ void PLIST_MESSAGE_CloseWindow(PokelistWork *work, u32 *window);
 void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, u32 window);
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, u32 window);
 void PLIST_MESSAGE_SetWordSetPokemon(PokelistWork *work, u32 window, int slot, u32 value);
-void func_021BB9AC(PokelistWork *work, u32 window, int slot, int value);
+void PLIST_MESSAGE_SetWordSetItem(PokelistWork *work, u32 window, int slot, int value);
 void PLIST_MESSAGE_SetWordSetMove(PokelistWork *work, u32 window, int slot, int value);
 void PLIST_MESSAGE_SetWordSetValue(PokelistWork *work, u32 window, int slot, int value);
 void PLIST_MESSAGE_SetWordSetNumber(PokelistWork *work, u32 window, int slot, int value, unsigned char digits);
@@ -642,7 +642,7 @@ void PLIST_MENU_ShowItemUsedThenClose(PokelistWork *work)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
-    func_021BB9AC(work, work->messageWindow, 0, work->arg->itemId);
+    PLIST_MESSAGE_SetWordSetItem(work, work->messageWindow, 0, work->arg->itemId);
     POKELIST_ShowMessage(work, 0x51, 1, POKELIST_EndMessageToExit);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -651,7 +651,7 @@ void PLIST_MENU_ShowItemUsedThenContinue(PokelistWork *work)
 {
     work->arg->exitCode = 10;
     PLIST_MESSAGE_CreateWordSet(work, work->messageWindow);
-    func_021BB9AC(work, work->messageWindow, 0, work->arg->itemId);
+    PLIST_MESSAGE_SetWordSetItem(work, work->messageWindow, 0, work->arg->itemId);
     POKELIST_ShowMessage(work, 0x51, 1, POKELIST_CloseMessageToList);
     PLIST_MESSAGE_DestroyWordSet(work, work->messageWindow);
 }
@@ -803,7 +803,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             msg = func_02045EC0(work->msgBank, i + 0x95); y = i << 4;
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), 0, (s16)(i << 4), msg, work->fontMain, 0x440);
             STRBUF_Delete(msg);
-            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = GF_FONT_Create_EC64(work->heapId);
+            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
@@ -832,7 +832,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         BMP_FillRect(BMP_WIN_GetBmp(DESC), 0x50, 0, 0x20, 0x60, 15);
         for (i = 0; i < 6; i++) {
             delta = func_02017E1C((void *)work->selectedMon, gPlistStatParamIds[i], 0);
-            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = GF_FONT_Create_EC64(work->heapId);
+            msg = func_02045EC0(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = func_0201D304(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);

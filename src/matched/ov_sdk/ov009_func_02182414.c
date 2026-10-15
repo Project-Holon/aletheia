@@ -14,7 +14,7 @@
  * symbols:
  *   func_02181E28  0x02181e28  arm   ov009
  *   strchr         0x02094a28  arm
- *   g_020A61DC     0x020a61dc  data
+ *   gCtypeMap     0x020a61dc  data
  *   gGsXmlWhiteSpaceChars     0x021a3f14  data
  *
  * notes: DIFF, 7 words: original loads the first char into r3 and the pointer
@@ -42,11 +42,11 @@ typedef struct GSIXmlString {
 
 extern int func_02181E28(void *, char *, int, int *);
 extern char *strchr(const char *, int);
-extern const unsigned short g_020A61DC[];
+extern const unsigned short gCtypeMap[];
 extern char gGsXmlWhiteSpaceChars[];
 
-#define isalnum(c) (((c) < 0 || (c) >= 0x80) ? 0 : (g_020A61DC[c] & 0x9))
-#define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (g_020A61DC[c] & 0x8))
+#define isalnum(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x9))
+#define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x8))
 
 int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut)
 {

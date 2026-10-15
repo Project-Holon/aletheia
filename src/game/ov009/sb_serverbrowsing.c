@@ -35,7 +35,7 @@
  *   SBServerListConnectAndQuery  0x0219FFD4  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
  *   g_021A81DC  0x021A81DC  data
- *   g_021A7C90  0x021A7C90  data
+ *   gQr2RegKeys  0x021A7C90  data
  *   g_021A8218  0x021A8218  data
  *   inet_addr  0x0217ED38  arm  ov009
  *   SBSendMessageToServer  0x021A1620  arm  ov009
@@ -114,7 +114,7 @@ void ServerBrowserSortA(ServerBrowser *sb, int ascending, char *sortkey, int com
 unsigned int ServerBrowserGetMyPublicIPAddr(const ServerBrowser *browser);
 extern int gGsAvailabilityState;
 extern char g_021A81DC[];
-extern char *g_021A7C90[];
+extern char *gQr2RegKeys[];
 extern char g_021A8218[];
 
 
@@ -278,7 +278,7 @@ int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComp
     sb->disconnectFlag = disconnectOnComplete;
     sb->engine.numserverkeys = 0;
     for (i = 0; i < numBasicFields; i++) {
-        key = g_021A7C90[basicFields[i]];
+        key = gQr2RegKeys[basicFields[i]];
         keylen = strlen(key);
         if (listLen + keylen + 1 >= 256)
             break;

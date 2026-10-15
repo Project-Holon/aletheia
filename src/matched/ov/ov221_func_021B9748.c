@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021B9770 hardware DISPCNT sub masked read.
  * symbols:
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   CHIHOU_ZUKAN_AWARD_DeleteActor 0x021B9CCC thumb ov221
  *   CHIHOU_ZUKAN_AWARD_DeleteWindows 0x021B9AEC thumb ov221
  *   CHIHOU_ZUKAN_AWARD_Noop 0x021B9960 thumb ov221
@@ -27,7 +27,7 @@ struct Node; struct PrintSys;
 typedef enum { LAYER_FIRST=0,LAYER_LIMIT=1 } Layer;
 extern const unsigned d_021BA148[][11];
 typedef unsigned int   u32;
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void CHIHOU_ZUKAN_AWARD_DeleteActor(char *);
 extern void CHIHOU_ZUKAN_AWARD_DeleteWindows(char *);
 extern void CHIHOU_ZUKAN_AWARD_Noop(char *);
@@ -36,14 +36,14 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char *);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *);
+struct Proc;
+extern void func_020315D4(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p)
 {
     Layer i=LAYER_FIRST;
     do {
-        func_020403F4((unsigned char)d_021BA148[i][0]);
+        BG_SYS_FreeLayerBuf((unsigned char)d_021BA148[i][0]);
         i++;
     } while((unsigned)i<1);
     *(volatile unsigned short *)0x04001050=0;
@@ -56,7 +56,7 @@ int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p)
     PRINTSYS_QUE_Delete(((struct Obj02557 *)p)->f10);
     GF_FONT_Delete(((struct Obj02557 *)p)->fC);
     CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(*(char * *)&((struct Obj02557 *)p)->f8);
-    func_020315D4((struct S020315D4 *)owner);
+    func_020315D4((struct Proc *)owner);
     GFL_HEAP_DeleteChecked(0x83);
     return 1;
 }

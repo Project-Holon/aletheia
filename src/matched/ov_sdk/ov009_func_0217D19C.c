@@ -24,9 +24,9 @@
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   gsiDebugCallback  0x0217D188  arm  ov009
- *   g_021AD000     0x021AD000  data
- *   g_021AD008     0x021AD008  data
- *   g_021AD020     0x021AD020  data
+ *   gGsDebugState     0x021AD000  data
+ *   gGsDebugCriticalSection     0x021AD008  data
+ *   gGsDebugEnabled     0x021AD020  data
  */
 
 typedef char *va_list;
@@ -40,25 +40,25 @@ extern void gsiInitializeCriticalSection(void *mutex);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void gsiDebugCallback(int a, int b, int c, int d, int e);
-extern GSIDebugState g_021AD000;
-extern int g_021AD008[];
-extern unsigned char g_021AD020[][5];
+extern GSIDebugState gGsDebugState;
+extern int gGsDebugCriticalSection[];
+extern unsigned char gGsDebugEnabled[][5];
 
 void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args)
 {
     unsigned char enabled;
 
-    if (g_021AD000.initialized == 0) {
-        g_021AD000.initialized = 1;
-        gsiInitializeCriticalSection(g_021AD008);
+    if (gGsDebugState.initialized == 0) {
+        gGsDebugState.initialized = 1;
+        gsiInitializeCriticalSection(gGsDebugCriticalSection);
     }
-    gsiEnterCriticalSection(g_021AD008);
-    enabled = g_021AD020[cat][type];
+    gsiEnterCriticalSection(gGsDebugCriticalSection);
+    enabled = gGsDebugEnabled[cat][type];
     if (enabled & level) {
-        if (g_021AD000.callback != 0)
-            g_021AD000.callback(cat, type, level, fmt, args);
+        if (gGsDebugState.callback != 0)
+            gGsDebugState.callback(cat, type, level, fmt, args);
         else
             gsiDebugCallback(cat, type, level, (int)fmt, (int)args);
     }
-    gsiLeaveCriticalSection(g_021AD008);
+    gsiLeaveCriticalSection(gGsDebugCriticalSection);
 }

@@ -21,9 +21,9 @@ typedef unsigned int u32;
 typedef int s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_020355D8(u32 v);
-struct S020315D4;
+struct Proc;
 extern void FADE_SetSpeed(s32 a);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int PSEL_Exit(void *a, int unused1, int unused2, u8 *ctx)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD768
+ * function: BEACON_DETAIL_GRA_TimerCallback
  * address: 0x021BD768
  * packet: pkt_ov216_021BD768
  * region: ov216
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BD668 0x021BD668 thumb ov216
- *   func_021BD73C 0x021BD73C thumb ov216
+ *   BEACON_DETAIL_GRA_AddFadeTask 0x021BD668 thumb ov216
+ *   BEACON_DETAIL_GRA_UpdateTimer 0x021BD73C thumb ov216
  *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj03375.h"
 typedef unsigned char u8;
 struct TcblNode;
-extern void func_021BD668(char *owner, int direction, int *counter);
-extern int func_021BD73C(char *);
+extern void BEACON_DETAIL_GRA_AddFadeTask(char *owner, int direction, int *counter);
+extern int BEACON_DETAIL_GRA_UpdateTimer(char *);
 extern void TCBL_DeleteTask(struct TcblNode *);
-void func_021BD768(struct TcblNode *task, void *data)
+void BEACON_DETAIL_GRA_TimerCallback(struct TcblNode *task, void *data)
 {
     char *p = data;
     switch (((struct Obj03375 *)p)->f0) {
     case 0:
-        func_021BD668(((struct Obj03375 *)p)->f8, 0, (int *)(p + 4));
+        BEACON_DETAIL_GRA_AddFadeTask(((struct Obj03375 *)p)->f8, 0, (int *)(p + 4));
         ++((struct Obj03375 *)p)->f0;
         break;
     case 1:
@@ -31,8 +31,8 @@ void func_021BD768(struct TcblNode *task, void *data)
             ++((struct Obj03375 *)p)->f0;
         break;
     case 2:
-        if (func_021BD73C(p) == 0) {
-            func_021BD668(((struct Obj03375 *)p)->f8, 1, (int *)(p + 4));
+        if (BEACON_DETAIL_GRA_UpdateTimer(p) == 0) {
+            BEACON_DETAIL_GRA_AddFadeTask(((struct Obj03375 *)p)->f8, 1, (int *)(p + 4));
             ++((struct Obj03375 *)p)->f0;
         }
         break;

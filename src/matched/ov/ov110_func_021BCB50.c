@@ -21,7 +21,7 @@
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   APP_TASKMENU_WIN_ChangePalette 0x020282AC thumb
  *   PMSIV_MENU_UpdateEntryPalette 0x021BCD44 thumb ov110
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   PMS_INPUT_HasInitialSentence 0x021BF7C4 thumb ov110
  *   PMS_INPUT_GetInputMode 0x021BF6D8 thumb ov110
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -50,7 +50,7 @@ extern void *func_02045EC0(struct MsgBank *,u32);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void APP_TASKMENU_WIN_ChangePalette(struct T *,u16 *,u32,u32,u16);
 extern void PMSIV_MENU_UpdateEntryPalette(u8 *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern u32 PMS_INPUT_HasInitialSentence(u8 *);
 extern u32 PMS_INPUT_GetInputMode(u8 *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
@@ -70,7 +70,7 @@ void PMSIV_MENU_ShowEditEntries(Object *p)
         APP_TASKMENU_WIN_ChangePalette(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
     }
     PMSIV_MENU_UpdateEntryPalette((u8 *)p);
-    func_020409B4(0);
+    BG_SYS_PushTile(0);
     if(PMS_INPUT_HasInitialSentence(p->f04)==0 && PMS_INPUT_GetInputMode(p->f04)==2) {
         CLACT_SetActorDrawEnable(p->items[0],1);
         CLACT_SetActorDrawEnable(p->items[1],1);

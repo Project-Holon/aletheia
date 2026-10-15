@@ -26,17 +26,17 @@
  *   strncmp  0x020949F4  arm
  *   func_0218F1E0  0x0218F1E0  arm  ov009
  *   gpiSendBufferToPeer  0x02189A7C  arm  ov009
- *   g_021A4E50     0x021A4E50  data
- *   g_021A4E7C     0x021A4E7C  data
- *   g_021A4E98     0x021A4E98  data
- *   g_021A4EA0     0x021A4EA0  data
- *   g_021A4EA8     0x021A4EA8  data
- *   g_021A4EB0     0x021A4EB0  data
- *   g_021A4EB8     0x021A4EB8  data
- *   g_021A4EC0     0x021A4EC0  data
- *   g_021A4EC8     0x021A4EC8  data
- *   g_021A4EEC     0x021A4EEC  data
- *   g_021A4EF4     0x021A4EF4  data
+ *   gGpiPeerDebugSignature     0x021A4E50  data
+ *   gGpiPeerErrorConnecting     0x021A4E7C  data
+ *   gGpiPeerKeyAuth     0x021A4E98  data
+ *   gGpiPeerKeyPid     0x021A4EA0  data
+ *   gGpiPeerKeyNick     0x021A4EA8  data
+ *   gGpiPeerKeySig     0x021A4EB0  data
+ *   gGpiPeerKeyFinal     0x021A4EB8  data
+ *   gGpiPeerKeyANack     0x021A4EC0  data
+ *   gGpiPeerErrorBuddyAuth     0x021A4EC8  data
+ *   gGpiPeerKeyAAck     0x021A4EEC  data
+ *   gGpiPeerErrorParsing     0x021A4EF4  data
  */
 
 typedef struct GPIBuffer {
@@ -100,17 +100,17 @@ typedef struct GPIConnection {
     GPIPeer *peerList;               /* 0x5D8 */
 } GPIConnection;
 
-extern char g_021A4E50[];
-extern char g_021A4E7C[];
-extern char g_021A4E98[];
-extern char g_021A4EA0[];
-extern char g_021A4EA8[];
-extern char g_021A4EB0[];
-extern char g_021A4EB8[];
-extern char g_021A4EC0[];
-extern char g_021A4EC8[];
-extern char g_021A4EEC[];
-extern char g_021A4EF4[];
+extern char gGpiPeerDebugSignature[];
+extern char gGpiPeerErrorConnecting[];
+extern char gGpiPeerKeyAuth[];
+extern char gGpiPeerKeyPid[];
+extern char gGpiPeerKeyNick[];
+extern char gGpiPeerKeySig[];
+extern char gGpiPeerKeyFinal[];
+extern char gGpiPeerKeyANack[];
+extern char gGpiPeerErrorBuddyAuth[];
+extern char gGpiPeerKeyAAck[];
+extern char gGpiPeerErrorParsing[];
 
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern int gpiPeerStartConnect(void **connection, GPIPeer *peer);
@@ -150,7 +150,7 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
         break;
 
     case 0x66:
-        gsDebugFormat(1, (char *)3, 0x1F, g_021A4E50, peer->profile);
+        gsDebugFormat(1, (char *)3, 0x1F, gGpiPeerDebugSignature, peer->profile);
         {
             int __result__ = gpiPeerStartConnect(connection, peer);
             if (__result__ != 0)
@@ -165,18 +165,18 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
             int freePeerSig = 1;
 
             if (!func_0218FD9C(connection, peer->profile, &pProfile)) {
-                gpiSetErrorString((int *)connection, (int)g_021A4E7C);
+                gpiSetErrorString((int *)connection, (int)gGpiPeerErrorConnecting);
                 return 3;
             }
 
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4E98);
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EA0);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyAuth);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyPid);
             gpiAppendIntToBuffer((int *)connection, (int *)(&peer->outputBuffer), iconnection->profileid);
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EA8);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyNick);
             gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), iconnection->nick);
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB0);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeySig);
             gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), pProfile->peerSig);
-            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), g_021A4EB8);
+            gpiAppendStringToBuffer((int *)connection, (int *)(&peer->outputBuffer), gGpiPeerKeyFinal);
 
             for (pcurr = iconnection->peerList; pcurr; pcurr = pcurr->pnext) {
                 if (pcurr->profile == peer->profile && pcurr != peer && pcurr->state <= 0x67)
@@ -196,14 +196,14 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
 
     case 0x68:
         if (peer->inputBuffer.buffer)
-            str = strstr(peer->inputBuffer.buffer, g_021A4EB8);
+            str = strstr(peer->inputBuffer.buffer, gGpiPeerKeyFinal);
         if (str) {
             *str = 0;
             str = peer->inputBuffer.buffer;
-            if (!strncmp((const u8 *)str, (const u8 *)g_021A4EC0, 7)) {
+            if (!strncmp((const u8 *)str, (const u8 *)gGpiPeerKeyANack, 7)) {
                 peer->nackCount++;
                 if (peer->nackCount > 1) {
-                    gpiSetErrorString((int *)connection, (int)g_021A4EC8);
+                    gpiSetErrorString((int *)connection, (int)gGpiPeerErrorBuddyAuth);
                     return 3;
                 }
                 {
@@ -211,8 +211,8 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
                     if (__result__ != 0)
                         return __result__;
                 }
-            } else if (strncmp((const u8 *)str, (const u8 *)g_021A4EEC, 6)) {
-                gpiSetErrorString((int *)connection, (int)g_021A4EF4);
+            } else if (strncmp((const u8 *)str, (const u8 *)gGpiPeerKeyAAck, 6)) {
+                gpiSetErrorString((int *)connection, (int)gGpiPeerErrorParsing);
                 return 3;
             }
             peer->state = 0x69;

@@ -22,8 +22,8 @@
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 typedef unsigned int   u32;
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, int);
 struct Sub02007084Ctrl;
 struct Sub0200852CObj;
@@ -35,7 +35,7 @@ extern struct Sub02009210Obj *func_02009210(void *sys);
 struct Sub020071CCCtrl;
 extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
 
-int STARTMENU_MenuInit(struct Obj0203159C *a)
+int STARTMENU_MenuInit(struct Proc *a)
 {
     int *p;
     GFL_HEAP_CreateChildHeap(1, 0xb, 0x80000);

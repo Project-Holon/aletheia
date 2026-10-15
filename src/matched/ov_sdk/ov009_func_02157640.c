@@ -21,22 +21,22 @@
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_02157290  0x02157290  arm  ov009
- *   g_021A85E4  0x021A85E4  data
- *   g_021A86A4  0x021A86A4  data
- *   g_021A82FC  0x021A82FC  data
- *   g_021A8524  0x021A8524  data
- *   g_021A826C  0x021A826C  data
+ *   gCpsScavengerThread  0x021A85E4  data
+ *   gCpsTcpipThread  0x021A86A4  data
+ *   gCpsDackTimerAlarm  0x021A82FC  data
+ *   gCpsDackTimerThread  0x021A8524  data
+ *   gCpsNetVars  0x021A826C  data
  */
 
 #include "../include/G_021A85E4.h"
 #include "../include/G_021A86A4.h"
 #include "../include/G__OSThread.h"
 
-extern struct G_021A85E4 g_021A85E4;
-extern struct G_021A86A4 g_021A86A4;
-extern char g_021A82FC[];
-extern struct _OSThread g_021A8524;
-extern char g_021A826C[];
+extern struct G_021A85E4 gCpsScavengerThread;
+extern struct G_021A86A4 gCpsTcpipThread;
+extern char gCpsDackTimerAlarm[];
+extern struct _OSThread gCpsDackTimerThread;
+extern char gCpsNetVars[];
 extern int CPS_CalmDown(void);
 extern void OS_JoinThread(void *thread);
 extern void OS_DestroyThread(void *thread);
@@ -52,16 +52,16 @@ void CPS_Cleanup(void)
     unsigned long enable;
 
     CPS_CalmDown();
-    OS_JoinThread(((char *)&g_021A85E4));
-    OS_DestroyThread(((char *)&g_021A86A4));
-    OS_CancelAlarm(g_021A82FC);
+    OS_JoinThread(((char *)&gCpsScavengerThread));
+    OS_DestroyThread(((char *)&gCpsTcpipThread));
+    OS_CancelAlarm(gCpsDackTimerAlarm);
     enable = OS_DisableInterrupts();
-    if (!OS_IsThreadTerminated(((char *)&g_021A8524)))
-        OS_WakeupThreadDirect(((char *)&g_021A8524));
+    if (!OS_IsThreadTerminated(((char *)&gCpsDackTimerThread)))
+        OS_WakeupThreadDirect(((char *)&gCpsDackTimerThread));
     OS_RestoreInterrupts(enable);
-    OS_JoinThread(((char *)&g_021A8524));
-    *(unsigned long *)(g_021A826C + 0x54) = 0;
+    OS_JoinThread(((char *)&gCpsDackTimerThread));
+    *(unsigned long *)(gCpsNetVars + 0x54) = 0;
     func_02157290(0);
-    *(unsigned long *)(g_021A826C + 0x20) = 0;
-    *(unsigned long *)(g_021A826C + 0x5c) = 0;
+    *(unsigned long *)(gCpsNetVars + 0x20) = 0;
+    *(unsigned long *)(gCpsNetVars + 0x5c) = 0;
 }

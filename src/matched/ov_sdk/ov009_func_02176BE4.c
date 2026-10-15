@@ -12,13 +12,13 @@
  * Set while the word at +4 of the state object is under 0x6000.
  *
  * symbols:
- *   g_021AB178  0x021AB178  data
+ *   gDwcReliableQueue  0x021AB178  data
  */
 
-extern char g_021AB178[];
+extern char gDwcReliableQueue[];
 
 int DWCi_IsReliableQueueFree(void)
 {
-    return *(int *)(g_021AB178 + 4) < 0x6000;
+    return *(int *)(gDwcReliableQueue + 4) < 0x6000;
 }
 

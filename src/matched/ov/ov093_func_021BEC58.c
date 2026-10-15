@@ -18,7 +18,7 @@
  *   BTL_SERVER_FLOW_ProcMoveExecuteChecks 0x021BFC08 thumb ov093
  *   func_021BEFEC 0x021BEFEC thumb ov093
  *   func_021BEFFC 0x021BEFFC thumb ov093
- *   func_021BF00C 0x021BF00C thumb ov093
+ *   INTRO_CMD_AddCommand 0x021BF00C thumb ov093
  *   func_021BF01C 0x021BF01C thumb ov093
  *   func_021BF02C 0x021BF02C thumb ov093
  *   WIFICLUB_IsNetStateConnected 0x021BF03C thumb ov093
@@ -84,7 +84,7 @@ extern void BTL_SERVER_FLOW_RecordSpecialMoveUse(u8 *p, u8 *a, int c);
 extern int BTL_SERVER_FLOW_ProcMoveExecuteChecks(u8 *, u8 *, u8 *, u16);
 extern void func_021BEFEC(void *);
 extern void func_021BEFFC(struct S *);
-extern int func_021BF00C(struct S *);
+extern int INTRO_CMD_AddCommand(struct S *);
 extern int func_021BF01C(struct S *);
 extern int func_021BF02C(struct S *);
 extern void WIFICLUB_IsNetStateConnected(struct O *);
@@ -167,7 +167,7 @@ int BTL_SERVER_FLOW_ProcMoveExecute(u8 *p, u8 *a, u16 key, u8 *d)
     func_021BEFFC((struct S *)d);
     BTL_SERVER_FLOW_RemoveOutOfRangeTargets(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d);
     BTL_SERVER_FLOW_RemoveSelfTarget((int)p, a, (int)d, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, execute);
-    if (func_021BF00C((struct S *)d)) {
+    if (INTRO_CMD_AddCommand((struct S *)d)) {
         if (((struct Bits78A *)(p + 0x78a))->skip == 0) BTL_SERVER_FLOW_PushMsgStdFailed(p, a, key);
         active = 0;
     }

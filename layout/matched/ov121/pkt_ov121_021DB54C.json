@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB54C",
+   "name": "MYSTERY_ALBUM_SetupSlot",
    "address": "0x021DB54C",
    "kind": "game",
    "region": "ov121",

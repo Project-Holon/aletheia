@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020403F4  0x020403F4  arm  arm9
+ *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   FIELD_MSGBG_SetupSysFrameBg  0x02192EE0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -28,7 +28,7 @@ typedef struct W {
     u8  f170;
 } W;
 
-extern void func_020403F4(u32 a);
+extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void FIELD_MSGBG_SetupSysFrameBg(int a);
 
 void FIELD_MSGBG_SetupSysFrame(W *w)
@@ -36,7 +36,7 @@ void FIELD_MSGBG_SetupSysFrame(W *w)
     if (w->f170 != 0) {
         w->f170 = 0;
         if (w->f04 == 0xFF) {
-            func_020403F4(2);
+            BG_SYS_FreeLayerBuf(2);
             FIELD_MSGBG_SetupSysFrameBg(1);
             w->f04 = 2;
         } else {

@@ -11,7 +11,7 @@
  * symbols:
  *   BR_CODEIN_SearchDeleteList 0x021DF388 thumb ov183
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_RES_ReleaseSprite 0x021FC0C8 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void BR_CODEIN_SearchDeleteList(char *p);
 extern void BR_UTIL_Delete(u8 *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
@@ -37,8 +37,8 @@ void BR_CODEIN_StatTeardown(void *a, int b, char *p)
     ((struct Obj02894 *)p)->fC = 0;
     BR_UTIL_Delete(((struct Obj02894 *)p)->f8);
     ((struct Obj02894 *)p)->f8 = 0;
-    func_020409B4(4);
-    func_020409B4(1);
+    BG_SYS_PushTile(4);
+    BG_SYS_PushTile(1);
     BR_BTN_DeleteObject(((struct Obj02894 *)p)->f4);
     ((struct Obj02894 *)p)->f4 = 0;
     BR_RES_ReleaseSprite(((struct Obj24599 *)(*(char * *)&((struct Obj02894 *)p)->f108))->f10, 6);

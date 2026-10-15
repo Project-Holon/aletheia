@@ -17,7 +17,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   file_0220BC38 0x0220BC38 data a1
  *   func_02049B40 0x02049B40 arm
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMonName 0x0201EE84 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -139,7 +139,7 @@ typedef struct {
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,int);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void WORDSET_SetSlotMonName(struct WordSet *,u32,void *);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
@@ -234,7 +234,7 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u
     p->mode=2;
     p->counter=0;
     func_02049B40(0x17,5,0,0x120,32,p->heapId);
-    ws=GF_FONT_Create_EC64(p->heapId);
+    ws=WORDSET_CreateDefault(p->heapId);
     WORDSET_SetSlotMonName(ws,0,p->titleStr);
     bank=func_02045B38(0,2,0xea,p->heapId);
     str=func_02045EC0(bank,0xaf);
@@ -315,7 +315,7 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
             BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&p->bmpWin),15);
             PRINTSYS_PrintStreamDelete(p->printStream);
             STRBUF_Delete(*(struct U16Vec * *)&p->strbuf);
-            ws=GF_FONT_Create_EC64(p->heapId);
+            ws=WORDSET_CreateDefault(p->heapId);
             WORDSET_SetSlotMonSpecies(ws,0,p->titleStr);
             WORDSET_SetSlotBoxName(ws,1,p->textId,p->textParam);
             p->strbuf=STRBUF_Create(64,p->heapId);

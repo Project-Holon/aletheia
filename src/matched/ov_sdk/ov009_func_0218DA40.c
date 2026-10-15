@@ -21,11 +21,11 @@
  *   gpiSetErrorString  0x02193734  arm   ov009
  *   strcat  0x020948B0  arm
  *   B64Encode  0x0217FA90  arm   ov009
- *   g_021A4DB8     0x021A4DB8  data
- *   g_021A4DC4     0x021A4DC4  data
- *   g_021A4D80     0x021A4D80  data
- *   g_021A4DF0     0x021A4DF0  data
- *   g_021A4DF4     0x021A4DF4  data
+ *   gGpiKeysHeaderFmt     0x021A4DB8  data
+ *   gGpiKeysDebugSaveOom     0x021A4DC4  data
+ *   gGpiKeysErrorOutOfMemory     0x021A4D80  data
+ *   gGpiKeysStringFmt     0x021A4DF0  data
+ *   gGpiKeysBackslash     0x021A4DF4  data
  *
  * strcat (strcat, arm9) attests as matched through unit_02094860, whose
  * functions list names strcat since 2026-09-29 (w4_nm).
@@ -53,11 +53,11 @@ extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...)
 extern void gpiSetErrorString(int *p, int b);
 extern u8 *strcat(u8 *dest, const u8 *src);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-extern char g_021A4DB8[];
-extern char g_021A4DC4[];
-extern char g_021A4D80[];
-extern char g_021A4DF0[];
-extern char g_021A4DF4[];
+extern char gGpiKeysHeaderFmt[];
+extern char gGpiKeysDebugSaveOom[];
+extern char gGpiKeysErrorOutOfMemory[];
+extern char gGpiKeysStringFmt[];
+extern char gGpiKeysBackslash[];
 
 static inline int B64LEN(char *s)
 {
@@ -90,7 +90,7 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
     char keysHeader[64];
 
     aLength = ArrayLength(iconnection->extendedInfoKeys);
-    OS_SPrintf(keysHeader, g_021A4DB8, aLength);
+    OS_SPrintf(keysHeader, gGpiKeysHeaderFmt, aLength);
 
     for (i = 0; i < aLength; i++) {
         GPIKey *aKey = (GPIKey *)func_02184208(iconnection->extendedInfoKeys, i);
@@ -101,21 +101,21 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
 
     *buffer = (char *)gsimalloc((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
-        gsDebugFormat(1, (char *)2, 1, g_021A4DC4);
-        gpiSetErrorString((int *)connection, (int)g_021A4D80);
+        gsDebugFormat(1, (char *)2, 1, gGpiKeysDebugSaveOom);
+        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorOutOfMemory);
         return 1;
     }
 
-    bytesWritten = OS_SPrintf(*buffer, g_021A4DF0, keysHeader);
+    bytesWritten = OS_SPrintf(*buffer, gGpiKeysStringFmt, keysHeader);
     tempPoint = *buffer + bytesWritten;
 
     for (i = 0; i < aLength; i++) {
         GPIKey *aKey = (GPIKey *)func_02184208(iconnection->extendedInfoKeys, i);
-        strcat((u8 *)tempPoint, (const u8 *)g_021A4DF4);
+        strcat((u8 *)tempPoint, (const u8 *)gGpiKeysBackslash);
         tempPoint++;
         B64ENC(aKey->keyName, tempPoint);
         B64ADV(&tempPoint, aKey->keyName);
-        strcat((u8 *)tempPoint, (const u8 *)g_021A4DF4);
+        strcat((u8 *)tempPoint, (const u8 *)gGpiKeysBackslash);
         tempPoint++;
         B64ENC(aKey->keyValue, tempPoint);
         B64ADV(&tempPoint, aKey->keyValue);

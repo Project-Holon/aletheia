@@ -24,8 +24,8 @@ extern void BR_CODEIN_SaveDeleteTextWin(char *,char *);
 extern void BR_CODEIN_SaveTeardown(char *,char *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BR_UTIL_DeleteTask(void *p);
-struct S020315D4;
-extern void func_020315D4(struct S020315D4 *p);
+struct Proc;
+extern void func_020315D4(struct Proc *p);
 int BR_CODEIN_SaveDestroy(int obj,int b,char *arg,char *p)
 {
     int i;
@@ -34,6 +34,6 @@ int BR_CODEIN_SaveDestroy(int obj,int b,char *arg,char *p)
     else { BR_CODEIN_SaveDeleteTextWin(p,arg); BR_CODEIN_SaveTeardown(p,arg); }
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj10757 *)p)->f0));
     BR_UTIL_DeleteTask((void *)(((struct Obj10757 *)p)->f8));
-    func_020315D4((struct S020315D4 *)obj);
+    func_020315D4((struct Proc *)obj);
     return 1;
 }

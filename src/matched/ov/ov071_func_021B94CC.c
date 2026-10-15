@@ -16,8 +16,8 @@
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MONOLITH_TOOL_LIST_FreeEntryBitmaps  0x021B9A18  thumb  ov071
- *   func_021B71FC  0x021B71FC  thumb  ov071
- *   func_021B718C  0x021B718C  thumb  ov071
+ *   MONOLITH_TOOL_CloseTaskMenu  0x021B71FC  thumb  ov071
+ *   MONOLITH_TOOL_DeleteTaskMenuRes  0x021B718C  thumb  ov071
  *   MONOLITH_TOOL_DeleteBackButton  0x021B9BA0  thumb  ov071
  *   MONOLITH_TOOL_DeleteRowGrids  0x021B9B3C  thumb  ov071
  *   MONOLITH_TOOL_DeleteMarker  0x021B9BC8  thumb  ov071
@@ -38,7 +38,7 @@ struct Node;
 struct PrintSys;
 struct Rec;
 struct Rec3;
-struct S020315D4;
+struct Proc;
 struct U16Vec;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
@@ -46,8 +46,8 @@ extern void func_02030EAC(struct Node *n);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MONOLITH_TOOL_LIST_FreeEntryBitmaps(char *p);
-extern void func_021B71FC(void *a);
-extern void func_021B718C(void *a);
+extern void MONOLITH_TOOL_CloseTaskMenu(void *a);
+extern void MONOLITH_TOOL_DeleteTaskMenuRes(void *a);
 extern void MONOLITH_TOOL_DeleteBackButton(void *a);
 extern void MONOLITH_TOOL_DeleteRowGrids(char *p);
 extern void MONOLITH_TOOL_DeleteMarker(char *p);
@@ -56,7 +56,7 @@ extern void MONOLITH_TOOL_LIST_FreeBgChar(unsigned int *p);
 extern void MONOLITH_TOOL_LIST_FreeWindows(char *p);
 extern void MONOLITH_TOOL_LIST_FreeBackgrounds(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 int MONOLITH_TOOL_LIST_Exit(void *a, void *b, char *c, char *d)
 {
@@ -70,8 +70,8 @@ int MONOLITH_TOOL_LIST_Exit(void *a, void *b, char *c, char *d)
         STRBUF_Delete(((struct Obj03177 *)d)->f290);
     MONOLITH_TOOL_LIST_FreeEntryBitmaps(d);
     if (((struct Obj03177 *)d)->f310 != 0)
-        func_021B71FC(((struct Obj03177 *)d)->f310);
-    func_021B718C(((struct Obj03177 *)d)->f30C);
+        MONOLITH_TOOL_CloseTaskMenu(((struct Obj03177 *)d)->f310);
+    MONOLITH_TOOL_DeleteTaskMenuRes(((struct Obj03177 *)d)->f30C);
     MONOLITH_TOOL_DeleteBackButton(d);
     MONOLITH_TOOL_DeleteRowGrids(d);
     MONOLITH_TOOL_DeleteMarker(d);

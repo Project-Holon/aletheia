@@ -1,17 +1,19 @@
 count/bytes of uncovered pieces per region and class
 region                        pad       veneer         leaf         func         frag         data   src fns  code range
-arm9                            -       10/104     271/4144      70/4144            -      28/2434      6460  0x02004000-0x0209D86C
+arm9                            -       10/104     273/4200      70/4144            -      28/2434      6458  0x02004000-0x0209D86C
 arm9_autoload0_ITCM          1/32            -            -            -            -            -        11  0x01FF8000-0x01FF8804
 twl                             -            -            -            -        2/112     1/159028       341  0x02700000-0x02732D54
 ov010                           -            -            -         2/56            -            -      1734  0x02155160-0x0216FED8
 ov011                           -            -         2/52        2/176            -            -       222  0x02172BC0-0x021768C4
 ov016                           -            -         3/28        4/116            -            -       653  0x021B6100-0x021D77A8
 ov021                           -            -       15/176      16/1328            -            -      4348  0x02187F00-0x021D3594
+ov032                           -            -          1/8            -            -            -       134  0x021EFEC0-0x021F352C
 ov048                           -            -            -         1/28            -            -        68  0x021F36C0-0x021F4E5C
 ov051                           -            -            -         2/68            -            -        21  0x021F36C0-0x021F3DB4
 ov055                           -            -         1/16            -            -            -        34  0x021F39C0-0x021F45C0
 ov068                           -            -         5/52            -            -            -        84  0x021B95A0-0x021BB538
-ov091                           -            -         4/84       10/728            -            -       192  0x021B6240-0x021BEA78
+ov071                           -            -         5/52            -            -            -       177  0x021B6100-0x021BA758
+ov091                           -            -        5/100       10/728            -            -       191  0x021B6240-0x021BEA78
 ov093                           -     386/6176       10/124       11/624            -            -      3248  0x021B6100-0x021EFCF0
 ov095                           -     520/8256            -            -            -            -       234  0x06898020-0x0689D608
 ov098                           -            -            -         1/60            -            -        38  0x021B6100-0x021B6D70
@@ -22,15 +24,16 @@ ov125                           -            -         2/24            -        
 ov172                           -       58/464            -            -            -            -       299  0x021B6100-0x021C4D00
 ov175                           -            -         1/12            -            -            -       370  0x021D4240-0x021E2C30
 ov208                           -            -            -        2/112            -            -       365  0x021BC240-0x021C80E0
+ov223                           -            -         1/16            -            -            -       116  0x021B95A0-0x021BC6FC
 ov230                           -       18/648          1/4      10/1492            -      24/4224         4  0x02187F00-0x02189958
-TOTAL                        1/32    992/15648     320/4776     132/8984        2/112    53/165686
+TOTAL                        1/32    992/15648     330/4924     132/8984        2/112    53/165686
 
 by kind (hidden = no listing label, labeled = starts at a listing function label)
 hidden                       1/32            -       33/404            -        2/112    53/165686
-labeled                         -    992/15648     287/4372     132/8984            -            -
+labeled                         -    992/15648     297/4520     132/8984            -            -
 
-code pieces (leaf+func+frag): 454, 13872 bytes: strong 447, weak 7; hidden 35, labeled 419
-code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 206, 7588 bytes
+code pieces (leaf+func+frag): 464, 14020 bytes: strong 457, weak 7; hidden 35, labeled 429
+code pieces whose start is a matched (EXACT/EXACT*) function in layout/matched but is not defined in src/game: 209, 7620 bytes
 code pieces of 100 bytes or more: 28
   ov230 0x021896D0   392 func  labeled 
   ov230 0x021895B8   280 func  labeled 
@@ -48,7 +51,7 @@ code pieces of 100 bytes or more: 28
   ov230 0x02188BD0   144 func  labeled 
   ov230 0x0218949C   140 func  labeled 
 
-src/game functions: 34609 defined; extent from listing trace 34227, from decode only 382, grown by decode 3, untraceable (covered to the next label) 0
+src/game functions: 34599 defined; extent from listing trace 34217, from decode only 382, grown by decode 3, untraceable (covered to the next label) 0
 header function: entries with no definition in the .c files and no SDK/runtime shard: 8
-definitions whose name resolves to no address (helpers, ignored): 1624
+definitions whose name resolves to no address (helpers, ignored): 1634
 rows with a draft under --drafts: 0

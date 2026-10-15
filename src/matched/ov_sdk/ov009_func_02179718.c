@@ -16,11 +16,11 @@
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_CreateThread        0x020853C0  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   g_021ACE58             0x021ACE58  data
+ *   gDwcHttpFlag             0x021ACE58  data
  *   DWCi_Http_Thread          0x021799E8  arm  ov009
  */
 
-extern int g_021ACE58;
+extern int gDwcHttpFlag;
 extern void OS_InitMutex(void *mutex);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
@@ -33,9 +33,9 @@ void DWC_Http_StartThread(char *http, unsigned long prio)
     OS_InitMutex(http + 0x1c34);
     OS_InitMutex(http + 0x1a54);
     if (*(int *)(http + 0x1018) == 1) {
-        g_021ACE58 = 1;
+        gDwcHttpFlag = 1;
     } else {
-        g_021ACE58 = 0;
+        gDwcHttpFlag = 0;
     }
     if (*(int *)(http + 0x1be0) != 0 && !OS_IsThreadTerminated(http + 0x1b74)) {
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBEC
+ * function: INTRO_CMD_CreateActors
  * address: 0x021BEBEC
  * packet: pkt_ov204_021BEBEC
  * region: ov204
@@ -15,17 +15,17 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021BDD78 0x021BDD78 thumb ov204
+ *   INTRO_GRAPHIC_GetClactOwner 0x021BDD78 thumb ov204
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   init 0x021BFFCC data a2
+ *   gIntroActorPos 0x021BFFCC data a2
  */
 #include "../include/Obj00550.h"
 #include "../include/Obj06672.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 v[12];} Init;
-extern const Init init;
+extern const Init gIntroActorPos;
 extern void *func_020490F4(u32 id, u32 heap);
 typedef unsigned char  u8;
 struct Obj;
@@ -36,10 +36,10 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern unsigned func_021BDD78(char *p);
+extern unsigned INTRO_GRAPHIC_GetClactOwner(char *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-int func_021BEBEC(char *p)
+int INTRO_CMD_CreateActors(char *p)
 {
     Init local;
     void *arc;
@@ -62,10 +62,10 @@ int func_021BEBEC(char *p)
     ((struct Obj00550 *)p)->f10C8=(void *)CLACT_RegisterPalette(arc,22,0,64,((struct Obj00550 *)p)->f0);
     ((struct Obj00550 *)p)->f10D4=(void *)CLACT_RegisterCellAnim(arc,20,19,((struct Obj00550 *)p)->f0);
     ARC_TOOL_DeleteHandle(arc);
-    local=init;
+    local=gIntroActorPos;
     for(i=0;i<3;i++){
         row=p+i*4;
-        ((struct Obj06672 *)row)->f10A8=CLACT_CreateActor((void *)func_021BDD78(((struct Obj00550 *)p)->f14),(unsigned int)((struct Obj06672 *)row)->f10B4,(unsigned int)((struct Obj06672 *)row)->f10C0,(unsigned int)((struct Obj06672 *)row)->f10CC,(char *)&local+i*8,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj06672 *)row)->f10A8=CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner(((struct Obj00550 *)p)->f14),(unsigned int)((struct Obj06672 *)row)->f10B4,(unsigned int)((struct Obj06672 *)row)->f10C0,(unsigned int)((struct Obj06672 *)row)->f10CC,(char *)&local+i*8,0,((struct Obj00550 *)p)->f0);
         CLACT_SetActorDrawEnable(((struct Obj06672 *)row)->f10A8,0);
     }
     return 1;

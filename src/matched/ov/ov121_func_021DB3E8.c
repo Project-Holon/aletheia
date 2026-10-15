@@ -1,5 +1,5 @@
 /*
- * function: func_021DB3E8
+ * function: MYSTERY_ALBUM_Cleanup
  * address: 0x021DB3E8
  * packet: pkt_ov121_021DB3E8
  * region: ov121
@@ -14,7 +14,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   func_021D9A40 0x021D9A40 thumb ov121
+ *   MYSTERY_UTIL_DeleteWindow 0x021D9A40 thumb ov121
  */
 #include "../include/Obj01058.h"
 typedef unsigned int   u32;
@@ -27,8 +27,8 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void func_021D9A40(u8 *p);
-void func_021DB3E8(char *p)
+extern void MYSTERY_UTIL_DeleteWindow(u8 *p);
+void MYSTERY_ALBUM_Cleanup(char *p)
 {
     int i;
     BG_SYS_SetTileUnit(2,1,0);
@@ -39,7 +39,7 @@ void func_021DB3E8(char *p)
     CLACT_ReleaseCharacter((u32)(((struct Obj01058 *)p)->fAFC));
     CLACT_ReleaseCellAnim((u32)(((struct Obj01058 *)p)->fB00));
     CLACT_ReleasePalette((u32)(((struct Obj01058 *)p)->fB04));
-    func_021D9A40(((struct Obj01058 *)p)->fAB4);
+    MYSTERY_UTIL_DeleteWindow(((struct Obj01058 *)p)->fAB4);
     ((struct Obj01058 *)p)->fAB4=0;
     CLACT_ReleasePalette((u32)(((struct Obj01058 *)p)->fBA8));
     for(i=0;i<8;i++) BMP_WIN_Delete(*(void **)(p+0xb08+i*4));

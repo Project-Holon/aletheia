@@ -1,5 +1,5 @@
 /*
- * function: func_0217E258
+ * function: LIVEBATTLEMATCH_IRC_SendSaveData
  * address: 0x0217E258
  * packet: pkt_ov176_0217E258
  * region: ov176
@@ -20,7 +20,7 @@ struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-int func_0217E258(int unused, int arg)
+int LIVEBATTLEMATCH_IRC_SendSaveData(int unused, int arg)
 {
     int flag;
     int obj;

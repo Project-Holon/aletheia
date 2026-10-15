@@ -18,7 +18,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  */
 #include "../include/Obj07523.h"
 
@@ -40,7 +40,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_TransferChars(struct Descriptor *a);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 
 void SCRCMD_PROC_FLD_PrintItemDescription(char *w, u32 b)
 {
@@ -58,5 +58,5 @@ void SCRCMD_PROC_FLD_PrintItemDescription(char *w, u32 b)
     bg = ((struct Obj07523 *)w)->f178;
     BMP_WIN_TransferChars((struct Descriptor *)bg);
     BMP_WIN_MakeScreen((struct Cfg *)bg);
-    func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)bg));
 }

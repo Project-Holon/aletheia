@@ -14,14 +14,14 @@
  *   `adds r1,r0,r1` join. A base-only inline plus `+ offset` at the call site,
  *   or a ternary on the base, if-converts to a default load plus override and
  *   misschedules the q+0xb0/q+0x98 loads (431 B). The heap stays u16 as in
- *   matched ov121 func_021DBF10 and matched caller MYSTERY_ALBUM_SetupTask: the earlier
+ *   matched ov121 MYSTERY_ALBUM_CreateEntryArc and matched caller MYSTERY_ALBUM_SetupTask: the earlier
  *   u32-heap owner gate does not apply.
  * symbols:
- *   func_021DBF10 0x021DBF10 thumb ov121
- *   func_021DBF40 0x021DBF40 thumb ov121
- *   func_021DBF9C 0x021DBF9C thumb ov121
- *   func_021DBF70 0x021DBF70 thumb ov121
- *   func_021DC024 0x021DC024 thumb ov121
+ *   MYSTERY_ALBUM_CreateEntryArc 0x021DBF10 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryArcId 0x021DBF40 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryGraphicIndex 0x021DBF9C thumb ov121
+ *   MYSTERY_ALBUM_GetEntryIconPalette 0x021DBF70 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
@@ -42,11 +42,11 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y;} Point;
-extern void *func_021DBF10(void *,u16);
-extern u32 func_021DBF40(void *);
-extern int func_021DBF9C(void *);
-extern u32 func_021DBF70(void *);
-extern int func_021DC024(void *);
+extern void *MYSTERY_ALBUM_CreateEntryArc(void *,u16);
+extern u32 MYSTERY_ALBUM_GetEntryArcId(void *);
+extern int MYSTERY_ALBUM_GetEntryGraphicIndex(void *);
+extern u32 MYSTERY_ALBUM_GetEntryIconPalette(void *);
+extern int MYSTERY_ALBUM_GetEntryKind(void *);
 struct Obj;
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *,void *,int);
@@ -80,21 +80,21 @@ void MYSTERY_ALBUM_SetupIcons(char *p,char *q,u16 heap)
     u16 *dest;
     u32 offset;
     int i;
-    arc=func_021DBF10(p,heap);
-    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)func_021DBF40(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
+    arc=MYSTERY_ALBUM_CreateEntryArc(p,heap);
+    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryArcId(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
     offset=*(u32 *)(q+0xb0)*32;
     MI_CpuCopy8(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
     func_020307B0(allocation);
-    allocation2=ARC_UTIL_LoadScreenDataFromHandle(arc,(int)func_021DBF9C(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
+    allocation2=ARC_UTIL_LoadScreenDataFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryGraphicIndex(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
     CLACT_TransferCharacterPart(*(int *)(q+8),*(void **)((char *)res2+20),512,0,*(int *)(q+0x98));
     func_020307B0(allocation2);
     ARC_TOOL_DeleteHandle(arc);
     pt.x=216; pt.y=22;
-    if (func_021DC024(p)==2) {pt.x+=4;pt.y+=8;}
-    CLACT_SetActorPaletteOffset(*(void **)(q+28),(u8)func_021DBF70(p),0);
+    if (MYSTERY_ALBUM_GetEntryKind(p)==2) {pt.x+=4;pt.y+=8;}
+    CLACT_SetActorPaletteOffset(*(void **)(q+28),(u8)MYSTERY_ALBUM_GetEntryIconPalette(p),0);
     CLACT_AddActorSurfacePos(*(void **)(q+28),&pt,*(u32 *)(q+0x98));
     CLACT_SetActorDrawEnable(*(void **)(q+28),1);
-    if (func_021DC024(p)==1) {
+    if (MYSTERY_ALBUM_GetEntryKind(p)==1) {
         CLACT_TransferPalette(*(u32 *)(q+16),*(void **)(*(char **)(p+0x140)+12),1);
         MI_CpuCopy8(*(void **)(*(char **)(p+0x140)+12),q+0x64,32);
         MIi_CpuClear16(0,q+0x44,32);

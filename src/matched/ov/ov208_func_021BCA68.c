@@ -39,8 +39,8 @@ struct Ov208Main {
     int f20; int f24; int f28;
 };
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 heap, u32 size);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(u32 display, u32 heap, int threeD);
 extern void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p);

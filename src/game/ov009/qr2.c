@@ -85,7 +85,7 @@
  *   g_021A77D4             0x021A77D4  data
  *   g_021A7804             0x021A7804  data
  *   g_021A7830             0x021A7830  data
- *   g_021A7C90             0x021A7C90  data
+ *   gQr2RegKeys             0x021A7C90  data
  *   NNBeginNegotiationWithSocket 0x02199DFC  arm  ov009
  *   g_021A7858             0x021A7858  data
  *   gGsAvailabilityState             0x021ACEF8  data
@@ -243,7 +243,7 @@ extern char g_021A7798[];
 extern char g_021A77D4[];
 extern char g_021A7804[];
 extern char g_021A7830[];
-extern char *g_021A7C90[];
+extern char *gQr2RegKeys[];
 extern char g_021A7858[];
 extern int gGsAvailabilityState;
 extern char gGsAvailabilityGameName[];
@@ -805,7 +805,7 @@ void qr_build_partial_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf,
     if (keycount == 0xFF) {
         qrec->key_list_callback(keytype, &kb, qrec->udata);
         for (i = 0; i < kb.numkeys; i++) {
-            k = g_021A7C90[kb.keys[i]];
+            k = gQr2RegKeys[kb.keys[i]];
             if (k == 0)
                 k = g_021A76CC;
             qr2_buffer_addA(buf, k);
@@ -881,7 +881,7 @@ int qr_build_split_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf, QR
 
         while (progress->mCurKeyIndex < progress->mKeyBuffer.numkeys) {
             aRegisteredKeyIndex = progress->mKeyBuffer.keys[progress->mCurKeyIndex];
-            if (qr2_buffer_addA(buf, g_021A7C90[aRegisteredKeyIndex]) == 0)
+            if (qr2_buffer_addA(buf, gQr2RegKeys[aRegisteredKeyIndex]) == 0)
                 return 1;
             if (progress->mState == 0) {
                 qrec->server_key_callback(aRegisteredKeyIndex, buf, qrec->udata);

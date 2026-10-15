@@ -19,18 +19,18 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   WIFIBATTLEMATCH_GRAPHIC_Create 0x021E5440 thumb ov177
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera 0x021E5548 thumb ov177
- *   func_021E567C 0x021E567C thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_Create 0x021E567C thumb ov177
  *   WIFIBATTLEMATCH_NET_CopyBoxSave 0x021D6698 thumb ov175
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
  *   WORDSET_Create 0x0201EC74 thumb
  *   WIFIBATTLEMATCH_NET_CreateNetContext 0x021D9DC8 thumb ov175
- *   func_021E8568 0x021E8568 thumb ov177
- *   func_021E8A3C 0x021E8A3C thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_Create 0x021E8568 thumb ov177
+ *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  *   WIFIBATTLEMATCH_NET_TaskStepA 0x021D458C thumb ov175
- *   func_021E7D20 0x021E7D20 thumb ov177
- *   func_021E7E0C 0x021E7E0C thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_CreateActorArray 0x021E7D20 thumb ov177
+ *   WIFIBATTLEMATCH_VIEW_SetActorVisible 0x021E7E0C thumb ov177
  *   WIFIBATTLEMATCH_NET_IncBsubwayStat 0x021D6524 thumb ov175
  *   WIFIBATTLEMATCH_NET_SetupBoxAndWait 0x021D63C8 thumb ov175
  *   WIFIBATTLEMATCH_NET_RestartNet 0x021DD008 thumb ov175
@@ -40,12 +40,12 @@ typedef unsigned char u8;
 extern const char ov067_id[], ov114_id[];
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
 extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned, int);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
-extern u32 *func_021E567C(int unused, int mode, int heap);
+extern u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
 extern void WIFIBATTLEMATCH_NET_CopyBoxSave(u32 *, u32 *);
 struct GfFont;
 struct MsgBank;
@@ -56,11 +56,11 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, unsigned short heap);
 typedef unsigned short u16;
 extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap);
-extern void *func_021E8568(unsigned, unsigned, unsigned, unsigned, void *, void *, unsigned);
-extern int *func_021E8A3C(int, int, int);
+extern void *WIFIBATTLEMATCH_UTIL_Create(unsigned, unsigned, unsigned, unsigned, void *, void *, unsigned);
+extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int, int, int);
 extern void WIFIBATTLEMATCH_NET_TaskStepA(unsigned sys, int *state, int *p);
-extern void **func_021E7D20(void *, void *, unsigned);
-extern void func_021E7E0C(void **, int);
+extern void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *, void *, unsigned);
+extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **, int);
 extern void WIFIBATTLEMATCH_NET_IncBsubwayStat(int, int, u32);
 extern void WIFIBATTLEMATCH_NET_SetupBoxAndWait(char *, u32);
 extern void WIFIBATTLEMATCH_NET_RestartNet(char *, int);
@@ -74,18 +74,18 @@ int WIFIBATTLEMATCH_NET_TaskCreate(void *sys, int *state, u32 *ctx)
     MI_CpuFill8(p, 0, 0x100);
     p[16] = (u32)ctx;
     p[0] = (u32)WIFIBATTLEMATCH_GRAPHIC_Create(1, 87);
-    p[1] = (u32)func_021E567C(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), 2, 87);
+    p[1] = (u32)WIFIBATTLEMATCH_VIEW_Create(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), 2, 87);
     WIFIBATTLEMATCH_NET_CopyBoxSave((u32 *)ctx[5], p);
     p[2] = (u32)GF_FONT_Create(23, 0, 0, 0, 87);
     p[3] = PRINTSYS_QUE_Create((void *)87);
     p[4] = (u32)func_02045B38(0, 2, 210, 87);
     p[5] = (u32)WORDSET_Create(8, 64, 87);
     p[12] = (u32)WIFIBATTLEMATCH_NET_CreateNetContext(((u32 *)p[16])[15], (void *)(((u32 *)ctx[2])[0]), ctx[7], 87);
-    p[9] = (u32)func_021E8568(0, 15, 14, 10, (void *)p[3], (void *)p[2], 87);
-    p[13] = (u32)func_021E8A3C((int)p, (int)WIFIBATTLEMATCH_NET_TaskStepA, 87);
-    p[14] = (u32)func_021E8A3C((int)p, 0, 87);
-    p[8] = (u32)func_021E7D20((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), (void *)p[1], 87);
-    func_021E7E0C((void **)p[8], 0);
+    p[9] = (u32)WIFIBATTLEMATCH_UTIL_Create(0, 15, 14, 10, (void *)p[3], (void *)p[2], 87);
+    p[13] = (u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p, (int)WIFIBATTLEMATCH_NET_TaskStepA, 87);
+    p[14] = (u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p, 0, 87);
+    p[8] = (u32)WIFIBATTLEMATCH_VIEW_CreateActorArray((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), (void *)p[1], 87);
+    WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)p[8], 0);
     if (ctx[3] != 0) {
         if (ctx[0] == 0) {
             WIFIBATTLEMATCH_NET_SetupBoxAndWait((char *)p, 0);

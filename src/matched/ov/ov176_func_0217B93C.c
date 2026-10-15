@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E8738  0x021E8738  thumb  ov177
+ *   WIFIBATTLEMATCH_UTIL_PrintMessage  0x021E8738  thumb  ov177
  */
 #include "../include/Obj01762.h"
 
-extern void func_021E8738(int *p, int a, int b, int c);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 
 void BATTLE_CHAMPIONSHIP_FLOW_SetOption(int *p, int b)
 {
-    func_021E8738((int *)(*(int *)&((struct Obj01762 *)p)->f18), *(int *)&((struct Obj01762 *)p)->f20, b, 1);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(*(int *)&((struct Obj01762 *)p)->f18), *(int *)&((struct Obj01762 *)p)->f20, b, 1);
 }

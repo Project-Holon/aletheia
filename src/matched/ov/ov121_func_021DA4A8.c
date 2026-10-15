@@ -1,5 +1,5 @@
 /*
- * function: func_021DA4A8
+ * function: MYSTERY_UTIL_CopyBmpList
  * address: 0x021DA4A8
  * packet: pkt_ov121_021DA4A8
  * region: ov121
@@ -20,4 +20,4 @@ struct Bmp;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
-void func_021DA4A8(u8 *p) { u32 i; for(i=0;i<((struct Obj22889 *)(*(u8 * *)&((struct Obj13954 *)p)->f4))->f4;i++) { void *out=*(void **)(p+8+i*4); BMP_CopyPixels(out,BMP_WIN_GetBmp(*(void **)(*(u8 **)(*(u8 * *)&((struct Obj13954 *)p)->f4+16+i*4)+12))); } }
+void MYSTERY_UTIL_CopyBmpList(u8 *p) { u32 i; for(i=0;i<((struct Obj22889 *)(*(u8 * *)&((struct Obj13954 *)p)->f4))->f4;i++) { void *out=*(void **)(p+8+i*4); BMP_CopyPixels(out,BMP_WIN_GetBmp(*(void **)(*(u8 **)(*(u8 * *)&((struct Obj13954 *)p)->f4+16+i*4)+12))); } }

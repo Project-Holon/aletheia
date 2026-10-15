@@ -19,32 +19,32 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021B9C50 0x021B9C50 thumb ov225
- *   func_021B9C34 0x021B9C34 thumb ov225
- *   func_021B9C40 0x021B9C40 thumb ov225
- *   func_021B9BD4 0x021B9BD4 thumb ov225
- *   func_021B9C58 0x021B9C58 thumb ov225
- *   func_021B9C28 0x021B9C28 thumb ov225
- *   func_021BA65C 0x021BA65C thumb ov225
+ *   MANUAL_COMMON_GetGroupCount 0x021B9C50 thumb ov225
+ *   MANUAL_COMMON_GetGroupValue1 0x021B9C34 thumb ov225
+ *   MANUAL_COMMON_GetGroupValue2 0x021B9C40 thumb ov225
+ *   MANUAL_COMMON_GetEntryValue1 0x021B9BD4 thumb ov225
+ *   MANUAL_COMMON_CheckUnlocked 0x021B9C58 thumb ov225
+ *   MANUAL_COMMON_GetGroupValue0 0x021B9C28 thumb ov225
+ *   MANUAL_COMMON_CreateListWork 0x021BA65C thumb ov225
  *   gManualCategoryListAllocFile 0x021BC048 data a4
  *   func_02030EAC 0x02030EAC arm
- *   func_021BA740 0x021BA740 thumb ov225
+ *   MANUAL_COMMON_DeleteListWork 0x021BA740 thumb ov225
  *   func_020307B0 0x020307B0 arm
- *   func_021BA760 0x021BA760 thumb ov225
- *   func_021B9C20 0x021B9C20 thumb ov225
- *   func_021B9BE0 0x021B9BE0 thumb ov225
- *   func_021B9C98 0x021B9C98 thumb ov225
- *   func_021B9BC8 0x021B9BC8 thumb ov225
+ *   MANUAL_COMMON_UpdateListWork 0x021BA760 thumb ov225
+ *   MANUAL_COMMON_GetEntryCount 0x021B9C20 thumb ov225
+ *   MANUAL_COMMON_GetEntryValue2 0x021B9BE0 thumb ov225
+ *   MANUAL_COMMON_GetSaveValue 0x021B9C98 thumb ov225
+ *   MANUAL_COMMON_GetEntryValue0 0x021B9BC8 thumb ov225
  *   gManualCategoryDetailAllocFile 0x021BC05C data a1
  *   gManualCategoryOptionAllocFile 0x021BC06C data a1
- *   func_021BA068 0x021BA068 thumb ov225
- *   func_021BA0F0 0x021BA0F0 thumb ov225
- *   func_021B9CDC 0x021B9CDC thumb ov225
- *   func_021B9E80 0x021B9E80 thumb ov225
+ *   MANUAL_COMMON_SetTouchbarState 0x021BA068 thumb ov225
+ *   MANUAL_COMMON_SetTouchbarSelection 0x021BA0F0 thumb ov225
+ *   MANUAL_COMMON_GetDefaultId 0x021B9CDC thumb ov225
+ *   MANUAL_COMMON_SetScreenId 0x021B9E80 thumb ov225
  *   TCB_DeleteTask 0x02030EAC arm
- *   func_021B9FBC 0x021B9FBC thumb ov225
- *   func_021BA158 0x021BA158 thumb ov225
- *   func_021BA154 0x021BA154 thumb ov225
+ *   MANUAL_COMMON_UpdateTouchbar 0x021B9FBC thumb ov225
+ *   MANUAL_COMMON_GetTouchbarPressed 0x021BA158 thumb ov225
+ *   MANUAL_COMMON_GetTouchbarSelected 0x021BA154 thumb ov225
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
@@ -80,7 +80,7 @@ typedef unsigned char u8;
 
 typedef short s16;
 
-/* The manual data object built by func_021B9D18 (was State_021B9B3C / Obj views). */
+/* The manual data object built by MANUAL_COMMON_CreateData (was State_021B9B3C / Obj views). */
 struct ManualData {
     void *owner;        /* 0x00 save/state object */
     u16 heap;           /* 0x04 */
@@ -166,29 +166,29 @@ typedef struct { u8 v[9]; } ManualSlotRecord;
 
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
-extern u16 func_021B9C50(const char *p);
-extern u16 func_021B9C34(char *,int);
-extern u16 func_021B9C40(char *,int,int);
-extern u16 func_021B9BD4(char *,int);
-extern int func_021B9C58(void *,int,void *);
-extern u16 func_021B9C28(char *,int);
-extern void *func_021BA65C(char *owner, struct ManualData *data);
+extern u16 MANUAL_COMMON_GetGroupCount(const char *p);
+extern u16 MANUAL_COMMON_GetGroupValue1(char *,int);
+extern u16 MANUAL_COMMON_GetGroupValue2(char *,int,int);
+extern u16 MANUAL_COMMON_GetEntryValue1(char *,int);
+extern int MANUAL_COMMON_CheckUnlocked(void *,int,void *);
+extern u16 MANUAL_COMMON_GetGroupValue0(char *,int);
+extern void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
 extern void func_02030EAC(struct Node *);
-extern void func_021BA740(char *);
+extern void MANUAL_COMMON_DeleteListWork(char *);
 extern u32 func_020307B0(void *p);
-extern int func_021BA760(char *p);
-extern u16 func_021B9C20(const char *p);
-extern u16 func_021B9BE0(char *, int);
-extern int func_021B9C98(void *, int, int);
-extern u16 func_021B9BC8(char *, int);
-extern void func_021BA068(char *, unsigned);
-extern void func_021BA0F0(char *, unsigned, unsigned);
-extern int func_021B9CDC(void *);
-extern void func_021B9E80(char *,u32);
+extern int MANUAL_COMMON_UpdateListWork(char *p);
+extern u16 MANUAL_COMMON_GetEntryCount(const char *p);
+extern u16 MANUAL_COMMON_GetEntryValue2(char *, int);
+extern int MANUAL_COMMON_GetSaveValue(void *, int, int);
+extern u16 MANUAL_COMMON_GetEntryValue0(char *, int);
+extern void MANUAL_COMMON_SetTouchbarState(char *, unsigned);
+extern void MANUAL_COMMON_SetTouchbarSelection(char *, unsigned, unsigned);
+extern int MANUAL_COMMON_GetDefaultId(void *);
+extern void MANUAL_COMMON_SetScreenId(char *,u32);
 extern void TCB_DeleteTask(struct Node *);
-extern void func_021B9FBC(char *);
-extern unsigned func_021BA158(char *p);
-extern unsigned func_021BA154(char *p);
+extern void MANUAL_COMMON_UpdateTouchbar(char *);
+extern unsigned MANUAL_COMMON_GetTouchbarPressed(char *p);
+extern unsigned MANUAL_COMMON_GetTouchbarSelected(char *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -243,28 +243,28 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
     ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->detailEntry=0;
     *(char * *)&((struct ManualMenuList *)q)->data=data;
     ((struct ManualMenuList *)q)->ready=0;
-    groups=func_021B9C50(*(char * *)&((struct ManualData *)data)->assets);
+    groups=MANUAL_COMMON_GetGroupCount(*(char * *)&((struct ManualData *)data)->assets);
     ((struct ManualMenuList *)q)->entryCount=0;
     *(char * *)&((struct ManualMenuList *)q)->entries=func_02030734(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->heap,groups*8,1,gManualCategoryListAllocFile,0x71);
     for(i=0;i<groups;i++) {
         valid=0;
-        items=func_021B9C34(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
+        items=MANUAL_COMMON_GetGroupValue1(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
         for(j=0;j<items;j++) {
             int id;
-            id=func_021B9C40(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i,j);
-            id=func_021B9BD4(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id);
-            if(func_021B9C58(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id,*(void **)*(char * *)&((struct ManualMenuList *)q)->data)) valid++;
+            id=MANUAL_COMMON_GetGroupValue2(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i,j);
+            id=MANUAL_COMMON_GetEntryValue1(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id);
+            if(MANUAL_COMMON_CheckUnlocked(((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,id,*(void **)*(char * *)&((struct ManualMenuList *)q)->data)) valid++;
         }
         if(valid) {
             *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8)=i;
-            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+2)=func_021B9C28(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
+            *(u16 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+2)=MANUAL_COMMON_GetGroupValue0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualMenuList *)q)->data))->assets,i);
             *(u32 *)(*(char * *)&((struct ManualMenuList *)q)->entries+((struct ManualMenuList *)q)->entryCount*8+4)=0;
             ((struct ManualMenuList *)q)->entryCount+=1;
         }
     }
     ((struct ManualMenuList *)q)->savedA=*(u16 *)*(char * *)&((struct ManualMenuList *)q)->owner;
     ((struct ManualMenuList *)q)->savedB=((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->originY;
-    *(char * *)&((struct ManualMenuList *)q)->widget=func_021BA65C(q+8,(struct ManualData *)data);
+    *(char * *)&((struct ManualMenuList *)q)->widget=MANUAL_COMMON_CreateListWork(q+8,(struct ManualData *)data);
     ((struct ManualMenuList *)q)->task=func_020056A0((unsigned)MANUAL_CATEGORY_TaskNoop,(unsigned)q,1);
     return q;
 }
@@ -284,7 +284,7 @@ void MANUAL_CATEGORY_DeleteList(char *p)
         ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 1;
         ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->detailEntry = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->entries + ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY * 8);
     }
-    func_021BA740(*(char * *)&((struct ManualMenuList *)p)->widget);
+    MANUAL_COMMON_DeleteListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
     func_020307B0(((struct ManualMenuList *)p)->entries);
     func_020307B0(p);
 }
@@ -292,7 +292,7 @@ void MANUAL_CATEGORY_DeleteList(char *p)
 
 int MANUAL_CATEGORY_IsListFinished(char *p)
 {
-    return func_021BA760(*(char * *)&((struct ManualMenuList *)p)->widget);
+    return MANUAL_COMMON_UpdateListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
 }
 
 
@@ -317,7 +317,7 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
     if (t0 == 0) {
         q->ready = 1;
         g = ((struct ManualDetailOwner *)q->owner)->id;
-        ca = func_021B9C34(((struct ManualData *)q->data)->assets, g);
+        ca = MANUAL_COMMON_GetGroupValue1(((struct ManualData *)q->data)->assets, g);
         q->entryCount = 0;
         q->entries = func_02030734(((struct ManualData *)q->data)->heap, ca * 8, 1, gManualCategoryDetailAllocFile, 0x79);
         {
@@ -325,13 +325,13 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
         for (i = 0; i < ca; i++) {
             u16 id;
             int id2;
-            id = func_021B9C40(((struct ManualData *)q->data)->assets, g, i);
-            id2 = func_021B9BD4(((struct ManualData *)q->data)->assets, id);
-            if (func_021B9C58(((struct ManualData *)q->data)->assets, id2, ((struct ManualData *)q->data)->owner)) {
-                t = func_021B9BE0(((struct ManualData *)q->data)->assets, id);
-                ra = func_021B9C98(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
+            id = MANUAL_COMMON_GetGroupValue2(((struct ManualData *)q->data)->assets, g, i);
+            id2 = MANUAL_COMMON_GetEntryValue1(((struct ManualData *)q->data)->assets, id);
+            if (MANUAL_COMMON_CheckUnlocked(((struct ManualData *)q->data)->assets, id2, ((struct ManualData *)q->data)->owner)) {
+                t = MANUAL_COMMON_GetEntryValue2(((struct ManualData *)q->data)->assets, id);
+                ra = MANUAL_COMMON_GetSaveValue(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
                 *(u16 *)((char *)q->entries + q->entryCount * 8) = id;
-                *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = func_021B9BC8(((struct ManualData *)q->data)->assets, id);
+                *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = MANUAL_COMMON_GetEntryValue0(((struct ManualData *)q->data)->assets, id);
                 *(u32 *)((char *)q->entries + q->entryCount * 8 + 4) = (ra != 0) ? FLAG_FALSE : FLAG_TRUE;
                 q->entryCount += 1;
             }
@@ -341,19 +341,19 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
         q->savedB = *(u16 *)((char *)q->owner + 8);
     } else {
         q->ready = 1;
-        cb = func_021B9C20(((struct ManualData *)q->data)->assets);
+        cb = MANUAL_COMMON_GetEntryCount(((struct ManualData *)q->data)->assets);
         q->entryCount = 0;
         q->entries = func_02030734(((struct ManualData *)q->data)->heap, cb * 8, 1, gManualCategoryDetailAllocFile, 0xB2);
         {
             u16 i;
         for (i = 0; i < cb; i++) {
             int id;
-            id = func_021B9BD4(((struct ManualData *)q->data)->assets, i);
-            if (func_021B9C58(((struct ManualData *)q->data)->assets, id, ((struct ManualData *)q->data)->owner)) {
-                t = func_021B9BE0(((struct ManualData *)q->data)->assets, i);
-                rb = func_021B9C98(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
+            id = MANUAL_COMMON_GetEntryValue1(((struct ManualData *)q->data)->assets, i);
+            if (MANUAL_COMMON_CheckUnlocked(((struct ManualData *)q->data)->assets, id, ((struct ManualData *)q->data)->owner)) {
+                t = MANUAL_COMMON_GetEntryValue2(((struct ManualData *)q->data)->assets, i);
+                rb = MANUAL_COMMON_GetSaveValue(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
                 *(u16 *)((char *)q->entries + q->entryCount * 8) = i;
-                *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = func_021B9BC8(((struct ManualData *)q->data)->assets, i);
+                *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = MANUAL_COMMON_GetEntryValue0(((struct ManualData *)q->data)->assets, i);
                 {
                     u32 fl = 0;
                     if (rb == 0)
@@ -367,7 +367,7 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
         q->savedA = *(u16 *)((char *)q->owner + 6);
         q->savedB = *(u16 *)((char *)q->owner + 8);
     }
-    q->widget = func_021BA65C((char *)q + 8, data);
+    q->widget = MANUAL_COMMON_CreateListWork((char *)q + 8, data);
     q->task = func_020056A0((unsigned)MANUAL_CATEGORY_DetailTaskNoop, (unsigned)q, 1);
     return q;
 }
@@ -387,7 +387,7 @@ void MANUAL_CATEGORY_DeleteDetailList(char *p)
         ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->subFlag = 1;
         ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->entryId = *(u16 *)(*(char * *)&((struct ManualMenuList *)p)->entries + ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->selected * 8);
     }
-    func_021BA740(*(char * *)&((struct ManualMenuList *)p)->widget);
+    MANUAL_COMMON_DeleteListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
     func_020307B0(((struct ManualMenuList *)p)->entries);
     func_020307B0(p);
 }
@@ -395,7 +395,7 @@ void MANUAL_CATEGORY_DeleteDetailList(char *p)
 
 int MANUAL_CATEGORY_IsDetailFinished(char *p)
 {
-    return func_021BA760(*(char * *)&((struct ManualMenuList *)p)->widget);
+    return MANUAL_COMMON_UpdateListWork(*(char * *)&((struct ManualMenuList *)p)->widget);
 }
 
 
@@ -422,14 +422,14 @@ char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
     ((struct ManualOptionWork *)q)->task = func_020056A0((unsigned)MANUAL_CATEGORY_OptionTaskNoop, (unsigned)q, 1);
     ((struct ManualOptionWork *)q)->state = 0;
     q[0x3c] = -1;
-    func_021BA068(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, 3);
-    func_021BA0F0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)q)->owner, ((struct ManualOptionWork *)q)->cursor);
+    MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, 3);
+    MANUAL_COMMON_SetTouchbarSelection(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)q)->owner, ((struct ManualOptionWork *)q)->cursor);
     MANUAL_CATEGORY_DrawOption(q);
     return q;
 }
 
 
-void MANUAL_CATEGORY_DeleteOption(char *p) { func_021B9E80(*(char * *)&((struct ManualOptionWork *)p)->data,func_021B9CDC(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask(*(struct Node * *)&((struct ManualOptionWork *)p)->task); func_020307B0(p); }
+void MANUAL_CATEGORY_DeleteOption(char *p) { MANUAL_COMMON_SetScreenId(*(char * *)&((struct ManualOptionWork *)p)->data,MANUAL_COMMON_GetDefaultId(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask(*(struct Node * *)&((struct ManualOptionWork *)p)->task); func_020307B0(p); }
 
 
 int MANUAL_CATEGORY_UpdateOption(char *p)
@@ -447,9 +447,9 @@ int MANUAL_CATEGORY_UpdateOption(char *p)
     }
     if (((struct ManualOptionWork *)p)->state != 1) MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
     if (((struct ManualOptionWork *)p)->state == 0 || ((struct ManualOptionWork *)p)->state == 2) {
-        func_021B9FBC(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
+        MANUAL_COMMON_UpdateTouchbar(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
         if (((struct ManualOptionWork *)p)->state == 0) {
-            choice = func_021BA158(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
+            choice = MANUAL_COMMON_GetTouchbarPressed(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
             if (choice == -1) goto done;
             ((struct ManualOptionWork *)p)->state = 2;
             if (choice == 4) {
@@ -465,7 +465,7 @@ int MANUAL_CATEGORY_UpdateOption(char *p)
             }
             if (((struct ManualOptionWork *)p)->dirty) MANUAL_CATEGORY_DrawOption(p);
         } else {
-            choice = func_021BA154(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
+            choice = MANUAL_COMMON_GetTouchbarSelected(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group);
             if (choice == -1) goto done;
             switch (choice) {
             case 1:
@@ -476,7 +476,7 @@ int MANUAL_CATEGORY_UpdateOption(char *p)
             case 4: case 5:
                 ((struct ManualOptionWork *)p)->state = 0;
                 if (((struct ManualOptionWork *)p)->dirty) {
-                    func_021BA0F0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)p)->owner, ((struct ManualOptionWork *)p)->cursor);
+                    MANUAL_COMMON_SetTouchbarSelection(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->group, *(u8 *)*(char * *)&((struct ManualOptionWork *)p)->owner, ((struct ManualOptionWork *)p)->cursor);
                     ((struct ManualOptionWork *)p)->dirty = 0;
                 }
                 break;
@@ -573,6 +573,6 @@ void MANUAL_CATEGORY_DrawOption(char *p)
     STRBUF_Delete(r);
     ((struct ManualOptionWork *)p)->flag[2] = 1;
     MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);
-    func_021B9E80(((struct ManualOptionWork *)p)->data,
+    MANUAL_COMMON_SetScreenId(((struct ManualOptionWork *)p)->data,
                   *(u16 *)(*(char * *)&((struct ManualOptionWork *)p)->owner + (((struct ManualOptionWork *)p)->cursor << 2) + 4));
 }

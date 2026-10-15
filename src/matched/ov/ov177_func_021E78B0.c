@@ -1,5 +1,5 @@
 /*
- * function: func_021E78B0
+ * function: WIFIBATTLEMATCH_VIEW_SetupRecordWindow
  * address: 0x021E78B0
  * packet: pkt_ov177_021E78B0
  * region: ov177
@@ -26,6 +26,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned short u16;
 typedef struct { unsigned char bg, x, y, w; } WinTemplate;
@@ -57,7 +58,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void *STRBUF_Create(unsigned capacity, u16 heap);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern const void *func_020084F4(const void *p);
@@ -73,7 +74,7 @@ extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void *msg, void *fmt, int alt, u16 heap)
+void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(Work *p, const Record *data, unsigned font, void *print, void *msg, void *fmt, int alt, u16 heap)
 {
     void *str;
     void *buf;
@@ -88,7 +89,7 @@ void func_021E78B0(Work *p, const Record *data, unsigned font, void *print, void
         win = p->win[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        func_020409B4(BMP_WIN_GetBgLayer(win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
         if (i != 7) {
             p->ent[i].win = p->win[i];
             p->ent[i].shown = 0;

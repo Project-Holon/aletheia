@@ -31,7 +31,7 @@
  *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_CreateActor 0x0204B294 arm
- *   d_021CA640 0x021CA640 data a2
+ *   gWf2dmapTrainerActorBounds 0x021CA640 data a2
  */
 #include "../include/Obj00329.h"
 #include "../include/Obj00773.h"
@@ -41,7 +41,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef signed char s8;
 typedef struct {u16 v[4];} Bounds;
-extern const Bounds d_021CA640;
+extern const Bounds gWf2dmapTrainerActorBounds;
 struct BigObj;
 struct CharBuf;
 struct Descriptor;
@@ -93,7 +93,7 @@ void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
         WF2DMAP_TOUCH_PrintItem(p+0x170,q,ctx,28,0,0,0x3C40);
     else BMP_WIN_TransferChars(((struct Obj00773 *)p)->f170);
     for(i=0;i<10;i++) WF2DMAP_TOUCH_TransferScreen(*(char **)(p+i*8+0x128));
-    bounds=d_021CA640;
+    bounds=gWf2dmapTrainerActorBounds;
     id=CURSOR_MOVE_GetTableGroup(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
     archive=POKEGRA_OpenTrainerHandle(heap);
     ((struct Obj00773 *)p)->f17C=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);

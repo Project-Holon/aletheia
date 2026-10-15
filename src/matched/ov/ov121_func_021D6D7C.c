@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D7C
+ * function: MYSTERY_IsParticleCreated
  * address: 0x021D6D7C
  * packet: pkt_ov121_021D6D7C
  * region: ov121
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021D6D7C(u8 *p) { return ((struct Obj22857 *)p)->fC; }
+void *MYSTERY_IsParticleCreated(u8 *p) { return ((struct Obj22857 *)p)->fC; }

@@ -27,8 +27,8 @@
  *   DWCi_SetError                    0x02059f54 arm
  *   DWCi_GPSetServerStatus           0x0216f20c arm
  *   stLastSocketError                0x021aa878 data
- *   g_021A2028                       0x021a2028 data
- *   g_021A202C                       0x021a202c data
+ *   gDwcPrefixScm                       0x021a2028 data
+ *   gDwcPrefixScn                       0x021a202c data
  *   DWCi_MatchedCallback             0x0216bfb8 arm
  */
 
@@ -86,8 +86,8 @@ extern void DWCi_ConnectToGameServerAsync(
     unsigned char *connectionUserData, void *attemptParam);
 extern void DWCi_SetError(int error, int errorCode);
 extern int DWCi_GPSetServerStatus(int matchType);
-extern char g_021A2028[];
-extern char g_021A202C[];
+extern char gDwcPrefixScm[];
+extern char gDwcPrefixScn[];
 extern void DWCi_MatchedCallback(int error, int cancel, int self, int isServer,
                                  int index, void *param);
 
@@ -137,9 +137,9 @@ int DWC_ConnectToGameServerAsync(
         goto error;
     }
 
-    DWC_GetCommonValueString(g_021A2028, valueStr, status.statusString, 0x2f);
+    DWC_GetCommonValueString(gDwcPrefixScm, valueStr, status.statusString, 0x2f);
     maxEntry = (unsigned char)strtoul(valueStr, 0, 10);
-    DWC_GetCommonValueString(g_021A202C, valueStr, status.statusString, 0x2f);
+    DWC_GetCommonValueString(gDwcPrefixScn, valueStr, status.statusString, 0x2f);
     numEntry = (unsigned char)strtoul(valueStr, 0, 10);
     if (numEntry == maxEntry)
     {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAE1C",
+   "name": "MYSTERY_ALBUM_DeleteWork",
    "address": "0x021DAE1C",
    "kind": "game",
    "region": "ov121",

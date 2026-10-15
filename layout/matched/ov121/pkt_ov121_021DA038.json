@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA038",
+   "name": "MYSTERY_UTIL_CreateMenu",
    "address": "0x021DA038",
    "kind": "game",
    "region": "ov121",

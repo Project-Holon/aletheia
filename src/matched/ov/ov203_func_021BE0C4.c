@@ -1,5 +1,5 @@
 /*
- * function: func_021BE0C4
+ * function: DEMO3D_GRAPHIC_DeleteClact
  * address:  0x021BE0C4
  * packet:   pkt_021BE0C4
  * region:   ov203
@@ -22,7 +22,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(int);
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021BE0C4(char *a)
+void DEMO3D_GRAPHIC_DeleteClact(char *a)
 {
     CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj25312 *)a)->f0)));
     MI_CpuFill8(a, 0, 4);

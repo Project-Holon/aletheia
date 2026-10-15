@@ -16,7 +16,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_0201D42C 0x0201D42C thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
@@ -37,7 +37,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
 extern u32 func_0201D42C(struct StrObj *,void *);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-extern struct WordSet *GF_FONT_Create_EC64(u32);
+extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
@@ -50,7 +50,7 @@ void IRC_RANKING_PrintCentered(struct Descriptor *desc,struct StrObj *text,void 
   y-=(u16)(func_0201D42C(text,(void *)font)>>1);
   PRINTSYS_Print(BMP_WIN_GetBmp(desc),(s16)x,(s16)y,text,(void *)font);
  } else {
-  set=GF_FONT_Create_EC64(0x8043);
+  set=WORDSET_CreateDefault(0x8043);
   expanded=STRBUF_Create(128,0x8043);
   WORDSET_SetSlotMyStatus(set,0,value);
   WORDSET_CopyTaggedText(set,expanded,text);

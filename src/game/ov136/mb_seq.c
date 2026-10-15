@@ -59,7 +59,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
@@ -90,7 +90,7 @@
  *   BG_SYS_InitRun 0x02040B94 arm
  *   g_77F4 0x021C77F4 data
  *   g_7804 0x021C7804 data
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   func_020490F4 0x020490F4 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   func_02049658 0x02049658 arm
@@ -146,7 +146,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_Delete 0x0202CA0C thumb
- *   GF_FONT_Create_EC64 0x0201EC64 thumb
+ *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
@@ -282,8 +282,8 @@ struct Bmp;
 struct Cfg;
 struct DispVram;
 struct ProcData;
-struct Obj0203159C;
-struct S020315D4;
+struct Proc;
+struct Proc;
 
 /* Loaded BG character data (the data pointer sits at +0x14). */
 struct BgCharData {
@@ -373,7 +373,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 extern u32 func_020307B0(void *p);
 
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void GFL_HEAP_DeleteChecked(u32);
 
@@ -442,7 +442,7 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 
-extern void func_020409B4(u32 v);
+extern void BG_SYS_PushTile(u32 v);
 
 extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
 
@@ -498,7 +498,7 @@ extern void BG_SYS_ClearSlot(u32);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void func_020403F4(u32 bgId);
+extern void BG_SYS_FreeLayerBuf(u32 bgId);
 
 extern void *func_020490F4(u32 id, u32 heap);
 
@@ -572,7 +572,7 @@ int MB_SEQ_Update(struct MailBoxProc *p, int *state);
 
 extern void func_0203133C(void *procSys);
 
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 
 extern void *func_0203084C(u32 heapId);
 
@@ -641,11 +641,11 @@ void MAILVIEW_InitBgs(struct MailEditProc *proc)
 
 void MAILVIEW_FreeBgs(struct MailEditProc *proc)
 {
-    func_020403F4(4);
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
+    BG_SYS_FreeLayerBuf(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
     BMP_SetDisplaySwap(1);
 }
 
@@ -731,7 +731,7 @@ void MAILVIEW_CreateWindows(struct MailEditProc *proc)
             w = proc->win[i];
             BMP_WIN_TransferChars(w);
             BMP_WIN_MakeScreen(w);
-            func_020409B4(BMP_WIN_GetBgLayer(w));
+            BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
         }
     }
 }
@@ -769,7 +769,7 @@ void MAILVIEW_DeleteWindows(struct MailEditProc *proc)
     for (i = 0; i < 7; i++) {
         w = proc->win[i];
         BMP_WIN_ClearScreen(w);
-        func_020409B4(BMP_WIN_GetBgLayer(w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
         BMP_WIN_Delete(proc->win[i]);
     }
     BMP_WIN_Exit();
@@ -802,7 +802,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
         w = proc->win[5];
         BMP_WIN_TransferChars(w);
         BMP_WIN_MakeScreen(w);
-        func_020409B4(BMP_WIN_GetBgLayer(w));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
     }
 }
 
@@ -880,7 +880,7 @@ extern void BGWINFRM_PutFrame(struct BgWinFrm *mgr, u32 idx, s8 x, s8 y);
 
 extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
 
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
 
@@ -1000,14 +1000,14 @@ void MB_SEQ_InitBgs(struct MailBoxProc *p)
 
 void MB_SEQ_FreeBgs(struct MailBoxProc *p)
 {
-    func_020403F4(3);
-    func_020403F4(2);
-    func_020403F4(1);
-    func_020403F4(0);
-    func_020403F4(7);
-    func_020403F4(6);
-    func_020403F4(5);
-    func_020403F4(4);
+    BG_SYS_FreeLayerBuf(3);
+    BG_SYS_FreeLayerBuf(2);
+    BG_SYS_FreeLayerBuf(1);
+    BG_SYS_FreeLayerBuf(0);
+    BG_SYS_FreeLayerBuf(7);
+    BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(5);
+    BG_SYS_FreeLayerBuf(4);
     BG_SYS_Delete();
 }
 
@@ -1062,7 +1062,7 @@ void MB_SEQ_DeleteFrames(struct MailBoxProc *p)
 void MB_SEQ_CreateMessageResources(struct MailBoxView *view)
 {
     view->msgData = func_02045B38(0, 2, 0x3b, 0x66);
-    view->wordSet = GF_FONT_Create_EC64(0x66);
+    view->wordSet = WORDSET_CreateDefault(0x66);
     view->msgBuf = STRBUF_Create(0x400, 0x66);
 }
 
@@ -1452,11 +1452,11 @@ void MB_SEQ_CreateWindows(struct MailBoxProc *p)
     win = p->view->win[0];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     win = p->view->win[1];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    func_020409B4(BMP_WIN_GetBgLayer(win));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
 }
 
 void MB_SEQ_DeleteWindows(struct MailBoxProc *p)

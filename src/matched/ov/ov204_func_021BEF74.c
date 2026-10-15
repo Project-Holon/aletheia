@@ -1,5 +1,5 @@
 /*
- * function: func_021BEF74
+ * function: INTRO_CMD_Delete
  * address: 0x021BEF74
  * packet: pkt_ov204_021BEF74
  * region: ov204
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void INTRO_MSG_Delete(char*);
 extern u32 func_020307B0(void *p);
-void func_021BEF74(u8*p){INTRO_MSG_Delete(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}
+void INTRO_CMD_Delete(u8*p){INTRO_MSG_Delete(*(char* *)&((struct Obj25382 *)p)->f18);func_020307B0(p);}

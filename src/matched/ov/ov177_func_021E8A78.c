@@ -1,5 +1,5 @@
 /*
- * function: func_021E8A78
+ * function: WIFIBATTLEMATCH_UTIL_DeleteCallback
  * address: 0x021E8A78
  * packet: pkt_ov177_021E8A78
  * region: ov177
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021E8A78(void *p) {func_020307B0(p);}
+void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p) {func_020307B0(p);}

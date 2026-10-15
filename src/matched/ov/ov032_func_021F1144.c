@@ -1,5 +1,5 @@
 /*
- * function: func_021F1144
+ * function: BEACON_VIEW_SetupEntry
  * address:  0x021F1144
  * packet:   pkt_ov032_021F1144
  * region:   ov032
@@ -15,15 +15,15 @@
  *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   STRBUF_Clear  0x0204581C  arm
  *   GAME_BEACON_ACCESSOR_GetGreeting  0x02165D50  thumb  ov010
- *   func_021F10D8  0x021F10D8  thumb  ov032
- *   func_021F0F74  0x021F0F74  thumb  ov032
- *   func_021F1004  0x021F1004  thumb  ov032
+ *   BEACON_VIEW_PrintEntryRank  0x021F10D8  thumb  ov032
+ *   BEACON_VIEW_LoadEntryPanel  0x021F0F74  thumb  ov032
+ *   BEACON_VIEW_LoadEntryPanelColor  0x021F1004  thumb  ov032
  *   GAME_BEACON_ACCESSOR_GetActionNo  0x02165E24  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetThanksName  0x02165D6C  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetFreeText  0x02165D8C  thumb  ov010
- *   func_021F1070  0x021F1070  thumb  ov032
- *   func_021F1E40  0x021F1E40  thumb  ov032
- *   func_021F1080  0x021F1080  thumb  ov032
+ *   BEACON_VIEW_PrintEntryName  0x021F1070  thumb  ov032
+ *   BEACON_VIEW_StartIconWait  0x021F1E40  thumb  ov032
+ *   BEACON_VIEW_PrintEntryFrames  0x021F1080  thumb  ov032
  */
 #include "../include/Obj00007.h"
 #include "../include/Obj00225.h"
@@ -40,26 +40,26 @@ extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *r, void *buf);
 extern void STRBUF_Clear(struct U16Vec *vec);
 struct Strbuf;
 extern void GAME_BEACON_ACCESSOR_GetGreeting(struct Rec *r, struct Strbuf *buf);
-extern void func_021F10D8(char *this, u8 *p, int a);
-extern void func_021F0F74(char *p, u8 *q, void *r);
-extern void func_021F1004(char *p, u8 *q, int r);
+extern void BEACON_VIEW_PrintEntryRank(char *this, u8 *p, int a);
+extern void BEACON_VIEW_LoadEntryPanel(char *p, u8 *q, void *r);
+extern void BEACON_VIEW_LoadEntryPanelColor(char *p, u8 *q, int r);
 extern int GAME_BEACON_ACCESSOR_GetActionNo(int a0);
 extern int GAME_BEACON_ACCESSOR_GetThanksName(int a0, int a1);
 extern int GAME_BEACON_ACCESSOR_GetFreeText(int a0, int a1);
-extern void func_021F1070(char *p, char *q, void *text, int a4);
-extern void func_021F1E40(char *p, char *q, void *x, int flag);
-extern void func_021F1080(char *p, char *q, int r, int t);
+extern void BEACON_VIEW_PrintEntryName(char *p, char *q, void *text, int a4);
+extern void BEACON_VIEW_StartIconWait(char *p, char *q, void *x, int flag);
+extern void BEACON_VIEW_PrintEntryFrames(char *p, char *q, int r, int t);
 
-void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
+void BEACON_VIEW_SetupEntry(u8 *p, u8 *q, void *r, int mode, int skip, int t)
 {
     ((struct Obj00225 *)q)->f6 = GAME_BEACON_ACCESSOR_GetTrainerId(r);
     q[4] = GAME_BEACON_ACCESSOR_GetSex(r);
     GAME_BEACON_ACCESSOR_GetPlayerName(r, ((struct Obj00225 *)q)->f24);
     STRBUF_Clear(((struct Obj00225 *)q)->f20);
     GAME_BEACON_ACCESSOR_GetGreeting(r, ((struct Obj00225 *)q)->f20);
-    func_021F10D8((char *)p, q, (int)r);
-    func_021F0F74((char *)p, q, r);
-    func_021F1004((char *)p, q, (int)r);
+    BEACON_VIEW_PrintEntryRank((char *)p, q, (int)r);
+    BEACON_VIEW_LoadEntryPanel((char *)p, q, r);
+    BEACON_VIEW_LoadEntryPanelColor((char *)p, q, (int)r);
     if (skip != 0)
         return;
     switch (mode) {
@@ -67,21 +67,21 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
         switch (GAME_BEACON_ACCESSOR_GetActionNo((int)r)) {
         case 0x18:
             GAME_BEACON_ACCESSOR_GetThanksName((int)r, (int)(((struct Obj00007 *)p)->f118));
-            func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
+            BEACON_VIEW_PrintEntryName((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         case 0x31:
             GAME_BEACON_ACCESSOR_GetFreeText((int)r, (int)(((struct Obj00007 *)p)->f118));
-            func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
+            BEACON_VIEW_PrintEntryName((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         }
-        func_021F1E40((char *)p, (char *)q, r, 0);
+        BEACON_VIEW_StartIconWait((char *)p, (char *)q, r, 0);
         break;
     case 1:
-        func_021F1070((char *)p, (char *)q, ((struct Obj00225 *)q)->f20, t);
-        func_021F1E40((char *)p, (char *)q, r, 1);
+        BEACON_VIEW_PrintEntryName((char *)p, (char *)q, ((struct Obj00225 *)q)->f20, t);
+        BEACON_VIEW_StartIconWait((char *)p, (char *)q, r, 1);
         break;
     case 2:
-        func_021F1080((char *)p, (char *)q, 1, t);
+        BEACON_VIEW_PrintEntryFrames((char *)p, (char *)q, 1, t);
         break;
     }
 }

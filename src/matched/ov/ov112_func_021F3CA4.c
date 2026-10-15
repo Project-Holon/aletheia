@@ -28,12 +28,12 @@
  *   BILLBOARD_Create  0x0204EBD4  arm
  *   BILLBOARD_SetScale  0x0204ED70  arm
  *   MUSICAL_SHOT_SYS_LoadBg  0x021F3EAC  thumb  ov112
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_0207D63C  0x0207D63C  arm
  *   d_021F81AC  0x021F81AC  data  a4
@@ -68,12 +68,12 @@ extern void func_0207DCF8(const void *a);
 extern void *BILLBOARD_Create(u8 *src, void *heap);
 extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 extern void MUSICAL_SHOT_SYS_LoadBg(const void *a, u32 b, u32 c);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 
@@ -131,7 +131,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);
-    func_02040618(2, 3, 0xE0);
+    BG_SYS_FillScrollArea(2, 3, 0xE0);
     h = func_020490F4(0x2F, *(u16 *)p);
     ARC_UTIL_UploadPaletteFromHandle(h, 3, 0, 0, 0, 0x20, *(u16 *)p);
     func_02049658(h, 9, 2, 0, 0, 0, *(u16 *)p);
@@ -139,8 +139,8 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     ARC_UTIL_UploadPaletteFromHandle(h, 2, 0, 0x20, 0x20, 0x20, *(u16 *)p);
     func_02049658(h, 8, 3, 0, 0, 0, *(u16 *)p);
     func_020498F4(h, 0xE, 3, 0, 0, 0, *(u16 *)p);
-    func_020409B4(2);
-    func_020409B4(3);
+    BG_SYS_PushTile(2);
+    BG_SYS_PushTile(3);
     ARC_TOOL_DeleteHandle(h);
     func_0207D63C(0x04000050, 8, 1, 0, 0xA);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x8000;

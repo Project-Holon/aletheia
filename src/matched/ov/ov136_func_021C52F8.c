@@ -13,7 +13,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb  arm9
@@ -30,7 +30,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
 void MAILVIEW_DeleteWindows(u8 *p)
@@ -48,7 +48,7 @@ void MAILVIEW_DeleteWindows(u8 *p)
     for (i = 0; i < 7; i++) {
         q = *(void **)(p + i * 4 + 0x44);
         BMP_WIN_ClearScreen(q);
-        func_020409B4(BMP_WIN_GetBgLayer(q));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
         BMP_WIN_Delete(*(void **)(p + i * 4 + 0x44));
     }
     BMP_WIN_Exit();

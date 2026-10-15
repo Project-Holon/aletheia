@@ -17,8 +17,8 @@
 typedef unsigned int   u32;
 extern void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern char gTradeWorkHeapName[];
 void *POKETRADE_PROC_AllocTradeWork(void *a,int t) {

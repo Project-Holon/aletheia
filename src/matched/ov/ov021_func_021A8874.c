@@ -19,7 +19,7 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   func_02040618  0x02040618  arm
+ *   BG_SYS_FillScrollArea  0x02040618  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -33,7 +33,7 @@
  *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
  *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
  *   CLACT_SetUnitRenderer  0x0204B258  arm
@@ -90,7 +90,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 typedef signed int     s32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void func_02040618(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -104,7 +104,7 @@ extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
@@ -131,7 +131,7 @@ void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)gFieldMenuBgTemplate7, 0);
     func_02040588(7, 1);
     BG_SYS_ClearSlot(7);
-    func_02040618(6, 3, -5);
+    BG_SYS_FillScrollArea(6, 3, -5);
     func_02049B68(q, 0, 4, 0, 0, p->f02);
     func_02049658(q, 2, 5, 0, 0, 0, p->f02);
     func_020498F4(q, gFieldMenuScreenIds[r], 5, 0, 0, 0, p->f02);
@@ -145,7 +145,7 @@ void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
     t = APP_ICON_GetStatusCellFileId(0);
     p->f118 = CLACT_RegisterCellAnim(h, t, APP_ICON_GetStatusPaletteFileId(0), p->f00);
     ARC_TOOL_DeleteHandle(h);
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     p->f11C = (u32)CLACT_CreateUnit(8, 0, p->f00);
     bank = gFieldMenuSurfaceRect;
     p->f120 = (u32)CLACT_CreateRenderer((u8 *)(&bank), 1, p->f00);

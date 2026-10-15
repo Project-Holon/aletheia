@@ -1,5 +1,5 @@
 /*
- * function: func_02213800
+ * function: WIFIBATTLEMATCH_SYS_GetResult
  * address: 0x02213800
  * packet: pkt_ov199_02213800
  * region: ov199
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 #include "../include/Obj25299.h"
-int func_02213800(char *p)
+int WIFIBATTLEMATCH_SYS_GetResult(char *p)
 {
     return ((struct Obj25299 *)p)->f1C;
 }

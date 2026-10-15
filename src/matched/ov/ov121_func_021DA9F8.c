@@ -1,5 +1,5 @@
 /*
- * function: func_021DA9F8
+ * function: MYSTERY_UTIL_IsMenuFinished
  * address: 0x021DA9F8
  * packet: pkt_ov121_021DA9F8
  * region: ov121
@@ -20,4 +20,4 @@ struct PrintSys;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Obj;
 extern void BMP_OAM_UploadChars(struct Obj *o);
-int func_021DA9F8(u8 *p) { if(((struct Obj05358 *)p)->f8) { if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj05358 *)p)->f20),(void *)(((struct Obj05358 *)p)->f0))==0) { BMP_OAM_UploadChars(((struct Obj05358 *)p)->f1C); ((struct Obj05358 *)p)->f8=0; } } if(((struct Obj05358 *)p)->f8==0) return 1; return 0; }
+int MYSTERY_UTIL_IsMenuFinished(u8 *p) { if(((struct Obj05358 *)p)->f8) { if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct Obj05358 *)p)->f20),(void *)(((struct Obj05358 *)p)->f0))==0) { BMP_OAM_UploadChars(((struct Obj05358 *)p)->f1C); ((struct Obj05358 *)p)->f8=0; } } if(((struct Obj05358 *)p)->f8==0) return 1; return 0; }

@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  */
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_020403F4(unsigned);
+extern void BG_SYS_FreeLayerBuf(unsigned);
 void MONOLITH_TOOL_HideInfoBgs(void) {
     func_02040588(0, 0); func_02040588(2, 0);
-    func_020403F4(0); func_020403F4(2);
+    BG_SYS_FreeLayerBuf(0); BG_SYS_FreeLayerBuf(2);
 }

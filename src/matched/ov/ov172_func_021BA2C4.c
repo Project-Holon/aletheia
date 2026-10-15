@@ -39,6 +39,8 @@
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb  arm9
+ *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -73,7 +75,7 @@ extern void CTVT_DRAW_UpdateToolButtons(void *c, u8 *p);
 extern void CTVT_DRAW_ShowHelp(void *c, u8 *p, int k);
 struct CharBuf;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020409B4(u32 a);
+extern void BG_SYS_PushTile(u32 a);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern u32  APP_ICON_GetArchiveId(void);
 extern u32  APP_ICON_GetStatusDataFileId(void);
@@ -81,7 +83,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02040618(u32 a, u32 b, u32 c);
+extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
@@ -108,7 +110,7 @@ void CTVT_DRAW_Init(void *a0, u8 *p)
 
     v = COMM_TVT_SYS_GetHeapId(a0);
     func_020498F4((void *)COMM_TVT_SYS_GetArc(a0), 0x10, 7, 0, 0, 0, v);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02040588(5, 0);
     {
         u32 t = *(volatile u16 *)0x04000304;
@@ -118,8 +120,8 @@ void CTVT_DRAW_Init(void *a0, u8 *p)
     BG_SYS_ClearSlot(0);
     ARC_UTIL_UploadBgPaletteAddFromHandle(bank, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, v);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
-    func_020409B4(0);
-    func_02040618(0, 3, 0);
+    BG_SYS_PushTile(0);
+    BG_SYS_FillScrollArea(0, 3, 0);
     ARC_TOOL_DeleteHandle(bank);
     d.x = 0x10;
     d.y = 0xcc;

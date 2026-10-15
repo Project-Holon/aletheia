@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0217E380",
-    "func_0217E40C"
+    "LIVEBATTLEMATCH_IRC_DeliveryMain",
+    "LIVEBATTLEMATCH_IRC_ClearState"
+   ],
+   "addresses": [
+    "0x0217E380",
+    "0x0217E40C"
    ]
   }
  ]

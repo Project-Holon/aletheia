@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD98
+ * function: INTRO_GRAPHIC_InitBg
  * address: 0x021BDD98
  * packet: pkt_ov204_021BDD98
  * region: ov204
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
-void func_021BDD98(void *p, unsigned heap)
+void INTRO_GRAPHIC_InitBg(void *p, unsigned heap)
 {
     const unsigned *row;
     unsigned i, layer;

@@ -19,9 +19,9 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   d_021CA800 0x021CA800 data a2
- *   d_021CA810 0x021CA810 data a2
- *   d_021CA818 0x021CA818 data a2
+ *   gWf2dmapListActorPos 0x021CA800 data a2
+ *   gWf2dmapConfirmActorPos 0x021CA810 data a2
+ *   gWf2dmapCancelActorPos 0x021CA818 data a2
  */
 #include "../include/Obj02481.h"
 typedef unsigned char u8;
@@ -29,9 +29,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct {s16 x,y,z;u8 a,b;} Point;
-extern const Point d_021CA800[];
-extern const Point d_021CA810;
-extern const Point d_021CA818;
+extern const Point gWf2dmapListActorPos[];
+extern const Point gWf2dmapConfirmActorPos;
+extern const Point gWf2dmapCancelActorPos;
 extern void *CLACT_CreateActor(u32,u32,u32,u32,const Point *,u16,u32);
 struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -49,14 +49,14 @@ void Wf2dmapFriend_CreateListActors(char *p,int heap)
     f=0x15c;
     for(i=0;i<2;i++) {
         q=p+i*4;
-        *(void **)(q+d)=CLACT_CreateActor(((struct Obj02481 *)p)->f138,*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&d_021CA800[i],0,heap);
+        *(void **)(q+d)=CLACT_CreateActor(((struct Obj02481 *)p)->f138,*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&gWf2dmapListActorPos[i],0,heap);
         CLACT_SetActorAutoAnim(*(void **)(q+e),1);
         CLACT_SetActorDrawEnable(*(void **)(q+f),0);
     }
-    handle=CLACT_CreateActor(((struct Obj02481 *)p)->f138,((struct Obj02481 *)p)->f148,((struct Obj02481 *)p)->f150,((struct Obj02481 *)p)->f158,&d_021CA810,0,heap);
+    handle=CLACT_CreateActor(((struct Obj02481 *)p)->f138,((struct Obj02481 *)p)->f148,((struct Obj02481 *)p)->f150,((struct Obj02481 *)p)->f158,&gWf2dmapConfirmActorPos,0,heap);
     ((struct Obj02481 *)p)->f164=handle;
     CLACT_SetActorDrawEnable(handle,1);
-    handle=CLACT_CreateActor(((struct Obj02481 *)p)->f138,((struct Obj02481 *)p)->f148,((struct Obj02481 *)p)->f150,((struct Obj02481 *)p)->f158,&d_021CA818,0,heap);
+    handle=CLACT_CreateActor(((struct Obj02481 *)p)->f138,((struct Obj02481 *)p)->f148,((struct Obj02481 *)p)->f150,((struct Obj02481 *)p)->f158,&gWf2dmapCancelActorPos,0,heap);
     ((struct Obj02481 *)p)->f168=handle;
     CLACT_SetActorDrawEnable(handle,1);
 }

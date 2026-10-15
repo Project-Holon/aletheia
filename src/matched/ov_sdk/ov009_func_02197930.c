@@ -17,7 +17,7 @@
  *   gti2GetBufferFreeSpace    0x02194DD4  arm  ov009
  *   gti2BufferWriteData       0x02194E2C  arm  ov009
  *   gti2BufferShorten         0x02194E80  arm  ov009
- *   g_021A5948                0x021A5948  data
+ *   gGti2PacketMagic                0x021A5948  data
  */
 
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ extern int gti2ConnectionSendData();
 extern int gti2GetBufferFreeSpace();
 extern void gti2BufferWriteData();
 extern void gti2BufferShorten();
-extern u8 g_021A5948[];
+extern u8 gGti2PacketMagic[];
 
 int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
 {
@@ -52,7 +52,7 @@ int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
     int totalLen;
     int freeSpace;
 
-    if (len < 2 || memcmp(message + connection->socket->magicOffset, g_021A5948, 2) != 0)
+    if (len < 2 || memcmp(message + connection->socket->magicOffset, gGti2PacketMagic, 2) != 0)
     {
         if (!gti2ConnectionSendData(connection, message, len))
             return 0;
@@ -65,7 +65,7 @@ int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
     start = connection->outData + connection->outPos;
     if (connection->socket->magicType == 2)
         gti2BufferWriteData(&connection->outData, message, 2);
-    gti2BufferWriteData(&connection->outData, g_021A5948, 2);
+    gti2BufferWriteData(&connection->outData, gGti2PacketMagic, 2);
     gti2BufferWriteData(&connection->outData, message + connection->socket->magicOffset, len - connection->socket->magicOffset);
     if (!gti2ConnectionSendData(connection, start, totalLen))
         return 0;

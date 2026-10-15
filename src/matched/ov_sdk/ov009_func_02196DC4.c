@@ -22,7 +22,7 @@
  *   gti2HandleAppUnreliable  0x02196098  arm  ov009
  *   gti2HandleReliableMessage  0x02196948  arm  ov009
  *   gti2HandleUnreliableMessage  0x02196D00  arm  ov009
- *   g_021A5948     0x021A5948  data
+ *   gGti2PacketMagic     0x021A5948  data
  */
 
 struct DArrayImplementation;
@@ -86,7 +86,7 @@ struct GTI2Socket {
     int protocolOffset;                                  /* 0x44 */
 };
 
-extern const char g_021A5948[];
+extern const char gGti2PacketMagic[];
 
 extern struct GTI2Connection *func_02197D5C(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int gti2DumpCallback(struct GTI2Socket *socket, struct GTI2Connection *connection, unsigned int ip,
@@ -124,7 +124,7 @@ int gti2HandleMessage(struct GTI2Socket *socket, unsigned char *message, int len
             return 0;
     }
 
-    magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)g_021A5948, 2);
+    magicString = (actualLength > 2) && !func_020923F0(actualMessage, (const u8 *)gGti2PacketMagic, 2);
 
     if (!connection) {
         if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
@@ -159,7 +159,7 @@ int gti2HandleMessage(struct GTI2Socket *socket, unsigned char *message, int len
         return 1;
     }
 
-    if (magicString && actualLength >= 4 && !func_020923F0(actualMessage + 2, (const u8 *)g_021A5948, 2)) {
+    if (magicString && actualLength >= 4 && !func_020923F0(actualMessage + 2, (const u8 *)gGti2PacketMagic, 2)) {
         message[3] = message[1];
         message[2] = message[0];
         message += 2;

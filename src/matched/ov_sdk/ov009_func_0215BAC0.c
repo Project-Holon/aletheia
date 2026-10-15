@@ -19,7 +19,7 @@
  *   func_0208738C  0x0208738C  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gMslRefToken     0x02150FEC  data
- *   g_021A82FC     0x021A82FC  data
+ *   gCpsDackTimerAlarm     0x021A82FC  data
  *   dacktimer_alarmhandler  0x0215BBF0  arm  ov009
  */
 
@@ -53,7 +53,7 @@ extern void func_0208738C(void *alarm, unsigned long long tick, void (*handler)(
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void dacktimer_alarmhandler(void *arg);
 extern struct ThreadInfo gMslRefToken;
-extern unsigned char g_021A82FC[];
+extern unsigned char gCpsDackTimerAlarm[];
 
 void dacktimer_reschedule(void)
 {
@@ -78,8 +78,8 @@ void dacktimer_reschedule(void)
 		}
 	}
 	if (nextdelay != 0xffffffff) {
-		OS_CancelAlarm(g_021A82FC);
-		func_0208738C(g_021A82FC, nextdelay, dacktimer_alarmhandler, 0);
+		OS_CancelAlarm(gCpsDackTimerAlarm);
+		func_0208738C(gCpsDackTimerAlarm, nextdelay, dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);
 }

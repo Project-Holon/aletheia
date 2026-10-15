@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA3EC",
+   "name": "MYSTERY_UTIL_DrawBmpList",
    "address": "0x021DA3EC",
    "kind": "game",
    "region": "ov121",

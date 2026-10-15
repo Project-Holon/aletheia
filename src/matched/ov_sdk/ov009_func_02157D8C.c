@@ -17,10 +17,10 @@
  *   is_multicast  0x02157928  arm  ov009
  *   func_020870D0  0x020870D0  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_021A826C  0x021A826C  data
- *   g_021A82D4  0x021A82D4  data
- *   g_021A1CA1  0x021A1CA1  data
- *   g_021A8384  0x021A8384  data
+ *   gCpsNetVars  0x021A826C  data
+ *   CPSMyMac  0x021A82D4  data
+ *   gCpsBroadcastMac  0x021A1CA1  data
+ *   gCpsArpCache  0x021A8384  data
  *   g_021A838E  0x021A838E  data
  */
 
@@ -36,10 +36,10 @@ extern unsigned long is_broadcast(unsigned long ip);
 extern int is_multicast(unsigned v);
 extern unsigned long long func_020870D0(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct NetVars g_021A826C;
-extern unsigned char g_021A82D4[6];
-extern unsigned char g_021A1CA1[6];
-extern struct ArpEntry g_021A8384[8];
+extern struct NetVars gCpsNetVars;
+extern unsigned char CPSMyMac[6];
+extern unsigned char gCpsBroadcastMac[6];
+extern struct ArpEntry gCpsArpCache[8];
 
 unsigned char *inq_arpcache(unsigned long ip)
 {
@@ -49,15 +49,15 @@ unsigned char *inq_arpcache(unsigned long ip)
 
 	enabled = OS_DisableInterrupts();
 	result = 0;
-	if (ip == 0x7f000001 || ip == g_021A826C.myip) {
-		result = (unsigned char (*)[6])g_021A82D4;
+	if (ip == 0x7f000001 || ip == gCpsNetVars.myip) {
+		result = (unsigned char (*)[6])CPSMyMac;
 	} else if (is_broadcast(ip) || is_multicast(ip)) {
-		result = (unsigned char (*)[6])g_021A1CA1;
+		result = (unsigned char (*)[6])gCpsBroadcastMac;
 	} else {
 		for (i = 0; i < 8; i++) {
-			if (ip == g_021A8384[i].ip) {
-				g_021A8384[i].when = func_020870D0() >> 16;
-				result = &g_021A8384[i].mac;
+			if (ip == gCpsArpCache[i].ip) {
+				gCpsArpCache[i].when = func_020870D0() >> 16;
+				result = &gCpsArpCache[i].mac;
 				break;
 			}
 		}

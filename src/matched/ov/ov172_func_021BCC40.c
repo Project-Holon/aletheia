@@ -14,7 +14,7 @@
  *   COMM_TVT_SYS_GetFont  0x021BE034  thumb  ov172
  *   COMM_TVT_SYS_GetMsgData  0x021BE03C  thumb  ov172
  *   COMM_TVT_SYS_GetPrintQue  0x021BE044  thumb  ov172
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -67,7 +67,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *win);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -115,7 +115,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
         msgs = COMM_TVT_SYS_GetMsgData(ctx);
         sys = COMM_TVT_SYS_GetPrintQue(ctx);
         e = list + 0x1e4 + ((struct Obj02882 *)row)->f18 * 0x24;
-        ws = (u32)GF_FONT_Create_EC64(heap);
+        ws = (u32)WORDSET_CreateDefault(heap);
         BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
         str = (u32)STRBUF_Create(0x20, heap);
         if (((struct Obj01166 *)e)->f18 == 0x20)

@@ -18,8 +18,8 @@
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
- *   func_021BCA58 0x021BCA58 thumb ov216
- *   func_021BCAFC 0x021BCAFC thumb ov216
+ *   BEACON_DETAIL_GRA_InitBgSystem 0x021BCA58 thumb ov216
+ *   BEACON_DETAIL_GRA_InitClact 0x021BCAFC thumb ov216
  *   BEACON_DETAIL_GRA_Task 0x021BCA44 thumb ov216
  *   d_021BDDC0 0x021BDDC0 data a1
  *   d_021BDBD8 0x021BDBD8 data a4
@@ -38,8 +38,8 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void func_021BCA58(void *,int);
-extern void func_021BCAFC(void **p, void *a, int heap);
+extern void BEACON_DETAIL_GRA_InitBgSystem(void *,int);
+extern void BEACON_DETAIL_GRA_InitClact(void **p, void *a, int heap);
 extern void BEACON_DETAIL_GRA_Task(void *unused, char *p);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
 void *BEACON_DETAIL_GRA_Create(int a,int heap)
@@ -57,8 +57,8 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    func_021BCA58(p,heap);
-    func_021BCAFC((void **)(p+1),d_021BDBD8,heap);
+    BEACON_DETAIL_GRA_InitBgSystem(p,heap);
+    BEACON_DETAIL_GRA_InitClact((void **)(p+1),d_021BDBD8,heap);
     p[3]=(unsigned)func_020056A0((void (*)(void *, void *))BEACON_DETAIL_GRA_Task,p,0);
     return p;
 }

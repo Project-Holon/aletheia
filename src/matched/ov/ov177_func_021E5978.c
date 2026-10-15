@@ -1,5 +1,5 @@
 /*
- * function: func_021E5978
+ * function: WIFIBATTLEMATCH_VIEW_GetFrameIndex
  * address: 0x021E5978
  * packet: pkt_ov177_021E5978
  * region: ov177
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_021E5978(int *p, int i)
+int WIFIBATTLEMATCH_VIEW_GetFrameIndex(int *p, int i)
 {
     return p[i];
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D99F0
+ * function: WF2DMAP_SCENE_DeleteActors
  * address: 0x021D99F0
  * packet: pkt_ov129_021D99F0
  * region: ov129
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021DA3D0 0x021DA3D0 thumb ov129
+ *   WF2DMAP_SCENE_DeleteOam 0x021DA3D0 thumb ov129
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -26,7 +26,7 @@ struct Descriptor;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned char  u8;
-extern void func_021DA3D0(u8 *p);
+extern void WF2DMAP_SCENE_DeleteOam(u8 *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern void CLACT_ReleasePalette(u32 i);
@@ -34,7 +34,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-void func_021D99F0(char *p)  {
+void WF2DMAP_SCENE_DeleteActors(char *p)  {
     int i;
     char *q;
     for(i=0;i<((struct Obj10500 *)p)->f23C;i++) CLACT_DeleteActor((struct Obj *)(*(int *)(p+i*28+12)));
@@ -44,7 +44,7 @@ void func_021D99F0(char *p)  {
         CLACT_DeleteActor((struct Obj *)(((struct Obj06480 *)q)->f1E8));
     }
     for(i=0;i<3;i++) CLACT_DeleteActor((struct Obj *)(*(int *)(p+i*28+0x194)));
-    func_021DA3D0((u8 *)p);
+    WF2DMAP_SCENE_DeleteOam((u8 *)p);
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj10500 *)p)->f310));
     for(i=0;i<3;i++)  {
         q=p+i*4;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B70B8
+ * function: MONOLITH_TOOL_DeleteBlink
  * address:  0x021B70B8
  * packet:   pkt_ov071_021B70B8
  * region:   ov071
@@ -18,7 +18,7 @@
  */
 
 struct Obj;
-void func_021B70B8(void **p)
+void MONOLITH_TOOL_DeleteBlink(void **p)
 {
     void CLACT_DeleteActor(struct Obj *p);
     CLACT_DeleteActor(*p);

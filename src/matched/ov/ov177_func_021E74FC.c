@@ -1,5 +1,5 @@
 /*
- * function: func_021E74FC
+ * function: WIFIBATTLEMATCH_VIEW_DeleteActorFromInfo
  * address: 0x021E74FC
  * packet: pkt_ov177_021E74FC
  * region: ov177
@@ -13,7 +13,7 @@
  */
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021E74FC(char *p)
+void WIFIBATTLEMATCH_VIEW_DeleteActorFromInfo(char *p)
 {
     int i;
     for (i = 9; i < 14; i++) {

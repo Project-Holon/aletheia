@@ -19,7 +19,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   GSYNC_MENU_FreeResources 0x021D4A64 thumb ov123
  *   func_020307B0 0x020307B0 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Exit 0x020450C8 arm
@@ -46,7 +46,7 @@ struct Obj;
 struct PrintSys;
 struct Rec3;
 struct S02031140;
-struct S020315D4;
+struct Proc;
 struct TaskMenu;
 struct TaskMenuState;
 extern u32 WIPE_SYS_EndCheck(void);
@@ -63,7 +63,7 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void GSYNC_MENU_FreeResources(char *);
 extern u32 func_020307B0(void *p);
 extern int APP_KEYCURSOR_Delete(int a0);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -71,7 +71,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 int GSYNC_MENU_ProcExit(void *a,int b,u8 *out,char *p)
 {
@@ -89,7 +89,7 @@ int GSYNC_MENU_ProcExit(void *a,int b,u8 *out,char *p)
     GSYNC_MENU_FreeResources(p);
     ((struct Obj22940 *)out)->f1C8=((struct Obj00772 *)p)->f8;
     func_020307B0(((struct Obj00772 *)p)->f280); func_020307B0(((struct Obj00772 *)p)->f284);
-    APP_KEYCURSOR_Delete((int)(((struct Obj00772 *)p)->f22C)); func_020403F4(5);
+    APP_KEYCURSOR_Delete((int)(((struct Obj00772 *)p)->f22C)); BG_SYS_FreeLayerBuf(5);
     PRINTSYS_QUE_Clear(((struct Obj00772 *)p)->f234); PRINTSYS_QUE_Delete(((struct Obj00772 *)p)->f234);
     if(((struct Obj00772 *)p)->f224) BMP_WIN_Delete(((struct Obj00772 *)p)->f224);
     TCBL_Destroy(((struct Obj00772 *)p)->f230); APP_TASKMENU_RES_Delete(((struct Obj00772 *)p)->f254);

@@ -13,25 +13,25 @@
  *
  * symbols:
  *   func_0215EF48  0x0215EF48  arm  ov009
- *   g_021A8278     0x021A8278  data
- *   g_021A82DC     0x021A82DC  data
+ *   gCpsDhcpMode     0x021A8278  data
+ *   gCpsDnsIp     0x021A82DC  data
  */
 
-extern unsigned long g_021A8278;
-extern unsigned long g_021A82DC[2];
+extern unsigned long gCpsDhcpMode;
+extern unsigned long gCpsDnsIp[2];
 extern unsigned long func_0215EF48(void);
 
 int SOCL_SetResolver(unsigned long dns1, unsigned long dns2)
 {
     if (func_0215EF48() == 0)
         return -0x27;
-    g_021A82DC[0] = dns1;
+    gCpsDnsIp[0] = dns1;
     if (dns1 == 0) {
-        g_021A8278 &= ~2;
-        g_021A82DC[1] = 0;
+        gCpsDhcpMode &= ~2;
+        gCpsDnsIp[1] = 0;
     } else {
-        g_021A8278 |= 2;
-        g_021A82DC[1] = dns2;
+        gCpsDhcpMode |= 2;
+        gCpsDnsIp[1] = dns2;
     }
     return 0;
 }

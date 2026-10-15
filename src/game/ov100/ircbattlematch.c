@@ -98,7 +98,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   func_020409B4 0x020409B4 arm
+ *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   gIrcBattleMatchVramBanks 0x021BB6F0 data a4
@@ -163,7 +163,7 @@
  *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
  *   BG_SYS_SetTileUnit 0x02040DA8 arm
  *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   func_020403F4 0x020403F4 arm
+ *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   func_02040588 0x02040588 arm
@@ -192,7 +192,7 @@
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
- *   func_02040618 0x02040618 arm
+ *   BG_SYS_FillScrollArea 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0200FB24 0x0200FB24 thumb
@@ -434,7 +434,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetTileEntry(int,int,int,int,u8,u8,u8);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void CLACT_VBlankSystem(void);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -481,7 +481,7 @@ extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
 extern void GFL_NET_SetGameKindOverride(int);
 extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void func_020403F4(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -503,7 +503,7 @@ extern void func_0207D63C(int, int, int, int, int);
 extern void GX_LoadBGPltt(void *, int, int);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenu *);
 extern void APP_TASKMENU_WIN_Update(u8 *);
-extern void func_02040618(u32, u32, u32);
+extern void BG_SYS_FillScrollArea(u32, u32, u32);
 extern void CLACT_DrawSystem(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 func_0200FB24(void);
@@ -1067,12 +1067,12 @@ void IRCBATTLEMATCH_OnChangeoverResult(IrcBattleMatchWork *work,int role) {
 void IRCBATTLEMATCH_SetupDisplay(IrcBattleMatchWork *work) {
  BG_SYS_SetVramBanks((const struct DispVram *)gIrcBattleMatchVramBanks);BG_SYS_SetGraphicsMode((struct DispConfig *)gIrcBattleMatchDispConfig);
  BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);
- {BgTemplate bg=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&bg,0);BG_SYS_SetTileEntry(0,0,0,0,32,32,17);func_020409B4(0);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&bg,0);BG_SYS_SetTileEntry(1,0,0,0,32,32,17);func_020409B4(1);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate0;BG_SYS_InitBgLayer(0,&bg,0);BG_SYS_SetTileEntry(0,0,0,0,32,32,17);BG_SYS_PushTile(0);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate1;BG_SYS_InitBgLayer(1,&bg,0);BG_SYS_SetTileEntry(1,0,0,0,32,32,17);BG_SYS_PushTile(1);}
  {BgTemplate bg=gIrcBattleMatchBgTemplate4;BG_SYS_InitBgLayer(4,&bg,0);BG_SYS_SetTileEntry(4,0,0,0,32,32,17);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&bg,0);BG_SYS_SetTileEntry(5,0,0,0,32,32,17);func_020409B4(5);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&bg,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,32,17);func_020409B4(6);}
- {BgTemplate bg=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&bg,0);BG_SYS_SetTileEntry(7,0,0,0,32,32,17);func_020409B4(7);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate5;BG_SYS_InitBgLayer(5,&bg,0);BG_SYS_SetTileEntry(5,0,0,0,32,32,17);BG_SYS_PushTile(5);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate6;BG_SYS_InitBgLayer(6,&bg,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,32,17);BG_SYS_PushTile(6);}
+ {BgTemplate bg=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&bg,0);BG_SYS_SetTileEntry(7,0,0,0,32,32,17);BG_SYS_PushTile(7);}
 }
 
 void IRCBATTLEMATCH_VBlankTask(void) { CLACT_VBlankSystem(); }
@@ -1367,7 +1367,7 @@ void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
   unsigned int paletteHigh=windowPalette>>16;
   BG_SYS_DeleteHalf(5,(unsigned short)windowPalette,(unsigned short)paletteHigh);
  }
- func_020403F4(5);
+ BG_SYS_FreeLayerBuf(5);
  MSGDATA_Delete((struct Rec *)work->msgData);
  GF_FONT_Delete(work->font);
  STRBUF_Delete(work->tempStr);
@@ -1716,7 +1716,7 @@ storeFlag:
     if (work->taskMenu) APP_TASKMENU_UpdateMenu(work->taskMenu);
     if (work->okWin) APP_TASKMENU_WIN_Update(work->okWin);
     if (work->cancelWin) APP_TASKMENU_WIN_Update(work->cancelWin);
-    func_02040618(4, 3, work->scrollY);
+    BG_SYS_FillScrollArea(4, 3, work->scrollY);
     work->scrollY = work->scrollY - 1;
     CLACT_DrawSystem();
     PRINTSYS_QUE_Main(work->printQue);

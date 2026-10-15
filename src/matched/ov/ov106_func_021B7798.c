@@ -29,7 +29,7 @@
 typedef unsigned char u8;
 struct PrintSys;
 struct Rec;
-struct S020315D4;
+struct Proc;
 extern void IRC_RANKING_LabelDelete(u8 *p);
 extern void IRC_APPBAR_Delete(void *);
 extern void IRC_RANKING_ListExit(u8 *p);
@@ -45,7 +45,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void GAME_DATA_Delete(u8 *p);
-extern void func_020315D4(struct S020315D4 *p);
+extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int IRC_RANKING_ProcExit(void *a,int b,int *state,u8 *p)
 {

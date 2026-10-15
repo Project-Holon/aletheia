@@ -23,9 +23,9 @@
  *   OS_WakeupThreadDirect    0x02085868  arm
  *   CPSi_SslCleanup          0x02162FA4  arm  ov009
  *   wfailed                  0x021A826C  data
- *   g_021A8384               0x021A8384  data
+ *   gCpsArpCache               0x021A8384  data
  *   gMslRefToken               0x02150FEC  data
- *   g_021A8A64               0x021A8A64  data
+ *   gCpsFragTable               0x021A8A64  data
  */
 
 #include "../include/G_ArpEntry.h"
@@ -67,9 +67,9 @@ static unsigned long wlan_getpnt = 0;
 static void *(*CPSiAlloc)(unsigned long) = 0;
 static unsigned char CPSMyMac[6] = {0};
 static unsigned long CPSDnsIp[2] = {0};
-extern struct ArpEntry g_021A8384;
+extern struct ArpEntry gCpsArpCache;
 extern int gMslRefToken;
-extern struct CPSFragTable g_021A8A64[8];
+extern struct CPSFragTable gCpsFragTable[8];
 
 void func_02157290(int reason)
 {
@@ -88,7 +88,7 @@ void func_02157290(int reason)
 	CPSDhcpServerIp = 0;
 	if (!had_ip)
 		return;
-	MI_CpuFill8(((unsigned char *)&g_021A8384), 0, 0x60);
+	MI_CpuFill8(((unsigned char *)&gCpsArpCache), 0, 0x60);
 	for (t = *(struct _OSThread **)((char *)&gMslRefToken + 8); t != 0; t = *(struct _OSThread **)((char *)t + 0x68)) {
 		soc = *(unsigned char **)((char *)t + 0xa4);
 		if (soc != 0 && *(struct _OSThread **)soc != 0) {
@@ -101,9 +101,9 @@ void func_02157290(int reason)
 		}
 	}
 	for (i = 0; i < 8; i++) {
-		if (g_021A8A64[i].count != 0) {
-			CPSiFree(g_021A8A64[i].buf);
-			g_021A8A64[i].count = 0;
+		if (gCpsFragTable[i].count != 0) {
+			CPSiFree(gCpsFragTable[i].buf);
+			gCpsFragTable[i].count = 0;
 		}
 	}
 	CPSi_SslCleanup();

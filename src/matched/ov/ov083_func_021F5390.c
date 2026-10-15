@@ -21,7 +21,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
  *   func_02045B38  0x02045B38  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  */
@@ -59,7 +59,7 @@ extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void *GPOWER_LoadPowerTable(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void FLDMMDL_SysPauseMove(void *map);
 
@@ -74,7 +74,7 @@ void GPOWER_EVENT_InitListWork(Work *p, int a1, int a2)
     p->f1C = (int)FIELDMAP_GetMmdlSys((u8 *)p->f10);
     p->f30 = (int)GPOWER_LoadPowerTable(p->f2);
     p->f28 = (int)func_02045B38(0, 3, 0x108, p->f2);
-    p->f2C = (int)GF_FONT_Create_EC64(p->f2);
+    p->f2C = (int)WORDSET_CreateDefault(p->f2);
     p->f34 = (int)STRBUF_Create(0x81, p->f2);
     p->f38 = (int)STRBUF_Create(0x81, p->f2);
     FLDMMDL_SysPauseMove((void *)p->f1C);

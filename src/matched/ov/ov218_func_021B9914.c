@@ -1,5 +1,5 @@
 /*
- * function: func_021B9914
+ * function: UN_SELECT_CloseTaskMenu
  * address: 0x021B9914
  * packet: pkt_ov218_021B9914
  * region: ov218
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
-void func_021B9914(struct TaskMenu *p)
+void UN_SELECT_CloseTaskMenu(struct TaskMenu *p)
 {
     APP_TASKMENU_CloseMenu(p);
 }

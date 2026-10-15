@@ -23,8 +23,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 struct GfFont;
 struct Tcbl;
@@ -33,7 +33,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void POKE_SUMMARY_MAIN_InitScreen(u8 *p);
 extern void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *p, u32 idx, int unused);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-int POKE_SUMMARY_MAIN_Create(struct Obj0203159C *obj, int unused, u8 *input)
+int POKE_SUMMARY_MAIN_Create(struct Proc *obj, int unused, u8 *input)
 {
     u8 *p;
     GFL_HEAP_CreateChildHeap(1,79,0x50000);

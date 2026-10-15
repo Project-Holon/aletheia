@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE04
+ * function: BEACON_DETAIL_GRA_SetNameSlots
  * address: 0x021BCE04
  * packet: pkt_ov216_021BCE04
  * region: ov216
@@ -31,7 +31,7 @@ extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_SetSlotPokeData(struct WordSet *p, u32 i, u32 a);
 extern void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
-void func_021BCE04(void *p,void *q)
+void BEACON_DETAIL_GRA_SetNameSlots(void *p,void *q)
 {
     switch(GAME_BEACON_ACCESSOR_GetDetailsType(p)) {
     case 0: case 1:

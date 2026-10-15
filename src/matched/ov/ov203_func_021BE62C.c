@@ -1,5 +1,5 @@
 /*
- * function: func_021BE62C
+ * function: DEMO3D_ENGINE_GetFrameNum
  * address: 0x021BE62C
  * packet: pkt_ov203_021BE62C
  * region: ov203
@@ -19,4 +19,4 @@ struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 struct Obj11244;
 extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
-u32 func_021BE62C(char *p) { return ICA_ANIME_GetFrameNum(((struct Obj25316 *)p)->f18); }
+u32 DEMO3D_ENGINE_GetFrameNum(char *p) { return ICA_ANIME_GetFrameNum(((struct Obj25316 *)p)->f18); }

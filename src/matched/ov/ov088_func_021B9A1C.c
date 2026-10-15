@@ -17,7 +17,7 @@
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   func_0204989C  0x0204989C  arm
  *   func_02049B40  0x02049B40  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
@@ -71,7 +71,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020409B4(u32 layer);
+extern void BG_SYS_PushTile(u32 layer);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
@@ -106,12 +106,12 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
     ARC_UTIL_UploadBgCharFromArchive(0x1A, 9, 3, 0, 0, 1, heap);
     func_0204989C(0x1A, 10, 3, 0, 0, 1, heap);
     func_02049B40(0x1A, 8, 0, 0, 0, heap);
-    func_020409B4(3);
+    BG_SYS_PushTile(3);
     func_02040588(3, 1);
     ARC_UTIL_UploadBgCharFromArchive(0x1A, 0, 7, 0, 0x8000, 1, heap);
     func_0204989C(0x1A, 1, 7, 0, 0, 1, heap);
     func_02049B40(0x1A, 2, 4, 0, 0, heap);
-    func_020409B4(7);
+    BG_SYS_PushTile(7);
     func_02040588(7, 1);
     func_0204989C(0x1A, 3, 6, 0, 0, 1, heap);
     func_02040588(6, 1);
@@ -124,7 +124,7 @@ void STARTMENU_LogoInit(Work *p, u32 heap)
     BMP_WIN_TransferChars((struct Descriptor *)p->win);
     p->fC = 0;
     p->win2 = p->win;
-    func_020409B4(5);
+    BG_SYS_PushTile(5);
     p->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, heap);
     p->print = PRINTSYS_QUE_Create((void *)heap);
     p->msg = (u32)func_02045B38(0, 2, 0xB5, heap);

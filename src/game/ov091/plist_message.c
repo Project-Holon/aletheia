@@ -1,7 +1,7 @@
 /*
  * file:     plist_message.c
  * unit:     yes
- * function: PLIST_MESSAGE_Create, PLIST_MESSAGE_Destroy, PLIST_MESSAGE_Update, PLIST_MESSAGE_OpenWindow, PLIST_MESSAGE_CloseWindow, PLIST_MESSAGE_IsWindowOpen, PLIST_MESSAGE_PrintText, PLIST_MESSAGE_StartStream, PLIST_MESSAGE_IsIdle, PLIST_MESSAGE_StreamCallback, PLIST_MESSAGE_CreateWordSet, PLIST_MESSAGE_DestroyWordSet, PLIST_MESSAGE_SetWordSetPokemon, func_021BB9AC, PLIST_MESSAGE_SetWordSetMove, PLIST_MESSAGE_SetWordSetValue, PLIST_MESSAGE_SetWordSetNumber, PLIST_MESSAGE_SetWordSetString, PLIST_MESSAGE_RedrawWindow, PLIST_MESSAGE_LoadWindowFrame, PLIST_MESSAGE_RequestPrompt, PLIST_MESSAGE_DrawKeyCursorMark
+ * function: PLIST_MESSAGE_Create, PLIST_MESSAGE_Destroy, PLIST_MESSAGE_Update, PLIST_MESSAGE_OpenWindow, PLIST_MESSAGE_CloseWindow, PLIST_MESSAGE_IsWindowOpen, PLIST_MESSAGE_PrintText, PLIST_MESSAGE_StartStream, PLIST_MESSAGE_IsIdle, PLIST_MESSAGE_StreamCallback, PLIST_MESSAGE_CreateWordSet, PLIST_MESSAGE_DestroyWordSet, PLIST_MESSAGE_SetWordSetPokemon, PLIST_MESSAGE_SetWordSetItem, PLIST_MESSAGE_SetWordSetMove, PLIST_MESSAGE_SetWordSetValue, PLIST_MESSAGE_SetWordSetNumber, PLIST_MESSAGE_SetWordSetString, PLIST_MESSAGE_RedrawWindow, PLIST_MESSAGE_LoadWindowFrame, PLIST_MESSAGE_RequestPrompt, PLIST_MESSAGE_DrawKeyCursorMark
  * address:  0x021BB594
  * region:   ov091
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   GF_FONT_Create_EC64  0x0201EC64  thumb
+ *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
@@ -70,7 +70,7 @@
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_SetSlotFromMsgB4 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
- *   func_021BB9BC  0x021BB9BC  thumb
+ *   PLIST_MESSAGE_SetWordSetItemAlt  0x021BB9BC  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -101,7 +101,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, void *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern struct WordSet *GF_FONT_Create_EC64(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, void *mon);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
@@ -154,8 +154,8 @@ int PLIST_MESSAGE_StreamCallback(int command);
 void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon);
-void func_021BB9AC(int unused, PlistMessage *msg, u32 index, u32 itemId);
-void func_021BB9BC(int unused, PlistMessage *msg, u32 index, u32 itemId);
+void PLIST_MESSAGE_SetWordSetItem(int unused, PlistMessage *msg, u32 index, u32 itemId);
+void PLIST_MESSAGE_SetWordSetItemAlt(int unused, PlistMessage *msg, u32 index, u32 itemId);
 void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId);
 void PLIST_MESSAGE_SetWordSetValue(int unused, PlistMessage *msg, u32 index, u32 value);
 void PLIST_MESSAGE_SetWordSetNumber(int unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
@@ -348,15 +348,15 @@ int PLIST_MESSAGE_StreamCallback(int command)
     return 0;
 }
 
-void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->wordSet = GF_FONT_Create_EC64(work->heapId); }
+void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->wordSet = WORDSET_CreateDefault(work->heapId); }
 
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { WORDSET_DeleteStrbufED04(msg->wordSet); msg->wordSet = 0; }
 
 void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { WORDSET_SetSlotMonSpecies(msg->wordSet, index, mon); }
 
-void func_021BB9AC(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF40(msg->wordSet, index, itemId); }
+void PLIST_MESSAGE_SetWordSetItem(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF40(msg->wordSet, index, itemId); }
 
-void func_021BB9BC(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF4C(msg->wordSet, index, itemId); }
+void PLIST_MESSAGE_SetWordSetItemAlt(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF4C(msg->wordSet, index, itemId); }
 
 void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId) { WORDSET_SetSlotFromMsgCB(msg->wordSet, index, moveId); }
 

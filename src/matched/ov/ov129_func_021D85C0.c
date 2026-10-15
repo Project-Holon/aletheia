@@ -36,9 +36,9 @@
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   WF2DMAP_SCENE_InitBg 0x021D8804 thumb ov129
- *   func_021D9838 0x021D9838 thumb ov129
+ *   WF2DMAP_SCENE_InitClact 0x021D9838 thumb ov129
  *   WF2DMAP_SCENE_BuildGrid 0x021D89C4 thumb ov129
- *   func_021D9490 0x021D9490 thumb ov129
+ *   WF2DMAP_SCENE_CreateButtons 0x021D9490 thumb ov129
  *   func_0207D63C 0x0207D63C arm
  *   WF2DMAP_SCENE_VBlank 0x021D893C thumb ov129
  *   func_020056A0 0x020056A0 thumb
@@ -54,8 +54,8 @@ struct Obj02021EE4;
 struct PalAnmSlot;
 struct Param;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern u32 func_020307B0(void *p);
@@ -67,9 +67,9 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void WF2DMAP_SCENE_InitBg(void);
-extern void func_021D9838(char *p, unsigned a);
+extern void WF2DMAP_SCENE_InitClact(char *p, unsigned a);
 extern void WF2DMAP_SCENE_BuildGrid(char *p);
-extern void func_021D9490(char *p);
+extern void WF2DMAP_SCENE_CreateButtons(char *p);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void WF2DMAP_SCENE_VBlank(int,char *);
 extern void *func_020056A0(u32,u32,u32);
@@ -100,7 +100,7 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     PALANM_SetAutoTransfer(*(void **)(p+0x290),1);
     PALANM_AllocSlotBuffers(*(void **)(p+0x290),0,512,50);
     WF2DMAP_SCENE_InitBg();
-    func_021D9838((char *)p,(unsigned int)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)p); func_021D9490((char *)p);
+    WF2DMAP_SCENE_InitClact((char *)p,(unsigned int)d_021DA800); WF2DMAP_SCENE_BuildGrid((char *)p); WF2DMAP_SCENE_CreateButtons((char *)p);
     func_0207D63C((void *)0x04000050,0,6,15,7);
     func_0207D63C((void *)0x04001050,0,14,7,8);
     *(void **)(p+0x318)=func_020056A0((u32)WF2DMAP_SCENE_VBlank,(u32)p,16);

@@ -35,10 +35,10 @@
  *   atoi  0x020964E0  arm
  *   strstr  0x02094B20  arm
  *   gpiCallErrorCallback  0x02189D78  arm  ov009
- *   g_021A5718     0x021A5718  data
- *   g_021A5720     0x021A5720  data
- *   g_021A5728     0x021A5728  data
- *   g_021A5734     0x021A5734  data
+ *   gGpiUtilityKeyError     0x021A5718  data
+ *   gGpiUtilityKeyErr     0x021A5720  data
+ *   gGpiUtilityKeyErrMsg     0x021A5728  data
+ *   gGpiUtilityKeyFatal     0x021A5734  data
  */
 
 extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
@@ -48,24 +48,24 @@ extern int atoi(u32 a0);
 typedef unsigned char  u8;
 extern u8 *strstr(const u8 *s1, const u8 *s2);
 extern int gpiCallErrorCallback(int *connection, int a1, int a2);
-extern char g_021A5718[];
-extern char g_021A5720[];
-extern char g_021A5728[];
-extern char g_021A5734[];
+extern char gGpiUtilityKeyError[];
+extern char gGpiUtilityKeyErr[];
+extern char gGpiUtilityKeyErrMsg[];
+extern char gGpiUtilityKeyFatal[];
 
 int gpiCheckForError(int *connection, const char *input, int fatal)
 {
     char value[0x10];
     int *ic = (int *)*connection;
 
-    if (strncmp((const unsigned char *)input, (const unsigned char *)g_021A5718, 7) != 0)
+    if (strncmp((const unsigned char *)input, (const unsigned char *)gGpiUtilityKeyError, 7) != 0)
         goto fail;
-    if (gpiValueForKey(input, g_021A5720, value, 0x10))
+    if (gpiValueForKey(input, gGpiUtilityKeyErr, value, 0x10))
         ic[0x5b8 / 4] = atoi((u32)value);
-    if (!gpiValueForKey(input, g_021A5728, (char *)ic, 0x100))
+    if (!gpiValueForKey(input, gGpiUtilityKeyErrMsg, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
-        int b = strstr((const u8 *)input, (const u8 *)g_021A5734) != 0;
+        int b = strstr((const u8 *)input, (const u8 *)gGpiUtilityKeyFatal) != 0;
         gpiCallErrorCallback(connection, 4, b != 0);
     }
     return 1;

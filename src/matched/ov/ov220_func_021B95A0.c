@@ -40,7 +40,7 @@
  * func_02049658 0x02049658 arm
  * func_020498F4 0x020498F4 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
- * func_020409B4 0x020409B4 arm
+ * BG_SYS_PushTile 0x020409B4 arm
  * FADE_Start 0x0204E720 arm
  * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  * GFL_USE_FadeOutBgm 0x02005E30 thumb
@@ -59,8 +59,8 @@ extern struct Resources resources[];
 struct GfFont;
 struct Obj;
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-struct Obj0203159C;
-extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,u32,u32);
 extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
@@ -77,7 +77,7 @@ extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),func_0207D
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void func_02040588(u8,u8);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32),func_020409B4(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void*,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -126,7 +126,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     func_02049B68(owner,resources[variant].a,4,0,0,heap);
     func_02049658(owner,resources[variant].b,4,0,0,0,heap);
     func_020498F4(owner,resources[variant].c,4,0,0,0,heap);
-    ARC_TOOL_DeleteHandle(owner);func_020409B4(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
+    ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
     if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) GFL_USE_FadeOutBgm(6);
     return 1;
 }

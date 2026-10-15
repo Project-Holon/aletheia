@@ -24,7 +24,7 @@
  *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   func_020409B4  0x020409B4  arm
+ *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
  */
 
@@ -60,7 +60,7 @@ extern void WORDSET_ClearAllSlots(struct WordSet *p);
 extern int FIELD_MSGBG_MsgWinPrintStr(u32 a, u32 b, u32 c, u32 d);
 extern u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32 index);
+extern void BG_SYS_PushTile(u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 void EVENT_RESEARCH_RADAR_PrintReport(struct O *o)
@@ -83,7 +83,7 @@ void EVENT_RESEARCH_RADAR_PrintReport(struct O *o)
     WORDSET_CopyTaggedText((struct WordSet *)o->f1c, r6, r4);
     WORDSET_ClearAllSlots((struct WordSet *)o->f1c);
     FIELD_MSGBG_MsgWinPrintStr(o->f14, 8, 0, (u32)r6);
-    func_020409B4(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)o->f14)));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin((u8 *)o->f14)));
     STRBUF_Delete(r4);
     STRBUF_Delete(r6);
 }

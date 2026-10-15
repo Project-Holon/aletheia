@@ -18,7 +18,7 @@
  * BMP_WIN_TransferChars 0x02045334 arm
  * BMP_WIN_MakeScreen 0x02045374 arm
  * BMP_WIN_GetBgLayer 0x02045730 arm
- * func_020409B4 0x020409B4 arm
+ * BG_SYS_PushTile 0x020409B4 arm
  * IRC_COMPATIBLE_MENU_TextGetMsgData 0x021B7CC4 thumb ov102
  * func_02045EC0 0x02045EC0 arm
  * GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -51,7 +51,7 @@ struct Cfg;
 struct MsgBank;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void func_020409B4(u32);
+extern void BG_SYS_PushTile(u32);
 extern int IRC_COMPATIBLE_MENU_TextGetMsgData(void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -88,7 +88,7 @@ void IRC_COMPATIBLE_MENU_InitButtons(State *p, int bg, const Row *rows, int coun
         win=p->windows[i];
         BMP_WIN_TransferChars((struct Descriptor *)win);
         BMP_WIN_MakeScreen((struct Cfg *)win);
-        func_020409B4(BMP_WIN_GetBgLayer((struct Descriptor *)win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)win));
         text=func_02045EC0((struct MsgBank *)IRC_COMPATIBLE_MENU_TextGetMsgData(object),rows[i].id);
         GF_FONT_SetTextColor(15,14,4);
         width=func_0201D304(text,IRC_COMPATIBLE_MENU_TextGetFont(object),0);

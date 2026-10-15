@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CB0
+ * function: MANUAL_COMMON_SetSaveValue
  * address: 0x021B9CB0
  * packet: pkt_ov225_021B9CB0
  * region: ov225
@@ -16,4 +16,4 @@ struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *MISC_SAVEDATA_GetBlock44(void *);
 extern void func_0200EE14(char *obj, int i);
-void func_021B9CB0(void *unused,int code,struct Big *save) {func_0200EE14(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),code);}
+void MANUAL_COMMON_SetSaveValue(void *unused,int code,struct Big *save) {func_0200EE14(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),code);}

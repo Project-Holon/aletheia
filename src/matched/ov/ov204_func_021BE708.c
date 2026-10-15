@@ -1,5 +1,5 @@
 /*
- * function: func_021BE708
+ * function: INTRO_CMD_CmdSaveTimeIcon
  * address: 0x021BE708
  * packet: pkt_ov204_021BE708
  * region: ov204
@@ -21,7 +21,7 @@ extern void INTRO_MSG_PrintText(char *p, void *a, int flag);
 extern int INTRO_MSG_UpdatePrint(char *a);
 extern void INTRO_MSG_StartTimeIcon(u8 *p);
 extern void INTRO_MSG_DeleteTimeIcon(u8 *p);
-int func_021BE708(char *p, int *state)
+int INTRO_CMD_CmdSaveTimeIcon(char *p, int *state)
 {
     switch (*state) {
     case 0:
